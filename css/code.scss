@@ -1,0 +1,74 @@
+@import "./variables";
+
+.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 0.5em;
+  background: $code-bg;
+  color: #fff;
+}
+
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-tag {
+  color: #d2a8e0;
+}
+
+// ???
+.hljs-template-tag {
+  color: #f00;
+}
+
+.hljs-number {
+  color: #6cb9f0;
+}
+
+.hljs-variable,
+.hljs-template-variable,
+.hljs-attribute,
+.hljs-literal {
+  color: lighten(#6cb9f0, 20);
+}
+
+// ???
+.hljs-subst {
+  color: #f00;
+}
+
+.hljs-title,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-section,
+.hljs-type {
+  color: #f0a46c;
+}
+
+// ???
+.hljs-symbol,
+.hljs-bullet,
+.hljs-link {
+  color: #f00;
+}
+
+.hljs-deletion,
+.hljs-string,
+.hljs-built_in,
+.hljs-builtin-name {
+  color: #6cb9f0;
+}
+
+.hljs-addition,
+.hljs-comment,
+.hljs-quote,
+.hljs-meta {
+  color: $gray-500;
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: bold;
+}

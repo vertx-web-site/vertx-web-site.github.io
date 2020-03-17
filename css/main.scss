@@ -1,5 +1,6 @@
 @import "normalize.css/normalize";
 @import "./mixins";
+@import "./code";
 
 html {
   box-sizing: border-box;
@@ -10,7 +11,7 @@ html {
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-family: "Roboto", sans-serif;
   font-size: $font-size-base;
   font-weight: 300;
   line-height: $line-height-base;
@@ -61,11 +62,11 @@ h6 {
   }
 
   @media (min-width: $lg) {
-    max-width: 920px;
+    max-width: 978px;
   }
 
   @media (min-width: $xl) {
-    max-width: 1100px;
+    max-width: 1176px;
   }
 }
 
@@ -90,4 +91,8 @@ img {
 svg {
   overflow: hidden;
   vertical-align: middle;
+}
+
+code, pre {
+  font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }

@@ -1,7 +1,15 @@
+const highlight = require("rehype-highlight");
+const optimizedImages = require("next-optimized-images");
 const sass = require("@zeit/next-sass");
+
 const withPlugins = require("next-compose-plugins");
 
-const mdx = require("@next/mdx")();
+const mdx = require("@next/mdx")({
+  options: {
+    remarkPlugins: [],
+    rehypePlugins: [highlight]
+  }
+});
 
 const config = {
   // also render markdown pages
@@ -19,6 +27,7 @@ const config = {
 };
 
 module.exports = withPlugins([
+  [optimizedImages],
   [sass],
   [mdx]
 ], config);

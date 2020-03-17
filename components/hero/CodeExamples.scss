@@ -1,0 +1,44 @@
+@import "../../css/variables";
+
+.code-examples {
+  background-color: $code-bg;
+  width: 100%;
+  border-radius: $border-radius;
+  box-shadow: $button-box-shadow;
+  font-size: $font-size-mini;
+
+  .code-examples-tabs {
+    color: #fff;
+    display: flex;
+    flex-direction: row;
+
+    .code-examples-tab {
+      flex: 1;
+      text-align: center;
+      background-color: $code-bg-inactive;
+      padding: $spacer / 1.5 0;
+      cursor: pointer;
+      transition: $button-background-transition;
+
+      &:first-child {
+        border-top-left-radius: $border-radius;
+      }
+
+      &:last-child {
+        border-top-right-radius: $border-radius;
+      }
+
+      &.active {
+        background-color: $code-bg;
+      }
+
+      &:not(.active):hover {
+        background-color: lighten($code-bg, 5);
+      }
+    }
+  }
+
+  .code-examples-content {
+    padding: $spacer / 6 $spacer;
+  }
+}

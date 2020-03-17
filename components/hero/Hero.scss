@@ -1,0 +1,53 @@
+@import "../../css/variables";
+
+section.hero {
+  .hero-background {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    max-width: 100%;
+    height: 900px;
+    z-index: -1;
+
+    background-image: url(../../assets/hero-background.svg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center
+  }
+
+  .hero-main {
+    margin-top: 12rem;
+    margin-bottom: 20rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    .hero-left {
+      width: 570px;
+      max-width: 570px;
+
+      .hero-slogan {
+        font-size: 51px;
+        font-weight: 300;
+        line-height: 1.2em;
+
+        .hero-product-name {
+          font-weight: 500;
+          color: #000;
+        }
+      }
+
+      .hero-buttons {
+        margin-top: $spacer * 2.75;
+
+        .button {
+          font-family: "Roboto Condensed", sans-serif;
+        }
+      }
+    }
+
+    .hero-right {
+      width: 525px;
+    }
+  }
+}
