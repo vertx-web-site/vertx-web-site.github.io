@@ -10,6 +10,7 @@ export default ({ title = "Vert.x" }) => (
       <meta name="robots" content="index,follow"/>
       <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet"/>
       <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,400" rel="stylesheet"/>
+      <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400&display=swap" rel="stylesheet"/>
       <title>{title}</title>
     </Head>
     <NavBar />
