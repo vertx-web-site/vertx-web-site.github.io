@@ -1,0 +1,59 @@
+@import "../css/variables";
+
+.navbar {
+  position: absolute;
+  top: 55px;
+  width: 100%;
+
+  a {
+    color: $gray-700;
+
+    &:hover {
+      text-decoration: none;
+      color: $gray-600;
+      transition: $button-color-transition;
+    }
+  }
+
+  .navbar-content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    .navbar-logo {
+      img {
+        width: 152px;
+      }
+
+      flex: 1;
+    }
+
+    .navbar-right {
+      display: flex;
+      flex-direction: row;
+      align-items: baseline;
+      margin-bottom: 10px;
+    }
+
+    .navbar-menu {
+      .navbar-menu-item {
+        font-weight: 400;
+        margin-right: $spacer * 2.5;
+      }
+    }
+
+    .navbar-social {
+      margin-left: $spacer * 2;
+      font-size: $font-size-mini;
+
+      .navbar-social-version {
+        margin-right: $spacer / 2;
+      }
+
+      svg {
+        height: 16px;
+        margin-bottom: 2px;
+      }
+    }
+  }
+}
