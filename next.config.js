@@ -1,12 +1,14 @@
 const highlight = require("rehype-highlight");
+const hyphenate = require("./plugins/remark-hyphenate");
 const optimizedImages = require("next-optimized-images");
 const sass = require("@zeit/next-sass");
+const smartypants = require("@silvenon/remark-smartypants");
 
 const withPlugins = require("next-compose-plugins");
 
 const mdx = require("@next/mdx")({
   options: {
-    remarkPlugins: [],
+    remarkPlugins: [hyphenate, smartypants],
     rehypePlugins: [highlight]
   }
 });
