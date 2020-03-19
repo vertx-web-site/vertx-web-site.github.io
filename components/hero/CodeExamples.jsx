@@ -1,14 +1,18 @@
 import "./CodeExamples.scss";
+import classNames from "classnames";
+import { useEffect, useRef, useState } from "react";
+
 import Java from "./CodeExamplesJava.mdx";
-import { useEffect, useRef } from "react";
+import Kotlin from "./CodeExamplesKotlin.mdx";
+import Groovy from "./CodeExamplesGroovy.mdx";
 
 export default () => {
-  let javaRef = useRef();
+  const javaRef = useRef();
+  const [active, setActive] = useState("java");
 
   useEffect(() => {
     // get code node
-    let node = javaRef.current;
-    let code = node.getElementsByTagName("code")[0];
+    let code = javaRef.current.getElementsByTagName("code")[0];
 
     // iterate through all text nodes
     let i = document.createNodeIterator(code, NodeFilter.SHOW_TEXT);
@@ -37,7 +41,7 @@ export default () => {
     }
 
     // now that all characters are wrapped and invisible, make the parent visible
-    node.style.opacity = 1;
+    javaRef.current.style.opacity = 1;
 
     // make wrapped characters visible one after the other
     let nextChar = () => {
@@ -75,15 +79,31 @@ export default () => {
     setTimeout(nextChar, 500);
   }, []);
 
+  const activeClassName = lang => ({ active: active === lang });
+  const tabClassNameJava = classNames("code-examples-tab", activeClassName("java"));
+  const tabClassNameKotlin = classNames("code-examples-tab", activeClassName("kotlin"));
+  const tabClassNameGroovy = classNames("code-examples-tab", activeClassName("groovy"));
+  const exampleClassNameJava = classNames("code-examples-example", activeClassName("java"))
+  const exampleClassNameKotlin = classNames("code-examples-example", activeClassName("kotlin"))
+  const exampleClassNameGroovy = classNames("code-examples-example", activeClassName("groovy"))
+
   return (
     <div className="code-examples">
       <div className="code-examples-tabs">
-        <div className="code-examples-tab active">Java</div>
-        <div className="code-examples-tab">Kotlin</div>
-        <div className="code-examples-tab">Groovy</div>
+        <div className={tabClassNameJava} onClick={() => setActive("java")}>Java</div>
+        <div className={tabClassNameKotlin} onClick={() => setActive("kotlin")}>Kotlin</div>
+        <div className={tabClassNameGroovy} onClick={() => setActive("groovy")}>Groovy</div>
       </div>
-      <div className="code-examples-content" ref={javaRef}>
-        <Java />
+      <div className="code-examples-content">
+        <div className={exampleClassNameJava} ref={javaRef}>
+          <Java />
+        </div>
+        <div className={exampleClassNameKotlin}>
+          <Kotlin />
+        </div>
+        <div className={exampleClassNameGroovy}>
+          <Groovy />
+        </div>
       </div>
     </div>
   );

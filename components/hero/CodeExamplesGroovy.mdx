@@ -1,0 +1,15 @@
+<!-- make sure you have the same number of lines in all code examples! -->
+
+```groovy
+vertx.createHttpServer().requestHandler({ req ->
+  req.response()
+    .putHeader("content-type", "text/plain")
+    .end("Hello from Vert.x!")
+}).listen(8080)
+
+
+
+
+
+
+```

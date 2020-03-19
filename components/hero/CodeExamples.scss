@@ -40,6 +40,13 @@
 
   .code-examples-content {
     padding: $spacer / 6 $spacer;
-    opacity: 0;
+
+    .code-examples-example {
+      display: none;
+
+      &.active {
+        display: block;
+      }
+    }
   }
 }
