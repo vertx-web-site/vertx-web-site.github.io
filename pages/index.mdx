@@ -1,4 +1,7 @@
+import Features from "../components/index/Features";
+import FeaturesItem from "../components/index/FeaturesItem";
 import Layout from "../components/layouts/Index";
+import * as icons from "react-feather";
 
 export default Layout;
 
@@ -6,6 +9,30 @@ export const meta = {
   title: "Vert.x"
 };
 
-# Hello Vert.x 4
+<Features>
+  <FeaturesItem icon={<icons.Cpu />} title="Resource-efficient">
 
-This is the new website for Vert.x 4.
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad.
+
+  </FeaturesItem>
+  <FeaturesItem icon={<icons.Sliders />} title="Concurrent">
+
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad.
+
+  </FeaturesItem>
+  <FeaturesItem icon={<icons.Feather />} title="Flexible">
+
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad.
+
+  </FeaturesItem>
+  <FeaturesItem icon={<icons.Send />} title="Vert.x is fun">
+
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad.
+
+  </FeaturesItem>
+  <FeaturesItem icon={<icons.Umbrella />} title="Ecosystem">
+
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad.
+
+  </FeaturesItem>
+</Features>
