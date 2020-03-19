@@ -1,0 +1,10 @@
+@import "../../css/variables";
+
+.github-stars-button {
+  display: none;
+  margin-left: $spacer;
+
+  &.visible {
+    display: inline-block;
+  }
+}

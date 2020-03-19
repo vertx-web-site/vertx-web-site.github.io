@@ -1,7 +1,8 @@
 import Button from "../Button";
 import CodeExamples from "./CodeExamples";
 import "./Hero.scss";
-import { GitHub, FastForward } from "react-feather";
+import GitHubStarsButton from "./GitHubStarsButton";
+import { FastForward } from "react-feather";
 
 export default () => (
   <section className="hero">
@@ -13,7 +14,7 @@ export default () => (
         </div>
         <div className="hero-buttons">
           <Button href="#" primary><FastForward className="feather" /> Get started</Button>
-          <Button href="#"><GitHub className="feather" /> 10K+ stars</Button>
+          <GitHubStarsButton />
         </div>
       </div>
       <div className="hero-right">
