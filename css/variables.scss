@@ -3,7 +3,7 @@ $font-size-small: $font-size-base * .875;
 $font-size-mini: $font-size-base * .75;
 $font-size-tiny: $font-size-base * .5;
 
-$line-height-base: 1.3;
+$line-height-base: 1.4;
 
 $primary: #782b90;
 $code-bg: #3a2840;
@@ -23,10 +23,15 @@ $spacer: 1rem;
 $border-radius: 1rem;
 
 $xs: 0;
-$sm: 576px;
+$sm: 640px;
 $md: 768px;
-$lg: 992px;
-$xl: 1200px;
+$lg: 1000px;
+$xl: 1250px;
+
+$container-sm: 620px;
+$container-md: 738px;
+$container-lg: 950px;
+$container-xl: 1180px;
 
 $button-box-shadow: 5px 5px 10px 0px rgba(0,0,0,0.2);
 $button-color-transition: color 0.15s ease-in-out;

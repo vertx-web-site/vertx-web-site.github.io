@@ -54,19 +54,19 @@ h6 {
   margin-left: auto;
 
   @media (min-width: $sm) {
-    max-width: 540px;
+    max-width: $container-sm;
   }
 
   @media (min-width: $md) {
-    max-width: 720px;
+    max-width: $container-md;
   }
 
   @media (min-width: $lg) {
-    max-width: 978px;
+    max-width: $container-lg;
   }
 
   @media (min-width: $xl) {
-    max-width: 1176px;
+    max-width: $container-xl;
   }
 }
 

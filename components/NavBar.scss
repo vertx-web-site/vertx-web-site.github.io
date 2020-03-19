@@ -10,7 +10,7 @@
 
     &:hover {
       text-decoration: none;
-      color: $gray-600;
+      color: lighten($gray-700, 30);
       transition: $button-color-transition;
     }
   }

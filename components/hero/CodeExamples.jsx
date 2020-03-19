@@ -62,6 +62,9 @@ export default () => {
         d = 0;
       } else {
         d = Math.floor(0 + (Math.random() * 10));
+        if (Math.random() > 0.9) {
+          d += 10;
+        }
       }
 
       // "type" next character
