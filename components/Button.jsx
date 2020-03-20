@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import "./Button.scss";
 
-export default ({ children, href, primary }) => (
-  <a className={classNames("button", { primary })} href={href}>{children}</a>
+export default ({ children, primary }) => (
+  <div className={classNames("button", { primary })}>{children}</div>
 );

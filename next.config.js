@@ -21,11 +21,12 @@ const config = {
   exportTrailingSlash: true,
 
   // list pages to export
-  exportPathMap() {
-    return {
-      "/": { page: "/" }
-    };
-  }
+  // (try to automatically generate exportPathMap from "./pages")
+  // exportPathMap() {
+  //   return {
+  //     "/": { page: "/" }
+  //   };
+  // }
 };
 
 module.exports = withPlugins([

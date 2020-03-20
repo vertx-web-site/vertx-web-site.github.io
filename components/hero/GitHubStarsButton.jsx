@@ -23,9 +23,9 @@ export default () => {
         <link rel="preload" href={url} as="fetch" crossOrigin="anonymous" />
       </Head>
       <div className={classNames("github-stars-button", { visible })}>
-        <Button href="https://github.com/eclipse-vertx/vert.x">
+        <a href="https://github.com/eclipse-vertx/vert.x"><Button>
           <GitHub className="feather" /> {data && Math.floor(data.stargazers_count / 1000) + "K+ stars"}
-        </Button>
+        </Button></a>
       </div>
     </React.Fragment>
   );

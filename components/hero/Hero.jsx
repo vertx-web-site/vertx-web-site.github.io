@@ -3,6 +3,7 @@ import CodeExamples from "./CodeExamples";
 import "./Hero.scss";
 import GitHubStarsButton from "./GitHubStarsButton";
 import { FastForward } from "react-feather";
+import Link from "next/link";
 
 export default () => (
   <section className="hero">
@@ -13,7 +14,9 @@ export default () => (
           <span className="hero-product-name">Eclipse Vert.x |</span> Reactive applications on the JVM
         </div>
         <div className="hero-buttons">
-          <Button href="#" primary><FastForward className="feather" /> Get started</Button>
+          <Link href="/get-started">
+            <a><Button primary><FastForward className="feather" /> Get started</Button></a>
+          </Link>
           <GitHubStarsButton />
         </div>
       </div>
