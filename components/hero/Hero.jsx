@@ -14,7 +14,7 @@ export default () => (
           <span className="hero-product-name">Eclipse Vert.x |</span> Reactive applications on the JVM
         </div>
         <div className="hero-buttons">
-          <Link href="/get-started">
+          <Link href="/get-started/">
             <a><Button primary><FastForward className="feather" /> Get started</Button></a>
           </Link>
           <GitHubStarsButton />
