@@ -1,4 +1,4 @@
-# Vert.x Website
+# Vert.x Website ![Node.js CI](https://github.com/vertx-web-site/vertx-web-site/workflows/Node.js%20CI/badge.svg)
 
 This repository contains the source of the Vert.x website (https://vertx.io).
 
