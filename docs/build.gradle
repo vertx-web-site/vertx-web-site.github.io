@@ -12,6 +12,10 @@ dependencies {
   }
 }
 
+clean {
+  delete "$projectDir/extracted"
+}
+
 task extractDocs(type: Sync) {
   dependsOn configurations.runtimeClasspath
   from {
@@ -20,4 +24,4 @@ task extractDocs(type: Sync) {
   into "$projectDir/extracted"
 }
 
-defaultTasks 'extractDocs'
+defaultTasks 'clean', 'extractDocs'

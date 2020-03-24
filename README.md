@@ -37,7 +37,6 @@ rm -rf node_modules
 docker run -it -v $(pwd):/vertx node:12-slim sh -c "cd /vertx && npm i"
 
 # Download and extract docs
-rm -rf docs/extracted
 docker run -it -v $(pwd):/vertx openjdk:11-jdk-slim sh -c "cd /vertx/docs && ./gradlew"
 
 # Start website in development mode

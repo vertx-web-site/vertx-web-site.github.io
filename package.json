@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "next",
     "build": "next build && next export",
-    "update-docs": "cd docs && rimraf extracted && ./gradlew"
+    "update-docs": "cd docs && ./gradlew"
   },
   "repository": {
     "type": "git",
