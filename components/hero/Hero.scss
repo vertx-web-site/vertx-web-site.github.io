@@ -50,6 +50,16 @@ section.hero {
         .hero-product-name {
           font-weight: 500;
           color: #000;
+
+          @media (max-width: $sm) and (orientation: portrait) {
+            display: block;
+          }
+
+          .hero-product-name-separator {
+            @media (max-width: $sm) and (orientation: portrait) {
+              display: none;
+            }
+          }
         }
 
         @media (max-width: $xl) {

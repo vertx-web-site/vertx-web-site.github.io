@@ -11,7 +11,7 @@ export default () => (
     <div className="hero-main container">
       <div className="hero-left">
         <div className="hero-slogan">
-          <span className="hero-product-name">Eclipse Vert.x |</span> Reactive applications on the JVM
+          <span className="hero-product-name">Eclipse Vert.x<span className="hero-product-name-separator"> |</span></span> Reactive applications on the JVM
         </div>
         <div className="hero-buttons">
           <Link href="/get-started/">

@@ -19,6 +19,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    position: relative;
 
     .navbar-logo {
       img {
@@ -28,6 +29,38 @@
       flex: 1;
     }
 
+    .navbar-collapse-button {
+      display: none;
+      cursor: pointer;
+
+      @media (max-width: $lg) {
+        display: inline-block;
+      }
+
+      span {
+        display: block;
+        width: 33px;
+        height: 4px;
+        margin-bottom: 5px;
+        position: relative;
+        background: $gray-700;
+        border-radius: 3px;
+        z-index: 1;
+        transform-origin: 4px 0px;
+        transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
+                    background 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
+                    opacity 0.55s ease;
+      }
+
+      span:first-child {
+        transform-origin: 0% 0%;
+      }
+
+      span:nth-last-child(2) {
+        transform-origin: 0% 100%;
+      }
+    }
+
     .navbar-right {
       display: flex;
       flex-direction: row;
@@ -35,7 +68,22 @@
       margin-bottom: 10px;
 
       @media (max-width: $lg) {
-        display: none;
+        max-height: 0;
+        transition: max-height 200ms linear;
+        box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.1);
+
+        flex-direction: column;
+        position: absolute;
+        top: 2.75rem;
+        left: $spacer * 0.8;
+        right: $spacer * 0.8;
+        background-color: $gray-100;
+        overflow-x: auto;
+        overflow-y: hidden;
+
+        &.collapse {
+          max-height: 100vh;
+        }
       }
     }
 
@@ -43,6 +91,21 @@
       .navbar-menu-item {
         font-weight: 400;
         margin-right: $spacer * 2;
+
+        @media (max-width: $xl) {
+          margin-right: $spacer * 1.5;
+        }
+
+        @media (max-width: $lg) {
+          display: block;
+          margin-bottom: $spacer;
+          font-size: 1.2rem;
+        }
+      }
+
+      @media (max-width: $lg) {
+        flex-direction: column;
+        padding: $spacer;
       }
     }
 
@@ -57,6 +120,20 @@
       svg {
         height: 16px;
         margin-bottom: 2px;
+
+        @media (max-width: $lg) {
+          height: 1rem;
+        }
+      }
+
+      @media (max-width: $xl) {
+        margin-left: $spacer;
+      }
+
+      @media (max-width: $lg) {
+        margin-left: auto;
+        padding: 0 $spacer $spacer 0;
+        font-size: 1rem;
       }
     }
   }
