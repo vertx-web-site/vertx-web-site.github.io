@@ -8,6 +8,10 @@ Initialize local copy:
 
     npm i
 
+Download and extract AsciiDoc source files of the Vert.x documentation:
+
+    npm run update-docs
+
 Start the website in development mode:
 
     npm run dev
@@ -27,10 +31,19 @@ Test the exported website:
 
 If you don't want to install Node.js, use Docker instead:
 
-    rm -rf node_modules
-    docker run -it -v $(pwd):/vertx node:12-slim sh -c "cd /vertx && npm i"
-    docker run -it -v $(pwd):/vertx -p 3000:3000 node:12-slim \
-      sh -c "cd /vertx && npm run dev"
+```
+# Initialize local copy
+rm -rf node_modules
+docker run -it -v $(pwd):/vertx node:12-slim sh -c "cd /vertx && npm i"
+
+# Download and extract docs
+rm -rf docs/extracted
+docker run -it -v $(pwd):/vertx openjdk:11-jdk-slim sh -c "cd /vertx/docs && ./gradlew"
+
+# Start website in development mode
+docker run -it -v $(pwd):/vertx -p 3000:3000 node:12-slim \
+  sh -c "cd /vertx && npm run dev"
+```
 
 Alternatively, build a Docker image that runs the static website inside NGINX
 (no hot reloading!):

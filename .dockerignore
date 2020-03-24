@@ -1,4 +1,6 @@
+**/.gradle/
 .next/
+docs/extracted/
 node_modules/
 out/
 Dockerfile

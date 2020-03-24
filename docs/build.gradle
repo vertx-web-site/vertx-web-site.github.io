@@ -1,0 +1,23 @@
+plugins {
+  id 'java'
+}
+
+repositories {
+  jcenter()
+}
+
+dependencies {
+  implementation('io.vertx:vertx-stack-docs:4.0.0-milestone4:docs@zip') {
+    transitive = false
+  }
+}
+
+task extractDocs(type: Sync) {
+  dependsOn configurations.runtimeClasspath
+  from {
+    configurations.runtimeClasspath.collect { zipTree(it) }
+  }
+  into "$projectDir/extracted"
+}
+
+defaultTasks 'extractDocs'
