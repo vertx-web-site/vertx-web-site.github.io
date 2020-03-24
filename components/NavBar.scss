@@ -2,7 +2,7 @@
 
 .navbar {
   position: absolute;
-  top: 55px;
+  top: 2.75rem;
   width: 100%;
 
   a {
@@ -22,7 +22,7 @@
 
     .navbar-logo {
       img {
-        width: 152px;
+        width: 7.6rem;
       }
 
       flex: 1;
@@ -33,21 +33,25 @@
       flex-direction: row;
       align-items: baseline;
       margin-bottom: 10px;
+
+      @media (max-width: $lg) {
+        display: none;
+      }
     }
 
     .navbar-menu {
       .navbar-menu-item {
         font-weight: 400;
-        margin-right: $spacer * 2.5;
+        margin-right: $spacer * 2;
       }
     }
 
     .navbar-social {
-      margin-left: $spacer * 2;
+      margin-left: $spacer * 1.6;
       font-size: $font-size-mini;
 
       .navbar-social-version {
-        margin-right: $spacer / 2;
+        margin-right: $spacer / 2.4;
       }
 
       svg {

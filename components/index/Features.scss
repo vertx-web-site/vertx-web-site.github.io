@@ -3,5 +3,14 @@
 .features {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  grid-gap: $spacer * 4;
+  grid-gap: $spacer * 3.2;
+
+  @media (max-width: $lg) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  @media (max-width: $sm) {
+    grid-template-columns: 1fr;
+    grid-row-gap: $spacer * 2;
+  }
 }

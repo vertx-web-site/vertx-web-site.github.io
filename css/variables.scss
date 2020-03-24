@@ -1,7 +1,7 @@
 $font-size-base: 20px;
-$font-size-small: $font-size-base * .875;
-$font-size-mini: $font-size-base * .75;
-$font-size-tiny: $font-size-base * .5;
+$font-size-small: .875rem;
+$font-size-mini: .75rem;
+$font-size-tiny: .5rem;
 
 $line-height-base: 1.4;
 
@@ -20,7 +20,7 @@ $gray-800: #3c3c3b;
 
 $spacer: 1rem;
 
-$border-radius: 1rem;
+$border-radius: 1rem * 0.8;
 
 $xs: 0;
 $sm: 640px;

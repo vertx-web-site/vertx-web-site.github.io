@@ -16,7 +16,7 @@
       flex: 1;
       text-align: center;
       background-color: $code-bg-inactive;
-      padding: $spacer / 1.5 0;
+      padding: $spacer / 1.9 0;
       cursor: pointer;
       transition: $button-background-transition;
 
@@ -39,7 +39,7 @@
   }
 
   .code-examples-content {
-    padding: $spacer / 6 $spacer;
+    padding: $spacer / 8 $spacer * 0.8;
 
     .code-examples-example {
       display: none;
@@ -48,5 +48,9 @@
         display: block;
       }
     }
+  }
+
+  @media (max-width: $xl) {
+    font-size: $font-size-mini * 0.9;
   }
 }

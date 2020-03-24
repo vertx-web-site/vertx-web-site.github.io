@@ -12,12 +12,28 @@ section.hero {
     background-image: url(../../assets/hero-background.svg);
     background-repeat: no-repeat;
     background-size: cover;
-    background-position: center
+    background-position: center;
+
+    @media (max-width: $xl) {
+      top: -4rem;
+    }
+
+    @media (max-width: $lg) {
+      top: -10rem;
+    }
+
+    @media (max-width: $sm) {
+      top: -4rem;
+    }
+
+    @media (max-width: $sm) and (orientation: landscape) {
+      top: -12rem;
+    }
   }
 
   .hero-main {
-    margin-top: 12rem;
-    margin-bottom: 10rem;
+    margin-top: 9.6rem;
+    margin-bottom: 8rem;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -27,27 +43,57 @@ section.hero {
       max-width: 570px;
 
       .hero-slogan {
-        font-size: 51px;
+        font-size: 2.55rem;
         font-weight: 300;
-        line-height: 1.2em;
+        line-height: 1.2;
 
         .hero-product-name {
           font-weight: 500;
           color: #000;
         }
+
+        @media (max-width: $xl) {
+          font-size: 38px;
+        }
       }
 
       .hero-buttons {
-        margin-top: $spacer * 2.75;
+        margin-top: $spacer * 2.2;
 
         .button {
           font-family: "Roboto Condensed", sans-serif;
         }
       }
+
+      @media (max-width: $xl) {
+        max-width: 360px;
+      }
+
+      @media (max-width: $lg) {
+        width: 80%;
+        max-width: 80%;
+        text-align: center;
+      }
     }
 
     .hero-right {
       width: 525px;
+
+      @media (max-width: $xl) {
+        width: 480px;
+      }
+
+      @media (max-width: $lg) {
+        display: none;
+      }
+    }
+
+    @media (max-width: $xl) {
+      margin-top: 8rem;
+    }
+
+    @media (max-width: $lg) {
+      justify-content: center;
     }
   }
 }
