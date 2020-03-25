@@ -137,4 +137,8 @@
       }
     }
   }
+
+  @media (max-width: $md) {
+    top: $spacer;
+  }
 }

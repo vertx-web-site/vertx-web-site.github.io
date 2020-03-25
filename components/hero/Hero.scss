@@ -23,11 +23,15 @@ section.hero {
     }
 
     @media (max-width: $sm) {
-      top: -4rem;
+      top: -2rem;
+    }
+
+    @media (max-width: $md) and (orientation: landscape) {
+      top: -14rem;
     }
 
     @media (max-width: $sm) and (orientation: landscape) {
-      top: -12rem;
+      top: -17rem;
     }
   }
 
@@ -53,6 +57,7 @@ section.hero {
 
           @media (max-width: $sm) and (orientation: portrait) {
             display: block;
+            margin-bottom: .5em;
           }
 
           .hero-product-name-separator {
@@ -72,6 +77,14 @@ section.hero {
 
         .button {
           font-family: "Roboto Condensed", sans-serif;
+
+          @media (max-width: $sm) and (orientation: portrait) {
+            font-size: 1.2rem;
+          }
+        }
+
+        @media (max-width: $sm) and (orientation: portrait) {
+          margin-top: $spacer * 3;
         }
       }
 
@@ -100,6 +113,16 @@ section.hero {
 
     @media (max-width: $xl) {
       margin-top: 8rem;
+    }
+
+    @media (max-width: $md) and (orientation: landscape) {
+      margin-top: 6rem;
+      margin-bottom: 6rem;
+    }
+
+    @media (max-width: $sm) and (orientation: landscape) {
+      margin-top: 5rem;
+      margin-bottom: 5rem;
     }
 
     @media (max-width: $lg) {
