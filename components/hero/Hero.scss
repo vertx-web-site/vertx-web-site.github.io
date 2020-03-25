@@ -119,6 +119,10 @@ section.hero {
       justify-content: center;
     }
 
+    @media (max-width: $sm) {
+      margin-top: 7rem;
+    }
+
     @media (max-width: $md) and (orientation: landscape) {
       margin-top: 6rem;
       margin-bottom: 6rem;
@@ -127,10 +131,6 @@ section.hero {
     @media (max-width: $sm) and (orientation: landscape) {
       margin-top: 5rem;
       margin-bottom: 5rem;
-    }
-
-    @media (max-width: $sm) {
-      margin-top: 7rem;
     }
   }
 }
