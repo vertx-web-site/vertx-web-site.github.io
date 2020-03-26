@@ -34,6 +34,7 @@
     "next-optimized-images": "^2.5.5",
     "node-sass": "^4.13.1",
     "normalize.css": "^8.0.1",
+    "nprogress": "^0.2.0",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
     "react-feather": "^2.0.3",
