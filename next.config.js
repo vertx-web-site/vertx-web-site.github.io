@@ -24,6 +24,7 @@ const config = {
   exportPathMap() {
     return {
       "/": { page: "/" },
+      "/docs": { page: "/docs" },
       "/get-started": { page: "/get-started" }
     };
   }

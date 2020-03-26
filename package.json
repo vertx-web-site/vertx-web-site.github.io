@@ -23,6 +23,8 @@
     "@next/mdx": "^9.3.0",
     "@silvenon/remark-smartypants": "^0.1.1",
     "@zeit/next-sass": "^1.0.1",
+    "asciidoctor": "^2.1.1",
+    "asciidoctor-highlight.js": "^0.2.1",
     "classnames": "^2.2.6",
     "hyphenopoly": "^4.1.0",
     "imagemin-svgo": "^7.1.0",

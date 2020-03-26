@@ -30,7 +30,7 @@ export default () => {
             <Link href="/">
               <a className="navbar-menu-item">Ecosystem</a>
             </Link>
-            <Link href="/">
+            <Link href="/docs/">
               <a className="navbar-menu-item">Docs</a>
             </Link>
             <Link href="/">
