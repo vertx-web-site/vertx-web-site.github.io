@@ -8,3 +8,8 @@
 #nprogress .peg {
   box-shadow: 0 0 10px $primary, 0 0 5px $primary;
 }
+
+#nprogress .spinner-icon {
+  border-top-color: $primary;
+  border-left-color: $primary;
+}
