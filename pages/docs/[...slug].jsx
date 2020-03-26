@@ -1,13 +1,29 @@
 import dynamic from "next/dynamic";
 import Layout from "../../components/layouts/Page";
 
+const extractedDocsPath = "docs/extracted";
+
 let asciidoctor;
 let cache = {};
 
+async function readDirRecursive(dir, fs, path, result = []) {
+  let files = await fs.readdir(dir);
+  for (let f of files) {
+    let absolute = path.join(dir, f);
+    if ((await fs.stat(absolute)).isDirectory()) {
+      readDirRecursive(absolute, fs, path, result);
+    } else {
+      if (f === "index.adoc") {
+        result.push(absolute);
+      }
+    }
+  }
+  return result;
+}
+
 export async function getStaticPaths() {
   const fs = require("fs").promises;
-
-  const extractedDocsPath = "docs/extracted";
+  const path = require("path");
 
   // check if documentation source files exist
   try {
@@ -24,24 +40,31 @@ export async function getStaticPaths() {
     };
   }
 
-  // await fs.readDir(extractedDocsPath);
-
-  console.log("STATIC PATHS");
+  let files = await readDirRecursive(extractedDocsPath, fs, path);
+  let paths = [];
+  for (let f of files) {
+    let m = f.match(new RegExp(`${extractedDocsPath}/(.+)index.adoc`));
+    if (m) {
+      let slug = m[1].split("/");
+      paths.push({ params: { slug } });
+    }
+  }
 
   return {
-    paths: [
-      { params: { slug: ["vertx-core", "java", ""] } }
-    ],
+    paths,
     fallback: false
   };
 }
 
 export async function getStaticProps({ params }) {
-  let path = params.slug.join("/");
-  if (cache[path]) {
-    return cache[path];
+  const path = require("path");
+
+  let slug = params.slug.join("/");
+  if (cache[slug]) {
+    return cache[slug];
   }
 
+  // load asciidoctor if necessary
   if (typeof asciidoctor === "undefined") {
     asciidoctor = require("asciidoctor")();
 
@@ -53,7 +76,8 @@ export async function getStaticProps({ params }) {
     highlightJsExt.register(asciidoctor.Extensions);
   }
 
-  let doc = asciidoctor.loadFile(`docs/extracted/${path}/index.adoc`, {
+  // render page
+  let doc = asciidoctor.loadFile(path.join(extractedDocsPath, slug, "index.adoc"), {
     safe: "unsafe",
     attributes: {
       "source-highlighter": "highlightjs-ext"
@@ -62,14 +86,14 @@ export async function getStaticProps({ params }) {
   let title = doc.getDocumentTitle();
   let contents = doc.convert();
 
-  cache[path] = {
+  cache[slug] = {
     props: {
       title,
       contents
     }
   };
 
-  return cache[path];
+  return cache[slug];
 }
 
 export default ({ title, contents }) => (
