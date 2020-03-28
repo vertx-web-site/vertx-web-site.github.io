@@ -45,10 +45,10 @@ export default () => {
           </div>
 
           <div className="navbar-social">
-            <a href="/" className="navbar-social-link navbar-social-version">v4.0.0</a>
-            <a href="/" className="navbar-social-link"><Youtube /></a>
-            <a href="/" className="navbar-social-link"><Stackoverflow /></a>
-            <a href="/" className="navbar-social-link"><Gitter /></a>
+            <span className="navbar-social-version">v4.0.0</span>
+            <a href="https://www.youtube.com/results?search_query=vert.x" className="navbar-social-link"><Youtube /></a>
+            <a href="https://stackoverflow.com/questions/tagged/vert.x" className="navbar-social-link"><Stackoverflow /></a>
+            <a href="https://gitter.im/eclipse-vertx/vertx-users" className="navbar-social-link"><Gitter /></a>
           </div>
         </div>
       </div>
