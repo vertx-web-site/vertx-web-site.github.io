@@ -88,7 +88,12 @@ export default (props) => {
 
     ensureIndex();
 
-    let matches = index.current.search(value).sort((a, b) => b.score - a.score);
+    let matches;
+    try {
+      matches = index.current.search(value).sort((a, b) => b.score - a.score);
+    } catch (e) {
+      matches = [];
+    }
 
     let results = [];
     for (let r of matches.slice(0, 10)) {
@@ -169,9 +174,15 @@ export default (props) => {
           <div ref={childrenRef}>
             {props.children}
           </div>
-          <ul className="docs-content-search-results">
-            {searchResultsList}
-          </ul>
+          {
+            (searchResults && searchResults.length > 0) ? (
+              <ul className="docs-content-search-results">
+                {searchResultsList}
+              </ul>
+            ) : (
+              <div className="docs-content-no-search-results">No results.</div>
+            )
+          }
         </div>
       </div>
       <Footer />

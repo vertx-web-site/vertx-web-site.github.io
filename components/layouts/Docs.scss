@@ -56,7 +56,7 @@
       }
     }
 
-    .toc, .docs-content-search-results {
+    .toc, .docs-content-search-results, .docs-content-no-search-results {
       font-size: $font-size-small;
       position: fixed;
       top: 0;
@@ -88,7 +88,7 @@
       }
     }
 
-    .docs-content-search-results {
+    .docs-content-no-search-results {
       display: none;
     }
 
@@ -120,6 +120,13 @@
             font-size: 1em;
           }
         }
+      }
+
+      .docs-content-no-search-results {
+        display: block;
+        padding: 0 $spacer / 2;
+        text-align: center;
+        width: 100%;
       }
     }
   }
