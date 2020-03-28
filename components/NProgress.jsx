@@ -4,6 +4,7 @@ import Router from "next/router";
 import "./NProgress.scss";
 
 let timer;
+NProgress.configure({ showSpinner: false });
 
 const routeChangeStart = () => {
   timer = setTimeout(NProgress.start, 100);
