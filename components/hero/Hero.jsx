@@ -15,7 +15,7 @@ export default () => (
         </div>
         <div className="hero-buttons">
           <Link href="/get-started/">
-            <a><Button primary><FastForward className="feather" /> Get started</Button></a>
+            <a><Button primary><FastForward className="feather" /> Get started with v4.0.0</Button></a>
           </Link>
           <GitHubStarsButton />
         </div>
