@@ -19,12 +19,12 @@ export default (props) => {
       return;
     }
 
-    let i = 0;
-    metadata.current = [];
+    metadata.current = {};
 
     for (let depth = 1; depth < 4; ++depth) {
       let sects = childrenRef.current.querySelectorAll(".sect" + depth);
       for (let sect of sects) {
+        let id;
         let title;
         let content = [];
         let allchildren = [];
@@ -36,6 +36,7 @@ export default (props) => {
           let c = allchildren.shift();
           if (c.nodeName.match(/h[1-9]/i)) {
             title = c.textContent;
+            id = c.id;
           } else if (c.className === "sectionbody") {
             for (let bodyc of c.children) {
               allchildren.push(bodyc);
@@ -49,13 +50,12 @@ export default (props) => {
             }
           }
         }
-        if (title && content.length > 0) {
-          metadata.current.push({
-            id: i,
+        if (id && title && content.length > 0) {
+          metadata.current[id] = {
+            id,
             title,
             content: content.join(" ")
-          });
-          ++i;
+          };
         }
       }
     }
@@ -74,8 +74,8 @@ export default (props) => {
       this.field("content");
       this.metadataWhitelist = ["position"];
 
-      for (let m of metadata.current) {
-        this.add(m);
+      for (let m of Object.keys(metadata.current)) {
+        this.add(metadata.current[m]);
       }
     });
   };
@@ -98,7 +98,8 @@ export default (props) => {
     let results = [];
     for (let r of matches.slice(0, 10)) {
       let ref = r.ref;
-      let current = metadata.current[+ref];
+      let current = metadata.current[ref];
+      let id = current.id;
       let title = current.title;
       let text = current.content;
 
@@ -150,6 +151,7 @@ export default (props) => {
       }
 
       results.push({
+        id,
         title,
         text: subtext
       });
@@ -160,8 +162,12 @@ export default (props) => {
 
   let searchResultsList = [];
   if (searchResults) {
-    searchResults.forEach((r, i) => {
-      searchResultsList.push(<li key={i}><h5>{r.title}</h5>{r.text}</li>);
+    searchResults.forEach(r => {
+      searchResultsList.push(
+        <li key={r.id} onClick={() => window.location.href=`#${r.id}`}>
+          <h5>{r.title}</h5>{r.text}
+        </li>
+      );
     });
   }
 
