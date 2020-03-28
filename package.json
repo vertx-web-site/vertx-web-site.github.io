@@ -29,6 +29,8 @@
     "hyphenopoly": "^4.1.0",
     "imagemin-svgo": "^7.1.0",
     "isomorphic-unfetch": "^3.0.0",
+    "lodash.debounce": "^4.0.8",
+    "lunr": "^2.3.8",
     "next": "^9.3.0",
     "next-compose-plugins": "^2.2.0",
     "next-optimized-images": "^2.5.5",

@@ -2,20 +2,36 @@ import classNames from "classnames";
 import { useState, useRef } from "react";
 import { Search, XCircle } from "react-feather";
 import "./Search.scss";
+import debounce from "lodash.debounce";
 
-export default () => {
+export default ({ onChange }) => {
   const [content, setContent] = useState("");
+  const debounceOnChange = useRef(onChange ? debounce(onChange, 300) : undefined);
   const inputRef = useRef();
 
-  const onChange = (e) => {
-    setContent(e.currentTarget.value);
+  const doSetContent = (value) => {
+    setContent(value);
+    if (!value) {
+      if (onChange) {
+        onChange(value);
+        debounceOnChange.current(value);
+      }
+    } else {
+      if (debounceOnChange.current) {
+        debounceOnChange.current(value);
+      }
+    }
+  };
+
+  const internalOnChange = (e) => {
+    doSetContent(e.currentTarget.value);
   };
 
   return (
     <div className={classNames("docs-search", { "has-content": content !== "" })}>
-      <input type="text" placeholder="Search..." value={content} onChange={onChange} />
+      <input type="text" placeholder="Search..." value={content} onChange={internalOnChange} />
       <Search className="docs-search-icon" />
-      <XCircle className="docs-search-icon-delete" onClick={ () => setContent("") } />
+      <XCircle className="docs-search-icon-delete" onClick={ () => doSetContent("") } />
     </div>
   );
 };

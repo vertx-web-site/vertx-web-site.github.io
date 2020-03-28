@@ -17,6 +17,10 @@
         margin-left: 16rem;
       }
 
+      .toc {
+        margin-left: 0;
+      }
+
       h1 {
         padding-top: 0;
 
@@ -27,38 +31,6 @@
           border: 2px solid $primary;
           border-radius: 2px;
           margin-top: .5rem;
-        }
-      }
-
-      .toc {
-        font-size: $font-size-small;
-        position: fixed;
-        top: 0;
-        bottom: 0;
-        margin-top: 10rem;
-        margin-left: 0;
-        padding-bottom: $spacer;
-        padding-right: $spacer;
-        overflow: auto;
-
-        max-width: 14rem;
-
-        #toctitle {
-          display: none;
-        }
-
-        ul {
-          margin-top: 0;
-          padding-left: 0;
-          list-style-type: none;
-        
-          &.sectlevel2 {
-            display: none;
-          }
-
-          li {
-            padding: $spacer / 3 0;
-          }
         }
       }
 
@@ -81,6 +53,68 @@
 
       h3, h4 {
         margin-top: $spacer * 3;
+      }
+    }
+
+    .toc, .docs-content-search-results {
+      font-size: $font-size-small;
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      margin-top: 10rem;
+      margin-left: 0;
+      padding-bottom: $spacer;
+      padding-right: $spacer;
+      overflow: auto;
+
+      max-width: 14rem;
+
+      #toctitle {
+        display: none;
+      }
+
+      ul {
+        margin-top: 0;
+        padding-left: 0;
+        list-style-type: none;
+      
+        &.sectlevel2 {
+          display: none;
+        }
+
+        li {
+          padding: $spacer / 3 0;
+        }
+      }
+    }
+
+    .docs-content-search-results {
+      display: none;
+    }
+
+    &.has-search-results {
+      .toc {
+        display: none;
+      }
+
+      .docs-content-search-results {
+        display: block;
+        list-style-type: none;
+        padding: 0;
+
+        li {
+          display: block;
+          padding: $spacer / 2;
+          margin-bottom: $spacer;
+          border-radius: $border-radius-tiny;
+          border: 1px solid transparent;
+          cursor: pointer;
+
+          &:hover {
+            background-color: $gray-100;
+            border: 1px solid $gray-200;
+          }
+        }
       }
     }
   }
