@@ -4,7 +4,7 @@ import { Search, XCircle } from "react-feather";
 import "./Search.scss";
 import debounce from "lodash.debounce";
 
-export default ({ onChange }) => {
+export default React.forwardRef(({ onChange }, ref) => {
   const [content, setContent] = useState("");
   const debounceOnChange = useRef(onChange ? debounce(onChange, 300) : undefined);
   const inputRef = useRef();
@@ -28,10 +28,10 @@ export default ({ onChange }) => {
   };
 
   return (
-    <div className={classNames("docs-search", { "has-content": content !== "" })}>
+    <div className={classNames("docs-search", { "has-content": content !== "" })} ref={ref}>
       <input type="text" placeholder="Search..." value={content} onChange={internalOnChange} />
       <Search className="docs-search-icon" />
       <XCircle className="docs-search-icon-delete" onClick={ () => doSetContent("") } />
     </div>
   );
-};
+});

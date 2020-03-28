@@ -1,5 +1,7 @@
 import classNames from "classnames";
-import { useRef, useState } from "react";
+import { smoothScrollTo } from "../lib/scroll-utils";
+import { Children, cloneElement, isValidElement, useEffect, useRef, useState } from "react";
+import Router from "next/router";
 import Header from "../Header";
 import Footer from "../Footer";
 import Search from "../docs/Search";
@@ -8,6 +10,7 @@ import lunr from "lunr";
 
 export default (props) => {
   const childrenRef = useRef();
+  const searchRef = useRef();
   const metadata = useRef();
   const index = useRef();
   const [searchResults, setSearchResults] = useState();
@@ -160,11 +163,60 @@ export default (props) => {
     setSearchResults(results);
   };
 
+  const onHashChange = (e) => {
+    onHashChangeStart(e.newURL);
+  };
+
+  const onHashChangeStart = (url, initial) => {
+    let hash = url.substring(url.indexOf("#") + 1);
+    let target = document.getElementById(hash);
+    if (!target) {
+      return;
+    }
+
+    // make it so that the search box and the element are vertically centered
+    let computedStyle = window.getComputedStyle(target);
+    let paddingTop = parseInt(computedStyle.paddingTop);
+    let lineHeight = parseInt(computedStyle.lineHeight);
+    let offset = target.offsetTop - searchRef.current.offsetTop + paddingTop +
+        (lineHeight / 2 - searchRef.current.clientHeight / 2);
+
+    smoothScrollTo(offset, initial ? 1 : 500);
+  };
+
+  useEffect(() => {
+    Router.events.on("hashChangeStart", onHashChangeStart);
+    window.addEventListener("hashchange", onHashChange);
+
+    // replace internal links' onclick with Router.push() so we can scroll smoothly
+    let internalLinks = childrenRef.current.querySelectorAll("a[href^='#']");
+    for (let il of internalLinks) {
+      il.onclick = (e) => {
+        e.preventDefault();
+        let href = window.location.href;
+        let hash = href.substring(href.indexOf("#"));
+        if (hash !== il.getAttribute("href")) {
+          Router.push(window.location.pathname + il.getAttribute("href"));
+        } else {
+          onHashChangeStart(href);
+        }
+      };
+    }
+
+    // initial scroll
+    onHashChangeStart(window.location.href, true);
+
+    return () => {
+      window.removeEventListener("hashchange", onHashChange);
+      Router.events.off("hashChangeStart", onHashChangeStart);
+    };
+  }, []);
+
   let searchResultsList = [];
   if (searchResults) {
     searchResults.forEach(r => {
       searchResultsList.push(
-        <li key={r.id} onClick={() => window.location.href=`#${r.id}`}>
+        <li key={r.id} onClick={() => Router.push(`${window.location.pathname}#${r.id}`)}>
           <h5>{r.title}</h5>{r.text}
         </li>
       );
@@ -176,7 +228,7 @@ export default (props) => {
       <Header title={props.meta.title}/>
       <div className={classNames("page-content", "docs-content", { "has-search-results": !!searchResults })}>
         <div className="container">
-          <Search onChange={onSearch} />
+          <Search onChange={onSearch} ref={searchRef} />
           <div ref={childrenRef}>
             {props.children}
           </div>
