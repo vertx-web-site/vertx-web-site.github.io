@@ -21,6 +21,9 @@ $gray-800: #3c3c3b;
 $spacer: 1rem;
 
 $border-radius: 1rem * 0.8;
+$border-radius-small: $border-radius * .875;
+$border-radius-mini: $border-radius * .75;
+$border-radius-tiny: $border-radius * .5;
 
 $xs: 0;
 $sm: 640px;
@@ -34,5 +37,9 @@ $container-lg: 950px;
 $container-xl: 1180px;
 
 $button-box-shadow: 5px 5px 10px 0px rgba(0,0,0,0.2);
-$button-color-transition: color 0.15s ease-in-out;
-$button-background-transition: background-color 0.15s ease-in-out;
+
+$button-transition-time: 0.15s;
+$button-transition-ease: ease-in-out;
+$button-color-transition: color $button-transition-time $button-transition-ease;
+$button-background-transition: background-color $button-transition-time $button-transition-ease;
+$button-border-color-transition: border-color $button-transition-time $button-transition-ease;

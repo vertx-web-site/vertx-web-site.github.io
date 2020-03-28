@@ -1,5 +1,5 @@
 import dynamic from "next/dynamic";
-import Layout from "../../components/layouts/Page";
+import Layout from "../../components/layouts/Docs";
 
 const extractedDocsPath = "docs/extracted";
 
@@ -80,7 +80,8 @@ export async function getStaticProps({ params }) {
   let doc = asciidoctor.loadFile(path.join(extractedDocsPath, slug, "index.adoc"), {
     safe: "unsafe",
     attributes: {
-      "source-highlighter": "highlightjs-ext"
+      "source-highlighter": "highlightjs-ext",
+      "showtitle": true
     }
   });
   let title = doc.getDocumentTitle();
@@ -97,5 +98,5 @@ export async function getStaticProps({ params }) {
 }
 
 export default ({ title, contents }) => (
-  <Layout meta={{ title }}><div dangerouslySetInnerHTML={{ __html: contents }} /></Layout>
+  <Layout meta={{ title }}><div dangerouslySetInnerHTML={{ __html: contents }} className="docs-content-inner" /></Layout>
 );

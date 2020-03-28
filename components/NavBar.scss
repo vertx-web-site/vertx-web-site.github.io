@@ -141,4 +141,13 @@
   @media (max-width: $md) {
     top: $spacer;
   }
+
+  .page & {
+    top: 0;
+    padding-top: 1.5rem;
+    padding-bottom: 1rem;
+    position: fixed;
+    background-color: #fff;
+    z-index: 1;
+  }
 }

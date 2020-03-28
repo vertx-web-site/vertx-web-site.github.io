@@ -1,0 +1,70 @@
+@import "./Page";
+@import "../../css/code";
+
+.docs {
+  .docs-content {
+    .docs-search {
+      position: fixed;
+      top: 0;
+      margin-top: 7.9rem;
+      width: 14rem;
+    }
+
+    .docs-content-inner {
+      & > div, h1 {
+        margin-left: 16rem;
+      }
+
+      h1 {
+        padding-top: 0;
+
+        &:after {
+          content: "";
+          width: 30%;
+          display: block;
+          border: 2px solid $primary;
+          border-radius: 2px;
+          margin-top: .5rem;
+        }
+      }
+
+      .toc {
+        font-size: $font-size-small;
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        margin-top: 11rem;
+        margin-left: 0;
+        padding-bottom: $spacer;
+        padding-right: $spacer;
+        overflow: auto;
+
+        max-width: 14rem;
+
+        #toctitle {
+          display: none;
+        }
+
+        ul {
+          margin-top: 0;
+          padding-left: 0;
+          list-style-type: none;
+        
+          &.sectlevel2 {
+            display: none;
+          }
+
+          li {
+            padding: $spacer / 3 0;
+          }
+        }
+      }
+
+      .listingblock pre {
+        @extend .hljs;
+        border-radius: $border-radius;
+        padding: $spacer;
+      }
+    }
+  }
+}
