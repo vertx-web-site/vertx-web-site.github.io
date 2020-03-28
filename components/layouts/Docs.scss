@@ -2,11 +2,13 @@
 @import "../../css/code";
 
 .docs {
+  line-height: 1.7;
+
   .docs-content {
     .docs-search {
       position: fixed;
       top: 0;
-      margin-top: 7.9rem;
+      margin-top: 6.9rem;
       width: 14rem;
     }
 
@@ -33,7 +35,7 @@
         position: fixed;
         top: 0;
         bottom: 0;
-        margin-top: 11rem;
+        margin-top: 10rem;
         margin-left: 0;
         padding-bottom: $spacer;
         padding-right: $spacer;
@@ -64,6 +66,21 @@
         @extend .hljs;
         border-radius: $border-radius;
         padding: $spacer;
+        font-size: $font-size-small;
+      }
+
+      .ulist > ul {
+        padding-left: 1.1rem;
+      }
+
+      h2 {
+        border-top: 1px solid $gray-300;
+        margin-top: $spacer * 5;
+        padding-top: $spacer * 2;
+      }
+
+      h3, h4 {
+        margin-top: $spacer * 3;
       }
     }
   }

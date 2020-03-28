@@ -12,7 +12,7 @@ export default () => {
   };
 
   return (
-    <div class={classNames("docs-search", { "has-content": content !== "" })}>
+    <div className={classNames("docs-search", { "has-content": content !== "" })}>
       <input type="text" placeholder="Search..." value={content} onChange={onChange} />
       <Search className="docs-search-icon" />
       <XCircle className="docs-search-icon-delete" onClick={ () => setContent("") } />
