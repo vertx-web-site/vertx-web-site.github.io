@@ -8,10 +8,77 @@ import lunr from "lunr";
 
 export default (props) => {
   const childrenRef = useRef();
-  const [index, setIndex] = useState();
+  const metadata = useRef();
+  const index = useRef();
   const [searchResults, setSearchResults] = useState();
 
   const isLetter = (s, i) => !!s.substring(i, i + 1).match(/[a-z]/i);
+
+  const ensureMetadata = () => {
+    if (metadata.current) {
+      return;
+    }
+
+    let i = 0;
+    metadata.current = [];
+
+    for (let depth = 1; depth < 4; ++depth) {
+      let sects = childrenRef.current.querySelectorAll(".sect" + depth);
+      for (let sect of sects) {
+        let title;
+        let content = [];
+        let allchildren = [];
+        for (let c of sect.children) {
+          allchildren.push(c);
+        }
+
+        while (allchildren.length > 0) {
+          let c = allchildren.shift();
+          if (c.nodeName.match(/h[1-9]/i)) {
+            title = c.textContent;
+          } else if (c.className === "sectionbody") {
+            for (let bodyc of c.children) {
+              allchildren.push(bodyc);
+            }
+          } else if (c.className === "paragraph" || c.className === "ulist") {
+            content.push(c.textContent);
+          } else if (c.className && c.className.indexOf("admonitionblock") >= 0) {
+            let abc = c.querySelector(".content");
+            if (abc) {
+              content.push(abc.textContent);
+            }
+          }
+        }
+        if (title && content.length > 0) {
+          metadata.current.push({
+            id: i,
+            title,
+            content: content.join(" ")
+          });
+          ++i;
+        }
+      }
+    }
+  };
+
+  const ensureIndex = () => {
+    if (index.current) {
+      return;
+    }
+
+    ensureMetadata();
+
+    index.current = lunr(function () {
+      this.ref("id");
+      this.field("title", { boost: 10 });
+      this.field("content");
+      this.metadataWhitelist = ["position"];
+
+      for (let m of metadata.current) {
+        this.add(m);
+      }
+    });
+  };
 
   const onSearch = (value) => {
     if (!value) {
@@ -19,41 +86,22 @@ export default (props) => {
       return;
     }
 
-    let ps = childrenRef.current.getElementsByTagName("p");
+    ensureIndex();
 
-    let idx = index;
-    if (idx === undefined) {
-      idx = lunr(function () {
-        this.ref("id");
-        this.field("p");
-        this.metadataWhitelist = ["position"];
-
-        for (let i in ps) {
-          let p = ps[i];
-          this.add({ id: i, p: p.textContent });
-        }
-      });
-      setIndex(idx);
-    }
-
-    let matches = idx.query(query => {
-      query.term(lunr.tokenizer(value), {
-        wildcard: lunr.Query.wildcard.LEADING,
-        usePipeline: true,
-        presence: lunr.Query.presence.REQUIRED
-      });
-    });
+    let matches = index.current.search(value).sort((a, b) => b.score - a.score);
 
     let results = [];
     for (let r of matches.slice(0, 10)) {
       let ref = r.ref;
-      let metadata = r.matchData.metadata;
-      let text = ps[+ref].textContent;
+      let current = metadata.current[+ref];
+      let title = current.title;
+      let text = current.content;
 
       let start;
       let end;
-      Object.keys(metadata).forEach(term => {
-        let position = metadata[term].p.position[0];
+      Object.keys(r.matchData.metadata).forEach(term => {
+        let content = r.matchData.metadata[term].content || r.matchData.metadata[term].title;
+        let position = content.position[0];
 
         let maxlen = 100;
         if (position[0] + position[1] < maxlen) {
@@ -96,7 +144,10 @@ export default (props) => {
         subtext = subtext.substring(0, i + 1) + " ...";
       }
 
-      results.push(subtext);
+      results.push({
+        title,
+        text: subtext
+      });
     }
 
     setSearchResults(results);
@@ -105,7 +156,7 @@ export default (props) => {
   let searchResultsList = [];
   if (searchResults) {
     searchResults.forEach((r, i) => {
-      searchResultsList.push(<li key={i}>{r}</li>);
+      searchResultsList.push(<li key={i}><h5>{r.title}</h5>{r.text}</li>);
     });
   }
 

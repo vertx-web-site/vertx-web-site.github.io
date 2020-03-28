@@ -114,6 +114,11 @@
             background-color: $gray-100;
             border: 1px solid $gray-200;
           }
+
+          h5 {
+            margin: 0 0 $spacer / 2 0;
+            font-size: 1em;
+          }
         }
       }
     }
