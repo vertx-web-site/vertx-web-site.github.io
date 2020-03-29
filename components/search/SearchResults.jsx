@@ -34,7 +34,7 @@ export default ({ results, activeId, onHover }) => {
       if (activeElement) {
         let elemTop = activeElement.offsetTop - cur.offsetTop;
         let scrollEnd = cur.scrollTop + cur.clientHeight;
-        if (elemTop > scrollEnd) {
+        if (elemTop + activeElement.clientHeight > scrollEnd) {
           cur.scrollTop = elemTop + activeElement.clientHeight - cur.clientHeight;
         } else if (elemTop < cur.scrollTop) {
           cur.scrollTop = elemTop;
