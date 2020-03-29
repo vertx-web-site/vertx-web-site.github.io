@@ -4,7 +4,7 @@ import { Search, XCircle } from "react-feather";
 import "./SearchBox.scss";
 import debounce from "lodash.debounce";
 
-export default ({ onChange }) => {
+export default ({ onChange, onSubmit, onNext, onPrev }) => {
   const [content, setContent] = useState("");
   const debounceOnChange = useRef(onChange ? debounce(onChange, 300) : undefined);
   const inputRef = useRef();
@@ -27,6 +27,22 @@ export default ({ onChange }) => {
     doSetContent(e.currentTarget.value);
   };
 
+  const onKeyDown = (e) => {
+    if (e.key === "Enter" && onSubmit) {
+      onSubmit();
+      e.preventDefault();
+    } else if (e.key === "Escape") {
+      onDelete();
+      e.preventDefault();
+    } else if (e.key === "ArrowDown" && onNext) {
+      onNext();
+      e.preventDefault();
+    } else if (e.key === "ArrowUp" && onPrev) {
+      onPrev();
+      e.preventDefault();
+    }
+  };
+
   const onDelete = () => {
     doSetContent("");
     inputRef.current.focus();
@@ -34,7 +50,8 @@ export default ({ onChange }) => {
 
   return (
     <div className={classNames("search", { "has-content": content !== "" })}>
-      <input type="text" placeholder="Search..." value={content} onChange={internalOnChange} ref={inputRef} />
+      <input type="text" placeholder="Search..." value={content}
+          onChange={internalOnChange} onKeyDown={onKeyDown} ref={inputRef} />
       <Search className="search-icon" />
       <XCircle className="search-icon-delete" onClick={ () => onDelete() } />
     </div>

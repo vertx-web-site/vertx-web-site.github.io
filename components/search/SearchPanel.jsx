@@ -1,10 +1,19 @@
 import { useRef, useState } from "react";
+import Router from "next/router";
 import SearchBox from "./SearchBox";
 import SearchResults from "./SearchResults";
 import lunr from "lunr";
 import "./SearchPanel.scss";
 
 const MAX_EXCERPT_LENGTH = 100;
+
+function pushRouter(id) {
+  let href = window.location.href;
+  let hash = href.substring(href.indexOf("#") + 1);
+  if (hash !== id) {
+    Router.push(`${window.location.pathname}#${id}`);
+  }
+}
 
 // check if the character at position i is a letter
 function isLetter(str, i) {
@@ -150,6 +159,7 @@ export default React.forwardRef(({ children, onHasResults }, ref) => {
   const metadata = useRef();
   const index = useRef();
   const [searchResults, setSearchResults] = useState();
+  const [activeResultId, setActiveResultId] = useState();
 
   const ensureMetadata = () => {
     if (metadata.current) {
@@ -219,6 +229,13 @@ export default React.forwardRef(({ children, onHasResults }, ref) => {
 
   const doSetSearchResults = (results) => {
     setSearchResults(results);
+
+    if (results && results.length > 0) {
+      setActiveResultId(results[0].id);
+    } else {
+      setActiveResultId(undefined);
+    }
+
     if (onHasResults) {
       onHasResults(!!results);
     }
@@ -288,11 +305,47 @@ export default React.forwardRef(({ children, onHasResults }, ref) => {
     doSetSearchResults(results);
   };
 
+  const onResultHover = (id) => {
+    setActiveResultId(id);
+  };
+
+  const onSubmit = () => {
+    if (typeof activeResultId !== "undefined") {
+      pushRouter(activeResultId);
+    }
+  };
+
+  const onNextSearchResult = () => {
+    if (!searchResults || !activeResultId) {
+      return;
+    }
+    let i = searchResults.findIndex(r => r.id === activeResultId);
+    i++;
+    if (i >= searchResults.length) {
+      i -= searchResults.length;
+    }
+    setActiveResultId(searchResults[i].id);
+  };
+
+  const onPrevSearchResult = () => {
+    if (!searchResults || !activeResultId) {
+      return;
+    }
+    let i = searchResults.findIndex(r => r.id === activeResultId);
+    i--;
+    if (i < 0) {
+      i = searchResults.length - 1;
+    }
+    setActiveResultId(searchResults[i].id);
+  };
+
   return (
     <>
       <div className="search-panel" ref={ref}>
-        <SearchBox onChange={onSearch} />
-        <SearchResults results={searchResults} />
+        <SearchBox onChange={onSearch} onSubmit={onSubmit}
+        onNext={onNextSearchResult} onPrev={onPrevSearchResult} />
+        <SearchResults results={searchResults} activeId={activeResultId}
+          onHover={onResultHover} />
       </div>
       <div ref={childrenRef}>
         {children}
