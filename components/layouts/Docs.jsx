@@ -14,7 +14,7 @@ function isLetter(s, i) {
 
 function excerpt(str, positions, maxlen) {
   if (str.length <= maxlen) {
-    return str;
+    return [0, str.length];
   }
 
   // find longest range that does not exceed maxlen
@@ -29,7 +29,7 @@ function excerpt(str, positions, maxlen) {
   let end = positions[i][1];
 
   if (end - start >= maxlen) {
-    return str.substring(start, end);
+    return [start, end];
   }
 
   let rest = maxlen - (end - start);
@@ -185,23 +185,37 @@ export default (props) => {
 
       // TODO add all positions
       let firstKey = Object.keys(r.matchData.metadata)[0];
-      let content = r.matchData.metadata[firstKey].content || r.matchData.metadata[firstKey].title;
-      let positions = [[content.position[0][0], content.position[0][0] + content.position[0][1]]];
-      let [start, end] = excerpt(text, positions, 100)
 
-      let subtext = text.substring(start, end);
-      if (start > 0) {
-        subtext = "... " + subtext;
-      }
-      if (end < text.length) {
-        subtext += " ...";
+      if (r.matchData.metadata[firstKey].title) {
+        let content = r.matchData.metadata[firstKey].title;
+        let positions = [[content.position[0][0], content.position[0][0] + content.position[0][1]]];
+        title = highlight(title, positions);
       }
 
-      if (start > 0) {
-        positions[0][0] -= start - 4;
-        positions[0][1] -= start - 4;
+      let result;
+      if (r.matchData.metadata[firstKey].content) {
+        let content = r.matchData.metadata[firstKey].content;
+        let positions = [[content.position[0][0], content.position[0][0] + content.position[0][1]]];
+        let [start, end] = excerpt(text, positions, 100)
+        console.log(start, end);
+
+        let subtext = text.substring(start, end);
+        if (start > 0) {
+          subtext = "... " + subtext;
+        }
+        if (end < text.length) {
+          subtext += " ...";
+        }
+
+        if (start > 0) {
+          positions[0][0] -= start - 4;
+          positions[0][1] -= start - 4;
+        }
+        result = highlight(subtext, positions);
+      } else {
+        let [start, end] = excerpt(text, [[0, Math.min(100, text.length)]], 100);
+        result = text.substring(start, end);
       }
-      let result = highlight(subtext, positions);
 
       results.push({
         id,
