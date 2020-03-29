@@ -27,11 +27,16 @@ export default React.forwardRef(({ onChange }, ref) => {
     doSetContent(e.currentTarget.value);
   };
 
+  const onDelete = () => {
+    doSetContent("");
+    inputRef.current.focus();
+  };
+
   return (
     <div className={classNames("docs-search", { "has-content": content !== "" })} ref={ref}>
-      <input type="text" placeholder="Search..." value={content} onChange={internalOnChange} />
+      <input type="text" placeholder="Search..." value={content} onChange={internalOnChange} ref={inputRef} />
       <Search className="docs-search-icon" />
-      <XCircle className="docs-search-icon-delete" onClick={ () => doSetContent("") } />
+      <XCircle className="docs-search-icon-delete" onClick={ () => onDelete() } />
     </div>
   );
 });
