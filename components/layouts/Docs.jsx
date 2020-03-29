@@ -8,14 +8,91 @@ import Search from "../docs/Search";
 import "./Docs.scss";
 import lunr from "lunr";
 
+function isLetter(s, i) {
+  return !!s.substring(i, i + 1).match(/[a-z]/i);
+}
+
+function excerpt(str, positions, maxlen) {
+  if (str.length <= maxlen) {
+    return str;
+  }
+
+  // find longest range that does not exceed maxlen
+  let start = positions[0][0];
+  let i = positions.length;
+  while (i > 0) {
+    --i;
+    if (positions[i][1] - start <= maxlen) {
+      break;
+    }
+  }
+  let end = positions[i][1];
+
+  if (end - start >= maxlen) {
+    return str.substring(start, end);
+  }
+
+  let rest = maxlen - (end - start);
+
+  let newstart = start - Math.ceil(rest / 2);
+  let newend = end + Math.floor(rest / 2);
+  if (newstart < 0) {
+    newstart = 0;
+    newend = maxlen;
+  } else if (newend > str.length) {
+    newend = str.length;
+    newstart = str.length - maxlen;
+  }
+  newstart = Math.max(0, newstart);
+  newend = Math.min(str.length, newend);
+
+  // trim right word
+  if (newend < str.length) {
+    while (newend > end && isLetter(str, newend)) {
+      --newend;
+      if (newstart > 0) {
+        --newstart;
+      }
+    }
+  }
+
+  // trim left word
+  if (newstart > 0) {
+    while (newstart < start && isLetter(str, newstart - 1)) {
+      ++newstart;
+    }
+  }
+
+  return [newstart, newend];
+}
+
+function highlight(str, positions) {
+  let lastend = 0;
+  let tokens = [];
+  for (let i in positions) {
+    let p = positions[i];
+    if (p[0] > lastend) {
+      tokens.push(str.substring(lastend, p[0]));
+    }
+    tokens.push(
+      <span key={i} className="docs-content-search-results-highlight">
+        {str.substring(p[0], p[1])}
+      </span>
+    );
+    lastend = p[1];
+  }
+  if (lastend < str.length) {
+    tokens.push(str.substring(lastend, str.length));
+  }
+  return <span>{tokens}</span>;
+}
+
 export default (props) => {
   const childrenRef = useRef();
   const searchRef = useRef();
   const metadata = useRef();
   const index = useRef();
   const [searchResults, setSearchResults] = useState();
-
-  const isLetter = (s, i) => !!s.substring(i, i + 1).match(/[a-z]/i);
 
   const ensureMetadata = () => {
     if (metadata.current) {
@@ -106,57 +183,30 @@ export default (props) => {
       let title = current.title;
       let text = current.content;
 
-      let start;
-      let end;
-      Object.keys(r.matchData.metadata).forEach(term => {
-        let content = r.matchData.metadata[term].content || r.matchData.metadata[term].title;
-        let position = content.position[0];
-
-        let maxlen = 100;
-        if (position[0] + position[1] < maxlen) {
-          start = 0;
-          end = Math.min(maxlen, text.length);
-        } else if (position[0] + maxlen > text.length) {
-          start = Math.max(0, text.length - maxlen);
-          end = text.length;
-        } else {
-          start = position[0] - maxlen;
-          end = start + maxlen;
-        }
-      });
+      // TODO add all positions
+      let firstKey = Object.keys(r.matchData.metadata)[0];
+      let content = r.matchData.metadata[firstKey].content || r.matchData.metadata[firstKey].title;
+      let positions = [[content.position[0][0], content.position[0][0] + content.position[0][1]]];
+      let [start, end] = excerpt(text, positions, 100)
 
       let subtext = text.substring(start, end);
       if (start > 0) {
-        if (isLetter(text, start - 1)) {
-          let i = 0;
-          while (i < subtext.length && isLetter(subtext, i)) ++i;
-          subtext = subtext.substring(i);
-        }
+        subtext = "... " + subtext;
       }
-
       if (end < text.length) {
-        if (isLetter(text, end)) {
-          let i = subtext.length - 1;
-          while (i >= 0 && isLetter(subtext, i)) --i;
-          subtext = subtext.substring(0, i + 1);
-        }
+        subtext += " ...";
       }
 
       if (start > 0) {
-        let i = 0;
-        while (i < subtext.length && !isLetter(subtext, i)) ++i;
-        subtext = "... " + subtext.substring(i);
+        positions[0][0] -= start - 4;
+        positions[0][1] -= start - 4;
       }
-      if (end < text.length) {
-        let i = subtext.length - 1;
-        while (i >= 0 && !isLetter(subtext, i)) --i;
-        subtext = subtext.substring(0, i + 1) + " ...";
-      }
+      let result = highlight(subtext, positions);
 
       results.push({
         id,
         title,
-        text: subtext
+        result
       });
     }
 
@@ -217,7 +267,7 @@ export default (props) => {
     searchResults.forEach(r => {
       searchResultsList.push(
         <li key={r.id} onClick={() => Router.push(`${window.location.pathname}#${r.id}`)}>
-          <h5>{r.title}</h5>{r.text}
+          <h5>{r.title}</h5>{r.result}
         </li>
       );
     });
