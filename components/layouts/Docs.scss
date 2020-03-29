@@ -40,6 +40,7 @@
         border-radius: $border-radius;
         padding: $spacer;
         font-size: $font-size-small;
+        margin: $spacer * 1.5 0;
       }
 
       .ulist > ul {
@@ -90,6 +91,40 @@
 
     .docs-has-search-results .toc {
       display: none;
+    }
+
+    .admonitionblock {
+      border-top-right-radius: $border-radius;
+      border-bottom-right-radius: $border-radius;
+      background-color: $gray-100;
+      padding: $spacer;
+      margin: $spacer * 1.5 0;
+      border-left: 9px solid transparent;
+
+      &.note, &.tip {
+        border-color: #6cb9f0;
+      }
+
+      &.important, &.warning, &.caution {
+        border-color: #f0a46c;
+      }
+
+      tr {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .title {
+        font-weight: 400;
+
+        &:after {
+          content: ":";
+        }
+      }
+    }
+
+    dt {
+      font-weight: 400;
     }
   }
 }
