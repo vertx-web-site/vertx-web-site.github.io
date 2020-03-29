@@ -1,6 +1,6 @@
 @import "../../css/variables";
 
-.docs-search {
+.search {
   input {
     color: $gray-500;
     border: 1px solid $gray-300;
@@ -16,7 +16,7 @@
     }
   }
 
-  .docs-search-icon, .docs-search-icon-delete {
+  .search-icon, .search-icon-delete {
     position: absolute;
     top: .5rem;
     height: 1rem;
@@ -24,15 +24,15 @@
     transition: stroke $button-transition-time $button-transition-ease;
   }
 
-  .docs-search-icon {
+  .search-icon {
     left: .4rem;
   }
 
-  input:focus + .docs-search-icon {
+  input:focus + .search-icon {
     stroke: $gray-600;
   }
 
-  .docs-search-icon-delete {
+  .search-icon-delete {
     stroke: $gray-600;
     right: .4rem;
     height: .75rem;
@@ -42,7 +42,7 @@
     cursor: text;
   }
 
-  &.has-content .docs-search-icon-delete {
+  &.has-content .search-icon-delete {
     opacity: 1;
     cursor: pointer;
   }

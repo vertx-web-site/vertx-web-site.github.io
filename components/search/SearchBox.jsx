@@ -1,10 +1,10 @@
 import classNames from "classnames";
 import { useState, useRef } from "react";
 import { Search, XCircle } from "react-feather";
-import "./Search.scss";
+import "./SearchBox.scss";
 import debounce from "lodash.debounce";
 
-export default React.forwardRef(({ onChange }, ref) => {
+export default ({ onChange }) => {
   const [content, setContent] = useState("");
   const debounceOnChange = useRef(onChange ? debounce(onChange, 300) : undefined);
   const inputRef = useRef();
@@ -33,10 +33,10 @@ export default React.forwardRef(({ onChange }, ref) => {
   };
 
   return (
-    <div className={classNames("docs-search", { "has-content": content !== "" })} ref={ref}>
+    <div className={classNames("search", { "has-content": content !== "" })}>
       <input type="text" placeholder="Search..." value={content} onChange={internalOnChange} ref={inputRef} />
-      <Search className="docs-search-icon" />
-      <XCircle className="docs-search-icon-delete" onClick={ () => onDelete() } />
+      <Search className="search-icon" />
+      <XCircle className="search-icon-delete" onClick={ () => onDelete() } />
     </div>
   );
-});
+};

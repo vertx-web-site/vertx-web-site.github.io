@@ -5,9 +5,10 @@
   line-height: 1.7;
 
   .docs-content {
-    .docs-search {
+    .search-panel {
       position: fixed;
       top: 0;
+      bottom: 0;
       margin-top: 6.9rem;
       width: 14rem;
     }
@@ -56,13 +57,12 @@
       }
     }
 
-    .toc, .docs-content-search-results, .docs-content-no-search-results {
+    .toc {
       font-size: $font-size-small;
       position: fixed;
       top: 0;
       bottom: 0;
       margin-top: 10rem;
-      margin-left: 0;
       padding-bottom: $spacer;
       padding-right: $spacer;
       overflow: auto;
@@ -88,50 +88,8 @@
       }
     }
 
-    .docs-content-no-search-results {
+    .docs-has-search-results .toc {
       display: none;
-    }
-
-    &.has-search-results {
-      .toc {
-        display: none;
-      }
-
-      .docs-content-search-results {
-        display: block;
-        list-style-type: none;
-        padding: 0;
-
-        li {
-          display: block;
-          padding: $spacer / 2;
-          margin-bottom: $spacer;
-          border-radius: $border-radius-tiny;
-          border: 1px solid transparent;
-          cursor: pointer;
-
-          &:hover {
-            background-color: $gray-100;
-            border: 1px solid $gray-200;
-          }
-
-          h5 {
-            margin: 0 0 $spacer / 2 0;
-            font-size: 1em;
-          }
-
-          .docs-content-search-results-highlight {
-            background-color: yellow;
-          }
-        }
-      }
-
-      .docs-content-no-search-results {
-        display: block;
-        padding: 0 $spacer / 2;
-        text-align: center;
-        width: 100%;
-      }
     }
   }
 }
