@@ -87,6 +87,55 @@ function highlight(str, positions) {
   return <span>{tokens}</span>;
 }
 
+function extractPositions(metadata, attr) {
+  let result = [];
+  Object.keys(metadata).forEach(k => {
+    if (metadata[k][attr]) {
+      for (let p of metadata[k][attr].position) {
+        result.push(p);
+      }
+    }
+  });
+  return result;
+}
+
+function coalescePositions(positions) {
+  let result = [];
+  let anymerged = false;
+  for (let p of positions) {
+    let merged = false;
+    for (let r of result) {
+      if ((p[0] >= r[0] && p[0] <= r[1]) || (p[1] >= r[0] && p[1] <= r[1])) {
+        r[0] = Math.min(r[0], p[0]);
+        r[1] = Math.max(r[1], p[1]);
+        merged = true;
+        anymerged = true;
+        break;
+      }
+    }
+    if (!merged) {
+      result.push(p);
+    }
+  }
+  if (anymerged) {
+    return coalescePositions(result);
+  }
+  return result;
+}
+
+function sortPositions(positions) {
+  positions.sort((a, b) => a[0] - b[0]);
+  return positions;
+}
+
+function normalizePositions(positions) {
+  let result = [];
+  for (let p of positions) {
+    result.push([p[0], p[0] + p[1]]);
+  }
+  return sortPositions(coalescePositions(result));
+}
+
 export default (props) => {
   const childrenRef = useRef();
   const searchRef = useRef();
@@ -183,21 +232,15 @@ export default (props) => {
       let title = current.title;
       let text = current.content;
 
-      // TODO add all positions
-      let firstKey = Object.keys(r.matchData.metadata)[0];
-
-      if (r.matchData.metadata[firstKey].title) {
-        let content = r.matchData.metadata[firstKey].title;
-        let positions = [[content.position[0][0], content.position[0][0] + content.position[0][1]]];
-        title = highlight(title, positions);
+      let titlePositions = normalizePositions(extractPositions(r.matchData.metadata, "title"));
+      if (titlePositions.length > 0) {
+        title = highlight(title, titlePositions);
       }
 
       let result;
-      if (r.matchData.metadata[firstKey].content) {
-        let content = r.matchData.metadata[firstKey].content;
-        let positions = [[content.position[0][0], content.position[0][0] + content.position[0][1]]];
-        let [start, end] = excerpt(text, positions, 100)
-        console.log(start, end);
+      let contentPositions = normalizePositions(extractPositions(r.matchData.metadata, "content"));
+      if (contentPositions.length > 0) {
+        let [start, end] = excerpt(text, contentPositions, 100)
 
         let subtext = text.substring(start, end);
         if (start > 0) {
@@ -208,10 +251,12 @@ export default (props) => {
         }
 
         if (start > 0) {
-          positions[0][0] -= start - 4;
-          positions[0][1] -= start - 4;
+          for (let p of contentPositions) {
+            p[0] -= start - 4;
+            p[1] -= start - 4;
+          }
         }
-        result = highlight(subtext, positions);
+        result = highlight(subtext, contentPositions);
       } else {
         let [start, end] = excerpt(text, [[0, Math.min(100, text.length)]], 100);
         result = text.substring(start, end);
