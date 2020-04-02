@@ -2,20 +2,18 @@
 @import "../../css/code";
 
 .docs {
-  line-height: 1.7;
-
   .docs-content {
     .search-panel {
       position: fixed;
       top: 0;
       bottom: 0;
       margin-top: 6.9rem;
-      width: 14rem;
+      width: 17rem;
     }
 
     .docs-content-inner {
       & > div, h1 {
-        margin-left: 16rem;
+        margin-left: 19.5rem;
       }
 
       .toc {
@@ -59,7 +57,6 @@
     }
 
     .toc {
-      font-size: $font-size-small;
       position: fixed;
       top: 0;
       bottom: 0;
@@ -68,7 +65,7 @@
       padding-right: $spacer;
       overflow: auto;
 
-      max-width: 14rem;
+      max-width: 17rem;
 
       #toctitle {
         display: none;
