@@ -7,6 +7,98 @@ export const meta = {
 
 ## Get started with Vert.x
 
-TODO
+In this guide you'll learn how to get started with a new Vert.x project.
 
-test (Julien)
+Before starting, you need:
+
+* A JDK 1.8 or higher
+* A text editor or IDE
+* Maven
+
+### Step 1: Bootstrap
+
+To create a new project, go to [start.vertx.io](start.vertx.io).
+
+![Fancy starter image][]
+
+Choose the version of Vert.x you want to use, choose Java as language and Maven as build tool.
+Type the group id and artifact id you want, then hit the "Generate project" button.
+Save the zip on your computer and unzip it in a folder of your choice.
+
+The generated project contains:
+
+* The Maven build descriptor `pom.xml` configured to build and run your application
+* A sample Verticle and a sample test using JUnit 5
+* Editor configuration to enforce code style
+* Git configuration to ignore files
+
+### Step 2: Code
+
+Open the project in the editor of your choice and navigate to `src/main/java/com/example/starter/MainVerticle.java`.
+This source file contains a sample `Verticle` that starts an HTTP server.
+You're going to modify it to greet who performs requests to your server.
+Change the code with the following:
+
+```java
+public class MainVerticle extends AbstractVerticle {
+
+  @Override
+  public void start(Promise<Void> startPromise) throws Exception {
+    vertx.createHttpServer()
+      // Handle every request with this handler
+      .requestHandler(req -> {
+        // Get the address of the request
+        String address = req.connection().remoteAddress().toString();
+        // Get the query parameter "name"
+        String name = req.params().contains("name") ? req.params().get("name") : "unknown";
+        // Write the response
+        req.response()
+          // Add content-type header to the response
+          .putHeader("content-type", "text/plain")
+          // Write the response body
+          .end("Hello " + name + " connected from " + address);
+      })
+      // Start listening
+      .listen(8888)
+      // Print the port
+      .onSuccess(server ->
+        System.out.println("HTTP server started on port " + server.actualPort())
+      )
+      // Complete the start method
+      .<Void>mapEmpty().onComplete(startPromise);
+  }
+}
+```
+
+The following code starts an HTTP Server on port `8888` and, on each request, prints the address of the request
+and the query parameter `name`.
+
+### Step 3: Run
+
+To run the code, open the terminal and type on your project folder `mvn package` to build the application and `mvn exec:java` to run it:
+
+```shell
+% mvn package
+...
+% mvn exec:java
+HTTP server started on port 8888
+apr 03, 2020 11:49:21 AM io.vertx.core.impl.launcher.commands.VertxIsolatedDeployer
+INFO: Succeeded in deploying verticle
+```
+
+Now the server is up and running, try to send a request using `curl`:
+
+```shell
+% curl http://localhost:8888
+Hello unknown connected from 0:0:0:0:0:0:0:1:37364
+% curl http://localhost:8888\?name\="Francesco"
+Hello Francesco connected from 0:0:0:0:0:0:0:1:37372
+```
+
+### Step 4: Go further
+
+Deep dive through the documentation to check out all Vert.x modules: [Documentation](https://vertx-web-site.github.io/docs/)
+
+Check out the Vert.x ecosystem: [Vert.x Ecosystem](example.com)
+
+Check out the Vert.x how-to to get pragmatic guides for specific topics: [Vert.x How-to home](https://how-to.vertx.io/)

@@ -1,4 +1,5 @@
 .gradle/
+.idea/
 .next/
 docs/extracted/
 node_modules/
