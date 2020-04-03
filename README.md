@@ -49,3 +49,14 @@ Alternatively, build a Docker image that runs the static website inside NGINX
 
     docker build -t vertx-web-site .
     docker run -it -p 80:80 vertx-web-site
+
+## Automated deployment
+
+The website is currently automatically deployed to https://vertx-web-site.github.io/.
+For this, we set up a separate [GitHub repository](https://github.com/vertx-web-site/vertx-web-site.github.io)
+with [GitHub Pages](https://pages.github.com/).
+
+We also created a [GitHub Actions Workflow](https://github.com/vertx-web-site/vertx-web-site/actions).
+This workflow runs each time a new commit is pushed. It builds the website and completely
+replaces the contents of the GitHub Pages repository, which in turn triggers a new
+deployment of the website.
