@@ -1,0 +1,96 @@
+import Layout from "../components/layouts/Page";
+export default Layout;
+
+export const meta = {
+  title: "Eclipse Vert.x | Introduction to Vert.x and Reactive"
+};
+
+<!-- Content
+    Problems it solves
+        Concurrency
+        Scalability
+        Latency as load increases
+    How Vert.x solves them
+        Asynchronous code
+        Decouple latency from thread pools ?
+        Event loops
+    Consequences and benefits
+        Lightweight
+        Resource efficiency
+Is it redundant with vertx-core doc intro ?
+Not as long as Akka page
+What you write is what you run -->
+
+### Eclipse Vert.x and reactive in just a few words
+
+Eclipse Vert.x is a tool-kit for building _reactive_ applications on the JVM.
+
+Reactive applications are both _scalable_ as workloads grow, and _resilient_ when failures arise.
+
+A reactive application is _responsive_ as it keeps latency under control by making efficient usage of system resources, and by protecting itself from errors.
+
+**IMAGE HERE of an application with (micro)services talking to each other**
+
+Vert.x is backed by a large ecosystem of reactive modules with just anything you need when writing modern services: a comprehansive web stack, reactive database drivers, messaging, event streams, clustering, metrics, distributed tracing and more.
+
+Vert.x is a toolkit and not a framework that ships with black magic: _what you write is actually what you get to execute_, as simple as that.
+
+So what makes Vert.x a great option for writing your next _cloud-native_ or _[twelve=factor](https://12factor.net/)_ app?
+
+### In the beginning there were threads...
+
+The classic approach to concurrency is to use _threads_.
+
+Multiple threads can live within a single _process_, perform _concurrent_ work, and _share_ the same memory space.
+
+**IMAGE HERE of a process and threads**
+
+Most application and service development frameworks are based on multi-threading.
+
+On the surface the model of having _1 thread per connection_ is reassuring because developers can rely on traditional _imperative style_ code.
+
+This is fine, especially if you forget about those silly mistakes you can make with multi-threading and memory access...
+
+### Multi-threading is "simple" but limited
+
+What happens as the workload grows beyond moderate workloads?
+[(see the C10k problem)](https://en.wikipedia.org/wiki/C10k_problem)
+
+The answer is simple: you start making your operating system kernel _suffer_ because there is too much _context switching_ work with in-flight requests.
+
+**IMAGE HERE with threads being blocked**
+
+Some of your threads will be _blocked_ because they are waiting on I/O operations to complete, some will be _ready_ to handle I/O results, and some will be in the middle of doing CPU-intensive tasks.
+
+Modern kernels have very good schedulers, but you cannot expect them to deal with 50 000 threads as easily as they would do with 5000.
+
+Also threads aren't cheap: creating a thread takes a few milliseconds, and a new thread eats about 1MB of memory.
+
+### Asynchronous programming: scalability and resource efficiency
+
+Processing more concurrent connections with less threads is possible when you use _asynchronous I/O_.
+
+Instead of blocking a thread when an I/O operation occurs, we move on to another task which is ready to progress, and resume the initial task later when it is ready.
+
+Vert.x multiplexes concurrent workloads using _event-loops_.
+
+**IMAGE HERE with an event loop**
+
+Code that runs on event-loops shall not perform blocking I/O or lengthy processing but don't worry if you have such code: Vert.x has worker threads and APIs to process events back on an event-loop.
+
+### Pick the best asynchronous programming model for your problem domain
+
+We know that asynchronous programming requires more efforts.
+At the core of Vert.x we support _callbacks_ and _promises / futures_, the later being a simple and elegant model for chaining asynchronous operations.
+
+Advanced reactive programming is possible with [RxJava](https://github.com/ReactiveX/RxJava), and if you prefer something closer to traditional imperative programming then we are happy to provide you with first-class support of [Kotlin coroutines](https://kotlinlang.org/docs/reference/coroutines-overview.html).
+
+**IMAGE HERE (or not?)**
+
+Vert.x supports many asynchronous programming models: choose what works best for each problem you need to solve!
+
+
+
+
+
+
