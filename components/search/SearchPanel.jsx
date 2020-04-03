@@ -373,7 +373,7 @@ export default React.forwardRef(({ children, onHasResults }, ref) => {
         <SearchBox onChange={onSearch} onSubmit={onSubmit}
           onNext={onNextSearchResult} onPrev={onPrevSearchResult} />
         <SearchResults results={searchResults} activeId={activeResultId}
-          onHover={onResultHover} />
+          onHover={onResultHover} onClick={(id) => pushRouter(id)} />
       </div>
       <div ref={childrenRef}>
         {children}
