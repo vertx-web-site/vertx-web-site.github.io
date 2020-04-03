@@ -161,6 +161,8 @@ export default React.forwardRef(({ children, onHasResults }, ref) => {
   const [searchResults, setSearchResults] = useState();
   const [activeResultId, setActiveResultId] = useState();
 
+  // Iterate through all sections on the current page and extract the contents.
+  // Save the contents in the `metadata' ref.
   const ensureMetadata = () => {
     if (metadata.current) {
       return;
@@ -168,8 +170,11 @@ export default React.forwardRef(({ children, onHasResults }, ref) => {
 
     metadata.current = {};
 
+    // find all sections in level 1 to 4
     for (let depth = 1; depth < 4; ++depth) {
       let sects = childrenRef.current.querySelectorAll(".sect" + depth);
+
+      // iterate through all sections and collect contents
       for (let sect of sects) {
         let id;
         let title;
@@ -179,24 +184,31 @@ export default React.forwardRef(({ children, onHasResults }, ref) => {
           allchildren.push(c);
         }
 
+        // recursively iterate through all children of the section
         while (allchildren.length > 0) {
           let c = allchildren.shift();
           if (c.nodeName.match(/h[1-9]/i)) {
+            // collect section titles
             title = c.textContent;
             id = c.id;
           } else if (c.className === "sectionbody") {
+            // iterate through all children too
             for (let bodyc of c.children) {
               allchildren.push(bodyc);
             }
           } else if (c.className === "paragraph" || c.className === "ulist") {
+            // collect section contents
             content.push(c.textContent);
           } else if (c.className && c.className.indexOf("admonitionblock") >= 0) {
+            // also collect contents of adminition blocks
             let abc = c.querySelector(".content");
             if (abc) {
               content.push(abc.textContent);
             }
           }
         }
+
+        // save collected information in metadata object
         if (id && title && content.length > 0) {
           metadata.current[id] = {
             id,
@@ -208,6 +220,7 @@ export default React.forwardRef(({ children, onHasResults }, ref) => {
     }
   };
 
+  // use the metadata collected in `ensureMetadata' and create a Lunr index
   const ensureIndex = () => {
     if (index.current) {
       return;
@@ -227,6 +240,7 @@ export default React.forwardRef(({ children, onHasResults }, ref) => {
     });
   };
 
+  // set the current search results
   const doSetSearchResults = (results) => {
     setSearchResults(results);
 
@@ -241,14 +255,17 @@ export default React.forwardRef(({ children, onHasResults }, ref) => {
     }
   };
 
+  // perform a search
   const onSearch = (value) => {
     if (!value) {
       doSetSearchResults(undefined);
       return;
     }
 
+    // make sure the index is ready
     ensureIndex();
 
+    // query the index
     let matches;
     try {
       matches = index.current.search(value).sort((a, b) => b.score - a.score);
@@ -256,6 +273,8 @@ export default React.forwardRef(({ children, onHasResults }, ref) => {
       matches = [];
     }
 
+    // iterate through all results from the index and convert them to
+    // results we can display
     let results = [];
     for (let r of matches.slice(0, 10)) {
       let ref = r.ref;
@@ -264,14 +283,18 @@ export default React.forwardRef(({ children, onHasResults }, ref) => {
       let title = current.title;
       let text = current.content;
 
+      // highlight matched token in the title
       let titlePositions = normalizePositions(extractPositions(r.matchData.metadata, "title"));
       if (titlePositions.length > 0) {
         title = highlight(title, titlePositions);
       }
 
+      // create an excerpt from the matched section contents and highlight
+      // matched tokens
       let result;
       let contentPositions = normalizePositions(extractPositions(r.matchData.metadata, "content"));
       if (contentPositions.length > 0) {
+        // create excerpt
         let [start, end] = excerpt(text, contentPositions, MAX_EXCERPT_LENGTH)
 
         let subtext = text.substring(start, end);
@@ -282,6 +305,7 @@ export default React.forwardRef(({ children, onHasResults }, ref) => {
           subtext += " ...";
         }
 
+        // highlight matched tokens
         if (start > 0) {
           for (let p of contentPositions) {
             p[0] -= start - 4;
@@ -290,6 +314,7 @@ export default React.forwardRef(({ children, onHasResults }, ref) => {
         }
         result = highlight(subtext, contentPositions);
       } else {
+        // There were no matches in the contents. Just create the excerpt.
         let positions = [[0, Math.min(MAX_EXCERPT_LENGTH, text.length)]];
         let [start, end] = excerpt(text, positions, MAX_EXCERPT_LENGTH);
         result = text.substring(start, end);
@@ -309,12 +334,14 @@ export default React.forwardRef(({ children, onHasResults }, ref) => {
     setActiveResultId(id);
   };
 
+  // Go to currently selected search result
   const onSubmit = () => {
     if (typeof activeResultId !== "undefined") {
       pushRouter(activeResultId);
     }
   };
 
+  // Select next search result in the list
   const onNextSearchResult = () => {
     if (!searchResults || !activeResultId) {
       return;
@@ -327,6 +354,7 @@ export default React.forwardRef(({ children, onHasResults }, ref) => {
     setActiveResultId(searchResults[i].id);
   };
 
+  // Select previous search result in the list
   const onPrevSearchResult = () => {
     if (!searchResults || !activeResultId) {
       return;
@@ -343,7 +371,7 @@ export default React.forwardRef(({ children, onHasResults }, ref) => {
     <>
       <div className="search-panel" ref={ref}>
         <SearchBox onChange={onSearch} onSubmit={onSubmit}
-        onNext={onNextSearchResult} onPrev={onPrevSearchResult} />
+          onNext={onNextSearchResult} onPrev={onPrevSearchResult} />
         <SearchResults results={searchResults} activeId={activeResultId}
           onHover={onResultHover} />
       </div>
