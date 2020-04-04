@@ -64,6 +64,5 @@ export default () => (
         <Mail className="feather" /> Contact us!
       </Button></a>
     </div>
-    <hr />
   </div>
 );

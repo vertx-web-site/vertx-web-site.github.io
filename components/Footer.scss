@@ -1,3 +1,55 @@
+@import "../css/variables";
+
 footer {
-  margin-top: 16em;
+  font-size: $font-size-small;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  background-color: $gray-100;
+  border-top: 1px solid $gray-300;
+  margin-top: 1rem;
+  color: $gray-600;
+
+  h5 {
+    font-size: 1rem;
+    margin-top: 0;
+    margin-bottom: 1rem;
+    color: $gray-800;
+    text-transform: uppercase;
+  }
+
+  ul {
+    padding: 0;
+    list-style: none;
+    line-height: 2;
+  }
+
+  a {
+    color: $gray-600;
+  }
+
+  .footer-nav-section {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 6rem;
+
+    .footer-nav-list {
+      width: 20%;
+    }
+  }
+
+  .footer-logo {
+    margin-top: .4rem;
+
+    img {
+      width: 7.6rem;
+      filter: grayscale(100);
+      opacity: .5;
+      transition: all $button-transition-time $button-transition-ease;
+
+      &:hover {
+        filter: grayscale(0);
+        opacity: 1;
+      }
+    }
+  }
 }
