@@ -40,8 +40,8 @@ const LOGOS = [{
 const DUMMY_IMAGE_HEIGHT = "300";
 
 const LOGO_ELEMENTS = LOGOS.map(logo => (
-  <a href={logo.url} target="_blank">
-    <img key={logo.src} height={DUMMY_IMAGE_HEIGHT} className="logos-logo" src={logo.logo} />
+  <a key={logo.src} href={logo.url} target="_blank">
+    <img height={DUMMY_IMAGE_HEIGHT} className="logos-logo" src={logo.logo} />
   </a>
 ));
 
