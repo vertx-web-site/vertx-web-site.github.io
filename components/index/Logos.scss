@@ -1,0 +1,83 @@
+@import "../../css/variables";
+
+@keyframes logos-row-slide {
+  from {
+    transform: translateX(0%);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.logos {
+  position: relative;
+  white-space: nowrap;
+  max-width: 100%;
+  overflow-x: hidden;
+  margin-top: 5rem;
+
+  h3 {
+    text-align: center;
+    margin-top: 3rem;
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid $gray-300;
+  }
+
+  .logos-contact-us {
+    text-align: center;
+    margin-top: 2rem;
+    margin-bottom: 4rem;
+
+    .button {
+      margin-left: .75rem;
+      line-height: 1.25rem;
+      padding-top: $spacer / 1.65;
+    }
+  }
+
+  .logos-row-divider {
+    height: 0;
+  }
+
+  .logos-row {
+    display: inline-block;
+    height: 2rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    white-space: nowrap;
+    animation: logos-row-slide 80s infinite linear;
+    will-change: transform;
+  }
+
+  .logos-row-divider + .logos-row {
+    animation: logos-row-slide 100s infinite linear;
+  }
+
+  .logos-row-half {
+    height: 100%;
+    display: inline-block;
+  }
+
+  .logos-logo {
+    object-fit: contain;
+    max-width: 11rem;
+    max-height: 100%;
+    margin: 0 2.5rem;
+    filter: grayscale(100);
+    opacity: .75;
+    transition: all $button-transition-time $button-transition-ease;
+
+    svg {
+      height: 100px;
+    }
+
+    &:hover {
+      filter: grayscale(0);
+      opacity: 1;
+    }
+  }
+}

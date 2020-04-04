@@ -1,6 +1,7 @@
 import Header from "../Header";
 import Hero from "../hero/Hero";
 import Footer from "../Footer";
+import Logos from "../index/Logos";
 
 const Layout = props => (
   <main>
@@ -9,6 +10,7 @@ const Layout = props => (
     <div className="container">
       {props.children}
     </div>
+    <Logos />
     <Footer />
   </main>
 );
