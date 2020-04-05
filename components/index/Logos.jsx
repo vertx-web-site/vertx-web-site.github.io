@@ -59,7 +59,7 @@ export default () => (
       <div className="logos-row-half">{LOGO_ELEMENTS}</div>
     </div>
     <div className="logos-contact-us">
-      Want to be listed here?
+      <span className="logos-contact-us-question">Want to be listed here?</span>
       <a href="mailto:vertx-enquiries@googlegroups.com"><Button primary>
         <Mail className="feather" /> Contact us!
       </Button></a>

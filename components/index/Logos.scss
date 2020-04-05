@@ -20,6 +20,13 @@
   h3 {
     text-align: center;
     margin-top: 3rem;
+
+    @media (max-width: $sm) {
+      max-width: 55%;
+      white-space: normal;
+      margin-left: auto;
+      margin-right: auto;
+    }
   }
 
   hr {
@@ -36,6 +43,17 @@
       margin-left: .75rem;
       line-height: 1.25rem;
       padding-top: $spacer / 1.65;
+    }
+
+    @media (max-width: $sm) {
+      .logos-contact-us-question {
+        display: block;
+        margin: 0 0 1rem 0;
+      }
+
+      .button {
+        margin: 0;
+      }
     }
   }
 
