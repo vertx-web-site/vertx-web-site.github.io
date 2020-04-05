@@ -106,11 +106,7 @@ footer {
         ul {
           overflow-y: hidden;
           max-height: 0;
-          transition: max-height 300ms ease-in-out;
-
-          &.visible {
-            max-height: 100vh;
-          }
+          transition: max-height 200ms ease-in-out;
         }
       }
 

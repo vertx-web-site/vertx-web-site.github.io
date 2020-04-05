@@ -1,11 +1,27 @@
 import classNames from "classnames";
 import "./Footer.scss";
 import Link from "next/link";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 export default () => {
-  const [listVisible1, setListVisible1] = useState(false);
-  const [listVisible2, setListVisible2] = useState(false);
+  const listRef = [useRef(), useRef()];
+  const listMaxHeight = [useState(undefined), useState(undefined)];
+  const listVisible = [useState(false), useState(false)];
+
+  const onClick = (i) => {
+    let height = 0;
+    for (let c of listRef[i].current.children) {
+      height += c.offsetHeight;
+    }
+
+    if (listVisible[i][0]) {
+      listVisible[i][1](false);
+      listMaxHeight[i][1](undefined);
+    } else {
+      listVisible[i][1](true);
+      listMaxHeight[i][1](height);
+    }
+  };
 
   return (
     <footer>
@@ -17,8 +33,9 @@ export default () => {
             </Link>
           </div>
           <div className="footer-nav-list">
-            <h5 onClick={() => setListVisible1(!listVisible1)}>Eclipse Vert.x</h5>
-            <ul className={classNames({ visible: listVisible1 })}>
+            <h5 onClick={() => onClick(0)}>Eclipse Vert.x</h5>
+            <ul ref={listRef[0]} style={{ maxHeight: listMaxHeight[0][0] }}
+                className={classNames({ visible: listVisible[0][0] })}>
               <li><Link href="/"><a>Ecosystem</a></Link></li>
               <li><Link href="/docs/"><a>Docs</a></Link></li>
               <li><Link href="/"><a>FAQ</a></Link></li>
@@ -27,10 +44,11 @@ export default () => {
             </ul>
           </div>
           <div className="footer-nav-list">
-            <h5 onClick={() => setListVisible2(!listVisible2)}>Eclipse</h5>
-            <ul className={classNames({ visible: listVisible2 })}>
+            <h5 onClick={() => onClick(1)}>Eclipse</h5>
+            <ul ref={listRef[1]} style={{ maxHeight: listMaxHeight[1][0] }}
+                className={classNames({ visible: listVisible[1][0] })}>
               <li><a href="https://www.eclipse.org/">Eclipse Foundation</a></li>
-              <li><a href="https://eclipse.org/legal/privacy.php">Docs</a></li>
+              <li><a href="https://eclipse.org/legal/privacy.php">Privacy Policy</a></li>
               <li><a href="https://www.eclipse.org/legal/termsofuse.php">Terms of Use</a></li>
               <li><a href="https://www.eclipse.org/legal/copyright.php">Copyright Agent</a></li>
               <li><a href="https://www.eclipse.org/legal/">Legal Resources</a></li>

@@ -70,7 +70,7 @@
 
       @media (max-width: $lg) {
         max-height: 0;
-        transition: max-height 200ms linear;
+        transition: max-height 200ms ease-in-out;
         box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.1);
 
         flex-direction: column;
@@ -81,10 +81,6 @@
         background-color: $gray-100;
         overflow-x: auto;
         overflow-y: hidden;
-
-        &.collapse {
-          max-height: 100vh;
-        }
       }
     }
 

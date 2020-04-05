@@ -1,14 +1,31 @@
 import classNames from "classnames";
 import Link from "next/link";
 import "./NavBar.scss";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 import Gitter from "@icons-pack/react-simple-icons/lib/Gitter";
 import Stackoverflow from "@icons-pack/react-simple-icons/lib/Stackoverflow";
 import Youtube from "@icons-pack/react-simple-icons/lib/Youtube";
 
 export default () => {
+  const refRight = useRef();
   const [collapse, setCollapse] = useState(false);
+  const [rightMaxHeight, setRightMaxHeight] = useState(undefined);
+
+  const onClick = () => {
+    let height = 0;
+    for (let c of refRight.current.children) {
+      height += c.offsetHeight;
+    }
+
+    if (collapse) {
+      setCollapse(false);
+      setRightMaxHeight(undefined);
+    } else {
+      setCollapse(true);
+      setRightMaxHeight(height);
+    }
+  };
 
   return (
     <div className="navbar">
@@ -19,13 +36,14 @@ export default () => {
           </Link>
         </div>
 
-        <div className="navbar-collapse-button" onClick={() => setCollapse(!collapse)}>
+        <div className="navbar-collapse-button" onClick={onClick}>
           <span></span>
           <span></span>
           <span></span>
         </div>
 
-        <div className={classNames("navbar-right", { collapse })}>
+        <div className={classNames("navbar-right", { collapse })}
+            ref={refRight} style={{ maxHeight: rightMaxHeight }}>
           <div className="navbar-menu">
             <Link href="/">
               <a className="navbar-menu-item">Ecosystem</a>
