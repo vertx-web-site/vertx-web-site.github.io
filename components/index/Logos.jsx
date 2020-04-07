@@ -1,6 +1,8 @@
 import "./Logos.scss";
 import Button from "../Button";
 import { Mail } from "react-feather";
+import shuffle from "lodash.shuffle";
+import { useEffect, useRef } from "react";
 
 const LOGOS = [{
   src: "deutsche-boerse-group.svg",
@@ -54,24 +56,57 @@ const LOGO_ELEMENTS = LOGOS.map(logo => (
   </a>
 ));
 
-export default () => (
-  <div className="logos">
-    <hr/>
-    <h3>Who's using Eclipse Vert.x?</h3>
-    <div className="logos-row">
-      <div className="logos-row-half">{LOGO_ELEMENTS}</div>
-      <div className="logos-row-half">{LOGO_ELEMENTS}</div>
+function shuffleChildren(node) {
+  let result = [];
+  for (let c of node.children) {
+    result.push(c);
+  }
+  return shuffle(result);
+}
+
+export default () => {
+  const refRow1a = useRef();
+  const refRow1b = useRef();
+  const refRow2a = useRef();
+  const refRow2b = useRef();
+
+  useEffect(() => {
+    let newChildren1 = shuffleChildren(refRow1a.current);
+    refRow1a.current.innerHTML = "";
+    refRow1b.current.innerHTML = "";
+    for (let c of newChildren1) {
+      refRow1a.current.appendChild(c);
+      refRow1b.current.appendChild(c.cloneNode(true));
+    }
+
+    let newChildren2 = shuffleChildren(refRow2a.current);
+    refRow2a.current.innerHTML = "";
+    refRow2b.current.innerHTML = "";
+    for (let c of newChildren2) {
+      refRow2a.current.appendChild(c);
+      refRow2b.current.appendChild(c.cloneNode(true));
+    }
+  }, []);
+
+  return (
+    <div className="logos">
+      <hr/>
+      <h3>Who's using Eclipse Vert.x?</h3>
+      <div className="logos-row">
+        <div className="logos-row-half" ref={refRow1a}>{LOGO_ELEMENTS}</div>
+        <div className="logos-row-half" ref={refRow1b}>{LOGO_ELEMENTS}</div>
+      </div>
+      <div className="logos-row-divider"></div>
+      <div className="logos-row">
+        <div className="logos-row-half" ref={refRow2a}>{LOGO_ELEMENTS}</div>
+        <div className="logos-row-half" ref={refRow2b}>{LOGO_ELEMENTS}</div>
+      </div>
+      <div className="logos-contact-us">
+        <span className="logos-contact-us-question">Want to be listed here?</span>
+        <a href="mailto:vertx-enquiries@googlegroups.com"><Button primary>
+          <Mail className="feather" /> Contact us!
+        </Button></a>
+      </div>
     </div>
-    <div className="logos-row-divider"></div>
-    <div className="logos-row">
-      <div className="logos-row-half">{LOGO_ELEMENTS}</div>
-      <div className="logos-row-half">{LOGO_ELEMENTS}</div>
-    </div>
-    <div className="logos-contact-us">
-      <span className="logos-contact-us-question">Want to be listed here?</span>
-      <a href="mailto:vertx-enquiries@googlegroups.com"><Button primary>
-        <Mail className="feather" /> Contact us!
-      </Button></a>
-    </div>
-  </div>
-);
+  );
+};
