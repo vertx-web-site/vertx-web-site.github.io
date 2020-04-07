@@ -68,7 +68,10 @@
     margin-bottom: 2rem;
     white-space: nowrap;
     animation: logos-row-slide 80s infinite linear;
+
+    // try to achieve smooth animation
     will-change: transform;
+    backface-visibility: hidden;
   }
 
   .logos-row-divider + .logos-row {
