@@ -6,6 +6,9 @@ const LOGOS = [{
   src: "deutsche-boerse-group.svg",
   url: "https://deutsche-boerse.com/dbg-en/"
 }, {
+  src: "education-first.svg",
+  url: "https://www.ef.edu/"
+}, {
   src: "fraunhofer.svg",
   url: "https://www.fraunhofer.de/"
 }, {
@@ -14,6 +17,9 @@ const LOGOS = [{
 }, {
   src: "hulu.svg",
   url: "https://www.hulu.com/"
+}, {
+  src: "instana.svg",
+  url: "https://www.instana.com/"
 }, {
   src: "rbs.svg",
   url: "https://www.rbs.com/"
@@ -24,14 +30,17 @@ const LOGOS = [{
   src: "swiss-post.svg",
   url: "https://www.post.ch/"
 }, {
+  src: "taringa.svg",
+  url: "https://www.taringa.net/"
+}, {
+  src: "tesco.svg",
+  url: "http://www.tesco.com/"
+}, {
   src: "ticketmaster.svg",
   url: "https://www.ticketmaster.com/"
 }, {
   src: "zalando.svg",
   url: "https://tech.zalando.com/"
-}, {
-  src: "tesco.svg",
-  url: "http://www.tesco.com/"
 }].map(logo => Object.assign({ logo: require(`../../assets/logos/${logo.src}`) }, logo));
 
 // Each logo should have a dummy height so the browser correctly calculates
