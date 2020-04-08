@@ -5,42 +5,55 @@ import shuffle from "lodash.shuffle";
 import { useEffect, useRef } from "react";
 
 const LOGOS = [{
+  name: "Deutsche Börse Group",
   src: "deutsche-boerse-group.svg",
   url: "https://deutsche-boerse.com/dbg-en/"
 }, {
+  name: "EF Education First",
   src: "education-first.svg",
   url: "https://www.ef.edu/"
 }, {
+  name: "Fraunhofer",
   src: "fraunhofer.svg",
   url: "https://www.fraunhofer.de/"
 }, {
+  name: "Groupon",
   src: "groupon.svg",
   url: "https://www.groupon.com/"
 }, {
+  name: "Hulu",
   src: "hulu.svg",
   url: "https://www.hulu.com/"
 }, {
+  name: "Instana",
   src: "instana.svg",
   url: "https://www.instana.com/"
 }, {
+  name: "RBS",
   src: "rbs.svg",
   url: "https://www.rbs.com/"
 }, {
+  name: "Red Hat",
   src: "redhat.svg",
   url: "https://www.redhat.com/"
 }, {
+  name: "Swiss Post",
   src: "swiss-post.svg",
   url: "https://www.post.ch/"
 }, {
+  name: "Taringa!",
   src: "taringa.svg",
   url: "https://www.taringa.net/"
 }, {
+  name: "Tesco",
   src: "tesco.svg",
   url: "http://www.tesco.com/"
 }, {
+  name: "Ticketmaster",
   src: "ticketmaster.svg",
   url: "https://www.ticketmaster.com/"
 }, {
+  name: "Zalando Tech",
   src: "zalando.svg",
   url: "https://tech.zalando.com/"
 }].map(logo => Object.assign({ logo: require(`../../assets/logos/${logo.src}`) }, logo));
@@ -51,8 +64,8 @@ const LOGOS = [{
 const DUMMY_IMAGE_HEIGHT = "300";
 
 const LOGO_ELEMENTS = LOGOS.map(logo => (
-  <a key={logo.src} href={logo.url} target="_blank">
-    <img height={DUMMY_IMAGE_HEIGHT} className="logos-logo" src={logo.logo} />
+  <a key={logo.src} href={logo.url} target="_blank" rel="noopener">
+    <img height={DUMMY_IMAGE_HEIGHT} className="logos-logo" src={logo.logo} alt={logo.name} />
   </a>
 ));
 

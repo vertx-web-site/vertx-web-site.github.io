@@ -29,7 +29,7 @@ export default () => {
         <div className="footer-nav-section">
           <div className="footer-nav-list footer-logo">
             <Link href="/">
-              <a><img src={require("../assets/logo.svg")} /></a>
+              <a><img src={require("../assets/logo.svg")} alt="Vert.x Logo" /></a>
             </Link>
           </div>
           <div className="footer-nav-list">

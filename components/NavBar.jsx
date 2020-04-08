@@ -32,7 +32,7 @@ export default () => {
       <div className="navbar-content container">
         <div className="navbar-logo">
           <Link href="/">
-            <a><img src={require("../assets/logo.svg")} /></a>
+            <a><img src={require("../assets/logo.svg")} alt="Vert.x Logo" /></a>
           </Link>
         </div>
 
@@ -64,9 +64,9 @@ export default () => {
 
           <div className="navbar-social">
             <span className="navbar-social-version">v4.0.0</span>
-            <a href="https://www.youtube.com/results?search_query=vert.x" className="navbar-social-link"><Youtube /></a>
-            <a href="https://stackoverflow.com/questions/tagged/vert.x" className="navbar-social-link"><Stackoverflow /></a>
-            <a href="https://gitter.im/eclipse-vertx/vertx-users" className="navbar-social-link"><Gitter /></a>
+            <a href="https://www.youtube.com/results?search_query=vert.x" className="navbar-social-link"><Youtube aria-label="YouTube videos related to Vert.x" /></a>
+            <a href="https://stackoverflow.com/questions/tagged/vert.x" className="navbar-social-link"><Stackoverflow aria-label="Stack Overflow questions related to Vert.x" /></a>
+            <a href="https://gitter.im/eclipse-vertx/vertx-users" className="navbar-social-link"><Gitter aria-label="Eclipse Vert.x channel on Gitter" /></a>
           </div>
         </div>
       </div>
