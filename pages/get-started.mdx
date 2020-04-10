@@ -7,13 +7,13 @@ export const meta = {
 
 ## Get started with Vert.x
 
-In this guide you'll learn how to get started with a new Vert.x project.
+In this guide you'll learn how to get started with a new Vert.x Web project.
 
 Before starting, you need:
 
 * A JDK 1.8 or higher
 * A text editor or IDE
-* Maven
+* Maven 3 or higher
 
 ### Step 1: Bootstrap
 
@@ -21,8 +21,9 @@ To create a new project, go to [start.vertx.io](start.vertx.io).
 
 ![Starter screenshot](/images/starter-screenshot.png)
 
-Choose the version of Vert.x you want to use, choose Java as language and Maven as build tool.
-Type the group id and artifact id you want, then hit the **Generate project** button.
+Choose the version of Vert.x you want to use, choose Java as language and Maven as build tool and
+type the group id and artifact id you want. Then add **Vert.x Web** as dependency typing it in the
+Dependencies text box. When you've done, hit the **Generate project** button.
 Save the zip on your computer and unzip it in a folder of your choice.
 
 The generated project contains:
@@ -35,7 +36,7 @@ The generated project contains:
 ### Step 2: Code
 
 Open the project in the editor of your choice and navigate to `src/main/java/com/example/starter/MainVerticle.java`.
-This source file contains a sample `Verticle` that starts an HTTP server.
+This source file contains a sample `Verticle` (the Vert.x deployment unit) that starts an HTTP server.
 You're going to modify it to greet who performs requests to your server.
 Change the code with the following:
 
@@ -43,35 +44,45 @@ Change the code with the following:
 public class MainVerticle extends AbstractVerticle {
 
   @Override
-  public void start(Promise<Void> startPromise) throws Exception {
+  public void start() throws Exception {
+    // Create a Router
+    Router router = Router.router(vertx);
+
+    // Mount the handler for all incoming requests at every path and HTTP method
+    router.route().handler(context -> {
+      // Get the address of the request
+      String address = context.request().connection().remoteAddress().toString();
+      // Get the query parameter "name"
+      MultiMap queryParams = context.queryParams();
+      String name = queryParams.contains("name") ? queryParams.get("name") : "unknown";
+      // Write a json response
+      context.json(
+        new JsonObject()
+          .put("name", name)
+          .put("address", address)
+          .put("message", "Hello " + name + " connected from " + address)
+      );
+    });
+
+    // Create the HTTP server
     vertx.createHttpServer()
-      // Handle every request with this handler
-      .requestHandler(req -> {
-        // Get the address of the request
-        String address = req.connection().remoteAddress().toString();
-        // Get the query parameter "name"
-        String name = req.params().contains("name") ? req.params().get("name") : "unknown";
-        // Write the response
-        req.response()
-          // Add content-type header to the response
-          .putHeader("content-type", "text/plain")
-          // Write the response body
-          .end("Hello " + name + " connected from " + address);
-      })
+      // Handle every request using the router
+      .requestHandler(router)
       // Start listening
       .listen(8888)
       // Print the port
       .onSuccess(server ->
-        System.out.println("HTTP server started on port " + server.actualPort())
-      )
-      // Complete the start method
-      .<Void>mapEmpty().onComplete(startPromise);
+        System.out.println(
+          "HTTP server started on port " + server.actualPort()
+        )
+      );
   }
 }
 ```
 
-The following code starts an HTTP Server on port `8888` and, on each request, prints the address of the request
-and the query parameter `name`.
+The following code creates a Vert.x Web Router (the object used to route HTTP requests to specific request handlers)
+and starts an HTTP Server on port `8888`. On each request it returns a json containing the address of the request, the query parameter `name`
+and a greeting message.
 
 ### Step 3: Run
 
@@ -80,6 +91,7 @@ To run the code, open the terminal and type on your project folder `mvn package`
 ```shell
 % mvn package
 ...
+
 % mvn exec:java
 HTTP server started on port 8888
 apr 03, 2020 11:49:21 AM io.vertx.core.impl.launcher.commands.VertxIsolatedDeployer
@@ -90,9 +102,10 @@ Now the server is up and running, try to send a request using `curl`:
 
 ```shell
 % curl http://localhost:8888
-Hello unknown connected from 0:0:0:0:0:0:0:1:37364
+{"name":"unknown","address":"0:0:0:0:0:0:0:1:60456","message":"Hello unknown connected from 0:0:0:0:0:0:0:1:60456"}
+
 % curl http://localhost:8888\?name\="Francesco"
-Hello Francesco connected from 0:0:0:0:0:0:0:1:37372
+{"name":"Francesco","address":"0:0:0:0:0:0:0:1:60460","message":"Hello Francesco connected from 0:0:0:0:0:0:0:1:60460"}
 ```
 
 ### Step 4: Go further
