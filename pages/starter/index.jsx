@@ -7,8 +7,10 @@ export default () => {
 
   return (
       <Layout meta={{title: "Vert.x | Starter"}}>
-        <h2>Create a new Vert.x application</h2>
-        <StarterForm/>
+        <React.Fragment>
+          <h2>Create a new Vert.x application</h2>
+          <StarterForm/>
+        </React.Fragment>
       </Layout>
   );
 };
