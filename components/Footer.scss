@@ -3,7 +3,7 @@
 footer {
   font-size: $font-size-small;
   padding-top: 3rem;
-  padding-bottom: 3rem;
+  padding-bottom: 4rem;
   background-color: $gray-100;
   border-top: 1px solid $gray-300;
   margin-top: 1rem;
@@ -27,6 +27,17 @@ footer {
     color: $gray-600;
   }
 
+  .footer-logo img, .footer-copyright-eclipse-logo img {
+    filter: grayscale(100);
+    opacity: .5;
+    transition: all $button-transition-time $button-transition-ease;
+
+    &:hover {
+      filter: grayscale(0);
+      opacity: 1;
+    }
+  }
+
   .footer-nav-section {
     display: flex;
     flex-direction: row;
@@ -37,19 +48,39 @@ footer {
 
       img {
         width: 7.6rem;
-        filter: grayscale(100);
-        opacity: .5;
-        transition: all $button-transition-time $button-transition-ease;
-
-        &:hover {
-          filter: grayscale(0);
-          opacity: 1;
-        }
       }
     }
 
     .footer-nav-list {
       width: 20%;
+    }
+  }
+
+  .footer-copyright {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    a {
+      white-space: nowrap;
+    }
+
+    .footer-copyright-eclipse-logo {
+      width: 17%;
+      margin-bottom: .5rem;
+    }
+  }
+
+  @media (max-width: $xl) {
+    .footer-copyright {
+      .footer-copyright-break {
+        display: none;
+      }
+
+      .footer-copyright-eclipse-logo {
+        width: 30%;
+      }
     }
   }
 
@@ -60,11 +91,14 @@ footer {
       }
     }
 
-    .footer-remarks {
-      max-width: 80%;
-      text-align: center;
-      margin-left: auto;
-      margin-right: auto;
+    .footer-copyright {
+      .footer-copyright-break {
+        display: inline-block;
+      }
+
+      .footer-copyright-eclipse-logo {
+        width: 40%;
+      }
     }
   }
 
@@ -113,6 +147,20 @@ footer {
       .footer-logo {
         margin: 0 auto 3rem auto;
         width: auto;
+      }
+    }
+
+    .footer-copyright {
+      max-width: 80%;
+      text-align: center;
+      margin-left: auto;
+      margin-right: auto;
+
+      flex-direction: column-reverse;
+
+      .footer-copyright-eclipse-logo {
+        width: 7.6rem;
+        margin-bottom: 1rem;
       }
     }
   }

@@ -48,20 +48,27 @@ export default () => {
             <ul ref={listRef[1]} style={{ maxHeight: listMaxHeight[1][0] }}
                 className={classNames({ visible: listVisible[1][0] })}>
               <li><a href="https://www.eclipse.org/">Eclipse Foundation</a></li>
-              <li><a href="https://eclipse.org/legal/privacy.php">Privacy Policy</a></li>
+              <li><a href="https://www.eclipse.org/legal/privacy.php">Privacy Policy</a></li>
               <li><a href="https://www.eclipse.org/legal/termsofuse.php">Terms of Use</a></li>
               <li><a href="https://www.eclipse.org/legal/copyright.php">Copyright Agent</a></li>
               <li><a href="https://www.eclipse.org/legal/">Legal Resources</a></li>
             </ul>
           </div>
         </div>
-        <p className="footer-remarks">
-          &copy; {new Date().getFullYear()} TODO Copyright holders<br/>
-          Eclipse Vert.x is open source and dual-licensed under
-          the <a href="https://creativecommons.org/licenses/by-sa/3.0/">Eclipse Public License 2.0</a> and
-          the <a href="https://www.apache.org/licenses/LICENSE-2.0.html">Apache License 2.0</a>.<br/>
-          The website is licensed under the TODO license. Website design by <a href="https://michelkraemer.com">Michel Krämer</a>.
-        </p>
+        <div className="footer-copyright">
+          <div className="footer-copyright-remarks">
+            &copy; {new Date().getFullYear()} Eclipse Vert.x<br/>
+            Eclipse Vert.x is open source and dual-licensed under
+            the <a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="noopener">Eclipse Public License 2.0</a> and
+            the <a href="https://www.apache.org/licenses/LICENSE-2.0.html" target="_blank" rel="noopener">Apache License 2.0</a>. <br className="footer-copyright-break"/>
+            Website design by <a href="https://michelkraemer.com" target="_blank" rel="noopener">Michel Krämer</a>.
+          </div>
+          <div className="footer-copyright-eclipse-logo">
+            <a href="https://www.eclipse.org/" target="_blank" rel="noopener">
+              <img src={require("../assets/eclipse-foundation-logo.svg")} alt="Eclipse foundation Logo" />
+            </a>
+          </div>
+        </div>
       </div>
     </footer>
   );
