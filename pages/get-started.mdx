@@ -22,23 +22,23 @@ To create a new project, go to [start.vertx.io](start.vertx.io).
 
 ![Starter screenshot](/images/starter-screenshot.png)
 
-Choose the version of Vert.x you want to use, choose Java as language and Maven as build tool and
-type the group id and artifact id you want. Then add **Vert.x Web** as dependency typing it in the
-Dependencies text box. When you've done, hit the **Generate project** button.
+Choose the version of Vert.x you want to use, choose Java as the language, Maven as the build tool, and
+type the group id and artifact id you want. Then, add **Vert.x Web** as a dependency by typing it in the
+Dependencies text box. When you're done, hit the **Generate project** button.
 Save the zip on your computer and unzip it in a folder of your choice.
 
 The generated project contains:
 
 * The Maven build descriptor `pom.xml` configured to build and run your application
 * A sample Verticle and a sample test using JUnit 5
-* Editor configuration to enforce code style
-* Git configuration to ignore files
+* An editor configuration to enforce code style
+* A Git configuration to ignore files
 
 ### Step 2: Code
 
 Open the project in the editor of your choice and navigate to `src/main/java/com/example/starter/MainVerticle.java`.
 This source file contains a sample `Verticle` (the Vert.x deployment unit) that starts an HTTP server.
-You're going to modify it to greet who performs requests to your server.
+You're going to modify it to greet whoever performs requests to your server.
 Change the code with the following:
 
 ```java
@@ -81,26 +81,27 @@ public class MainVerticle extends AbstractVerticle {
 }
 ```
 
-The following code creates a Vert.x Web Router (the object used to route HTTP requests to specific request handlers)
-and starts an HTTP Server on port `8888`. On each request it returns a json containing the address of the request, the query parameter `name`
-and a greeting message.
+This code creates a Vert.x Web Router (the object used to route HTTP requests to specific request handlers)
+and starts an HTTP Server on port `8888`. On each request it returns a json containing the address of the request, the query parameter `name` and a greeting message.
 
 ### Step 3: Run
 
-To run the code, open the terminal and type on your project folder `mvn package` to build the application and `mvn exec:java` to run it:
-
+To run the code:
+* Open a terminal
+* Navigate to your project folder
+* Type `mvn package` to build the application
 ```shell
 % mvn package
-...
-
+```
+* Type `mvn exec:java` to run it:
+```
 % mvn exec:java
 HTTP server started on port 8888
 apr 03, 2020 11:49:21 AM io.vertx.core.impl.launcher.commands.VertxIsolatedDeployer
 INFO: Succeeded in deploying verticle
 ```
 
-Now the server is up and running, try to send a request using `http` (or another tool of your choice):
-
+Now that the server is up and running, try to send a request using `http` (or another tool of your choice):
 ```shell
 % http http://localhost:8888
 HTTP/1.1 200 OK
@@ -126,9 +127,7 @@ content-type: application/json; charset=utf-8
 ```
 
 ### Step 4: Go further
-
-Deep dive through the documentation to check out all Vert.x modules: [Documentation](https://vertx-web-site.github.io/docs/)
-
-Check out the Vert.x ecosystem: [Vert.x Ecosystem](example.com)
-
-Check out the Vert.x how-to to get pragmatic guides for specific topics: [Vert.x How-to home](https://how-to.vertx.io/)
+Now that you have had a taste of how easy and fun it is to get started with Vert.x, here are a few pointers to help guide you further into the rabbit hole:
+* Deep dive through the documentation to check out all Vert.x modules: [Documentation](https://vertx-web-site.github.io/docs/)
+* Check out the Vert.x ecosystem: [Vert.x Ecosystem](example.com)
+* Check out the Vert.x how-to to get pragmatic guides for specific topics: [Vert.x How-to home](https://how-to.vertx.io/)
