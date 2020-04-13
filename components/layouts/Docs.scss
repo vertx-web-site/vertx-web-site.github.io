@@ -54,11 +54,93 @@
         &.docs-has-search-results .docs-content-toc {
           display: none;
         }
+
+        @media (max-width: $xl) {
+          flex: 0 0 15rem;
+        }
+
+        @media (max-width: $md) {
+          z-index: 500;
+          position: fixed;
+          top: 0;
+          right: 0;
+          max-width: 100%;
+          padding-top: 6rem;
+          padding-left: $spacer * 2;
+          padding-right: $spacer * 2;
+          background-color: #fff;
+          border-left: 1px solid $gray-300;
+
+          transform: translateX(100%);
+          transition: transform 200ms ease-in-out;
+          will-change: transform;
+
+          &.collapse {
+            transform: translateX(0%);
+          }
+        }
+
+        @media (max-width: $sm) {
+          min-width: 100%;
+          border-left: none;
+        }
+      }
+
+      .docs-content-sidebar-toggle {
+        z-index: 1000;
+        cursor: pointer;
+        display: none;
+        position: fixed;
+        justify-content: center;
+        align-items: center;
+        right: $spacer * 2;
+        bottom: $spacer * 2;
+        color: #fff;
+        background-color: $gray-700;
+        padding: $spacer / 2;
+        border-radius: $border-radius;
+        transition: $button-background-transition;
+
+        .feather-list, .feather-x {
+          display: block;
+        }
+
+        .feather-x {
+          position: absolute;
+          left: 0;
+          top: 0;
+          opacity: 0;
+          transition: opacity $button-transition-time $button-transition-ease;
+        }
+
+        &:hover {
+          background-color: $gray-800;
+        }
+
+        &.collapse {
+          .feather-list {
+            opacity: 0;
+          }
+
+          .feather-x {
+            opacity: 1;
+          }
+        }
+
+        @media (max-width: $md) {
+          display: flex;
+        }
+
+        @media (max-width: $sm) {
+          right: $spacer;
+          bottom: $spacer;
+        }
       }
     }
 
     .docs-content-inner {
       max-width: calc(100% - 19.5rem);
+      overflow: hidden;
 
       h1 {
         padding-top: 0;
@@ -94,6 +176,14 @@
 
       h3, h4 {
         margin-top: $spacer * 3;
+      }
+
+      @media (max-width: $xl) {
+        max-width: calc(100% - 17.5rem);
+      }
+
+      @media (max-width: $md) {
+        max-width: 100%;
       }
     }
 
