@@ -72,6 +72,10 @@
     // try to achieve smooth animation
     will-change: transform;
     backface-visibility: hidden;
+
+    a {
+      margin: 0 2.5rem;
+    }
   }
 
   .logos-row-divider + .logos-row {
@@ -87,7 +91,6 @@
     object-fit: contain;
     max-width: 11rem;
     max-height: 100%;
-    margin: 0 2.5rem;
     filter: grayscale(100);
     opacity: .75;
     transition: all $button-transition-time $button-transition-ease;
