@@ -60,10 +60,12 @@
         }
 
         @media (max-width: $md) {
-          z-index: 500;
+          z-index: 1;
           position: fixed;
           top: 0;
           right: 0;
+          width: 25rem;
+          height: 100vh;
           max-width: 100%;
           padding-top: 6rem;
           padding-left: $spacer * 2;
