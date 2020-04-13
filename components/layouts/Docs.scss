@@ -3,25 +3,66 @@
 
 .docs {
   .docs-content {
-    .search-panel {
-      position: fixed;
-      top: 0;
-      bottom: 0;
-      margin-top: 6.9rem;
-      width: 17rem;
+    .docs-content-wrapper {
+      display: flex;
+      justify-content: space-between;
+
+      aside {
+        flex: 0 0 17rem;
+
+        .docs-content-wrapper-sidebar {
+          position: sticky;
+          top: 7em;
+        }
+
+        .search-panel {
+          margin-top: 1rem;
+          width: 100%;
+
+          .search-results {
+            max-height: calc(100vh - 10rem - 1px);
+          }
+        }
+
+        .docs-content-toc {
+          margin-top: 1rem;
+
+          .toc {
+            overflow-y: auto;
+            max-height: calc(100vh - 10rem - 3px);
+          }
+
+          #toctitle {
+            display: none;
+          }
+
+          ul {
+            margin-top: 0;
+            padding-left: 0;
+            list-style-type: none;
+
+            &.sectlevel2 {
+              display: none;
+            }
+
+            li {
+              padding: $spacer / 3 0;
+            }
+          }
+        }
+
+        &.docs-has-search-results .docs-content-toc {
+          display: none;
+        }
+      }
     }
 
     .docs-content-inner {
-      & > div, h1 {
-        margin-left: 19.5rem;
-      }
-
-      .toc {
-        margin-left: 0;
-      }
+      max-width: calc(100% - 19.5rem);
 
       h1 {
         padding-top: 0;
+        margin-top: 0;
 
         &:after {
           content: "";
@@ -54,40 +95,6 @@
       h3, h4 {
         margin-top: $spacer * 3;
       }
-    }
-
-    .toc {
-      position: fixed;
-      top: 0;
-      bottom: 0;
-      margin-top: 10rem;
-      padding-bottom: $spacer;
-      padding-right: $spacer;
-      overflow: auto;
-
-      max-width: 17rem;
-
-      #toctitle {
-        display: none;
-      }
-
-      ul {
-        margin-top: 0;
-        padding-left: 0;
-        list-style-type: none;
-      
-        &.sectlevel2 {
-          display: none;
-        }
-
-        li {
-          padding: $spacer / 3 0;
-        }
-      }
-    }
-
-    .docs-has-search-results .toc {
-      display: none;
     }
 
     .admonitionblock {

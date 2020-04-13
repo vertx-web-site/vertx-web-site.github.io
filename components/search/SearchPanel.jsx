@@ -154,8 +154,7 @@ function normalizePositions(positions) {
   return sortPositions(coalescePositions(result));
 }
 
-export default React.forwardRef(({ children, onHasResults }, ref) => {
-  const childrenRef = useRef();
+export default ({ contentRef, onHasResults }) => {
   const metadata = useRef();
   const index = useRef();
   const [searchResults, setSearchResults] = useState();
@@ -172,7 +171,7 @@ export default React.forwardRef(({ children, onHasResults }, ref) => {
 
     // find all sections in level 1 to 4
     for (let depth = 1; depth < 4; ++depth) {
-      let sects = childrenRef.current.querySelectorAll(".sect" + depth);
+      let sects = contentRef.current.querySelectorAll(".sect" + depth);
 
       // iterate through all sections and collect contents
       for (let sect of sects) {
@@ -369,15 +368,12 @@ export default React.forwardRef(({ children, onHasResults }, ref) => {
 
   return (
     <>
-      <div className="search-panel" ref={ref}>
+      <div className="search-panel">
         <SearchBox onChange={onSearch} onSubmit={onSubmit}
           onNext={onNextSearchResult} onPrev={onPrevSearchResult} />
         <SearchResults results={searchResults} activeId={activeResultId}
           onHover={onResultHover} onClick={(id) => pushRouter(id)} />
       </div>
-      <div ref={childrenRef}>
-        {children}
-      </div>
     </>
   );
-});
+};

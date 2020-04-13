@@ -1,5 +1,6 @@
 import dynamic from "next/dynamic";
 import Layout from "../../components/layouts/Docs";
+import parse5 from "parse5";
 
 const extractedDocsPath = "docs/extracted";
 
@@ -87,9 +88,30 @@ export async function getStaticProps({ params }) {
   let title = doc.getDocumentTitle();
   let contents = doc.convert();
 
+  // parse generated HTML and extract table of contents
+  let documentFragment = parse5.parseFragment(contents, { sourceCodeLocationInfo: true});
+  let toc = undefined;
+  for (let child of documentFragment.childNodes) {
+    if (child.tagName === "div") {
+      for (let attr of child.attrs) {
+        if (attr.name === "id" && attr.value === "toc") {
+          toc = contents.substring(child.sourceCodeLocation.startOffset,
+              child.sourceCodeLocation.endOffset);
+          contents = contents.substring(0, child.sourceCodeLocation.startOffset) +
+              contents.substring(child.sourceCodeLocation.endOffset);
+          break;
+        }
+      }
+    }
+    if (typeof toc !== "undefined") {
+      break;
+    }
+  }
+
   cache[slug] = {
     props: {
       title,
+      toc,
       contents
     }
   };
@@ -97,6 +119,6 @@ export async function getStaticProps({ params }) {
   return cache[slug];
 }
 
-export default ({ title, contents }) => (
-  <Layout meta={{ title }}><div dangerouslySetInnerHTML={{ __html: contents }} className="docs-content-inner" /></Layout>
+export default ({ title, toc, contents }) => (
+  <Layout meta={{ title }} toc={toc} contents={contents} />
 );
