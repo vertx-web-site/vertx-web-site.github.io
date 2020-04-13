@@ -28,8 +28,14 @@ export default ({ meta, toc, contents }) => {
   };
 
   const disableBodyScrollInternal = () => {
-    disableBodyScroll(searchResultsRef.current);
-    disableBodyScroll(tocRef.current);
+    // Do not disable body scroll if the window has a scrollbar (typically on
+    // Windows). Otherwise, the scrollbar will disappear and the content will
+    // jump to the right.
+    let hasScrollbar = window.innerWidth > document.documentElement.clientWidth;
+    if (!hasScrollbar) {
+      disableBodyScroll(searchResultsRef.current);
+      disableBodyScroll(tocRef.current);
+    }
   };
 
   const onHashChangeStart = (url, initial) => {
