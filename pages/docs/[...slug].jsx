@@ -108,6 +108,8 @@ export async function getStaticProps({ params }) {
     }
   }
 
+  toc = toc || "";
+
   cache[slug] = {
     props: {
       title,
