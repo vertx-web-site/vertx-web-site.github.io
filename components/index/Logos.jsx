@@ -17,6 +17,10 @@ const LOGOS = [{
   src: "fraunhofer.svg",
   url: "https://www.fraunhofer.de/"
 }, {
+  name: "Gentics",
+  src: "gentics.svg",
+  url: "https://www.gentics.com/"
+}, {
   name: "Groupon",
   src: "groupon.svg",
   url: "https://www.groupon.com/"
