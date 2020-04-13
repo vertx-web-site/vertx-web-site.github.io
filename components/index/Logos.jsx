@@ -72,6 +72,8 @@ const LOGO_ELEMENTS = LOGOS.map(logo => (
     <img height={DUMMY_IMAGE_HEIGHT} className="logos-logo" src={logo.logo} alt={logo.name} />
   </a>
 ));
+const LOGO_ELEMENTS1 = LOGO_ELEMENTS.slice(0, LOGO_ELEMENTS.length / 2);
+const LOGO_ELEMENTS2 = LOGO_ELEMENTS.slice(LOGO_ELEMENTS.length / 2);
 
 function shuffleChildren(node) {
   let result = [];
@@ -110,13 +112,13 @@ export default () => {
       <hr/>
       <h3>Who's using Eclipse Vert.x?</h3>
       <div className="logos-row">
-        <div className="logos-row-half" ref={refRow1a}>{LOGO_ELEMENTS}</div>
-        <div className="logos-row-half" ref={refRow1b}>{LOGO_ELEMENTS}</div>
+        <div className="logos-row-half" ref={refRow1a}>{LOGO_ELEMENTS1}</div>
+        <div className="logos-row-half" ref={refRow1b}>{LOGO_ELEMENTS1}</div>
       </div>
       <div className="logos-row-divider"></div>
       <div className="logos-row">
-        <div className="logos-row-half" ref={refRow2a}>{LOGO_ELEMENTS}</div>
-        <div className="logos-row-half" ref={refRow2b}>{LOGO_ELEMENTS}</div>
+        <div className="logos-row-half" ref={refRow2a}>{LOGO_ELEMENTS2}</div>
+        <div className="logos-row-half" ref={refRow2b}>{LOGO_ELEMENTS2}</div>
       </div>
       <div className="logos-contact-us">
         <span className="logos-contact-us-question">Want to be listed here?</span>
