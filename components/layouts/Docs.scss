@@ -26,11 +26,8 @@
 
         .docs-content-toc {
           margin-top: 1rem;
-
-          .toc {
-            overflow-y: auto;
-            max-height: calc(100vh - 10rem - 3px);
-          }
+          overflow-y: auto;
+          max-height: calc(100vh - 10rem - 3px);
 
           #toctitle {
             display: none;
