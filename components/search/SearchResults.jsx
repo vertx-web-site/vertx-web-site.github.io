@@ -3,9 +3,7 @@ import Router from "next/router";
 import { useEffect, useRef } from "react";
 import "./SearchResults.scss";
 
-export default ({ results, activeId, onHover, onClick }) => {
-  let resultsRef = useRef();
-
+export default React.forwardRef(({ results, activeId, onHover, onClick }, ref) => {
   let resultsList = [];
   if (results) {
     results.forEach(r => {
@@ -20,7 +18,7 @@ export default ({ results, activeId, onHover, onClick }) => {
   }
 
   useEffect(() => {
-    let cur = resultsRef.current;
+    let cur = ref.current;
     if (cur) {
       let activeElement = cur.querySelector(".active");
       if (activeElement) {
@@ -35,15 +33,14 @@ export default ({ results, activeId, onHover, onClick }) => {
     }
   }, [activeId]);
 
-  if (!results) {
-    return <></>;
-  } else {
-    return results.length > 0 ? (
-      <ul className="search-results" ref={resultsRef}>
-        {resultsList}
-      </ul>
-    ) : (
-      <div className="search-results-none">No results.</div>
-    );
-  }
-};
+  // Elements must always exist because we hold a ref. Just make them
+  // invisible depending on the current state.
+  return (<>
+    <ul className={classNames("search-results", { visible: results && results.length > 0 })} ref={ref}>
+      {resultsList}
+    </ul>
+    <div className={classNames("search-results-none", { visible: results && results.length === 0 })}>
+      No results.
+    </div>
+  </>);
+});

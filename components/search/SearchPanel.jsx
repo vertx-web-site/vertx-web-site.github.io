@@ -154,7 +154,7 @@ function normalizePositions(positions) {
   return sortPositions(coalescePositions(result));
 }
 
-export default ({ contentRef, onHasResults }) => {
+export default React.forwardRef(({ contentRef, onHasResults }, ref) => {
   const metadata = useRef();
   const index = useRef();
   const [searchResults, setSearchResults] = useState();
@@ -372,8 +372,8 @@ export default ({ contentRef, onHasResults }) => {
         <SearchBox onChange={onSearch} onSubmit={onSubmit}
           onNext={onNextSearchResult} onPrev={onPrevSearchResult} />
         <SearchResults results={searchResults} activeId={activeResultId}
-          onHover={onResultHover} onClick={(id) => pushRouter(id)} />
+          onHover={onResultHover} onClick={(id) => pushRouter(id)} ref={ref} />
       </div>
     </>
   );
-};
+});

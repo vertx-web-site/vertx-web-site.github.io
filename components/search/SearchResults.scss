@@ -5,10 +5,14 @@
   overflow: auto;
   list-style-type: none;
   padding-left: 0;
+  display: none;
+
+  &.visible {
+    display: block;
+  }
 }
 
 .search-results {
-  display: block;
   list-style-type: none;
   padding: 0;
   margin-bottom: 0;
@@ -38,7 +42,6 @@
 }
 
 .search-results-none {
-  display: block;
   padding: $spacer $spacer / 2;
   text-align: center;
   width: 100%;

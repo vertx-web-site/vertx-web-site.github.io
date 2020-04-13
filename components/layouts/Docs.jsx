@@ -11,6 +11,7 @@ import "./Docs.scss";
 
 export default ({ meta, toc, contents }) => {
   const tocRef = useRef();
+  const searchResultsRef = useRef();
   const contentRef = useRef();
   const sidebarRef = useRef();
   const sidebarAutoHideTimer = React.useRef(null);
@@ -21,8 +22,18 @@ export default ({ meta, toc, contents }) => {
     onHashChangeStart(e.newURL);
   };
 
-  const onHashChangeStart = (url, initial) => {
+  const enableBodyScrollInternal = () => {
     enableBodyScroll(tocRef.current);
+    enableBodyScroll(searchResultsRef.current);
+  };
+
+  const disableBodyScrollInternal = () => {
+    disableBodyScroll(searchResultsRef.current);
+    disableBodyScroll(tocRef.current);
+  };
+
+  const onHashChangeStart = (url, initial) => {
+    enableBodyScrollInternal();
     cancelSidebarAutoHideTimer();
     setSidebarCollapse(false);
 
@@ -61,11 +72,11 @@ export default ({ meta, toc, contents }) => {
 
   const onSidebarMouseEnter = () => {
     cancelSidebarAutoHideTimer();
-    disableBodyScroll(tocRef.current);
+    disableBodyScrollInternal();
   };
 
   const onSidebarMouseLeave = () => {
-    enableBodyScroll(tocRef.current);
+    enableBodyScrollInternal();
     startSidebarAutoHideTimer();
   };
 
@@ -79,9 +90,9 @@ export default ({ meta, toc, contents }) => {
 
   const onSidebarToggle = () => {
     if (sidebarCollapse) {
-      enableBodyScroll(tocRef.current);
+      enableBodyScrollInternal();
     } else {
-      disableBodyScroll(tocRef.current);
+      disableBodyScrollInternal();
     }
     cancelSidebarAutoHideTimer();
     setSidebarCollapse(!sidebarCollapse);
@@ -134,7 +145,7 @@ export default ({ meta, toc, contents }) => {
           <div className="docs-content-wrapper">
             <aside className={classNames({ "docs-has-search-results": hasSearchResults, "collapse": sidebarCollapse })}>
               <div className="docs-content-wrapper-sidebar" ref={sidebarRef}>
-                <SearchPanel contentRef={contentRef} onHasResults={setHasSearchResults} />
+                <SearchPanel contentRef={contentRef} onHasResults={setHasSearchResults} ref={searchResultsRef} />
                 <div dangerouslySetInnerHTML={{ __html: toc }} ref={tocRef}
                     className="docs-content-toc" />
               </div>
