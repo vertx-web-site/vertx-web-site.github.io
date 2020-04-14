@@ -61,6 +61,10 @@ const LOGOS = [{
   src: "ticketmaster.svg",
   url: "https://www.ticketmaster.com/"
 }, {
+  name: "USE Together",
+  src: "use-together.svg",
+  url: "https://www.use-together.com/"
+}, {
   name: "Zalando Tech",
   src: "zalando.svg",
   url: "https://tech.zalando.com/"
