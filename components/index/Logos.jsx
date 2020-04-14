@@ -25,6 +25,10 @@ const LOGOS = [{
   src: "groupon.svg",
   url: "https://www.groupon.com/"
 }, {
+  name: "Hose Beijing",
+  src: "hose.svg",
+  url: "https://www.ekuaibao.com/"
+}, {
   name: "Hulu",
   src: "hulu.svg",
   url: "https://www.hulu.com/"
