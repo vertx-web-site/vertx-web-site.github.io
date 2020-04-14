@@ -79,6 +79,9 @@ const LOGO_ELEMENTS = LOGOS.map(logo => (
 const LOGO_ELEMENTS1 = LOGO_ELEMENTS.slice(0, LOGO_ELEMENTS.length / 2);
 const LOGO_ELEMENTS2 = LOGO_ELEMENTS.slice(LOGO_ELEMENTS.length / 2);
 
+const DURATION1 = 450 / LOGO_ELEMENTS1.length;
+const DURATION2 = 800 / LOGO_ELEMENTS2.length;
+
 function shuffleChildren(node) {
   let result = [];
   for (let c of node.children) {
@@ -115,12 +118,12 @@ export default () => {
     <div className="logos">
       <hr/>
       <h3>Who's using Eclipse Vert.x?</h3>
-      <div className="logos-row">
+      <div className="logos-row" style={{ animationDuration: `${DURATION1}s` }}>
         <div className="logos-row-half" ref={refRow1a}>{LOGO_ELEMENTS1}</div>
         <div className="logos-row-half" ref={refRow1b}>{LOGO_ELEMENTS1}</div>
       </div>
       <div className="logos-row-divider"></div>
-      <div className="logos-row">
+      <div className="logos-row" style={{ animationDuration: `${DURATION2}s` }}>
         <div className="logos-row-half" ref={refRow2a}>{LOGO_ELEMENTS2}</div>
         <div className="logos-row-half" ref={refRow2b}>{LOGO_ELEMENTS2}</div>
       </div>
