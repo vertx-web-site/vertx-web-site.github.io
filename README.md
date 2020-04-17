@@ -4,6 +4,12 @@ This repository contains the source of the Vert.x website (https://vertx.io).
 
 ## Quickstart
 
+To build the project, before running `npm install`, be sure to have installed `libsass`. On Fedora:
+
+```
+sudo dnf install libsass libsass-devel
+```
+
 Initialize local copy:
 
     npm i

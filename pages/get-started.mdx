@@ -7,6 +7,133 @@ export const meta = {
 
 ## Get started with Vert.x
 
-TODO
+In this guide you'll learn how to get started with a new Vert.x Web project.
 
-test (Julien)
+Before starting, you need:
+
+* A JDK 1.8 or higher
+* A text editor or IDE
+* Maven 3 or higher
+* curl or HTTPie or a browser to perform HTTP requests
+
+### Step 1: Bootstrap
+
+To create a new project, go to [start.vertx.io](start.vertx.io).
+
+![Starter screenshot](/images/starter-screenshot.png)
+
+Choose the version of Vert.x you want to use, choose Java as the language, Maven as the build tool, and
+type the group id and artifact id you want. Then, add **Vert.x Web** as a dependency by typing it in the
+Dependencies text box. When you're done, hit the **Generate project** button.
+Save the zip on your computer and unzip it in a folder of your choice.
+
+The generated project contains:
+
+* The Maven build descriptor `pom.xml` configured to build and run your application
+* A sample Verticle and a sample test using JUnit 5
+* An editor configuration to enforce code style
+* A Git configuration to ignore files
+
+If you want to try it now, you can download this sample project using
+[_Maven_](http://start.vertx.io/starter.zip?vertxDependencies=vertx-web) or using
+[_Gradle_](http://start.vertx.io/starter.zip?vertxDependencies=vertx-web&buildTool=gradle)
+
+### Step 2: Code
+
+Open the project in the editor of your choice and navigate to `src/main/java/com/example/starter/MainVerticle.java`.
+This source file contains a sample `Verticle` (the Vert.x deployment unit) that starts an HTTP server.
+You're going to modify it to greet whoever performs requests to your server.
+Change the code with the following:
+
+```java
+public class MainVerticle extends AbstractVerticle {
+
+  @Override
+  public void start() throws Exception {
+    // Create a Router
+    Router router = Router.router(vertx);
+
+    // Mount the handler for all incoming requests at every path and HTTP method
+    router.route().handler(context -> {
+      // Get the address of the request
+      String address = context.request().connection().remoteAddress().toString();
+      // Get the query parameter "name"
+      MultiMap queryParams = context.queryParams();
+      String name = queryParams.contains("name") ? queryParams.get("name") : "unknown";
+      // Write a json response
+      context.json(
+        new JsonObject()
+          .put("name", name)
+          .put("address", address)
+          .put("message", "Hello " + name + " connected from " + address)
+      );
+    });
+
+    // Create the HTTP server
+    vertx.createHttpServer()
+      // Handle every request using the router
+      .requestHandler(router)
+      // Start listening
+      .listen(8888)
+      // Print the port
+      .onSuccess(server ->
+        System.out.println(
+          "HTTP server started on port " + server.actualPort()
+        )
+      );
+  }
+}
+```
+
+This code creates a Vert.x Web Router (the object used to route HTTP requests to specific request handlers)
+and starts an HTTP Server on port `8888`. On each request it returns a json containing the address of the request, the query parameter `name` and a greeting message.
+
+### Step 3: Run
+
+To run the code:
+* Open a terminal
+* Navigate to your project folder
+* Type `mvn package` to build the application
+```shell
+% mvn package
+```
+* Type `mvn exec:java` to run it:
+```
+% mvn exec:java
+HTTP server started on port 8888
+apr 03, 2020 11:49:21 AM io.vertx.core.impl.launcher.commands.VertxIsolatedDeployer
+INFO: Succeeded in deploying verticle
+```
+
+Now that the server is up and running, try to send a request using `http` tool (or another tool of your choice):
+
+```shell
+% http http://localhost:8888
+HTTP/1.1 200 OK
+content-length: 115
+content-type: application/json; charset=utf-8
+
+{
+    "address": "0:0:0:0:0:0:0:1:32806",
+    "message": "Hello unknown connected from 0:0:0:0:0:0:0:1:32806",
+    "name": "unknown"
+}
+
+% http http://localhost:8888\?name\="Francesco"
+HTTP/1.1 200 OK
+content-length: 119
+content-type: application/json; charset=utf-8
+
+{
+    "address": "0:0:0:0:0:0:0:1:32822",
+    "message": "Hello Francesco connected from 0:0:0:0:0:0:0:1:32822",
+    "name": "Francesco"
+}
+```
+
+### Step 4: Go further
+
+Now that you have had a taste of how easy and fun it is to get started with Vert.x, here are a few pointers to help guide you further along your journey:
+* Deep dive through the documentation to check out all Vert.x modules: [Documentation](https://vertx-web-site.github.io/docs/)
+* Check out the Vert.x ecosystem: [Vert.x Ecosystem](example.com)
+* Check out the Vert.x how-to to get pragmatic guides for specific topics: [Vert.x How-to home](https://how-to.vertx.io/)
