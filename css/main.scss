@@ -121,3 +121,9 @@ svg {
 code, pre {
   font-family: "Roboto Mono", SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
+
+p code {
+  display: inline-flex;
+  max-width: 100%;
+  overflow: auto;
+}

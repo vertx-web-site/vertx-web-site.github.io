@@ -54,10 +54,14 @@
   .get-started-next-steps {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    grid-column-gap: $spacer;
+    grid-gap: $spacer;
     list-style-type: none;
     padding: 0;
     margin-top: $spacer * 1.5;
+
+    @media (max-width: $md) {
+      grid-template-columns: 1fr;
+    }
 
     a {
       color: $gray-700;
