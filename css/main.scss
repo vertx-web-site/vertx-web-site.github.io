@@ -89,6 +89,12 @@ h6 {
   }
 }
 
+.container-narrow {
+  @media (min-width: $xl) {
+    max-width: $container-lg;
+  }
+}
+
 .img-fluid {
   max-width: 100%;
 }

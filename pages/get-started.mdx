@@ -1,30 +1,35 @@
-import Layout from "../components/layouts/Page";
-export default Layout;
+import Layout from "../components/layouts/GetStarted"
+import Link from "next/link"
+
+export default Layout
 
 export const meta = {
   title: "Vert.x | Get started"
-};
+}
 
-## Get started with Vert.x
+# Get started with Vert.x
 
-In this guide you'll learn how to get started with a new Vert.x Web project.
+In this guide, you'll learn how to get started with a new Vert.x Web project.
 
 Before starting, you need:
 
-* A JDK 1.8 or higher
+* JDK 1.8 or higher
 * A text editor or IDE
 * Maven 3 or higher
-* curl or HTTPie or a browser to perform HTTP requests
+* curl or [HTTPie](https://httpie.org/) or a browser to perform HTTP requests
 
-### Step 1: Bootstrap
+## <span className="get-started-step">1</span> Bootstrap
 
-To create a new project, go to [start.vertx.io](start.vertx.io).
+To create a new project, go to [start.vertx.io](https://start.vertx.io).
 
-![Starter screenshot](/images/starter-screenshot.png)
+<div className="get-started-screenshot">
+  <a href="https://start.vertx.io">
+    <img src={require("../assets/get-started/starter-screenshot.png")} className="img-fluid" />
+  </a>
+</div>
 
 Choose the version of Vert.x you want to use, choose Java as the language, Maven as the build tool, and
-type the group id and artifact id you want. Then, add **Vert.x Web** as a dependency by typing it in the
-Dependencies text box. When you're done, hit the **Generate project** button.
+type the group id and artifact id you want. Then, add **Vert.x Web** as a dependency by typing it in the "Dependencies" text box. When you're done, hit the **Generate Project** button.
 Save the zip on your computer and unzip it in a folder of your choice.
 
 The generated project contains:
@@ -35,19 +40,18 @@ The generated project contains:
 * A Git configuration to ignore files
 
 If you want to try it now, you can download this sample project using
-[_Maven_](http://start.vertx.io/starter.zip?vertxDependencies=vertx-web) or using
-[_Gradle_](http://start.vertx.io/starter.zip?vertxDependencies=vertx-web&buildTool=gradle)
+[Maven](http://start.vertx.io/starter.zip?vertxDependencies=vertx-web) or using
+[Gradle](http://start.vertx.io/starter.zip?vertxDependencies=vertx-web&buildTool=gradle)
 
-### Step 2: Code
+## <span className="get-started-step">2</span> Code
 
 Open the project in the editor of your choice and navigate to `src/main/java/com/example/starter/MainVerticle.java`.
 This source file contains a sample `Verticle` (the Vert.x deployment unit) that starts an HTTP server.
 You're going to modify it to greet whoever performs requests to your server.
-Change the code with the following:
+Change the code as follows:
 
 ```java
 public class MainVerticle extends AbstractVerticle {
-
   @Override
   public void start() throws Exception {
     // Create a Router
@@ -86,19 +90,20 @@ public class MainVerticle extends AbstractVerticle {
 ```
 
 This code creates a Vert.x Web Router (the object used to route HTTP requests to specific request handlers)
-and starts an HTTP Server on port `8888`. On each request it returns a json containing the address of the request, the query parameter `name` and a greeting message.
+and starts an HTTP Server on port `8888`. On each request, it returns a JSON object containing the address of the request, the query parameter `name`, and a greeting message.
 
-### Step 3: Run
+## <span className="get-started-step">3</span> Run
 
-To run the code:
-* Open a terminal
-* Navigate to your project folder
-* Type `mvn package` to build the application
+To run the code, open a terminal and navigate to your project folder.
+Build the application as follows:
+
 ```shell
 % mvn package
 ```
-* Type `mvn exec:java` to run it:
-```
+
+Then, run the application:
+
+```shell
 % mvn exec:java
 HTTP server started on port 8888
 apr 03, 2020 11:49:21 AM io.vertx.core.impl.launcher.commands.VertxIsolatedDeployer
@@ -131,9 +136,21 @@ content-type: application/json; charset=utf-8
 }
 ```
 
-### Step 4: Go further
+## <span className="get-started-step">4</span> Go further
 
 Now that you have had a taste of how easy and fun it is to get started with Vert.x, here are a few pointers to help guide you further along your journey:
-* Deep dive through the documentation to check out all Vert.x modules: [Documentation](https://vertx-web-site.github.io/docs/)
-* Check out the Vert.x ecosystem: [Vert.x Ecosystem](example.com)
-* Check out the Vert.x how-to to get pragmatic guides for specific topics: [Vert.x How-to home](https://how-to.vertx.io/)
+
+<ul className="get-started-next-steps">
+  <Link href="/docs/"><a><li>
+    <h4>Documentation</h4>
+    Deep dive through the documentation to check out all Vert.x modules
+  </li></a></Link>
+  <Link href="/"><a><li>
+    <h4>Ecosystem</h4>
+    Check out the ecosystem of tools, libraries, and frameworks around Vert.x
+  </li></a></Link>
+  <a href="https://how-to.vertx.io/"><li>
+    <h4>How-tos</h4>
+    Check out the Vert.x How-tos to get pragmatic guides for specific topics
+  </li></a>
+</ul>
