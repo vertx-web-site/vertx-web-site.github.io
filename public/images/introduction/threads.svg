@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg xmlns:xl="http://www.w3.org/1999/xlink" xmlns:dc="http://purl.org/dc/elements/1.1/" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="340 249 503 193" width="503" height="193">
+<svg xmlns:xl="http://www.w3.org/1999/xlink" xmlns:dc="http://purl.org/dc/elements/1.1/" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="245 164 503 191" width="503" height="191">
   <defs>
-    <filter id="Shadow" filterUnits="userSpaceOnUse" x="289.7" y="229.7">
+    <filter id="Shadow" filterUnits="userSpaceOnUse" x="194.7" y="144.9">
       <feGaussianBlur in="SourceAlpha" result="blur" stdDeviation="5.232"/>
       <feOffset in="blur" result="offset" dx="0" dy="1"/>
       <feFlood flood-color="black" flood-opacity=".5" result="flood"/>
       <feComposite in="flood" in2="offset" operator="in"/>
     </filter>
-    <font-face font-family="IBM Plex Sans Condensed" font-size="14" panose-1="2 11 5 6 5 2 3 0 2 3" units-per-em="1000" underline-position="-95" underline-thickness="60" slope="0" x-height="516" cap-height="698" ascent="1025.0021" descent="-275.00056" font-weight="400">
+    <font-face font-family="Roboto Condensed" font-size="14" panose-1="2 0 0 0 0 0 0 0 0 0" units-per-em="1000" underline-position="-73.24219" underline-thickness="48.828125" slope="0" x-height="528.3203" cap-height="710.9375" ascent="927.7344" descent="-244.14062" font-weight="400">
       <font-face-src>
-        <font-face-name name="IBMPlexSansCond"/>
+        <font-face-name name="RobotoCondensed-Regular"/>
       </font-face-src>
     </font-face>
     <marker orient="auto" overflow="visible" markerUnits="strokeWidth" id="StickArrow_Marker" stroke-linejoin="miter" stroke-miterlimit="10" viewBox="-1 -3 7 6" markerWidth="7" markerHeight="6" color="#942092">
@@ -23,104 +23,104 @@
         <path d="M 4.8 0 L 0 0 M 0 -1.8 L 4.8 0 L 0 1.8" fill="none" stroke="currentColor" stroke-width="1"/>
       </g>
     </marker>
-    <font-face font-family="IBM Plex Sans Condensed" font-size="12" panose-1="2 11 5 6 5 2 3 0 2 3" units-per-em="1000" underline-position="-95" underline-thickness="60" slope="0" x-height="516" cap-height="698" ascent="1025.0021" descent="-275.00056" font-weight="400">
+    <font-face font-family="Roboto Condensed" font-size="12" panose-1="2 0 0 0 0 0 0 0 0 0" units-per-em="1000" underline-position="-73.24219" underline-thickness="48.828125" slope="0" x-height="528.3203" cap-height="710.9375" ascent="927.7344" descent="-244.14062" font-weight="400">
       <font-face-src>
-        <font-face-name name="IBMPlexSansCond"/>
+        <font-face-name name="RobotoCondensed-Regular"/>
       </font-face-src>
     </font-face>
   </defs>
   <metadata> Produced by OmniGraffle 7.15.1 
-    <dc:date>2020-04-24 12:51:26 +0000</dc:date>
+    <dc:date>2020-04-24 14:24:44 +0000</dc:date>
   </metadata>
   <g id="threads" fill="none" fill-opacity="1" stroke-dasharray="none" stroke-opacity="1" stroke="none">
     <title>threads</title>
     <g id="threads: Layer 1">
       <title>Layer 1</title>
       <g id="Graphic_2_shadow" filter="url(#Shadow)">
-        <rect x="503.5" y="281.125" width="173.5" height="128.5" fill="white"/>
-        <path d="M 502.82005 281.12633 L 678.0777 280.78278 M 677.4137 280.06377 L 677.1822 410.1794 M 677.81354 409.73617 L 503.0394 409.99384 M 503.5328 410.9162 L 503.4998 280.28378 M 502.94486 280.90114 L 677.5374 280.63187 M 677.66215 279.939 L 677.4071 409.6123 M 677.93864 409.67746 L 503.65775 409.9753 M 503.6331 410.7912 L 503.586 281" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        <rect x="408.5" y="195.625" width="173.5" height="128.5" fill="white"/>
+        <path d="M 407.82005 195.62633 L 583.0777 195.28278 M 582.4137 194.56377 L 582.1822 324.67938 M 582.81354 324.23617 L 408.0394 324.49384 M 408.5328 325.4162 L 408.4998 194.78378 M 407.94486 195.40114 L 582.5374 195.13187 M 582.66215 194.43899 L 582.4071 324.11228 M 582.93864 324.17746 L 408.65775 324.4753 M 408.6331 325.2912 L 408.586 195.5" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
       </g>
       <g id="Graphic_3_shadow" filter="url(#Shadow)">
-        <rect x="355.5" y="296.75" width="166" height="37.5" fill="white"/>
-        <path d="M 355.0162 296.74894 L 522.4396 297.1151 M 521.79353 296.486 L 521.1723 334.35487 M 521.47636 333.98298 L 355.6347 334.42285 M 355.944 335.4133 L 355.4889 295.78417 M 355.1413 296.59056 L 521.90835 296.93446 M 521.9946 296.36224 L 521.30495 333.8588 M 521.60166 333.97137 L 356.0578 334.35933 M 356.0371 335.28868 L 355.5734 296.6256" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        <rect x="260.5" y="211.25" width="166" height="37.5" fill="white"/>
+        <path d="M 260.01622 211.24894 L 427.43963 211.6151 M 426.79353 210.986 L 426.1723 248.85487 M 426.47636 248.48298 L 260.63472 248.92285 M 260.944 249.9133 L 260.4889 210.28417 M 260.1413 211.09056 L 426.90835 211.43446 M 426.9946 210.86224 L 426.30495 248.3588 M 426.60166 248.47137 L 261.0578 248.85933 M 261.03708 249.78868 L 260.5734 211.1256" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
       </g>
       <g id="Graphic_4_shadow" filter="url(#Shadow)">
-        <rect x="355.5" y="356.5" width="166" height="37.5" fill="white"/>
-        <path d="M 355.2124 356.4999 L 522.3016 356.56853 M 521.65376 356.03306 L 521.67393 394.65546 M 522.3892 394.35707 L 354.48004 393.97406 M 355.33128 394.28554 L 355.5015 356.15943 M 355.33742 356.2833 L 521.7791 356.36206 M 521.8075 355.90804 L 521.8278 394.2304 M 522.5141 394.26755 L 355.4576 393.86837 M 355.41717 394.16037 L 355.5608 356.3747" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        <rect x="260.5" y="271" width="166" height="37.5" fill="white"/>
+        <path d="M 260.2124 270.99988 L 427.30157 271.06853 M 426.65376 270.53306 L 426.67393 309.15546 M 427.38917 308.85707 L 259.48004 308.47406 M 260.33128 308.78554 L 260.50152 270.65943 M 260.33742 270.7833 L 426.77907 270.86206 M 426.8075 270.40804 L 426.8278 308.73042 M 427.5141 308.76755 L 260.45762 308.36837 M 260.41717 308.66037 L 260.56078 270.8747" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
       </g>
       <g id="Graphic_5_shadow" filter="url(#Shadow)">
-        <rect x="661.5" y="296.75" width="166" height="37.5" fill="white"/>
-        <path d="M 660.65855 296.75115 L 828.1635 296.52198 M 827.529 296.08022 L 827.1599 335.20596 M 827.552 334.22756 L 661.0754 334.02916 M 661.73505 334.4077 L 661.4971 296.28476 M 660.7835 296.6014 L 827.6497 296.28965 M 827.7604 295.95623 L 827.3506 334.10264 M 827.6769 334.18514 L 661.8576 334.0024 M 661.81376 334.283 L 661.5482 296.62548" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        <rect x="566.5" y="211.25" width="166" height="37.5" fill="white"/>
+        <path d="M 565.65855 211.25115 L 733.1635 211.02198 M 732.529 210.58022 L 732.1599 249.70596 M 732.552 248.72756 L 566.07536 248.52916 M 566.73505 248.9077 L 566.4971 210.78476 M 565.7835 211.1014 L 732.6497 210.78965 M 732.7604 210.45623 L 732.35065 248.60264 M 732.6769 248.68514 L 566.8576 248.50242 M 566.81376 248.783 L 566.5482 211.12548" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
       </g>
       <g id="Graphic_6_shadow" filter="url(#Shadow)">
-        <rect x="661.5" y="356.5" width="166" height="37.5" fill="white"/>
-        <path d="M 660.8547 356.49814 L 828.0255 356.97926 M 827.3931 356.62736 L 827.6712 394.5065 M 828.4648 393.59884 L 660.6707 393.58385 M 661.1283 394.02985 L 661.50584 355.9101 M 660.97996 356.2902 L 827.5207 356.84224 M 827.5771 356.50192 L 827.8735 393.47316 M 828.5898 393.4785 L 661.2577 393.51146 M 661.1998 393.90433 L 661.53555 356.3741" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        <rect x="566.5" y="271" width="166" height="37.5" fill="white"/>
+        <path d="M 565.8547 270.99814 L 733.02545 271.47926 M 732.3931 271.12736 L 732.6712 309.0065 M 733.4648 308.09884 L 565.6707 308.08385 M 566.1283 308.52985 L 566.50584 270.4101 M 565.97996 270.7902 L 732.5207 271.34224 M 732.5771 271.00192 L 732.8735 307.97316 M 733.5898 307.97852 L 566.2577 308.01146 M 566.19984 308.40433 L 566.53555 270.8741" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
       </g>
       <g id="Graphic_2">
-        <rect x="503.5" y="281.125" width="173.5" height="128.5" fill="white"/>
-        <path d="M 502.82005 281.12633 L 678.0777 280.78278 M 677.4137 280.06377 L 677.1822 410.1794 M 677.81354 409.73617 L 503.0394 409.99384 M 503.5328 410.9162 L 503.4998 280.28378 M 502.94486 280.90114 L 677.5374 280.63187 M 677.66215 279.939 L 677.4071 409.6123 M 677.93864 409.67746 L 503.65775 409.9753 M 503.6331 410.7912 L 503.586 281" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
-        <text transform="translate(508.5 336.375)" fill="black">
-          <tspan font-family="IBM Plex Sans Condensed" font-size="14" font-weight="400" fill="black" x="36.579" y="14">Shared memory</tspan>
+        <rect x="408.5" y="195.625" width="173.5" height="128.5" fill="white"/>
+        <path d="M 407.82005 195.62633 L 583.0777 195.28278 M 582.4137 194.56377 L 582.1822 324.67938 M 582.81354 324.23617 L 408.0394 324.49384 M 408.5328 325.4162 L 408.4998 194.78378 M 407.94486 195.40114 L 582.5374 195.13187 M 582.66215 194.43899 L 582.4071 324.11228 M 582.93864 324.17746 L 408.65775 324.4753 M 408.6331 325.2912 L 408.586 195.5" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        <text transform="translate(413.5 251.875)" fill="black">
+          <tspan font-family="Roboto Condensed" font-size="14" font-weight="400" fill="black" x="38.54004" y="13">Shared memory</tspan>
         </text>
       </g>
       <g id="Graphic_3">
-        <rect x="355.5" y="296.75" width="166" height="37.5" fill="white"/>
-        <path d="M 355.0162 296.74894 L 522.4396 297.1151 M 521.79353 296.486 L 521.1723 334.35487 M 521.47636 333.98298 L 355.6347 334.42285 M 355.944 335.4133 L 355.4889 295.78417 M 355.1413 296.59056 L 521.90835 296.93446 M 521.9946 296.36224 L 521.30495 333.8588 M 521.60166 333.97137 L 356.0578 334.35933 M 356.0371 335.28868 L 355.5734 296.6256" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
-        <text transform="translate(360.5 306.5)" fill="black">
-          <tspan font-family="IBM Plex Sans Condensed" font-size="14" font-weight="400" fill="black" x="52.709" y="14">Thread 1</tspan>
+        <rect x="260.5" y="211.25" width="166" height="37.5" fill="white"/>
+        <path d="M 260.01622 211.24894 L 427.43963 211.6151 M 426.79353 210.986 L 426.1723 248.85487 M 426.47636 248.48298 L 260.63472 248.92285 M 260.944 249.9133 L 260.4889 210.28417 M 260.1413 211.09056 L 426.90835 211.43446 M 426.9946 210.86224 L 426.30495 248.3588 M 426.60166 248.47137 L 261.0578 248.85933 M 261.03708 249.78868 L 260.5734 211.1256" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        <text transform="translate(265.5 222)" fill="black">
+          <tspan font-family="Roboto Condensed" font-size="14" font-weight="400" fill="black" x="53.74951" y="13">Thread 1</tspan>
         </text>
       </g>
       <g id="Graphic_4">
-        <rect x="355.5" y="356.5" width="166" height="37.5" fill="white"/>
-        <path d="M 355.2124 356.4999 L 522.3016 356.56853 M 521.65376 356.03306 L 521.67393 394.65546 M 522.3892 394.35707 L 354.48004 393.97406 M 355.33128 394.28554 L 355.5015 356.15943 M 355.33742 356.2833 L 521.7791 356.36206 M 521.8075 355.90804 L 521.8278 394.2304 M 522.5141 394.26755 L 355.4576 393.86837 M 355.41717 394.16037 L 355.5608 356.3747" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
-        <text transform="translate(360.5 366.25)" fill="black">
-          <tspan font-family="IBM Plex Sans Condensed" font-size="14" font-weight="400" fill="black" x="52.709" y="14">Thread 2</tspan>
+        <rect x="260.5" y="271" width="166" height="37.5" fill="white"/>
+        <path d="M 260.2124 270.99988 L 427.30157 271.06853 M 426.65376 270.53306 L 426.67393 309.15546 M 427.38917 308.85707 L 259.48004 308.47406 M 260.33128 308.78554 L 260.50152 270.65943 M 260.33742 270.7833 L 426.77907 270.86206 M 426.8075 270.40804 L 426.8278 308.73042 M 427.5141 308.76755 L 260.45762 308.36837 M 260.41717 308.66037 L 260.56078 270.8747" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        <text transform="translate(265.5 281.75)" fill="black">
+          <tspan font-family="Roboto Condensed" font-size="14" font-weight="400" fill="black" x="53.74951" y="13">Thread 2</tspan>
         </text>
       </g>
       <g id="Graphic_5">
-        <rect x="661.5" y="296.75" width="166" height="37.5" fill="white"/>
-        <path d="M 660.65855 296.75115 L 828.1635 296.52198 M 827.529 296.08022 L 827.1599 335.20596 M 827.552 334.22756 L 661.0754 334.02916 M 661.73505 334.4077 L 661.4971 296.28476 M 660.7835 296.6014 L 827.6497 296.28965 M 827.7604 295.95623 L 827.3506 334.10264 M 827.6769 334.18514 L 661.8576 334.0024 M 661.81376 334.283 L 661.5482 296.62548" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
-        <text transform="translate(666.5 306.5)" fill="black">
-          <tspan font-family="IBM Plex Sans Condensed" font-size="14" font-weight="400" fill="black" x="52.709" y="14">Thread 3</tspan>
+        <rect x="566.5" y="211.25" width="166" height="37.5" fill="white"/>
+        <path d="M 565.65855 211.25115 L 733.1635 211.02198 M 732.529 210.58022 L 732.1599 249.70596 M 732.552 248.72756 L 566.07536 248.52916 M 566.73505 248.9077 L 566.4971 210.78476 M 565.7835 211.1014 L 732.6497 210.78965 M 732.7604 210.45623 L 732.35065 248.60264 M 732.6769 248.68514 L 566.8576 248.50242 M 566.81376 248.783 L 566.5482 211.12548" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        <text transform="translate(571.5 222)" fill="black">
+          <tspan font-family="Roboto Condensed" font-size="14" font-weight="400" fill="black" x="53.74951" y="13">Thread 3</tspan>
         </text>
       </g>
       <g id="Graphic_6">
-        <rect x="661.5" y="356.5" width="166" height="37.5" fill="white"/>
-        <path d="M 660.8547 356.49814 L 828.0255 356.97926 M 827.3931 356.62736 L 827.6712 394.5065 M 828.4648 393.59884 L 660.6707 393.58385 M 661.1283 394.02985 L 661.50584 355.9101 M 660.97996 356.2902 L 827.5207 356.84224 M 827.5771 356.50192 L 827.8735 393.47316 M 828.5898 393.4785 L 661.2577 393.51146 M 661.1998 393.90433 L 661.53555 356.3741" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
-        <text transform="translate(666.5 366.25)" fill="black">
-          <tspan font-family="IBM Plex Sans Condensed" font-size="14" font-weight="400" fill="black" x="52.709" y="14">Thread 4</tspan>
+        <rect x="566.5" y="271" width="166" height="37.5" fill="white"/>
+        <path d="M 565.8547 270.99814 L 733.02545 271.47926 M 732.3931 271.12736 L 732.6712 309.0065 M 733.4648 308.09884 L 565.6707 308.08385 M 566.1283 308.52985 L 566.50584 270.4101 M 565.97996 270.7902 L 732.5207 271.34224 M 732.5771 271.00192 L 732.8735 307.97316 M 733.5898 307.97852 L 566.2577 308.01146 M 566.19984 308.40433 L 566.53555 270.8741" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        <text transform="translate(571.5 281.75)" fill="black">
+          <tspan font-family="Roboto Condensed" font-size="14" font-weight="400" fill="black" x="53.74951" y="13">Thread 4</tspan>
         </text>
       </g>
       <g id="Line_7">
-        <path d="M 391.30126 418.6361 C 391.5 417.75865 393.95164 400.49753 400.5 399.6876 C 406.788 398.54695 406.3612 412.5733 415.5 413.75865 C 424.6705 413.4829 422.0029 401.97126 431.5 401.75865 C 440.9697 402.09953 438.13744 414.3783 446.5 414.75865 C 455.41016 413.89257 451.4564 398.8739 463.5 401.75865 C 468.8034 403.11665 474.5244 408.4853 478.17915 413.1369 M 391.30126 418.6361 C 392 417.25865 394.45164 399.99753 401 399.1876 C 407.288 398.04695 406.8612 412.0733 416 413.25865 C 425.1705 412.9829 422.5029 401.47126 432 401.25865 C 441.4697 401.59953 438.63744 413.8783 447 414.25865 C 455.91016 413.39257 451.9564 398.3739 464 401.25865 C 469.3034 402.61665 475.0244 407.9853 478.67915 412.6369" marker-end="url(#StickArrow_Marker)" stroke="#942092" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        <path d="M 296.30126 333.1361 C 296.5 332.25865 298.95164 314.99753 305.5 314.1876 C 311.788 313.04695 311.3612 327.0733 320.5 328.25865 C 329.67052 327.9829 327.0029 316.47126 336.5 316.25865 C 345.9697 316.59953 343.13744 328.87828 351.5 329.25865 C 360.41016 328.39257 356.4564 313.3739 368.5 316.25865 C 373.80337 317.61665 379.5244 322.9853 383.17915 327.6369 M 296.30126 333.1361 C 297 331.75865 299.45164 314.49753 306 313.6876 C 312.288 312.54695 311.8612 326.5733 321 327.75865 C 330.17052 327.4829 327.5029 315.97126 337 315.75865 C 346.4697 316.09953 343.63744 328.37828 352 328.75865 C 360.91016 327.89257 356.9564 312.8739 369 315.75865 C 374.30337 317.11665 380.0244 322.4853 383.67915 327.1369" marker-end="url(#StickArrow_Marker)" stroke="#942092" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
       </g>
       <g id="Line_8">
-        <path d="M 391.34407 274.93657 C 391.5 275.625 393.5444 291.87893 400.5 293.69604 C 407.4298 294.80553 406.7414 280.48523 415.5 279.625 C 424.0045 279.71892 423.09455 292.23756 431.5 291.625 C 439.59823 292.1023 437.78196 279.25375 446.5 278.625 C 456.0933 279.09995 452.90964 294.04603 463.5 291.625 C 468.8661 290.70937 474.65456 284.91214 478.17915 280.24675 M 391.34407 274.93657 C 392 275.125 394.0444 291.37893 401 293.19604 C 407.9298 294.30553 407.2414 279.98523 416 279.125 C 424.5045 279.21892 423.59455 291.73756 432 291.125 C 440.09823 291.6023 438.28196 278.75375 447 278.125 C 456.5933 278.59995 453.40964 293.54603 464 291.125 C 469.3661 290.20937 475.15456 284.41214 478.67915 279.74675" marker-end="url(#StickArrow_Marker)" stroke="#942092" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        <path d="M 296.34407 189.43657 C 296.5 190.125 298.54438 206.37893 305.5 208.19604 C 312.42978 209.30553 311.7414 194.98523 320.5 194.125 C 329.0045 194.21892 328.09455 206.73756 336.5 206.125 C 344.59823 206.6023 342.78196 193.75375 351.5 193.125 C 361.0933 193.59995 357.90964 208.54603 368.5 206.125 C 373.8661 205.20937 379.65456 199.41214 383.17915 194.74675 M 296.34407 189.43657 C 297 189.625 299.04438 205.87893 306 207.69604 C 312.92978 208.80553 312.2414 194.48523 321 193.625 C 329.5045 193.71892 328.59455 206.23756 337 205.625 C 345.09823 206.1023 343.28196 193.25375 352 192.625 C 361.5933 193.09995 358.40964 208.04603 369 205.625 C 374.3661 204.70937 380.15456 198.91214 383.67915 194.24675" marker-end="url(#StickArrow_Marker)" stroke="#942092" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
       </g>
       <g id="Line_9">
-        <path d="M 697.3869 275.12558 C 697.5 275.625 699.1371 292.89697 706.5 293.69604 C 712.6929 294.78925 713.1216 279.59692 721.5 279.625 C 731.0989 279.50168 728.4288 292.0709 737.5 291.625 C 745.9842 291.0479 743.4265 278.44973 752.5 278.625 C 760.9633 278.62783 758.095 294.25232 769.5 291.625 C 774.9289 290.89087 779.4953 285.507 784.17915 280.24675 M 697.3869 275.12558 C 698 275.125 699.6371 292.39697 707 293.19604 C 713.1929 294.28925 713.6216 279.09692 722 279.125 C 731.5989 279.00168 728.9288 291.5709 738 291.125 C 746.4842 290.5479 743.9265 277.94973 753 278.125 C 761.4633 278.12783 758.595 293.75232 770 291.125 C 775.4289 290.39087 779.9953 285.007 784.67915 279.74675" marker-end="url(#StickArrow_Marker)" stroke="#942092" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        <path d="M 602.3869 189.62558 C 602.5 190.125 604.1371 207.39697 611.5 208.19604 C 617.6929 209.28925 618.1216 194.09692 626.5 194.125 C 636.0989 194.00168 633.4288 206.5709 642.5 206.125 C 650.9842 205.5479 648.4265 192.94973 657.5 193.125 C 665.9633 193.12783 663.095 208.75232 674.5 206.125 C 679.9289 205.39087 684.4953 200.00701 689.17915 194.74675 M 602.3869 189.62558 C 603 189.625 604.6371 206.89697 612 207.69604 C 618.1929 208.78925 618.6216 193.59692 627 193.625 C 636.5989 193.50168 633.9288 206.0709 643 205.625 C 651.4842 205.0479 648.9265 192.44973 658 192.625 C 666.4633 192.62783 663.595 208.25232 675 205.625 C 680.4289 204.89087 684.9953 199.50701 689.67915 194.24675" marker-end="url(#StickArrow_Marker)" stroke="#942092" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
       </g>
       <g id="Line_12">
-        <path d="M 697.184 419.154 C 697.5 417.75865 699.294 401.45185 706.5 399.6876 C 713.23965 398.4655 712.5017 413.413 721.5 413.75865 C 730.8612 414.15706 728.189 401.13793 737.5 401.75865 C 747.1421 402.09984 744.1732 413.98446 752.5 414.75865 C 761.1996 415.1583 757.919 399.90536 769.5 401.75865 C 775.1171 402.9323 779.8858 407.5914 784.17915 413.1369 M 697.184 419.154 C 698 417.25865 699.794 400.95185 707 399.1876 C 713.73965 397.9655 713.0017 412.913 722 413.25865 C 731.3612 413.65706 728.689 400.63793 738 401.25865 C 747.6421 401.59984 744.6732 413.48446 753 414.25865 C 761.6996 414.6583 758.419 399.40536 770 401.25865 C 775.6171 402.4323 780.3858 407.0914 784.67915 412.6369" marker-end="url(#StickArrow_Marker_2)" stroke="#942092" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        <path d="M 602.18396 333.654 C 602.5 332.25865 604.294 315.95185 611.5 314.1876 C 618.23965 312.9655 617.50174 327.913 626.5 328.25865 C 635.86124 328.65706 633.189 315.63793 642.5 316.25865 C 652.14206 316.59984 649.1732 328.48446 657.5 329.25865 C 666.1996 329.65828 662.919 314.40536 674.5 316.25865 C 680.1171 317.4323 684.8858 322.09142 689.17915 327.6369 M 602.18396 333.654 C 603 331.75865 604.794 315.45185 612 313.6876 C 618.73965 312.4655 618.00174 327.413 627 327.75865 C 636.36124 328.15706 633.689 315.13793 643 315.75865 C 652.64206 316.09984 649.6732 327.98446 658 328.75865 C 666.6996 329.15828 663.419 313.90536 675 315.75865 C 680.6171 316.9323 685.3858 321.59142 689.67915 327.1369" marker-end="url(#StickArrow_Marker_2)" stroke="#942092" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
       </g>
       <g id="Graphic_13">
-        <text transform="translate(410.054 254.5)" fill="#942092">
-          <tspan font-family="IBM Plex Sans Condensed" font-size="12" font-weight="400" fill="#942092" x="0" y="12">Request #1</tspan>
+        <text transform="translate(316.66406 169)" fill="#942092">
+          <tspan font-family="Roboto Condensed" font-size="12" font-weight="400" fill="#942092" x="0" y="11">Request #1</tspan>
         </text>
       </g>
       <g id="Graphic_14">
-        <text transform="translate(410.054 421.25)" fill="#942092">
-          <tspan font-family="IBM Plex Sans Condensed" font-size="12" font-weight="400" fill="#942092" x="0" y="12">Request #2</tspan>
+        <text transform="translate(316.66406 335.75)" fill="#942092">
+          <tspan font-family="Roboto Condensed" font-size="12" font-weight="400" fill="#942092" x="0" y="11">Request #2</tspan>
         </text>
       </g>
       <g id="Graphic_16">
-        <text transform="translate(716.054 254.5)" fill="#942092">
-          <tspan font-family="IBM Plex Sans Condensed" font-size="12" font-weight="400" fill="#942092" x="0" y="12">Request #3</tspan>
+        <text transform="translate(622.66406 169)" fill="#942092">
+          <tspan font-family="Roboto Condensed" font-size="12" font-weight="400" fill="#942092" x="0" y="11">Request #3</tspan>
         </text>
       </g>
       <g id="Graphic_17">
-        <text transform="translate(716.054 421.25)" fill="#942092">
-          <tspan font-family="IBM Plex Sans Condensed" font-size="12" font-weight="400" fill="#942092" x="0" y="12">Request #4</tspan>
+        <text transform="translate(622.66406 335.75)" fill="#942092">
+          <tspan font-family="Roboto Condensed" font-size="12" font-weight="400" fill="#942092" x="0" y="11">Request #4</tspan>
         </text>
       </g>
     </g>

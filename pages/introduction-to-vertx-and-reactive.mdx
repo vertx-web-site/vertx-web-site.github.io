@@ -23,31 +23,31 @@ What you write is what you run -->
 
 ### Eclipse Vert.x and reactive in just a few words
 
-Eclipse Vert.x is a tool-kit for building _reactive_ applications on the JVM.
+Eclipse Vert.x is a tool-kit for building **reactive** applications on the JVM.
 
-Reactive applications are both _scalable_ as workloads grow, and _resilient_ when failures arise.
+Reactive applications are both **scalable** as workloads grow, and **resilient** when failures arise.
 
-A reactive application is _responsive_ as it keeps latency under control by making efficient usage of system resources, and by protecting itself from errors.
+A reactive application is **responsive** as it keeps latency under control by making efficient usage of system resources, and by protecting itself from errors.
 
 ![Microservices](/images/introduction/microservices.svg)
 
 Vert.x is backed by a large ecosystem of reactive modules with just anything you need when writing modern services: a comprehensive web stack, reactive database drivers, messaging, event streams, clustering, metrics, distributed tracing and more.
 
-Vert.x is a toolkit and not a framework that ships with black magic: _what you write is actually what you get to execute_, as simple as that.
+Vert.x is a toolkit and not a framework that ships with black magic: **what you write is actually what you get to execute**, as simple as that.
 
-So what makes Vert.x a great option for writing your next _cloud-native_ or _[twelve-factor](https://12factor.net/)_ app?
+So what makes Vert.x a great option for writing your next **cloud-native** or **[twelve-factor](https://12factor.net/)** app?
 
 ### In the beginning there were threads...
 
-The classic approach to concurrency is to use _threads_.
+The classic approach to concurrency is to use **threads**.
 
-Multiple threads can live within a single _process_, perform _concurrent_ work, and _share_ the same memory space.
+Multiple threads can live within a single **process**, perform **concurrent** work, and **share** the same memory space.
 
 ![Threads](/images/introduction/threads.svg)
 
 Most application and service development frameworks are based on multi-threading.
 
-On the surface the model of having _1 thread per connection_ is reassuring because developers can rely on traditional _imperative style_ code.
+On the surface the model of having **1 thread per connection** is reassuring because developers can rely on traditional **imperative style** code.
 
 This is fine, especially if you forget about those silly mistakes you can make with multi-threading and memory access...
 
@@ -56,11 +56,11 @@ This is fine, especially if you forget about those silly mistakes you can make w
 What happens as the workload grows beyond moderate workloads?
 [(see the C10k problem)](https://en.wikipedia.org/wiki/C10k_problem)
 
-The answer is simple: you start making your operating system kernel _suffer_ because there is too much _context switching_ work with in-flight requests.
+The answer is simple: you start making your operating system kernel **suffer** because there is too much **context switching** work with in-flight requests.
 
-![Threads](/images/introduction/blocking-io.svg)
+![Blocking I/O](/images/introduction/blocking-io.svg)
 
-Some of your threads will be _blocked_ because they are waiting on I/O operations to complete, some will be _ready_ to handle I/O results, and some will be in the middle of doing CPU-intensive tasks.
+Some of your threads will be **blocked** because they are waiting on I/O operations to complete, some will be **ready** to handle I/O results, and some will be in the middle of doing CPU-intensive tasks.
 
 Modern kernels have very good schedulers, but you cannot expect them to deal with 50 000 threads as easily as they would do with 5000.
 
@@ -68,24 +68,24 @@ Also threads aren't cheap: creating a thread takes a few milliseconds, and a new
 
 ### Asynchronous programming: scalability and resource efficiency
 
-Processing more concurrent connections with less threads is possible when you use _asynchronous I/O_.
+Processing more concurrent connections with less threads is possible when you use **asynchronous I/O**.
 
 Instead of blocking a thread when an I/O operation occurs, we move on to another task which is ready to progress, and resume the initial task later when it is ready.
 
-Vert.x multiplexes concurrent workloads using _event-loops_.
+Vert.x multiplexes concurrent workloads using **event-loops**.
 
-![Threads](/images/introduction/event-loop.svg)
+![Event loop](/images/introduction/event-loop.svg)
 
 Code that runs on event-loops shall not perform blocking I/O or lengthy processing but don't worry if you have such code: Vert.x has worker threads and APIs to process events back on an event-loop.
 
 ### Pick the best asynchronous programming model for your problem domain
 
 We know that asynchronous programming requires more efforts.
-At the core of Vert.x we support _callbacks_ and _promises / futures_, the later being a simple and elegant model for chaining asynchronous operations.
+At the core of Vert.x we support **callbacks** and **promises / futures**, the later being a simple and elegant model for chaining asynchronous operations.
 
 Advanced reactive programming is possible with [RxJava](https://github.com/ReactiveX/RxJava), and if you prefer something closer to traditional imperative programming then we are happy to provide you with first-class support of [Kotlin coroutines](https://kotlinlang.org/docs/reference/coroutines-overview.html).
 
-**IMAGE HERE (or not?)**
+![Async](/images/introduction/async.svg)
 
 Vert.x supports many asynchronous programming models: choose what works best for each problem you need to solve!
 
@@ -94,15 +94,15 @@ Vert.x supports many asynchronous programming models: choose what works best for
 Failures happen all the time.
 A database will go down, the network will go down, or some service you depend on will become unresponsive.
 
-**IMAGE HERE**
+![Failures](/images/introduction/failures.svg)
 
-Vert.x offers tools to keep latency under control, including a simple and efficient circuit breaker.
+Vert.x offers tools to keep latency under control, including a simple and efficient **circuit breaker**.
 
 ### A rich ecosystem
 
 Databases, messaging, event streaming, web, IoT, authentication, container environments, metrics, ... you name it.
 
-**IMAGE HERE**
+![Ecosystem](/images/introduction/ecosystem.svg)
 
 We have a rich ecosystem of modules in the Vert.x stack for covering most of your needs.
 

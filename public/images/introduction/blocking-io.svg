@@ -13,9 +13,9 @@
         <path d="M 3.7333333 0 L 0 -1.4 L 0 1.4 Z" fill="currentColor" stroke="currentColor" stroke-width="1"/>
       </g>
     </marker>
-    <font-face font-family="IBM Plex Sans Condensed" font-size="14" panose-1="2 11 5 6 5 2 3 0 2 3" units-per-em="1000" underline-position="-95" underline-thickness="60" slope="0" x-height="516" cap-height="698" ascent="1025.0021" descent="-275.00056" font-weight="400">
+    <font-face font-family="Roboto Condensed" font-size="14" panose-1="2 0 0 0 0 0 0 0 0 0" units-per-em="1000" underline-position="-73.24219" underline-thickness="48.828125" slope="0" x-height="528.3203" cap-height="710.9375" ascent="927.7344" descent="-244.14062" font-weight="400">
       <font-face-src>
-        <font-face-name name="IBMPlexSansCond"/>
+        <font-face-name name="RobotoCondensed-Regular"/>
       </font-face-src>
     </font-face>
     <marker orient="auto" overflow="visible" markerUnits="strokeWidth" id="StickArrow_Marker" stroke-linejoin="miter" stroke-miterlimit="10" viewBox="-1 -3 7 6" markerWidth="7" markerHeight="6" color="#941100">
@@ -25,7 +25,7 @@
     </marker>
   </defs>
   <metadata> Produced by OmniGraffle 7.15.1 
-    <dc:date>2020-04-24 13:20:30 +0000</dc:date>
+    <dc:date>2020-04-24 14:24:44 +0000</dc:date>
   </metadata>
   <g id="blocking-io" fill="none" fill-opacity="1" stroke-dasharray="none" stroke-opacity="1" stroke="none">
     <title>blocking-io</title>
@@ -99,27 +99,27 @@
         <rect x="1040.5" y="544.7519" width="52.5" height="37.5" fill="#941100"/>
       </g>
       <g id="Line_20">
-        <path d="M 402.34967 421.3031 L 402.61523 647.9632 M 402.7925 420.92804 L 403.0279 646.07084" marker-end="url(#FilledArrow_Marker)" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
+        <path d="M 402.3497 419.3031 L 402.6152 647.9632 M 402.79253 418.92804 L 403.0279 646.07084" marker-end="url(#FilledArrow_Marker)" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
       </g>
       <g id="Graphic_21">
-        <text transform="translate(379.25283 401)" fill="black">
-          <tspan font-family="IBM Plex Sans Condensed" font-size="14" font-weight="400" fill="black" x="3623768e-19" y="14">Threads</tspan>
+        <text transform="translate(379.97197 401)" fill="black">
+          <tspan font-family="Roboto Condensed" font-size="14" font-weight="400" fill="black" x="0" y="13">Threads</tspan>
         </text>
       </g>
       <g id="Graphic_22">
-        <text transform="translate(707.5 333.5)" fill="#941100">
-          <tspan font-family="IBM Plex Sans Condensed" font-size="14" font-weight="400" fill="#941100" x="17.423" y="14">Blocking I/O</tspan>
-          <tspan font-family="IBM Plex Sans Condensed" font-size="14" font-weight="400" fill="#941100" x="0" y="32">(wasted CPU time)</tspan>
+        <text transform="translate(708.5759 333.5)" fill="#941100">
+          <tspan font-family="Roboto Condensed" font-size="14" font-weight="400" fill="#941100" x="17.623047" y="13">Blocking I/O</tspan>
+          <tspan font-family="Roboto Condensed" font-size="14" font-weight="400" fill="#941100" x="0" y="29">(wasted CPU time)</tspan>
         </text>
       </g>
       <g id="Line_23">
-        <path d="M 702.5 368.3805 C 691.5927 373.5823 680.4027 377.903 670.7547 383.96226 C 653.4924 394.59314 639.83035 404.6888 630.87275 413.66863 M 702.5 368.3805 C 692.0927 373.0823 680.9027 377.403 671.2547 383.46226 C 653.9924 394.09314 640.33035 404.1888 631.37275 413.16863" marker-end="url(#StickArrow_Marker)" stroke="#941100" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        <path d="M 703.5759 367.38135 C 692.3275 372.91686 680.735 377.54776 670.7547 383.96226 C 653.62264 394.72887 640.04305 404.7872 631.10936 413.69667 M 703.5759 367.38135 C 692.8275 372.41686 681.235 377.04776 671.2547 383.46226 C 654.12264 394.22887 640.54305 404.2872 631.60936 413.19667" marker-end="url(#StickArrow_Marker)" stroke="#941100" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
       </g>
       <g id="Line_24">
-        <path d="M 775.9304 374.5 C 777.1359 378.236 779.2346 381.76067 780.1887 386.79245 C 781.957 395.1925 783.6548 402.12276 784.2539 409.87216 M 775.9304 374.5 C 777.6359 377.736 779.7346 381.26067 780.6887 386.29245 C 782.457 394.6925 784.1548 401.62276 784.7539 409.37216" marker-end="url(#StickArrow_Marker)" stroke="#941100" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        <path d="M 774.3534 370.5 C 776.0383 375.26713 778.9231 379.9252 780.1887 386.79245 C 781.93115 395.2851 783.6268 402.1887 784.2303 409.88 M 774.3534 370.5 C 776.5383 374.76713 779.4231 379.4252 780.6887 386.29245 C 782.43115 394.7851 784.1268 401.6887 784.7303 409.38" marker-end="url(#StickArrow_Marker)" stroke="#941100" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
       </g>
       <g id="Line_25">
-        <path d="M 817.724 360.9283 C 849.822 365.99014 883.0889 375.6402 911.3208 387.73585 C 930.8677 395.05047 944.4482 406.5095 954.5444 413.6553 M 817.724 360.9283 C 850.322 365.49014 883.5889 375.1402 911.8208 387.23585 C 931.3677 394.55047 944.9482 406.0095 955.0444 413.1553" marker-end="url(#StickArrow_Marker)" stroke="#941100" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        <path d="M 816.6481 359.55134 C 848.978 365.0229 882.7455 375.2202 911.3208 387.73585 C 930.7056 395.1779 944.2291 406.6131 954.3224 413.7083 M 816.6481 359.55134 C 849.478 364.5229 883.2455 374.7202 911.8208 387.23585 C 931.2056 394.6779 944.7291 406.1131 954.8224 413.2083" marker-end="url(#StickArrow_Marker)" stroke="#941100" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
       </g>
     </g>
   </g>
