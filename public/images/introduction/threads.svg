@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xl="http://www.w3.org/1999/xlink" xmlns:dc="http://purl.org/dc/elements/1.1/" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="340 249 503 193" width="503" height="193">
+  <defs>
+    <filter id="Shadow" filterUnits="userSpaceOnUse" x="289.7" y="229.7">
+      <feGaussianBlur in="SourceAlpha" result="blur" stdDeviation="5.232"/>
+      <feOffset in="blur" result="offset" dx="0" dy="1"/>
+      <feFlood flood-color="black" flood-opacity=".5" result="flood"/>
+      <feComposite in="flood" in2="offset" operator="in"/>
+    </filter>
+    <font-face font-family="IBM Plex Sans Condensed" font-size="14" panose-1="2 11 5 6 5 2 3 0 2 3" units-per-em="1000" underline-position="-95" underline-thickness="60" slope="0" x-height="516" cap-height="698" ascent="1025.0021" descent="-275.00056" font-weight="400">
+      <font-face-src>
+        <font-face-name name="IBMPlexSansCond"/>
+      </font-face-src>
+    </font-face>
+    <marker orient="auto" overflow="visible" markerUnits="strokeWidth" id="StickArrow_Marker" stroke-linejoin="miter" stroke-miterlimit="10" viewBox="-1 -3 7 6" markerWidth="7" markerHeight="6" color="#942092">
+      <g>
+        <path d="M 4.8 0 L 0 0 M 0 -1.8 L 4.8 0 L 0 1.8" fill="none" stroke="currentColor" stroke-width="1"/>
+      </g>
+    </marker>
+    <marker orient="auto" overflow="visible" markerUnits="strokeWidth" id="StickArrow_Marker_2" stroke-linejoin="miter" stroke-miterlimit="10" viewBox="-1 -3 7 6" markerWidth="7" markerHeight="6" color="#942092">
+      <g>
+        <path d="M 4.8 0 L 0 0 M 0 -1.8 L 4.8 0 L 0 1.8" fill="none" stroke="currentColor" stroke-width="1"/>
+      </g>
+    </marker>
+    <font-face font-family="IBM Plex Sans Condensed" font-size="12" panose-1="2 11 5 6 5 2 3 0 2 3" units-per-em="1000" underline-position="-95" underline-thickness="60" slope="0" x-height="516" cap-height="698" ascent="1025.0021" descent="-275.00056" font-weight="400">
+      <font-face-src>
+        <font-face-name name="IBMPlexSansCond"/>
+      </font-face-src>
+    </font-face>
+  </defs>
+  <metadata> Produced by OmniGraffle 7.15.1 
+    <dc:date>2020-04-24 12:51:26 +0000</dc:date>
+  </metadata>
+  <g id="threads" fill="none" fill-opacity="1" stroke-dasharray="none" stroke-opacity="1" stroke="none">
+    <title>threads</title>
+    <g id="threads: Layer 1">
+      <title>Layer 1</title>
+      <g id="Graphic_2_shadow" filter="url(#Shadow)">
+        <rect x="503.5" y="281.125" width="173.5" height="128.5" fill="white"/>
+        <path d="M 502.82005 281.12633 L 678.0777 280.78278 M 677.4137 280.06377 L 677.1822 410.1794 M 677.81354 409.73617 L 503.0394 409.99384 M 503.5328 410.9162 L 503.4998 280.28378 M 502.94486 280.90114 L 677.5374 280.63187 M 677.66215 279.939 L 677.4071 409.6123 M 677.93864 409.67746 L 503.65775 409.9753 M 503.6331 410.7912 L 503.586 281" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      </g>
+      <g id="Graphic_3_shadow" filter="url(#Shadow)">
+        <rect x="355.5" y="296.75" width="166" height="37.5" fill="white"/>
+        <path d="M 355.0162 296.74894 L 522.4396 297.1151 M 521.79353 296.486 L 521.1723 334.35487 M 521.47636 333.98298 L 355.6347 334.42285 M 355.944 335.4133 L 355.4889 295.78417 M 355.1413 296.59056 L 521.90835 296.93446 M 521.9946 296.36224 L 521.30495 333.8588 M 521.60166 333.97137 L 356.0578 334.35933 M 356.0371 335.28868 L 355.5734 296.6256" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      </g>
+      <g id="Graphic_4_shadow" filter="url(#Shadow)">
+        <rect x="355.5" y="356.5" width="166" height="37.5" fill="white"/>
+        <path d="M 355.2124 356.4999 L 522.3016 356.56853 M 521.65376 356.03306 L 521.67393 394.65546 M 522.3892 394.35707 L 354.48004 393.97406 M 355.33128 394.28554 L 355.5015 356.15943 M 355.33742 356.2833 L 521.7791 356.36206 M 521.8075 355.90804 L 521.8278 394.2304 M 522.5141 394.26755 L 355.4576 393.86837 M 355.41717 394.16037 L 355.5608 356.3747" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      </g>
+      <g id="Graphic_5_shadow" filter="url(#Shadow)">
+        <rect x="661.5" y="296.75" width="166" height="37.5" fill="white"/>
+        <path d="M 660.65855 296.75115 L 828.1635 296.52198 M 827.529 296.08022 L 827.1599 335.20596 M 827.552 334.22756 L 661.0754 334.02916 M 661.73505 334.4077 L 661.4971 296.28476 M 660.7835 296.6014 L 827.6497 296.28965 M 827.7604 295.95623 L 827.3506 334.10264 M 827.6769 334.18514 L 661.8576 334.0024 M 661.81376 334.283 L 661.5482 296.62548" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      </g>
+      <g id="Graphic_6_shadow" filter="url(#Shadow)">
+        <rect x="661.5" y="356.5" width="166" height="37.5" fill="white"/>
+        <path d="M 660.8547 356.49814 L 828.0255 356.97926 M 827.3931 356.62736 L 827.6712 394.5065 M 828.4648 393.59884 L 660.6707 393.58385 M 661.1283 394.02985 L 661.50584 355.9101 M 660.97996 356.2902 L 827.5207 356.84224 M 827.5771 356.50192 L 827.8735 393.47316 M 828.5898 393.4785 L 661.2577 393.51146 M 661.1998 393.90433 L 661.53555 356.3741" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      </g>
+      <g id="Graphic_2">
+        <rect x="503.5" y="281.125" width="173.5" height="128.5" fill="white"/>
+        <path d="M 502.82005 281.12633 L 678.0777 280.78278 M 677.4137 280.06377 L 677.1822 410.1794 M 677.81354 409.73617 L 503.0394 409.99384 M 503.5328 410.9162 L 503.4998 280.28378 M 502.94486 280.90114 L 677.5374 280.63187 M 677.66215 279.939 L 677.4071 409.6123 M 677.93864 409.67746 L 503.65775 409.9753 M 503.6331 410.7912 L 503.586 281" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        <text transform="translate(508.5 336.375)" fill="black">
+          <tspan font-family="IBM Plex Sans Condensed" font-size="14" font-weight="400" fill="black" x="36.579" y="14">Shared memory</tspan>
+        </text>
+      </g>
+      <g id="Graphic_3">
+        <rect x="355.5" y="296.75" width="166" height="37.5" fill="white"/>
+        <path d="M 355.0162 296.74894 L 522.4396 297.1151 M 521.79353 296.486 L 521.1723 334.35487 M 521.47636 333.98298 L 355.6347 334.42285 M 355.944 335.4133 L 355.4889 295.78417 M 355.1413 296.59056 L 521.90835 296.93446 M 521.9946 296.36224 L 521.30495 333.8588 M 521.60166 333.97137 L 356.0578 334.35933 M 356.0371 335.28868 L 355.5734 296.6256" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        <text transform="translate(360.5 306.5)" fill="black">
+          <tspan font-family="IBM Plex Sans Condensed" font-size="14" font-weight="400" fill="black" x="52.709" y="14">Thread 1</tspan>
+        </text>
+      </g>
+      <g id="Graphic_4">
+        <rect x="355.5" y="356.5" width="166" height="37.5" fill="white"/>
+        <path d="M 355.2124 356.4999 L 522.3016 356.56853 M 521.65376 356.03306 L 521.67393 394.65546 M 522.3892 394.35707 L 354.48004 393.97406 M 355.33128 394.28554 L 355.5015 356.15943 M 355.33742 356.2833 L 521.7791 356.36206 M 521.8075 355.90804 L 521.8278 394.2304 M 522.5141 394.26755 L 355.4576 393.86837 M 355.41717 394.16037 L 355.5608 356.3747" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        <text transform="translate(360.5 366.25)" fill="black">
+          <tspan font-family="IBM Plex Sans Condensed" font-size="14" font-weight="400" fill="black" x="52.709" y="14">Thread 2</tspan>
+        </text>
+      </g>
+      <g id="Graphic_5">
+        <rect x="661.5" y="296.75" width="166" height="37.5" fill="white"/>
+        <path d="M 660.65855 296.75115 L 828.1635 296.52198 M 827.529 296.08022 L 827.1599 335.20596 M 827.552 334.22756 L 661.0754 334.02916 M 661.73505 334.4077 L 661.4971 296.28476 M 660.7835 296.6014 L 827.6497 296.28965 M 827.7604 295.95623 L 827.3506 334.10264 M 827.6769 334.18514 L 661.8576 334.0024 M 661.81376 334.283 L 661.5482 296.62548" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        <text transform="translate(666.5 306.5)" fill="black">
+          <tspan font-family="IBM Plex Sans Condensed" font-size="14" font-weight="400" fill="black" x="52.709" y="14">Thread 3</tspan>
+        </text>
+      </g>
+      <g id="Graphic_6">
+        <rect x="661.5" y="356.5" width="166" height="37.5" fill="white"/>
+        <path d="M 660.8547 356.49814 L 828.0255 356.97926 M 827.3931 356.62736 L 827.6712 394.5065 M 828.4648 393.59884 L 660.6707 393.58385 M 661.1283 394.02985 L 661.50584 355.9101 M 660.97996 356.2902 L 827.5207 356.84224 M 827.5771 356.50192 L 827.8735 393.47316 M 828.5898 393.4785 L 661.2577 393.51146 M 661.1998 393.90433 L 661.53555 356.3741" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        <text transform="translate(666.5 366.25)" fill="black">
+          <tspan font-family="IBM Plex Sans Condensed" font-size="14" font-weight="400" fill="black" x="52.709" y="14">Thread 4</tspan>
+        </text>
+      </g>
+      <g id="Line_7">
+        <path d="M 391.30126 418.6361 C 391.5 417.75865 393.95164 400.49753 400.5 399.6876 C 406.788 398.54695 406.3612 412.5733 415.5 413.75865 C 424.6705 413.4829 422.0029 401.97126 431.5 401.75865 C 440.9697 402.09953 438.13744 414.3783 446.5 414.75865 C 455.41016 413.89257 451.4564 398.8739 463.5 401.75865 C 468.8034 403.11665 474.5244 408.4853 478.17915 413.1369 M 391.30126 418.6361 C 392 417.25865 394.45164 399.99753 401 399.1876 C 407.288 398.04695 406.8612 412.0733 416 413.25865 C 425.1705 412.9829 422.5029 401.47126 432 401.25865 C 441.4697 401.59953 438.63744 413.8783 447 414.25865 C 455.91016 413.39257 451.9564 398.3739 464 401.25865 C 469.3034 402.61665 475.0244 407.9853 478.67915 412.6369" marker-end="url(#StickArrow_Marker)" stroke="#942092" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      </g>
+      <g id="Line_8">
+        <path d="M 391.34407 274.93657 C 391.5 275.625 393.5444 291.87893 400.5 293.69604 C 407.4298 294.80553 406.7414 280.48523 415.5 279.625 C 424.0045 279.71892 423.09455 292.23756 431.5 291.625 C 439.59823 292.1023 437.78196 279.25375 446.5 278.625 C 456.0933 279.09995 452.90964 294.04603 463.5 291.625 C 468.8661 290.70937 474.65456 284.91214 478.17915 280.24675 M 391.34407 274.93657 C 392 275.125 394.0444 291.37893 401 293.19604 C 407.9298 294.30553 407.2414 279.98523 416 279.125 C 424.5045 279.21892 423.59455 291.73756 432 291.125 C 440.09823 291.6023 438.28196 278.75375 447 278.125 C 456.5933 278.59995 453.40964 293.54603 464 291.125 C 469.3661 290.20937 475.15456 284.41214 478.67915 279.74675" marker-end="url(#StickArrow_Marker)" stroke="#942092" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      </g>
+      <g id="Line_9">
+        <path d="M 697.3869 275.12558 C 697.5 275.625 699.1371 292.89697 706.5 293.69604 C 712.6929 294.78925 713.1216 279.59692 721.5 279.625 C 731.0989 279.50168 728.4288 292.0709 737.5 291.625 C 745.9842 291.0479 743.4265 278.44973 752.5 278.625 C 760.9633 278.62783 758.095 294.25232 769.5 291.625 C 774.9289 290.89087 779.4953 285.507 784.17915 280.24675 M 697.3869 275.12558 C 698 275.125 699.6371 292.39697 707 293.19604 C 713.1929 294.28925 713.6216 279.09692 722 279.125 C 731.5989 279.00168 728.9288 291.5709 738 291.125 C 746.4842 290.5479 743.9265 277.94973 753 278.125 C 761.4633 278.12783 758.595 293.75232 770 291.125 C 775.4289 290.39087 779.9953 285.007 784.67915 279.74675" marker-end="url(#StickArrow_Marker)" stroke="#942092" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      </g>
+      <g id="Line_12">
+        <path d="M 697.184 419.154 C 697.5 417.75865 699.294 401.45185 706.5 399.6876 C 713.23965 398.4655 712.5017 413.413 721.5 413.75865 C 730.8612 414.15706 728.189 401.13793 737.5 401.75865 C 747.1421 402.09984 744.1732 413.98446 752.5 414.75865 C 761.1996 415.1583 757.919 399.90536 769.5 401.75865 C 775.1171 402.9323 779.8858 407.5914 784.17915 413.1369 M 697.184 419.154 C 698 417.25865 699.794 400.95185 707 399.1876 C 713.73965 397.9655 713.0017 412.913 722 413.25865 C 731.3612 413.65706 728.689 400.63793 738 401.25865 C 747.6421 401.59984 744.6732 413.48446 753 414.25865 C 761.6996 414.6583 758.419 399.40536 770 401.25865 C 775.6171 402.4323 780.3858 407.0914 784.67915 412.6369" marker-end="url(#StickArrow_Marker_2)" stroke="#942092" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      </g>
+      <g id="Graphic_13">
+        <text transform="translate(410.054 254.5)" fill="#942092">
+          <tspan font-family="IBM Plex Sans Condensed" font-size="12" font-weight="400" fill="#942092" x="0" y="12">Request #1</tspan>
+        </text>
+      </g>
+      <g id="Graphic_14">
+        <text transform="translate(410.054 421.25)" fill="#942092">
+          <tspan font-family="IBM Plex Sans Condensed" font-size="12" font-weight="400" fill="#942092" x="0" y="12">Request #2</tspan>
+        </text>
+      </g>
+      <g id="Graphic_16">
+        <text transform="translate(716.054 254.5)" fill="#942092">
+          <tspan font-family="IBM Plex Sans Condensed" font-size="12" font-weight="400" fill="#942092" x="0" y="12">Request #3</tspan>
+        </text>
+      </g>
+      <g id="Graphic_17">
+        <text transform="translate(716.054 421.25)" fill="#942092">
+          <tspan font-family="IBM Plex Sans Condensed" font-size="12" font-weight="400" fill="#942092" x="0" y="12">Request #4</tspan>
+        </text>
+      </g>
+    </g>
+  </g>
+</svg>
