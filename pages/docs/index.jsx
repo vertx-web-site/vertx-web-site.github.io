@@ -1,5 +1,6 @@
-import Layout from "../../components/layouts/Page";
-import Link from "next/link";
+import Layout from "../../components/layouts/Page"
+import Link from "next/link"
+import { Fragment } from "react"
 
 const pages = {
   "Core": {
@@ -12,28 +13,28 @@ const pages = {
     "Groovy": "/docs/vertx-web/groovy/",
     "JavaScript": "/docs/vertx-web/js/"
   }
-};
+}
 
 export default () => {
-  let sections = [];
+  let sections = []
 
   for (let title in pages) {
-    let page = pages[title];
+    let page = pages[title]
 
-    let links = [];
+    let links = []
     for (let lang in page) {
-      let href = page[lang];
-      links.push(<li key={`${title}-${lang}`}><Link href="/docs/[...slug]" as={href}><a>{lang}</a></Link></li>);
+      let href = page[lang]
+      links.push(<li key={`${title}-${lang}`}><Link href="/docs/[...slug]" as={href}><a>{lang}</a></Link></li>)
     }
 
     sections.push(
-      <React.Fragment key={title}>
+      <Fragment key={title}>
         <h3>{title}</h3>
         <ul>
           {links}
         </ul>
-      </React.Fragment>
-    );
+      </Fragment>
+    )
   }
 
   return (
@@ -41,5 +42,5 @@ export default () => {
       <h2>Documentation</h2>
       {sections}
     </Layout>
-  );
-};
+  )
+}

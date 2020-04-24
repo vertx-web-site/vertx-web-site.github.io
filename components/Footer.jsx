@@ -1,27 +1,27 @@
-import classNames from "classnames";
-import "./Footer.scss";
-import Link from "next/link";
-import { useRef, useState } from "react";
+import classNames from "classnames"
+import "./Footer.scss"
+import Link from "next/link"
+import { useRef, useState } from "react"
 
 export default () => {
-  const listRef = [useRef(), useRef()];
-  const listMaxHeight = [useState(undefined), useState(undefined)];
-  const listVisible = [useState(false), useState(false)];
+  const listRef = [useRef(), useRef()]
+  const listMaxHeight = [useState(undefined), useState(undefined)]
+  const listVisible = [useState(false), useState(false)]
 
   const onClick = (i) => {
-    let height = 0;
+    let height = 0
     for (let c of listRef[i].current.children) {
-      height += c.offsetHeight;
+      height += c.offsetHeight
     }
 
     if (listVisible[i][0]) {
-      listVisible[i][1](false);
-      listMaxHeight[i][1](undefined);
+      listVisible[i][1](false)
+      listMaxHeight[i][1](undefined)
     } else {
-      listVisible[i][1](true);
-      listMaxHeight[i][1](height);
+      listVisible[i][1](true)
+      listMaxHeight[i][1](height)
     }
-  };
+  }
 
   return (
     <footer>
@@ -59,17 +59,17 @@ export default () => {
           <div className="footer-copyright-remarks">
             &copy; {new Date().getFullYear()} Eclipse Vert.x<br/>
             Eclipse Vert.x is open source and dual-licensed under
-            the <a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="noopener">Eclipse Public License 2.0</a> and
-            the <a href="https://www.apache.org/licenses/LICENSE-2.0.html" target="_blank" rel="noopener">Apache License 2.0</a>. <br className="footer-copyright-break"/>
-            Website design by <a href="https://michelkraemer.com" target="_blank" rel="noopener">Michel Krämer</a>.
+            the <a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="noopener noreferrer">Eclipse Public License 2.0</a> and
+            the <a href="https://www.apache.org/licenses/LICENSE-2.0.html" target="_blank" rel="noopener noreferrer">Apache License 2.0</a>. <br className="footer-copyright-break"/>
+            Website design by <a href="https://michelkraemer.com" target="_blank" rel="noopener noreferrer">Michel Krämer</a>.
           </div>
           <div className="footer-copyright-eclipse-logo">
-            <a href="https://www.eclipse.org/" target="_blank" rel="noopener">
+            <a href="https://www.eclipse.org/" target="_blank" rel="noopener noreferrer">
               <img src={require("../assets/eclipse-foundation-logo.svg")} alt="Eclipse foundation Logo" />
             </a>
           </div>
         </div>
       </div>
     </footer>
-  );
-};
+  )
+}

@@ -1,8 +1,8 @@
-import "./Logos.scss";
-import Button from "../Button";
-import { Mail } from "react-feather";
-import shuffle from "lodash.shuffle";
-import { useEffect, useRef } from "react";
+import "./Logos.scss"
+import Button from "../Button"
+import { Mail } from "react-feather"
+import shuffle from "lodash.shuffle"
+import { useEffect, useRef } from "react"
 
 const LOGOS = [{
   name: "Deutsche Börse Group",
@@ -72,60 +72,60 @@ const LOGOS = [{
   name: "Zalando Tech",
   src: "zalando.svg",
   url: "https://tech.zalando.com/"
-}].map(logo => Object.assign({ logo: require(`../../assets/logos/${logo.src}`) }, logo));
+}].map(logo => Object.assign({ logo: require(`../../assets/logos/${logo.src}`) }, logo))
 
 // Each logo should have a dummy height so the browser correctly calculates
 // the size of the surrounding div. Note that the width will be overriden
 // with the max-width attribute in the logo's CSS.
-const DUMMY_IMAGE_HEIGHT = "300";
+const DUMMY_IMAGE_HEIGHT = "300"
 
 const LOGO_ELEMENTS = LOGOS.map(logo => (
-  <a key={logo.src} href={logo.url} target="_blank" rel="noopener">
+  <a key={logo.src} href={logo.url} target="_blank" rel="noopener noreferrer">
     <img height={DUMMY_IMAGE_HEIGHT} className="logos-logo" src={logo.logo} alt={logo.name} />
   </a>
-));
-const LOGO_ELEMENTS1 = LOGO_ELEMENTS.slice(0, LOGO_ELEMENTS.length / 2);
-const LOGO_ELEMENTS2 = LOGO_ELEMENTS.slice(LOGO_ELEMENTS.length / 2);
+))
+const LOGO_ELEMENTS1 = LOGO_ELEMENTS.slice(0, LOGO_ELEMENTS.length / 2)
+const LOGO_ELEMENTS2 = LOGO_ELEMENTS.slice(LOGO_ELEMENTS.length / 2)
 
-const DURATION1 = 450 / LOGO_ELEMENTS1.length;
-const DURATION2 = 800 / LOGO_ELEMENTS2.length;
+const DURATION1 = 450 / LOGO_ELEMENTS1.length
+const DURATION2 = 800 / LOGO_ELEMENTS2.length
 
 function shuffleChildren(node) {
-  let result = [];
+  let result = []
   for (let c of node.children) {
-    result.push(c);
+    result.push(c)
   }
-  return shuffle(result);
+  return shuffle(result)
 }
 
 export default () => {
-  const refRow1a = useRef();
-  const refRow1b = useRef();
-  const refRow2a = useRef();
-  const refRow2b = useRef();
+  const refRow1a = useRef()
+  const refRow1b = useRef()
+  const refRow2a = useRef()
+  const refRow2b = useRef()
 
   useEffect(() => {
-    let newChildren1 = shuffleChildren(refRow1a.current);
-    refRow1a.current.innerHTML = "";
-    refRow1b.current.innerHTML = "";
+    let newChildren1 = shuffleChildren(refRow1a.current)
+    refRow1a.current.innerHTML = ""
+    refRow1b.current.innerHTML = ""
     for (let c of newChildren1) {
-      refRow1a.current.appendChild(c);
-      refRow1b.current.appendChild(c.cloneNode(true));
+      refRow1a.current.appendChild(c)
+      refRow1b.current.appendChild(c.cloneNode(true))
     }
 
-    let newChildren2 = shuffleChildren(refRow2a.current);
-    refRow2a.current.innerHTML = "";
-    refRow2b.current.innerHTML = "";
+    let newChildren2 = shuffleChildren(refRow2a.current)
+    refRow2a.current.innerHTML = ""
+    refRow2b.current.innerHTML = ""
     for (let c of newChildren2) {
-      refRow2a.current.appendChild(c);
-      refRow2b.current.appendChild(c.cloneNode(true));
+      refRow2a.current.appendChild(c)
+      refRow2b.current.appendChild(c.cloneNode(true))
     }
-  }, []);
+  }, [])
 
   return (
     <div className="logos">
       <hr/>
-      <h3>Who's using Eclipse Vert.x?</h3>
+      <h3>Who&rsquo;s using Eclipse Vert.x?</h3>
       <div className="logos-row" style={{ animationDuration: `${DURATION1}s` }}>
         <div className="logos-row-half" ref={refRow1a}>{LOGO_ELEMENTS1}</div>
         <div className="logos-row-half" ref={refRow1b}>{LOGO_ELEMENTS1}</div>
@@ -142,5 +142,5 @@ export default () => {
         </Button></a>
       </div>
     </div>
-  );
-};
+  )
+}

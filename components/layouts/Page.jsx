@@ -1,6 +1,6 @@
-import Header from "../Header";
-import Footer from "../Footer";
-import "./Page.scss";
+import Header from "../Header"
+import Footer from "../Footer"
+import "./Page.scss"
 
 const Layout = props => (
   <main className="page">
@@ -12,6 +12,6 @@ const Layout = props => (
     </div>
     <Footer />
   </main>
-);
+)
 
-export default Layout;
+export default Layout

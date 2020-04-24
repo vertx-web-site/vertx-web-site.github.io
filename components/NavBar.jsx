@@ -1,31 +1,31 @@
-import classNames from "classnames";
-import Link from "next/link";
-import "./NavBar.scss";
-import { useRef, useState } from "react";
+import classNames from "classnames"
+import Link from "next/link"
+import "./NavBar.scss"
+import { useRef, useState } from "react"
 
-import Gitter from "@icons-pack/react-simple-icons/lib/Gitter";
-import Stackoverflow from "@icons-pack/react-simple-icons/lib/Stackoverflow";
-import Youtube from "@icons-pack/react-simple-icons/lib/Youtube";
+import Gitter from "@icons-pack/react-simple-icons/lib/Gitter"
+import Stackoverflow from "@icons-pack/react-simple-icons/lib/Stackoverflow"
+import Youtube from "@icons-pack/react-simple-icons/lib/Youtube"
 
 export default () => {
-  const refRight = useRef();
-  const [collapse, setCollapse] = useState(false);
-  const [rightMaxHeight, setRightMaxHeight] = useState(undefined);
+  const refRight = useRef()
+  const [collapse, setCollapse] = useState(false)
+  const [rightMaxHeight, setRightMaxHeight] = useState(undefined)
 
   const onClick = () => {
-    let height = 0;
+    let height = 0
     for (let c of refRight.current.children) {
-      height += c.offsetHeight;
+      height += c.offsetHeight
     }
 
     if (collapse) {
-      setCollapse(false);
-      setRightMaxHeight(undefined);
+      setCollapse(false)
+      setRightMaxHeight(undefined)
     } else {
-      setCollapse(true);
-      setRightMaxHeight(height);
+      setCollapse(true)
+      setRightMaxHeight(height)
     }
-  };
+  }
 
   return (
     <div className="navbar">
@@ -71,5 +71,5 @@ export default () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
