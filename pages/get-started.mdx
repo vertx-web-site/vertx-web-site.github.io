@@ -136,6 +136,42 @@ content-type: application/json; charset=utf-8
 }
 ```
 
+Or with `curl` tool:
+
+```
+% curl -v http://localhost:8888
+*   Trying ::1:8888...
+* Connected to localhost (::1) port 8888 (#0)
+> GET / HTTP/1.1
+> Host: localhost:8888
+> User-Agent: curl/7.69.1
+> Accept: */*
+>
+* Mark bundle as not supporting multiuse
+< HTTP/1.1 200 OK
+< content-type: application/json; charset=utf-8
+< content-length: 115
+<
+* Connection #0 to host localhost left intact
+{"name":"unknown","address":"0:0:0:0:0:0:0:1:59610","message":"Hello unknown connected from 0:0:0:0:0:0:0:1:59610"}
+
+% curl -v http://localhost:8888\?name\="Francesco"
+*   Trying ::1:8888...
+* Connected to localhost (::1) port 8888 (#0)
+> GET /?name=Francesco HTTP/1.1
+> Host: localhost:8888
+> User-Agent: curl/7.69.1
+> Accept: */*
+>
+* Mark bundle as not supporting multiuse
+< HTTP/1.1 200 OK
+< content-type: application/json; charset=utf-8
+< content-length: 119
+<
+* Connection #0 to host localhost left intact
+{"name":"Francesco","address":"0:0:0:0:0:0:0:1:59708","message":"Hello Francesco connected from 0:0:0:0:0:0:0:1:59708"}
+```
+
 ## <span className="get-started-step">4</span> Go further
 
 Now that you have had a taste of how easy and fun it is to get started with Vert.x, here are a few pointers to help guide you further along your journey:
