@@ -48,6 +48,9 @@ export default () => {
             <Link href="/">
               <a className="navbar-menu-item">Ecosystem</a>
             </Link>
+            <Link href="/introduction-to-vertx-and-reactive">
+              <a className="navbar-menu-item">Intro</a>
+            </Link>
             <Link href="/docs/">
               <a className="navbar-menu-item">Docs</a>
             </Link>
