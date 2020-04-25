@@ -1,9 +1,9 @@
 import Guide from "./Guide"
-import "./GetStarted.scss"
+import "./Intro.scss"
 
 export default (props) => (
   <Guide {...props}>
-    <div className="get-started">
+    <div className="intro">
       {props.children}
     </div>
   </Guide>

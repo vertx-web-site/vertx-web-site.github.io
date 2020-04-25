@@ -1,4 +1,4 @@
-import Layout from "../components/layouts/Page"
+import Layout from "../components/layouts/Intro"
 export default Layout
 
 export const meta = {
@@ -40,7 +40,7 @@ So what makes Vert.x a great option for writing your next **cloud-native** or **
 The classic approach to concurrency is to use **threads**.
 Multiple threads can live within a single **process**, perform **concurrent** work, and **share** the same memory space.
 
-<img src={require("../assets/introduction/threads.svg")} alt="Threads" />
+<img src={require("../assets/introduction/threads.svg")} alt="Threads" className="intro-img-threads" />
 
 Most application and service development frameworks are based on multi-threading.
 On the surface, the model of having **1 thread per connection** is reassuring because developers can rely on traditional **imperative style** code.
