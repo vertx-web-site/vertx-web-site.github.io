@@ -1,3 +1,4 @@
+const betterShell = require("./plugins/rehype-highlight-better-shell")
 const highlight = require("rehype-highlight")
 const hyphenate = require("./plugins/remark-hyphenate")
 const optimizedImages = require("next-optimized-images")
@@ -9,7 +10,11 @@ const withPlugins = require("next-compose-plugins")
 const mdx = require("@next/mdx")({
   options: {
     remarkPlugins: [hyphenate, smartypants],
-    rehypePlugins: [highlight]
+    rehypePlugins: [[highlight, {
+      languages: {
+        "better-shell": betterShell
+      }
+    }]]
   }
 })
 

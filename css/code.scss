@@ -6,6 +6,13 @@
   padding: 0.5em;
   background: $code-bg;
   color: #fff;
+
+  &.language-shell, &.language-better-shell {
+    // .bash:first-of-type {
+    :not(.bash) + .bash {
+      color: #d2a8e0;
+    }
+  }
 }
 
 .pre-code {
