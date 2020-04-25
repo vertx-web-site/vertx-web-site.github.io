@@ -4,12 +4,12 @@ import Footer from "../Footer"
 import Book from "../index/Book"
 import Logos from "../index/Logos"
 
-const Layout = props => (
+const Layout = ({ meta = {}, children }) => (
   <main>
-    <Header title={props.meta.title}/>
+    <Header title={meta.title}/>
     <Hero />
     <div className="container">
-      {props.children}
+      {children}
     </div>
     <Logos />
     <Book />

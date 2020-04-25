@@ -25,7 +25,8 @@ const config = {
     return {
       "/": { page: "/" },
       "/docs": { page: "/docs" },
-      "/get-started": { page: "/get-started" }
+      "/get-started": { page: "/get-started" },
+      "/introduction-to-vertx-and-reactive": { page: "/introduction-to-vertx-and-reactive" }
     }
   },
 

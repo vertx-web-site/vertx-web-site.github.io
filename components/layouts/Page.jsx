@@ -3,7 +3,7 @@ import Header from "../Header"
 import Footer from "../Footer"
 import "./Page.scss"
 
-const Layout = ({ meta, narrow, children }) => (
+const Layout = ({ meta = {}, narrow, children }) => (
   <main className="page">
     <Header title={meta.title}/>
     <div className="page-content">

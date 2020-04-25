@@ -38,7 +38,7 @@ export default () => {
   }
 
   return (
-    <Layout meta={{ title: "Vert.x | Documentation" }}>
+    <Layout meta={{ title: "Documentation" }}>
       <h2>Documentation</h2>
       {sections}
     </Layout>
