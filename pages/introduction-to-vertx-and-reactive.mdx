@@ -1,9 +1,9 @@
-import Layout from "../components/layouts/Page";
-export default Layout;
+import Layout from "../components/layouts/Page"
+export default Layout
 
 export const meta = {
   title: "Eclipse Vert.x | Introduction to Vert.x and Reactive"
-};
+}
 
 <!-- Content
     Problems it solves
@@ -21,92 +21,81 @@ Is it redundant with vertx-core doc intro ?
 Not as long as Akka page
 What you write is what you run -->
 
-### Eclipse Vert.x and reactive in just a few words
+# Eclipse Vert.x and reactive in just a few words
 
 Eclipse Vert.x is a tool-kit for building **reactive** applications on the JVM.
-
 Reactive applications are both **scalable** as workloads grow, and **resilient** when failures arise.
-
 A reactive application is **responsive** as it keeps latency under control by making efficient usage of system resources, and by protecting itself from errors.
 
-![Microservices](/images/introduction/microservices.svg)
+<img src={require("../assets/introduction/microservices.svg")} alt="Microservices" />
 
 Vert.x is backed by a large ecosystem of reactive modules with just anything you need when writing modern services: a comprehensive web stack, reactive database drivers, messaging, event streams, clustering, metrics, distributed tracing and more.
 
-Vert.x is a toolkit and not a framework that ships with black magic: **what you write is actually what you get to execute**, as simple as that.
+Vert.x is a tool-kit and not a framework that ships with black magic: **what you write is actually what you get to execute**, as simple as that.
 
 So what makes Vert.x a great option for writing your next **cloud-native** or **[twelve-factor](https://12factor.net/)** app?
 
-### In the beginning there were threads...
+## In the beginning, there were threads...
 
 The classic approach to concurrency is to use **threads**.
-
 Multiple threads can live within a single **process**, perform **concurrent** work, and **share** the same memory space.
 
-![Threads](/images/introduction/threads.svg)
+<img src={require("../assets/introduction/threads.svg")} alt="Threads" />
 
 Most application and service development frameworks are based on multi-threading.
+On the surface, the model of having **1 thread per connection** is reassuring because developers can rely on traditional **imperative style** code.
 
-On the surface the model of having **1 thread per connection** is reassuring because developers can rely on traditional **imperative style** code.
+This is fine, especially if you forget about those silly mistakes you can make with multi-threading and memory access ...
 
-This is fine, especially if you forget about those silly mistakes you can make with multi-threading and memory access...
-
-### Multi-threading is "simple" but limited
+## Multi-threading is "simple" but limited
 
 What happens as the workload grows beyond moderate workloads?
 [(see the C10k problem)](https://en.wikipedia.org/wiki/C10k_problem)
 
 The answer is simple: you start making your operating system kernel **suffer** because there is too much **context switching** work with in-flight requests.
 
-![Blocking I/O](/images/introduction/blocking-io.svg)
+<img src={require("../assets/introduction/blocking-io.svg")} alt="Blocking I/O" />
 
 Some of your threads will be **blocked** because they are waiting on I/O operations to complete, some will be **ready** to handle I/O results, and some will be in the middle of doing CPU-intensive tasks.
 
-Modern kernels have very good schedulers, but you cannot expect them to deal with 50 000 threads as easily as they would do with 5000.
+Modern kernels have very good schedulers, but you cannot expect them to deal with 50&thinsp;000 threads as easily as they would do with 5&thinsp;000. Also, threads aren't cheap: creating a thread takes a few milliseconds, and a new thread eats about 1MB of memory.
 
-Also threads aren't cheap: creating a thread takes a few milliseconds, and a new thread eats about 1MB of memory.
-
-### Asynchronous programming: scalability and resource efficiency
+## Asynchronous programming: scalability and resource efficiency
 
 Processing more concurrent connections with less threads is possible when you use **asynchronous I/O**.
-
 Instead of blocking a thread when an I/O operation occurs, we move on to another task which is ready to progress, and resume the initial task later when it is ready.
 
-Vert.x multiplexes concurrent workloads using **event-loops**.
+Vert.x multiplexes concurrent workloads using **event loops**.
 
-![Event loop](/images/introduction/event-loop.svg)
+<img src={require("../assets/introduction/event-loop.svg")} alt="Event loop" />
 
-Code that runs on event-loops shall not perform blocking I/O or lengthy processing but don't worry if you have such code: Vert.x has worker threads and APIs to process events back on an event-loop.
+Code that runs on event loops should not perform blocking I/O or lengthy processing. But don't worry if you have such code: Vert.x has worker threads and APIs to process events back on an event loop.
 
-### Pick the best asynchronous programming model for your problem domain
+## Pick the best asynchronous programming model for your problem domain
 
 We know that asynchronous programming requires more efforts.
-At the core of Vert.x we support **callbacks** and **promises / futures**, the later being a simple and elegant model for chaining asynchronous operations.
+At the core of Vert.x, we support **callbacks** and **promises/futures**, the latter being a simple and elegant model for chaining asynchronous operations.
 
-Advanced reactive programming is possible with [RxJava](https://github.com/ReactiveX/RxJava), and if you prefer something closer to traditional imperative programming then we are happy to provide you with first-class support of [Kotlin coroutines](https://kotlinlang.org/docs/reference/coroutines-overview.html).
+Advanced reactive programming is possible with [RxJava](https://github.com/ReactiveX/RxJava), and if you prefer something closer to traditional imperative programming, then we are happy to provide you with first-class support of [Kotlin coroutines](https://kotlinlang.org/docs/reference/coroutines-overview.html).
 
-![Async](/images/introduction/async.svg)
+<img src={require("../assets/introduction/async.svg")} alt="Asynchronous programming" />
 
 Vert.x supports many asynchronous programming models: choose what works best for each problem you need to solve!
 
-### Don't let failures ruin responsiveness
+## Don't let failures ruin responsiveness
 
 Failures happen all the time.
 A database will go down, the network will go down, or some service you depend on will become unresponsive.
 
-![Failures](/images/introduction/failures.svg)
+<img src={require("../assets/introduction/failures.svg")} alt="Failures" />
 
 Vert.x offers tools to keep latency under control, including a simple and efficient **circuit breaker**.
 
-### A rich ecosystem
+## A rich ecosystem
 
 Databases, messaging, event streaming, web, IoT, authentication, container environments, metrics, ... you name it.
 
-![Ecosystem](/images/introduction/ecosystem.svg)
+<img src={require("../assets/introduction/ecosystem.svg")} alt="Ecosystem" />
 
 We have a rich ecosystem of modules in the Vert.x stack for covering most of your needs.
-
 There is also a larger ecosystem around Vert.x: see [the Reactiverse](https://reactiverse.io/) and [Awesome Vert.x](https://github.com/vert-x3/vertx-awesome).
-
-
-
