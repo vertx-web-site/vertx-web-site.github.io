@@ -156,11 +156,7 @@
       }
 
       .listingblock pre {
-        @extend .hljs;
-        border-radius: $border-radius;
-        padding: $spacer;
-        font-size: $font-size-small;
-        margin: $spacer * 1.5 0;
+        @extend .pre-code;
       }
 
       .ulist > ul {

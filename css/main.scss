@@ -89,6 +89,12 @@ h6 {
   }
 }
 
+.container-narrow {
+  @media (min-width: $xl) {
+    max-width: $container-lg;
+  }
+}
+
 .img-fluid {
   max-width: 100%;
 }
@@ -114,4 +120,10 @@ svg {
 
 code, pre {
   font-family: "Roboto Mono", SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+p code {
+  display: inline-flex;
+  max-width: 100%;
+  overflow: auto;
 }

@@ -1,9 +1,9 @@
-import "./FeaturesItem.scss";
+import "./FeaturesItem.scss"
 
 export default ({ icon, title, children }) => {
   let newIcon = React.cloneElement(icon, {
     size: 46
-  });
+  })
 
   return (
     <div className="features-item">
@@ -11,5 +11,5 @@ export default ({ icon, title, children }) => {
       <h5>{title}</h5>
       {children}
     </div>
-  );
-};
+  )
+}

@@ -1,10 +1,9 @@
-import classNames from "classnames";
-import Router from "next/router";
-import { useEffect, useRef } from "react";
-import "./SearchResults.scss";
+import classNames from "classnames"
+import { useEffect } from "react"
+import "./SearchResults.scss"
 
 export default React.forwardRef(({ results, activeId, onHover, onClick }, ref) => {
-  let resultsList = [];
+  let resultsList = []
   if (results) {
     results.forEach(r => {
       resultsList.push(
@@ -13,25 +12,25 @@ export default React.forwardRef(({ results, activeId, onHover, onClick }, ref) =
             onMouseEnter={() => { if (onHover) onHover(r.id) }}>
           <h5>{r.title}</h5>{r.result}
         </li>
-      );
-    });
+      )
+    })
   }
 
   useEffect(() => {
-    let cur = ref.current;
+    let cur = ref.current
     if (cur) {
-      let activeElement = cur.querySelector(".active");
+      let activeElement = cur.querySelector(".active")
       if (activeElement) {
-        let elemTop = activeElement.offsetTop - cur.offsetTop;
-        let scrollEnd = cur.scrollTop + cur.clientHeight;
+        let elemTop = activeElement.offsetTop - cur.offsetTop
+        let scrollEnd = cur.scrollTop + cur.clientHeight
         if (elemTop + activeElement.clientHeight > scrollEnd) {
-          cur.scrollTop = elemTop + activeElement.clientHeight - cur.clientHeight;
+          cur.scrollTop = elemTop + activeElement.clientHeight - cur.clientHeight
         } else if (elemTop < cur.scrollTop) {
-          cur.scrollTop = elemTop;
+          cur.scrollTop = elemTop
         }
       }
     }
-  }, [activeId]);
+  }, [activeId, ref])
 
   // Elements must always exist because we hold a ref. Just make them
   // invisible depending on the current state.
@@ -42,5 +41,5 @@ export default React.forwardRef(({ results, activeId, onHover, onClick }, ref) =
     <div className={classNames("search-results-none", { visible: results && results.length === 0 })}>
       No results.
     </div>
-  </>);
-});
+  </>)
+})

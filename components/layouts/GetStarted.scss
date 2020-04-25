@@ -1,0 +1,89 @@
+@import "../../css/variables";
+@import "../../css/code";
+
+.get-started {
+  h1 {
+    text-align: center;
+    margin-top: 8rem;
+    margin-bottom: 3rem;
+  }
+
+  h2 {
+    border-top: 1px solid $gray-300;
+    margin-top: 4rem;
+    padding-top: 2rem;
+    display: flex;
+    align-items: center;
+  }
+
+  .get-started-screenshot {
+    display: flex;
+    justify-content: center;
+    margin: $spacer * 2 0;
+
+    a {
+      display: block;
+      border: 1px solid $gray-300;
+      box-shadow: $button-box-shadow;
+      padding: $spacer;
+      width: 600px;
+    }
+  }
+
+  .get-started-step {
+    display: inline-flex;
+    background-color: $primary;
+    color: #fff;
+    width: 3.5rem;
+    height: 3.5rem;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.25em;
+    border-radius: $border-radius;
+    margin-right: $spacer;
+  }
+
+  ul {
+    padding-left: 1.1rem;
+  }
+
+  pre {
+    @extend .pre-code;
+  }
+
+  .get-started-next-steps {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: $spacer;
+    list-style-type: none;
+    padding: 0;
+    margin-top: $spacer * 1.5;
+
+    @media (max-width: $md) {
+      grid-template-columns: 1fr;
+    }
+
+    a {
+      color: $gray-700;
+      text-decoration: none;
+
+      &:hover li {
+        border-color: $primary;
+      }
+    }
+
+    li {
+      border: 1px solid $gray-300;
+      border-radius: $border-radius;
+      padding: $spacer * 1.5 $spacer * 1.5 $spacer * 2 $spacer * 1.5;
+      cursor: pointer;
+      transition: $button-border-color-transition;
+
+      h4 {
+        margin: 0 0 .5rem 0;
+        font-size: 1.25rem;
+        color: $primary;
+      }
+    }
+  }
+}

@@ -1,7 +1,8 @@
-import Header from "../Header";
-import Hero from "../hero/Hero";
-import Footer from "../Footer";
-import Logos from "../index/Logos";
+import Header from "../Header"
+import Hero from "../hero/Hero"
+import Footer from "../Footer"
+import Book from "../index/Book"
+import Logos from "../index/Logos"
 
 const Layout = props => (
   <main>
@@ -11,8 +12,9 @@ const Layout = props => (
       {props.children}
     </div>
     <Logos />
+    <Book />
     <Footer />
   </main>
-);
+)
 
-export default Layout;
+export default Layout

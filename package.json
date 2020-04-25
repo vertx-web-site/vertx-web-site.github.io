@@ -2,10 +2,11 @@
   "name": "vertx-web-site",
   "version": "4.0.0",
   "description": "The Vert.x website",
-  "private": "true",
+  "private": true,
   "scripts": {
     "dev": "next",
-    "build": "next build && next export",
+    "build": "npm run lint && rm -rf .next out && next build && next export",
+    "lint": "eslint --ext js,jsx components pages plugins",
     "update-docs": "cd docs && ./gradlew"
   },
   "repository": {
@@ -27,6 +28,7 @@
     "asciidoctor-highlight.js": "^0.2.1",
     "body-scroll-lock": "^3.0.1",
     "classnames": "^2.2.6",
+    "eslint-loader": "^4.0.0",
     "hyphenopoly": "^4.1.0",
     "imagemin-svgo": "^7.1.0",
     "isomorphic-unfetch": "^3.0.0",
@@ -47,5 +49,10 @@
     "serve": "^11.3.0",
     "swr": "^0.1.18",
     "unist-util-visit-parents": "^3.0.2"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-plugin-react": "^7.19.0",
+    "eslint-plugin-react-hooks": "^3.0.0"
   }
 }

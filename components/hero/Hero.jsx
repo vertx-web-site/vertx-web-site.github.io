@@ -1,9 +1,9 @@
-import Button from "../Button";
-import CodeExamples from "./CodeExamples";
-import "./Hero.scss";
-import GitHubStarsButton from "./GitHubStarsButton";
-import { FastForward } from "react-feather";
-import Link from "next/link";
+import Button from "../Button"
+import CodeExamples from "./CodeExamples"
+import "./Hero.scss"
+import GitHubStarsButton from "./GitHubStarsButton"
+import { FastForward } from "react-feather"
+import Link from "next/link"
 
 export default () => (
   <section className="hero">
@@ -25,4 +25,4 @@ export default () => (
       </div>
     </div>
   </section>
-);
+)

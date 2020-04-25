@@ -8,6 +8,14 @@
   color: #fff;
 }
 
+.pre-code {
+  @extend .hljs;
+  border-radius: $border-radius;
+  padding: $spacer;
+  font-size: $font-size-small;
+  margin: $spacer * 1.5 0;
+}
+
 .hljs-keyword,
 .hljs-selector-tag,
 .hljs-tag {
