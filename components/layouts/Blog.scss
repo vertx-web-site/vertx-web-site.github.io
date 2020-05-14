@@ -1,0 +1,112 @@
+@import "../../css/variables";
+
+.blog {
+  .blog-navbar {
+    ul {
+      padding: 0;
+      list-style-type: none;
+      margin-bottom: $spacer * 2;
+      display: flex;
+      align-items: center;
+      text-transform: uppercase;
+      justify-content: flex-end;
+
+      li {
+        font-size: $font-size-small;
+        font-weight: 400;
+
+        &:not(:first-child) {
+          margin-left: $spacer * 2;
+        }
+      }
+    }
+  }
+
+  .blog-post-entries {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: $spacer * 4;
+
+    .blog-post-entry {
+      display: flex;
+      flex-direction: column;
+      border-top: 1px solid $gray-300;
+      padding-top: $spacer * 2;
+
+      h3 {
+        font-size: 1.5rem;
+        line-height: 1.4;
+        margin-top: $spacer / 2;
+        margin-bottom: $spacer;
+
+        a:hover {
+          text-decoration: none;
+        }
+      }
+
+      .blog-post-date {
+        font-size: $font-size-small;
+        text-transform: uppercase;
+      }
+
+      .blog-post-category {
+        font-size: $font-size-small;
+        text-transform: uppercase;
+        margin-left: $spacer / 2;
+        font-weight: 400;
+      }
+
+      .blog-post-authors {
+        ul {
+          list-style-type: none;
+          padding: 0;
+          display: inline;
+
+          li {
+            display: inline-flex;
+            align-items: center;
+
+            &:not(:last-child) {
+              margin-right: $spacer;
+            }
+
+            img {
+              width: 24px;
+              height: 24px;
+              border-radius: 12px;
+              margin-right: $spacer / 4;
+            }
+          }
+        }
+      }
+
+      .blog-post-excerpt {
+        flex: 1;
+        text-align: justify;
+      }
+
+      .blog-post-read-more-link {
+        display: inline-flex;
+        align-items: center;
+
+        &:after {
+          content: "";
+          width: 0;
+          height: 0;
+          display: inline-block;
+          border-top: .38rem solid transparent;
+          border-bottom: .38rem solid transparent;
+          border-left: .45rem solid $primary;
+          margin-left: $spacer / 2;
+          margin-top: 4px;
+          transition: all 100ms ease;
+        }
+
+        &:hover:after {
+          border-left-color: darken($primary, 10%);
+          margin-left: $spacer / 3 * 2;
+        }
+      }
+    }
+  }
+}

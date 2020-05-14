@@ -57,7 +57,7 @@ export default () => {
             <Link href="/">
               <a className="navbar-menu-item">FAQ</a>
             </Link>
-            <Link href="/">
+            <Link href="/blog/">
               <a className="navbar-menu-item">Blog</a>
             </Link>
             <Link href="/">

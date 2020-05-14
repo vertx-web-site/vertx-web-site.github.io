@@ -29,6 +29,7 @@ const config = {
   exportPathMap() {
     return {
       "/": { page: "/" },
+      "/blog": { page: "/blog" },
       "/docs": { page: "/docs" },
       "/get-started": { page: "/get-started" },
       "/introduction-to-vertx-and-reactive": { page: "/introduction-to-vertx-and-reactive" }

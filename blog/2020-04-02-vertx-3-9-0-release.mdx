@@ -1,0 +1,118 @@
+export const meta = {
+  title: "Eclipse Vert.x 3.9.0 released!",
+  category: "releases",
+  authors: [{
+    name: "Julien Viet",
+    github_id: "vietj"
+  }]
+}
+
+# Eclipse Vert.x 3.9.0 released!
+
+We are extremely pleased to announce that the Eclipse Vert.x version 3.9.0 has been released.
+
+#### SQL Client fluent queries
+
+The query API becomes fluent with the addition of a `Query` API for queries creation and configuration.
+
+Collectors query now becomes part of the `Query` interface.
+
+This is a breaking API change done under the tech preview status given that SQL client is a Vert.x 4 feature back-ported to Vert.x 3.
+
+```java
+client.prepareQuery(sql).execute(tuple, ar -> ...);
+
+// With a collector
+client.preparedQuery(sql).collecting(Collectors.toList()).execute(tuple, ar -> ...);
+```
+
+You can read more about this new feature [here](https://github.com/vert-x3/wiki/wiki/3.9.0-Deprecations-and-breaking-changes#fluent-query-api).
+
+#### Redis client backport
+
+For Vert.x 4.0 we are doing a full reboot to the redis client. The functionality for the new client is ready to test on the master branch. In order to give users the opportunity to test and make the upcoming client even better it has been backported to the 3.9.0 release. The new client will allow users to connect to a single node, sentinel or cluster of redis nodes. The easiest way to start is:
+
+```java
+Redis.createClient(
+      vertx,
+      new RedisOptions()
+        .setConnectionString("redis://localhost:7006"))
+      .send(Request.cmd(Command.PING), send -> {
+        if (send.succeeded()) {
+          // Should have received a pong...
+        }
+      });
+```
+
+#### Same-site cookies
+
+[`SameSite` Cookie](https://tools.ietf.org/html/draft-west-first-party-cookies-07) policy has been added to the HTTP Server Cookies.
+
+This is also applicable to web which allows cookie sessions to use `SameSite` cookies:
+
+```java
+SessionHandler.create(store)
+  .setCookieSameSite(CookieSameSite.STRICT);
+```
+
+Same-site cookies let servers require that a cookie shouldn't be sent with cross-site (where Site is defined by the registrable domain) requests,
+which provides some protection against cross-site request forgery attacks (CSRF).
+
+#### Kafka client upgrade
+
+The Kafka client has been upgraded to Kafka 2.4.0 .
+
+Our reactive client exposes the Kafka Admin API. As of 2.4.0 this API has been replaced by a new Kafka Admin API and therefore
+the Vert.x Kafka Admin API changes, e.g listing consumers groups
+
+```java
+adminClient.listConsumerGroups(ar -> {
+    System.out.println("ConsumerGroups= " + ar.result());
+});
+```
+
+#### Future API
+
+With the recent addition of `Future#onComplete(...)` supporting several handlers per `Future` in 3.9 made the
+`Future#setHandler(...)` method feel awkward. Indeed `setHandler` conveys the meaning that the `Future` manages
+a single handler. In 3.9 we deprecate `Future#setHandler` in favor of `Future#onComplete`.
+
+#### EDNS disabled by default
+
+EDNS is an extension mechanism for DNS (https://fr.wikipedia.org/wiki/EDNS) that should be disabled by default. It might
+cause unwanted issue and should be disabled by default.
+
+#### Auth Deprecation warnings
+
+As of 3.9.0 many APIs will be start warning about deprecations. There is a big refactoring and some breaking API changes coming
+on 4.0.0 and these warnings are just to give users a heads up that API will change on the upcoming version.
+
+For more information about the upcoming 4.0 changes you can read [4.0.0-Deprecations-and-breaking-changes](https://github.com/vert-x3/wiki/wiki/4.0.0-Deprecations-and-breaking-changes)
+
+#### Dependency upgrades
+
+In 3.9 we update a few versions:
+
+- Netty 4.1.48.Final
+- Jackson 2.10.2
+- Guava 25.1-jre
+- GraphQL Java 14
+
+#### Finally
+
+The [3.9.0 release notes](https://github.com/vert-x3/wiki/wiki/3.9.0-Release-Notes) can be found on the wiki, as well as the
+list of [deprecations and breaking changes](https://github.com/vert-x3/wiki/wiki/3.9.0-Deprecations-and-breaking-changes)
+
+Docker images are available on [Docker Hub](https://hub.docker.com/u/vertx/).
+
+The Vert.x distribution can be downloaded on the website but is also available from [SDKMan](http://sdkman.io/index.html) and [HomeBrew](http://brew.sh/).
+
+The event bus client using the SockJS bridge is available from:
+
+* [NPM](https://www.npmjs.com/package/vertx3-eventbus-client)
+* [Bower](https://github.com/vert-x3/vertx-bus-bower)
+* [WebJars](http://www.webjars.org/)
+
+The release artifacts have been deployed to [Maven Central](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22io.vertx%22%20AND%20v%3A%223.9.0%22) and you can get the distribution on [Bintray](https://bintray.com/vertx/downloads/distribution/3.9.0/view).
+
+That's it! Happy coding and see you soon on our user or dev [channels](https://vertx.io/community).

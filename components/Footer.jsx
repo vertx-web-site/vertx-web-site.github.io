@@ -39,7 +39,7 @@ export default () => {
               <li><Link href="/"><a>Ecosystem</a></Link></li>
               <li><Link href="/docs/"><a>Docs</a></Link></li>
               <li><Link href="/"><a>FAQ</a></Link></li>
-              <li><Link href="/"><a>Blog</a></Link></li>
+              <li><Link href="/blog/"><a>Blog</a></Link></li>
               <li><Link href="/"><a>Community</a></Link></li>
             </ul>
           </div>
