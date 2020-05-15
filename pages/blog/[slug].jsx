@@ -6,7 +6,7 @@ import POSTS from "../../components/blog/get-all-posts"
 import { Clock } from "react-feather"
 
 import Facebook from "@icons-pack/react-simple-icons/lib/Facebook"
-import LinkedIn from "@icons-pack/react-simple-icons/lib/LinkedIn"
+import Linkedin from "@icons-pack/react-simple-icons/lib/Linkedin"
 import Twitter from "@icons-pack/react-simple-icons/lib/Twitter"
 
 export async function getStaticPaths() {
@@ -77,7 +77,7 @@ export default ({ filename, date, slug, readingTime }) => {
             </a>
             <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`}
                 target="_blank" rel="noopener noreferrer">
-              <LinkedIn />
+              <Linkedin />
             </a>
             <a href={`https://www.facebook.com/sharer.php?u=${encodeURIComponent(url)}`}
                 target="_blank" rel="noopener noreferrer">
