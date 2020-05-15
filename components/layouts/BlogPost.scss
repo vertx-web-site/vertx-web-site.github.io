@@ -79,6 +79,28 @@
         text-transform: uppercase;
         font-weight: 400;
       }
+
+      .blog-post-sidebar-share-icons {
+        margin-top: $spacer;
+
+        a {
+          color: $gray-700;
+
+          svg {
+            transition: transform $button-transition-time $button-transition-ease;
+          }
+
+          &:hover {
+            svg {
+              transform: scale(1.1);
+            }
+          }
+
+          &:not(:last-child) {
+            margin-right: $spacer / 3 * 2;
+          }
+        }
+      }
     }
   }
 

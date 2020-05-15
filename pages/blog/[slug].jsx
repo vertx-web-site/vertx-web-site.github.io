@@ -3,6 +3,10 @@ import BlogDate from "../../components/blog/BlogDate"
 import BlogEntry from "../../components/blog/BlogEntry"
 import POSTS from "../../components/blog/get-all-posts"
 
+import Facebook from "@icons-pack/react-simple-icons/lib/Facebook"
+import LinkedIn from "@icons-pack/react-simple-icons/lib/LinkedIn"
+import Twitter from "@icons-pack/react-simple-icons/lib/Twitter"
+
 export async function getStaticPaths() {
   let paths = POSTS.map(p => ({ params: { slug: p.slug } }))
   return {
@@ -32,6 +36,8 @@ export default ({ filename, date, slug }) => {
     nextPost = POSTS[postIndex + 1]
   }
 
+  let url = `${process.env.baseUrl}/blog/${slug}`
+
   return (
     <Layout meta={{ title: `${post.meta.title} | Blog` }}>
       <div className="blog-post-main">
@@ -52,6 +58,20 @@ export default ({ filename, date, slug }) => {
           ))}
           <div className="blog-post-sidebar-date">Posted on <BlogDate date={date} /></div>
           in <a className="blog-post-sidebar-category">{post.meta.category}</a>
+          <div className="blog-post-sidebar-share-icons">
+            <a href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.meta.title)}&url=${encodeURIComponent(url)}&via=vertx_project`}
+                target="_blank" rel="noopener noreferrer">
+              <Twitter />
+            </a>
+            <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`}
+                target="_blank" rel="noopener noreferrer">
+              <LinkedIn />
+            </a>
+            <a href={`https://www.facebook.com/sharer.php?u=${encodeURIComponent(url)}`}
+                target="_blank" rel="noopener noreferrer">
+              <Facebook />
+            </a>
+          </div>
         </div>
       </div>
 

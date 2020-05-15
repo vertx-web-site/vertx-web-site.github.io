@@ -7,6 +7,8 @@ const smartypants = require("@silvenon/remark-smartypants")
 
 const withPlugins = require("next-compose-plugins")
 
+const isProd = process.env.NODE_ENV === "production"
+
 const mdx = require("@next/mdx")({
   options: {
     remarkPlugins: [hyphenate, smartypants],
@@ -19,6 +21,11 @@ const mdx = require("@next/mdx")({
 })
 
 const config = {
+  env: {
+    // URL to the website. MUST NOT end with a slash.
+    baseUrl: isProd ? "https://vertx-web-site.github.io" : "http://localhost:3000"
+  },
+
   // also render markdown pages
   pageExtensions: ["js", "jsx", "md", "mdx"],
 
