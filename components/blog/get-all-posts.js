@@ -10,4 +10,6 @@ const POSTS = require.context("../../blog", false, /\.mdx$/).keys().map(p => {
   }
 })
 
+POSTS.sort((a, b) => new Date(b.date) - new Date(a.date))
+
 export default POSTS
