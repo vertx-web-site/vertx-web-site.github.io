@@ -6,9 +6,7 @@ export default (props) => (
   <Page {...props}>
     <div className="blog-post">
       <BlogNavBar />
-      <div className="blog-post-main">
-        {props.children}
-      </div>
+      {props.children}
     </div>
   </Page>
 )
