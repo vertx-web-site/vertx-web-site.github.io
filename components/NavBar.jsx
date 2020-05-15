@@ -1,7 +1,7 @@
 import classNames from "classnames"
 import Link from "next/link"
 import "./NavBar.scss"
-import { useRef, useState } from "react"
+import {useRef, useState} from "react"
 
 import Gitter from "@icons-pack/react-simple-icons/lib/Gitter"
 import Stackoverflow from "@icons-pack/react-simple-icons/lib/Stackoverflow"
@@ -54,7 +54,7 @@ export default () => {
             <Link href="/docs/">
               <a className="navbar-menu-item">Docs</a>
             </Link>
-            <Link href="/">
+            <Link href="/faq">
               <a className="navbar-menu-item">FAQ</a>
             </Link>
             <Link href="/blog/">

@@ -1,0 +1,28 @@
+import Layout from "../components/layouts/GetStarted"
+import Link from "next/link"
+
+export default Layout
+
+export const meta = {
+  title: "Frequently asked questions"
+}
+
+# Frequently asked questions
+
+FIXME: TOC?
+
+### The `logActivity` option is enabled, but nothing is logged
+
+Most Vert.x network clients or servers have a `logActivity` option which enables network activity logging.
+When active, Netty's pipeline is configured for logging on Netty's logger, at `DEBUG` level
+
+This is why switching on the `logActivity` option is not enough.
+You also have to set the `io.netty.handler.logging.LoggingHandler` logger to `DEBUG` level in your logging framework configuration.
+
+## When Vert.x is clustered, what happens to event-bus messages if a node crashes?
+
+TODO: explain no persistence
+
+## Why doesn't my event-bus consumer pickup messages sent previously?
+
+TODO: explain no durability
