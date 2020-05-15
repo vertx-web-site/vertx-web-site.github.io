@@ -80,8 +80,16 @@
         font-weight: 400;
       }
 
+      .blog-post-sidebar-reading-time {
+        margin-top: $spacer * 2;
+        .feather {
+          margin-bottom: 2px;
+          margin-right: 2px;
+        }
+      }
+
       .blog-post-sidebar-share-icons {
-        margin-top: $spacer;
+        margin-top: $spacer * 2;
 
         a {
           color: $gray-700;

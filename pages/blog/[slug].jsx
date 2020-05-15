@@ -3,6 +3,8 @@ import BlogDate from "../../components/blog/BlogDate"
 import BlogEntry from "../../components/blog/BlogEntry"
 import POSTS from "../../components/blog/get-all-posts"
 
+import { Clock } from "react-feather"
+
 import Facebook from "@icons-pack/react-simple-icons/lib/Facebook"
 import LinkedIn from "@icons-pack/react-simple-icons/lib/LinkedIn"
 import Twitter from "@icons-pack/react-simple-icons/lib/Twitter"
@@ -16,13 +18,22 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
+  const fs = require("fs").promises
+  const readingTime = require("reading-time")
+
   let post = POSTS.find(p => p.slug === params.slug)
+  let source = await fs.readFile(`blog/${post.filename}`, "utf-8")
+  let stats = readingTime(source)
+
   return {
-    props: post
+    props: {
+      ...post,
+      readingTime: stats
+    }
   }
 }
 
-export default ({ filename, date, slug }) => {
+export default ({ filename, date, slug, readingTime }) => {
   let post = require(`../../blog/${filename}`)
   let PostComponent = post.default
 
@@ -58,6 +69,7 @@ export default ({ filename, date, slug }) => {
           ))}
           <div className="blog-post-sidebar-date">Posted on <BlogDate date={date} /></div>
           in <a className="blog-post-sidebar-category">{post.meta.category}</a>
+          <div className="blog-post-sidebar-reading-time"><Clock className="feather" /> {readingTime.text}</div>
           <div className="blog-post-sidebar-share-icons">
             <a href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.meta.title)}&url=${encodeURIComponent(url)}&via=vertx_project`}
                 target="_blank" rel="noopener noreferrer">
