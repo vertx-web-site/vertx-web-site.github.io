@@ -1,0 +1,32 @@
+@import "../../css/variables";
+
+.blog-navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $spacer * 2;
+
+  h2 {
+    display: inline;
+    margin: 0;
+  }
+
+  ul {
+    padding: 0;
+    list-style-type: none;
+    margin: 0;
+    display: inline-flex;
+    align-items: center;
+    text-transform: uppercase;
+    justify-content: flex-end;
+
+    li {
+      font-size: $font-size-small;
+      font-weight: 400;
+
+      &:not(:first-child) {
+        margin-left: $spacer * 2;
+      }
+    }
+  }
+}
