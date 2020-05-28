@@ -21,8 +21,27 @@ You also have to set the `io.netty.handler.logging.LoggingHandler` logger to `DE
 
 ## When Vert.x is clustered, what happens to event-bus messages if a node crashes?
 
-TODO: explain no persistence
+When you send a message on the event-bus, it is sent to the recipient's node and stored in memory until it is processed.
+It is **not** persisted to disk or a database.
+
+Consequently, if the recipient's node crashes before the message is processed, the message is lost.
+
+If it's not possible to tolerate loss of some messages, there are a few options including:
+
+- idempotent retry when sending fails with an error
+- asynchronous acknowlegdement
+
+Otherwise, consider using a full-fledged broker-based messaging system like [Apache ActiveMQ](http://activemq.apache.org/) or [RabbitMQ](https://www.rabbitmq.com/).
+
+Vert.x has clients for such solutions: [Vert.x AMQP Client](https://vertx.io/docs/vertx-amqp-client/java/), [RabbitMQ Client for Vert.x](https://vertx.io/docs/vertx-rabbitmq-client/java/) or [Vert.x-Stomp](https://vertx.io/docs/vertx-stomp/java/).
 
 ## Why doesn't my event-bus consumer pickup messages sent previously?
 
-TODO: explain no durability
+When you publish a message on the event-bus, it is sent to all nodes having one or more consumers registered for the corresponding message address.
+It is **not** persisted to disk or a database.
+
+Consequently, new consumers on existing nodes or nodes joining the cluster later will **not** receive this message.
+
+If you need this feature, consider using a full-fledged broker-based messaging system like [Apache ActiveMQ](http://activemq.apache.org/) or [RabbitMQ](https://www.rabbitmq.com/).
+
+Vert.x has clients for such solutions: [Vert.x AMQP Client](https://vertx.io/docs/vertx-amqp-client/java/), [RabbitMQ Client for Vert.x](https://vertx.io/docs/vertx-rabbitmq-client/java/) or [Vert.x-Stomp](https://vertx.io/docs/vertx-stomp/java/).
