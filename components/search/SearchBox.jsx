@@ -2,7 +2,7 @@ import classNames from "classnames"
 import { useState, useRef } from "react"
 import { Search, XCircle } from "react-feather"
 import "./SearchBox.scss"
-import debounce from "lodash.debounce"
+import debounce from "lodash/debounce"
 
 export default ({ onChange, onSubmit, onNext, onPrev }) => {
   const [content, setContent] = useState("")

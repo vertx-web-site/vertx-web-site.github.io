@@ -1,7 +1,7 @@
 import "./Logos.scss"
 import Button from "../Button"
 import { Mail } from "react-feather"
-import shuffle from "lodash.shuffle"
+import shuffle from "lodash/shuffle"
 import { useEffect, useRef } from "react"
 
 const LOGOS = [{
