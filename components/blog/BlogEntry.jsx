@@ -18,10 +18,13 @@ export default ({ post }) => {
   return (
     <div className="blog-entry">
       <div className="blog-entry-meta">
-        <span className="blog-entry-date"><BlogDate date={post.date} /></span> <span className="blog-entry-category">{p.meta.category}</span>
+        <span className="blog-entry-date"><BlogDate date={post.date} /></span>
+        <Link href="/blog/[...slug]" as={`/blog/category/${p.meta.category}/`}>
+          <a className="blog-entry-category">{p.meta.category}</a>
+        </Link>
       </div>
       <h3>
-        <Link href="/blog/[slug]" as={`/blog/${post.slug}/`}>
+        <Link href="/blog/[...slug]" as={`/blog/${post.slug}/`}>
           <a>{p.meta.title}</a>
         </Link>
       </h3>
@@ -30,7 +33,7 @@ export default ({ post }) => {
         Lorem ipsum dolor sit amet, con­sectetuer adip­isc­ing elit, sed diam non­ummy nibh eu­is­mod tin­cidunt ut laoreet do­lore magna ali­quam erat vo­lut­pat. Ut wisi enim ad.
       </p>
       <span className="blog-entry-read-more-link">
-        <Link href="/blog/[slug]" as={`/blog/${post.slug}/`}>
+        <Link href="/blog/[...slug]" as={`/blog/${post.slug}/`}>
           <a>Read more</a>
         </Link>
       </span>

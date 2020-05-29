@@ -1,7 +1,10 @@
-import Layout from "../../components/layouts/BlogPost"
+import Blog from "../../components/layouts/Blog"
+import BlogPost from "../../components/layouts/BlogPost"
 import BlogDate from "../../components/blog/BlogDate"
 import BlogEntry from "../../components/blog/BlogEntry"
 import POSTS from "../../components/blog/get-all-posts"
+import Link from "next/link"
+import capitalize from "lodash/capitalize"
 
 import { Clock } from "react-feather"
 
@@ -9,8 +12,28 @@ import Facebook from "@icons-pack/react-simple-icons/lib/Facebook"
 import Linkedin from "@icons-pack/react-simple-icons/lib/Linkedin"
 import Twitter from "@icons-pack/react-simple-icons/lib/Twitter"
 
+const CATEGORIES = (() => {
+  let categories = new Set()
+  for (let p of POSTS) {
+    if (p.meta.category !== undefined) {
+      categories.add(p.meta.category)
+    }
+  }
+  return [...categories]
+})()
+
 export async function getStaticPaths() {
-  let paths = POSTS.map(p => ({ params: { slug: p.slug } }))
+  let paths = POSTS.map(p => ({ params: { slug: [p.slug, ""] } }))
+
+  // catch categories
+  for (let c of CATEGORIES) {
+    paths.push({
+      params: {
+        slug: ["category", c, ""]
+      }
+    })
+  }
+
   return {
     paths,
     fallback: false
@@ -18,10 +41,23 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
+  let slug = params.slug[0]
+
+  // handle category index
+  if (slug === "category") {
+    let category = params.slug[1]
+    return {
+      props: {
+        category
+      }
+    }
+  }
+
+  // handle blog posts
   const fs = require("fs").promises
   const readingTime = require("reading-time")
 
-  let post = POSTS.find(p => p.slug === params.slug)
+  let post = POSTS.find(p => p.slug === slug)
   let source = await fs.readFile(`blog/${post.filename}`, "utf-8")
   let stats = readingTime(source)
 
@@ -33,7 +69,25 @@ export async function getStaticProps({ params }) {
   }
 }
 
-export default ({ filename, date, slug, readingTime }) => {
+export default ({ filename, date, slug, readingTime, category }) => {
+  if (filename === undefined) {
+    // filter posts by category
+    let posts = POSTS
+    if (category !== undefined) {
+      posts = posts.filter(p => p.meta.category === category)
+    }
+
+    let entries = posts.map(p => <BlogEntry key={p.slug} post={p} />)
+
+    return (
+      <Blog meta={{ title: `${capitalize(category)} | Blog` }} categories={CATEGORIES}>
+        <div className="blog-entries">
+          {entries}
+        </div>
+      </Blog>
+    )
+  }
+
   let post = require(`../../blog/${filename}`)
   let PostComponent = post.default
 
@@ -50,7 +104,7 @@ export default ({ filename, date, slug, readingTime }) => {
   let url = `${process.env.baseUrl}/blog/${slug}`
 
   return (
-    <Layout meta={{ title: `${post.meta.title} | Blog` }}>
+    <BlogPost meta={{ title: `${post.meta.title} | Blog` }} categories={CATEGORIES}>
       <div className="blog-post-main">
         <div className="blog-post-content">
           <PostComponent />
@@ -68,7 +122,9 @@ export default ({ filename, date, slug, readingTime }) => {
             </div>
           ))}
           <div className="blog-post-sidebar-date">Posted on <BlogDate date={date} /></div>
-          in <a className="blog-post-sidebar-category">{post.meta.category}</a>
+          in <Link href="/blog/[...slug]" as={`/blog/category/${post.meta.category}/`}>
+            <a className="blog-post-sidebar-category">{post.meta.category}</a>
+          </Link>
           <div className="blog-post-sidebar-reading-time"><Clock className="feather" /> {readingTime.text}</div>
           <div className="blog-post-sidebar-share-icons">
             <a href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.meta.title)}&url=${encodeURIComponent(url)}&via=vertx_project`}
@@ -114,6 +170,6 @@ export default ({ filename, date, slug, readingTime }) => {
           <BlogEntry post={POSTS[4]} />
         </div>
       </div>
-    </Layout>
+    </BlogPost>
   )
 }

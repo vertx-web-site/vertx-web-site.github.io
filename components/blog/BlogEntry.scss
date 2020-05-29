@@ -25,8 +25,9 @@
   .blog-entry-category {
     font-size: $font-size-small;
     text-transform: uppercase;
-    margin-left: $spacer / 2;
+    margin-left: $spacer / 3 * 2;
     font-weight: 400;
+    color: $gray-700;
   }
 
   .blog-entry-authors {

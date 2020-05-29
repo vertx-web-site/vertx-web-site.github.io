@@ -3,10 +3,15 @@ const POSTS = require.context("../../blog", false, /\.mdx$/).keys().map(p => {
   if (e[2].indexOf(".") >= 0) {
     throw `Invalid blog post filename: ${p}. Dots '.' are not allowed.`
   }
+
+  let filename = p.substring(2)
+  let post = require(`../../blog/${filename}`)
+
   return {
-    filename: p.substring(2),
+    filename,
     date: e[1],
-    slug: e[2]
+    slug: e[2],
+    meta: post.meta
   }
 })
 

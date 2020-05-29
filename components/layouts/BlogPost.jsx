@@ -5,7 +5,7 @@ import "./BlogPost.scss"
 export default (props) => (
   <Page {...props}>
     <div className="blog-post">
-      <BlogNavBar />
+      <BlogNavBar categories={props.categories} />
       {props.children}
     </div>
   </Page>
