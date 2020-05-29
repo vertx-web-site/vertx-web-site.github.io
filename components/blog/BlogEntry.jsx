@@ -29,8 +29,8 @@ export default ({ post }) => {
         </Link>
       </h3>
       <span className="blog-entry-authors"><ul>{authors}</ul></span>
-      <p className="blog-entry-excerpt">
-        Lorem ipsum dolor sit amet, con­sectetuer adip­isc­ing elit, sed diam non­ummy nibh eu­is­mod tin­cidunt ut laoreet do­lore magna ali­quam erat vo­lut­pat. Ut wisi enim ad.
+      <p className="blog-entry-summary">
+        {p.meta.summary || "Lorem ipsum dolor sit amet, con­sectetuer adip­isc­ing elit, sed diam non­ummy nibh eu­is­mod tin­cidunt ut laoreet do­lore magna ali­quam erat vo­lut­pat. Ut wisi enim ad."}
       </p>
       <span className="blog-entry-read-more-link">
         <Link href="/blog/[...slug]" as={`/blog/${post.slug}/`}>

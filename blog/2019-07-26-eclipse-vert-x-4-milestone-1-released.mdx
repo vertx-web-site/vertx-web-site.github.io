@@ -4,7 +4,8 @@ export const meta = {
   authors: [{
     name: "Julien Viet",
     github_id: "vietj"
-  }]
+  }],
+  summary: "This is the first milestone of the upcoming Vert.x 4. It extends the 3.x callback asynchronous model to a future/callback hybrid model and introduces a Tracing API."
 }
 
 # Eclipse Vert.x 4 milestone 1 released!
@@ -37,7 +38,7 @@ will be futurized soon and you will be able to try them in the next milestones.
 #### Tracing
 
 Instrumenting asynchronous application for distributed tracing is quite challenging because most tracing libraries
-rely on [thread local storage](https://fr.wikipedia.org/wiki/Thread_Local_Storage). While it works reasonnably well
+rely on [thread local storage](https://fr.wikipedia.org/wiki/Thread_Local_Storage). While it works reasonably well
 in a blocking application, this does not work for an asynchronous application.
 
 This supposes that the application control flow matters (i.e threads) although what really matters is the application

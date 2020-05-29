@@ -4,7 +4,8 @@ export const meta = {
   authors: [{
     name: "Julien Viet",
     github_id: "vietj"
-  }]
+  }],
+  summary: "The new milestone of Vert.x 4 makes progress in futurisation and includes improvements on the mail client, general clients, and security."
 }
 
 # Eclipse Vert.x 4 milestone 4 released!
@@ -47,7 +48,7 @@ support for DKIM signatures.
 
 #### General client improvements
 
-Some Vert.x client are designed to be used within the verticle that created it while some can be shared between
+Some Vert.x clients are designed to be used within the verticle that created it while some can be shared between
 verticles. This is a technical limitation that stems from the fact that client are implemented using Vert.x or Netty
 (such as `HttpClient`) and are bound to the underlying event-loop that powers them.
 
