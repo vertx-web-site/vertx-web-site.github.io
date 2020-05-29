@@ -2,6 +2,7 @@ import Blog from "../../components/layouts/Blog"
 import BlogPost from "../../components/layouts/BlogPost"
 import BlogDate from "../../components/blog/BlogDate"
 import BlogEntry from "../../components/blog/BlogEntry"
+import Pagination from "../../components/blog/Pagination"
 import POSTS from "../../components/blog/get-all-posts"
 import Link from "next/link"
 import capitalize from "lodash/capitalize"
@@ -11,6 +12,8 @@ import { Clock } from "react-feather"
 import Facebook from "@icons-pack/react-simple-icons/lib/Facebook"
 import Linkedin from "@icons-pack/react-simple-icons/lib/Linkedin"
 import Twitter from "@icons-pack/react-simple-icons/lib/Twitter"
+
+const MAX_ITEMS_PER_PAGE = 6
 
 const CATEGORIES = (() => {
   let categories = new Set()
@@ -34,6 +37,29 @@ export async function getStaticPaths() {
     })
   }
 
+  // catch pages
+  let numPages = Math.ceil(POSTS.length / MAX_ITEMS_PER_PAGE)
+  for (let p = 1; p < numPages; ++p) {
+    paths.push({
+      params: {
+        slug: ["page", `${p + 1}`, ""]
+      }
+    })
+  }
+
+  // catch pages for categories
+  for (let c of CATEGORIES) {
+    let categoryPosts = POSTS.filter(p => p.meta.category === c)
+    let nCategoryPages = Math.ceil(categoryPosts.length / MAX_ITEMS_PER_PAGE)
+    for (let p = 1; p < nCategoryPages; ++p) {
+      paths.push({
+        params: {
+          slug: ["category", c, "page", `${p + 1}`, ""]
+        }
+      })
+    }
+  }
+
   return {
     paths,
     fallback: false
@@ -43,12 +69,30 @@ export async function getStaticPaths() {
 export async function getStaticProps({ params }) {
   let slug = params.slug[0]
 
+  // handle page index
+  if (slug === "page") {
+    let page = parseInt(params.slug[1])
+    return {
+      props: {
+        page
+      }
+    }
+  }
+
   // handle category index
   if (slug === "category") {
     let category = params.slug[1]
+
+    // handle pages
+    let page
+    if (params.slug.length > 3 && params.slug[2] === "page") {
+      page = parseInt(params.slug[3])
+    }
+
     return {
       props: {
-        category
+        category,
+        ...(page && { page })
       }
     }
   }
@@ -69,13 +113,17 @@ export async function getStaticProps({ params }) {
   }
 }
 
-export default ({ filename, date, slug, readingTime, category }) => {
+export default ({ filename, date, slug, readingTime, category, page = 1 }) => {
   if (filename === undefined) {
     // filter posts by category
     let posts = POSTS
     if (category !== undefined) {
       posts = posts.filter(p => p.meta.category === category)
     }
+
+    // display current page
+    let numPages = Math.ceil(posts.length / MAX_ITEMS_PER_PAGE)
+    posts = posts.slice(MAX_ITEMS_PER_PAGE * (page - 1), MAX_ITEMS_PER_PAGE * page)
 
     let entries = posts.map(p => <BlogEntry key={p.slug} post={p} />)
 
@@ -84,6 +132,7 @@ export default ({ filename, date, slug, readingTime, category }) => {
         <div className="blog-entries">
           {entries}
         </div>
+        <Pagination currentPage={page} numPages={numPages} category={category} />
       </Blog>
     )
   }
