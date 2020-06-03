@@ -4,14 +4,25 @@ import { Fragment } from "react"
 
 const pages = {
   "Core": {
-    "Java": "/docs/vertx-core/java/",
-    "Groovy": "/docs/vertx-core/groovy/",
-    "JavaScript": "/docs/vertx-core/js/"
+    "Java": "/docs/vertx-core/java/"
   },
   "Web":  {
-    "Java": "/docs/vertx-web/java/",
-    "Groovy": "/docs/vertx-web/groovy/",
-    "JavaScript": "/docs/vertx-web/js/"
+    "Java": "/docs/vertx-web/java/"
+  },
+  "Web Client":  {
+    "Java": "/docs/vertx-web-client/java/"
+  },
+  "PostgreSQL Client":  {
+    "Java": "/docs/vertx-pg-client/java/"
+  },
+  "MySQL Client":  {
+    "Java": "/docs/vertx-mysql-client/java/"
+  },
+  "DB2 Client":  {
+    "Java": "/docs/vertx-db2-client/java/"
+  },
+  "gRPC":  {
+    "Java": "/docs/vertx-grpc/java/"
   }
 }
 
