@@ -7,7 +7,7 @@ repositories {
 }
 
 dependencies {
-  implementation('io.vertx:vertx-stack-docs:4.0.0-milestone4:docs@zip') {
+  implementation('io.vertx:vertx-stack-docs:4.0.0-milestone5:docs@zip') {
     transitive = false
   }
 }
