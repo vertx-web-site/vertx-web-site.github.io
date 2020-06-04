@@ -82,6 +82,7 @@
 
       .blog-post-sidebar-reading-time {
         margin-top: $spacer * 2;
+
         .feather {
           margin-bottom: 2px;
           margin-right: 2px;
@@ -120,10 +121,8 @@
     margin-top: $spacer * 6;
     padding-top: $spacer * 2;
 
-    .blog-post-next-prev-entry {
-      h5 {
-        text-align: center;
-      }
+    h5 {
+      text-align: center;
     }
   }
 

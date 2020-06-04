@@ -42,15 +42,6 @@
       grid-template-columns: 1fr;
     }
 
-    a {
-      color: $gray-700;
-      text-decoration: none;
-
-      &:hover li {
-        border-color: $primary;
-      }
-    }
-
     li {
       border: 1px solid $gray-300;
       border-radius: $border-radius;
@@ -59,9 +50,18 @@
       transition: $button-border-color-transition;
 
       h4 {
-        margin: 0 0 .5rem 0;
+        margin: 0 0 0.5rem 0;
         font-size: 1.25rem;
         color: $primary;
+      }
+    }
+
+    a {
+      color: $gray-700;
+      text-decoration: none;
+
+      &:hover li {
+        border-color: $primary;
       }
     }
   }

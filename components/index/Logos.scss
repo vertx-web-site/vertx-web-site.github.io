@@ -40,7 +40,7 @@
     margin-bottom: 4rem;
 
     .button {
-      margin-left: .75rem;
+      margin-left: 0.75rem;
       line-height: 1.25rem;
       padding-top: $spacer / 1.65;
     }
@@ -92,7 +92,7 @@
     max-width: 11rem;
     max-height: 100%;
     filter: grayscale(100);
-    opacity: .75;
+    opacity: 0.75;
     transition: all $button-transition-time $button-transition-ease;
 
     svg {

@@ -64,20 +64,20 @@
     display: inline-flex;
     align-items: center;
 
-    &:after {
+    &::after {
       content: "";
       width: 0;
       height: 0;
       display: inline-block;
-      border-top: .38rem solid transparent;
-      border-bottom: .38rem solid transparent;
-      border-left: .45rem solid $primary;
+      border-top: 0.38rem solid transparent;
+      border-bottom: 0.38rem solid transparent;
+      border-left: 0.45rem solid $primary;
       margin-left: $spacer / 2;
       margin-top: 4px;
       transition: all 100ms ease;
     }
 
-    &:hover:after {
+    &:hover::after {
       border-left-color: darken($primary, 10%);
       margin-left: $spacer / 3 * 2;
     }

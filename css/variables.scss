@@ -1,7 +1,7 @@
 $font-size-base: 18px;
-$font-size-small: .875rem;
-$font-size-mini: .75rem;
-$font-size-tiny: .5rem;
+$font-size-small: 0.875rem;
+$font-size-mini: 0.75rem;
+$font-size-tiny: 0.5rem;
 
 $line-height-base: 1.7;
 
@@ -21,9 +21,9 @@ $gray-800: #3c3c3b;
 $spacer: 1rem;
 
 $border-radius: 1rem * 0.8;
-$border-radius-small: $border-radius * .875;
-$border-radius-mini: $border-radius * .75;
-$border-radius-tiny: $border-radius * .5;
+$border-radius-small: $border-radius * 0.875;
+$border-radius-mini: $border-radius * 0.75;
+$border-radius-tiny: $border-radius * 0.5;
 
 $xs: 0;
 $sm: 640px;
@@ -36,7 +36,7 @@ $container-md: 738px;
 $container-lg: 950px;
 $container-xl: 1180px;
 
-$button-box-shadow: 5px 5px 10px 0px rgba(0,0,0,0.2);
+$button-box-shadow: 5px 5px 10px 0 rgba(0, 0, 0, 0.2);
 
 $button-transition-time: 0.15s;
 $button-transition-ease: ease-in-out;

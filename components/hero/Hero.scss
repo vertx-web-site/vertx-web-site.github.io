@@ -8,7 +8,6 @@ section.hero {
     max-width: 100%;
     height: 900px;
     z-index: -1;
-
     background-image: url(../../assets/hero-background.svg);
     background-repeat: no-repeat;
     background-size: cover;
@@ -57,7 +56,7 @@ section.hero {
 
           @media (max-width: $sm) and (orientation: portrait) {
             display: block;
-            margin-bottom: .5em;
+            margin-bottom: 0.5em;
           }
 
           .hero-product-name-separator {

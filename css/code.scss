@@ -17,6 +17,7 @@
 
 .pre-code {
   @extend .hljs;
+
   border-radius: $border-radius;
   padding: $spacer;
   font-size: $font-size-small;
