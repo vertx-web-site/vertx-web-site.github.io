@@ -1,4 +1,5 @@
 import Layout from "../../components/layouts/Page"
+import ReadMoreLink from "../../components/ReadMoreLink"
 import Link from "next/link"
 import { Box, Database, Globe, Share2 } from "react-feather"
 import "./index.scss"
@@ -34,9 +35,9 @@ const SectionPart = ({ title, as, children }) => {
 
       <p>{children}</p>
 
-      <Link href="/docs/[...slug]" as={as}>
+      <ReadMoreLink href="/docs/[...slug]" as={as}>
         <a>Read</a>
-      </Link>
+      </ReadMoreLink>
     </div>
   )
 }

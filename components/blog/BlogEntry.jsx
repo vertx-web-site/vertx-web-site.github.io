@@ -1,8 +1,9 @@
 import Link from "next/link"
 import BlogDate from "./BlogDate"
+import ReadMoreLink from "../ReadMoreLink"
 import "./BlogEntry.scss"
 
-export default ({ post }) => {
+const BlogEntry = ({ post }) => {
   let p = require(`../../blog/${post.filename}`)
 
   let authors = p.meta.authors.map(a => {
@@ -32,11 +33,9 @@ export default ({ post }) => {
       <p className="blog-entry-summary">
         {p.meta.summary || "Lorem ipsum dolor sit amet, con­sectetuer adip­isc­ing elit, sed diam non­ummy nibh eu­is­mod tin­cidunt ut laoreet do­lore magna ali­quam erat vo­lut­pat. Ut wisi enim ad."}
       </p>
-      <span className="blog-entry-read-more-link">
-        <Link href="/blog/[...slug]" as={`/blog/${post.slug}/`}>
-          <a>Read more</a>
-        </Link>
-      </span>
+      <ReadMoreLink href="/blog/[...slug]" as={`/blog/${post.slug}/`} />
     </div>
   )
 }
+
+export default BlogEntry
