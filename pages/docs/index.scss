@@ -1,0 +1,58 @@
+@import "../../css/variables";
+
+.docs-index-section {
+  display: flex;
+  border-top: 1px solid $gray-300;
+  margin-top: $spacer * 2;
+  padding-top: $spacer * 2;
+
+  .docs-index-section-header {
+    svg {
+      width: 46px;
+      height: 46px;
+      stroke: $gray-600;
+      margin-right: $spacer;
+    }
+  }
+
+  .docs-index-section-part {
+    h3 {
+      margin: 0;
+      font-size: 1.5rem;
+      line-height: 1.4;
+
+      a {
+        &:hover {
+          text-decoration: none;
+        }
+      }
+    }
+  }
+
+  .docs-index-section-content {
+    margin-left: $spacer;
+    display: grid;
+    grid-gap: $spacer * 1.5;
+    flex: 1;
+  }
+
+  .docs-index-section-content-2 {
+    grid-template-columns: 1fr 1fr;
+
+    @media (max-width: $md) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .docs-index-section-content-3 {
+    grid-template-columns: 1fr 1fr 1fr;
+
+    @media (max-width: $lg) {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    @media (max-width: $md) {
+      grid-template-columns: 1fr;
+    }
+  }
+}
