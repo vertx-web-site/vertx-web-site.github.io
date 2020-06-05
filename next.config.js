@@ -39,6 +39,7 @@ const config = {
       "/blog": { page: "/blog" },
       "/docs": { page: "/docs" },
       "/ecosystem": { page: "/ecosystem" },
+      "/faq": { page: "/faq" },
       "/get-started": { page: "/get-started" },
       "/introduction-to-vertx-and-reactive": { page: "/introduction-to-vertx-and-reactive" }
     }
