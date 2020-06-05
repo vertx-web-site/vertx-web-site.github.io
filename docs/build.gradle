@@ -2,6 +2,15 @@ plugins {
   id 'java'
 }
 
+ext {
+  versions = [
+    "3.9.1",
+    "3.9.0",
+    "3.8.5",
+    "3.8.4"
+  ]
+}
+
 repositories {
   jcenter()
 }
@@ -12,16 +21,43 @@ dependencies {
   }
 }
 
+def versionToConfiguration(version) {
+  return "implementation_${version.replace('.', '_')}"
+}
+
+versions.each { configurations.create(versionToConfiguration(it)) }
+versions.each {
+  dependencies.add(versionToConfiguration(it), "io.vertx:vertx-stack-docs:$it:docs@zip") {
+    transitive = false
+  }
+}
+
 clean {
   delete "$projectDir/extracted"
 }
 
-task extractDocs(type: Sync) {
+task extractDocsLatest(type: Sync) {
   dependsOn configurations.runtimeClasspath
   from {
     configurations.runtimeClasspath.collect { zipTree(it) }
   }
   into "$projectDir/extracted"
+}
+
+task extractDocs {
+  dependsOn extractDocsLatest
+}
+
+versions.each { version ->
+  def conf = configurations[versionToConfiguration(version)]
+  def t = tasks.create(name: "extractDocs_${version.replace('.', '_')}", type: Sync) {
+    dependsOn conf
+    from {
+      conf.collect { zipTree(it) }
+    }
+    into "$projectDir/extracted/$version"
+  }
+  extractDocs.dependsOn t
 }
 
 defaultTasks 'clean', 'extractDocs'
