@@ -6,12 +6,12 @@
   width: 100%;
 
   a {
-    color: $gray-700;
+    color: $gray-800;
     text-transform: uppercase;
 
     &:hover {
       text-decoration: none;
-      color: lighten($gray-700, 30);
+      color: lighten($gray-800, 30);
       transition: $button-color-transition;
     }
   }
@@ -44,7 +44,7 @@
         height: 4px;
         margin-bottom: 5px;
         position: relative;
-        background: $gray-700;
+        background: $gray-800;
         border-radius: 3px;
         z-index: 1;
         transform-origin: 4px 0;
