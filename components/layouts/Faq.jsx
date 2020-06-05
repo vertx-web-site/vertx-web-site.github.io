@@ -1,10 +1,10 @@
-import Guide from "./Guide"
+import Page from "./Page"
 import "./Faq.scss"
 
 export default (props) => (
-    <Guide {...props}>
-      <div className="faq">
-        {props.children}
-      </div>
-    </Guide>
+  <Page {...props}>
+    <div className="faq">
+      {props.children}
+    </div>
+  </Page>
 )

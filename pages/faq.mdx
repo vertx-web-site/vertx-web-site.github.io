@@ -1,4 +1,5 @@
-import Layout from "../components/layouts/Guide"
+import Layout from "../components/layouts/Faq"
+import Question from "../components/faq/Question"
 import Link from "next/link"
 
 export default Layout
@@ -7,9 +8,9 @@ export const meta = {
   title: "Frequently asked questions"
 }
 
-# Frequently asked questions
+## Frequently asked questions
 
-### The `logActivity` option is enabled, but nothing is logged
+<Question question={<>The <code>logActivity</code> option is enabled, but nothing is logged</>}>
 
 Most Vert.x network clients or servers have a `logActivity` option which enables network activity logging.
 When active, Netty's pipeline is configured for logging on Netty's logger, at `DEBUG` level
@@ -17,7 +18,8 @@ When active, Netty's pipeline is configured for logging on Netty's logger, at `D
 This is why switching on the `logActivity` option is not enough.
 You also have to set the `io.netty.handler.logging.LoggingHandler` logger to `DEBUG` level in your logging framework configuration.
 
-## When Vert.x is clustered, what happens to event-bus messages if a node crashes?
+</Question>
+<Question question="When Vert.x is clustered, what happens to event-bus messages if a node crashes?">
 
 When you send a message on the event-bus, it is sent to the recipient's node and stored in memory until it is processed.
 It is **not** persisted to disk or a database.
@@ -33,7 +35,8 @@ Otherwise, consider using a full-fledged broker-based messaging system like [Apa
 
 Vert.x has clients for such solutions: [Vert.x AMQP Client](https://vertx.io/docs/vertx-amqp-client/java/), [RabbitMQ Client for Vert.x](https://vertx.io/docs/vertx-rabbitmq-client/java/) or [Vert.x-Stomp](https://vertx.io/docs/vertx-stomp/java/).
 
-## Why doesn't my event-bus consumer pickup messages sent previously?
+</Question>
+<Question question="Why doesn't my event-bus consumer pickup messages sent previously?">
 
 When you publish a message on the event-bus, it is sent to all nodes having one or more consumers registered for the corresponding message address.
 It is **not** persisted to disk or a database.
@@ -43,3 +46,5 @@ Consequently, new consumers on existing nodes or nodes joining the cluster later
 If you need this feature, consider using a full-fledged broker-based messaging system like [Apache ActiveMQ](http://activemq.apache.org/) or [RabbitMQ](https://www.rabbitmq.com/).
 
 Vert.x has clients for such solutions: [Vert.x AMQP Client](https://vertx.io/docs/vertx-amqp-client/java/), [RabbitMQ Client for Vert.x](https://vertx.io/docs/vertx-rabbitmq-client/java/) or [Vert.x-Stomp](https://vertx.io/docs/vertx-stomp/java/).
+
+</Question>
