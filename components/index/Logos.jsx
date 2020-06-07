@@ -37,6 +37,10 @@ const LOGOS = [{
   src: "instana.svg",
   url: "https://www.instana.com/"
 }, {
+  name: "ING",
+  src: "ing.svg",
+  url: "https://ing.com"
+}, {
   name: "Mobitech",
   src: "mobitech.svg",
   url: "http://mobitech.io/"
