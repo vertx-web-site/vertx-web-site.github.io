@@ -132,7 +132,7 @@ const Docs = () => {
           validating and issuing tokens
         </SectionPart>
 
-        <SectionPart title="JWT Auth" as="/docs/vertx-auth-webauthn/java/">
+        <SectionPart title="Webauthn Auth" as="/docs/vertx-auth-webauthn/java/">
           Authentication implementation using FIDO2 WebAuthn (passwordless)
         </SectionPart>
 
