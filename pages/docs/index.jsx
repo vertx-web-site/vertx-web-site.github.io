@@ -154,8 +154,8 @@ const Docs = () => {
           Authentication implementation using jvm LDAP capabilities
         </SectionPart>
 
-        <SectionPart title=".passwd Auth" as="/docs/vertx-auth-passwd/java/">
-          Authentication implementation using a .passwd file to query user information
+        <SectionPart title=".htpasswd Auth" as="/docs/vertx-auth-htpasswd/java/">
+          Authentication implementation using a .htpasswd file to query user information
         </SectionPart>
 
         <SectionPart title=".htdigest Auth" as="/docs/vertx-auth-htdigest/java/">
