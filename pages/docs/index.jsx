@@ -1,16 +1,14 @@
 import Layout from "../../components/layouts/Page"
 import ReadMoreLink from "../../components/ReadMoreLink"
 import Link from "next/link"
-import { Box, Database, Globe, Share2, Monitor, Loader, Send, Terminal, Key, Grid, Repeat } from "react-feather"
+import { Book, Box, CheckCircle, Database, Feather, Globe, Inbox, Search, Share2, Monitor, PhoneCall, Send, Terminal, Key, Grid } from "react-feather"
 import "./index.scss"
 
 const Section = ({ icon, children }) => {
   let numChildren = 1
   if (Array.isArray(children)) {
-    numChildren = children.length
+    numChildren = Math.min(2, children.length)
   }
-
-  numChildren = (numChildren - 1) % 3 + 1
 
   return (
     <section className="docs-index-section">
@@ -66,9 +64,7 @@ const Docs = () => {
           Vert.x Web Client is an easy-to-use client for HTTP and HTTP/2 with
           a large number of advanced features.
         </SectionPart>
-      </Section>
 
-      <Section icon={<Globe className="feather" />}>
         <SectionPart title="Web API Contract" as="/docs/vertx-web-api-contract/java/">
           OpenApi 3 specification for a design first approach and provides a validation framework
         </SectionPart>
@@ -76,11 +72,9 @@ const Docs = () => {
         <SectionPart title="Web API Service" as="/docs/vertx-web-api-service/java/">
           Connect your Router built with OpenAPI 3 directly to EventBus services
         </SectionPart>
-      </Section>
 
-      <Section icon={<Globe className="feather" />}>
         <SectionPart title="GraphQL" as="/docs/vertx-web-graphql/java/">
-          This module offers integration and support for writing Vert.x tests with JUnit 5
+          This module allows you to implement GraphQL servers with Vert.x Web.
         </SectionPart>
       </Section>
 
@@ -98,7 +92,7 @@ const Docs = () => {
         </SectionPart>
       </Section>
 
-      <Section icon={<Repeat className="feather" />}>
+      <Section icon={<CheckCircle className="feather" />}>
         <SectionPart title="Vert.x JUnit 5" as="/docs/vertx-junit5/java/">
           Vert.x supports reactive streams so your applications can interoperate with other reactive systems such as Akka or Project Reactor
         </SectionPart>
@@ -108,7 +102,7 @@ const Docs = () => {
         </SectionPart>
       </Section>
 
-      <Section icon={<Globe className="feather" />}>
+      <Section icon={<Book className="feather" />}>
         <SectionPart title="JSON Schema" as="/docs/vertx-json-schema/java/">
           An extendable implementation for Json Schema specification, validate
           every json structure, asynchronously
@@ -172,9 +166,7 @@ const Docs = () => {
         <SectionPart title="MySQL Client" as="/docs/vertx-mysql-client/java/">
           A lightweight, event-driven client for MySQL.
         </SectionPart>
-      </Section>
 
-      <Section icon={<Database className="feather" />}>
         <SectionPart title="Mongo Client" as="/docs/vertx-mongo-client/java/">
           Mongo client
         </SectionPart>
@@ -200,9 +192,15 @@ const Docs = () => {
         <SectionPart title="RabbitMQ Client" as="/docs/vertx-rabbitmq-client/java/">
           A client to interact with RabbitMQ
         </SectionPart>
+
+        <SectionPart title="MQTT" as="/docs/vertx-mqtt/java/">
+          Client/server for MQTT. The server is able to handle connections, communication and messages exchange with remote MQTT clients.
+          The client is 3.1.1 MQTT compliant with a bunch of methods for connecting/disconnecting to a broker, publishing messages
+          and subscribing to topics.
+        </SectionPart>
       </Section>
 
-      <Section icon={<Send className="feather" />}>
+      <Section icon={<Inbox className="feather" />}>
         <SectionPart title="Mail Client" as="/docs/vertx-mail-client/java/">
           Vert.x provides a simple SMTP mail client so you can send emails from your applications
         </SectionPart>
@@ -216,7 +214,7 @@ const Docs = () => {
         </SectionPart>
       </Section>
 
-      <Section icon={<Send className="feather" />}>
+      <Section icon={<Share2 className="feather" />}>
         <SectionPart title="TCP Eventbus Bridge" as="/docs/vertx-tcp-eventbus-bridge/java/">
           An eventbus bridge that lets you interact with Vert.x from any application thanks to a TCP socket.
         </SectionPart>
@@ -234,9 +232,7 @@ const Docs = () => {
         <SectionPart title="Opentracing" as="/docs/vertx-opentracing/java/">
           Tracing Vert.x services with OpenTracing
         </SectionPart>
-      </Section>
 
-      <Section icon={<Monitor className="feather" />}>
         <SectionPart title="Metrics using Dropwizard" as="/docs/vertx-dropwizard-metrics/java/">
           This component captures metrics from Vert.x core components and exposes them using Dropwizard
         </SectionPart>
@@ -250,7 +246,7 @@ const Docs = () => {
         </SectionPart>
       </Section>
 
-      <Section icon={<Share2 className="feather" />}>
+      <Section icon={<PhoneCall className="feather" />}>
         <SectionPart title="gRPC" as="/docs/vertx-grpc/java/">
           Implement gRPC Clients and Servers for Vert.x
         </SectionPart>
@@ -264,23 +260,21 @@ const Docs = () => {
         </SectionPart>
       </Section>
 
-      <Section icon={<Loader className="feather" />}>
+      <Section icon={<Feather className="feather" />}>
         <SectionPart title="RxJava 2" as="/docs/vertx-rx/java2/">
-          Don&apos;t like callback-style APIs? Vert.x provides Rx-ified versions for most of its APIs so you can use those if you prefer.
+          Don&rsquo;t like callback-style APIs? Vert.x provides Rx-ified versions for most of its APIs so you can use those if you prefer.
         </SectionPart>
 
         <SectionPart title="RxJava 1" as="/docs/vertx-rx/java/">
           RxJava 1 support
         </SectionPart>
-      </Section>
 
-      <Section icon={<Loader className="feather" />}>
         <SectionPart title="Reactive Streams" as="/docs/vertx-reactive-streams/java/">
           Vert.x supports reactive streams so your applications can interoperate with other reactive systems such as Akka or Project Reactor
         </SectionPart>
       </Section>
 
-      <Section icon={<Share2 className="feather" />}>
+      <Section icon={<Search className="feather" />}>
         <SectionPart title="Service Discovery" as="/docs/vertx-service-discovery/java/">
           Publish, lookup and bind any type of services
         </SectionPart>
@@ -291,14 +285,6 @@ const Docs = () => {
 
         <SectionPart title="Circuit Breaker" as="/docs/vertx-circuit-breaker/java/">
           The circuit breaker pattern
-        </SectionPart>
-      </Section>
-
-      <Section icon={<Database className="feather" />}>
-        <SectionPart title="MQTT" as="/docs/vertx-mqtt/java/">
-          Client/server for MQTT. The server is able to handle connections, communication and messages exchange with remote MQTT clients.
-          The client is 3.1.1 MQTT compliant with a bunch of methods for connecting/disconnecting to a broker, publishing messages
-          and subscribing to topics.
         </SectionPart>
       </Section>
 
