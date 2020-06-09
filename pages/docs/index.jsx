@@ -247,7 +247,7 @@ const Docs = () => {
 
       <Section icon={<Loader className="feather" />}>
         <SectionPart title="RxJava 2" as="/docs/vertx-rx/java2/">
-          Don't like callback-style APIs? Vert.x provides Rx-ified versions for most of its APIs so you can use those if you prefer.
+          Don&apos;t like callback-style APIs? Vert.x provides Rx-ified versions for most of its APIs so you can use those if you prefer.
         </SectionPart>
 
         <SectionPart title="RxJava 1" as="/docs/vertx-rx/java/">
