@@ -65,8 +65,13 @@ const Docs = () => {
           a large number of advanced features.
         </SectionPart>
 
-        <SectionPart title="Web API Contract" as="/docs/vertx-web-api-contract/java/">
-          OpenApi 3 specification for a design first approach and provides a validation framework
+        <SectionPart title="Web Validation" as="/docs/vertx-web-validation/java/">
+          Vert.x Web Validation is a library to parse and validate incoming Vert.x Web HTTP requests.
+        </SectionPart>
+
+        <SectionPart title="Web OpenAPI" as="/docs/vertx-web-openapi/java/">
+          Vert.x OpenAPI extends Vert.x Web to support OpenAPI 3, bringing to
+          the user a simple interface to build Web Routers conforming to API contracts.
         </SectionPart>
 
         <SectionPart title="Web API Service" as="/docs/vertx-web-api-service/java/">
@@ -104,8 +109,8 @@ const Docs = () => {
 
       <Section icon={<Book className="feather" />}>
         <SectionPart title="JSON Schema" as="/docs/vertx-json-schema/java/">
-          An extendable implementation for Json Schema specification, validate
-          every json structure, asynchronously
+          An extendable implementation for Json Schema specification to validate
+          every json structure asynchronously
         </SectionPart>
       </Section>
 
