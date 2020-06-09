@@ -36,8 +36,8 @@ export default () => {
             <h5 onClick={() => onClick(0)}>Eclipse Vert.x</h5>
             <ul ref={listRef[0]} style={{ maxHeight: listMaxHeight[0][0] }}
                 className={classNames({ visible: listVisible[0][0] })}>
-              <li><Link href="/ecosystem/"><a>Ecosystem</a></Link></li>
               <li><Link href="/docs/"><a>Docs</a></Link></li>
+              <li><Link href="/ecosystem/"><a>Ecosystem</a></Link></li>
               <li><Link href="/faq/"><a>FAQ</a></Link></li>
               <li><Link href="/blog/"><a>Blog</a></Link></li>
               <li><Link href="/"><a>Community</a></Link></li>

@@ -45,14 +45,14 @@ export default () => {
         <div className={classNames("navbar-right", { collapse })}
             ref={refRight} style={{ maxHeight: rightMaxHeight }}>
           <div className="navbar-menu">
-            <Link href="/ecosystem/">
-              <a className="navbar-menu-item">Ecosystem</a>
-            </Link>
             <Link href="/introduction-to-vertx-and-reactive/">
               <a className="navbar-menu-item">Intro</a>
             </Link>
             <Link href="/docs/">
               <a className="navbar-menu-item">Docs</a>
+            </Link>
+            <Link href="/ecosystem/">
+              <a className="navbar-menu-item">Ecosystem</a>
             </Link>
             <Link href="/faq/">
               <a className="navbar-menu-item">FAQ</a>
