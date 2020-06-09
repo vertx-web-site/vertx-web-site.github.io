@@ -173,7 +173,7 @@ const Docs = () => {
         </SectionPart>
 
         <SectionPart title="SQL Client Templates" as="/docs/vertx-sql-client-templates/java/index.html">
-          A lightweight, event-driven client for MySQL.
+          SQL Client Templates is a small library designed to facilitate the execution of SQL queries
         </SectionPart>
 
         <SectionPart title="Mongo Client" as="/docs/vertx-mongo-client/java/">
