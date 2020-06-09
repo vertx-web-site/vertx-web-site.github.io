@@ -74,4 +74,4 @@ clean {
     .findAll { it.name != ".gitkeep" }
 }
 
-defaultTasks 'clean', 'extractDocs', 'copyApidocs'
+defaultTasks 'extractDocs', 'copyApidocs'
