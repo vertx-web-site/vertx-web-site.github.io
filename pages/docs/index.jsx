@@ -69,7 +69,7 @@ const Docs = () => {
           Vert.x Web Validation is a library to parse and validate incoming Vert.x Web HTTP requests.
         </SectionPart>
 
-        <SectionPart title="Web OpenAPI" as="/docs/vertx-web-openapi/java/">
+        <SectionPart title="Web OpenAPI" as="/docs/vertx-web-openapi/java/index.html">
           Vert.x OpenAPI extends Vert.x Web to support OpenAPI 3, bringing to
           the user a simple interface to build Web Routers conforming to API contracts.
         </SectionPart>
@@ -169,6 +169,10 @@ const Docs = () => {
         </SectionPart>
 
         <SectionPart title="MySQL Client" as="/docs/vertx-mysql-client/java/">
+          A lightweight, event-driven client for MySQL.
+        </SectionPart>
+
+        <SectionPart title="SQL Client Templates" as="/docs/vertx-sql-client-templates/java/index.html">
           A lightweight, event-driven client for MySQL.
         </SectionPart>
 
