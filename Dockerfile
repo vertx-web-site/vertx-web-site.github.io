@@ -18,6 +18,7 @@ RUN npm i
 
 COPY . /vertx/
 COPY --from=docs /vertx/docs/extracted/ /vertx/docs/extracted/
+COPY --from=docs /vertx/public/docs/ /vertx/public/docs/
 RUN npm run build
 
 # Setup NGINX

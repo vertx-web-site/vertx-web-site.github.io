@@ -3,4 +3,5 @@
 docs/extracted/
 node_modules/
 out/
+public/docs/
 Dockerfile

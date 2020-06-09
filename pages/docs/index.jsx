@@ -76,10 +76,6 @@ const Docs = () => {
         <SectionPart title="MySQL Client" as="/docs/vertx-mysql-client/java/">
           A lightweight, event-driven client for MySQL.
         </SectionPart>
-
-        <SectionPart title="DB2 Client" as="/docs/vertx-db2-client/java/">
-          TODO
-        </SectionPart>
       </Section>
 
       <Section icon={<Share2 className="feather" />}>

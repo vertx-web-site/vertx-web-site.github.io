@@ -32,10 +32,6 @@ versions.each {
   }
 }
 
-clean {
-  delete "$projectDir/extracted"
-}
-
 task extractDocsLatest(type: Sync) {
   dependsOn configurations.runtimeClasspath
   from {
@@ -60,4 +56,19 @@ versions.each { version ->
   extractDocs.dependsOn t
 }
 
-defaultTasks 'clean', 'extractDocs'
+task copyApidocs(type: Sync) {
+  dependsOn extractDocs
+  from "$projectDir/extracted"
+  into "$projectDir/../public/docs"
+  include "**/apidocs/**"
+  includeEmptyDirs false
+}
+
+clean {
+  delete "$projectDir/extracted"
+  delete copyApidocs.outputs.files.findResults { it.listFiles() }
+    .flatten()
+    .findAll { it.name != ".gitignore" }
+}
+
+defaultTasks 'clean', 'extractDocs', 'copyApidocs'
