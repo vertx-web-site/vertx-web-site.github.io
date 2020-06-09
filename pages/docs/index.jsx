@@ -117,31 +117,50 @@ const Docs = () => {
 
       <Section icon={<Key className="feather" />}>
         <SectionPart title="Auth common" as="/docs/vertx-auth-common/java/">
-          The Common Auth APIs
-        </SectionPart>
-
-        <SectionPart title="JDBC Auth" as="/docs/vertx-auth-jdbc/java/">
-          Auth implementation backed by JDBC
-        </SectionPart>
-
-        <SectionPart title="JWT Auth" as="/docs/vertx-auth-jwt/java/">
-          Auth implementation using JSON web tokens (JWT)
-        </SectionPart>
-
-        <SectionPart title="Shiro Auth" as="/docs/vertx-auth-shiro/java/">
-          Auth implementation using Apache Shiro
-        </SectionPart>
-
-        <SectionPart title="Mongo Auth" as="/docs/vertx-auth-mongo/java/">
-          Auth implementation using MongoDB
+          The Common Auth APIs interfaces for authentication and authorization
+          that can be used from your Vert.x applications and can be backed by
+          different providers
         </SectionPart>
 
         <SectionPart title="Oauth2 Auth" as="/docs/vertx-auth-oauth2/java/">
-          Auth implementation for OAuth2
+          Auth implementation for OAuth2 (and to some extent OpenID Connect)
+          relying party implementation
+        </SectionPart>
+        
+        <SectionPart title="JWT Auth" as="/docs/vertx-auth-jwt/java/">
+          Auth implementation using JSON web tokens (JWT) capable of
+          validating and issuing tokens
+        </SectionPart>
+        
+        <SectionPart title="JWT Auth" as="/docs/vertx-auth-webauthn/java/">
+          Authentication implementation using FIDO2 WebAuthn (passwordless)
+        </SectionPart>
+        
+        <SectionPart title="Sql Client Auth" as="/docs/vertx-auth-sql-client/java/">
+          Auth implementation backed by Vert.x Sql Client capable of authentication
+          and authorization of users
+        </SectionPart>
+        
+        <SectionPart title="Mongo Auth" as="/docs/vertx-auth-mongo/java/">
+          Auth implementation using MongoDB capable of authentication
+          and authorization of users
+        </SectionPart>
+        
+        <SectionPart title="Properties Auth" as="/docs/vertx-auth-properties/java/">
+          Auth implementation using java properties files capable of authentication
+          and authorization of users
         </SectionPart>
 
+        <SectionPart title="Properties Auth" as="/docs/vertx-auth-ldap/java/">
+          Authentication implementation using jvm LDAP capabilities
+        </SectionPart>
+
+        <SectionPart title=".passwd Auth" as="/docs/vertx-auth-passwd/java/">
+          Authentication implementation using a .passwd file to query user information
+        </SectionPart>
+        
         <SectionPart title=".htdigest Auth" as="/docs/vertx-auth-htdigest/java/">
-          .htdigest file to query user information
+          Authentication implementation using a .htdigest file to query user information
         </SectionPart>
       </Section>
 
