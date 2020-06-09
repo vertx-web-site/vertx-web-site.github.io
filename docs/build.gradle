@@ -13,11 +13,18 @@ ext {
 
 repositories {
   jcenter()
+  maven {
+    url = uri("https://oss.sonatype.org/content/repositories/snapshots/")
+    mavenContent {
+      snapshotsOnly()
+    }
+  }
 }
 
 dependencies {
-  implementation('io.vertx:vertx-stack-docs:4.0.0-milestone5:docs@zip') {
+  implementation('io.vertx:vertx-stack-docs:4.0.0-SNAPSHOT:docs@zip') {
     transitive = false
+    changing=true
   }
 }
 
