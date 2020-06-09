@@ -62,13 +62,16 @@ task copyApidocs(type: Sync) {
   into "$projectDir/../public/docs"
   include "**/apidocs/**"
   includeEmptyDirs false
+  preserve {
+    include ".gitkeep"
+  }
 }
 
 clean {
   delete "$projectDir/extracted"
   delete copyApidocs.outputs.files.findResults { it.listFiles() }
     .flatten()
-    .findAll { it.name != ".gitignore" }
+    .findAll { it.name != ".gitkeep" }
 }
 
 defaultTasks 'clean', 'extractDocs', 'copyApidocs'

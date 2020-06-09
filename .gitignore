@@ -4,3 +4,7 @@
 docs/extracted/
 node_modules/
 out/
+
+# Do not put anything in the `public/docs` directory! Contents will be added
+# automatically by the 'docs/build.gradle' script
+public/docs/
