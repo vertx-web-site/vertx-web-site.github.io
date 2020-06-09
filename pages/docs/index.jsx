@@ -151,7 +151,7 @@ const Docs = () => {
           and authorization of users
         </SectionPart>
 
-        <SectionPart title="Properties Auth" as="/docs/vertx-auth-ldap/java/">
+        <SectionPart title="LDAP Auth" as="/docs/vertx-auth-ldap/java/">
           Authentication implementation using jvm LDAP capabilities
         </SectionPart>
 
