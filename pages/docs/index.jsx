@@ -1,7 +1,7 @@
 import Layout from "../../components/layouts/Page"
 import ReadMoreLink from "../../components/ReadMoreLink"
 import Link from "next/link"
-import { Box, Database, Globe, Share2, Monitor, Loader, Send, Activity, Terminal, Key, Grid, Repeat } from "react-feather"
+import { Box, Database, Globe, Share2, Monitor, Loader, Send, Terminal, Key, Grid, Repeat } from "react-feather"
 import "./index.scss"
 
 const Section = ({ icon, children }) => {
