@@ -126,26 +126,26 @@ const Docs = () => {
           Auth implementation for OAuth2 (and to some extent OpenID Connect)
           relying party implementation
         </SectionPart>
-        
+
         <SectionPart title="JWT Auth" as="/docs/vertx-auth-jwt/java/">
           Auth implementation using JSON web tokens (JWT) capable of
           validating and issuing tokens
         </SectionPart>
-        
+
         <SectionPart title="JWT Auth" as="/docs/vertx-auth-webauthn/java/">
           Authentication implementation using FIDO2 WebAuthn (passwordless)
         </SectionPart>
-        
+
         <SectionPart title="Sql Client Auth" as="/docs/vertx-auth-sql-client/java/">
           Auth implementation backed by Vert.x Sql Client capable of authentication
           and authorization of users
         </SectionPart>
-        
+
         <SectionPart title="Mongo Auth" as="/docs/vertx-auth-mongo/java/">
           Auth implementation using MongoDB capable of authentication
           and authorization of users
         </SectionPart>
-        
+
         <SectionPart title="Properties Auth" as="/docs/vertx-auth-properties/java/">
           Auth implementation using java properties files capable of authentication
           and authorization of users
@@ -158,7 +158,7 @@ const Docs = () => {
         <SectionPart title=".passwd Auth" as="/docs/vertx-auth-passwd/java/">
           Authentication implementation using a .passwd file to query user information
         </SectionPart>
-        
+
         <SectionPart title=".htdigest Auth" as="/docs/vertx-auth-htdigest/java/">
           Authentication implementation using a .htdigest file to query user information
         </SectionPart>
