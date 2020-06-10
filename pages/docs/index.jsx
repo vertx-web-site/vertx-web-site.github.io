@@ -87,7 +87,7 @@ const Docs = () => {
           Cluster manager implementation that uses Infinispan.
         </SectionPart>
 
-        <SectionPart title="Apache Ignite Clustering" as="/docs/vertx-infinispan/java/">
+        <SectionPart title="Apache Ignite Clustering" as="/docs/vertx-ignite/java/">
           Cluster manager implementation that uses Apache Ignite.
         </SectionPart>
       </Section>
