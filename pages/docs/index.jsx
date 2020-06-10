@@ -47,119 +47,106 @@ const Docs = () => {
 
       <Section icon={<Box className="feather" />}>
         <SectionPart title="Core" as="/docs/vertx-core/java/">
-          Vert.x core contains fairly low level functionality including support
-          for HTTP, TCP, file system access, and various other features. You can
-          use it directly in your own applications. It&rsquo;s also used by many of
-          the other components of Vert.x.
+          The Vert.x core APIs contain the backbone for writing Vert.x applications and low-level support for HTTP, TCP, UDP, file system, asynchronous streams and many other building blocks.
+          It is also used by many other components of Vert.x.
         </SectionPart>
       </Section>
 
       <Section icon={<Globe className="feather" />}>
         <SectionPart title="Web" as="/docs/vertx-web/java/">
-          Vert.x-Web is a tool-kit for writing sophisticated modern web
-          applications and HTTP microservices.
+          A tool-kit for writing sophisticated modern web applications and HTTP microservices.
         </SectionPart>
 
         <SectionPart title="Web Client" as="/docs/vertx-web-client/java/">
-          Vert.x Web Client is an easy-to-use client for HTTP and HTTP/2 with
-          a large number of advanced features.
+          An easy-to-use client for HTTP and HTTP/2 with many advanced features.
         </SectionPart>
 
         <SectionPart title="Web Validation" as="/docs/vertx-web-validation/java/">
-          Vert.x Web Validation is a library to parse and validate incoming Vert.x Web HTTP requests.
+          A library to declaratively parse and validate incoming Vert.x Web HTTP requests.
         </SectionPart>
 
         <SectionPart title="Web OpenAPI" as="/docs/vertx-web-openapi/java/index.html">
-          Vert.x OpenAPI extends Vert.x Web to support OpenAPI 3, bringing to
-          the user a simple interface to build Web Routers conforming to API contracts.
+         Extends Vert.x Web to support OpenAPI 3, bringing a simple interface for building web routers that conform to OpenAPI contracts.
         </SectionPart>
 
         <SectionPart title="Web API Service" as="/docs/vertx-web-api-service/java/">
-          Connect your Router built with OpenAPI 3 directly to EventBus services
+          Directly connect your OpenAPI 3 web routers to event-bus services.
         </SectionPart>
 
         <SectionPart title="GraphQL" as="/docs/vertx-web-graphql/java/">
-          This module allows you to implement GraphQL servers with Vert.x Web.
+          Implement GraphQL servers with Vert.x web.
         </SectionPart>
       </Section>
 
       <Section icon={<Grid className="feather" />}>
         <SectionPart title="Hazelcast Clustering" as="/docs/vertx-hazelcast/java/">
-          Cluster manager implementation that uses Hazelcast
+          Cluster manager implementation that uses Hazelcast.
         </SectionPart>
 
         <SectionPart title="Infinispan Clustering" as="/docs/vertx-infinispan/java/">
-          Cluster manager implementation that uses Infinispan
+          Cluster manager implementation that uses Infinispan.
         </SectionPart>
 
         <SectionPart title="Apache Ignite Clustering" as="/docs/vertx-infinispan/java/">
-          Cluster manager implementation that uses Infinispan
+          Cluster manager implementation that uses Apache Ignite.
         </SectionPart>
       </Section>
 
       <Section icon={<CheckCircle className="feather" />}>
         <SectionPart title="Vert.x JUnit 5" as="/docs/vertx-junit5/java/">
-          Vert.x supports for JUnit 5 testing
+          Vert.x supports for JUnit 5 testing.
         </SectionPart>
 
         <SectionPart title="Vert.x Unit" as="/docs/vertx-unit/java/">
-          Vert.x-Unit is an unit testing tool-kit especially design to work well with asynchronous code
+          A unit testing tool-kit especially designed to work well with asynchronous code, also includes JUnit 4 support.
         </SectionPart>
       </Section>
 
       <Section icon={<Book className="feather" />}>
         <SectionPart title="JSON Schema" as="/docs/vertx-json-schema/java/">
-          An extendable implementation for Json Schema specification to validate
-          every json structure asynchronously
+          An extensible implementation of the Json Schema specification to validate every JSON data structure, asynchronously.
         </SectionPart>
       </Section>
 
       <Section icon={<Key className="feather" />}>
         <SectionPart title="Auth common" as="/docs/vertx-auth-common/java/">
-          The Common Auth APIs interfaces for authentication and authorization
-          that can be used from your Vert.x applications and can be backed by
-          different providers
+          Common APIs for authentication and authorization for your Vert.x applications, backed by several providers.
         </SectionPart>
 
         <SectionPart title="Oauth2 Auth" as="/docs/vertx-auth-oauth2/java/">
-          Auth implementation for OAuth2 (and to some extent OpenID Connect)
-          relying party implementation
+          OAuth2 (and to some extent OpenID Connect) implementation.
         </SectionPart>
 
         <SectionPart title="JWT Auth" as="/docs/vertx-auth-jwt/java/">
-          Auth implementation using JSON web tokens (JWT) capable of
-          validating and issuing tokens
+          JSON web tokens (JWT) implementation.
         </SectionPart>
 
         <SectionPart title="Webauthn Auth" as="/docs/vertx-auth-webauthn/java/">
-          Authentication implementation using FIDO2 WebAuthn (passwordless)
+          FIDO2 WebAuthn (password-less) implementation.
         </SectionPart>
 
         <SectionPart title="Sql Client Auth" as="/docs/vertx-auth-sql-client/java/">
-          Auth implementation backed by Vert.x Sql Client capable of authentication
-          and authorization of users
+          Authentication and authorization support based on the Vert.x SQL client and a relational database.
         </SectionPart>
 
         <SectionPart title="Mongo Auth" as="/docs/vertx-auth-mongo/java/">
-          Auth implementation using MongoDB capable of authentication
-          and authorization of users
+          Authentication and authorization support based on MongoDB.
         </SectionPart>
 
         <SectionPart title="Properties Auth" as="/docs/vertx-auth-properties/java/">
-          Auth implementation using java properties files capable of authentication
-          and authorization of users
+          Authentication and authorization support based on Java properties files.
         </SectionPart>
 
         <SectionPart title="LDAP Auth" as="/docs/vertx-auth-ldap/java/">
-          Authentication implementation using jvm LDAP capabilities
+          Implementation using JDK built-in LDAP capabilities.
         </SectionPart>
 
         <SectionPart title=".htpasswd Auth" as="/docs/vertx-auth-htpasswd/java/">
-          Authentication implementation using a .htpasswd file to query user information
+          Authentication and authorization support based on <code>.htpasswd</code> files.
         </SectionPart>
 
         <SectionPart title=".htdigest Auth" as="/docs/vertx-auth-htdigest/java/">
-          Authentication implementation using a .htdigest file to query user information
+          Authentication and authorization support based on <code>.htdigest</code> files.
         </SectionPart>
       </Section>
 
@@ -172,134 +159,132 @@ const Docs = () => {
           A lightweight, event-driven client for MySQL.
         </SectionPart>
 
-        <SectionPart title="SQL Client Templates" as="/docs/vertx-sql-client-templates/java/index.html">
-          SQL Client Templates is a small library designed to facilitate the execution of SQL queries
+        <SectionPart title="SQL Client Templates" as="/docs/vertx-sql-client-templates/java/">
+          A small library designed to facilitate the execution and data manipulation of SQL queries.
         </SectionPart>
 
         <SectionPart title="Mongo Client" as="/docs/vertx-mongo-client/java/">
-          Mongo client
+          MongoDB client.
         </SectionPart>
 
         <SectionPart title="Redis Client" as="/docs/vertx-redis-client/java/">
-          Redis client
+          Redis client.
         </SectionPart>
 
         <SectionPart title="Cassandra Client" as="/docs/vertx-cassandra-client/java/">
-          Cassandra client
+          Apache Cassandra client.
         </SectionPart>
       </Section>
 
       <Section icon={<Send className="feather" />}>
         <SectionPart title="Kafka client" as="/docs/vertx-stomp/java/">
-          A client to interact with Apache Kafka
+          A client for Apache Kafka.
         </SectionPart>
 
         <SectionPart title="AMQP Client" as="/docs/vertx-amqp-client/java/">
-          A client for interacting with an AMQP 1.0 broker or router
+          A client for AMQP 1.0 brokers and routers.
         </SectionPart>
 
         <SectionPart title="RabbitMQ Client" as="/docs/vertx-rabbitmq-client/java/">
-          A client to interact with RabbitMQ
+          A client for RabbitMQ brokers.
         </SectionPart>
 
         <SectionPart title="MQTT" as="/docs/vertx-mqtt/java/">
-          Client/server for MQTT. The server is able to handle connections, communication and messages exchange with remote MQTT clients.
-          The client is 3.1.1 MQTT compliant with a bunch of methods for connecting/disconnecting to a broker, publishing messages
-          and subscribing to topics.
+          A client and server for MQTT, compliant with MQTT 3.1.1.
         </SectionPart>
       </Section>
 
       <Section icon={<Inbox className="feather" />}>
         <SectionPart title="Mail Client" as="/docs/vertx-mail-client/java/">
-          Vert.x provides a simple SMTP mail client so you can send emails from your applications
+          A SMTP client to send emails from your applications.
         </SectionPart>
 
         <SectionPart title="STOMP" as="/docs/vertx-stomp/java/">
-          An implementation of the STOMP protocol for client and server
+          A client and server implementation of the STOMP protocol.
         </SectionPart>
 
         <SectionPart title="Consul client" as="/docs/vertx-consul-client/java/">
-          A client to interact with Consul
+          A client for Consul.
         </SectionPart>
       </Section>
 
       <Section icon={<Share2 className="feather" />}>
         <SectionPart title="TCP Eventbus Bridge" as="/docs/vertx-tcp-eventbus-bridge/java/">
-          An eventbus bridge that lets you interact with Vert.x from any application thanks to a TCP socket.
+          An event-bus bridge that lets you interact with Vert.x from any application over a simple TCP-based protocol.
         </SectionPart>
 
         <SectionPart title="Camel Bridge" as="/docs/vertx-camel-bridge/java/">
-          An eventbus bridge that lets you interact with Apache Camel endpoints and routes
+          An event-bus bridge that lets you interact with Apache Camel endpoints and routes.
         </SectionPart>
       </Section>
 
       <Section icon={<Monitor className="feather" />}>
         <SectionPart title="Zipkin" as="/docs/vertx-zipkin/java/">
-          Tracing Vert.x services with Zipkin
+          Distributed tracing with Zipkin.
         </SectionPart>
 
         <SectionPart title="Opentracing" as="/docs/vertx-opentracing/java/">
-          Tracing Vert.x services with OpenTracing
+          Distributed tracing with OpenTracing.
         </SectionPart>
 
         <SectionPart title="Metrics using Dropwizard" as="/docs/vertx-dropwizard-metrics/java/">
-          This component captures metrics from Vert.x core components and exposes them using Dropwizard
+          Captures metrics from Vert.x core components and exposes them using Dropwizard.
         </SectionPart>
 
         <SectionPart title="Metrics using Micrometer" as="/docs/vertx-micrometer-metrics/java/">
-          This component captures metrics from Vert.x core components and exposes them using Micrometer
+          Captures metrics from Vert.x core components and exposes them using Micrometer.
         </SectionPart>
 
         <SectionPart title="Health Check" as="/docs/vertx-health-check/java/">
-          A simple way to expose health checks
+          A simple API to expose health checks over HTTP.
         </SectionPart>
       </Section>
 
       <Section icon={<PhoneCall className="feather" />}>
         <SectionPart title="gRPC" as="/docs/vertx-grpc/java/">
-          Implement gRPC Clients and Servers for Vert.x
+          Implement gRPC clients and servers with Vert.x.
         </SectionPart>
 
         <SectionPart title="Service Proxies" as="/docs/vertx-service-proxy/java/">
-          Proxies allow remote event bus services to be called as if they were local
+          Proxies allow remote event bus services to be called as if they were local.
         </SectionPart>
 
         <SectionPart title="SockJS Service Proxies" as="/docs/vertx-sockjs-service-proxy/java/">
-          Allow event bus services to be called from JavaScript (browser or Node.js)
+          Allow event bus services to be called from JavaScript (web browser or Node.js).
         </SectionPart>
       </Section>
 
       <Section icon={<Feather className="feather" />}>
         <SectionPart title="RxJava 2" as="/docs/vertx-rx/java2/">
-          Don&rsquo;t like callback-style APIs? Vert.x provides Rx-ified versions for most of its APIs so you can use those if you prefer.
+          RxJava 2 bindings for the Vert.x APIs, modules and clients.
         </SectionPart>
 
         <SectionPart title="RxJava 1" as="/docs/vertx-rx/java/">
-          RxJava 1 support
+          RxJava 1 bindings for the Vert.x APIs, modules and clients.
         </SectionPart>
 
         <SectionPart title="Reactive Streams" as="/docs/vertx-reactive-streams/java/">
-          Vert.x supports reactive streams so your applications can interoperate with other reactive systems such as Akka or Project Reactor
+          Reactive streams support so your applications can interoperate with other reactive systems such as Akka and Project Reactor.
         </SectionPart>
       </Section>
 
       <Section icon={<Search className="feather" />}>
         <SectionPart title="Service Discovery" as="/docs/vertx-service-discovery/java/">
-          Publish, lookup and bind any type of services
+          Publish, lookup and bind any type of service.
         </SectionPart>
 
         <SectionPart title="Config" as="/docs/vertx-config/java/">
-           An extensible way to configure Vert.x applications
+          An extensible way to configure Vert.x applications.
         </SectionPart>
 
         <SectionPart title="Circuit Breaker" as="/docs/vertx-circuit-breaker/java/">
-          The circuit breaker pattern
+          Implementation of the circuit-breaker pattern to mitigate failures.
         </SectionPart>
       </Section>
 
       <Section icon={<Terminal className="feather" />}>
         <SectionPart title="Shell" as="/docs/vertx-shell/java/">
-          This component lets you interact with your Vert.x application using a CLI interface
+          Interact with your Vert.x application using a CLI interface.
         </SectionPart>
       </Section>
     </Layout>
