@@ -99,7 +99,7 @@ const Docs = () => {
 
       <Section icon={<CheckCircle className="feather" />}>
         <SectionPart title="Vert.x JUnit 5" as="/docs/vertx-junit5/java/">
-          Vert.x supports reactive streams so your applications can interoperate with other reactive systems such as Akka or Project Reactor
+          Vert.x supports for JUnit 5 testing
         </SectionPart>
 
         <SectionPart title="Vert.x Unit" as="/docs/vertx-unit/java/">
