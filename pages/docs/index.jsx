@@ -177,7 +177,7 @@ const Docs = () => {
       </Section>
 
       <Section icon={<Send className="feather" />}>
-        <SectionPart title="Kafka client" as="/docs/vertx-stomp/java/">
+        <SectionPart title="Kafka client" as="/docs/vertx-kafka-client/java/">
           A client for Apache Kafka.
         </SectionPart>
 
