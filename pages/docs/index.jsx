@@ -5,7 +5,7 @@ import Link from "next/link"
 import { Book, Box, CheckCircle, Database, Feather, Globe, Inbox, Search, Share2, Monitor, PhoneCall, Send, Terminal, Key, Grid } from "react-feather"
 import "./index.scss"
 
-const Section = ({ icon, children, id }) => {
+const Section = ({ icon, children, id, name }) => {
   let numChildren = 1
   if (Array.isArray(children)) {
     numChildren = Math.min(2, children.length)
@@ -14,7 +14,7 @@ const Section = ({ icon, children, id }) => {
   return (
     <section className="docs-index-section" id={id}>
       <div className="docs-index-section-header">
-        {icon}
+        <h3>{icon} {name}</h3>
       </div>
       <div className={`docs-index-section-content docs-index-section-content-${numChildren}`}>
         {children}
@@ -32,7 +32,7 @@ const SectionPart = ({ title, as, children }) => {
         </Link>
       </h3>
 
-      <p>{children}</p>
+      <p className="docs-index-section-content-summary">{children}</p>
 
       <ReadMoreLink href="/docs/[...slug]" as={as}>
         <a>Read</a>
@@ -45,7 +45,7 @@ const Docs = () => {
   return (
     <Layout meta={{ title: "Documentation" }}>
       <div className="docs-index">
-        <h2>Docs</h2>
+        <h2>Documentation</h2>
 
         <div className="docs-index-main">
           <aside>
@@ -60,7 +60,7 @@ const Docs = () => {
               <li><ScrollLink href="#messaging">Messaging</ScrollLink></li>
               <li><ScrollLink href="#integration">Integration</ScrollLink></li>
               <li><ScrollLink href="#event-bus-bridges">Event bus bridges</ScrollLink></li>
-              <li><ScrollLink href="#tracing">Tracing</ScrollLink></li>
+              <li><ScrollLink href="#monitoring">Monitoring</ScrollLink></li>
               <li><ScrollLink href="#services">Services</ScrollLink></li>
               <li><ScrollLink href="#reactive">Reactive</ScrollLink></li>
               <li><ScrollLink href="#microservices">Microservices</ScrollLink></li>
@@ -69,15 +69,15 @@ const Docs = () => {
           </aside>
 
           <div>
-            <Section icon={<Box className="feather" />} id="core">
-              <SectionPart title="Core" as="/docs/vertx-core/java/">
+            <Section icon={<Box className="feather" />} id="core" name="Core">
+              <SectionPart title="Vert.x Core" as="/docs/vertx-core/java/">
                 The Vert.x core APIs contain the backbone for writing Vert.x applications and low-level support for HTTP, TCP, UDP, file system, asynchronous streams and many other building blocks.
                 It is also used by many other components of Vert.x.
               </SectionPart>
             </Section>
 
-            <Section icon={<Globe className="feather" />} id="web">
-              <SectionPart title="Web" as="/docs/vertx-web/java/">
+            <Section icon={<Globe className="feather" />} id="web" name="Web">
+              <SectionPart title="Vert.x Web" as="/docs/vertx-web/java/">
                 A tool-kit for writing sophisticated modern web applications and HTTP microservices.
               </SectionPart>
 
@@ -102,7 +102,7 @@ const Docs = () => {
               </SectionPart>
             </Section>
 
-            <Section icon={<Grid className="feather" />} id="clustering">
+            <Section icon={<Grid className="feather" />} id="clustering" name="Clustering">
               <SectionPart title="Hazelcast Clustering" as="/docs/vertx-hazelcast/java/">
                 Cluster manager implementation that uses Hazelcast.
               </SectionPart>
@@ -116,7 +116,7 @@ const Docs = () => {
               </SectionPart>
             </Section>
 
-            <Section icon={<CheckCircle className="feather" />} id="testing">
+            <Section icon={<CheckCircle className="feather" />} id="testing" name="Testing">
               <SectionPart title="Vert.x JUnit 5" as="/docs/vertx-junit5/java/">
                 Vert.x supports for JUnit 5 testing.
               </SectionPart>
@@ -126,13 +126,13 @@ const Docs = () => {
               </SectionPart>
             </Section>
 
-            <Section icon={<Book className="feather" />} id="standards">
+            <Section icon={<Book className="feather" />} id="standards" name="Standards">
               <SectionPart title="JSON Schema" as="/docs/vertx-json-schema/java/">
                 An extensible implementation of the Json Schema specification to validate every JSON data structure, asynchronously.
               </SectionPart>
             </Section>
 
-            <Section icon={<Key className="feather" />} id="authentication-and-authorisation">
+            <Section icon={<Key className="feather" />} id="authentication-and-authorisation" name="Authentication and authorization">
               <SectionPart title="Auth common" as="/docs/vertx-auth-common/java/">
                 Common APIs for authentication and authorization for your Vert.x applications, backed by several providers.
               </SectionPart>
@@ -174,7 +174,7 @@ const Docs = () => {
               </SectionPart>
             </Section>
 
-            <Section icon={<Database className="feather" />} id="databases">
+            <Section icon={<Database className="feather" />} id="databases" name="Databases">
               <SectionPart title="PostgreSQL Client" as="/docs/vertx-pg-client/java/">
                 A PostgreSQL client focusing on scalability and low overhead.
               </SectionPart>
@@ -200,7 +200,7 @@ const Docs = () => {
               </SectionPart>
             </Section>
 
-            <Section icon={<Send className="feather" />} id="messaging">
+            <Section icon={<Send className="feather" />} id="messaging" name="Messaging">
               <SectionPart title="Kafka client" as="/docs/vertx-kafka-client/java/">
                 A client for Apache Kafka.
               </SectionPart>
@@ -218,7 +218,7 @@ const Docs = () => {
               </SectionPart>
             </Section>
 
-            <Section icon={<Inbox className="feather" />} id="integration">
+            <Section icon={<Inbox className="feather" />} id="integration" name="Integration">
               <SectionPart title="Mail Client" as="/docs/vertx-mail-client/java/">
                 A SMTP client to send emails from your applications.
               </SectionPart>
@@ -232,7 +232,7 @@ const Docs = () => {
               </SectionPart>
             </Section>
 
-            <Section icon={<Share2 className="feather" />} id="event-bus-bridges">
+            <Section icon={<Share2 className="feather" />} id="event-bus-bridges" name="Event bus bridges">
               <SectionPart title="TCP Eventbus Bridge" as="/docs/vertx-tcp-eventbus-bridge/java/">
                 An event-bus bridge that lets you interact with Vert.x from any application over a simple TCP-based protocol.
               </SectionPart>
@@ -242,7 +242,7 @@ const Docs = () => {
               </SectionPart>
             </Section>
 
-            <Section icon={<Monitor className="feather" />} id="tracing">
+            <Section icon={<Monitor className="feather" />} id="monitoring" name="Monitoring">
               <SectionPart title="Zipkin" as="/docs/vertx-zipkin/java/">
                 Distributed tracing with Zipkin.
               </SectionPart>
@@ -264,7 +264,7 @@ const Docs = () => {
               </SectionPart>
             </Section>
 
-            <Section icon={<PhoneCall className="feather" />} id="services">
+            <Section icon={<PhoneCall className="feather" />} id="services" name="Services">
               <SectionPart title="gRPC" as="/docs/vertx-grpc/java/">
                 Implement gRPC clients and servers with Vert.x.
               </SectionPart>
@@ -278,7 +278,7 @@ const Docs = () => {
               </SectionPart>
             </Section>
 
-            <Section icon={<Feather className="feather" />} id="reactive">
+            <Section icon={<Feather className="feather" />} id="reactive" name="Reactive">
               <SectionPart title="RxJava 2" as="/docs/vertx-rx/java2/">
                 RxJava 2 bindings for the Vert.x APIs, modules and clients.
               </SectionPart>
@@ -292,7 +292,7 @@ const Docs = () => {
               </SectionPart>
             </Section>
 
-            <Section icon={<Search className="feather" />} id="microservices">
+            <Section icon={<Search className="feather" />} id="microservices" name="Microservices">
               <SectionPart title="Service Discovery" as="/docs/vertx-service-discovery/java/">
                 Publish, lookup and bind any type of service.
               </SectionPart>
@@ -306,7 +306,7 @@ const Docs = () => {
               </SectionPart>
             </Section>
 
-            <Section icon={<Terminal className="feather" />} id="devops">
+            <Section icon={<Terminal className="feather" />} id="devops" name="DevOps">
               <SectionPart title="Shell" as="/docs/vertx-shell/java/">
                 Interact with your Vert.x application using a CLI interface.
               </SectionPart>

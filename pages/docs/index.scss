@@ -31,9 +31,8 @@
 }
 
 .docs-index-section {
-  display: flex;
   border-top: 1px solid $gray-300;
-  margin-top: $spacer * 2;
+  margin-top: $spacer * 4;
   padding-top: $spacer * 2;
   margin-left: $spacer * 2.5;
 
@@ -42,17 +41,25 @@
   }
 
   .docs-index-section-header {
+    h3 {
+      margin: 0;
+      font-size: $font-size-small;
+      text-transform: uppercase;
+      font-weight: 400;
+    }
+
     svg {
-      width: 46px;
-      height: 46px;
       stroke: $gray-700;
-      margin-right: $spacer;
+      margin-right: $spacer / 2;
     }
   }
 
   .docs-index-section-part {
+    display: flex;
+    flex-direction: column;
+
     h3 {
-      margin: 0;
+      margin: $spacer 0 0 0;
       font-size: 1.5rem;
       line-height: 1.4;
 
@@ -62,10 +69,13 @@
         }
       }
     }
+
+    .docs-index-section-content-summary {
+      flex: 1;
+    }
   }
 
   .docs-index-section-content {
-    margin-left: $spacer;
     display: grid;
     grid-gap: $spacer * 2 $spacer * 1.5;
     flex: 1;
