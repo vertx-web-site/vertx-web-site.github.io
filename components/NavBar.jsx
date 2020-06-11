@@ -1,16 +1,36 @@
+import NavBarContext from "./contexts/NavBarContext"
 import classNames from "classnames"
 import Link from "next/link"
 import "./NavBar.scss"
-import { useRef, useState } from "react"
+import { useContext, useEffect, useRef, useState } from "react"
+import throttle from "lodash/throttle"
 
 import Gitter from "@icons-pack/react-simple-icons/lib/Gitter"
 import Stackoverflow from "@icons-pack/react-simple-icons/lib/Stackoverflow"
 import Youtube from "@icons-pack/react-simple-icons/lib/Youtube"
 
 export default () => {
+  const refNavBar = useRef()
   const refRight = useRef()
   const [collapse, setCollapse] = useState(false)
   const [rightMaxHeight, setRightMaxHeight] = useState(undefined)
+  const setNavBarState = useContext(NavBarContext.Dispatch)
+
+  useEffect(() => {
+    function updateHeight() {
+      let height = refNavBar.current.clientHeight
+      setNavBarState({ height })
+    }
+
+    updateHeight()
+
+    let throttledUpdateheight = throttle(updateHeight, 100)
+    window.addEventListener("resize", throttledUpdateheight)
+
+    return () => {
+      window.removeEventListener("resize", throttledUpdateheight)
+    }
+  }, [setNavBarState])
 
   const onClick = () => {
     let height = 0
@@ -28,7 +48,7 @@ export default () => {
   }
 
   return (
-    <div className="navbar">
+    <div className="navbar" ref={refNavBar}>
       <div className="navbar-content container">
         <div className="navbar-logo">
           <Link href="/">
