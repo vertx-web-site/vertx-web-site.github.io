@@ -65,7 +65,7 @@ const Docs = () => {
           A library to declaratively parse and validate incoming Vert.x Web HTTP requests.
         </SectionPart>
 
-        <SectionPart title="Web OpenAPI" as="/docs/vertx-web-openapi/java/index.html">
+        <SectionPart title="Web OpenAPI" as="/docs/vertx-web-openapi/java/">
          Extends Vert.x Web to support OpenAPI 3, bringing a simple interface for building web routers that conform to OpenAPI contracts.
         </SectionPart>
 
