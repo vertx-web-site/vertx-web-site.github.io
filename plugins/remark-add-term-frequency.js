@@ -1,4 +1,4 @@
-const { WordTokenizer, stopwords } = require("natural")
+const { WordTokenizer, stopwords, PorterStemmer } = require("natural")
 const visit = require("unist-util-visit")
 
 const MAX_TERMS = 25
@@ -19,6 +19,7 @@ module.exports = () => tree => {
   let terms = {}
   for (let token of tokens) {
     if (stopwords.indexOf(token) < 0 && token !== "vert" && token !== "vertx" && token !== "eclipse") {
+      token = PorterStemmer.stem(token)
       if (terms[token] !== undefined) {
         terms[token]++
       } else {
