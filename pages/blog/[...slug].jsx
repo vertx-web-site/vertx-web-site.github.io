@@ -67,6 +67,8 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
+  const TfIdf = require("natural").TfIdf
+
   let slug = params.slug[0]
 
   // handle page index
@@ -105,15 +107,32 @@ export async function getStaticProps({ params }) {
   let source = await fs.readFile(`blog/${post.filename}`, "utf-8")
   let stats = readingTime(source)
 
+  // initialize tf-idf
+  let tfidf = new TfIdf()
+  POSTS.forEach(p => {
+    let doc = {}
+    p.tfIdfTerms.forEach(t => doc[t.term] = t.tf)
+    tfidf.addDocument(doc)
+  })
+
+  // calculate related posts based on tf-idf
+  let relatedPosts = tfidf.tfidfs(post.tfIdfTerms.map(t => t.term))
+    .map((f, i) => ({ f, i, slug: POSTS[i].slug }))
+    .sort((a, b) => b.f - a.f) // sort by tf-idf (best matches first)
+    .filter(p => p.slug !== slug) // remove current post
+    .slice(0, 3) // select best three matches
+    .map(p => p.i) // only keep post index
+
   return {
     props: {
       ...post,
-      readingTime: stats
+      readingTime: stats,
+      relatedPosts
     }
   }
 }
 
-export default ({ filename, date, slug, readingTime, category, page = 1 }) => {
+export default ({ filename, date, slug, readingTime, relatedPosts, category, page = 1 }) => {
   if (filename === undefined) {
     // filter posts by category
     let posts = POSTS
@@ -214,9 +233,7 @@ export default ({ filename, date, slug, readingTime, category, page = 1 }) => {
       <div className="blog-post-related">
         <h5>Related posts</h5>
         <div className="blog-post-related-posts">
-          <BlogEntry post={POSTS[2]} />
-          <BlogEntry post={POSTS[3]} />
-          <BlogEntry post={POSTS[4]} />
+          {relatedPosts.map(i => <BlogEntry key={i} post={POSTS[i]} />)}
         </div>
       </div>
     </BlogPost>

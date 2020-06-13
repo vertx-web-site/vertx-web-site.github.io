@@ -11,7 +11,8 @@ const POSTS = require.context("../../blog", false, /\.mdx$/).keys().map(p => {
     filename,
     date: e[1],
     slug: e[2],
-    meta: post.meta
+    meta: post.meta,
+    tfIdfTerms: post.__tfidf__terms
   }
 })
 

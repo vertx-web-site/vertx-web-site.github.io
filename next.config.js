@@ -1,3 +1,4 @@
+const addTermFrequency = require("./plugins/remark-add-term-frequency")
 const betterShell = require("./plugins/rehype-highlight-better-shell")
 const highlight = require("rehype-highlight")
 const hyphenate = require("./plugins/remark-hyphenate")
@@ -11,7 +12,7 @@ const isProd = process.env.NODE_ENV === "production"
 
 const mdx = require("@next/mdx")({
   options: {
-    remarkPlugins: [hyphenate, smartypants],
+    remarkPlugins: [addTermFrequency, hyphenate, smartypants],
     rehypePlugins: [[highlight, {
       languages: {
         "better-shell": betterShell
