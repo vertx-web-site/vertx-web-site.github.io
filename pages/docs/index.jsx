@@ -48,29 +48,33 @@ const Docs = () => {
         <aside>
           <div className="docs-index-aside-main">
             <h2>Documentation</h2>
-            <div className="docs-index-toc">
-              <ul>
-                <li><ScrollLink href="#core">Core</ScrollLink></li>
-                <li><ScrollLink href="#web">Web</ScrollLink></li>
-                <li><ScrollLink href="#clustering">Clustering</ScrollLink></li>
-                <li><ScrollLink href="#testing">Testing</ScrollLink></li>
-                <li><ScrollLink href="#standards">Standards</ScrollLink></li>
-                <li><ScrollLink href="#authentication-and-authorisation">Authentication and authorization</ScrollLink></li>
-                <li><ScrollLink href="#databases">Databases</ScrollLink></li>
-                <li><ScrollLink href="#messaging">Messaging</ScrollLink></li>
-                <li><ScrollLink href="#integration">Integration</ScrollLink></li>
-                <li><ScrollLink href="#event-bus-bridges">Event bus bridges</ScrollLink></li>
-                <li><ScrollLink href="#monitoring">Monitoring</ScrollLink></li>
-                <li><ScrollLink href="#services">Services</ScrollLink></li>
-                <li><ScrollLink href="#reactive">Reactive</ScrollLink></li>
-                <li><ScrollLink href="#microservices">Microservices</ScrollLink></li>
-                <li><ScrollLink href="#devops">DevOps</ScrollLink></li>
-              </ul>
+            <div className="docs-index-aside-content">
+              <div className="docs-index-toc">
+                <ul>
+                  <li><ScrollLink href="#core">Core</ScrollLink></li>
+                  <li><ScrollLink href="#web">Web</ScrollLink></li>
+                  <li><ScrollLink href="#clustering">Clustering</ScrollLink></li>
+                  <li><ScrollLink href="#testing">Testing</ScrollLink></li>
+                  <li><ScrollLink href="#standards">Standards</ScrollLink></li>
+                  <li><ScrollLink href="#authentication-and-authorisation">Authentication and authorization</ScrollLink></li>
+                  <li><ScrollLink href="#databases">Databases</ScrollLink></li>
+                  <li><ScrollLink href="#messaging">Messaging</ScrollLink></li>
+                  <li><ScrollLink href="#integration">Integration</ScrollLink></li>
+                  <li><ScrollLink href="#event-bus-bridges">Event bus bridges</ScrollLink></li>
+                  <li><ScrollLink href="#monitoring">Monitoring</ScrollLink></li>
+                  <li><ScrollLink href="#services">Services</ScrollLink></li>
+                  <li><ScrollLink href="#reactive">Reactive</ScrollLink></li>
+                  <li><ScrollLink href="#microservices">Microservices</ScrollLink></li>
+                  <li><ScrollLink href="#devops">DevOps</ScrollLink></li>
+                </ul>
+              </div>
             </div>
           </div>
         </aside>
 
-        <div>
+        <div className="docs-index-content">
+          <h2>Documentation</h2>
+
           <Section icon={<Box className="feather" />} id="core" name="Core">
             <SectionPart title="Vert.x Core" as="/docs/vertx-core/java/">
               The Vert.x core APIs contain the backbone for writing Vert.x applications and low-level support for HTTP, TCP, UDP, file system, asynchronous streams and many other building blocks.
