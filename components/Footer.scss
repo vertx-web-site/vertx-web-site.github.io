@@ -139,7 +139,11 @@ footer {
         ul {
           overflow-y: hidden;
           max-height: 0;
-          transition: max-height 200ms ease-in-out;
+          transition: all 200ms ease-in-out;
+
+          &.visible {
+            margin-bottom: $spacer * 2;
+          }
         }
       }
 

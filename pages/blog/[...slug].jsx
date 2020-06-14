@@ -220,9 +220,6 @@ export default ({ filename, date, slug, readingTime, relatedPosts, category, pag
         </div>
 
         <div className="blog-post-next-prev-entry">
-        </div>
-
-        <div className="blog-post-next-prev-entry">
           {nextPost && (<>
             <h5>Previous post</h5>
             <BlogEntry post={nextPost} />

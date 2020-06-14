@@ -29,4 +29,12 @@
       }
     }
   }
+
+  @media (max-width: $sm) {
+    flex-direction: column;
+
+    ul {
+      margin-top: $spacer;
+    }
+  }
 }
