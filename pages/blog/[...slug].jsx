@@ -146,8 +146,16 @@ export default ({ filename, date, slug, readingTime, relatedPosts, category, pag
 
     let entries = posts.map(p => <BlogEntry key={p.slug} post={p} />)
 
+    let title = "Blog"
+    if (category !== undefined) {
+      title = `${capitalize(category)} | ${title}`
+    }
+    if (page > 1) {
+      title = `Page ${page} | ${title}`
+    }
+
     return (
-      <Blog meta={{ title: `${capitalize(category)} | Blog` }} categories={CATEGORIES}>
+      <Blog meta={{ title }} categories={CATEGORIES}>
         <div className="blog-entries">
           {entries}
         </div>
