@@ -11,8 +11,8 @@ const Layout = ({ meta = {}, children }) => (
     <div className="container">
       {children}
     </div>
-    <Logos />
     <Book />
+    <Logos />
     <Footer />
   </main>
 )
