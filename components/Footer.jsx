@@ -37,7 +37,6 @@ export default () => {
             <ul ref={listRef[0]} style={{ maxHeight: listMaxHeight[0][0] }}
                 className={classNames({ visible: listVisible[0][0] })}>
               <li><Link href="/docs/"><a>Docs</a></Link></li>
-              <li><Link href="/ecosystem/"><a>Ecosystem</a></Link></li>
               <li><Link href="/faq/"><a>FAQ</a></Link></li>
               <li><Link href="/blog/"><a>Blog</a></Link></li>
               <li><Link href="/"><a>Community</a></Link></li>

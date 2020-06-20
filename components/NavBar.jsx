@@ -71,9 +71,6 @@ export default () => {
             <Link href="/docs/">
               <a className="navbar-menu-item">Docs</a>
             </Link>
-            <Link href="/ecosystem/">
-              <a className="navbar-menu-item">Ecosystem</a>
-            </Link>
             <Link href="/faq/">
               <a className="navbar-menu-item">FAQ</a>
             </Link>
