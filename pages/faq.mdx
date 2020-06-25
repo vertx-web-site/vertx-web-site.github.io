@@ -48,3 +48,18 @@ If you need this feature, consider using a full-fledged broker-based messaging s
 Vert.x has clients for such solutions: [Vert.x AMQP Client](https://vertx.io/docs/vertx-amqp-client/java/), [RabbitMQ Client for Vert.x](https://vertx.io/docs/vertx-rabbitmq-client/java/) or [Vert.x-Stomp](https://vertx.io/docs/vertx-stomp/java/).
 
 </Question>
+<Question question="How to use the JVM built-in address resolver?">
+
+By default, Vert.x relies on a non-blocking address resolver instead of the JVM built-in one.
+For most users this is transparent but the non-blocking resolver is less mature and may not work in some environments.
+
+In this case, please file an issue on the [Vert.x core repository](https://github.com/eclipse-vertx/vert.x/issues).
+
+As a workaround, you can switch the non-blocking resolver off and fallback to the JVM built-in one.
+To do so, start the JVM with the `vertx.disableDnsResolver` system property set to `true`:
+
+```
+-Dvertx.disableDnsResolver=true
+```
+
+</Question>
