@@ -51,11 +51,22 @@
   }
 
   h2 {
-    visibility: hidden;
     margin-bottom: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
 
-    @media (max-width: $md) {
-      visibility: visible;
+    .docs-index-content-heading {
+      visibility: hidden;
+
+      @media (max-width: $md) {
+        visibility: visible;
+      }
+    }
+
+    .docs-index-content-version {
+      font-size: $font-size-base * 1.25;
+      color: $gray-700;
     }
   }
 }

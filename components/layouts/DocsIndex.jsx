@@ -67,7 +67,10 @@ const Docs = ({ metadata, version }) => {
         </aside>
 
         <div className="docs-index-content">
-          <h2>Documentation</h2>
+          <h2>
+            <span className="docs-index-content-heading">Documentation</span>
+            {version && <span className="docs-index-content-version">v{version}</span>}
+          </h2>
 
           {metadata.metadata.categories.map(category => (
             <Section key={category.id} icon={category.icon} id={category.id} name={category.name}>
