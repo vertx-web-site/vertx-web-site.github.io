@@ -1,0 +1,29 @@
+@import "../css/variables";
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+
+  .dropdown-title {
+    margin-right: $spacer;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .dropdown-menu {
+    position: absolute;
+    right: $spacer;
+    background-color: $gray-100;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.1);
+    list-style-type: none;
+    padding: $spacer / 2 0;
+    margin: $spacer / 4 0 0 0;
+    z-index: 100;
+    display: none;
+    user-select: none;
+
+    &.visible {
+      display: block;
+    }
+  }
+}

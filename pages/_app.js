@@ -1,11 +1,14 @@
 import NProgress from "../components/NProgress"
 import NavBarContext from "../components/contexts/NavBarContext"
+import VersionContext from "../components/contexts/VersionContext"
 import "../css/main.scss"
 
 const App = ({ Component, pageProps }) => (
   <>
     <NavBarContext.Provider>
-      <Component {...pageProps} />
+      <VersionContext.Provider>
+        <Component {...pageProps} />
+      </VersionContext.Provider>
     </NavBarContext.Provider>
     <NProgress />
   </>

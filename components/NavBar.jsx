@@ -1,6 +1,10 @@
 import NavBarContext from "./contexts/NavBarContext"
+import VersionContext from "./contexts/VersionContext"
+import DropDown from "./DropDown"
+import DropDownItem from "./DropDownItem"
 import classNames from "classnames"
 import Link from "next/link"
+import { useRouter } from "next/router"
 import "./NavBar.scss"
 import { useContext, useEffect, useRef, useState } from "react"
 import throttle from "lodash/throttle"
@@ -9,12 +13,18 @@ import Gitter from "@icons-pack/react-simple-icons/lib/Gitter"
 import Stackoverflow from "@icons-pack/react-simple-icons/lib/Stackoverflow"
 import Youtube from "@icons-pack/react-simple-icons/lib/Youtube"
 
+// load docs metadata to get available versions
+const docsVersions = require.context("../docs/metadata", false, /\.jsx$/)
+  .keys().map(m => m.substring(2, m.length - 4)).sort().reverse()
+
 export default () => {
+  const router = useRouter()
   const refNavBar = useRef()
   const refRight = useRef()
   const [collapse, setCollapse] = useState(false)
   const [rightMaxHeight, setRightMaxHeight] = useState(undefined)
   const setNavBarState = useContext(NavBarContext.Dispatch)
+  const currentVersion = useContext(VersionContext.State)
 
   useEffect(() => {
     function updateHeight() {
@@ -68,9 +78,15 @@ export default () => {
             <Link href="/introduction-to-vertx-and-reactive/">
               <a className="navbar-menu-item">Intro</a>
             </Link>
-            <Link href="/docs/">
-              <a className="navbar-menu-item">Docs</a>
-            </Link>
+            {currentVersion.version ? (
+              <Link href="/docs/[...slug]" as={`/docs/${currentVersion.version}/`}>
+                <a className="navbar-menu-item">Docs</a>
+              </Link>
+            ) : (
+              <Link href="/docs/">
+                <a className="navbar-menu-item">Docs</a>
+              </Link>
+            )}
             <Link href="/faq/">
               <a className="navbar-menu-item">FAQ</a>
             </Link>
@@ -83,7 +99,20 @@ export default () => {
           </div>
 
           <div className="navbar-social">
-            <span className="navbar-social-version">v4.0.0</span>
+            <DropDown title={`v${currentVersion.version || docsVersions[0]}`}>
+              <DropDownItem active={currentVersion.version === undefined ||
+                    currentVersion.version === docsVersions[0]}
+                  onClick={() => router.push("/docs/")}>
+                Latest (v{docsVersions[0]})
+              </DropDownItem>
+              {docsVersions.slice(1).map(v => (
+                <DropDownItem key={v} active={currentVersion.version === v}
+                    onClick={() => router.push("/docs/[...slug]", `/docs/${v}`)}>
+                  v{v}
+                </DropDownItem>
+              ))}
+            </DropDown>
+
             <a href="https://www.youtube.com/results?search_query=vert.x" className="navbar-social-link" title="YouTube" target="_blank" rel="noopener noreferrer">
               <Youtube aria-label="YouTube videos related to Vert.x" />
             </a>

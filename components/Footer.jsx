@@ -1,12 +1,14 @@
+import VersionContext from "./contexts/VersionContext"
 import classNames from "classnames"
 import "./Footer.scss"
 import Link from "next/link"
-import { useRef, useState } from "react"
+import { useContext, useRef, useState } from "react"
 
 export default () => {
   const listRef = [useRef(), useRef()]
   const listMaxHeight = [useState(undefined), useState(undefined)]
   const listVisible = [useState(false), useState(false)]
+  const currentVersion = useContext(VersionContext.State)
 
   const onClick = (i) => {
     let height = 0
@@ -36,7 +38,17 @@ export default () => {
             <h5 onClick={() => onClick(0)}>Eclipse Vert.x</h5>
             <ul ref={listRef[0]} style={{ maxHeight: listMaxHeight[0][0] }}
                 className={classNames({ visible: listVisible[0][0] })}>
-              <li><Link href="/docs/"><a>Docs</a></Link></li>
+              <li>
+                {currentVersion.version ? (
+                  <Link href="/docs/[...slug]" as={`/docs/${currentVersion.version}/`}>
+                    <a className="navbar-menu-item">Docs</a>
+                  </Link>
+                ) : (
+                  <Link href="/docs/">
+                    <a className="navbar-menu-item">Docs</a>
+                  </Link>
+                )}
+              </li>
               <li><Link href="/faq/"><a>FAQ</a></Link></li>
               <li><Link href="/blog/"><a>Blog</a></Link></li>
               <li><Link href="/"><a>Community</a></Link></li>

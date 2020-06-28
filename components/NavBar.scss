@@ -16,6 +16,14 @@
     }
   }
 
+  .dropdown a {
+    text-transform: none;
+  }
+
+  .dropdown-item a:hover {
+    color: $gray-800;
+  }
+
   .navbar-content {
     display: flex;
     flex-direction: row;
@@ -109,10 +117,6 @@
     .navbar-social {
       margin-left: $spacer * 1.6;
       font-size: $font-size-small;
-
-      .navbar-social-version {
-        margin-right: $spacer / 2.4;
-      }
 
       svg {
         height: 16px;
