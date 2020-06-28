@@ -1,5 +1,16 @@
-import Layout from "../../components/layouts/Docs"
+import Docs from "../../components/layouts/Docs"
+import DocsIndex from "../../components/layouts/DocsIndex"
+import VersionContext from "../../components/contexts/VersionContext"
 import parse5 from "parse5"
+import { useContext, useEffect } from "react"
+
+// read docs metadata containing information about documentation categories
+// and entries of all Vert.x versions
+const metadataModules = require.context("../../docs/metadata", false, /\.jsx$/)
+const metadata = metadataModules.keys().map(m => {
+  let version = m.substring(2, m.length - 4)
+  return { version, metadata: metadataModules(m).default }
+}).sort((a, b) => a.version.localeCompare(b.version))
 
 const extractedDocsPath = "docs/extracted"
 
@@ -25,6 +36,17 @@ export async function getStaticPaths() {
   const fs = require("fs").promises
   const path = require("path")
 
+  let paths = []
+
+  // catch versions
+  for (let m of metadata) {
+    paths.push({
+      params: {
+        slug: [m.version, ""]
+      }
+    })
+  }
+
   // check if documentation source files exist
   try {
     await fs.access(extractedDocsPath)
@@ -41,12 +63,13 @@ export async function getStaticPaths() {
   }
 
   let files = await readDirRecursive(extractedDocsPath, fs, path)
-  let paths = []
   for (let f of files) {
     let m = f.match(new RegExp(`${extractedDocsPath}/(.+)index.adoc`))
     if (m) {
       let slug = m[1].split("/")
-      paths.push({ params: { slug } })
+      if (slug.length > 2) { // don't include index.adoc in parent directory
+        paths.push({ params: { slug } })
+      }
     }
   }
 
@@ -59,6 +82,22 @@ export async function getStaticPaths() {
 export async function getStaticProps({ params }) {
   const path = require("path")
 
+  // get version
+  let version
+  if (metadata.some(m => m.version === params.slug[0])) {
+    version = params.slug[0]
+  }
+
+  // handle version index
+  if (version !== undefined && params.slug.length <= 1) {
+    return {
+      props: {
+        version: params.slug[0]
+      }
+    }
+  }
+
+  // check if generated asciidoc file is in cache
   let slug = params.slug.join("/")
   if (cache[slug]) {
     return cache[slug]
@@ -114,13 +153,30 @@ export async function getStaticProps({ params }) {
     props: {
       title,
       toc,
-      contents
+      contents,
+      ...(version && { version })
     }
   }
 
   return cache[slug]
 }
 
-export default ({ title, toc, contents }) => (
-  <Layout meta={{ title }} toc={toc} contents={contents} />
-)
+export default ({ title, toc, contents, version }) => {
+  const setVersion = useContext(VersionContext.Dispatch)
+
+  useEffect(() => {
+    setVersion({ version })
+  }, [setVersion, version])
+
+  if (contents === undefined) {
+    let m
+    if (version !== undefined) {
+      m = metadata.find(m => m.version === version)
+    } else {
+      m = metadata[metadata.length - 1]
+    }
+    return <DocsIndex metadata={m} version={version} />
+  } else {
+    return <Docs meta={{ title }} toc={toc} contents={contents} />
+  }
+}
