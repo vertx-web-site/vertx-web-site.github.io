@@ -84,9 +84,15 @@ export default () => {
 
           <div className="navbar-social">
             <span className="navbar-social-version">v4.0.0</span>
-            <a href="https://www.youtube.com/results?search_query=vert.x" className="navbar-social-link"><Youtube aria-label="YouTube videos related to Vert.x" /></a>
-            <a href="https://stackoverflow.com/questions/tagged/vert.x" className="navbar-social-link"><Stackoverflow aria-label="Stack Overflow questions related to Vert.x" /></a>
-            <a href="https://gitter.im/eclipse-vertx/vertx-users" className="navbar-social-link"><Gitter aria-label="Eclipse Vert.x channel on Gitter" /></a>
+            <a href="https://www.youtube.com/results?search_query=vert.x" className="navbar-social-link" title="YouTube" target="_blank" rel="noopener noreferrer">
+              <Youtube aria-label="YouTube videos related to Vert.x" />
+            </a>
+            <a href="https://stackoverflow.com/questions/tagged/vert.x" className="navbar-social-link" title="Stack Overflow" target="_blank" rel="noopener noreferrer">
+              <Stackoverflow aria-label="Stack Overflow questions related to Vert.x" />
+            </a>
+            <a href="https://gitter.im/eclipse-vertx/vertx-users" className="navbar-social-link" title="Gitter" target="_blank" rel="noopener noreferrer">
+              <Gitter aria-label="Eclipse Vert.x channel on Gitter" />
+            </a>
           </div>
         </div>
       </div>
