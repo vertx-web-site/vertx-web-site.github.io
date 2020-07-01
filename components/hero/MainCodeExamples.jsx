@@ -1,14 +1,13 @@
-import "./CodeExamples.scss"
-import classNames from "classnames"
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef } from "react"
 
-import Java from "./CodeExamplesJava.mdx"
-import Kotlin from "./CodeExamplesKotlin.mdx"
-import Groovy from "./CodeExamplesGroovy.mdx"
+import CodeExample from "../CodeExample"
+import CodeExamples from "../CodeExamples"
+import Java from "./MainCodeExamplesJava.mdx"
+import Kotlin from "./MainCodeExamplesKotlin.mdx"
+import Groovy from "./MainCodeExamplesGroovy.mdx"
 
 export default () => {
   const javaRef = useRef()
-  const [active, setActive] = useState("java")
 
   useEffect(() => {
     // get code node
@@ -80,32 +79,19 @@ export default () => {
     setTimeout(nextChar, 500)
   }, [])
 
-  const activeClassName = lang => ({ active: active === lang })
-  const tabClassNameJava = classNames("code-examples-tab", activeClassName("java"))
-  const tabClassNameKotlin = classNames("code-examples-tab", activeClassName("kotlin"))
-  const tabClassNameGroovy = classNames("code-examples-tab", activeClassName("groovy"))
-  const exampleClassNameJava = classNames("code-examples-example", activeClassName("java"))
-  const exampleClassNameKotlin = classNames("code-examples-example", activeClassName("kotlin"))
-  const exampleClassNameGroovy = classNames("code-examples-example", activeClassName("groovy"))
-
   return (
-    <div className="code-examples">
-      <div className="code-examples-tabs">
-        <div className={tabClassNameJava} onClick={() => setActive("java")}>Java</div>
-        <div className={tabClassNameKotlin} onClick={() => setActive("kotlin")}>Kotlin</div>
-        <div className={tabClassNameGroovy} onClick={() => setActive("groovy")}>Groovy</div>
-      </div>
-      <div className="code-examples-content">
-        <div className={exampleClassNameJava} ref={javaRef}>
+    <CodeExamples>
+      <CodeExample title="Java">
+        <div ref={javaRef}>
           <Java />
         </div>
-        <div className={exampleClassNameKotlin}>
-          <Kotlin />
-        </div>
-        <div className={exampleClassNameGroovy}>
-          <Groovy />
-        </div>
-      </div>
-    </div>
+      </CodeExample>
+      <CodeExample title="Kotlin">
+        <Kotlin />
+      </CodeExample>
+      <CodeExample title="Groovy">
+        <Groovy />
+      </CodeExample>
+    </CodeExamples>
   )
 }

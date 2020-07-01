@@ -1,0 +1,7 @@
+.code-examples-example {
+  display: none;
+
+  &.active {
+    display: block;
+  }
+}

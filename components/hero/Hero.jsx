@@ -1,5 +1,5 @@
 import Button from "../Button"
-import CodeExamples from "./CodeExamples"
+import MainCodeExamples from "./MainCodeExamples"
 import "./Hero.scss"
 import GitHubStarsButton from "./GitHubStarsButton"
 import { FastForward } from "react-feather"
@@ -21,7 +21,7 @@ export default () => (
         </div>
       </div>
       <div className="hero-right">
-        <CodeExamples />
+        <MainCodeExamples />
       </div>
     </div>
   </section>

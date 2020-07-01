@@ -1,4 +1,4 @@
-@import "../../css/variables";
+@import "../css/variables";
 
 .code-examples {
   background-color: $code-bg;
@@ -41,14 +41,6 @@
 
   .code-examples-content {
     padding: $spacer / 8 $spacer * 0.8;
-
-    .code-examples-example {
-      display: none;
-
-      &.active {
-        display: block;
-      }
-    }
   }
 
   @media (max-width: $xl) {
