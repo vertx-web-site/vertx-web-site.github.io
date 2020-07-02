@@ -1,5 +1,6 @@
 const addTermFrequency = require("./plugins/remark-add-term-frequency")
 const betterShell = require("./plugins/rehype-highlight-better-shell")
+const FilterWarningsPlugin = require("webpack-filter-warnings-plugin")
 const highlight = require("rehype-highlight")
 const hyphenate = require("./plugins/remark-hyphenate")
 const optimizedImages = require("next-optimized-images")
@@ -57,6 +58,15 @@ const config = {
         }
       })
     }
+
+    // We can ignore the order of CSS files because we use very strict scoping.
+    // There should never be any conflicts in our CSS files.
+    config.plugins.push(
+      new FilterWarningsPlugin({
+        exclude: /mini-css-extract-plugin[^]*Conflicting order between:/
+      })
+    )
+
     return config
   }
 }
