@@ -200,7 +200,10 @@ apr 03, 2020 11:49:21 AM io.vertx.core.impl.launcher.commands.VertxIsolatedDeplo
 INFO: Succeeded in deploying verticle
 ```
 
-Now that the server is up and running, try to send a request using `http` tool (or another tool of your choice):
+Now that the server is up and running, try to send a request:
+
+<CodeExamples>
+<CodeExample title="HTTPie">
 
 ```better-shell
 $ http http://localhost:8888
@@ -226,7 +229,9 @@ content-type: application/json; charset=utf-8
 }
 ```
 
-Or with `curl` tool:
+</CodeExample>
+
+<CodeExample title="curl">
 
 ```better-shell
 $ curl -v http://localhost:8888
@@ -261,6 +266,9 @@ $ curl -v http://localhost:8888\?name\="Francesco"
 * Connection #0 to host localhost left intact
 {"name":"Francesco","address":"0:0:0:0:0:0:0:1:59708","message":"Hello Francesco connected from 0:0:0:0:0:0:0:1:59708"}
 ```
+
+</CodeExample>
+</CodeExamples>
 
 ## <span className="get-started-step">4</span> Go further
 
