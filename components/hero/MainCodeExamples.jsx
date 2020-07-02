@@ -1,7 +1,8 @@
 import { useEffect, useRef } from "react"
-
 import CodeExample from "../CodeExample"
 import CodeExamples from "../CodeExamples"
+import "./MainCodeExamples.scss"
+
 import Java from "./MainCodeExamplesJava.mdx"
 import Kotlin from "./MainCodeExamplesKotlin.mdx"
 import Groovy from "./MainCodeExamplesGroovy.mdx"
@@ -80,18 +81,20 @@ export default () => {
   }, [])
 
   return (
-    <CodeExamples>
-      <CodeExample title="Java">
-        <div ref={javaRef}>
-          <Java />
-        </div>
-      </CodeExample>
-      <CodeExample title="Kotlin">
-        <Kotlin />
-      </CodeExample>
-      <CodeExample title="Groovy">
-        <Groovy />
-      </CodeExample>
-    </CodeExamples>
+    <div className="main-code-examples">
+      <CodeExamples wide>
+        <CodeExample title="Java">
+          <div ref={javaRef}>
+            <Java />
+          </div>
+        </CodeExample>
+        <CodeExample title="Kotlin">
+          <Kotlin />
+        </CodeExample>
+        <CodeExample title="Groovy">
+          <Groovy />
+        </CodeExample>
+      </CodeExamples>
+    </div>
   )
 }

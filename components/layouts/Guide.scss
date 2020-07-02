@@ -20,7 +20,7 @@
     padding-left: 1.1rem;
   }
 
-  pre {
+  :not(.code-examples-example) > pre {
     @extend .pre-code;
   }
 

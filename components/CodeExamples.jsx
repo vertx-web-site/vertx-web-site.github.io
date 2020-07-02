@@ -2,13 +2,13 @@ import classNames from "classnames"
 import { useState } from "react"
 import "./CodeExamples.scss"
 
-const CodeExamples = ({ children } ) => {
+const CodeExamples = ({ wide, children } ) => {
   let titles = React.Children.map(children, c => c.props.title)
 
   const [active, setActive] = useState(titles[0])
 
   return (
-    <div className="code-examples">
+    <div className={classNames("code-examples", { wide })}>
       <div className="code-examples-tabs">
         {titles.map(title => (
           <div className={classNames("code-examples-tab", { active: active === title })}
