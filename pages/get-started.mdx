@@ -93,6 +93,90 @@ public class MainVerticle extends AbstractVerticle {
 ```
 
 </CodeExample>
+
+<CodeExample title="Kotlin">
+
+```kotlin
+class MainVerticle : AbstractVerticle() {
+  override fun start() {
+    // Create a Router
+    val router = Router.router(vertx)
+
+    // Mount the handler for all incoming requests at every path and HTTP method
+    router.route().handler { context ->
+      // Get the address of the request
+      val address = context.request().connection().remoteAddress().toString()
+      // Get the query parameter "name"
+      val queryParams = context.queryParams()
+      val name = queryParams.get("name") ?: "unknown"
+      // Write a json response
+      context.json(
+          json {
+            obj(
+              "name" to name,
+              "address" to address,
+              "message" to "Hello $name connected from $address"
+            )
+          }
+      )
+    }
+
+    // Create the HTTP server
+    vertx.createHttpServer()
+        // Handle every request using the router
+        .requestHandler(router)
+        // Start listening
+        .listen(8888)
+        // Print the port
+        .onSuccess { server ->
+          println("HTTP server started on port " + server.actualPort())
+        }
+  }
+}
+```
+
+</CodeExample>
+
+<CodeExample title="Groovy">
+
+```groovy
+class MainVerticle extends AbstractVerticle {
+  @Override
+  void start() {
+    // Create a Router
+    def router = Router.router(vertx)
+
+    // Mount the handler for all incoming requests at every path and HTTP method
+    router.route().handler { context ->
+      // Get the address of the request
+      def address = context.request().connection().remoteAddress().toString()
+      // Get the query parameter "name"
+      def queryParams = context.queryParams()
+      String name = queryParams.get("name") ?: "unknown"
+      // Write a json response
+      context.json(
+        new JsonObject()
+          .put("name", name)
+          .put("address", address)
+          .put("message", "Hello " + name + " connected from " + address)
+      )
+    }
+
+    // Create the HTTP server
+    vertx.createHttpServer()
+      // Handle every request using the router
+      .requestHandler(router)
+      // Start listening
+      .listen(8888)
+      // Print the port
+      .onSuccess { server ->
+        println("HTTP server started on port " + server.actualPort())
+      }
+  }
+}
+```
+
+</CodeExample>
 </CodeExamples>
 
 This code creates a Vert.x Web Router (the object used to route HTTP requests to specific request handlers)
