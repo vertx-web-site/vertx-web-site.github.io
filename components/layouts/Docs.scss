@@ -1,5 +1,4 @@
 @import "./Page";
-@import "../../css/code";
 
 .docs {
   .docs-content {
@@ -152,10 +151,6 @@
           border-radius: 2px;
           margin-top: 0.5rem;
         }
-      }
-
-      .listingblock pre {
-        @extend .pre-code;
       }
 
       .ulist > ul {

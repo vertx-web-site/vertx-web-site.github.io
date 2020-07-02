@@ -3,4 +3,12 @@
 .main-code-examples {
   box-shadow: $button-box-shadow;
   border-radius: $border-radius;
+
+  pre {
+    font-size: 15px;
+
+    @media (max-width: $xl) {
+      font-size: $font-size-mini * 0.9;
+    }
+  }
 }

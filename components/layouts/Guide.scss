@@ -1,5 +1,4 @@
 @import "../../css/variables";
-@import "../../css/code";
 
 .guide {
   h1 {
@@ -18,10 +17,6 @@
 
   ul {
     padding-left: 1.1rem;
-  }
-
-  :not(.code-examples-example) > pre {
-    @extend .pre-code;
   }
 
   img {
