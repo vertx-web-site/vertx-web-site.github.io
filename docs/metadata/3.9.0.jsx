@@ -376,7 +376,7 @@ const entries = [
     name: "STOMP",
     description: "A client and server implementation of the STOMP protocol.",
     category: "messaging",
-    href: "vertx-stomp/java/",
+    href: "/vertx-stomp/java/",
     repository: "https://github.com/vert-x3/vertx-stomp"
   },
   {
@@ -561,7 +561,7 @@ const entries = [
     name: "gRPC",
     description: "Implement gRPC clients and servers with Vert.x.",
     category: "services",
-    href: "/vertx-grpc/java",
+    href: "/vertx-grpc/java/",
     repository: "https://github.com/vert-x3/vertx-grpc",
     examples: "https://github.com/vert-x3/vertx-examples/tree/3.x/grpc-examples"
   },
@@ -570,7 +570,7 @@ const entries = [
     name: "Service Proxies",
     description: "Proxies allow remote event bus services to be called as if they were local.",
     category: "services",
-    href: "/vertx-service-proxy/java",
+    href: "/vertx-service-proxy/java/",
     repository: "https://github.com/vert-x3/vertx-service-proxy",
     examples: "https://github.com/vert-x3/vertx-examples/tree/3.x/service-proxy-examples"
   },
@@ -579,7 +579,7 @@ const entries = [
     name: "SockJS Service Proxies",
     description: "Allow event bus services to be called from JavaScript (web browser or Node.js).",
     category: "services",
-    href: "/vertx-sockjs-service-proxy/java",
+    href: "/vertx-sockjs-service-proxy/java/",
     repository: "https://github.com/vert-x3/vertx-sockjs-service-proxy",
     examples: "https://github.com/vert-x3/vertx-examples/tree/3.x/service-proxy-examples"
   },
@@ -588,7 +588,7 @@ const entries = [
     name: "Service Factories",
     description: "How to package and deploy Vert.x independent services.",
     category: "services",
-    href: "/vertx-service-factory/java",
+    href: "/vertx-service-factory/java/",
     repository: "https://github.com/vert-x3/vertx-service-factory"
   },
   {
@@ -596,7 +596,7 @@ const entries = [
     name: "Maven Service Factory",
     description: "This lets you dynamically install and deploy services from Maven at run-time.",
     category: "services",
-    href: "/vertx-maven-service-factory/java",
+    href: "/vertx-maven-service-factory/java/",
     repository: "https://github.com/vert-x3/vertx-maven-service-factory",
     examples: "https://github.com/vert-x3/vertx-examples/tree/3.x/maven-service-factory-examples"
   },
@@ -606,7 +606,7 @@ const entries = [
     description: `This lets you dynamically install and deploy services from an
       HTTP server (for example Bintray) at run-time.`,
     category: "services",
-    href: "/vertx-http-service-factory/java",
+    href: "/vertx-http-service-factory/java/",
     repository: "https://github.com/vert-x3/vertx-http-service-factory"
   }
 ]
