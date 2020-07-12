@@ -139,6 +139,32 @@
       max-width: calc(100% - 19.5rem);
       overflow: hidden;
 
+      .docs-content-metadata {
+        margin-top: $spacer * 1.2;
+        margin-bottom: $spacer * 1.2;
+        display: flex;
+        align-items: center;
+
+        & > *:not(:first-child) {
+          margin-left: $spacer * 2;
+        }
+
+        a {
+          display: flex;
+          align-items: center;
+          color: $gray-600;
+
+          &:hover {
+            color: $primary;
+          }
+
+          .feather {
+            margin-right: 0.25em;
+            height: 1rem;
+          }
+        }
+      }
+
       h1 {
         padding-top: 0;
         margin-top: 0.6rem;

@@ -6,10 +6,11 @@ import Router from "next/router"
 import Header from "../Header"
 import Footer from "../Footer"
 import SearchPanel from "../search/SearchPanel"
-import { List, X } from "react-feather"
+import GitHubStars from "../GitHubStars"
+import { Code, List, Paperclip, X } from "react-feather"
 import "./Docs.scss"
 
-export default ({ meta, toc, contents }) => {
+export default ({ metadata, toc, contents }) => {
   const tocRef = useRef()
   const searchResultsRef = useRef()
   const contentRef = useRef()
@@ -145,9 +146,26 @@ export default ({ meta, toc, contents }) => {
   }, [onHashChange, onHashChangeStart, onSidebarMouseEnter, onSidebarMouseLeave,
       replaceInternalLinks])
 
+  let repository
+  if (metadata.repository) {
+    let m = metadata.repository.match(/https?:\/\/github\.com\/([^/]+)\/([^/]+)/)
+    if (m) {
+      let org = m[1]
+      let repo = m[2]
+      repository = <GitHubStars org={org} repo={repo} />
+    } else {
+      repository = <><a href={metadata.repository}><Code className="feather" /> Source code</a></>
+    }
+  }
+
+  let examples
+  if (metadata.examples) {
+    examples = <><a href={metadata.examples}><Paperclip className="feather" /> Examples</a></>
+  }
+
   return (
     <main className="page docs">
-      <Header title={meta.title}/>
+      <Header title={metadata.name}/>
       <div className="page-content docs-content">
         <div className="container">
           <div className="docs-content-wrapper">
@@ -165,9 +183,15 @@ export default ({ meta, toc, contents }) => {
                 <X className="feather-x" />
               </div>
             </div>
-            <div dangerouslySetInnerHTML={{ __html: contents }} ref={contentRef}
-                className="docs-content-inner" onMouseDown={onContentMouseDown}
-                onTouchStart={onContentTouchStart} />
+
+            <div className="docs-content-inner" onMouseDown={onContentMouseDown}
+                onTouchStart={onContentTouchStart}>
+              <div className="docs-content-metadata">
+                <div className="docs-content-metadata-repo">{repository}</div>
+                <div className="docs-content-metadata-examples">{examples}</div>
+              </div>
+              <div dangerouslySetInnerHTML={{ __html: contents }} ref={contentRef} />
+            </div>
           </div>
         </div>
       </div>

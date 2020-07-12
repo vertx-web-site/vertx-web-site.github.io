@@ -151,6 +151,7 @@ export async function getStaticProps({ params }) {
 
   cache[slug] = {
     props: {
+      slug,
       title,
       toc,
       contents,
@@ -161,22 +162,37 @@ export async function getStaticProps({ params }) {
   return cache[slug]
 }
 
-export default ({ title, toc, contents, version }) => {
+export default ({ slug, title, toc, contents, version }) => {
   const setVersion = useContext(VersionContext.Dispatch)
 
   useEffect(() => {
     setVersion({ version })
   }, [setVersion, version])
 
+  let m
+  if (version !== undefined) {
+    m = metadata.find(m => m.version === version)
+  } else {
+    m = metadata[metadata.length - 1]
+  }
+
   if (contents === undefined) {
-    let m
-    if (version !== undefined) {
-      m = metadata.find(m => m.version === version)
-    } else {
-      m = metadata[metadata.length - 1]
-    }
     return <DocsIndex metadata={m} version={version} />
   } else {
-    return <Docs meta={{ title }} toc={toc} contents={contents} />
+    let slugWithSlash = slug
+    if (!slug.endsWith("/")) {
+      slugWithSlash += "/"
+    }
+    let sm = m.metadata.entries.find(e => {
+      let href = e.href
+      if (href.startsWith("/")) {
+        href = href.substring(1)
+      }
+      return slugWithSlash.endsWith(href)
+    })
+    if (sm === undefined) {
+      sm = { name: title }
+    }
+    return <Docs metadata={sm} toc={toc} contents={contents} />
   }
 }
