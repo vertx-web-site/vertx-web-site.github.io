@@ -83,6 +83,19 @@ section.hero {
           }
         }
 
+        & > *:not(:first-child) {
+          margin-left: $spacer * 0.8;
+
+          @media (max-width: $sm) {
+            margin-top: $spacer * 0.8;
+          }
+
+          @media (max-width: $sm) and (orientation: portrait) {
+            margin-left: 0;
+            display: block;
+          }
+        }
+
         @media (max-width: $sm) and (orientation: portrait) {
           margin-top: $spacer * 3;
         }

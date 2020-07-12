@@ -1,7 +1,7 @@
 import Button from "../Button"
 import MainCodeExamples from "./MainCodeExamples"
 import "./Hero.scss"
-import GitHubStarsButton from "./GitHubStarsButton"
+import GitHubStars from "../GitHubStars"
 import { FastForward } from "react-feather"
 import Link from "next/link"
 
@@ -17,7 +17,7 @@ export default () => (
           <Link href="/get-started/">
             <a><Button primary><FastForward className="feather" /> Get started with v4.0.0</Button></a>
           </Link>
-          <GitHubStarsButton />
+          <GitHubStars org="eclipse-vertx" repo="vert.x" button />
         </div>
       </div>
       <div className="hero-right">

@@ -31,7 +31,6 @@
     "eslint-loader": "^4.0.0",
     "hyphenopoly": "^4.1.0",
     "imagemin-svgo": "^7.1.0",
-    "isomorphic-unfetch": "^3.0.0",
     "lodash": "^4.17.15",
     "lunr": "^2.3.8",
     "next": "^9.3.0",
@@ -47,7 +46,6 @@
     "reading-time": "^1.2.0",
     "rehype-highlight": "^3.1.0",
     "serve": "^11.3.0",
-    "swr": "^0.1.18",
     "unist-util-visit": "^2.0.2",
     "unist-util-visit-parents": "^3.0.2",
     "webpack-filter-warnings-plugin": "^1.2.1"

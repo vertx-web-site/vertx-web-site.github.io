@@ -1,0 +1,13 @@
+@import "../css/variables";
+
+.github-stars {
+  display: inline-block;
+
+  .feather {
+    margin-right: 0.325em;
+  }
+
+  .button {
+    min-width: 8rem;
+  }
+}
