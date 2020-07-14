@@ -143,25 +143,37 @@
         margin-top: $spacer * 1.2;
         margin-bottom: $spacer * 1.2;
         display: flex;
-        align-items: center;
+        flex-wrap: wrap;
+        align-items: baseline;
 
-        & > *:not(:first-child) {
-          margin-left: $spacer * 2;
-        }
-
-        a {
+        .docs-content-metadata-left {
           display: flex;
           align-items: center;
-          color: $gray-600;
+          flex: 1;
 
-          &:hover {
-            color: $primary;
+          & > * {
+            margin-right: $spacer * 2;
           }
 
-          .feather {
-            margin-right: 0.25em;
-            height: 1rem;
+          a {
+            display: flex;
+            align-items: center;
+            color: $gray-600;
+            white-space: nowrap;
+
+            &:hover {
+              color: $primary;
+            }
+
+            .feather {
+              margin-right: 0.25em;
+              height: 1rem;
+            }
           }
+        }
+
+        .docs-content-metadata-label {
+          display: flex;
         }
       }
 

@@ -1,6 +1,7 @@
 import Layout from "./Page"
 import ReadMoreLink from "../ReadMoreLink"
 import ScrollLink from "../ScrollLink"
+import Label from "../Label"
 import Link from "next/link"
 import "./DocsIndex.scss"
 
@@ -22,13 +23,16 @@ const Section = ({ icon, children, id, name }) => {
   )
 }
 
-const SectionPart = ({ title, as, children }) => {
+const SectionPart = ({ title, label, as, children }) => {
   return (
     <div className="docs-index-section-part">
       <h3>
         <Link href="/docs/[...slug]" as={as}>
           <a>{title}</a>
         </Link>
+        {label && <div className="docs-index-section-part-label">
+          <Label small nowrap>{label}</Label>
+        </div>}
       </h3>
 
       <p className="docs-index-section-content-summary">{children}</p>
@@ -75,7 +79,8 @@ const Docs = ({ metadata, version }) => {
           {metadata.metadata.categories.map(category => (
             <Section key={category.id} icon={category.icon} id={category.id} name={category.name}>
               {metadata.metadata.entries.filter(e => e.category === category.id).map(entry => (
-                <SectionPart key={entry.id} title={entry.name} as={`/docs${versionPath}${entry.href}`}>
+                <SectionPart key={entry.id} title={entry.name} label={entry.label}
+                    as={`/docs${versionPath}${entry.href}`}>
                   {entry.description}
                 </SectionPart>
               ))}

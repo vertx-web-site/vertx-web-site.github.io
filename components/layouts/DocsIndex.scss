@@ -102,11 +102,35 @@
       margin: $spacer 0 0 0;
       font-size: 1.5rem;
       line-height: 1.4;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
 
       a {
         &:hover {
           text-decoration: none;
         }
+      }
+
+      .docs-index-section-part-label {
+        margin-top: $spacer / 4;
+        margin-left: $spacer / 3 * 2;
+
+        @media (max-width: $xl) {
+          margin-left: 0;
+        }
+
+        @media (max-width: $lg) {
+          margin-left: $spacer / 3 * 2;
+        }
+      }
+
+      @media (max-width: $xl) {
+        flex-direction: column;
+      }
+
+      @media (max-width: $lg) {
+        flex-direction: row;
       }
     }
 

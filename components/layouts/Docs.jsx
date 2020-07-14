@@ -7,6 +7,7 @@ import Header from "../Header"
 import Footer from "../Footer"
 import SearchPanel from "../search/SearchPanel"
 import GitHubStars from "../GitHubStars"
+import Label from "../Label"
 import { Code, List, Paperclip, X } from "react-feather"
 import "./Docs.scss"
 
@@ -187,8 +188,13 @@ export default ({ metadata, toc, contents }) => {
             <div className="docs-content-inner" onMouseDown={onContentMouseDown}
                 onTouchStart={onContentTouchStart}>
               <div className="docs-content-metadata">
-                <div className="docs-content-metadata-repo">{repository}</div>
-                <div className="docs-content-metadata-examples">{examples}</div>
+                <div className="docs-content-metadata-left">
+                  <div className="docs-content-metadata-repo">{repository}</div>
+                  <div className="docs-content-metadata-examples">{examples}</div>
+                </div>
+                {metadata.label && <div className="docs-content-metadata-label">
+                  <Label small nowrap>{metadata.label}</Label>
+                </div>}
               </div>
               <div dangerouslySetInnerHTML={{ __html: contents }} ref={contentRef} />
             </div>
