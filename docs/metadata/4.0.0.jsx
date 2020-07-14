@@ -171,4 +171,11 @@ insert(docs, "vertx-dropwizard-metrics",
   }
 )
 
+// update examples
+for (let entry of docs.entries) {
+  if (entry.examples !== undefined) {
+    entry.examples = entry.examples.replace(/3\.x/, "master")
+  }
+}
+
 export default docs
