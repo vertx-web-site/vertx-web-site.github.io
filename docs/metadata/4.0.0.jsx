@@ -1,5 +1,5 @@
 import { Book, Monitor } from "react-feather"
-import oldDocs from "./3.9.1"
+import oldDocs from "./3.9.2"
 import { clone, find, findCategory, insert, move, remove } from "./helpers"
 
 // never forget to clone the old docs first!
