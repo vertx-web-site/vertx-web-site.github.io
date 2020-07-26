@@ -9,9 +9,7 @@ import "./NavBar.scss"
 import { useContext, useEffect, useRef, useState } from "react"
 import throttle from "lodash/throttle"
 
-import Gitter from "@icons-pack/react-simple-icons/lib/Gitter"
-import Stackoverflow from "@icons-pack/react-simple-icons/lib/Stackoverflow"
-import Youtube from "@icons-pack/react-simple-icons/lib/Youtube"
+import { Gitter, Stackoverflow, Youtube } from "@icons-pack/react-simple-icons"
 
 // load docs metadata to get available versions
 const docsVersions = require.context("../docs/metadata", false, /\.jsx$/)

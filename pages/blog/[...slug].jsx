@@ -8,10 +8,7 @@ import Link from "next/link"
 import capitalize from "lodash/capitalize"
 
 import { Clock } from "react-feather"
-
-import Facebook from "@icons-pack/react-simple-icons/lib/Facebook"
-import Linkedin from "@icons-pack/react-simple-icons/lib/Linkedin"
-import Twitter from "@icons-pack/react-simple-icons/lib/Twitter"
+import { Facebook, Linkedin, Twitter } from "@icons-pack/react-simple-icons"
 
 const MAX_ITEMS_PER_PAGE = 6
 

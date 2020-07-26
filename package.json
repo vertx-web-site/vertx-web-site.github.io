@@ -19,7 +19,7 @@
   },
   "homepage": "https://github.com/vertx-web-site/vertx-web-site#readme",
   "dependencies": {
-    "@icons-pack/react-simple-icons": "^2.5.0",
+    "@icons-pack/react-simple-icons": "^3.7.0",
     "@mdx-js/loader": "^1.5.7",
     "@next/mdx": "^9.3.0",
     "@silvenon/remark-smartypants": "^0.1.1",
