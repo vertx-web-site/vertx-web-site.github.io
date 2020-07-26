@@ -9,7 +9,7 @@ import "./NavBar.scss"
 import { useContext, useEffect, useRef, useState } from "react"
 import throttle from "lodash/throttle"
 
-import { Gitter, Stackoverflow, Youtube } from "@icons-pack/react-simple-icons"
+import { Awesomelists, Gitter, Stackoverflow, Youtube } from "@icons-pack/react-simple-icons"
 
 // load docs metadata to get available versions
 const docsVersions = require.context("../docs/metadata", false, /\.jsx$/)
@@ -111,11 +111,14 @@ export default () => {
               ))}
             </DropDown>
 
-            <a href="https://www.youtube.com/results?search_query=vert.x" className="navbar-social-link" title="YouTube" target="_blank" rel="noopener noreferrer">
-              <Youtube aria-label="YouTube videos related to Vert.x" />
+            <a href="https://github.com/vert-x3/vertx-awesome" className="navbar-social-link" title="Awesome Vert.x" target="_blank" rel="noopener noreferrer">
+              <Awesomelists aria-label="List of awesome Vert.x projects" title="Awesome Vert.x" />
             </a>
             <a href="https://stackoverflow.com/questions/tagged/vert.x" className="navbar-social-link" title="Stack Overflow" target="_blank" rel="noopener noreferrer">
               <Stackoverflow aria-label="Stack Overflow questions related to Vert.x" />
+            </a>
+            <a href="https://www.youtube.com/results?search_query=vert.x" className="navbar-social-link" title="YouTube" target="_blank" rel="noopener noreferrer">
+              <Youtube aria-label="YouTube videos related to Vert.x" />
             </a>
             <a href="https://gitter.im/eclipse-vertx/vertx-users" className="navbar-social-link" title="Gitter" target="_blank" rel="noopener noreferrer">
               <Gitter aria-label="Eclipse Vert.x channel on Gitter" />
