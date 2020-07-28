@@ -2,6 +2,7 @@
   .#{$element-name} {
     opacity: 0;
     align-self: flex-start;
+    outline: none;
 
     &::after {
       content: "#";
