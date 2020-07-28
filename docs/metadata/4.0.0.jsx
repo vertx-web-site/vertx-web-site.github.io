@@ -70,6 +70,7 @@ insert(docs, "vertx-web-api-service",
     category: "web",
     href: "/vertx-web-validation/java/",
     repository: "https://github.com/vert-x3/vertx-web",
+    edit: "https://github.com/vert-x3/vertx-web/tree/master/vertx-web-validation/src/main/asciidoc",
     examples: "https://github.com/vert-x3/vertx-examples/tree/3.x/web-examples#http-request-validation-and-openapi-3-router-factory"
   },
   {
@@ -80,6 +81,7 @@ insert(docs, "vertx-web-api-service",
     category: "web",
     href: "/vertx-web-openapi/java/",
     repository: "https://github.com/vert-x3/vertx-web",
+    edit: "https://github.com/vert-x3/vertx-web/tree/master/vertx-web-openapi/src/main/asciidoc",
     examples: "https://github.com/vert-x3/vertx-examples/tree/3.x/web-examples#http-request-validation-and-openapi-3-router-factory"
   }
 )
@@ -91,7 +93,8 @@ docs.entries.push({
     to validate every JSON data structure, asynchronously.`,
   category: "standards",
   href: "/vertx-json-schema/java/",
-  repository: "https://github.com/eclipse-vertx/vertx-json-schema"
+  repository: "https://github.com/eclipse-vertx/vertx-json-schema",
+  edit: "https://github.com/eclipse-vertx/vertx-json-schema/tree/master/src/main/asciidoc"
 })
 
 insert(docs, "vertx-auth-mongo",
@@ -101,7 +104,8 @@ insert(docs, "vertx-auth-mongo",
     description: "FIDO2 WebAuthn (password-less) implementation.",
     category: "authentication-and-authorization",
     href: "/vertx-auth-webauthn/java/",
-    repository: "https://github.com/vert-x3/vertx-auth/tree/master/vertx-auth-webauthn"
+    repository: "https://github.com/vert-x3/vertx-auth/tree/master/vertx-auth-webauthn",
+    edit: "https://github.com/vert-x3/vertx-auth/tree/master/vertx-auth-webauthn/src/main/asciidoc"
   },
   {
     id: "vertx-auth-sql-client",
@@ -110,7 +114,8 @@ insert(docs, "vertx-auth-mongo",
       SQL client and a relational database.`,
     category: "authentication-and-authorization",
     href: "/vertx-auth-sql-client/java/",
-    repository: "https://github.com/vert-x3/vertx-auth/tree/master/vertx-auth-sql-client"
+    repository: "https://github.com/vert-x3/vertx-auth/tree/master/vertx-auth-sql-client",
+    edit: "https://github.com/vert-x3/vertx-auth/tree/master/vertx-auth-sql-client/src/main/asciidoc"
   }
 )
 
@@ -121,7 +126,8 @@ insert(docs, "vertx-auth-htdigest",
     description: "Authentication and authorization support based on Java properties files.",
     category: "authentication-and-authorization",
     href: "/vertx-auth-properties/java/",
-    repository: "https://github.com/vert-x3/vertx-auth/tree/master/vertx-auth-properties"
+    repository: "https://github.com/vert-x3/vertx-auth/tree/master/vertx-auth-properties",
+    edit: "https://github.com/vert-x3/vertx-auth/tree/master/vertx-auth-properties/src/main/asciidoc"
   },
   {
     id: "vertx-auth-ldap",
@@ -129,7 +135,8 @@ insert(docs, "vertx-auth-htdigest",
     description: "Implementation using JDK built-in LDAP capabilities.",
     category: "authentication-and-authorization",
     href: "/vertx-auth-ldap/java/",
-    repository: "https://github.com/vert-x3/vertx-auth/tree/master/vertx-auth-ldap"
+    repository: "https://github.com/vert-x3/vertx-auth/tree/master/vertx-auth-ldap",
+    edit: "https://github.com/vert-x3/vertx-auth/tree/master/vertx-auth-ldap/src/main/asciidoc"
   },
   {
     id: "vertx-auth-htpasswd",
@@ -137,7 +144,8 @@ insert(docs, "vertx-auth-htdigest",
     description: <>Authentication and authorization support based on <code>.htpasswd</code> files.</>,
     category: "authentication-and-authorization",
     href: "/vertx-auth-htpasswd/java/",
-    repository: "https://github.com/vert-x3/vertx-auth/tree/master/vertx-auth-htpasswd"
+    repository: "https://github.com/vert-x3/vertx-auth/tree/master/vertx-auth-htpasswd",
+    edit: "https://github.com/vert-x3/vertx-auth/tree/master/vertx-auth-htpasswd/src/main/asciidoc"
   }
 )
 
@@ -149,7 +157,8 @@ insert(docs, "vertx-mongo-client",
       manipulation of SQL queries.`,
     category: "databases",
     href: "/vertx-sql-client-templates/java/",
-    repository: "https://github.com/eclipse-vertx/vertx-sql-client"
+    repository: "https://github.com/eclipse-vertx/vertx-sql-client",
+    edit: "https://github.com/eclipse-vertx/vertx-sql-client/tree/master/vertx-sql-client-templates/src/main/asciidoc"
   }
 )
 
@@ -159,14 +168,18 @@ insert(docs, "vertx-dropwizard-metrics",
     name: "Zipkin",
     description: "Distributed tracing with Zipkin.",
     category: "monitoring",
-    href: "/vertx-zipkin/java/"
+    href: "/vertx-zipkin/java/",
+    repository: "https://github.com/eclipse-vertx/vertx-tracing/tree/master/vertx-zipkin",
+    edit: "https://github.com/eclipse-vertx/vertx-tracing/tree/master/vertx-zipkin/src/main/asciidoc"
   },
   {
     id: "vertx-opentracing",
     name: "OpenTracing",
     description: "Distributed tracing with OpenTracing.",
     category: "monitoring",
-    href: "/vertx-opentracing/java/"
+    href: "/vertx-opentracing/java/",
+    repository: "https://github.com/eclipse-vertx/vertx-tracing/tree/master/vertx-opentracing",
+    edit: "https://github.com/eclipse-vertx/vertx-tracing/tree/master/vertx-opentracing/src/main/asciidoc"
   }
 )
 

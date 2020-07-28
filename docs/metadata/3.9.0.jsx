@@ -86,10 +86,11 @@ const entries = [
     category: "core",
     href: "/vertx-core/java/",
     repository: "https://github.com/eclipse-vertx/vert.x",
+    edit: "https://github.com/eclipse-vertx/vert.x/tree/master/src/main/asciidoc",
     examples: "https://github.com/vert-x3/vertx-examples/tree/3.x/core-examples"
   },
 
-  // // web
+  // web
   {
     id: "vertx-web",
     name: "Vert.x Web",
@@ -98,6 +99,7 @@ const entries = [
     category: "web",
     href: "/vertx-web/java/",
     repository: "https://github.com/vert-x3/vertx-web",
+    edit: "https://github.com/vert-x3/vertx-web/tree/master/vertx-web/src/main/asciidoc",
     examples: "https://github.com/vert-x3/vertx-examples/tree/3.x/web-examples"
   },
   {
@@ -107,6 +109,7 @@ const entries = [
     category: "web",
     href: "/vertx-web-client/java/",
     repository: "https://github.com/vert-x3/vertx-web",
+    edit: "https://github.com/vert-x3/vertx-web/tree/master/vertx-web-client/src/main/asciidoc",
     examples: "https://github.com/vert-x3/vertx-examples/tree/3.x/web-client-examples"
   },
   {
@@ -117,6 +120,7 @@ const entries = [
     category: "web",
     href: "/vertx-web-api-contract/java/",
     repository: "https://github.com/vert-x3/vertx-web",
+    edit: "https://github.com/vert-x3/vertx-web/tree/master/vertx-web-api-contract/src/main/asciidoc",
     examples: "https://github.com/vert-x3/vertx-examples/tree/3.x/web-examples#http-request-validation-and-openapi-3-router-factory"
   },
   {
@@ -126,6 +130,7 @@ const entries = [
     category: "web",
     href: "/vertx-web-api-service/java/",
     repository: "https://github.com/vert-x3/vertx-web",
+    edit: "https://github.com/vert-x3/vertx-web/tree/master/vertx-web-api-service/src/main/asciidoc",
     examples: "https://github.com/vert-x3/vertx-examples/tree/3.x/web-api-service-example",
     label: "Technical Preview"
   },
@@ -136,6 +141,7 @@ const entries = [
     category: "web",
     href: "/vertx-web-graphql/java/",
     repository: "https://github.com/vert-x3/vertx-web",
+    edit: "https://github.com/vert-x3/vertx-web/tree/master/vertx-web-graphql/src/main/asciidoc",
     examples: "https://github.com/vert-x3/vertx-examples/tree/3.x/web-graphql-examples",
     label: "Technical Preview"
   },
@@ -148,6 +154,7 @@ const entries = [
     category: "databases",
     href: "/vertx-pg-client/java/",
     repository: "https://github.com/eclipse-vertx/vertx-sql-client",
+    edit: "https://github.com/eclipse-vertx/vertx-sql-client/tree/master/vertx-pg-client/src/main/asciidoc",
     examples: "https://github.com/vert-x3/vertx-examples/tree/3.x/reactive-sql-client-examples",
     label: "Technical Preview"
   },
@@ -158,6 +165,7 @@ const entries = [
     category: "databases",
     href: "/vertx-mysql-client/java/",
     repository: "https://github.com/eclipse-vertx/vertx-sql-client",
+    edit: "https://github.com/eclipse-vertx/vertx-sql-client/tree/master/vertx-mysql-client/src/main/asciidoc",
     examples: "https://github.com/vert-x3/vertx-examples/tree/3.x/reactive-sql-client-examples",
     label: "Technical Preview"
   },
@@ -168,6 +176,7 @@ const entries = [
     category: "databases",
     href: "/vertx-mongo-client/java/",
     repository: "https://github.com/vert-x3/vertx-mongo-client",
+    edit: "https://github.com/vert-x3/vertx-mongo-client/tree/master/src/main/asciidoc",
     examples: "https://github.com/vert-x3/vertx-examples/tree/3.x/mongo-examples"
   },
   {
@@ -177,6 +186,7 @@ const entries = [
     category: "databases",
     href: "/vertx-redis-client/java/",
     repository: "https://github.com/vert-x3/vertx-redis-client",
+    edit: "https://github.com/vert-x3/vertx-redis-client/tree/master/src/main/asciidoc",
     examples: "https://github.com/vert-x3/vertx-examples/tree/3.x/redis-examples"
   },
   {
@@ -186,6 +196,7 @@ const entries = [
     category: "databases",
     href: "/vertx-cassandra-client/java/",
     repository: "https://github.com/vert-x3/vertx-cassandra-client",
+    edit: "https://github.com/vert-x3/vertx-cassandra-client/tree/master/src/main/asciidoc",
     examples: "https://github.com/vert-x3/vertx-examples/tree/3.x/cassandra-examples"
   },
   {
@@ -194,7 +205,8 @@ const entries = [
     description: "Vert.x Common SQL interface.",
     category: "databases",
     href: "/vertx-sql-common/java/",
-    repository: "https://github.com/vert-x3/vertx-sql-common"
+    repository: "https://github.com/vert-x3/vertx-sql-common",
+    edit: "https://github.com/vert-x3/vertx-sql-common/tree/3.9/src/main/asciidoc"
   },
   {
     id: "vertx-jdbc-client",
@@ -203,6 +215,7 @@ const entries = [
     category: "databases",
     href: "/vertx-jdbc-client/java/",
     repository: "https://github.com/vert-x3/vertx-jdbc-client",
+    edit: "https://github.com/vert-x3/vertx-jdbc-client/tree/master/src/main/asciidoc",
     examples: "https://github.com/vert-x3/vertx-examples/tree/3.x/jdbc-examples"
   },
   {
@@ -212,6 +225,7 @@ const entries = [
     category: "databases",
     href: "/vertx-mysql-postgresql-client/java/",
     repository: "https://github.com/vert-x3/vertx-mysql-postgresql-client",
+    edit: "https://github.com/vert-x3/vertx-mysql-postgresql-client/tree/3.8/vertx-mysql-postgresql-client-jasync/src/main/asciidoc",
     label: "Deprecated"
   },
 
@@ -223,6 +237,7 @@ const entries = [
     category: "reactive",
     href: "/vertx-rx/java2/",
     repository: "https://github.com/vert-x3/vertx-rx",
+    edit: "https://github.com/vert-x3/vertx-rx/blob/master/rx-java2/src/main/asciidoc/vertx-rx/java2",
     examples: "https://github.com/vert-x3/vertx-examples/tree/3.x/rxjava-2-examples"
   },
   {
@@ -232,6 +247,7 @@ const entries = [
     category: "reactive",
     href: "/vertx-rx/java/",
     repository: "https://github.com/vert-x3/vertx-rx",
+    edit: "https://github.com/vert-x3/vertx-rx/tree/master/rx-java/src/main/asciidoc/vertx-rx/java",
     examples: "https://github.com/vert-x3/vertx-examples/tree/3.x/rxjava-1-examples"
   },
   {
@@ -241,7 +257,8 @@ const entries = [
       with other reactive systems such as Akka and Project Reactor.`,
     category: "reactive",
     href: "/vertx-reactive-streams/java/",
-    repository: "https://github.com/vert-x3/vertx-reactive-streams"
+    repository: "https://github.com/vert-x3/vertx-reactive-streams",
+    edit: "https://github.com/vert-x3/vertx-reactive-streams/tree/master/src/main/asciidoc"
   },
   {
     id: "vertx-sync",
@@ -252,6 +269,7 @@ const entries = [
     category: "reactive",
     href: "/vertx-sync/java/",
     repository: "https://github.com/vert-x3/vertx-sync",
+    edit: "https://github.com/vert-x3/vertx-sync/tree/master/src/main/asciidoc",
     examples: "https://github.com/vert-x3/vertx-examples/tree/3.x/sync-examples"
   },
   {
@@ -263,6 +281,7 @@ const entries = [
     category: "reactive",
     href: "/vertx-lang-kotlin-coroutines/kotlin/",
     repository: "https://github.com/vert-x3/vertx-lang-kotlin",
+    edit: "https://github.com/vert-x3/vertx-lang-kotlin/tree/master/vertx-lang-kotlin/src/main/asciidoc",
     examples: "https://github.com/vert-x3/vertx-examples/tree/3.x/kotlin-examples/coroutines"
   },
 
@@ -273,7 +292,8 @@ const entries = [
     description: "Publish, lookup and bind any type of service.",
     category: "microservices",
     href: "/vertx-service-discovery/java/",
-    repository: "https://github.com/vert-x3/vertx-service-discovery"
+    repository: "https://github.com/vert-x3/vertx-service-discovery",
+    edit: "https://github.com/vert-x3/vertx-service-discovery/tree/master/vertx-service-discovery/src/main/asciidoc"
   },
   {
     id: "vertx-config",
@@ -281,7 +301,8 @@ const entries = [
     description: "An extensible way to configure Vert.x applications.",
     category: "microservices",
     href: "/vertx-config/java/",
-    repository: "https://github.com/vert-x3/vertx-config"
+    repository: "https://github.com/vert-x3/vertx-config",
+    edit: "https://github.com/vert-x3/vertx-config/tree/master/vertx-config/src/main/asciidoc"
   },
   {
     id: "vertx-circuit-breaker",
@@ -289,7 +310,8 @@ const entries = [
     description: "Implementation of the circuit-breaker pattern to mitigate failures.",
     category: "microservices",
     href: "/vertx-circuit-breaker/java/",
-    repository: "https://github.com/vert-x3/vertx-circuit-breaker"
+    repository: "https://github.com/vert-x3/vertx-circuit-breaker",
+    edit: "https://github.com/vert-x3/vertx-circuit-breaker/tree/master/src/main/asciidoc"
   },
 
   // mqtt
@@ -299,7 +321,8 @@ const entries = [
     description: "A client and server for MQTT, compliant with MQTT 3.1.1.",
     category: "mqtt",
     href: "/vertx-mqtt/java/",
-    repository: "https://github.com/vert-x3/vertx-mqtt"
+    repository: "https://github.com/vert-x3/vertx-mqtt",
+    edit: "https://github.com/vert-x3/vertx-mqtt/tree/master/src/main/asciidoc"
   },
 
   // authentication
@@ -310,7 +333,8 @@ const entries = [
       Vert.x applications, backed by several providers.`,
     category: "authentication-and-authorization",
     href: "/vertx-auth-common/java/",
-    repository: "https://github.com/vert-x3/vertx-auth/tree/master/vertx-auth-common"
+    repository: "https://github.com/vert-x3/vertx-auth/tree/master/vertx-auth-common",
+    edit: "https://github.com/vert-x3/vertx-auth/tree/master/vertx-auth-common/src/main/asciidoc"
   },
   {
     id: "vertx-auth-jdbc",
@@ -318,7 +342,8 @@ const entries = [
     description: "Auth implementation backed by JDBC.",
     category: "authentication-and-authorization",
     href: "/vertx-auth-jdbc/java/",
-    repository: "https://github.com/vert-x3/vertx-auth/tree/master/vertx-auth-jdbc"
+    repository: "https://github.com/vert-x3/vertx-auth/tree/master/vertx-auth-jdbc",
+    edit: "https://github.com/vert-x3/vertx-auth/tree/master/vertx-auth-jdbc/src/main/asciidoc"
   },
   {
     id: "vertx-auth-jwt",
@@ -326,7 +351,8 @@ const entries = [
     description: "JSON web tokens (JWT) implementation.",
     category: "authentication-and-authorization",
     href: "/vertx-auth-jwt/java/",
-    repository: "https://github.com/vert-x3/vertx-auth/tree/master/vertx-auth-jwt"
+    repository: "https://github.com/vert-x3/vertx-auth/tree/master/vertx-auth-jwt",
+    edit: "https://github.com/vert-x3/vertx-auth/tree/master/vertx-auth-jwt/src/main/asciidoc"
   },
   {
     id: "vertx-auth-shiro",
@@ -334,7 +360,8 @@ const entries = [
     description: "Auth implementation using Apache Shiro.",
     category: "authentication-and-authorization",
     href: "/vertx-auth-shiro/java/",
-    repository: "https://github.com/vert-x3/vertx-auth/tree/master/vertx-auth-shiro"
+    repository: "https://github.com/vert-x3/vertx-auth/tree/master/vertx-auth-shiro",
+    edit: "https://github.com/vert-x3/vertx-auth/tree/master/vertx-auth-shiro/src/main/asciidoc"
   },
   {
     id: "vertx-auth-mongo",
@@ -342,7 +369,8 @@ const entries = [
     description: "Authentication and authorization support based on MongoDB.",
     category: "authentication-and-authorization",
     href: "/vertx-auth-mongo/java/",
-    repository: "https://github.com/vert-x3/vertx-auth/tree/master/vertx-auth-mongo"
+    repository: "https://github.com/vert-x3/vertx-auth/tree/master/vertx-auth-mongo",
+    edit: "https://github.com/vert-x3/vertx-auth/tree/master/vertx-auth-mongo/src/main/asciidoc"
   },
   {
     id: "vertx-auth-oauth2",
@@ -350,7 +378,8 @@ const entries = [
     description: "OAuth2 (and to some extent OpenID Connect) implementation.",
     category: "authentication-and-authorization",
     href: "/vertx-auth-oauth2/java/",
-    repository: "https://github.com/vert-x3/vertx-auth/tree/master/vertx-auth-oauth2"
+    repository: "https://github.com/vert-x3/vertx-auth/tree/master/vertx-auth-oauth2",
+    edit: "https://github.com/vert-x3/vertx-auth/tree/master/vertx-auth-oauth2/src/main/asciidoc"
   },
   {
     id: "vertx-auth-htdigest",
@@ -358,7 +387,8 @@ const entries = [
     description: <>Authentication and authorization support based on <code>.htdigest</code> files.</>,
     category: "authentication-and-authorization",
     href: "/vertx-auth-htdigest/java/",
-    repository: "https://github.com/vert-x3/vertx-auth/tree/master/vertx-auth-htdigest"
+    repository: "https://github.com/vert-x3/vertx-auth/tree/master/vertx-auth-htdigest",
+    edit: "https://github.com/vert-x3/vertx-auth/tree/master/vertx-auth-htdigest/src/main/asciidoc"
   },
 
   // messaging
@@ -369,6 +399,7 @@ const entries = [
     category: "messaging",
     href: "/vertx-amqp-client/java/",
     repository: "https://github.com/vert-x3/vertx-amqp-client",
+    edit: "https://github.com/vert-x3/vertx-amqp-client/tree/master/src/main/asciidoc",
     label: "Technical Preview"
   },
   {
@@ -377,7 +408,8 @@ const entries = [
     description: "A client and server implementation of the STOMP protocol.",
     category: "messaging",
     href: "/vertx-stomp/java/",
-    repository: "https://github.com/vert-x3/vertx-stomp"
+    repository: "https://github.com/vert-x3/vertx-stomp",
+    edit: "https://github.com/vert-x3/vertx-stomp/tree/master/src/main/asciidoc"
   },
   {
     id: "vertx-rabbitmq-client",
@@ -385,7 +417,8 @@ const entries = [
     description: "A client for RabbitMQ brokers.",
     category: "messaging",
     href: "/vertx-rabbitmq-client/java/",
-    repository: "https://github.com/vert-x3/vertx-rabbitmq-client"
+    repository: "https://github.com/vert-x3/vertx-rabbitmq-client",
+    edit: "https://github.com/vert-x3/vertx-rabbitmq-client/tree/master/src/main/asciidoc"
   },
   {
     id: "vertx-amqp-bridge",
@@ -394,6 +427,7 @@ const entries = [
     category: "messaging",
     href: "/vertx-amqp-bridge/java/",
     repository: "https://github.com/vert-x3/vertx-amqp-bridge",
+    edit: "https://github.com/vert-x3/vertx-amqp-bridge/tree/3.9/src/main/asciidoc",
     examples: "https://github.com/vert-x3/vertx-examples/tree/3.x/amqp-bridge-examples"
   },
 
@@ -405,6 +439,7 @@ const entries = [
     category: "integration",
     href: "/vertx-kafka-client/java/",
     repository: "https://github.com/vert-x3/vertx-kafka-client",
+    edit: "https://github.com/vert-x3/vertx-kafka-client/tree/master/src/main/asciidoc",
     examples: "https://github.com/vert-x3/vertx-examples/tree/3.x/kafka-examples"
   },
   {
@@ -414,6 +449,7 @@ const entries = [
     category: "integration",
     href: "/vertx-mail-client/java/",
     repository: "https://github.com/vert-x3/vertx-mail-client",
+    edit: "https://github.com/vert-x3/vertx-mail-client/tree/master/src/main/asciidoc",
     examples: "https://github.com/vert-x3/vertx-examples/tree/3.x/mail-examples"
   },
   {
@@ -423,6 +459,7 @@ const entries = [
     category: "integration",
     href: "/vertx-consul-client/java/",
     repository: "https://github.com/vert-x3/vertx-consul-client",
+    edit: "https://github.com/vert-x3/vertx-consul-client/tree/master/src/main/asciidoc",
     examples: "https://github.com/vert-x3/vertx-examples/tree/3.x/consul-examples"
   },
 
@@ -434,7 +471,8 @@ const entries = [
       any application over a simple TCP-based protocol.`,
     category: "event-bus-bridges",
     href: "/vertx-tcp-eventbus-bridge/java/",
-    repository: "https://github.com/vert-x3/vertx-tcp-eventbus-bridge"
+    repository: "https://github.com/vert-x3/vertx-tcp-eventbus-bridge",
+    edit: "https://github.com/vert-x3/vertx-tcp-eventbus-bridge/tree/master/src/main/asciidoc"
   },
   {
     id: "vertx-camel-bridge",
@@ -444,6 +482,7 @@ const entries = [
     category: "event-bus-bridges",
     href: "/vertx-camel-bridge/java/",
     repository: "https://github.com/vert-x3/vertx-camel-bridge",
+    edit: "https://github.com/vert-x3/vertx-camel-bridge/tree/master/src/main/asciidoc",
     examples: "https://github.com/vert-x3/vertx-examples/tree/3.x/camel-bridge-examples"
   },
 
@@ -455,6 +494,7 @@ const entries = [
     category: "devops",
     href: "/vertx-dropwizard-metrics/java/",
     repository: "https://github.com/vert-x3/vertx-dropwizard-metrics",
+    edit: "https://github.com/vert-x3/vertx-dropwizard-metrics/tree/master/src/main/asciidoc",
     examples: "https://github.com/vert-x3/vertx-examples/tree/3.x/metrics-examples"
   },
   {
@@ -463,7 +503,8 @@ const entries = [
     description: "Captures metrics from Vert.x core components and exposes them using Micrometer.",
     category: "devops",
     href: "/vertx-micrometer-metrics/java/",
-    repository: "https://github.com/vert-x3/vertx-micrometer-metrics"
+    repository: "https://github.com/vert-x3/vertx-micrometer-metrics",
+    edit: "https://github.com/vert-x3/vertx-micrometer-metrics/tree/master/src/main/asciidoc"
   },
   {
     id: "vertx-health-check",
@@ -471,7 +512,8 @@ const entries = [
     description: "A simple API to expose health checks over HTTP.",
     category: "devops",
     href: "/vertx-health-check/java/",
-    repository: "https://github.com/vert-x3/vertx-web"
+    repository: "https://github.com/vert-x3/vertx-health-check",
+    edit: "https://github.com/vert-x3/vertx-health-check/tree/master/src/main/asciidoc"
   },
   {
     id: "vertx-shell",
@@ -479,7 +521,8 @@ const entries = [
     description: "Interact with your Vert.x application using a CLI interface.",
     category: "devops",
     href: "/vertx-shell/java/",
-    repository: "https://github.com/vert-x3/vertx-shell"
+    repository: "https://github.com/vert-x3/vertx-shell",
+    edit: "https://github.com/vert-x3/vertx-shell/tree/master/src/main/asciidoc"
   },
   {
     id: "vertx-docker",
@@ -488,7 +531,8 @@ const entries = [
       run Vert.x applications in Docker containers.`,
     category: "devops",
     href: "/vertx-docker/",
-    repository: "https://github.com/vert-x3/vertx-stack"
+    repository: "https://github.com/vert-x3/vertx-stack",
+    edit: "https://github.com/vert-x3/vertx-stack/tree/master/stack-docs/src/main/asciidoc"
   },
   {
     id: "vertx-stack-manager",
@@ -497,7 +541,8 @@ const entries = [
       add and remove artifacts from your stack.`,
     category: "devops",
     href: "/vertx-stack-manager/stack-manager/",
-    repository: "https://github.com/vert-x3/vertx-stack"
+    repository: "https://github.com/vert-x3/vertx-stack",
+    edit: "https://github.com/vert-x3/vertx-stack/tree/master/stack-manager/src/main/asciidoc/stack-manager"
   },
 
   // testing
@@ -508,6 +553,7 @@ const entries = [
     category: "testing",
     href: "/vertx-junit5/java/",
     repository: "https://github.com/vert-x3/vertx-junit5",
+    edit: "https://github.com/vert-x3/vertx-junit5/tree/master/src/main/asciidoc",
     examples: "https://github.com/vert-x3/vertx-examples/tree/3.x/junit5-examples"
   },
   {
@@ -518,6 +564,7 @@ const entries = [
     category: "testing",
     href: "/vertx-unit/java/",
     repository: "https://github.com/vert-x3/vertx-unit",
+    edit: "https://github.com/vert-x3/vertx-unit/tree/master/src/main/asciidoc",
     examples: "https://github.com/vert-x3/vertx-examples/tree/3.x/unit-examples"
   },
 
@@ -528,7 +575,8 @@ const entries = [
     description: "Cluster manager implementation that uses Hazelcast.",
     category: "clustering",
     href: "/vertx-hazelcast/java/",
-    repository: "https://github.com/vert-x3/vertx-hazelcast"
+    repository: "https://github.com/vert-x3/vertx-hazelcast",
+    edit: "https://github.com/vert-x3/vertx-hazelcast/tree/master/src/main/asciidoc"
   },
   {
     id: "vertx-infinispan",
@@ -536,7 +584,8 @@ const entries = [
     description: "Cluster manager implementation that uses Infinispan.",
     category: "clustering",
     href: "/vertx-infinispan/java/",
-    repository: "https://github.com/vert-x3/vertx-infinispan"
+    repository: "https://github.com/vert-x3/vertx-infinispan",
+    edit: "https://github.com/vert-x3/vertx-infinispan/tree/master/src/main/asciidoc"
   },
   {
     id: "vertx-ignite",
@@ -544,7 +593,8 @@ const entries = [
     description: "Cluster manager implementation that uses Apache Ignite.",
     category: "clustering",
     href: "/vertx-ignite/java/",
-    repository: "https://github.com/vert-x3/vertx-ignite"
+    repository: "https://github.com/vert-x3/vertx-ignite",
+    edit: "https://github.com/vert-x3/vertx-ignite/tree/master/src/main/asciidoc"
   },
   {
     id: "vertx-zookeeper",
@@ -552,7 +602,8 @@ const entries = [
     description: "Cluster manager implementation that uses Apache Zookeeper.",
     category: "clustering",
     href: "/vertx-zookeeper/java/",
-    repository: "https://github.com/vert-x3/vertx-zookeeper"
+    repository: "https://github.com/vert-x3/vertx-zookeeper",
+    edit: "https://github.com/vert-x3/vertx-zookeeper/tree/master/src/main/asciidoc"
   },
 
   // services
@@ -563,7 +614,8 @@ const entries = [
     category: "services",
     href: "/vertx-grpc/java/",
     repository: "https://github.com/vert-x3/vertx-grpc",
-    examples: "https://github.com/vert-x3/vertx-examples/tree/3.x/grpc-examples"
+    examples: "https://github.com/vert-x3/vertx-examples/tree/3.x/grpc-examples",
+    edit: "https://github.com/vert-x3/vertx-grpc/tree/master/vertx-grpc/src/main/asciidoc"
   },
   {
     id: "vertx-service-proxy",
@@ -572,6 +624,7 @@ const entries = [
     category: "services",
     href: "/vertx-service-proxy/java/",
     repository: "https://github.com/vert-x3/vertx-service-proxy",
+    edit: "https://github.com/vert-x3/vertx-service-proxy/tree/master/src/main/asciidoc",
     examples: "https://github.com/vert-x3/vertx-examples/tree/3.x/service-proxy-examples"
   },
   {
@@ -581,6 +634,7 @@ const entries = [
     category: "services",
     href: "/vertx-sockjs-service-proxy/java/",
     repository: "https://github.com/vert-x3/vertx-sockjs-service-proxy",
+    edit: "https://github.com/vert-x3/vertx-sockjs-service-proxy/tree/master/src/main/asciidoc",
     examples: "https://github.com/vert-x3/vertx-examples/tree/3.x/service-proxy-examples"
   },
   {
@@ -589,7 +643,8 @@ const entries = [
     description: "How to package and deploy Vert.x independent services.",
     category: "services",
     href: "/vertx-service-factory/java/",
-    repository: "https://github.com/vert-x3/vertx-service-factory"
+    repository: "https://github.com/vert-x3/vertx-service-factory",
+    edit: "https://github.com/vert-x3/vertx-service-factory/tree/master/src/main/asciidoc"
   },
   {
     id: "vertx-maven-service-factory",
@@ -598,6 +653,7 @@ const entries = [
     category: "services",
     href: "/vertx-maven-service-factory/java/",
     repository: "https://github.com/vert-x3/vertx-maven-service-factory",
+    edit: "https://github.com/vert-x3/vertx-maven-service-factory/tree/master/src/main/asciidoc",
     examples: "https://github.com/vert-x3/vertx-examples/tree/3.x/maven-service-factory-examples"
   },
   {
@@ -607,7 +663,8 @@ const entries = [
       HTTP server (for example Bintray) at run-time.`,
     category: "services",
     href: "/vertx-http-service-factory/java/",
-    repository: "https://github.com/vert-x3/vertx-http-service-factory"
+    repository: "https://github.com/vert-x3/vertx-http-service-factory",
+    edit: "https://github.com/vert-x3/vertx-http-service-factory/tree/master/src/main/asciidoc"
   }
 ]
 

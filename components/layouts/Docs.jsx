@@ -8,7 +8,7 @@ import Footer from "../Footer"
 import SearchPanel from "../search/SearchPanel"
 import GitHubStars from "../GitHubStars"
 import Label from "../Label"
-import { Code, List, Paperclip, X } from "react-feather"
+import { Code, Edit, List, Paperclip, X } from "react-feather"
 import "./Docs.scss"
 
 export default ({ metadata, toc, contents }) => {
@@ -155,13 +155,17 @@ export default ({ metadata, toc, contents }) => {
       let repo = m[2]
       repository = <GitHubStars org={org} repo={repo} />
     } else {
-      repository = <><a href={metadata.repository}><Code className="feather" /> Source code</a></>
+      repository = <a href={metadata.repository}><Code className="feather" /> Source code</a>
     }
   }
 
   let examples
   if (metadata.examples) {
-    examples = <><a href={metadata.examples}><Paperclip className="feather" /> Examples</a></>
+    examples = <a href={metadata.examples}><Paperclip className="feather" /> Examples</a>
+  }
+  let edit
+  if (metadata.edit) {
+    edit = <a href={metadata.edit}><Edit className="feather" /> Edit</a>
   }
 
   return (
@@ -189,8 +193,9 @@ export default ({ metadata, toc, contents }) => {
                 onTouchStart={onContentTouchStart}>
               <div className="docs-content-metadata">
                 <div className="docs-content-metadata-left">
-                  <div className="docs-content-metadata-repo">{repository}</div>
-                  <div className="docs-content-metadata-examples">{examples}</div>
+                  {repository && <div className="docs-content-metadata-repo">{repository}</div>}
+                  {examples && <div className="docs-content-metadata-examples">{examples}</div>}
+                  {edit && <div className="docs-content-metadata-edit">{edit}</div>}
                 </div>
                 {metadata.label && <div className="docs-content-metadata-label">
                   <Label small nowrap>{metadata.label}</Label>
