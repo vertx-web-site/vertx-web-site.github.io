@@ -23,7 +23,7 @@ repositories {
 }
 
 dependencies {
-  implementation('io.vertx:vertx-stack-docs:4.0.0-SNAPSHOT:docs@zip') {
+  implementation('io.vertx:vertx-stack-docs:4.0.0.Beta1:docs@zip') {
     transitive = false
     changing = true
   }
