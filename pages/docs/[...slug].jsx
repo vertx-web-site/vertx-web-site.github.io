@@ -121,7 +121,8 @@ export async function getStaticProps({ params }) {
     attributes: {
       "source-highlighter": "highlightjs-ext",
       "showtitle": true,
-      "toc": "left"
+      "toc": "left",
+      "sectanchors": true
     }
   })
   let title = doc.getDocumentTitle()
