@@ -1,6 +1,7 @@
 @import "normalize.css/normalize";
 @import "./mixins";
 @import "./code";
+@import "./heading-anchor";
 
 html {
   box-sizing: border-box;
@@ -127,3 +128,5 @@ p code {
   max-width: 100%;
   overflow: auto;
 }
+
+@include heading-anchor("heading-anchor");

@@ -1,4 +1,5 @@
 @import "./Page";
+@import "../../css/heading-anchor";
 
 .docs {
   .docs-content {
@@ -249,28 +250,6 @@
       font-weight: 400;
     }
 
-    .anchor {
-      opacity: 0;
-
-      &::after {
-        content: "#";
-        position: absolute;
-        margin-left: -1.5rem;
-        color: $gray-400;
-        padding-right: 0.45rem;
-      }
-
-      &:hover {
-        opacity: 1;
-      }
-    }
-
-    h2, h3, h4, h5, h6 {
-      &:hover {
-        .anchor {
-          opacity: 1;
-        }
-      }
-    }
+    @include heading-anchor("anchor");
   }
 }
