@@ -3,7 +3,7 @@ import BlogNavBar from "../blog/BlogNavBar"
 import "./BlogPost.scss"
 
 export default (props) => (
-  <Page {...props}>
+  <Page hashSmoothScroll {...props}>
     <div className="blog-post">
       <BlogNavBar categories={props.categories} />
       {props.children}

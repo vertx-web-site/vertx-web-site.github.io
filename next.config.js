@@ -1,4 +1,5 @@
 const addTermFrequency = require("./plugins/remark-add-term-frequency")
+const autolinkHeadings = require("rehype-autolink-headings")
 const betterShell = require("./plugins/rehype-highlight-better-shell")
 const FilterWarningsPlugin = require("webpack-filter-warnings-plugin")
 const highlight = require("rehype-highlight")
@@ -6,6 +7,7 @@ const hyphenate = require("./plugins/remark-hyphenate")
 const optimizedImages = require("next-optimized-images")
 const sass = require("@zeit/next-sass")
 const smartypants = require("@silvenon/remark-smartypants")
+const slug = require("rehype-slug")
 
 const withPlugins = require("next-compose-plugins")
 
@@ -18,6 +20,9 @@ const mdx = require("@next/mdx")({
       languages: {
         "better-shell": betterShell
       }
+    }], slug, [autolinkHeadings, {
+      properties: { ariaHidden: true, tabIndex: -1, className: "heading-anchor" },
+      content: {}
     }]]
   }
 })

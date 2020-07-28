@@ -16,7 +16,7 @@ const ScrollLink = (props) => {
     let target = document.getElementById(id)
     if (target) {
       let offset = target.offsetTop - navBarState.height
-      smoothScrollTo(offset, 500, id)
+      smoothScrollTo(offset, 500)
     }
   }, [id, navBarState.height])
 

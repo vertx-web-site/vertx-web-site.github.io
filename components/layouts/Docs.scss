@@ -1,4 +1,5 @@
 @import "./Page";
+@import "../../css/heading-anchor";
 
 .docs {
   .docs-content {
@@ -248,5 +249,7 @@
     dt {
       font-weight: 400;
     }
+
+    @include heading-anchor("anchor");
   }
 }
