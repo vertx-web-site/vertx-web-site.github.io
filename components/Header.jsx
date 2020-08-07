@@ -1,7 +1,7 @@
 import Head from "next/head"
 import NavBar from "./NavBar"
 
-export default ({ title }) => (
+const Header = ({ title }) => (
   <header>
     <Head>
       <meta httpEquiv="X-UA-Compatible" content="IE=edge"/>
@@ -20,3 +20,5 @@ export default ({ title }) => (
     <NavBar />
   </header>
 )
+
+export default Header

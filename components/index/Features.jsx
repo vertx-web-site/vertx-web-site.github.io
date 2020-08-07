@@ -1,5 +1,7 @@
 import "./Features.scss"
 
-export default ({ children }) => (
+const Features = ({ children }) => (
   <div className="features">{children}</div>
 )
+
+export default Features

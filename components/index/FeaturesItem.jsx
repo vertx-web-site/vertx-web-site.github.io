@@ -1,6 +1,6 @@
 import "./FeaturesItem.scss"
 
-export default ({ icon, title, children }) => {
+const FeaturesItem = ({ icon, title, children }) => {
   let newIcon = React.cloneElement(icon, {
     size: 46
   })
@@ -13,3 +13,5 @@ export default ({ icon, title, children }) => {
     </div>
   )
 }
+
+export default FeaturesItem

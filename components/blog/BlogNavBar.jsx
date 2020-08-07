@@ -1,7 +1,7 @@
 import Link from "next/link"
 import "./BlogNavBar.scss"
 
-export default ({ categories }) => (
+const BlogNavBar = ({ categories }) => (
   <div className="blog-navbar">
     <h2>Blog</h2>
     <ul>
@@ -16,3 +16,5 @@ export default ({ categories }) => (
     </ul>
   </div>
 )
+
+export default BlogNavBar

@@ -154,7 +154,7 @@ function normalizePositions(positions) {
   return sortPositions(coalescePositions(result))
 }
 
-export default React.forwardRef(({ contentRef, onHasResults }, ref) => {
+const SearchPanel = React.forwardRef(({ contentRef, onHasResults }, ref) => {
   const metadata = useRef()
   const index = useRef()
   const [searchResults, setSearchResults] = useState()
@@ -377,3 +377,5 @@ export default React.forwardRef(({ contentRef, onHasResults }, ref) => {
     </>
   )
 })
+
+export default SearchPanel

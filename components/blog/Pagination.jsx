@@ -54,7 +54,7 @@ function makeAs(page, category) {
   return `${path}page/${page}/`
 }
 
-export default ({ currentPage = 1, numPages = 1, category }) => {
+const Pagination = ({ currentPage = 1, numPages = 1, category }) => {
   if (numPages <= 1) {
     return <></>
   }
@@ -117,3 +117,5 @@ export default ({ currentPage = 1, numPages = 1, category }) => {
     </div>
   )
 }
+
+export default Pagination

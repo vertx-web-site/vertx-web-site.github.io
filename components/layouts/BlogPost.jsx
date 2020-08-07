@@ -2,7 +2,7 @@ import Page from "./Page"
 import BlogNavBar from "../blog/BlogNavBar"
 import "./BlogPost.scss"
 
-export default (props) => (
+const BlogPost = (props) => (
   <Page hashSmoothScroll {...props}>
     <div className="blog-post">
       <BlogNavBar categories={props.categories} />
@@ -10,3 +10,5 @@ export default (props) => (
     </div>
   </Page>
 )
+
+export default BlogPost

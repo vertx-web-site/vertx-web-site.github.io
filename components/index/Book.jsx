@@ -3,7 +3,7 @@ import Button from "../Button"
 
 const URL = "https://www.manning.com/books/vertx-in-action?a_aid=vertx-in-action&a_bid=22152024"
 
-export default () => (
+const Book = () => (
   <div className="book">
     <hr/>
     <div className="container">
@@ -57,3 +57,5 @@ export default () => (
     </div>
   </div>
 )
+
+export default Book

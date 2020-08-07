@@ -4,7 +4,7 @@ import "./Footer.scss"
 import Link from "next/link"
 import { useContext, useRef, useState } from "react"
 
-export default () => {
+const Footer = () => {
   const listRef = [useRef(), useRef()]
   const listMaxHeight = [useState(undefined), useState(undefined)]
   const listVisible = [useState(false), useState(false)]
@@ -84,3 +84,5 @@ export default () => {
     </footer>
   )
 }
+
+export default Footer

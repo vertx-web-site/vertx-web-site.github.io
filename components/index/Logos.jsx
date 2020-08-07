@@ -102,7 +102,7 @@ function shuffleChildren(node) {
   return shuffle(result)
 }
 
-export default () => {
+const Logos = () => {
   const refRow1a = useRef()
   const refRow1b = useRef()
   const refRow2a = useRef()
@@ -148,3 +148,5 @@ export default () => {
     </div>
   )
 }
+
+export default Logos

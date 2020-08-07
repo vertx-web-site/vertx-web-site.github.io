@@ -5,7 +5,7 @@ import GitHubStars from "../GitHubStars"
 import { FastForward } from "react-feather"
 import Link from "next/link"
 
-export default () => (
+const Hero = () => (
   <section className="hero">
     <div className="hero-background" />
     <div className="hero-main container">
@@ -26,3 +26,5 @@ export default () => (
     </div>
   </section>
 )
+
+export default Hero

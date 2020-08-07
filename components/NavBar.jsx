@@ -15,7 +15,7 @@ import { Awesomelists, Gitter, Stackoverflow, Youtube } from "@icons-pack/react-
 const docsVersions = require.context("../docs/metadata", false, /\.jsx$/)
   .keys().map(m => m.substring(2, m.length - 4)).sort().reverse()
 
-export default () => {
+const NavBar = () => {
   const router = useRouter()
   const refNavBar = useRef()
   const refRight = useRef()
@@ -129,3 +129,5 @@ export default () => {
     </div>
   )
 }
+
+export default NavBar

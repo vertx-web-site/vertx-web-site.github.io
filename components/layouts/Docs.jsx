@@ -11,7 +11,7 @@ import Label from "../Label"
 import { Code, Edit, List, Paperclip, X } from "react-feather"
 import "./Docs.scss"
 
-export default ({ metadata, toc, contents }) => {
+const Docs = ({ metadata, toc, contents }) => {
   const tocRef = useRef()
   const searchResultsRef = useRef()
   const contentRef = useRef()
@@ -210,3 +210,5 @@ export default ({ metadata, toc, contents }) => {
     </main>
   )
 }
+
+export default Docs

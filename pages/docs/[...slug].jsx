@@ -163,7 +163,7 @@ export async function getStaticProps({ params }) {
   return cache[slug]
 }
 
-export default ({ slug, title, toc, contents, version }) => {
+const DocsPage = ({ slug, title, toc, contents, version }) => {
   const setVersion = useContext(VersionContext.Dispatch)
 
   useEffect(() => {
@@ -197,3 +197,5 @@ export default ({ slug, title, toc, contents, version }) => {
     return <Docs metadata={sm} toc={toc} contents={contents} />
   }
 }
+
+export default DocsPage

@@ -129,7 +129,7 @@ export async function getStaticProps({ params }) {
   }
 }
 
-export default ({ filename, date, slug, readingTime, relatedPosts, category, page = 1 }) => {
+const BlogPage = ({ filename, date, slug, readingTime, relatedPosts, category, page = 1 }) => {
   if (filename === undefined) {
     // filter posts by category
     let posts = POSTS
@@ -241,3 +241,5 @@ export default ({ filename, date, slug, readingTime, relatedPosts, category, pag
     </BlogPost>
   )
 }
+
+export default BlogPage

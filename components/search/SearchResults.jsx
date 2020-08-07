@@ -2,7 +2,7 @@ import classNames from "classnames"
 import { useEffect } from "react"
 import "./SearchResults.scss"
 
-export default React.forwardRef(({ results, activeId, onHover, onClick }, ref) => {
+const SearchResults = React.forwardRef(({ results, activeId, onHover, onClick }, ref) => {
   let resultsList = []
   if (results) {
     results.forEach(r => {
@@ -43,3 +43,5 @@ export default React.forwardRef(({ results, activeId, onHover, onClick }, ref) =
     </div>
   </>)
 })
+
+export default SearchResults

@@ -4,7 +4,7 @@ import { Search, XCircle } from "react-feather"
 import "./SearchBox.scss"
 import debounce from "lodash/debounce"
 
-export default ({ onChange, onSubmit, onNext, onPrev }) => {
+const SearchBox = ({ onChange, onSubmit, onNext, onPrev }) => {
   const [content, setContent] = useState("")
   const debounceOnChange = useRef(onChange ? debounce(onChange, 300) : undefined)
   const inputRef = useRef()
@@ -57,3 +57,5 @@ export default ({ onChange, onSubmit, onNext, onPrev }) => {
     </div>
   )
 }
+
+export default SearchBox

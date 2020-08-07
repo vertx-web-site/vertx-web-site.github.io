@@ -1,4 +1,4 @@
-export default ({ date }) => {
+const BlogDate = ({ date }) => {
   let format = new Intl.DateTimeFormat("en", {
     year: "numeric",
     month: "long",
@@ -12,3 +12,5 @@ export default ({ date }) => {
 
   return <>{result}</>
 }
+
+export default BlogDate

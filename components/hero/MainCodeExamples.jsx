@@ -7,7 +7,7 @@ import Java from "./MainCodeExamplesJava.mdx"
 import Kotlin from "./MainCodeExamplesKotlin.mdx"
 import Groovy from "./MainCodeExamplesGroovy.mdx"
 
-export default () => {
+const MainCodeExamples = () => {
   const javaRef = useRef()
 
   useEffect(() => {
@@ -98,3 +98,5 @@ export default () => {
     </div>
   )
 }
+
+export default MainCodeExamples

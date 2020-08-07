@@ -2,7 +2,7 @@ import Page from "./Page"
 import BlogNavBar from "../blog/BlogNavBar"
 import "./Blog.scss"
 
-export default (props) => (
+const Blog = (props) => (
   <Page {...props}>
     <div className="blog">
       <BlogNavBar categories={props.categories} />
@@ -10,3 +10,5 @@ export default (props) => (
     </div>
   </Page>
 )
+
+export default Blog

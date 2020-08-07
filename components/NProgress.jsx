@@ -19,4 +19,6 @@ Router.events.on("routeChangeStart", routeChangeStart)
 Router.events.on("routeChangeComplete", routeChangeEnd)
 Router.events.on("routeChangeError", routeChangeEnd)
 
-export default () => (<></>)
+const NProgressComponent = () => (<></>)
+
+export default NProgressComponent

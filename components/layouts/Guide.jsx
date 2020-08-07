@@ -1,10 +1,12 @@
 import Page from "./Page"
 import "./Guide.scss"
 
-export default (props) => (
+const Guide = (props) => (
   <Page narrow hashSmoothScroll {...props}>
     <div className="guide">
       {props.children}
     </div>
   </Page>
 )
+
+export default Guide

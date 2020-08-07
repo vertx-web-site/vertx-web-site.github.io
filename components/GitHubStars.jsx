@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import { GitHub } from "react-feather"
 import "./GitHubStars.scss"
 
-export default ({ org, repo, button }) => {
+const GitHubStars = ({ org, repo, button }) => {
   const url = `https://api.github.com/repos/${org}/${repo}`
   const [stars, setStars] = useState(undefined)
 
@@ -41,3 +41,5 @@ export default ({ org, repo, button }) => {
     </>
   )
 }
+
+export default GitHubStars
