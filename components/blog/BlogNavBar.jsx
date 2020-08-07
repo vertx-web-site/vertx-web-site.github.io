@@ -5,10 +5,10 @@ const BlogNavBar = ({ categories }) => (
   <div className="blog-navbar">
     <h2>Blog</h2>
     <ul>
-      <li><Link href="/blog/"><a>All posts</a></Link></li>
+      <li><Link href="/blog/[[...slug]]" as="/blog/"><a>All posts</a></Link></li>
       {categories.map(c => (
         <li key={c}>
-          <Link href="/blog/[...slug]" as={`/blog/category/${c}/`}>
+          <Link href="/blog/[[...slug]]" as={`/blog/category/${c}/`}>
             <a>{c}</a>
           </Link>
         </li>

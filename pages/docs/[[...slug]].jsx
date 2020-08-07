@@ -42,7 +42,7 @@ export async function getStaticPaths() {
   for (let m of metadata) {
     paths.push({
       params: {
-        slug: [m.version, ""]
+        slug: [m.version]
       }
     })
   }
@@ -66,12 +66,15 @@ export async function getStaticPaths() {
   for (let f of files) {
     let m = f.match(new RegExp(`${extractedDocsPath}/(.+)index.adoc`))
     if (m) {
-      let slug = m[1].split("/")
-      if (slug.length > 2) { // don't include index.adoc in parent directory
+      let slug = m[1].split("/").slice(0, -1)
+      if (slug.length > 1) { // don't include index.adoc in parent directory
         paths.push({ params: { slug } })
       }
     }
   }
+
+  // add index page
+  paths.push({ params: { slug: [] } })
 
   return {
     paths,
@@ -81,6 +84,13 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params }) {
   const path = require("path")
+
+  // handle index page
+  if (!params.slug) {
+    return {
+      props: {}
+    }
+  }
 
   // get version
   let version

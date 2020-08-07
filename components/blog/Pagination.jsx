@@ -36,13 +36,6 @@ function makePages(curPage, numPages) {
   return pages
 }
 
-function makeHref(page, category) {
-  if (page === 1 && category === undefined) {
-    return "/blog/"
-  }
-  return "/blog/[...slug]"
-}
-
 function makeAs(page, category) {
   let path = "/blog/"
   if (category !== undefined) {
@@ -67,7 +60,7 @@ const Pagination = ({ currentPage = 1, numPages = 1, category }) => {
     if (Number.isInteger(text)) {
       return (
         <div className={classNames("pagination-page", { active })} key={key}>
-          <Link href={makeHref(p, category)} as={makeAs(p, category)}>
+          <Link href="/blog/[[...slug]]" as={makeAs(p, category)}>
             <a>{text}</a>
           </Link>
         </div>
@@ -82,7 +75,7 @@ const Pagination = ({ currentPage = 1, numPages = 1, category }) => {
   if (currentPage > 1) {
     pages.unshift(
       <div className="pagination-page" key="prev-page">
-        <Link href={makeHref(currentPage - 1, category)} as={makeAs(currentPage - 1, category)}>
+        <Link href="/blog/[[...slug]]" as={makeAs(currentPage - 1, category)}>
           <a>&laquo;</a>
         </Link>
       </div>
@@ -98,7 +91,7 @@ const Pagination = ({ currentPage = 1, numPages = 1, category }) => {
   if (currentPage < numPages) {
     pages.push(
       <div className="pagination-page" key="next-page">
-        <Link href={makeHref(currentPage + 1, category)} as={makeAs(currentPage + 1, category)}>
+        <Link href="/blog/[[...slug]]" as={makeAs(currentPage + 1, category)}>
           <a>&raquo;</a>
         </Link>
       </div>

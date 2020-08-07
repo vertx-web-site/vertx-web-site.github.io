@@ -40,17 +40,17 @@ const Footer = () => {
                 className={classNames({ visible: listVisible[0][0] })}>
               <li>
                 {currentVersion.version ? (
-                  <Link href="/docs/[...slug]" as={`/docs/${currentVersion.version}/`}>
+                  <Link href="/docs/[[...slug]]" as={`/docs/${currentVersion.version}/`}>
                     <a className="navbar-menu-item">Docs</a>
                   </Link>
                 ) : (
-                  <Link href="/docs/">
+                  <Link href="/docs/[[...slug]]" as="/docs/">
                     <a className="navbar-menu-item">Docs</a>
                   </Link>
                 )}
               </li>
               <li><Link href="/faq/"><a>FAQ</a></Link></li>
-              <li><Link href="/blog/"><a>Blog</a></Link></li>
+              <li><Link href="/blog/[[...slug]]" as="/blog/"><a>Blog</a></Link></li>
               <li><Link href="/"><a>Community</a></Link></li>
             </ul>
           </div>

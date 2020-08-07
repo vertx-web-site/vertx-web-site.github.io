@@ -27,7 +27,7 @@ const SectionPart = ({ title, label, as, children }) => {
   return (
     <div className="docs-index-section-part">
       <h3>
-        <Link href="/docs/[...slug]" as={as}>
+        <Link href="/docs/[[...slug]]" as={as}>
           <a>{title}</a>
         </Link>
         {label && <div className="docs-index-section-part-label">
@@ -37,7 +37,7 @@ const SectionPart = ({ title, label, as, children }) => {
 
       <p className="docs-index-section-content-summary">{children}</p>
 
-      <ReadMoreLink href="/docs/[...slug]" as={as}>
+      <ReadMoreLink href="/docs/[[...slug]]" as={as}>
         <a>Read</a>
       </ReadMoreLink>
     </div>

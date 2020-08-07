@@ -23,13 +23,13 @@ const CATEGORIES = (() => {
 })()
 
 export async function getStaticPaths() {
-  let paths = POSTS.map(p => ({ params: { slug: [p.slug, ""] } }))
+  let paths = POSTS.map(p => ({ params: { slug: [p.slug] } }))
 
   // catch categories
   for (let c of CATEGORIES) {
     paths.push({
       params: {
-        slug: ["category", c, ""]
+        slug: ["category", c]
       }
     })
   }
@@ -39,7 +39,7 @@ export async function getStaticPaths() {
   for (let p = 1; p < numPages; ++p) {
     paths.push({
       params: {
-        slug: ["page", `${p + 1}`, ""]
+        slug: ["page", `${p + 1}`]
       }
     })
   }
@@ -51,11 +51,14 @@ export async function getStaticPaths() {
     for (let p = 1; p < nCategoryPages; ++p) {
       paths.push({
         params: {
-          slug: ["category", c, "page", `${p + 1}`, ""]
+          slug: ["category", c, "page", `${p + 1}`]
         }
       })
     }
   }
+
+  // add blog index
+  paths.push({ params: { slug: [] } })
 
   return {
     paths,
@@ -65,6 +68,13 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params }) {
   const TfIdf = require("natural").TfIdf
+
+  // handle blog index
+  if (!params.slug) {
+    return {
+      props: {}
+    }
+  }
 
   let slug = params.slug[0]
 
@@ -195,7 +205,7 @@ const BlogPage = ({ filename, date, slug, readingTime, relatedPosts, category, p
             </div>
           ))}
           <div className="blog-post-sidebar-date">Posted on <BlogDate date={date} /></div>
-          in <Link href="/blog/[...slug]" as={`/blog/category/${post.meta.category}/`}>
+          in <Link href="/blog/[[...slug]]" as={`/blog/category/${post.meta.category}/`}>
             <a className="blog-post-sidebar-category">{post.meta.category}</a>
           </Link>
           <div className="blog-post-sidebar-reading-time"><Clock className="feather" /> {readingTime.text}</div>

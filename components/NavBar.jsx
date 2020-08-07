@@ -77,18 +77,18 @@ const NavBar = () => {
               <a className="navbar-menu-item">Intro</a>
             </Link>
             {currentVersion.version ? (
-              <Link href="/docs/[...slug]" as={`/docs/${currentVersion.version}/`}>
+              <Link href="/docs/[[...slug]]" as={`/docs/${currentVersion.version}/`}>
                 <a className="navbar-menu-item">Docs</a>
               </Link>
             ) : (
-              <Link href="/docs/">
+              <Link href="/docs/[[...slug]]" as="/docs/">
                 <a className="navbar-menu-item">Docs</a>
               </Link>
             )}
             <Link href="/faq/">
               <a className="navbar-menu-item">FAQ</a>
             </Link>
-            <Link href="/blog/">
+            <Link href="/blog/[[...slug]]" as="/blog/">
               <a className="navbar-menu-item">Blog</a>
             </Link>
             <Link href="/">
@@ -100,12 +100,12 @@ const NavBar = () => {
             <DropDown title={`v${currentVersion.version || docsVersions[0]}`}>
               <DropDownItem active={currentVersion.version === undefined ||
                     currentVersion.version === docsVersions[0]}
-                  onClick={() => router.push("/docs/")}>
+                  onClick={() => router.push("/docs/[[...slug]]", "/docs/")}>
                 Latest (v{docsVersions[0]})
               </DropDownItem>
               {docsVersions.slice(1).map(v => (
                 <DropDownItem key={v} active={currentVersion.version === v}
-                    onClick={() => router.push("/docs/[...slug]", `/docs/${v}`)}>
+                    onClick={() => router.push("/docs/[[...slug]]", `/docs/${v}/`)}>
                   v{v}
                 </DropDownItem>
               ))}
