@@ -25,5 +25,9 @@
     &.visible {
       display: block;
     }
+
+    a:hover {
+      color: inherit;
+    }
   }
 }

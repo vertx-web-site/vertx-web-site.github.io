@@ -4,7 +4,6 @@ import DropDown from "./DropDown"
 import DropDownItem from "./DropDownItem"
 import classNames from "classnames"
 import Link from "next/link"
-import { useRouter } from "next/router"
 import "./NavBar.scss"
 import { useContext, useEffect, useRef, useState } from "react"
 import throttle from "lodash/throttle"
@@ -16,7 +15,6 @@ const docsVersions = require.context("../docs/metadata", false, /\.jsx$/)
   .keys().map(m => m.substring(2, m.length - 4)).sort().reverse()
 
 const NavBar = () => {
-  const router = useRouter()
   const refNavBar = useRef()
   const refRight = useRef()
   const [collapse, setCollapse] = useState(false)
@@ -100,12 +98,12 @@ const NavBar = () => {
             <DropDown title={`v${currentVersion.version || docsVersions[0]}`}>
               <DropDownItem active={currentVersion.version === undefined ||
                     currentVersion.version === docsVersions[0]}
-                  onClick={() => router.push("/docs/[[...slug]]", "/docs/")}>
+                  href="/docs/[[...slug]]" as="/docs/">
                 Latest (v{docsVersions[0]})
               </DropDownItem>
               {docsVersions.slice(1).map(v => (
                 <DropDownItem key={v} active={currentVersion.version === v}
-                    onClick={() => router.push("/docs/[[...slug]]", `/docs/${v}/`)}>
+                    href="/docs/[[...slug]]" as={`/docs/${v}/`}>
                   v{v}
                 </DropDownItem>
               ))}
