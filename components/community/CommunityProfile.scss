@@ -10,5 +10,10 @@
     &.bordered {
       border: 1px solid $gray-200;
     }
+
+    &.small {
+      max-width: 50px;
+      margin: 0.5rem;
+    }
   }
 }

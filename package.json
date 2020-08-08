@@ -53,11 +53,14 @@
     "webpack-filter-warnings-plugin": "^1.2.1"
   },
   "devDependencies": {
+    "@octokit/rest": "^18.0.3",
+    "cacache": "^15.0.5",
     "eslint": "^7.6.0",
     "eslint-plugin-react": "^7.20.5",
     "eslint-plugin-react-hooks": "^4.0.8",
     "favicons": "^6.2.0",
     "natural": "^2.1.5",
+    "node-fetch": "^2.6.0",
     "stylelint": "^13.6.1",
     "stylelint-config-standard": "^20.0.0",
     "stylelint-scss": "^3.18.0"
