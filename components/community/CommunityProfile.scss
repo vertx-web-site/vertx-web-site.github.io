@@ -1,0 +1,14 @@
+@import "../../css/variables";
+
+.community-profile {
+  flex: 1;
+
+  img {
+    max-width: 150px;
+    border-radius: 75px;
+
+    &.bordered {
+      border: 1px solid $gray-200;
+    }
+  }
+}

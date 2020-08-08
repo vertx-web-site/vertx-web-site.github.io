@@ -1,0 +1,89 @@
+@import "../../css/variables";
+
+section.community-hero {
+  .community-hero-background {
+    position: absolute;
+    top: -8rem;
+    width: 100%;
+    max-width: 100%;
+    height: 900px;
+    z-index: -1;
+    background-image: url(../../assets/community-hero-background.svg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+  }
+
+  .community-hero-main {
+    margin-top: 8.6rem;
+    margin-bottom: 8rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    .community-hero-left {
+      width: 570px;
+      max-width: 570px;
+
+      .community-hero-slogan {
+        font-size: 2.8rem;
+        font-weight: 300;
+        line-height: 1.2;
+        margin-top: 1rem;
+
+        strong {
+          color: #000;
+          font-weight: 500;
+        }
+
+        @media (max-width: $md) {
+          text-align: center;
+        }
+      }
+    }
+
+    .community-hero-right {
+      padding-left: 1rem;
+
+      svg {
+        max-width: 100%;
+      }
+
+      rect {
+        fill: $primary;
+        width: 35px;
+        height: 35px;
+        rx: 7px;
+        ry: 7px;
+      }
+
+      .r77 {
+        opacity: 0.77;
+      }
+
+      .r59 {
+        opacity: 0.59;
+      }
+
+      .r38 {
+        opacity: 0.38;
+      }
+
+      .r31 {
+        opacity: 0.31;
+      }
+
+      .r22 {
+        opacity: 0.22;
+      }
+
+      .r14 {
+        opacity: 0.14;
+      }
+
+      @media (max-width: $md) {
+        display: none;
+      }
+    }
+  }
+}

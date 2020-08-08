@@ -89,7 +89,7 @@ const NavBar = () => {
             <Link href="/blog/[[...slug]]" as="/blog/">
               <a className="navbar-menu-item">Blog</a>
             </Link>
-            <Link href="/">
+            <Link href="/community/">
               <a className="navbar-menu-item">Community</a>
             </Link>
           </div>

@@ -51,7 +51,7 @@ const Footer = () => {
               </li>
               <li><Link href="/faq/"><a>FAQ</a></Link></li>
               <li><Link href="/blog/[[...slug]]" as="/blog/"><a>Blog</a></Link></li>
-              <li><Link href="/"><a>Community</a></Link></li>
+              <li><Link href="/community/"><a>Community</a></Link></li>
             </ul>
           </div>
           <div className="footer-nav-list">
