@@ -15,51 +15,58 @@ export async function getStaticProps() {
   })
 
   const octokit = new Octokit({
-    auth: "38d84baff03b7c2365180c7d2ee38866295f429f", // TODO!!!!
+    auth: process.env.GITHUB_ACCESS_TOKEN,
     request: {
       fetch
     }
   })
 
-  console.log("Updating list of contributors ...")
-
-  let repos = [{
-    name: "vert.x",
-    full_name: "eclipse-vertx/vert.x",
-    owner: {
-      login: "eclipse-vertx"
-    }
-  }]
-
-  console.log("Fetching repositories ...")
-  repos = repos.concat(await octokit.paginate(octokit.repos.listForOrg, { org: "vert-x" }))
-  repos = repos.concat(await octokit.paginate(octokit.repos.listForOrg, { org: "vert-x3" }))
-  repos = repos.concat(await octokit.paginate(octokit.repos.listForOrg, { org: "vertx-web-site" }))
-
   let contributors = []
-  for (let repo of repos) {
-    console.log(`Fetching contributors of ${repo.full_name} ...`)
-    let repoContributors = await octokit.paginate(octokit.repos.listContributors, {
-      owner: repo.owner.login,
-      repo: repo.name
-    })
+  if (process.env.GITHUB_ACCESS_TOKEN === undefined) {
+    console.log("No GitHub access token found. Generation of contributors " +
+      "will be skipped. To fix this, provide an environment variable " +
+      "`GITHUB_ACCESS_TOKEN` with your personal access token. For example: " +
+      "`GITHUB_ACCESS_TOKEN=abcdefghijklmnopqrs0123456789 npm run build`")
+  } else {
+    console.log("Updating list of contributors ...")
 
-    // merge found contributors into list of all contributors
-    for (let repoContributor of repoContributors) {
-      let contributor = contributors.find(c => c.login === repoContributor.login)
-      if (contributor === undefined) {
-        contributor = {
-          login: repoContributor.login,
-          avatar_url: repoContributor.avatar_url,
-          contributions: 0
-        }
-        contributors.push(contributor)
+    let repos = [{
+      name: "vert.x",
+      full_name: "eclipse-vertx/vert.x",
+      owner: {
+        login: "eclipse-vertx"
       }
-      contributor.contributions += repoContributor.contributions
-    }
-  }
+    }]
 
-  console.log("Done.")
+    console.log("Fetching repositories ...")
+    repos = repos.concat(await octokit.paginate(octokit.repos.listForOrg, { org: "vert-x" }))
+    repos = repos.concat(await octokit.paginate(octokit.repos.listForOrg, { org: "vert-x3" }))
+    repos = repos.concat(await octokit.paginate(octokit.repos.listForOrg, { org: "vertx-web-site" }))
+
+    for (let repo of repos) {
+      console.log(`Fetching contributors of ${repo.full_name} ...`)
+      let repoContributors = await octokit.paginate(octokit.repos.listContributors, {
+        owner: repo.owner.login,
+        repo: repo.name
+      })
+
+      // merge found contributors into list of all contributors
+      for (let repoContributor of repoContributors) {
+        let contributor = contributors.find(c => c.login === repoContributor.login)
+        if (contributor === undefined) {
+          contributor = {
+            login: repoContributor.login,
+            avatar_url: repoContributor.avatar_url,
+            contributions: 0
+          }
+          contributors.push(contributor)
+        }
+        contributor.contributions += repoContributor.contributions
+      }
+    }
+
+    console.log("Done.")
+  }
 
   // sort contributors by their number of contributions
   contributors.sort((a, b) => b.contributions - a.contributions)

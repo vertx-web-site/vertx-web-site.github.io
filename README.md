@@ -56,6 +56,18 @@ Alternatively, build a Docker image that runs the static website inside NGINX
     docker build -t vertx-web-site .
     docker run -it -p 80:80 vertx-web-site
 
+## Automatic generation of the list of contributors
+
+The community page contains a list of people who have contributed to any of the
+Vert.x repositories. Generating this list takes some time and requires you to
+authenticate against the GitHub API. Due to this, it is disabled by default.
+
+If you want to generate the list of contributors, first create a
+[personal access token](https://github.com/settings/tokens). Then, set the
+environment variable `GITHUB_ACCESS_TOKEN` to this token. For example,
+
+    GITHUB_ACCESS_TOKEN=abcdefghijklmnopqrs0123456789 npm run build
+
 ## Automated deployment
 
 The website is currently automatically deployed to https://vertx-web-site.github.io/.
