@@ -23,6 +23,8 @@ jobs:
       - run: npm ci
       - run: npm run update-docs
       - run: npm run build
+        env:
+          GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
