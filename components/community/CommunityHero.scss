@@ -12,6 +12,18 @@ section.community-hero {
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
+
+    @media (max-width: $md) {
+      top: -12rem;
+    }
+
+    @media (max-width: $sm) {
+      top: -9rem;
+    }
+
+    @media (max-width: $sm) and (orientation: landscape) {
+      top: -12rem;
+    }
   }
 
   .community-hero-main {
@@ -20,6 +32,10 @@ section.community-hero {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+
+    @media (max-width: $md) {
+      justify-content: center;
+    }
 
     .community-hero-left {
       width: 570px;
@@ -38,6 +54,7 @@ section.community-hero {
 
         @media (max-width: $md) {
           text-align: center;
+          margin-bottom: 6rem;
         }
       }
     }

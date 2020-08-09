@@ -7,7 +7,7 @@ const Layout = ({ children }) => (
   <main>
     <Header title="Community"/>
     <CommunityHero />
-    <div className="container">
+    <div className="container community">
       <div className="community-love">Eclipse Vert.x is made with ❤️ by the following people</div>
       {children}
     </div>
