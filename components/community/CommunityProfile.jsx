@@ -14,7 +14,11 @@ const CommunityProfile = ({ profile, size = "small" }) => {
   return (
     <div className={classNames("community-profile", size)}>
       <a href={`https://github.com/${profile.githubId}`} target="_blank" rel="noopener noreferrer">
-        <img src={`${profile.avatar_url}&s=${cx}` || `https://github.com/${profile.githubId}.png?size=${cx}`} />
+        <img data-srcset={
+          (`${profile.avatar_url}&s=${cx} 2x,` || `https://github.com/${profile.githubId}.png?size=${cx} 2x,`) +
+          (`${profile.avatar_url}&s=${cx / 2}` || `https://github.com/${profile.githubId}.png?size=${cx / 2}`)
+        } alt={profile.name || profile.githubId} title={size === "small" && (profile.name || profile.githubId)}
+        className="lazyload" />
       </a>
       {profile.name && <div className="community-profile-name">{profile.name}</div>}
       {profile.role && <div className="community-profile-role">{profile.role}</div>}

@@ -1,6 +1,7 @@
 import NProgress from "../components/NProgress"
 import NavBarContext from "../components/contexts/NavBarContext"
 import VersionContext from "../components/contexts/VersionContext"
+import "lazysizes"
 import "../css/main.scss"
 
 const App = ({ Component, pageProps }) => (
