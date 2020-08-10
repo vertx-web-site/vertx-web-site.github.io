@@ -11,10 +11,6 @@ const FULL_TIME_DEVELOPERS = [{
   role: "Core developer",
   twitter: "pml0pes"
 }, {
-  githubId: "cescoffier",
-  role: "Core developer",
-  twitter: "clementplop"
-}, {
   githubId: "tsegismont",
   role: "Core developer",
   twitter: "tsegismont"
@@ -31,6 +27,10 @@ const MAINTAINERS = [{
   githubId: "alexlehm",
   role: "SMTP client",
   twitter: "alexlehm"
+}, {
+  githubId: "cescoffier",
+  role: "Core developer",
+  twitter: "clementplop"
 }, {
   githubId: "Narigo",
   role: "MySQL/PostgreSQL"
