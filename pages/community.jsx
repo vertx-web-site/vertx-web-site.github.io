@@ -80,7 +80,7 @@ const MAINTAINERS = [{
   twitter: "danielpetisme"
 }, {
   githubId: "slinkydeveloper",
-  role: "Vert.x Web API Contract",
+  role: "Vert.x Web OpenAPI",
   twitter: "SlinkyGuardiani"
 }, {
   githubId: "Sammers21",
