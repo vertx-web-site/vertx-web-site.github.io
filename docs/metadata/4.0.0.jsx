@@ -105,7 +105,8 @@ insert(docs, "vertx-auth-mongo",
     category: "authentication-and-authorization",
     href: "/vertx-auth-webauthn/java/",
     repository: "https://github.com/vert-x3/vertx-auth/tree/master/vertx-auth-webauthn",
-    edit: "https://github.com/vert-x3/vertx-auth/tree/master/vertx-auth-webauthn/src/main/asciidoc"
+    edit: "https://github.com/vert-x3/vertx-auth/tree/master/vertx-auth-webauthn/src/main/asciidoc",
+    label: "Technical Preview"
   },
   {
     id: "vertx-auth-sql-client",
