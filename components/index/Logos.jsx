@@ -76,6 +76,10 @@ const LOGOS = [{
   name: "Zalando Tech",
   src: "zalando.svg",
   url: "https://tech.zalando.com/"
+}, {
+  name: "Michelin",
+  src: "michelin.png",
+  url: "https://blogit.michelin.io/connected-tires-lessons-learned-in-moving-to-reactive-systems/"
 }].map(logo => Object.assign({ logo: require(`../../assets/logos/${logo.src}`) }, logo))
 
 // Each logo should have a dummy height so the browser correctly calculates
