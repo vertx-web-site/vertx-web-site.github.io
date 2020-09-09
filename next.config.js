@@ -27,10 +27,22 @@ const mdx = require("@next/mdx")({
   }
 })
 
+// configure base path based on environment variable `VERTX_WEBSITE_BASEPATH`
+const basePath = (() => {
+  let p = process.env.VERTX_WEBSITE_BASEPATH || ""
+  if (!p.startsWith("/")) {
+    p = `/${p}`
+  }
+  if (p.endsWith("/")) {
+    p = p.substring(0, p.length - 1)
+  }
+  return p
+})()
+
 const config = {
   env: {
     // URL to the website. MUST NOT end with a slash.
-    baseUrl: isProd ? "https://vertx-web-site.github.io" : "http://localhost:3000"
+    baseUrl: isProd ? `https://vertx-web-site.github.io${basePath}` : `http://localhost:3000${basePath}`
   },
 
   // also render markdown pages
@@ -38,6 +50,10 @@ const config = {
 
   // create a folder for each page
   trailingSlash: true,
+
+  // configure base path
+  basePath,
+  assetPrefix: basePath,
 
   // list pages to export
   exportPathMap() {
