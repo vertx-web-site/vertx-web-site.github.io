@@ -2,11 +2,12 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master, preview ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v2
 
@@ -27,11 +28,58 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-build-
 
+      - name: Get basePath from branch
+        id: basePath
+        run: |
+          REF=${REF#"refs/heads/"}
+          if [ $REF == 'master' ]
+          then
+              echo "::set-output name=basePath::"
+          elif [ $REF == 'preview' ]
+          then
+              echo "::set-output name=basePath::_preview"
+          else
+              echo "::set-output name=basePath::_preview/$REF"
+          fi
+        env:
+          REF: ${{ github.ref }}
+
       - run: npm ci
       - run: npm run update-docs
       - run: npm run build
         env:
           GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERTX_WEBSITE_BASEPATH: ${{ steps.basePath.outputs.basePath }}
+
+      - name: Clone current GitHub Pages repo
+        run: git clone --depth 1 https://github.com/vertx-web-site/vertx-web-site.github.io.git
+
+      - name: Clean output directory
+        run: |
+          rm -rf vertx-web-site.github.io/.git
+          rm vertx-web-site.github.io/.nojekyll
+
+      - name: Clean preview directory
+        run: rm -rf vertx-web-site.github.io/${{ steps.basePath.outputs.basePath }}
+        if: ${{ github.ref != 'refs/heads/master' }}
+
+      - name: Copy build to preview directory
+        run: |
+          mkdir -p vertx-web-site.github.io/${{ steps.basePath.outputs.basePath }}
+          mv out/* vertx-web-site.github.io/${{ steps.basePath.outputs.basePath }}
+        if: ${{ github.ref != 'refs/heads/master' }}
+
+      - name: Clean output directory (except preview directories)
+        run: |
+          mkdir -p vertx-web-site.github.io.tmp
+          mv vertx-web-site.github.io/_previews vertx-web-site.github.io.tmp/_previews || true
+          rm -rf vertx-web-site.github.io
+          mv vertx-web-site.github.io.tmp vertx-web-site.github.io
+        if: ${{ github.ref == 'refs/heads/master' }}
+
+      - name: Copy build to output directory
+        run: cp -r out/* vertx-web-site.github.io
+        if: ${{ github.ref == 'refs/heads/master' }}
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
@@ -39,4 +87,4 @@ jobs:
           deploy_key: ${{ secrets.DEPLOY_KEY }}
           external_repository: vertx-web-site/vertx-web-site.github.io
           publish_branch: master
-          publish_dir: ./out
+          publish_dir: vertx-web-site.github.io
