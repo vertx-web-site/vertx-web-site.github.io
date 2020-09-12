@@ -8,8 +8,6 @@ export const meta = {
   summary: "The new milestone of Vert.x 4 makes progress in futurisation and includes improvements on the mail client, general clients, and security."
 }
 
-# Eclipse Vert.x 4 milestone 4 released!
-
 We are extremely pleased to announce the fourth 4.0 milestone release of Eclipse Vert.x .
 
 Vert.x 4 is the evolution of the Vert.x 3.x series that will bring key features to Vert.x.
@@ -17,7 +15,7 @@ Vert.x 4 is the evolution of the Vert.x 3.x series that will bring key features 
 This release aims to provide a reliable distribution of the current development of Vert.x 4 for people that
 want to try it and provide feedback.
 
-#### Futurisation
+## Futurisation
 
 Vert.x 4 extends the 3.x callback asynchronous model to a future/callback hybrid model.
 
@@ -41,12 +39,12 @@ This third milestone makes progress and fully covers with the following stack mo
 - Vert.x Stomp
 - Vert.x Mongo Client
 
-#### Mail client improvements
+## Mail client improvements
 
 Our mail clients had nice contribution with the ability to use streaming payload for attachements and the
 support for DKIM signatures.
 
-#### General client improvements
+## General client improvements
 
 Some Vert.x clients are designed to be used within the verticle that created it while some can be shared between
 verticles. This is a technical limitation that stems from the fact that client are implemented using Vert.x or Netty
@@ -56,7 +54,7 @@ In Vert.x 4 we decided to get away of this limitation to simplify the usage and 
 it is possible to continue confining clients within a verticle (for best performance) but clients can be now shared between
 verticles when desired with a neglectible impact on performance (requiring message passing).
 
-#### Security improvements
+## Security improvements
 
 Finally here are a few improvements done in our security layer:
 
@@ -65,7 +63,7 @@ Finally here are a few improvements done in our security layer:
 * Web CSRF tokens are session aware to allow multiple requests from the same user
 * Initial support for webauthn
 
-#### Ramping up to Vert.x 4
+## Ramping up to Vert.x 4
 
 Instead of developing all new features exclusively in Vert.x 4, we introduce some of these features in the 3.x branch
 so the community can benefit from them. The Vert.x 4 development focus on more fundamental changes that cannot be done
@@ -81,7 +79,7 @@ You can also read the previous milestone announces:
 - https://vertx.io/blog/eclipse-vert-x-4-milestone-2-released
 - https://vertx.io/blog/eclipse-vert-x-4-milestone-1-released
 
-#### Finally
+## Finally
 
 The [deprecations and breaking changes](https://github.com/vert-x3/wiki/wiki/4.0.0-Deprecations-and-breaking-changes)
  can be found on the wiki.

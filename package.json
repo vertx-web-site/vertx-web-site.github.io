@@ -49,6 +49,7 @@
     "rehype-highlight": "^4.0.0",
     "rehype-slug": "^3.0.0",
     "serve": "^11.3.2",
+    "super-react-gist": "^1.0.4",
     "unist-util-visit": "^2.0.3",
     "unist-util-visit-parents": "^3.1.0",
     "webpack-filter-warnings-plugin": "^1.2.1"

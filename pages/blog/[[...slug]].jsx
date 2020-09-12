@@ -190,6 +190,7 @@ const BlogPage = ({ filename, date, slug, readingTime, relatedPosts, category, p
     <BlogPost meta={{ title: `${post.meta.title} | Blog` }} categories={CATEGORIES}>
       <div className="blog-post-main">
         <div className="blog-post-content">
+          <h1>{post.meta.title}</h1>
           <PostComponent />
         </div>
 

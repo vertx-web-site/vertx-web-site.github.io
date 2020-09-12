@@ -8,11 +8,9 @@ export const meta = {
   summary: "New features include fluent queries in SQL clients, a new Redis client, an updated Kafka client, an improved Future API, and many more things."
 }
 
-# Eclipse Vert.x 3.9.0 released!
-
 We are extremely pleased to announce that the Eclipse Vert.x version 3.9.0 has been released.
 
-#### SQL Client fluent queries
+## SQL Client fluent queries
 
 The query API becomes fluent with the addition of a `Query` API for queries creation and configuration.
 
@@ -29,7 +27,7 @@ client.preparedQuery(sql).collecting(Collectors.toList()).execute(tuple, ar -> .
 
 You can read more about this new feature [here](https://github.com/vert-x3/wiki/wiki/3.9.0-Deprecations-and-breaking-changes#fluent-query-api).
 
-#### Redis client backport
+## Redis client backport
 
 For Vert.x 4.0 we are doing a full reboot to the redis client. The functionality for the new client is ready to test on the master branch. In order to give users the opportunity to test and make the upcoming client even better it has been backported to the 3.9.0 release. The new client will allow users to connect to a single node, sentinel or cluster of redis nodes. The easiest way to start is:
 
@@ -45,7 +43,7 @@ Redis.createClient(
       });
 ```
 
-#### Same-site cookies
+## Same-site cookies
 
 [`SameSite` Cookie](https://tools.ietf.org/html/draft-west-first-party-cookies-07) policy has been added to the HTTP Server Cookies.
 
@@ -59,7 +57,7 @@ SessionHandler.create(store)
 Same-site cookies let servers require that a cookie shouldn't be sent with cross-site (where Site is defined by the registrable domain) requests,
 which provides some protection against cross-site request forgery attacks (CSRF).
 
-#### Kafka client upgrade
+## Kafka client upgrade
 
 The Kafka client has been upgraded to Kafka 2.4.0 .
 
@@ -72,25 +70,25 @@ adminClient.listConsumerGroups(ar -> {
 });
 ```
 
-#### Future API
+## Future API
 
 With the recent addition of `Future#onComplete(...)` supporting several handlers per `Future` in 3.9 made the
 `Future#setHandler(...)` method feel awkward. Indeed `setHandler` conveys the meaning that the `Future` manages
 a single handler. In 3.9 we deprecate `Future#setHandler` in favor of `Future#onComplete`.
 
-#### EDNS disabled by default
+## EDNS disabled by default
 
 EDNS is an extension mechanism for DNS (https://fr.wikipedia.org/wiki/EDNS) that should be disabled by default. It might
 cause unwanted issue and should be disabled by default.
 
-#### Auth Deprecation warnings
+## Auth Deprecation warnings
 
 As of 3.9.0 many APIs will be start warning about deprecations. There is a big refactoring and some breaking API changes coming
 on 4.0.0 and these warnings are just to give users a heads up that API will change on the upcoming version.
 
 For more information about the upcoming 4.0 changes you can read [4.0.0-Deprecations-and-breaking-changes](https://github.com/vert-x3/wiki/wiki/4.0.0-Deprecations-and-breaking-changes)
 
-#### Dependency upgrades
+## Dependency upgrades
 
 In 3.9 we update a few versions:
 
@@ -99,7 +97,7 @@ In 3.9 we update a few versions:
 - Guava 25.1-jre
 - GraphQL Java 14
 
-#### Finally
+## Finally
 
 The [3.9.0 release notes](https://github.com/vert-x3/wiki/wiki/3.9.0-Release-Notes) can be found on the wiki, as well as the
 list of [deprecations and breaking changes](https://github.com/vert-x3/wiki/wiki/3.9.0-Deprecations-and-breaking-changes)

@@ -8,8 +8,6 @@ export const meta = {
   summary: "The new milestone release of Vert.x 4 includes progress on futurisation, tracing, and many other improvements."
 }
 
-# Eclipse Vert.x 4 milestone 2 released!
-
 We are extremely pleased to announce the second 4.0 milestone release of Eclipse Vert.x .
 
 Vert.x 4 is the evolution of the Vert.x 3.x series that will bring key features to Vert.x.
@@ -17,7 +15,7 @@ Vert.x 4 is the evolution of the Vert.x 3.x series that will bring key features 
 This release aims to provide a reliable distribution of the current development of Vert.x 4 for people who
 want to try it and provide feedback.
 
-#### Futurisation
+## Futurisation
 
 Vert.x 4 extends the 3.x callback asynchronous model to a future/callback hybrid model.
 
@@ -43,7 +41,7 @@ of the following stack modules:
 - vertx-kakfa-client
 - vertx-amqp-client
 
-#### Tracing
+## Tracing
 
 Instrumenting asynchronous application for distributed tracing is quite challenging because most tracing libraries
 rely on [thread local storage](https://fr.wikipedia.org/wiki/Thread_Local_Storage). While it works reasonnably well
@@ -58,7 +56,7 @@ any overhead out of the box (disabled).
 
 We provide support for these two popular libraries under the _Vert.x Tracing_ umbrella.
 
-#### Other changes
+## Other changes
 
 - Groovy has been simplified in Vert.x 4 to remove code generation that was not really needed in practice
 - The original Redis client deprecated in 3.7 has been removed replaced by the new Redis client
@@ -66,7 +64,7 @@ We provide support for these two popular libraries under the _Vert.x Tracing_ um
   - MySQL / PostgreSQL async client replaced by the Vert.x SQL Client (since 3.8)
   - AMQP bridge replaced by the Vert.x AMQP Client (since 3.7)
 
-#### Ramping up to Vert.x 4
+## Ramping up to Vert.x 4
 
 Instead of developing all new features exclusively in Vert.x 4, we introduce some of these features in the 3.x branch
 so the community can benefit from them. The Vert.x 4 development focus on more fundamental changes that cannot be done
@@ -77,7 +75,7 @@ in the 3.x series.
 This is the first milestone of Vert.x 4, we aim to release Vert.x 4 by the end of this year and you can of course
 expect more milestones to outline the progress of the effort.
 
-#### Finally
+## Finally
 
 The [deprecations and breaking changes](https://github.com/vert-x3/wiki/wiki/4.0.0-Deprecations-and-breaking-changes)
  can be found on the wiki.

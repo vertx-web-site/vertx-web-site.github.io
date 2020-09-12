@@ -8,8 +8,6 @@ export const meta = {
   summary: "The next milestone release of Vert.x 4 aims to provide a reliable distribution of the current development for people who want to try it and provide feedback."
 }
 
-# Eclipse Vert.x 4 milestone 3 released!
-
 We are extremely pleased to announce the third 4.0 milestone release of Eclipse Vert.x .
 
 Vert.x 4 is the evolution of the Vert.x 3.x series that will bring key features to Vert.x.
@@ -17,7 +15,7 @@ Vert.x 4 is the evolution of the Vert.x 3.x series that will bring key features 
 This release aims to provide a reliable distribution of the current development of Vert.x 4 for people who
 want to try it and provide feedback.
 
-#### Futurisation
+## Futurisation
 
 Vert.x 4 extends the 3.x callback asynchronous model to a future/callback hybrid model.
 
@@ -38,7 +36,7 @@ This third milestone makes progress and coverts the following stack modules:
 - vertx-config
 - vertx-circuit-breaker
 
-#### Data object mapping for service proxies
+## Data object mapping for service proxies
 
 Vert.x 3 service proxies is a lightweight layer on top of Vert.x Event-Bus providing typed contracts.
 
@@ -90,7 +88,7 @@ For reusability mappers can also be `java.util.function.Function` instead, e.g
 @Mapper Function<ZonedDateTime, String> toJson = ZonedDateTime::toString;
 ```
 
-#### Mongo client GridFS
+## Mongo client GridFS
 
 The client can store and retrieve files and binary data using MongoDB GridFS.
 
@@ -109,7 +107,7 @@ fut.setHandler(res -> {
 
 The client can perform the usual CRUD operations on files and also provide bucket management.
 
-#### Vert.x Web utilities
+## Vert.x Web utilities
 
 While the routing context will allow you to access the underlying request and response objects, sometimes it will be
 more productive if a few shortcuts would be present to help with common tasks. A few helpers are present in
@@ -154,7 +152,7 @@ if (rc.isFresh()) {
 }
 ```
 
-#### Other changes
+## Other changes
 
 - Groovy has been simplified in Vert.x 4 to remove code generation that was not really needed in practice
 - The original Redis client deprecated in 3.7 has been removed replaced by the new Redis client
@@ -166,7 +164,7 @@ if (rc.isFresh()) {
   - MySQL / PostgreSQL async client replaced by the Vert.x SQL Client (since 3.8)
   - AMQP bridge replaced by the Vert.x AMQP Client (since 3.7)
 
-#### Ramping up to Vert.x 4
+## Ramping up to Vert.x 4
 
 Instead of developing all new features exclusively in Vert.x 4, we introduce some of these features in the 3.x branch
 so the community can benefit from them. The Vert.x 4 development focus on more fundamental changes that cannot be done
@@ -177,7 +175,7 @@ in the 3.x series.
 This is the third milestone of Vert.x 4, we aim to release Vert.x 4 by the end of this year and you can of course
 expect more milestones to outline the progress of the effort.
 
-#### Finally
+## Finally
 
 The [deprecations and breaking changes](https://github.com/vert-x3/wiki/wiki/4.0.0-Deprecations-and-breaking-changes)
  can be found on the wiki.

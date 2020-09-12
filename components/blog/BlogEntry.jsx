@@ -31,7 +31,7 @@ const BlogEntry = ({ post }) => {
       </h3>
       <span className="blog-entry-authors"><ul>{authors}</ul></span>
       <p className="blog-entry-summary">
-        {p.meta.summary || "Lorem ipsum dolor sit amet, con­sectetuer adip­isc­ing elit, sed diam non­ummy nibh eu­is­mod tin­cidunt ut laoreet do­lore magna ali­quam erat vo­lut­pat. Ut wisi enim ad."}
+        {p.meta.summary || "*** PLEASE SPECIFY A MEANINGFUL SUMMARY ***"}
       </p>
       <ReadMoreLink href="/blog/[[...slug]]" as={`/blog/${post.slug}/`} />
     </div>
