@@ -35,7 +35,24 @@
       }
 
       img {
+        display: block;
         max-width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .youtube-embed {
+        padding-bottom: 56.25%;
+        position: relative;
+        display: block;
+
+        iframe {
+          position: absolute;
+          left: 0;
+          top: 0;
+          bottom: 0;
+          right: 0;
+        }
       }
     }
 
