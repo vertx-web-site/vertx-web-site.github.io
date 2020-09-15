@@ -115,8 +115,8 @@ const NavBar = () => {
             <a href="https://stackoverflow.com/questions/tagged/vert.x" className="navbar-social-link" title="Stack Overflow" target="_blank" rel="noopener noreferrer">
               <Stackoverflow aria-label="Stack Overflow questions related to Vert.x" />
             </a>
-            <a href="https://www.youtube.com/results?search_query=vert.x" className="navbar-social-link" title="YouTube" target="_blank" rel="noopener noreferrer">
-              <Youtube aria-label="YouTube videos related to Vert.x" />
+            <a href="https://www.youtube.com/channel/UCGN6L3tRhs92Uer3c6VxOSA" className="navbar-social-link" title="YouTube" target="_blank" rel="noopener noreferrer">
+              <Youtube aria-label="YouTube channel of Vert.x" />
             </a>
             <a href="https://gitter.im/eclipse-vertx/vertx-users" className="navbar-social-link" title="Gitter" target="_blank" rel="noopener noreferrer">
               <Gitter aria-label="Eclipse Vert.x channel on Gitter" />
