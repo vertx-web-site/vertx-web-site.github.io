@@ -1,3 +1,6 @@
+import Alert from "../components/Alert"
+import Gist from "super-react-gist"
+
 export const meta = {
   title: "Presentation of the Vert.x-Swagger project",
   category: "guides",
@@ -32,16 +35,27 @@ The generated server mainly contains :
  * one Verticle per `tag`
  * one MainVerticle, which manage others APIVerticle and start an HttpServer.
 
-[NOTE the MainVerticle use *vertx-swagger-router*]
+<Alert info>
+
+The MainVerticle use *vertx-swagger-router*
+
+</Alert>
 
 ### vertx-swagger-router
 The main class of this module is `SwaggerRouter`. It's more or less a *Factory* (and maybe I should rename the class) that can create a [Router][router], using the swagger definition file to configure all the routes. For each route, it extracts parameters from the request (`Query`, `Path`, `Header`, `Body`, `Form`) and send them on the eventBus, using either the `operationId` as the address or a computed id (just a parameter in the constructor).
 
 ## Let see how it works
-[INFO For this post, I will use a simplified swagger file but you can find a more complex example [here][petstore-vertx-sample] based on the [petstore] swagger file]
+
+<Alert info>
+
+For this post, I will use a simplified swagger file but you can find a more complex example [here][petstore-vertx-sample] based on the [petstore] swagger file
+
+</Alert>
+
 ### Generating the server
-First, choose your swagger definition. Here's a YAML File, but it could be a JSON file :
-<script src="https://gist.github.com/phiz71/6c654f3da2d4124d3fe65e5aaaaedf55.js"></script>
+First, choose your swagger definition. Here's a YAML File, but it could be a JSON file:
+
+<Gist url="https://gist.github.com/phiz71/6c654f3da2d4124d3fe65e5aaaaedf55" />
 
 Then, download these libraries :
  * [swagger-codegen-cli]
@@ -57,7 +71,11 @@ java -cp /path/to/swagger-codegen-cli-2.2.2.jar:/path/to/vertx-swagger-codegen-1
   --artifact-id your.artifact.id
 ```
 
-[INFO For more Information about how SwaggerCodegen works | you can read this https://github.com/swagger-api/swagger-codegen#getting-started]
+<Alert info>
+
+For more Information about how SwaggerCodegen works, you can read this https://github.com/swagger-api/swagger-codegen#getting-started
+
+</Alert>
 
 You should have something like that in your console:
 ```
@@ -77,22 +95,25 @@ You should have something like that in your console:
 ```
 And this in your destination folder:
 
-![Generated sources](/assets/blog/vertx-swagger-presentation/GeneratedProject.png)
+<img src={require("../assets/blog/vertx-swagger-presentation/GeneratedProject.png")} alt="Generated sources" />
 
 ### What have been created ?
 As you can see in **1**,  the *vertx-swagger-codegen* plugin has created one POJO by `definition` in the swagger file.
 #### Example : the bottle definition 
-<script src="https://gist.github.com/phiz71/eabafda440b24881126089128d677121.js"></script>
+
+<Gist url="https://gist.github.com/phiz71/eabafda440b24881126089128d677121" />
 
 In **2a** and **2b** you can find :
  * an interface which contains a function per `operation`
  * a verticle which defines all `operationId` and create [EventBus] consumers 
 
 #### Example : the Bottles interface
-<script src="https://gist.github.com/phiz71/be1ca2f550f44aea7fb2710b383e26ed.js"></script>
+
+<Gist url="https://gist.github.com/phiz71/be1ca2f550f44aea7fb2710b383e26ed" />
 
 #### Example : the Bottles verticle
-<script src="https://gist.github.com/phiz71/c0aadbb4f26ebed8e2e145d0b4a8d210.js"></script>
+
+<Gist url="https://gist.github.com/phiz71/c0aadbb4f26ebed8e2e145d0b4a8d210" />
 
 ### ... and now ?
 Line `23` of `BottlesApiVerticle.java`, you can see this
@@ -111,8 +132,9 @@ In all **XXXAPI**Verticles, you will find a variable called *service*. It is a *
 Well, Vert.x is **unopinionated** but the way the *vertx-swagger-codegen* creates the server stub **is not**. 
 So if you want to implement your API the way you want, while enjoying dynamic routing based on a swagger file, the *vertx-swagger-router* library can be used standalone. 
 
-Just import this jar into your project :
-<script src="https://gist.github.com/phiz71/56e723362a1d1370c7262bff246fb087.js"></script>
+Just import this jar into your project:
+
+<Gist url="https://gist.github.com/phiz71/56e723362a1d1370c7262bff246fb087" />
 
 You will be able to create your [Router] like this:
 
@@ -129,8 +151,12 @@ vertxFileSystem.readFile("***YOUR_SWAGGER_FILE***", readFile -> {
 });
 ```
 
-[NOTE You can ignore the last parameter in `SwaggerRouter.swaggerRouter(...)`. As a result, addresses will be computed instead of using `operationId` from the swagger file. 
-For instance, `GET /bottles/{bottle_id}` will become *GET_bottles_bottle-id*]
+<Alert info>
+
+You can ignore the last parameter in `SwaggerRouter.swaggerRouter(...)`. As a result, addresses will be computed instead of using `operationId` from the swagger file. 
+For instance, `GET /bottles/{bottle_id}` will become *GET_bottles_bottle-id*
+
+</Alert>
 
 ## Conclusion
 Vert.x and Swagger are great tools to build and document an API but using both in the same project can be painful. The [Vert.x-Swagger] project was made to save time, letting the developers focusing on business code.
@@ -140,7 +166,11 @@ You can also use the `SwaggerRouter` in your own project without using Swagger-C
 
 In future releases, more information from the swagger file will be used to configure the router and certainly others languages will be supported.
 
-[NOTE Though Vert.x is polyglot, Vert.x-Swagger project only supports Java. If you want to contribute to support more languages, you're welcome :) ] 
+<Alert info>
+
+Though Vert.x is polyglot, Vert.x-Swagger project only supports Java. If you want to contribute to support more languages, you're welcome :)
+
+</Alert>
 
 Thanks for reading.
 

@@ -1,3 +1,5 @@
+import Alert from "../components/Alert"
+
 export const meta = {
   title: "Time scheduling with Chime",
   category: "guides",
@@ -18,7 +20,7 @@ There are a lot of useful features time scheduler may introduce to the Vert.x st
 
 ## Chime
 
- [Chime](https://github.com/LisiLisenok/Chime) is time scheduler verticle which works on _Vert.x_ event bus and provides:  
+[Chime](https://github.com/LisiLisenok/Chime) is time scheduler verticle which works on _Vert.x_ event bus and provides:  
  * scheduling with _cron-style_, _interval_ or _union_ timers:
   * at a certain time of day (to the second);  
   * on certain days of the week, month or year;  
@@ -37,9 +39,12 @@ There are a lot of useful features time scheduler may introduce to the Vert.x st
  * listening and sending messages via event bus with _JSON_;  
  * _publishing_ or _sending_ timer fire event to the address of your choice.  
 
-[INFO _Chime_ is written in [Ceylon](https://ceylon-lang.org) and is available at
-[Ceylon Herd](https://herd.ceylon-lang.org/modules/herd.schedule.chime).]  
+<Alert info>
 
+_Chime_ is written in [Ceylon](https://ceylon-lang.org) and is available at
+[Ceylon Herd](https://herd.ceylon-lang.org/modules/herd.schedule.chime).
+
+</Alert>
 
 ## Running
 
@@ -66,7 +71,11 @@ but ensure that Ceylon verticle factory is available at class path.
 vertx.deployVerticle("ceylon:herd.schedule.chime/0.2.1")
 ```
 
-[INFO example with Maven is available at [Github](https://github.com/LisiLisenok/ChimeJavaExample).]  
+<Alert info>
+
+Example with Maven is available at [Github](https://github.com/LisiLisenok/ChimeJavaExample).
+
+</Alert>
 
 
 ## Schedulers
@@ -239,10 +248,17 @@ eventBus.send<JsonObject> (
 
 ```
 
-[INFO '*' means any, 'SundayL' means last Sunday.]  
+<Alert info>
 
-[NOTE If 'create' request is sent to Chime address with name set to 'scheduler name:timer name' and corresponding scheduler hasn't been created before then Chime creates both new scheduler and new timer.]  
+'*' means any, 'SundayL' means last Sunday.
 
+</Alert>
+
+<Alert info>
+
+If 'create' request is sent to Chime address with name set to 'scheduler name:timer name' and corresponding scheduler hasn't been created before then Chime creates both new scheduler and new timer.
+
+</Alert>
 
 ### Java example
 
@@ -279,7 +295,11 @@ eventBus.send (
 );
 ```  
 
-[IMPORTANT Ensure that Ceylon verticle factory with right version is available at class path.]  
+<Alert warning>
+
+Ensure that Ceylon verticle factory with right version is available at class path.
+
+</Alert>
 
 
 ## At the end

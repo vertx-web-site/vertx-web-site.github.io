@@ -56,6 +56,20 @@
           height: 100%;
         }
       }
+
+      blockquote {
+        margin: 0 0 $spacer;
+        border-left: 5px solid $gray-300;
+        font-style: italic;
+
+        p {
+          padding: $spacer / 4 $spacer;
+        }
+      }
+
+      .gist .gist-data {
+        max-height: 500px;
+      }
     }
 
     .blog-post-sidebar {

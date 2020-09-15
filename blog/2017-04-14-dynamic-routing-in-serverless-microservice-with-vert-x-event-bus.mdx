@@ -1,3 +1,6 @@
+import Alert from "../components/Alert"
+import Gist from "super-react-gist"
+
 export const meta = {
   title: "Dynamic Routing in Serverless Microservice with Vert.x Event Bus",
   category: "guides",
@@ -8,7 +11,11 @@ export const meta = {
   summary: "The Serverless Framework has become the de facto toolkit for building and deploying serverless functions or applications."
 }
 
-[NOTE this is a re-publication of the following [blog post](https://www.rowellbelen.com/dynamic-routing-in-serverless-microservice-with-vert-x-event-bus/)]
+<Alert info>
+
+This is a re-publication of the following [blog post](https://www.rowellbelen.com/dynamic-routing-in-serverless-microservice-with-vert-x-event-bus/)
+
+</Alert>
 
 ## Serverless framework
 
@@ -37,14 +44,16 @@ Let's dive right in.
 Create a *reactive*, *message-driven*, *asynchronous* **User Microservice** with `GET`, `POST`, `DELETE`, `PUT` CRUD operations in a *single* **[AWS Lambda Function](aws.amazon.com/lambda)** using the [Serverless Framework](https://serverless.com)
 
 `Serverless stack definition`:
-<script src="https://gist.github.com/bytekast/48daa2ca479156c98d2735cca181ef30.js"></script>
+
+<Gist url="https://gist.github.com/bytekast/48daa2ca479156c98d2735cca181ef30" />
 
 ## Solution
 
 Use [Vert.x](http://vertx.io)'s [Event Bus](http://vertx.io/docs/vertx-core/groovy/#event_bus) to handle **dynamic routing** to **event handlers** based on *HTTP method* and *resource path* from the API input.
 
 `Lambda Handler`:
-<script src="https://gist.github.com/bytekast/d5a544f8cdcd327a12010100b2ba2d66.js"></script>
+
+<Gist url="https://gist.github.com/bytekast/d5a544f8cdcd327a12010100b2ba2d66" />
 
 ## Code review
 

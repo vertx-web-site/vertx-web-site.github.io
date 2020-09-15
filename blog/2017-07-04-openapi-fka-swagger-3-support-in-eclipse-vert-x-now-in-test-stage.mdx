@@ -1,3 +1,5 @@
+import Alert from "../components/Alert"
+
 export const meta = {
   title: "OpenAPI (fka Swagger) 3 support in Eclipse Vert.x now in test stage!",
   category: "guides",
@@ -8,7 +10,11 @@ export const meta = {
   summary: "As GSoC 2017's student, I'm working on an embedded support to OpenAPI 3 standard inside Eclipse Vert.x framework. Now, after a lot of work, you can try it!"
 }
 
-[IMPORTANT Now on upstream! | We have published this package with name `vertx-web-api-contract` ]
+<Alert info title="Now on upstream!">
+
+We have published this package with name `vertx-web-api-contract`
+
+</Alert>
 
 As GSoC 2017's student, I'm actually working on an embedded support to OpenAPI 3 standard inside Eclipse Vert.x framework. Now, after a lot of work, you can try it!
 
@@ -152,7 +158,11 @@ routerFactory.addSecuritySchemaScopeValidator("security_scheme_name", "scope_nam
 });
 ```
 
-[NOTE You can define security handlers where you want but define it! | During Router instantiation, if factory finds a path that require a security schema without an assigned handler, It will throw a `RouterFactoryException` ]
+<Alert info>
+
+You can define security handlers where you want but define it! | During Router instantiation, if factory finds a path that require a security schema without an assigned handler, It will throw a `RouterFactoryException`
+
+</Alert>
 
 ## Error handling
 Every time you add an handler for an operation you can add a failure handler. To handle a `ValidationException`:
@@ -179,11 +189,20 @@ HttpServer server = vertx.createHttpServer(new HttpServerOptions().setPort(8080)
 server.requestHandler(router::accept).listen();
 ```
 
-[NOTE Lazy methods! | `getRouter()` generate the `Router` object, so you don't have to care about code definition order]
+<Alert info title="Lazy methods!">
+
+`getRouter()` generate the `Router` object, so you don't have to care about code definition order
+
+</Alert>
 
 ## And now?
 You can find a complete example on [`vertx-examples`](https://github.com/vert-x3/vertx-examples/tree/master/web-examples#http-request-validation-and-openapi-3-router-factory)
 
 You can access to [documentation here](https://vertx.io/docs/#web) and [Javadoc here](https://vertx.io/docs/apidocs/io/vertx/ext/web/api/contract/package-summary.html)
 
-[IMPORTANT We want you! | Please give us your feedback opening an issue [here](https://github.com/slinkydeveloper/vertx-web/issues) ]
+<Alert info title="We want you!">
+
+Please give us your feedback opening an issue [here](https://github.com/slinkydeveloper/vertx-web/issues)
+
+</Alert>
+
