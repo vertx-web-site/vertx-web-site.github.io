@@ -1,0 +1,388 @@
+import Link from "next/link"
+import ScrollLink from "../components/ScrollLink"
+
+export const meta = {
+  title: "Eclipse Vert.x 3.7.0 released!",
+  category: "releases",
+  authors: [{
+    name: "Julien Viet",
+    github_id: "vietj"
+  }],
+  summary: "We are extremely pleased to announce that the Eclipse Vert.x version 3.7.0 has been released."
+}
+
+We are extremely pleased to announce that the Eclipse Vert.x version 3.7.0 has been released.
+
+It is an exciting milestone for a couple of reasons:
+
+1. it comes with great new features like the <ScrollLink href="#vertx-web-graphql">GraphQL extension for Vert.x Web</ScrollLink>.
+2. this is the last minor version before Vert.x 4! 
+
+Before we go throught the most notable new features, we would like to thank all the contributors.
+Your participation has been essential to this achievement.
+
+## Vert.x Web GraphQL
+
+Vert.x Web GraphQL extends Vert.x Web with the [GraphQL-Java](https://www.graphql-java.com) library so that you can build a GraphQL server.
+
+To use this new module, add the following to the _dependencies_ section of your Maven POM file:
+
+```xml
+<dependency>
+  <groupId>io.vertx</groupId>
+  <artifactId>vertx-web-graphql</artifactId>
+  <version>3.7.0</version>
+</dependency>
+```
+
+Or, if you use Gradle:
+
+```gradle
+compile 'io.vertx:vertx-web-graphql:3.7.0'
+```
+
+Then create a Vert.x Web `Route` and a `GraphQLHandler` for it:
+     
+```java
+// Setup the GraphQL-Java object
+GraphQL graphQL = setupGraphQLJava();
+// Use it to handle requests on a Vert.x Web route 
+router.route("/graphql").handler(GraphQLHandler.create(graphQL));
+```
+
+The GraphQL handler supports out of the box:
+
+- query context customization
+- GraphQL-Java data loaders
+- batching on `POST` requests (compatible with the [`apollo-link-batch-http`](https://www.apollographql.com/docs/link/links/batch-http.html) transport)
+
+For detailed usage instructions, please refer to the <Link href="/docs/[[...slug]]" as="/docs/vertx-web-graphql/java/" passHref={true}><a>Vert.x Web GraphQL documentation</a></Link>.
+
+## Vert.x Cassandra Client
+
+### Object mapper support
+
+Vert.x Cassandra Client now supports the [cassandra-driver-mapping](https://github.com/datastax/java-driver/tree/3.x/manual/object_mapper) module.
+
+To enable this feature, you need to update your classpath by adding:
+
+```xml
+<dependency>
+  <groupId>com.datastax.cassandra</groupId>
+  <artifactId>cassandra-driver-mapping</artifactId>
+  <version>3.7.1</version>
+</dependency>
+```
+
+Then for a given entity: 
+
+```java
+@Table(keyspace = "test", name = "users")
+class User {
+  @PartitionKey String name;
+  // ... other fields and methods 
+}
+```
+
+You can retrieve a mapper and execute CRUD operations:
+
+```java
+VertxMappingManager manager = VertxMappingManager.create(cassandraClient);
+VertxMapper<User> mapper = manager.mapper(User.class, vertx);
+mapper.save(new User("john", hander -> {}));
+```
+
+### Collector API 
+
+The feature allows to use Java [collectors](https://docs.oracle.com/javase/8/docs/api/java/util/stream/Collector.html) for query results:
+
+```java
+// Create a collector projecting a row set to a string in the form (last_name_1,last_name_2,...)
+Collector<Row, ?, String> collector = Collectors.mapping(
+    row -> row.getString("last_name"),
+    Collectors.joining(",", "(", ")")
+);
+
+// Run the query with the collector
+client.execute("SELECT * FROM users", collector, ar -> {
+  if (ar.succeeded()) {
+    // Result in the form (last_name_1,last_name_2,...)
+    String result = ar.result();
+  } else {
+    System.out.println("Failure: " + ar.cause().getMessage());
+  }
+});
+```
+
+### Cursor API
+
+The `ResultSet` object has been enhanced with `ResultSet#several` method, allowing you to obtain several rows at once:
+
+```java
+resultSet.several(30, ar -> {
+  if (ar.succeeded()) {
+    List<Row> result = ar.result();
+  } else {
+    System.out.println("Failure: " + ar.cause().getMessage());
+  }
+});
+```
+
+A very useful feature for result batch iterations without resorting to streaming or fetching all rows in memory.
+
+### Client lifecyle
+
+The client lifecyle has been revisited in 3.7.
+
+Previously users expected to `connect` manually before sending requests. It was also possible to `disconnect` a shared client
+thus failing requests sent from another verticle or part of the application.
+
+Now it is no longer required to manually connect a client (in fact, the method has been removed).
+
+As soon as you retrieve an instance you can start using it, the lifecyle is automatically managed:
+
+```java
+CassandraClientOptions options = new CassandraClientOptions()
+  .addContactPoint("node1.address")
+  .addContactPoint("node2.address")
+  .addContactPoint("node3.address")
+  .setKeyspace("my_keyspace");
+CassandraClient sharedClient = CassandraClient.createShared(vertx, "sharedClientName", options);
+// Start sending requests to Cassandra with the client instance
+```
+
+Similarly, when the new `close` method is invoked on a shared client, only the last active instance will actually disconnect from Cassandra:
+
+```java
+// Disconnects only if this is the last running instance of the shared client
+sharedClient.close();
+```
+
+## Vert.x Redis Client
+
+The Vert.x Redis client has been reworked internally and provides now a new (more evolution friendly) API.
+
+The current API had the limitation of being manually crafted after the redis API and involved many non controlable features
+such as auto reconnect, unlimited buffering of requests, etc... The new API offers a more _vert.x-y_ experience.
+
+It just exposes the base client:
+
+```java
+Redis
+  .createClient(vertx, inetSocketAddress(7006, "127.0.0.1"))
+  .connect(create -> {
+    final Redis redis = create.result();
+
+    redis.send(Request.cmd(Command.PING), send -> {
+      // ... should reply with PONG
+    });
+  });
+```
+
+This has the benefits that you can now connect to Redis in any of it's operation modes:
+
+* Single server
+* HA mode
+* Cluster mode
+
+The API is decoupled from the handcrafted commands, which means that you can use new features such as:
+
+* [streams](https://redis.io/commands#stream)
+* [hyperloglog](https://redis.io/commands#hyperloglog)
+* [any extension module](https://github.com/RedisLabsModules)
+
+A generated helper `RedisAPI` is available that can wrap the client to provide a similar experience to the old API.
+
+The main difference is that this new wrapper is generated from the [COMMAND](https://redis.io/commands/command) command,
+so the correct API it always exposed:
+
+```java
+RedisAPI redis = RedisAPI.api(client);
+
+redis.set(Arrays.asList("key1", "value1"), set -> {
+  // ...
+});
+```
+
+## Vert.x AMQP Client
+
+The Vert.x AMQP client allows receiving and sending AMQP messages. It supersedes the current AMQP bridge and provide an API more
+flexible and very much user-friendly.
+
+The Vert.x AMQP client allows:
+
+* Connecting to an AMQP broker or router - SASL and TLS connections are supported
+* Consuming message from a queue or a topic
+* Sending messages to a queue or a topic
+* Checking acknowledgement for sent messages
+
+The AMQP 1.0 protocol support durable subscriptions, persistence, security, conversations, sophisticated routing... More
+ details on the protocol can be found on the [AMQP homepage](https://www.amqp.org/).
+
+The Vert.x AMQP client is based on Vert.x Proton. If you need fine-grain control, we recommend using
+[Vert.x Proton](https://github.com/vert-x3/vertx-proton) directly.
+
+To use this new module, add the following to the _dependencies_ section of your Maven POM file:
+
+```xml
+<dependency>
+  <groupId>io.vertx</groupId>
+  <artifactId>vertx-amqp-client</artifactId>
+  <version>3.7.0</version>
+</dependency>
+```
+
+Or, if you use Gradle:
+
+```gradle
+compile 'io.vertx:vertx-amqp-client:3.7.0'
+```
+
+Then, you can connect to an AMQP broker:
+
+```java
+AmqpClientOptions options = new AmqpClientOptions()
+      .setHost("localhost")
+      .setPort(5672)
+      .setUsername("user")
+      .setPassword("secret");
+    
+AmqpClient client = AmqpClient.create(vertx, options);
+
+client.connect(ar -> {
+  if (ar.failed()) {
+    System.out.println("Unable to connect to the broker");
+  } else {
+    System.out.println("Connection succeeded");
+    AmqpConnection connection = ar.result();
+
+    // You can create receivers and senders
+    connection.createReceiver("my-queue",
+      msg -> {
+        // called on every received messages
+        System.out.println("Received " + msg.bodyAsString());
+      },
+      done -> {
+        if (done.failed()) {
+          System.out.println("Unable to create receiver");
+        } else {
+          AmqpReceiver receiver = done.result();
+        }
+      }
+    );
+
+    connection.createSender("my-queue", done -> {
+      if (done.failed()) {
+        System.out.println("Unable to create a sender");
+      } else {
+        AmqpSender sender = done.result();
+        sender.send(AmqpMessage.create().withBody("hello").build());
+      }
+    });
+
+  }
+});
+```
+
+## Stream pipes
+
+When it comes to streaming, back-pressure is something you need to care about.
+
+You have very much likely heard or used the Vert.x `Pump` API to transfer data from a read stream to a write stream while
+respecting the write stream back-pressure.
+
+The `Pipe` a new API superseding the `Pump` to achieve the same effect and even more, it acts like a pump and handles for you
+
+- read stream pause/resume
+- write stream termination
+- stream failures handling
+- asynchronous result upon streaming completion
+
+You can transfer a read stream to a write stream simply, the write stream will be ended upon completion of the stream
+
+```java
+readStream.pipeTo(writeStream);
+```
+
+You can also be notified when the pipe completes:
+
+```java
+readStream.pipeTo(writeStream, ar -> {
+  if (ar.succeeded()) {
+    System.out.println("done");
+  } else {
+    System.out.println("failed " + ar.cause());
+  }
+});
+```
+
+Creating and using an asynchronous pipe is easy
+
+```java
+// The read stream will be paused until the pipe is used
+Pipe<Buffer> pipe = readStream.pipe();
+getAsyncPipe(ar -> {
+  if (ar.succeeded()) {
+    pipe.to(writeStream);
+  } else {
+    pipe.close();
+  }
+});
+```
+
+## Kafka admin client
+
+The new version brings a Vert.x based first implementation of the native [Kafka Admin Client API](https://kafka.apache.org/documentation/#adminapi)
+which are in Java, instead of Scala used in the previous version.
+
+The `AdminUtils` is now deprecated and the new `KafkaAdminClient` is available instead.
+It allows to remove the last Scala artifact dependency.
+
+While the `AdminUtils` implementation needs to connect to Zookeeper for administration purposes,
+the `KafkaAdminClient` only uses the Kafka bootstrap brokers connection.
+
+```java
+Properties config = new Properties();
+config.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, "my-kafka-broker:9092");
+
+KafkaAdminClient adminClient = KafkaAdminClient.create(vertx, config);
+```
+
+The features currently supported are:
+
+- create and delete topics
+- list all the topics
+- describe topics for getting information about leader partition, follower replicas and ISR (in-sync replicas) list
+- alter topics configuration
+- list all consumer groups
+- describe consumer groups for getting information like the state, the coordinator host, consumers per topics and so on
+
+If you are using the `AdminUtils` today, consider migrate to the new `KafkaAdminClient` because the former will be removed in Vert.x 4.0.
+
+## And more...
+
+Here are some other important improvements you can find in this release:
+
+- Shared data structures available in local-only mode even when Vert.x is clustered
+- JSON decoding without prior knowledge of the structure (object, array, string, ...etc)
+- Infinispan Cluster Manager upgraded to [Infinispan](https://infinispan.org) 9.4.10.Final
+- And obviously we have the usual bug fixes!
+
+## Finally
+
+The [3.7.0 release notes](https://github.com/vert-x3/wiki/wiki/3.7.0-Release-Notes) can be found on the wiki, as well as the
+list of [deprecations and breaking changes](https://github.com/vert-x3/wiki/wiki/3.7.0-Deprecations-and-breaking-changes)
+
+Docker images are available on [Docker Hub](https://hub.docker.com/u/vertx/).
+
+The Vert.x distribution can be downloaded on the website but is also available from [SDKMan](http://sdkman.io/index.html) and [HomeBrew](http://brew.sh/).
+
+The event bus client using the SockJS bridge is available from:
+
+* [NPM](https://www.npmjs.com/package/vertx3-eventbus-client)
+* [Bower](https://github.com/vert-x3/vertx-bus-bower)
+* [WebJars](http://www.webjars.org/)
+
+The release artifacts have been deployed to [Maven Central](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22io.vertx%22%20AND%20v%3A%223.7.0%22) and you can get the distribution on [Bintray](https://bintray.com/vertx/downloads/distribution/3.7.0/view).
+
+That's it! Happy coding and see you soon on our user or dev [channels](https://vertx.io/community).

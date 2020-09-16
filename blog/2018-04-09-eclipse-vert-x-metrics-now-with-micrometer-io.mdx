@@ -1,3 +1,5 @@
+import Alert from "../components/Alert"
+
 export const meta = {
   title: "Eclipse Vert.x metrics now with Micrometer.io",
   category: "guides",
@@ -28,7 +30,11 @@ Another interesting aspect in Micrometer is that it handles metrics _dimensional
 
   *Example: our metric `vertx_http_server_connections` accepts labels `local` and `remote`, that are used to store addresses on HTTP connections*
 
-[NOTE | Prometheus is used in the following examples, but equivalent queries can be performed with _InfluxDB_.]
+<Alert info>
+
+Prometheus is used in the following examples, but equivalent queries can be performed with _InfluxDB_.
+
+</Alert>
 
 In Prometheus, the query `vertx_http_server_connections` will return as many timeseries as there are combinations of `local` and `remote` values. Example:
 
@@ -117,7 +123,11 @@ Remark that, since Prometheus pulls metrics from their source, they must be expo
 </dependency>
 ```
 
-[NOTE Note | At the moment, it is not possible to report metrics to several backends at the same time. [It might be soon implemented](https://github.com/vert-x3/vertx-micrometer-metrics/issues/16)].
+<Alert info>
+
+At the moment, it is not possible to report metrics to several backends at the same time. [It might be soon implemented](https://github.com/vert-x3/vertx-micrometer-metrics/issues/16).
+
+</Alert>
 
 ### Setting up Vert.x options
 

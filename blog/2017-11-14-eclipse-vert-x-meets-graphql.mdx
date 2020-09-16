@@ -1,3 +1,5 @@
+import Alert from "../components/Alert"
+
 export const meta = {
   title: "Eclipse Vert.x meets GraphQL",
   category: "guides",
@@ -133,8 +135,12 @@ Thus there is no need to write an additional data access layer. All operations a
 
 The `StarWarsRoot` Ferma class `getHero()` method in turn defines a [TinkerPop Gremlin traversal](http://tinkerpop.apache.org/docs/3.3.0/tutorials/getting-started/#_graph_traversal_staying_simple) which is used to load the Vertex which represents the hero of the Star Wars saga.
 
-[INFO Apache TinkerPop | [Apache TinkerPop](http://tinkerpop.apache.org/) is an open source, vendor-agnostic, graph framework / API which is supported by many graph database vendors. 
-One part of TinkerPop is the Gremlin traversal language which is great to query graph databases.]
+<Alert info>
+
+[Apache TinkerPop](http://tinkerpop.apache.org/) is an open source, vendor-agnostic, graph framework / API which is supported by many graph database vendors. 
+One part of TinkerPop is the Gremlin traversal language which is great to query graph databases.
+
+</Alert>
 
 ```java
 ...

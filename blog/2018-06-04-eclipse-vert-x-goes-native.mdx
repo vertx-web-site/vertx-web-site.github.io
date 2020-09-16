@@ -1,3 +1,5 @@
+import Alert from "../components/Alert"
+
 export const meta = {
   title: "Eclipse Vert.x goes Native",
   category: "guides",
@@ -66,7 +68,7 @@ public class Runner {
 
 ## GraalVM
 
-[GraalVM](https://www.graalvm.org/)runs a static analysis on the generated application in order to find the reachable code.
+[GraalVM](https://www.graalvm.org/) runs a static analysis on the generated application in order to find the reachable code.
 This process which is run within the [Substrate VM](https://github.com/oracle/graal/tree/master/substratevm) will lead to the generation of the native image.
 
 ### Limitations
@@ -79,7 +81,11 @@ Reflection is only partially supported and requires some manual steps which we w
 
 ### Patches / Workarounds
 
-[NOTE Work in progress | Next we need to apply some patches / workarounds. Keep in mind that native image generation is a fairly new topic and the these workarounds will hopefully no longer be required once the Substrate VM and Netty have better support for each other.]
+<Alert info title="Work in progress">
+
+Next we need to apply some patches / workarounds. Keep in mind that native image generation is a fairly new topic and the these workarounds will hopefully no longer be required once the Substrate VM and Netty have better support for each other.
+
+</Alert>
 
 I did not manage to get native epoll, kqueue and SSL integration to work with native images.
 These parts are heavily optimized within Netty and use JNI to directly access the OS features.

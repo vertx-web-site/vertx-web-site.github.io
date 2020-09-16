@@ -82,14 +82,14 @@ The web app contains the following routes with handlers:
 
 To run the app, we need to build our app via:
 
-```
+```bash
 cd keycloak-vertx
 mvn clean package
 ```
 
 This creates a runnable jar, which we can run via:
 
-```
+```bash
 java -jar target/*.jar
 ```
 
@@ -98,7 +98,8 @@ Note, that you need to start Keycloak, since our app will try to fetch configura
 If the application is running, just browse to: `http://localhost:8090/`.
 
 An example interaction with the app can be seen in the following gif:
-![Vert.x Keycloak Integration Demo]({{ site_url }}assets/blog/vertx-keycloak-integration/2020-03-07-vertx-keycloak-integration.gif)
+
+<img src={require("../assets/blog/vertx-keycloak-integration/2020-03-07-vertx-keycloak-integration.gif")} alt="Vert.x Keycloak Integration Demo" />
 
 ### Router, SessionStore and CSRF Protection
 

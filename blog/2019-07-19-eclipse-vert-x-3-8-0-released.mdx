@@ -1,0 +1,135 @@
+export const meta = {
+  title: "Eclipse Vert.x 3.8.0 released!",
+  category: "releases",
+  authors: [{
+    name: "Julien Viet",
+    github_id: "vietj"
+  }],
+  summary: "We are extremely pleased to announce that Eclipse Vert.x 3.8.0 has been released. This is an important release introduceing a few changes ramping up to Vert.x 4."
+}
+
+We are extremely pleased to announce that the Eclipse Vert.x version 3.8.0 has been released.
+
+This is an important release that introduces a few changes ramping up to Vert.x 4 expected by the end of this year.
+
+## The Reactive SQL Client
+
+The client is the evolution of the legendary *Reactive PostgreSQL Client* and provides
+
+* The Reactive PostgreSQL Client aka Vert.x PostgreSQL Client
+* The Reactive MySQL Client aka Vert.x MySQL Client
+
+These implementations provide real high performance non-blocking access to PostgreSQL and MySQL.
+
+To use these new modules, add the following to the _dependencies_ section of your Maven POM file:
+
+```xml
+<dependency>
+  <groupId>io.vertx</groupId>
+  <artifactId>vertx-pg-client</artifactId>
+  <version>3.8.0</version>
+</dependency>
+<dependency>
+  <groupId>io.vertx</groupId>
+  <artifactId>vertx-mysql-client</artifactId>
+  <version>3.8.0</version>
+</dependency>
+```
+
+Or, if you use Gradle:
+
+```gradle
+compile 'io.vertx:vertx-pg-client:3.8.0'
+compile 'io.vertx:vertx-mysql-client:3.8.0'
+```
+
+Then you are good to go!
+
+```java
+// Connect options
+PgConnectOptions connectOptions = new PgConnectOptions()
+  .setPort(5432)
+  .setHost("the-host")
+  .setDatabase("the-db")
+  .setUser("user")
+  .setPassword("secret");
+
+PgPool client = PgPool.pool(connectOptions, new PoolOptions().setMaxSize(5));
+
+client.query("SELECT * FROM users WHERE id='julien'", ar -> {
+  if (ar.succeeded()) {
+    RowSet result = ar.result();
+    System.out.println("Got " + result.size() + " rows ");
+  } else {
+    System.out.println("Failure: " + ar.cause().getMessage());
+  }
+});
+```
+
+Likewise you can achieve the same for MySQL:
+
+```java
+MySQLConnectOptions connectOptions = new MySQLConnectOptions()
+  .setPort(3306)
+  .setHost("the-host")
+  .setDatabase("the-db")
+  .setUser("user")
+  .setPassword("secret");
+
+MySQLPool client = MySQLPool.pool(connectOptions, new PoolOptions().setMaxSize(5));
+
+client.query("SELECT * FROM users WHERE id='julien'", ar -> {
+  if (ar.succeeded()) {
+    RowSet result = ar.result();
+    System.out.println("Got " + result.size() + " rows ");
+  } else {
+    System.out.println("Failure: " + ar.cause().getMessage());
+  }
+});
+```
+
+The *Reactive SQL Client* brings to you the next generation database access, it is certainly the most exciting
+thing happening in the reactive database access space.
+
+## Future API improvements
+
+In this release we updated the Vert.x `Future` interface to expose completion methods in a new `Promise` interface.
+
+This improves the design of the API of `Future` by having `Promise` being the write side of an asynchronous result
+and the `Future` being its read side.
+
+While there is little use for this in Vert.x 3.x, this has an impact on Vert.x 4.
+
+Consequently some method signatures have been changed to use `Promise` instead of `Future` explained in this [page](https://github.com/vert-x3/wiki/wiki/3.8.0-Deprecations-and-breaking-changes#future-creation-and-completion).
+
+## Upgrading to 3.8
+
+Upgrading to 3.8.0 might require a few changes in your application, you can read this [page](https://github.com/vert-x3/wiki/wiki/3.8.0-Deprecations-and-breaking-changes#future-creation-and-completion) to understand the impact of the
+3.8 release on your application upgrade.
+
+## And more...
+
+Here are some other important improvements you can find in this release:
+
+- Cassandra Client gets out of tech preview
+- Jackson upgrade to 2.9.9 and databind 2.9.9.1
+- And obviously we have the usual bug fixes!
+
+## Finally
+
+The [3.8.0 release notes](https://github.com/vert-x3/wiki/wiki/3.8.0-Release-Notes) can be found on the wiki, as well as the
+list of [deprecations and breaking changes](https://github.com/vert-x3/wiki/wiki/3.8.0-Deprecations-and-breaking-changes)
+
+Docker images are available on [Docker Hub](https://hub.docker.com/u/vertx/).
+
+The Vert.x distribution can be downloaded on the website but is also available from [SDKMan](http://sdkman.io/index.html) and [HomeBrew](http://brew.sh/).
+
+The event bus client using the SockJS bridge is available from:
+
+* [NPM](https://www.npmjs.com/package/vertx3-eventbus-client)
+* [Bower](https://github.com/vert-x3/vertx-bus-bower)
+* [WebJars](http://www.webjars.org/)
+
+The release artifacts have been deployed to [Maven Central](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22io.vertx%22%20AND%20v%3A%223.8.0%22) and you can get the distribution on [Bintray](https://bintray.com/vertx/downloads/distribution/3.8.0/view).
+
+That's it! Happy coding and see you soon on our user or dev [channels](https://vertx.io/community).

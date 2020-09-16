@@ -11,7 +11,7 @@ export const meta = {
 In the last Vert.x 3.8 release, we added a new module called `vertx-junit5-web-client`, that brings [Vert.x Web Client](https://vertx.io/docs/vertx-web-client/java/) injection
 into tests and provides an API called `TestRequest` to simplify the creation and assertions on `WebClient` requests:
 
-```
+```java
 import static io.vertx.junit5.web.TestRequest.*;
 
 @ExtendWith({
@@ -43,7 +43,7 @@ public class TestRequestExample {
 
 You can also send multiple requests using [`Checkpoint`](https://vertx.io/docs/apidocs/io/vertx/junit5/Checkpoint.html):
 
-```
+```java
 import static io.vertx.junit5.web.TestRequest.*;
 
 @ExtendWith({
