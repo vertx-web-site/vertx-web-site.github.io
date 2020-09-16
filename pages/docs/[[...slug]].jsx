@@ -82,6 +82,64 @@ export async function getStaticPaths() {
   }
 }
 
+async function compileAsciiDoc(filename) {
+  const cacache = require("cacache")
+  const fs = require("fs").promises
+
+  const cachePath = "./.cache/docs"
+
+  const asciidoctorOptions = {
+    safe: "unsafe",
+    attributes: {
+      "source-highlighter": "highlightjs-ext",
+      "showtitle": true,
+      "toc": "left",
+      "sectanchors": true
+    }
+  }
+
+  let stats = await fs.stat(filename)
+
+  let cacheKey = JSON.stringify({
+    ...asciidoctorOptions,
+    filename,
+    size: stats.size,
+    mtimeMs: stats.mtimeMs
+  })
+
+  let info = await cacache.get.info(cachePath, cacheKey)
+  if (info !== null) {
+    let cachedDocument = await cacache.get(cachePath, cacheKey)
+    return JSON.parse(cachedDocument.data.toString("utf-8"))
+  } else {
+    // load asciidoctor if necessary
+    if (typeof asciidoctor === "undefined") {
+      asciidoctor = require("asciidoctor")()
+
+      // clean up any previously registered extension
+      asciidoctor.Extensions.unregisterAll()
+
+      // register highlight.js extension
+      const highlightJsExt = require("asciidoctor-highlight.js")
+      highlightJsExt.register(asciidoctor.Extensions)
+    }
+
+    // render page
+    let doc = asciidoctor.loadFile(filename, asciidoctorOptions)
+    let title = doc.getDocumentTitle()
+    let contents = doc.convert()
+
+    let result = {
+      title,
+      contents
+    }
+
+    await cacache.put(cachePath, cacheKey, JSON.stringify(result))
+
+    return result
+  }
+}
+
 export async function getStaticProps({ params }) {
   const path = require("path")
 
@@ -113,30 +171,7 @@ export async function getStaticProps({ params }) {
     return cache[slug]
   }
 
-  // load asciidoctor if necessary
-  if (typeof asciidoctor === "undefined") {
-    asciidoctor = require("asciidoctor")()
-
-    // clean up any previously registered extension
-    asciidoctor.Extensions.unregisterAll()
-
-    // register highlight.js extension
-    const highlightJsExt = require("asciidoctor-highlight.js")
-    highlightJsExt.register(asciidoctor.Extensions)
-  }
-
-  // render page
-  let doc = asciidoctor.loadFile(path.join(extractedDocsPath, slug, "index.adoc"), {
-    safe: "unsafe",
-    attributes: {
-      "source-highlighter": "highlightjs-ext",
-      "showtitle": true,
-      "toc": "left",
-      "sectanchors": true
-    }
-  })
-  let title = doc.getDocumentTitle()
-  let contents = doc.convert()
+  let { title, contents } = await compileAsciiDoc(path.join(extractedDocsPath, slug, "index.adoc"))
 
   // parse generated HTML and extract table of contents
   let documentFragment = parse5.parseFragment(contents, { sourceCodeLocationInfo: true })
