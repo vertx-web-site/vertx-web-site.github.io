@@ -1,12 +1,14 @@
-export const meta = {
-  title: "Using Hamcrest Matchers with Vert.x Unit",
-  category: "guides",
-  authors: [{
-    name: "Clement Escoffier",
-    github_id: "cescoffier"
-  }],
-  summary: "Vert.x Unit is a very elegant library to test asynchronous applications developed with vert.x. However because of this asynchronous aspect, reporting test failures is not natural for JUnit users."
-}
+---
+title: Using Hamcrest Matchers with Vert.x Unit
+category: guides
+authors:
+  - name: Clement Escoffier
+    github_id: cescoffier
+summary: >-
+  Vert.x Unit is a very elegant library to test asynchronous applications
+  developed with vert.x. However because of this asynchronous aspect, reporting
+  test failures is not natural for JUnit users.
+---
 
 Vert.x Unit is a very elegant library to test asynchronous applications developed with vert.x. However because of this asynchronous aspect, reporting test failures is not natural for JUnit users.  This is because, the failed assertions need to be reported to the _test context_, controlling the execution (and so the outcome) of the test. In other words, in a Vert.x Unit test you cannot use the regular Junit assertions and assertion libraries. In this blog post, we propose a way to let you using Hamcrest matchers in Vert.x Unit tests.
 

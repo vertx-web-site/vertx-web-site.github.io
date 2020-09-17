@@ -22,7 +22,9 @@ async function readDirRecursive(dir, fs, path, result = []) {
   for (let f of files) {
     let absolute = path.join(dir, f)
     if ((await fs.stat(absolute)).isDirectory()) {
-      await readDirRecursive(absolute, fs, path, result)
+      if (f !== "apidocs" && f !== "jsdoc" && f !== "kdoc" && f !== "scaladocs") {
+        await readDirRecursive(absolute, fs, path, result)
+      }
     } else {
       if (f === "index.adoc") {
         result.push(absolute)

@@ -4,7 +4,7 @@ import { useCallback, useContext, useEffect } from "react"
 import { useRouter } from "next/router"
 
 const ScrollLink = (props) => {
-  const navBarState = useContext(NavBarContext.State)
+  const navBarState = useContext(NavBarContext.State) || { height: 0 }
 
   if (props.href[0] !== "#") {
     throw new Error(`ScrollLink href '${props.href}' must begin with a '#' character`)

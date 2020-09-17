@@ -1,14 +1,14 @@
-import Link from "next/link"
-
-export const meta = {
-  title: "Vert.x 3 real time web apps",
-  category: "guides",
-  authors: [{
-    name: "Paulo Lopes",
-    github_id: "pmlopes"
-  }],
-  summary: "One of the interesting features of Vert.x is the SockJS event bus bridge. It allows external applications to communicate with Vert.x event bus using Websockets."
-}
+---
+title: Vert.x 3 real time web apps
+category: guides
+authors:
+  - name: Paulo Lopes
+    github_id: pmlopes
+summary: >-
+  One of the interesting features of Vert.x is the SockJS event bus bridge. It
+  allows external applications to communicate with Vert.x event bus using
+  Websockets.
+---
 
 One of the interesting features of Vert.x is the [SockJS](http://sockjs.org) event bus bridge. This piece of software
 allows external applications to communicate with Vert.x event bus using Websockets and if your browser does not
@@ -28,7 +28,7 @@ event bus, ensuring that other services running on the cluster will not be expos
 
 This is what you should expect to see:
 
-<img src={require("../assets/blog/vertx3-realtime-webapps/screencast.gif")} alt="Screencast" />
+![Screencast](/images/blog/vertx3-realtime-webapps/screencast.gif)
 
 ## Bootstrap a project
 

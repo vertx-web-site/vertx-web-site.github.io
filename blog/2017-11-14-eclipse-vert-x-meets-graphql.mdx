@@ -1,14 +1,13 @@
-import Alert from "../components/Alert"
-
-export const meta = {
-  title: "Eclipse Vert.x meets GraphQL",
-  category: "guides",
-  authors: [{
-    name: "Johannes Schüth",
-    github_id: "jotschi"
-  }],
-  summary: "In this blog post, we will look at an example application written in Vert.x that uses the new GraphQL API of Gentics Mesh."
-}
+---
+title: Eclipse Vert.x meets GraphQL
+category: guides
+authors:
+  - name: Johannes Schüth
+    github_id: jotschi
+summary: >-
+  In this blog post, we will look at an example application written in Vert.x
+  that uses the new GraphQL API of Gentics Mesh.
+---
 
 I recently added GraphQL support to [Gentics Mesh](https://github.com/gentics/mesh) and I thought it would be a good idea to boil down the essence of my implementation in example so that I could share it in a simpler form.
 The example I'm about to show will not cover all aspects that I have added to the [Gentics Mesh API](https://getmesh.io/docs/beta/graphql.html) (e.g. paging, search and error handling) but it will give you a basic overview of the parts that I put together.

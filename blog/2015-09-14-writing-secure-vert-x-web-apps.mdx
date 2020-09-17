@@ -1,12 +1,14 @@
-export const meta = {
-  title: "Writing secure Vert.x Web apps",
-  category: "guides",
-  authors: [{
-    name: "Paulo Lopes",
-    github_id: "pmlopes"
-  }],
-  summary: "This is a starting guide for securing Vert.x web applications. Standard rules and practices apply to Vert.x apps as if they would to any other web framework."
-}
+---
+title: Writing secure Vert.x Web apps
+category: guides
+authors:
+  - name: Paulo Lopes
+    github_id: pmlopes
+summary: >-
+  This is a starting guide for securing Vert.x web applications. Standard rules
+  and practices apply to Vert.x apps as if they would to any other web
+  framework.
+---
 
 This is a starting guide for securing vert.x web applications. It is by no means a comprehensive guide on web application security such as [OWASP](https://www.owasp.org). Standard rules and practices apply to vert.x apps as if they would to any other web framework.
 
@@ -75,7 +77,7 @@ vertx.createHttpServer().requestHandler(router::accept).listen(8080);
 
 And in this case when inspecting your browser you should see:
 
-<img src={require("../assets/blog/vertx3-secure-webapps/nocookie.png")} alt="nocookie" />
+![nocookie](/images/blog/vertx3-secure-webapps/nocookie.png)
 
 Of course if you do not do that any script on your browser has the capability of reading, sniffing hijacking or tampering your sessions.
 

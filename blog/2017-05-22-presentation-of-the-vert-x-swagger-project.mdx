@@ -1,15 +1,13 @@
-import Alert from "../components/Alert"
-import Gist from "super-react-gist"
-
-export const meta = {
-  title: "Presentation of the Vert.x-Swagger project",
-  category: "guides",
-  authors: [{
-    name: "Florent Chamfroy",
-    github_id: "phiz71"
-  }],
-  summary: "This post is an introduction to the Vert.x-Swagger project, and describe how to use the Swagger-Codegen plugin and the SwaggerRouter class."
-}
+---
+title: Presentation of the Vert.x-Swagger project
+category: guides
+authors:
+  - name: Florent Chamfroy
+    github_id: phiz71
+summary: >-
+  This post is an introduction to the Vert.x-Swagger project, and describe how
+  to use the Swagger-Codegen plugin and the SwaggerRouter class.
+---
 
 This post is an introduction to the [Vert.x-Swagger] project, and describe how to use the `Swagger-Codegen` plugin and the `SwaggerRouter` class.
 
@@ -95,7 +93,7 @@ You should have something like that in your console:
 ```
 And this in your destination folder:
 
-<img src={require("../assets/blog/vertx-swagger-presentation/GeneratedProject.png")} alt="Generated sources" />
+![Generated sources](/images/blog/vertx-swagger-presentation/GeneratedProject.png)
 
 ### What have been created ?
 As you can see in **1**,  the *vertx-swagger-codegen* plugin has created one POJO by `definition` in the swagger file.

@@ -1,12 +1,13 @@
-export const meta = {
-  title: "Easy SSO for Vert.x with Keycloak",
-  category: "guides",
-  authors: [{
-    name: "Thomas Darimont",
-    github_id: "thomasdarimont"
-  }],
-  summary: "In this blog post, you'll learn how to implement Single Sign-on with OpenID Connect and how to use Keycloak together with Eclipse Vert.x."
-}
+---
+title: Easy SSO for Vert.x with Keycloak
+category: guides
+authors:
+  - name: Thomas Darimont
+    github_id: thomasdarimont
+summary: >-
+  In this blog post, you'll learn how to implement Single Sign-on with OpenID
+  Connect and how to use Keycloak together with Eclipse Vert.x.
+---
 
 **TL;DR:**
 
@@ -99,7 +100,7 @@ If the application is running, just browse to: `http://localhost:8090/`.
 
 An example interaction with the app can be seen in the following gif:
 
-<img src={require("../assets/blog/vertx-keycloak-integration/2020-03-07-vertx-keycloak-integration.gif")} alt="Vert.x Keycloak Integration Demo" />
+![Vert.x Keycloak Integration Demo](/images/blog/vertx-keycloak-integration/2020-03-07-vertx-keycloak-integration.gif)
 
 ### Router, SessionStore and CSRF Protection
 

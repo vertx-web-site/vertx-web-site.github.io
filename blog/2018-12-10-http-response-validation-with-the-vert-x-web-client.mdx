@@ -1,12 +1,13 @@
-export const meta = {
-  title: "HTTP response validation with the Vert.x Web Client",
-  category: "guides",
-  authors: [{
-    name: "Thomas Segismont",
-    github_id: "tsegismont"
-  }],
-  summary: "Learn how to use response predicates from the Vert.x Web module to validate HTTP responses and to automatically generate error messages."
-}
+---
+title: HTTP response validation with the Vert.x Web Client
+category: guides
+authors:
+  - name: Thomas Segismont
+    github_id: tsegismont
+summary: >-
+  Learn how to use response predicates from the Vert.x Web module to validate
+  HTTP responses and to automatically generate error messages.
+---
 
 By default, a [Vert.x Web Client](/docs/vertx-web-client/java/) request ends with an error only if something wrong happens at the network level.
 In other words, a `404 Not Found` response, or a response with the wrong content type, are **not** considered as failures.

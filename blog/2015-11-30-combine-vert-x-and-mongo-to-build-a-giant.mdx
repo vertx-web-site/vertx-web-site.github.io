@@ -1,15 +1,14 @@
-import Alert from "../components/Alert"
-import Link from "next/link"
-
-export const meta = {
-  title: "Combine vert.x and mongo to build a giant",
-  category: "guides",
-  authors: [{
-    name: "Clement Escoffier",
-    github_id: "cescoffier"
-  }],
-  summary: "This blog post is part of the introduction to Vert.x series. We are now going to replace this JDBC client by the vertx-mongo-client, and thus connect to a Mongo database."
-}
+---
+title: Combine vert.x and mongo to build a giant
+category: guides
+authors:
+  - name: Clement Escoffier
+    github_id: cescoffier
+summary: >-
+  This blog post is part of the introduction to Vert.x series. We are now going
+  to replace this JDBC client by the vertx-mongo-client, and thus connect to a
+  Mongo database.
+---
 
 This blog post is part of the _introduction to vert.x_ series. Last time, we have seen how we can use the `vertx-jdbc-client` to connect to a database using a JDBC driver. In this post, we are going to replace this JDBC client by the `vertx-mongo-client`, and thus connect to a Mongo database.
 
@@ -35,7 +34,7 @@ The code developed in this blog post is available in the branch [post-6](https:/
 
 One of the vert.x characteristics is being asynchronous. With an asynchronous API, you don't wait for a result, but you are notified when this result is ready. Thanks to vert.x, this notification happens in the same thread (understand event loop) as the initial request:
 
-<img src={require("../assets/blog/intro-series/async-data.png")} alt="Asynchronous data access" />
+![Asynchronous data access](/images/blog/intro-series/async-data.png)
 
 Your code (on the left) is going to invoke the mongo client and pass a callback that will be invoked when the result is available. The invocation to the mongo client is non blocking and returns immediately. The client is dealing with the mongo database and when the result has been computed / retrieved, it invokes the callback in the same event loop as the request.
 
@@ -332,7 +331,7 @@ java -jar target/my-first-app-1.0-SNAPSHOT-fat.jar \
   -conf src/main/conf/my-application-conf-docker-machine.json
 ```
 
-<img src={require("../assets/blog/intro-series/whisky-mongo.png")} alt="The application live and running" />
+![The application live and running](/images/blog/intro-series/whisky-mongo.png)
 
 ## That’s all folks!
 

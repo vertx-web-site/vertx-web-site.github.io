@@ -1,14 +1,13 @@
-import Alert from "../components/Alert"
-
-export const meta = {
-  title: "Building services and APIs with AMQP 1.0",
-  category: "guides",
-  authors: [{
-    name: "Jakub Scholz",
-    github_id: "scholzj"
-  }],
-  summary: "Microservices and APIs are everywhere. Everyone talks about them, presentation slides are full of them ... some people are actually even building them."
-}
+---
+title: Building services and APIs with AMQP 1.0
+category: guides
+authors:
+  - name: Jakub Scholz
+    github_id: scholzj
+summary: >-
+  Microservices and APIs are everywhere. Everyone talks about them, presentation
+  slides are full of them ... some people are actually even building them.
+---
 
 Microservices and APIs are everywhere. Everyone talks about them, presentation slides are full of them ... some people are actually even building them. Microservices and APIs are of course not completely new concepts and they are a bit over-hyped. But in general the ideas behind them are not bad. Unfortunately, many people seem to believe that the only way how to implement an API in microservice is to use HTTP and REST. That is of course not true. Microservices and APIs can be based on many different protocols and technologies. My favorite one is of course [AMQP](http://www.amqp.org). Don't take me wrong, HTTP and REST is not necessarily bad. But in some cases AMQP is simply better and creating AMQP based APIs does not need to be complicated.
 
@@ -51,7 +50,7 @@ server = vertx.createHttpServer(httpOptions)
  
 And finally the handlers which will be triggered for each API call have to be implemented as well. The full code is on [GitHub](https://github.com/scholzj/livescore-demo-vertx-http).
 
-<img src={require("../assets/blog/services-and-apis-with-amqp/HTTP-API.png")} />
+![](/images/blog/services-and-apis-with-amqp/HTTP-API.png)
 
 The HTTP API doesn’t provide any way how to automatically push the score updates to the clients. The clients simply have to poll the service periodically to get the updates. HTTP has of course some ways how to push live updates to clients. For example, with WebSockets or with chunked transfers. However, these are not that easy to implement. The service would also need to keep separate connection with every client and push the updates for each of them separately.
 
@@ -61,11 +60,11 @@ Creating the HTTP API was really easy. Creating an AMQP API has to be more compl
 
 Sure, this is one way how to do it. There is actually a nice library called [Apache Qpid Proton](http://qpid.apache.org/proton/index.html). It has Java and C versions and bindings into many other languages (Go, C++, Python, …). It makes creating your own AMQP server lot easier. It will take care of decoding and encoding the AMQP protocol, handling the connections, sessions etc. But still, Qpid Proton is not even nearly as easy to use as the HTTP router used for the HTTP API.
 
-<img src={require("../assets/blog/services-and-apis-with-amqp/AMQP-Server-API.png")} alt="API with AMQP server" />
+![API with AMQP server](/images/blog/services-and-apis-with-amqp/AMQP-Server-API.png)
 
 Are there any easier options? What if all what is needed to create AMQP based API is a simple AMQP client? Normally, that should not be a possible because we need the API to listen on some port for the clients to connect to it and send requests. And clients usually don’t listen on any ports. However, Apache Qpid has something called [Dispatch](http://qpid.apache.org/components/dispatch-router/index.html). It works as a lightweight AMQP router. Dispatch will serve as the AMQP server which was missing. It will take care of handling client connections, security and shield the service from the actual clients. All the service needs to do is to use AMQP client to connect to Dispatch on predefined address and wait for the request.
 
-<img src={require("../assets/blog/services-and-apis-with-amqp/AMQP-API.png")} alt="AMQP API with Dispatch router" />
+![AMQP API with Dispatch router](/images/blog/services-and-apis-with-amqp/AMQP-API.png)
 
 Dispatch needs to be configured with three API entry points as addresses:
 ```text
@@ -132,7 +131,7 @@ address {
 }  
 ```
 
-<img src={require("../assets/blog/services-and-apis-with-amqp/AMQP-API-multicast.png")} alt="Multicasting messages" />
+![Multicasting messages](/images/blog/services-and-apis-with-amqp/AMQP-API-multicast.png)
 
 Thanks to the multicast distribution, the service doesn’t need to send a separate update to every single client. It sends the message only once and dispatch takes care of the rest.
 

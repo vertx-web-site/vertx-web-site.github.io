@@ -1,14 +1,14 @@
-import Alert from "../components/Alert"
-
-export const meta = {
-  title: "Vert.x featuring Continuous Delivery with Jenkins and Ansible",
-  category: "guides",
-  authors: [{
-    name: "Ricardo Hernandez",
-    github_id: "ricardohmon"
-  }],
-  summary: "This blog entry describes an approach to adopt Continuous Delivery for Vert.x applications using Jenkins and Ansible by taking advantage of the Jenkins Job DSL and Ansible plugins."
-}
+---
+title: Vert.x featuring Continuous Delivery with Jenkins and Ansible
+category: guides
+authors:
+  - name: Ricardo Hernandez
+    github_id: ricardohmon
+summary: >-
+  This blog entry describes an approach to adopt Continuous Delivery for Vert.x
+  applications using Jenkins and Ansible by taking advantage of the Jenkins Job
+  DSL and Ansible plugins.
+---
 
 This blog entry describes an approach to adopt _Continuous Delivery_ for Vert.x applications using Jenkins and Ansible by taking advantage of the Jenkins Job DSL and Ansible plugins.
 
@@ -25,7 +25,7 @@ Given that Vert.x is a framework that consists in a few libraries which can be s
 ## Overview
 As seen in the diagram below, this post describes a method to define a Jenkins build job which will react to changes in a code repository. After succesfully building the project, the job will execute an Ansible _playbook_ to deploy the new application version to the hosts specified within the Ansible configuration.
 
-<img src={require("../assets/blog/continuous-delivery-jenkins-ansible/ansible-jenkins-overview.svg")} alt="Overview of the continous delivery process" />
+![Overview of the continous delivery process](/images/blog/continuous-delivery-jenkins-ansible/ansible-jenkins-overview.svg)
 
 ## Creating a Jenkins build job using Job DSL
 Jenkins has created a convenient way to define build jobs using a DSL. While this option avoids the hassle of configuring build jobs manually, it supports all features of the regular interface through its [API](https://jenkinsci.github.io/job-dsl-plugin/). It is possible to use Ansible together with Jenkins with the help of the Ansible [plugin](https://wiki.jenkins-ci.org/display/JENKINS/Ansible+Plugin/), whose instructions are also included in the Job DSL [API](https://github.com/jenkinsci/ansible-plugin/blob/master/README.md). Alternatively to the Job DSL Plugin, Ansible can be used inside the definition of Jenkins Pipeline, one of tool's most recent features.

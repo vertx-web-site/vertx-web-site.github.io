@@ -1,16 +1,13 @@
-import Gist from "super-react-gist"
-import Link from "next/link"
-
-export const meta = {
-  title: "ECMAScript 6/7 on the JVM with TypeScript and Vert.x",
-  category: "guides",
-  authors: [{
-    name: "Michel Krämer",
-    github_id: "michel-kraemer"
-  }],
-  summary: `I figured it would be a good idea to give you a couple of examples how teaming
-  Vert.x and TypeScript helps you use ECMAScript 6 and 7 features on the JVM today.`
-}
+---
+title: ECMAScript 6/7 on the JVM with TypeScript and Vert.x
+category: guides
+authors:
+  - name: Michel Krämer
+    github_id: michel-kraemer
+summary: |-
+  I figured it would be a good idea to give you a couple of examples how teaming
+    Vert.x and TypeScript helps you use ECMAScript 6 and 7 features on the JVM today.
+---
 
 Following the latest releases of [Vert.x 3.2](http://vertx.io) and
 [vertx-lang-typescript 1.1.0](https://github.com/michel-kraemer/vertx-lang-typescript)
@@ -48,7 +45,7 @@ vertx run es7verticle.ts
 This will run a small HTTP server that listens to requests on port 8080. If you
 open your browser and go to http://localhost:8080 you will see the following:
 
-<img src={require("../assets/blog/ecmascript-6-7-on-the-jvm-with-typscript-and-vertx/output.png")} alt="Output of the verticle written in TypeScript" />
+![Output of the verticle written in TypeScript](/images/blog/ecmascript-6-7-on-the-jvm-with-typscript-and-vertx/output.png)
 
 So far so good. Now let's have a look at the code. I numbered the individual
 ECMAScript features used. Here's a complete list:

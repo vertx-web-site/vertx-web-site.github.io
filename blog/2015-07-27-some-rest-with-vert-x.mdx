@@ -1,15 +1,13 @@
-import Alert from "../components/Alert"
-import Link from "next/link"
-
-export const meta = {
-  title: "Some Rest with Vert.x",
-  category: "guides",
-  authors: [{
-    name: "Clement Escoffier",
-    github_id: "cescoffier"
-  }],
-  summary: "This post is part of the Introduction to Vert.x series. Let’s go a bit further this time and develop a CRUD-ish application"
-}
+---
+title: Some Rest with Vert.x
+category: guides
+authors:
+  - name: Clement Escoffier
+    github_id: cescoffier
+summary: >-
+  This post is part of the Introduction to Vert.x series. Let’s go a bit further
+  this time and develop a CRUD-ish application
+---
 
 This post is part of the _Introduction to Vert.x_ series. So, let's have a quick look about the content of the previous posts. In <Link href="/blog/[[...slug]]" as="/blog/my-first-vert-x-3-application" passHref={true}><a>the first post</a></Link>, we developed a very simple Vert.x 3 application, and saw how this application can be tested, packaged and executed. In <Link href="/blog/[[...slug]]" as="/blog/vert-x-application-configuration" passHref={true}><a>the last post</a></Link>, we saw how this application became configurable and how we can use a random port in test.
 
@@ -314,7 +312,7 @@ java -jar target/my-first-app-1.0-SNAPSHOT-fat.jar
 
 Then open the HTML page in your browser (`http://localhost:8080/assets/index.html`), and should should see:
 
-<img src={require("../assets/blog/intro-series/post-3-My_Whisky_Collection.png")} />
+![](/images/blog/intro-series/post-3-My_Whisky_Collection.png)
 
 I'm sure you are curious, and want to actually see what is returned by our REST API. Let's open a browser to `http://localhost:8080/api/whiskies`. You should get:
 

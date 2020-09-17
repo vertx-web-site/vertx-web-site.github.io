@@ -1,14 +1,14 @@
-import Alert from "../components/Alert"
-
-export const meta = {
-  title: "Contract Driven REST Services with Vert.x3",
-  category: "guides",
-  authors: [{
-    name: "Paulo Lopes",
-    github_id: "pmlopes"
-  }],
-  summary: "We see a new trend in development where we are shifting from developing applications to APIs. More and more we see services being offered as REST APIs that we are allowed to consume."
-}
+---
+title: Contract Driven REST Services with Vert.x3
+category: guides
+authors:
+  - name: Paulo Lopes
+    github_id: pmlopes
+summary: >-
+  We see a new trend in development where we are shifting from developing
+  applications to APIs. More and more we see services being offered as REST APIs
+  that we are allowed to consume.
+---
 
 We see a new trend in development where we are shifting from developing applications to develop APIs. More and more we see services being offered as REST APIs that we are allowed to consume and we already see this trend from the big names in the industry, e.g.: [Facebook](https://developers.facebook.com/), [Wikipedia](https://www.mediawiki.org/wiki/API:Main_page), [Amazon](https://developer.amazon.com/public/apis), [Twitter](https://dev.twitter.com/overview/documentation), [Google](https://developers.google.com/apis-explorer/#p/) and [Reddit](https://www.reddit.com/dev/api) they all offer APIs.
 
@@ -235,7 +235,7 @@ public class App extends AbstractVerticle {
 
 Once you start you application open a browser pointing at the [console](http://localhost:8080?raml=/api/hello.raml). Once you do that you should be presented with something similar to this:
 
-<img src={require("../assets/blog/vertx3-contract-driven-rest-services/raml-console.png")} alt="apiconsole" />
+![apiconsole](/images/blog/vertx3-contract-driven-rest-services/raml-console.png)
 
 ## Article source code
 

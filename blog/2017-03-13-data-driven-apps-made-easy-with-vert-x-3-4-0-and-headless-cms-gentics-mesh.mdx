@@ -1,14 +1,14 @@
-import Gist from "super-react-gist"
-
-export const meta = {
-  title: "Data-driven Apps made easy with Vert.x 3.4.0 and headless CMS Gentics Mesh",
-  category: "guides",
-  authors: [{
-    name: "Johannes Schüth",
-    github_id: "jotschi"
-  }],
-  summary: "I would like to share why Vert.x is not only a robust foundation for the headless Content Management System Gentics Mesh but also how it can be used to build a template-based web server."
-}
+---
+title: Data-driven Apps made easy with Vert.x 3.4.0 and headless CMS Gentics Mesh
+category: guides
+authors:
+  - name: Johannes Schüth
+    github_id: jotschi
+summary: >-
+  I would like to share why Vert.x is not only a robust foundation for the
+  headless Content Management System Gentics Mesh but also how it can be used to
+  build a template-based web server.
+---
 
 In this article, I would like to share why Vert.x is not only a robust foundation for the [headless Content Management System Gentics Mesh](http://getmesh.io/) but also how the recent release 3.4.0 can be used to build a template-based web server with Gentics Mesh and handlebars.
 
@@ -45,7 +45,7 @@ java -jar mesh-demo-0.6.xx.jar
 For the current example we are going to use the read-only user credentials (_webclient:webclient_).
 If you want to play around with the demo data you can point your browser to <http://localhost:8080/mesh-ui/> to reach the Gentics Mesh user interface and use one of the [available demo credentials](http://getmesh.io/docs/beta/getting-started.html#_startup) to login.
 
-<img src={require("../assets/blog/vertx-mesh/mesh-ui.jpg")} alt="Gentics Mesh User Interface" />
+![Gentics Mesh User Interface](/images/blog/vertx-mesh/mesh-ui.jpg)
 
 ### 4. Start - The application and browse the product catalogue
 
@@ -92,13 +92,13 @@ JSON responses on the other hand are examined to determine the type of node whic
 
 <Gist url="https://gist.github.com/Jotschi/39fc0d3fcd45122eafe68d61bea4c120" file="routeHandler.java" />
 
-<img src={require("../assets/blog/vertx-mesh/mesh-schemas.jpg")} alt="Mesh Schemas" />
+![Mesh Schemas](/images/blog/vertx-mesh/mesh-schemas.jpg)
 
 The demo application serves different pages which correspond to the identified type.
 Take a look at the template sources within _src/main/resources/templates/_ if you are interested in the [handlebars syntax](http://handlebarsjs.com/). 
 The templates in the example should cover most common cases.   
 
-<img src={require("../assets/blog/vertx-mesh/mesh-vertx-templates.jpg")} alt="Handlebars Template Overview" />
+![Handlebars Template Overview](/images/blog/vertx-mesh/mesh-vertx-templates.jpg)
 
 The Mesh REST Client library internally makes use of the [Vert.x core HTTP client](http://vertx.io/docs/vertx-core/java/#_creating_an_http_client).
 

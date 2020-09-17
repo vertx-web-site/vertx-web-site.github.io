@@ -1,14 +1,13 @@
-import Alert from "../components/Alert"
-
-export const meta = {
-  title: "Building a real-time web app with Angular/Ngrx and Vert.x",
-  category: "guides",
-  authors: [{
-    name: "Benoit Hediard",
-    github_id: "benorama"
-  }],
-  summary: "There are multiple tech stacks to build a real-time web app. What are the best choices to build Angular client apps, connected to a JVM-based backend?"
-}
+---
+title: Building a real-time web app with Angular/Ngrx and Vert.x
+category: guides
+authors:
+  - name: Benoit Hediard
+    github_id: benorama
+summary: >-
+  There are multiple tech stacks to build a real-time web app. What are the best
+  choices to build Angular client apps, connected to a JVM-based backend?
+---
 
 Nowadays, there are multiple tech stacks to build a real-time web app. What are the best choices to build real-time Angular client apps, connected to a JVM-based backend? This article describes an Angular+Vertx real-time architecture with a Proof of Concept demo app.
 
@@ -22,7 +21,7 @@ This is a re-publication of the following [Medium post](https://medium.com/@beno
 
 **Welcome to the real-time web!** It's time to move on from traditional synchronous HTTP request/response architectures to reactive apps with connected clients (ouch... that's a lot of buzzwords in just one sentence)!
 
-<img src={require("../assets/blog/vertx-realtime-angular-ngrx/data-in-motion.jpg")} />
+![](/images/blog/vertx-realtime-angular-ngrx/data-in-motion.jpg)
 
 _Image source: https://www.voxxed.com_
 
@@ -82,7 +81,7 @@ In my case, I was mainly interested by the distributed event-bus provided (a cor
 
 </Alert>
 
-<img src={require("../assets/blog/vertx-realtime-angular-ngrx/redux.png")} alt="Redux" />
+![Redux](/images/blog/vertx-realtime-angular-ngrx/redux.png)
 
 _Source: https://www.smashingmagazine.com/2016/06/an-introduction-to-redux/_
 
@@ -132,7 +131,7 @@ class CounterService {
 Initial state is initialized with simple **request/response** (or send/reply) on the event bus.
 Once the client is connected, it sends a request to the event bus at the address **counter::total**. The server replies directly with the value of `CounterService` total and the client dispatches locally a _reset_ action with the total value from the reply.
 
-<img src={require("../assets/blog/vertx-realtime-angular-ngrx/vertx-request-response.png")} alt="Vertx Request Response" />
+![Vertx Request Response](/images/blog/vertx-realtime-angular-ngrx/vertx-request-response.png)
 
 _Source: https://www.slideshare.net/RedHatDevelopers/vertx-microservices-were-never-so-easy-clement-escoffier_
 
@@ -159,7 +158,7 @@ Counter actions are published from the client to the event bus at the address **
 
 Any client that have subscribed to **counter::actions** address will receive the actions and redispatch them locally to impact app states/reducers.
 
-<img src={require("../assets/blog/vertx-realtime-angular-ngrx/vertx-publish-subscribe.png")} alt="Vertx Publish Subscribe" />
+![Vertx Publish Subscribe](/images/blog/vertx-realtime-angular-ngrx/vertx-publish-subscribe.png)
 
 _Source: https://www.slideshare.net/RedHatDevelopers/vertx-microservices-were-never-so-easy-clement-escoffier_
 
@@ -211,7 +210,7 @@ export class AppEventBusEffects {
 
 You can see all of this in action by locally launching the server and the client app in two separate browser windows.
 
-<img src={require("../assets/blog/vertx-realtime-angular-ngrx/demo-app-screen.png")} alt="Demo app screen" />
+![Demo app screen](/images/blog/vertx-realtime-angular-ngrx/demo-app-screen.png)
 
 _Bonus: the demo app also includes user status (offline/online), based of the event bus connection status._
 

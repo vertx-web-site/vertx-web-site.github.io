@@ -1,14 +1,14 @@
-import Alert from "../components/Alert"
-
-export const meta = {
-  title: "Eclipse Vert.x metrics now with Micrometer.io",
-  category: "guides",
-  authors: [{
-    name: "Joel Takvorian",
-    github_id: "jotak"
-  }],
-  summary: "The new vertx-micrometer-metrics module provides support for collecting metrics with Micrometer.io and storing them in backends such as Graphite or InfluxDB."
-}
+---
+title: Eclipse Vert.x metrics now with Micrometer.io
+category: guides
+authors:
+  - name: Joel Takvorian
+    github_id: jotak
+summary: >-
+  The new vertx-micrometer-metrics module provides support for collecting
+  metrics with Micrometer.io and storing them in backends such as Graphite or
+  InfluxDB.
+---
 
 Vert.x has already been providing metrics for some time, through the [vertx-dropwizard-metrics](https://vertx.io/docs/vertx-dropwizard-metrics/java/) and [vertx-hawkular-metrics](https://vertx.io/docs/vertx-hawkular-metrics/java/) modules. Both of them implement a service provider interface (SPI) to collect the Vert.x metrics and make them available to their respective backends.
 
