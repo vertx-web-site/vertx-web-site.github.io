@@ -184,7 +184,7 @@ function trimPost(post, includeDetails = false) {
   return result
 }
 
-function getPostsForPage(allPosts, page, category = undefined) {
+function getTrimmedPostsForPage(allPosts, page, category = undefined) {
   // filter posts by category
   let posts = allPosts
   if (category !== undefined) {
@@ -194,6 +194,7 @@ function getPostsForPage(allPosts, page, category = undefined) {
   // get current page
   let numPages = Math.ceil(posts.length / MAX_ITEMS_PER_PAGE)
   posts = posts.slice(MAX_ITEMS_PER_PAGE * (page - 1), MAX_ITEMS_PER_PAGE * page)
+  posts = posts.map(p => trimPost(p))
 
   return {
     posts,
@@ -216,7 +217,7 @@ export async function getStaticProps({ params }) {
     return {
       props: {
         ...result,
-        ...getPostsForPage(allPosts, 1)
+        ...getTrimmedPostsForPage(allPosts, 1)
       }
     }
   }
@@ -230,7 +231,7 @@ export async function getStaticProps({ params }) {
       props: {
         ...result,
         page,
-        ...getPostsForPage(allPosts, page)
+        ...getTrimmedPostsForPage(allPosts, page)
       }
     }
   }
@@ -251,7 +252,7 @@ export async function getStaticProps({ params }) {
         ...result,
         category,
         page,
-        ...getPostsForPage(allPosts, page, category)
+        ...getTrimmedPostsForPage(allPosts, page, category)
       }
     }
   }
