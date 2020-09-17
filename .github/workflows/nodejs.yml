@@ -20,6 +20,13 @@ jobs:
         with:
           java-version: "11"
 
+      - uses: actions/cache@v2
+        with:
+          path: .cache
+          key: ${{ runner.os }}-build-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-build-
+
       - run: npm ci
       - run: npm run update-docs
       - run: npm run build

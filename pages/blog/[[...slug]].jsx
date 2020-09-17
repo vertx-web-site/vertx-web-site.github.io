@@ -33,6 +33,7 @@ async function compileAllPosts() {
   }
 
   const cacache = require("cacache")
+  const crypto = require("crypto")
   const fs = require("fs").promises
   const readdir = require("recursive-readdir")
   const readingTime = require("reading-time")
@@ -55,11 +56,10 @@ async function compileAllPosts() {
   // read front matter
   let posts = []
   for (let f of files) {
-    let stats = await fs.stat(f)
+    let source = await fs.readFile(f, "utf-8")
     let cacheKey = JSON.stringify({
       filename: f,
-      size: stats.size,
-      mtimeMs: stats.mtimeMs
+      sha: crypto.createHash("sha256").update(source).digest("hex")
     })
 
     let post
@@ -68,7 +68,6 @@ async function compileAllPosts() {
       let cachedDocument = await cacache.get(cachePath, cacheKey)
       post = JSON.parse(cachedDocument.data.toString("utf-8"))
     } else {
-      let source = await fs.readFile(f, "utf-8")
       let { content, data } = matter(source)
 
       let e = f.match(/.\/([0-9]+-[0-9]+-[0-9]+)-(.*)\.mdx/)

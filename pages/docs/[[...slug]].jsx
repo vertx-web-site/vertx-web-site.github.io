@@ -86,6 +86,7 @@ export async function getStaticPaths() {
 
 async function compileAsciiDoc(filename) {
   const cacache = require("cacache")
+  const crypto = require("crypto")
   const fs = require("fs").promises
 
   const cachePath = "./.cache/docs"
@@ -100,13 +101,11 @@ async function compileAsciiDoc(filename) {
     }
   }
 
-  let stats = await fs.stat(filename)
-
+  let source = await fs.readFile(filename, "utf-8")
   let cacheKey = JSON.stringify({
     ...asciidoctorOptions,
     filename,
-    size: stats.size,
-    mtimeMs: stats.mtimeMs
+    sha: crypto.createHash("sha256").update(source).digest("hex")
   })
 
   let info = await cacache.get.info(cachePath, cacheKey)
@@ -127,7 +126,7 @@ async function compileAsciiDoc(filename) {
     }
 
     // render page
-    let doc = asciidoctor.loadFile(filename, asciidoctorOptions)
+    let doc = asciidoctor.load(source, asciidoctorOptions)
     let title = doc.getDocumentTitle()
     let contents = doc.convert()
 
