@@ -1,14 +1,16 @@
 import { disableBodyScroll, enableBodyScroll, clearAllBodyScrollLocks } from "body-scroll-lock"
 import classNames from "classnames"
 import { smoothScrollTo } from "../lib/scroll-utils"
-import { useCallback, useEffect, useRef, useState } from "react"
+import VersionContext from "../contexts/VersionContext"
+import { useCallback, useContext, useEffect, useRef, useState } from "react"
+import Link from "next/link"
 import Router from "next/router"
 import Header from "../Header"
 import Footer from "../Footer"
 import SearchPanel from "../search/SearchPanel"
 import GitHubStars from "../GitHubStars"
 import Label from "../Label"
-import { Code, Edit, List, Paperclip, X } from "react-feather"
+import { Box, Code, Edit, List, Paperclip, X } from "react-feather"
 import "./Docs.scss"
 
 const Docs = ({ metadata, toc, contents }) => {
@@ -19,6 +21,7 @@ const Docs = ({ metadata, toc, contents }) => {
   const sidebarAutoHideTimer = React.useRef(null)
   const [sidebarCollapse, setSidebarCollapse] = useState(false)
   const [hasSearchResults, setHasSearchResults] = useState()
+  const currentVersion = useContext(VersionContext.State)
 
   const enableBodyScrollInternal = () => {
     enableBodyScroll(tocRef.current)
@@ -194,6 +197,11 @@ const Docs = ({ metadata, toc, contents }) => {
               <div className="docs-content-metadata">
                 <div className="docs-content-metadata-left">
                   {repository && <div className="docs-content-metadata-repo">{repository}</div>}
+                  <div>
+                    <Link href={`/docs/${currentVersion.version ? `${currentVersion.version}/` : ""}apidocs`}>
+                      <a><Box className="feather" /> API</a>
+                    </Link>
+                  </div>
                   {examples && <div className="docs-content-metadata-examples">{examples}</div>}
                   {edit && <div className="docs-content-metadata-edit">{edit}</div>}
                 </div>
