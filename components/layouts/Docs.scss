@@ -147,6 +147,10 @@
         flex-wrap: wrap;
         align-items: baseline;
 
+        @media (max-width: $md) {
+          flex-direction: column;
+        }
+
         .docs-content-metadata-left {
           display: flex;
           align-items: center;
@@ -170,6 +174,11 @@
               margin-right: 0.25em;
               height: 1rem;
             }
+          }
+
+          @media (max-width: $md) {
+            flex-wrap: wrap;
+            margin-bottom: $spacer;
           }
         }
 
