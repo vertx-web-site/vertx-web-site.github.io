@@ -25,6 +25,7 @@ const basePath = (() => {
 
 const config = {
   env: {
+    basePath,
     // URL to the website. MUST NOT end with a slash.
     baseUrl: isProd ? `https://vertx-web-site.github.io${basePath}` : `http://localhost:3000${basePath}`
   },

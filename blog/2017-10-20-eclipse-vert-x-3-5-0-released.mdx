@@ -46,12 +46,12 @@ Observable<Buffer> flowable = asyncFile.toObservable();
 What's so different between `Flowable` and `Observable`? the former handles back-pressure, i.e the
 subscriber can control the flow of items and the later can not!!!
 
-You can read the documentation in the section of the <Link href="/docs/[[...slug]]" as="/docs/vertx-rx/java2/" passHref={true}><a>docs</a></Link>
+You can read the documentation in the section of the [docs](/docs/vertx-rx/java2/)
 or go straight to the [examples](https://github.com/vert-x3/vertx-examples/tree/master/rxjava2-examples)
 
 ## Kotlin coroutines
 
-Support for <Link href="/docs/[[...slug]]" as="/docs/vertx-lang-kotlin-coroutines/kotlin/" passHref={true}><a>Kotlin Coroutines</a></Link> is one of my favourite 3.5 features (by the way I'll present a talk about Vert.x
+Support for [Kotlin Coroutines](/docs/vertx-lang-kotlin-coroutines/kotlin/) is one of my favourite 3.5 features (by the way I'll present a talk about Vert.x
 and coroutines at [KotlinConf](https://www.kotlinconf.com/sessions/)).
 
 Coroutines allows you to reason about asynchronous flow the same way you do with traditional sequential flow with
@@ -84,8 +84,8 @@ I've used `try`/`finally` purposely instead of Kotlin's `use` extension method
 
 ## MQTT Client
 
-In Vert.x 3.4 we added the <Link href="/docs/[[...slug]]" as="/docs/vertx-mqtt/java/#_vert_x_mqtt_server" passHref={true}><a>MQTT server</a></Link>, 3.5 completes the
-MQTT story with the <Link href="/docs/[[...slug]]" as="/docs/vertx-mqtt/java/#_vert_x_mqtt_client" passHref={true}><a>MQTT client</a></Link>:
+In Vert.x 3.4 we added the [MQTT server](/docs/vertx-mqtt/java/#_vert_x_mqtt_server), 3.5 completes the
+MQTT story with the [MQTT client](/docs/vertx-mqtt/java/#_vert_x_mqtt_client):
 
 ```java
 MqttClient mqttClient = MqttClient.create(vertx,
@@ -113,7 +113,7 @@ You can find MQTT client and server examples [here](https://github.com/vert-x3/v
 
 ## Web API contracts
 
-With the new <Link href="/docs/[[...slug]]" as="/docs/vertx-web-api-contract/java/" passHref={true}><a>OpenAPI</a></Link> router factory we can focus on the API implementation and not on the validation
+With the new [OpenAPI](/docs/vertx-web-api-contract/java/) router factory we can focus on the API implementation and not on the validation
 of the input. The usage is quite simple:
 
 ```java
@@ -148,7 +148,7 @@ You can also use Vert.x jars as anonymous modules.
 
 ## Event driven JSON Parsing
 
-We provide now an event driven <Link href="/docs/[[...slug]]" as="/docs/apidocs/io/vertx/core/parsetools/JsonParser.html" passHref={true}><a>JSON Parser</a></Link> emitting parse events that is very handy when you need to handle very large
+We provide now an event driven [JSON Parser](/docs/apidocs/io/vertx/core/parsetools/JsonParser.html) emitting parse events that is very handy when you need to handle very large
 JSON structures and you don't want to buffer it which introduce extra latency and increase the memory consumption.
 
 The parser allows you to switch between fine grained JSON parse events or full structures, for instance
@@ -193,14 +193,14 @@ Under the hood, the client takes care of the pool acquire/release interaction fo
 
 ## Native transport and domain sockets
 
-We now support <Link href="/docs/[[...slug]]" as="/docs/vertx-core/java/#_native_transports" passHref={true}><a>native transports</a></Link> on Linux (Epoll) and MacOS (KQueue), as well as <Link href="/docs/[[...slug]]" as="/docs/vertx-core/java/#_domain_sockets" passHref={true}><a>UNIX domain sockets</a></Link> for
+We now support [native transports](/docs/vertx-core/java/#_native_transports) on Linux (Epoll) and MacOS (KQueue), as well as [UNIX domain sockets](/docs/vertx-core/java/#_domain_sockets) for
 `NetServer/NetClient` (`HttpServer`/`HttpClient` should support UNIX domain sockets soon).
 
 ## Auth handler chaining
 
 There are times when you want to support multiple authN/authZ mechanisms in a single application.
 
-Vert.x Web supports auth handlers <Link href="/docs/[[...slug]]" as="/docs/vertx-web/java/#_chaining_multiple_auth_handlers" passHref={true}><a>chaining</a></Link>
+Vert.x Web supports auth handlers [chaining](/docs/vertx-web/java/#_chaining_multiple_auth_handlers)
 
 ## Vert.x config improvements
 
@@ -209,10 +209,10 @@ http, zookeeper...
 
 In this version, we have added the support for Consul and Vault.
 
-With the <Link href="/docs/[[...slug]]" as="/docs/vertx-config/java/#_consul_configuration_store" passHref={true}><a>Consul config store</a></Link>, you can retrieve your configuration from a Consul server - so in other words, distribute
+With the [Consul config store](/docs/vertx-config/java/#_consul_configuration_store), you can retrieve your configuration from a Consul server - so in other words, distribute
 the configuration from your orchestration infrastructure.
 
-The <Link href="/docs/[[...slug]]" as="/docs/vertx-config/java/#_vault_config_store" passHref={true}><a>Vault config store</a></Link> lets you retrieve secrets avoiding hard coding secrets or distributing credentials using an
+The [Vault config store](/docs/vertx-config/java/#_vault_config_store) lets you retrieve secrets avoiding hard coding secrets or distributing credentials using an
 insecure way. Vault enforces the security of your secrets and only allowed applications can retrieve them. In other
 words, now you can keep your secrets secret.
 

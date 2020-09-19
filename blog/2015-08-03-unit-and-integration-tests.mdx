@@ -9,7 +9,7 @@ summary: >-
   vert.x series. We forgot an important task. We didn’t test the API.
 ---
 
-Let's refresh our mind about what we developed so far in the _introduction to vert.x_ series. In <Link href="/blog/[[...slug]]" as="/blog/my-first-vert-x-3-application/" passHref={true}><a>the first post</a></Link>, we developed a very simple Vert.x 3 application, and saw how this application can be tested, packaged and executed. In <Link href="/blog/[[...slug]]" as="/blog/vert-x-application-configuration/" passHref={true}><a>the second post</a></Link>, we saw how this application became configurable and how we can use a random port in test, and use another configurable port in production. Finally, the <Link href="/blog/[[...slug]]" as="/blog/some-rest-with-vert-x/" passHref={true}><a>previous post</a></Link> has shown how to use vertx-web and how to implement a small REST API. However, we forgot an important task. We didn't test the API. In this post we will increase the confidence we have on this application by implementing unit and integration tests.
+Let's refresh our mind about what we developed so far in the _introduction to vert.x_ series. In [the first post](/blog/my-first-vert-x-3-application/), we developed a very simple Vert.x 3 application, and saw how this application can be tested, packaged and executed. In [the second post](/blog/vert-x-application-configuration/), we saw how this application became configurable and how we can use a random port in test, and use another configurable port in production. Finally, the [previous post](/blog/some-rest-with-vert-x/) has shown how to use vertx-web and how to implement a small REST API. However, we forgot an important task. We didn't test the API. In this post we will increase the confidence we have on this application by implementing unit and integration tests.
 
 The code of this post is available in the [post-4 branch](https://github.com/cescoffier/my-vertx-first-app/tree/post-4) of the [project](https://github.com/cescoffier/my-vertx-first-app). The starting post, however is the code available in the [post-3 branch](https://github.com/cescoffier/my-vertx-first-app/tree/post-3).
 
@@ -21,7 +21,7 @@ In this post we are going to start with some more unit tests as a warm up sessio
 
 ## Warmup: Some more unit tests
 
-Let's start slowly. Remember in the first post we have implemented a unit test with <Link href="/docs/[[...slug]]" as="/docs/vertx-unit/java/" passHref={true}><a>vertx-unit</a></Link>. The test we did is dead simple:
+Let's start slowly. Remember in the first post we have implemented a unit test with [vertx-unit](/docs/vertx-unit/java/). The test we did is dead simple:
 
 1. we started the application before the test
 2. we checks that it replies "Hello"
@@ -510,6 +510,6 @@ mvn clean verify
 
 Wow, what a trip ! We are done... In this post we have seen how we can gain confidence in Vert.x applications by implementing both unit and integration tests. Unit tests, thanks to vert.x unit, are able to check the asynchronous aspect of Vert.x application, but could be complex for large scenarios. Thanks to Rest Assured and AssertJ, integration tests are dead simple to write... but the setup is not straightforward. This post have shown how it can be configured easily. Obviously, you could also use AssertJ and Rest Assured in your unit tests.
 
-In the <Link href="/blog/[[...slug]]" as="/blog/using-the-asynchronous-sql-client/" passHref={true}><a>next post</a></Link>, we replace the _in memory_ backend with a database, and use asynchronous integration with this database.
+In the [next post](/blog/using-the-asynchronous-sql-client/), we replace the _in memory_ backend with a database, and use asynchronous integration with this database.
 
 Stay Tuned & Happy Coding !

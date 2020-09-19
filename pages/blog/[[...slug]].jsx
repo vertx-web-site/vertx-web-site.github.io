@@ -38,6 +38,7 @@ async function compileAllPosts() {
   const readdir = require("recursive-readdir")
   const readingTime = require("reading-time")
   const mdxOptions = require("../../components/lib/mdx-options")
+  const AutoBasePath = require("../../components/lib/remark-auto-basepath")
   const TermFrequency = require("../../components/lib/remark-term-frequency")
 
   const cachePath = "./.cache/blog"
@@ -59,6 +60,7 @@ async function compileAllPosts() {
     let source = await fs.readFile(f, "utf-8")
     let cacheKey = JSON.stringify({
       filename: f,
+      basePath: process.env.basePath,
       sha: crypto.createHash("sha256").update(source).digest("hex")
     })
 
@@ -82,6 +84,7 @@ async function compileAllPosts() {
       }
 
       // render post
+      let autoBasePath = new AutoBasePath(process.env.basePath)
       let tf = new TermFrequency()
       post.content = await renderToString(content, {
         components: COMPONENTS,
@@ -89,6 +92,7 @@ async function compileAllPosts() {
           ...mdxOptions,
           remarkPlugins: [
             tf.apply(),
+            autoBasePath.apply(),
             ...mdxOptions.remarkPlugins
           ]
         }
