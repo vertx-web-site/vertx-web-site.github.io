@@ -74,6 +74,18 @@ const config = {
       })
     )
 
+    if (!dev) {
+      // run 'next-mdx-remote' through babel to make it compatible to older browsers
+      let babelLoader = config.module.rules.find(r => r.use.loader === "next-babel-loader")
+      let oldBabelExclude = babelLoader.exclude
+      babelLoader.exclude = function(excludePath) {
+        if (excludePath.indexOf("next-mdx-remote") !== -1) {
+          return false
+        }
+        return oldBabelExclude(excludePath)
+      }
+    }
+
     return config
   }
 }
