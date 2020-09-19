@@ -23,11 +23,11 @@ const Section = ({ icon, children, id, name }) => {
   )
 }
 
-const SectionPart = ({ title, label, as, children }) => {
+const SectionPart = ({ title, label, href, children }) => {
   return (
     <div className="docs-index-section-part">
       <h3>
-        <Link href="/docs/[[...slug]]" as={as}>
+        <Link href={href}>
           <a>{title}</a>
         </Link>
         {label && <div className="docs-index-section-part-label">
@@ -37,7 +37,7 @@ const SectionPart = ({ title, label, as, children }) => {
 
       <p className="docs-index-section-content-summary">{children}</p>
 
-      <ReadMoreLink href="/docs/[[...slug]]" as={as}>
+      <ReadMoreLink href={href}>
         <a>Read</a>
       </ReadMoreLink>
     </div>
@@ -80,7 +80,7 @@ const Docs = ({ metadata, version }) => {
             <Section key={category.id} icon={category.icon} id={category.id} name={category.name}>
               {metadata.metadata.entries.filter(e => e.category === category.id).map(entry => (
                 <SectionPart key={entry.id} title={entry.name} label={entry.label}
-                    as={`/docs${versionPath}${entry.href}`}>
+                    href={`/docs${versionPath}${entry.href}`}>
                   {entry.description}
                 </SectionPart>
               ))}
