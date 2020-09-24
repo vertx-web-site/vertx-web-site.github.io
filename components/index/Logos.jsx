@@ -80,6 +80,10 @@ const LOGOS = [{
   name: "Zalando Tech",
   src: "zalando.svg",
   url: "https://tech.zalando.com/"
+}, {
+  name: "ForgeRock",
+  src: "forgerock.svg",
+  url: "https://www.forgerock.com/"
 }].map(logo => Object.assign({ logo: require(`../../assets/logos/${logo.src}`) }, logo))
 
 // Each logo should have a dummy height so the browser correctly calculates
