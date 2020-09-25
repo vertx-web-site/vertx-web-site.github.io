@@ -13,6 +13,7 @@ const metadata = metadataModules.keys().map(m => {
 }).sort((a, b) => a.version.localeCompare(b.version))
 
 const extractedDocsPath = "docs/extracted"
+const hashesPath = "docs/hashes"
 
 let asciidoctor
 let cache = {}
@@ -84,10 +85,10 @@ export async function getStaticPaths() {
   }
 }
 
-async function compileAsciiDoc(filename) {
+async function compileAsciiDoc(filename, version) {
   const cacache = require("cacache")
-  const crypto = require("crypto")
   const fs = require("fs").promises
+  const path = require("path")
 
   const cachePath = "./.cache/docs"
 
@@ -101,11 +102,24 @@ async function compileAsciiDoc(filename) {
     }
   }
 
-  let source = await fs.readFile(filename, "utf-8")
+  // load checksum for this version
+  let shaFile = path.join(hashesPath, `${version || "latest"}.sha`)
+  let sha
+  try {
+    sha = await fs.readFile(shaFile, "utf-8")
+  } catch (e) {
+    console.error(
+      "\n\n**********************************************************\n" +
+          "ERROR: Could not read documentation checksum file.\n" +
+          "Please run `npm run update-docs'\n" +
+          "**********************************************************\n")
+    throw e
+  }
+
   let cacheKey = JSON.stringify({
     ...asciidoctorOptions,
     filename,
-    sha: crypto.createHash("sha256").update(source).digest("hex")
+    sha
   })
 
   let info = await cacache.get.info(cachePath, cacheKey)
@@ -125,8 +139,8 @@ async function compileAsciiDoc(filename) {
       highlightJsExt.register(asciidoctor.Extensions)
     }
 
-    // render page
-    let doc = asciidoctor.load(source, asciidoctorOptions)
+    // render page (use loadFile so `include` directives work correctly)
+    let doc = asciidoctor.loadFile(filename, asciidoctorOptions)
     let title = doc.getDocumentTitle()
     let contents = doc.convert()
 
@@ -172,7 +186,8 @@ export async function getStaticProps({ params }) {
     return cache[slug]
   }
 
-  let { title, contents } = await compileAsciiDoc(path.join(extractedDocsPath, slug, "index.adoc"))
+  let { title, contents } = await compileAsciiDoc(
+      path.join(extractedDocsPath, slug, "index.adoc"), version)
 
   // parse generated HTML and extract table of contents
   let documentFragment = parse5.parseFragment(contents, { sourceCodeLocationInfo: true })

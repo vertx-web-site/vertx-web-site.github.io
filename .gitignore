@@ -3,6 +3,7 @@
 .idea/
 .next/
 docs/extracted/
+docs/hashes/
 node_modules/
 out/
 

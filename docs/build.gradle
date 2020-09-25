@@ -1,3 +1,11 @@
+import org.apache.commons.codec.digest.DigestUtils
+
+buildscript {
+  dependencies {
+    classpath "commons-codec:commons-codec:1.15"
+  }
+}
+
 plugins {
   id 'java'
 }
@@ -8,7 +16,10 @@ ext {
     "3.9.1",
     "3.9.0",
     "3.8.5",
-    "3.8.4"
+    "3.8.4",
+
+    // latest version
+    "4.0.0.Beta1"
   ]
 }
 
@@ -23,7 +34,7 @@ repositories {
 }
 
 dependencies {
-  implementation('io.vertx:vertx-stack-docs:4.0.0.Beta1:docs@zip') {
+  implementation("io.vertx:vertx-stack-docs:${versions.last()}:docs@zip") {
     transitive = false
     changing = true
   }
@@ -40,19 +51,27 @@ versions.each {
   }
 }
 
+def writeHash(sourceFile, version) {
+  def outDir = new File(projectDir, "hashes")
+  outDir.mkdirs()
+  def outFile = new File(outDir, "${version}.sha")
+  outFile.text = new DigestUtils("sha-256").digestAsHex(sourceFile)
+}
+
 task extractDocsLatest(type: Sync) {
   dependsOn configurations.runtimeClasspath
   from {
     configurations.runtimeClasspath.collect { zipTree(it) }
   }
   into "$projectDir/extracted"
+  configurations.runtimeClasspath.each { writeHash(it, "latest") }
 }
 
 task extractDocs {
   dependsOn extractDocsLatest
 }
 
-versions.each { version ->
+versions.take(versions.size() - 1).each { version ->
   def conf = configurations[versionToConfiguration(version)]
   def t = tasks.create(name: "extractDocs_${version.replace('.', '_')}", type: Sync) {
     dependsOn conf
@@ -60,6 +79,7 @@ versions.each { version ->
       conf.collect { zipTree(it) }
     }
     into "$projectDir/extracted/$version"
+    conf.each { writeHash(it, version) }
   }
   extractDocs.dependsOn t
 }
