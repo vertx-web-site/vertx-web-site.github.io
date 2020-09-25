@@ -19,7 +19,7 @@ ext {
     "3.8.4",
 
     // latest version
-    "4.0.0.Beta1"
+    "4.0.0.Beta3"
   ]
 }
 
