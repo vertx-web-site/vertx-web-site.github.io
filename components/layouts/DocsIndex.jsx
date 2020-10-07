@@ -59,6 +59,11 @@ const Docs = ({ metadata, version }) => {
             <div className="docs-index-aside-content">
               <div className="docs-index-toc">
                 <ul>
+                  <li>
+                    <Link href={ `/docs/${version ? `${version}/` : "" }apidocs` }>
+                      <a>API Docs</a>
+                    </Link>
+                  </li>
                   {metadata.metadata.categories.map(c => (
                     <li key={c.id}>
                       <ScrollLink href={`#${c.id}`}>{c.name}</ScrollLink>
