@@ -59,11 +59,6 @@ const Docs = ({ metadata, version }) => {
             <div className="docs-index-aside-content">
               <div className="docs-index-toc">
                 <ul>
-                  <li>
-                    <Link href={ `/docs/${version ? `${version}/` : "" }apidocs` }>
-                      <a>API Docs</a>
-                    </Link>
-                  </li>
                   {metadata.metadata.categories.map(c => (
                     <li key={c.id}>
                       <ScrollLink href={`#${c.id}`}>{c.name}</ScrollLink>
@@ -80,6 +75,15 @@ const Docs = ({ metadata, version }) => {
             <span className="docs-index-content-heading">Documentation</span>
             {version && <span className="docs-index-content-version">v{version}</span>}
           </h2>
+
+          <section className="docs-index-section" id="api-docs">
+            <div className="docs-index-section-header">
+              <h3>API Docs</h3>
+              <Link href={`/docs/${version ? `${version}/` : ""}apidocs`}>
+                <a>Vert.x Stack - Docs {version ? `${version}` : ""} API</a>
+              </Link>
+            </div>
+          </section>
 
           {metadata.metadata.categories.map(category => (
             <Section key={category.id} icon={category.icon} id={category.id} name={category.name}>
