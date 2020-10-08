@@ -184,6 +184,9 @@ insert(docs, "vertx-dropwizard-metrics",
   }
 )
 
+// remove labels
+delete find(docs, "vertx-web-graphql").label
+
 // update examples
 for (let entry of docs.entries) {
   if (entry.examples !== undefined) {
