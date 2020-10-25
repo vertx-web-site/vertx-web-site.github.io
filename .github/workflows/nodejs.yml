@@ -78,7 +78,7 @@ jobs:
         if: ${{ github.ref == 'refs/heads/master' }}
 
       - name: Copy build to output directory
-        run: mv -r out/* vertx-web-site.github.io
+        run: mv out/* vertx-web-site.github.io
         if: ${{ github.ref == 'refs/heads/master' }}
 
       - name: Deploy to GitHub Pages
