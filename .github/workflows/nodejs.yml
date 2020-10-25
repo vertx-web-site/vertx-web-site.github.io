@@ -69,10 +69,10 @@ jobs:
           mv out/* vertx-web-site.github.io/${{ steps.basePath.outputs.basePath }}
         if: ${{ github.ref != 'refs/heads/master' }}
 
-      - name: Clean output directory (except preview directories)
+      - name: Clean output directory (except preview directory)
         run: |
           mkdir -p vertx-web-site.github.io.tmp
-          mv vertx-web-site.github.io/_previews vertx-web-site.github.io.tmp/_previews || true
+          mv vertx-web-site.github.io/_preview vertx-web-site.github.io.tmp/_preview || true
           rm -rf vertx-web-site.github.io
           mv vertx-web-site.github.io.tmp vertx-web-site.github.io
         if: ${{ github.ref == 'refs/heads/master' }}
