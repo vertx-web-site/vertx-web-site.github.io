@@ -15,7 +15,7 @@ const Book = () => (
         <div className="book-main">
           <div className="book-left">
             <a href={URL} target="_blank" rel="noopener noreferrer">
-              <img src={require("../../assets/MEAP-cover.jpg")} width="200" />
+              <img src={require("../../assets/book-cover.png")} width="200" />
             </a>
           </div>
           <div className="book-right">
