@@ -1,5 +1,7 @@
 import { disableBodyScroll, enableBodyScroll, clearAllBodyScrollLocks } from "body-scroll-lock"
 import classNames from "classnames"
+import DropDown from "../DropDown"
+import DropDownItem from "../DropDownItem"
 import { smoothScrollTo } from "../lib/scroll-utils"
 import VersionContext from "../contexts/VersionContext"
 import { useCallback, useContext, useEffect, useRef, useState } from "react"
@@ -12,6 +14,10 @@ import GitHubStars from "../GitHubStars"
 import Label from "../Label"
 import { Box, Code, Edit, List, Paperclip, X } from "react-feather"
 import "./Docs.scss"
+
+// load docs metadata to get available versions
+const docsVersions = require.context("../../docs/metadata", false, /\.jsx$/)
+  .keys().map(m => m.substring(2, m.length - 4)).sort().reverse()
 
 const Docs = ({ metadata, toc, contents }) => {
   const tocRef = useRef()
@@ -204,6 +210,20 @@ const Docs = ({ metadata, toc, contents }) => {
                   </div>
                   {examples && <div className="docs-content-metadata-examples">{examples}</div>}
                   {edit && <div className="docs-content-metadata-edit">{edit}</div>}
+                  <span className="docs-content-metadata-version">
+                    <DropDown title={`v${currentVersion.version || docsVersions[0]}`}>
+                      <DropDownItem active={currentVersion.version === undefined ||
+                            currentVersion.version === docsVersions[0]} href={`/docs${metadata.href}`}>
+                        Latest (v{docsVersions[0]})
+                      </DropDownItem>
+                      {docsVersions.slice(1).map(v => (
+                        <DropDownItem key={v} active={currentVersion.version === v}
+                            href={`/docs/${v}${metadata.href}`}>
+                          v{v}
+                        </DropDownItem>
+                      ))}
+                    </DropDown>
+                  </span>
                 </div>
                 {metadata.label && <div className="docs-content-metadata-label">
                   <Label small nowrap>{metadata.label}</Label>

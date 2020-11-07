@@ -5,14 +5,14 @@
   display: inline-block;
 
   .dropdown-title {
-    margin-right: $spacer;
+    margin-right: 0;
     cursor: pointer;
     user-select: none;
   }
 
   .dropdown-menu {
     position: absolute;
-    right: $spacer;
+    right: 0;
     background-color: $gray-100;
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.1);
     list-style-type: none;
@@ -29,5 +29,9 @@
     a:hover {
       color: inherit;
     }
+  }
+
+  svg {
+    margin-bottom: 2px;
   }
 }

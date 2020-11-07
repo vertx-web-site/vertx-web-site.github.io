@@ -1,9 +1,15 @@
+import DropDown from "../DropDown"
+import DropDownItem from "../DropDownItem"
 import Layout from "./Page"
 import ReadMoreLink from "../ReadMoreLink"
 import ScrollLink from "../ScrollLink"
 import Label from "../Label"
 import Link from "next/link"
 import "./DocsIndex.scss"
+
+// load docs metadata to get available versions
+const docsVersions = require.context("../../docs/metadata", false, /\.jsx$/)
+  .keys().map(m => m.substring(2, m.length - 4)).sort().reverse()
 
 const Section = ({ icon, children, id, name }) => {
   let numChildren = 1
@@ -73,7 +79,20 @@ const Docs = ({ metadata, version }) => {
         <div className="docs-index-content">
           <h2>
             <span className="docs-index-content-heading">Documentation</span>
-            {version && <span className="docs-index-content-version">v{version}</span>}
+            <span className="docs-index-content-version">
+              <DropDown title={`v${version || docsVersions[0]}`}>
+                <DropDownItem active={version === undefined ||
+                      version === docsVersions[0]} href="/docs/">
+                  Latest (v{docsVersions[0]})
+                </DropDownItem>
+                {docsVersions.slice(1).map(v => (
+                  <DropDownItem key={v} active={version === v}
+                      href={`/docs/${v}/`}>
+                    v{v}
+                  </DropDownItem>
+                ))}
+              </DropDown>
+            </span>
           </h2>
 
           {metadata.metadata.categories.map(category => (

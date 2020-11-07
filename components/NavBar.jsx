@@ -1,7 +1,5 @@
 import NavBarContext from "./contexts/NavBarContext"
 import VersionContext from "./contexts/VersionContext"
-import DropDown from "./DropDown"
-import DropDownItem from "./DropDownItem"
 import classNames from "classnames"
 import Link from "next/link"
 import "./NavBar.scss"
@@ -9,10 +7,6 @@ import { useContext, useEffect, useRef, useState } from "react"
 import throttle from "lodash/throttle"
 
 import { Awesomelists, Gitter, Stackoverflow, Youtube } from "@icons-pack/react-simple-icons"
-
-// load docs metadata to get available versions
-const docsVersions = require.context("../docs/metadata", false, /\.jsx$/)
-  .keys().map(m => m.substring(2, m.length - 4)).sort().reverse()
 
 const NavBar = () => {
   const refNavBar = useRef()
@@ -95,19 +89,6 @@ const NavBar = () => {
           </div>
 
           <div className="navbar-social">
-            <DropDown title={`v${currentVersion.version || docsVersions[0]}`}>
-              <DropDownItem active={currentVersion.version === undefined ||
-                    currentVersion.version === docsVersions[0]} href="/docs/">
-                Latest (v{docsVersions[0]})
-              </DropDownItem>
-              {docsVersions.slice(1).map(v => (
-                <DropDownItem key={v} active={currentVersion.version === v}
-                    href={`/docs/${v}/`}>
-                  v{v}
-                </DropDownItem>
-              ))}
-            </DropDown>
-
             <a href="https://github.com/vert-x3/vertx-awesome" className="navbar-social-link" title="Awesome Vert.x" target="_blank" rel="noopener noreferrer">
               <Awesomelists aria-label="List of awesome Vert.x projects" title="Awesome Vert.x" />
             </a>
