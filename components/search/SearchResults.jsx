@@ -1,8 +1,8 @@
 import classNames from "classnames"
-import { useEffect } from "react"
+import { forwardRef, useEffect } from "react"
 import "./SearchResults.scss"
 
-const SearchResults = React.forwardRef(({ results, activeId, onHover, onClick }, ref) => {
+const SearchResults = forwardRef(({ results, activeId, onHover, onClick }, ref) => {
   let resultsList = []
   if (results) {
     results.forEach(r => {

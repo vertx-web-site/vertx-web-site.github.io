@@ -10,7 +10,7 @@ export const meta = {
 
 <h2>Frequently asked questions</h2>
 
-<Question question={<>The <code>logActivity</code> option is enabled, but nothing is logged</>}>
+<Question question={<React.Fragment>The <code>logActivity</code> option is enabled, but nothing is logged</React.Fragment>}>
 
 Most Vert.x network clients or servers have a `logActivity` option which enables network activity logging.
 When active, Netty's pipeline is configured for logging on Netty's logger, at `DEBUG` level

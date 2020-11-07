@@ -1,7 +1,8 @@
+import { cloneElement } from "react"
 import "./FeaturesItem.scss"
 
 const FeaturesItem = ({ icon, title, children }) => {
-  let newIcon = React.cloneElement(icon, {
+  let newIcon = cloneElement(icon, {
     size: 46
   })
 

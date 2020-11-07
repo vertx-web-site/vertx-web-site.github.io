@@ -18,7 +18,7 @@ const Docs = ({ metadata, toc, contents }) => {
   const searchResultsRef = useRef()
   const contentRef = useRef()
   const sidebarRef = useRef()
-  const sidebarAutoHideTimer = React.useRef(null)
+  const sidebarAutoHideTimer = useRef(null)
   const [sidebarCollapse, setSidebarCollapse] = useState(false)
   const [hasSearchResults, setHasSearchResults] = useState()
   const currentVersion = useContext(VersionContext.State)

@@ -1,4 +1,4 @@
-import { useRef, useState } from "react"
+import { forwardRef, useRef, useState } from "react"
 import Router from "next/router"
 import SearchBox from "./SearchBox"
 import SearchResults from "./SearchResults"
@@ -154,7 +154,7 @@ function normalizePositions(positions) {
   return sortPositions(coalescePositions(result))
 }
 
-const SearchPanel = React.forwardRef(({ contentRef, onHasResults }, ref) => {
+const SearchPanel = forwardRef(({ contentRef, onHasResults }, ref) => {
   const metadata = useRef()
   const index = useRef()
   const [searchResults, setSearchResults] = useState()
