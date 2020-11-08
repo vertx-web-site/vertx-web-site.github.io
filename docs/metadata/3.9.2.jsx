@@ -19,5 +19,3 @@ insert(docs, "vertx-mongo-client",
 )
 
 export default docs
-
-
