@@ -53,28 +53,76 @@
   h2 {
     margin-bottom: 0;
     display: flex;
-    justify-content: space-between;
+    flex-wrap: wrap;
     align-items: baseline;
 
     .docs-index-content-heading {
-      visibility: hidden;
+      display: none;
+      flex: 1;
 
       @media (max-width: $md) {
-        visibility: visible;
+        display: inline-block;
+        margin-right: $spacer * 2;
+      }
+    }
+
+    .docs-index-content-heading-right {
+      font-size: $font-size-base;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      min-height: 3.4rem;
+      padding-top: 0.875rem;
+      flex: 1;
+
+      @media (max-width: $md) {
+        justify-content: flex-end;
+      }
+
+      @media (max-width: $sm) {
+        justify-content: flex-start;
+      }
+
+      & > * {
+        margin-right: $spacer * 2;
+        white-space: nowrap;
+      }
+
+      & > *:last-child {
+        margin-right: 0;
+      }
+
+      a {
+        text-decoration: none;
+        color: $gray-600;
+
+        .feather {
+          margin: 0 0.25em 0.25em 0;
+          height: 1rem;
+        }
+      }
+
+      a:hover {
+        text-decoration: underline;
+        color: $primary;
       }
     }
 
     .docs-index-content-version {
       font-size: $font-size-base * 1.25;
 
-      .dropdown a {
-        text-decoration: none;
+      a {
         color: $gray-700;
       }
 
       .dropdown-menu {
         font-size: $font-size-base;
         font-weight: 300;
+
+        a:hover {
+          color: $gray-700;
+          text-decoration: none;
+        }
       }
     }
   }

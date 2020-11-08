@@ -12,7 +12,7 @@ import Footer from "../Footer"
 import SearchPanel from "../search/SearchPanel"
 import GitHubStars from "../GitHubStars"
 import Label from "../Label"
-import { Box, Code, Edit, List, Paperclip, X } from "react-feather"
+import { Book, Code, Edit, List, Paperclip, X } from "react-feather"
 import "./Docs.scss"
 
 // load docs metadata to get available versions
@@ -205,7 +205,7 @@ const Docs = ({ metadata, toc, contents }) => {
                   {repository && <div className="docs-content-metadata-repo">{repository}</div>}
                   <div>
                     <Link href={`/docs/${currentVersion.version ? `${currentVersion.version}/` : ""}apidocs`}>
-                      <a><Box className="feather" /> API</a>
+                      <a><Book className="feather" /> API</a>
                     </Link>
                   </div>
                   {examples && <div className="docs-content-metadata-examples">{examples}</div>}
