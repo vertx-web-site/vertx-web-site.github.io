@@ -95,6 +95,15 @@ const Docs = ({ metadata, version }) => {
             </span>
           </h2>
 
+          <section className="docs-index-section" id="api-docs">
+            <div className="docs-index-section-header">
+              <h3>API Docs</h3>
+              <Link href={`/docs/${version ? `${version}/` : ""}apidocs`}>
+                <a>Vert.x Stack - Docs {version ? `${version}` : ""} API</a>
+              </Link>
+            </div>
+          </section>
+
           {metadata.metadata.categories.map(category => (
             <Section key={category.id} icon={category.icon} id={category.id} name={category.name}>
               {metadata.metadata.entries.filter(e => e.category === category.id).map(entry => (
