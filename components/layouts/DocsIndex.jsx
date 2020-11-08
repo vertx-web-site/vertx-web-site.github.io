@@ -5,6 +5,7 @@ import ReadMoreLink from "../ReadMoreLink"
 import ScrollLink from "../ScrollLink"
 import Label from "../Label"
 import Link from "next/link"
+import { Book } from "react-feather"
 import "./DocsIndex.scss"
 
 // load docs metadata to get available versions
@@ -79,20 +80,29 @@ const Docs = ({ metadata, version }) => {
         <div className="docs-index-content">
           <h2>
             <span className="docs-index-content-heading">Documentation</span>
-            <span className="docs-index-content-version">
-              <DropDown title={`v${version || docsVersions[0]}`}>
-                <DropDownItem active={version === undefined ||
-                      version === docsVersions[0]} href="/docs/">
-                  Latest (v{docsVersions[0]})
-                </DropDownItem>
-                {docsVersions.slice(1).map(v => (
-                  <DropDownItem key={v} active={version === v}
-                      href={`/docs/${v}/`}>
-                    v{v}
+
+            <div className="docs-index-content-heading-right">
+              <span className="docs-index-api">
+                <Link href={`/docs/${version ? `${version}/` : ""}apidocs`}>
+                  <a><Book className="feather" />API</a>
+                </Link>
+              </span>
+
+              <span className="docs-index-content-version">
+                <DropDown title={`v${version || docsVersions[0]}`}>
+                  <DropDownItem active={version === undefined ||
+                        version === docsVersions[0]} href="/docs/">
+                    Latest (v{docsVersions[0]})
                   </DropDownItem>
-                ))}
-              </DropDown>
-            </span>
+                  {docsVersions.slice(1).map(v => (
+                    <DropDownItem key={v} active={version === v}
+                        href={`/docs/${v}/`}>
+                      v{v}
+                    </DropDownItem>
+                  ))}
+                </DropDown>
+              </span>
+            </div>
           </h2>
 
           {metadata.metadata.categories.map(category => (
