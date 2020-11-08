@@ -94,7 +94,8 @@ docs.entries.push({
   category: "standards",
   href: "/vertx-json-schema/java/",
   repository: "https://github.com/eclipse-vertx/vertx-json-schema",
-  edit: "https://github.com/eclipse-vertx/vertx-json-schema/tree/master/src/main/asciidoc"
+  edit: "https://github.com/eclipse-vertx/vertx-json-schema/tree/master/src/main/asciidoc",
+  label: "Technical Preview"
 })
 
 insert(docs, "vertx-auth-mongo",
@@ -105,8 +106,7 @@ insert(docs, "vertx-auth-mongo",
     category: "authentication-and-authorization",
     href: "/vertx-auth-webauthn/java/",
     repository: "https://github.com/vert-x3/vertx-auth/tree/master/vertx-auth-webauthn",
-    edit: "https://github.com/vert-x3/vertx-auth/tree/master/vertx-auth-webauthn/src/main/asciidoc",
-    label: "Technical Preview"
+    edit: "https://github.com/vert-x3/vertx-auth/tree/master/vertx-auth-webauthn/src/main/asciidoc"
   },
   {
     id: "vertx-auth-sql-client",
@@ -185,6 +185,9 @@ insert(docs, "vertx-dropwizard-metrics",
 )
 
 // remove labels
+delete find(docs, "vertx-amqp-client").label
+delete find(docs, "vertx-pg-client").label
+delete find(docs, "vertx-mysql-client").label
 delete find(docs, "vertx-web-graphql").label
 
 // update examples
