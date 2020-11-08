@@ -186,6 +186,7 @@ insert(docs, "vertx-dropwizard-metrics",
 
 // remove labels
 delete find(docs, "vertx-amqp-client").label
+delete find(docs, "vertx-db2-client").label
 delete find(docs, "vertx-pg-client").label
 delete find(docs, "vertx-mysql-client").label
 delete find(docs, "vertx-web-graphql").label
