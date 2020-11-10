@@ -1,16 +1,9 @@
 import Docs from "../../components/layouts/Docs"
 import DocsIndex from "../../components/layouts/DocsIndex"
 import VersionContext from "../../components/contexts/VersionContext"
+import { metadata } from "../../docs/metadata/all"
 import parse5 from "parse5"
 import { useContext, useEffect } from "react"
-
-// read docs metadata containing information about documentation categories
-// and entries of all Vert.x versions
-const metadataModules = require.context("../../docs/metadata", false, /\.jsx$/)
-const metadata = metadataModules.keys().map(m => {
-  let version = m.substring(2, m.length - 4)
-  return { version, metadata: metadataModules(m).default }
-}).sort((a, b) => a.version.localeCompare(b.version))
 
 const extractedDocsPath = "docs/extracted"
 const hashesPath = "docs/hashes"
