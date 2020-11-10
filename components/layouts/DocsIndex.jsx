@@ -4,13 +4,10 @@ import Layout from "./Page"
 import ReadMoreLink from "../ReadMoreLink"
 import ScrollLink from "../ScrollLink"
 import Label from "../Label"
+import { versions as docsVersions } from "../../docs/metadata/all"
 import Link from "next/link"
 import { Book } from "react-feather"
 import "./DocsIndex.scss"
-
-// load docs metadata to get available versions
-const docsVersions = require.context("../../docs/metadata", false, /\.jsx$/)
-  .keys().map(m => m.substring(2, m.length - 4)).sort().reverse()
 
 const Section = ({ icon, children, id, name }) => {
   let numChildren = 1

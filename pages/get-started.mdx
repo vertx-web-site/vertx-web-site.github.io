@@ -2,6 +2,7 @@ import Layout from "../components/layouts/GetStarted"
 import Link from "next/link"
 import CodeExample from "../components/CodeExample"
 import CodeExamples from "../components/CodeExamples"
+import { versions as docsVersions } from "../docs/metadata/all"
 
 export default Layout
 
@@ -40,8 +41,7 @@ The generated project contains:
 * A Git configuration to ignore files
 
 If you want to try it now, you can download this sample project using
-[Maven](http://start.vertx.io/starter.zip?vertxDependencies=vertx-web) or using
-[Gradle](http://start.vertx.io/starter.zip?vertxDependencies=vertx-web&buildTool=gradle)
+<a href={`https://start.vertx.io/starter.zip?vertxDependencies=vertx-web&vertxVersion=${docsVersions[0]}&jdkVersion=11`}>Maven</a> or using <a href={`https://start.vertx.io/starter.zip?vertxDependencies=vertx-web&buildTool=gradle&vertxVersion=${docsVersions[0]}&jdkVersion=11`}>Gradle</a>.
 
 ## <span className="get-started-step">2</span> Code
 

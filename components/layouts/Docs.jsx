@@ -12,12 +12,9 @@ import Footer from "../Footer"
 import SearchPanel from "../search/SearchPanel"
 import GitHubStars from "../GitHubStars"
 import Label from "../Label"
+import { versions as docsVersions } from "../../docs/metadata/all"
 import { Book, Code, Edit, List, Paperclip, X } from "react-feather"
 import "./Docs.scss"
-
-// load docs metadata to get available versions
-const docsVersions = require.context("../../docs/metadata", false, /\.jsx$/)
-  .keys().map(m => m.substring(2, m.length - 4)).sort().reverse()
 
 const Docs = ({ metadata, toc, contents }) => {
   const tocRef = useRef()
