@@ -12,11 +12,10 @@ import Footer from "../Footer"
 import SearchPanel from "../search/SearchPanel"
 import GitHubStars from "../GitHubStars"
 import Label from "../Label"
-import { versions as docsVersions } from "../../docs/metadata/all"
 import { Book, Code, Edit, List, Paperclip, X } from "react-feather"
 import "./Docs.scss"
 
-const Docs = ({ metadata, toc, contents }) => {
+const Docs = ({ metadata, allVersions, toc, contents }) => {
   const tocRef = useRef()
   const searchResultsRef = useRef()
   const contentRef = useRef()
@@ -25,6 +24,7 @@ const Docs = ({ metadata, toc, contents }) => {
   const [sidebarCollapse, setSidebarCollapse] = useState(false)
   const [hasSearchResults, setHasSearchResults] = useState()
   const currentVersion = useContext(VersionContext.State)
+  const sortedAllVersions = allVersions.sort().reverse()
 
   const enableBodyScrollInternal = () => {
     enableBodyScroll(tocRef.current)
@@ -208,12 +208,12 @@ const Docs = ({ metadata, toc, contents }) => {
                   {examples && <div className="docs-content-metadata-examples">{examples}</div>}
                   {edit && <div className="docs-content-metadata-edit">{edit}</div>}
                   <span className="docs-content-metadata-version">
-                    <DropDown title={`v${currentVersion.version || docsVersions[0]}`}>
+                    <DropDown title={`v${currentVersion.version || sortedAllVersions[0]}`}>
                       <DropDownItem active={currentVersion.version === undefined ||
-                            currentVersion.version === docsVersions[0]} href={`/docs${metadata.href}`}>
-                        Latest (v{docsVersions[0]})
+                            currentVersion.version === sortedAllVersions[0]} href={`/docs${metadata.href}`}>
+                        Latest (v{sortedAllVersions[0]})
                       </DropDownItem>
-                      {docsVersions.slice(1).map(v => (
+                      {sortedAllVersions.slice(1).map(v => (
                         <DropDownItem key={v} active={currentVersion.version === v}
                             href={`/docs/${v}${metadata.href}`}>
                           v{v}

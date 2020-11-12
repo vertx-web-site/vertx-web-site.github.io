@@ -217,6 +217,20 @@ export async function getStaticProps({ params }) {
   return cache[slug]
 }
 
+function findMetadataEntryBySlug(metadata, slug) {
+  let slugWithSlash = slug
+  if (!slug.endsWith("/")) {
+    slugWithSlash += "/"
+  }
+  return metadata.entries.find(e => {
+    let href = e.href
+    if (href.startsWith("/")) {
+      href = href.substring(1)
+    }
+    return slugWithSlash.endsWith(href)
+  })
+}
+
 const DocsPage = ({ slug, title, toc, contents, version }) => {
   const setVersion = useContext(VersionContext.Dispatch)
 
@@ -234,21 +248,18 @@ const DocsPage = ({ slug, title, toc, contents, version }) => {
   if (contents === undefined) {
     return <DocsIndex metadata={m} version={version} />
   } else {
-    let slugWithSlash = slug
-    if (!slug.endsWith("/")) {
-      slugWithSlash += "/"
-    }
-    let sm = m.metadata.entries.find(e => {
-      let href = e.href
-      if (href.startsWith("/")) {
-        href = href.substring(1)
-      }
-      return slugWithSlash.endsWith(href)
-    })
+    // get metadata
+    let sm = findMetadataEntryBySlug(m.metadata, slug)
     if (sm === undefined) {
       sm = { name: title }
     }
-    return <Docs metadata={sm} toc={toc} contents={contents} />
+
+    // get all versions containing docs for this slug
+    let allVersions = metadata
+      .filter(am => findMetadataEntryBySlug(am.metadata, slug) !== undefined)
+      .map(am => am.version)
+
+    return <Docs metadata={sm} allVersions={allVersions} toc={toc} contents={contents} />
   }
 }
 
