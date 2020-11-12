@@ -34,7 +34,7 @@ const GitHubStars = ({ org, repo, button }) => {
         <link rel="preload" href={url} as="fetch" crossOrigin="anonymous" />
       </Head>
       <div className="github-stars">
-        <a href="https://github.com/eclipse-vertx/vert.x">
+        <a href={`https://github.com/${org}/${repo}`}>
           {button ? <Button>{content}</Button> : content}
         </a>
       </div>
