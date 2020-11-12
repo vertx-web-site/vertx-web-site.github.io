@@ -12,6 +12,7 @@ import Footer from "../Footer"
 import SearchPanel from "../search/SearchPanel"
 import GitHubStars from "../GitHubStars"
 import Label from "../Label"
+import { versions as allVersionsPossible } from "../../docs/metadata/all"
 import { Book, Code, Edit, List, Paperclip, X } from "react-feather"
 import "./Docs.scss"
 
@@ -25,6 +26,7 @@ const Docs = ({ metadata, allVersions, toc, contents }) => {
   const [hasSearchResults, setHasSearchResults] = useState()
   const currentVersion = useContext(VersionContext.State)
   const sortedAllVersions = allVersions.sort().reverse()
+  const existsForLatestVersion = sortedAllVersions[0] === allVersionsPossible[0]
 
   const enableBodyScrollInternal = () => {
     enableBodyScroll(tocRef.current)
@@ -209,11 +211,11 @@ const Docs = ({ metadata, allVersions, toc, contents }) => {
                   {edit && <div className="docs-content-metadata-edit">{edit}</div>}
                   <span className="docs-content-metadata-version">
                     <DropDown title={`v${currentVersion.version || sortedAllVersions[0]}`}>
-                      <DropDownItem active={currentVersion.version === undefined ||
+                      {existsForLatestVersion && <DropDownItem active={currentVersion.version === undefined ||
                             currentVersion.version === sortedAllVersions[0]} href={`/docs${metadata.href}`}>
                         Latest (v{sortedAllVersions[0]})
-                      </DropDownItem>
-                      {sortedAllVersions.slice(1).map(v => (
+                      </DropDownItem>}
+                      {sortedAllVersions.slice(existsForLatestVersion ? 1 : 0).map(v => (
                         <DropDownItem key={v} active={currentVersion.version === v}
                             href={`/docs/${v}${metadata.href}`}>
                           v{v}
