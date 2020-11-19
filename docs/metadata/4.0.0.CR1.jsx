@@ -194,7 +194,7 @@ delete find(docs, "vertx-web-graphql").label
 // update examples
 for (let entry of docs.entries) {
   if (entry.examples !== undefined) {
-    entry.examples = entry.examples.replace(/3\.x/, "master")
+    entry.examples = entry.examples.replace(/3\.x/, "4.x")
   }
 }
 
