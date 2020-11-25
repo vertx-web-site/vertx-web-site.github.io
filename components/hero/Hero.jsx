@@ -4,6 +4,7 @@ import "./Hero.scss"
 import GitHubStars from "../GitHubStars"
 import { FastForward } from "react-feather"
 import Link from "next/link"
+import { versions } from "../../docs/metadata/all"
 
 const Hero = () => (
   <section className="hero">
@@ -15,7 +16,7 @@ const Hero = () => (
         </div>
         <div className="hero-buttons">
           <Link href="/get-started/">
-            <a><Button primary><FastForward className="feather" /> Get started with v4.0.0</Button></a>
+            <a><Button primary><FastForward className="feather" /> Get started with v{versions[0]}</Button></a>
           </Link>
           <GitHubStars org="eclipse-vertx" repo="vert.x" button />
         </div>
