@@ -1,3 +1,5 @@
+import Card from "../components/Card"
+import Cards from "../components/Cards"
 import Layout from "../components/layouts/Intro"
 import Link from "next/link"
 export default Layout
@@ -19,10 +21,14 @@ Whenever possible, Vert.x 4 APIs have been made available in Vert.x 3 with a dep
 the opportunity to improve a Vert.x 3 application with a better API while allowing the application to be ready for a Vert.x 4
 migration.
 
-We provide a clear and documented [migration path](https://github.com/vert-x3/vertx-4-migration-guide/) from Vert.x 3.9
-to Vert.x 4.0.
-
-Each sample in [Vert.x in Action](https://www.manning.com/books/vertx-in-action) works with either Vert.x 3.9 or Vert.x 4.
+<Cards columns={2}>
+  <Card href="https://github.com/vert-x3/vertx-4-migration-guide/" title="Read migration guide">
+    We provide a clear and documented migration path from Vert.x 3.9 to Vert.x 4.
+  </Card>
+  <Card href="https://www.manning.com/books/vertx-in-action" title="Vert.x in Action">
+    Each sample in our book &ldquo;Vert.x in Action&rdquo; works with either Vert.x 3.9 or Vert.x 4.
+  </Card>
+</Cards>
 
 ## Vert.x 3 support
 
@@ -30,8 +36,3 @@ Vert.x 3 will continue to get bug fix releases officially until January 2023.
 
 Vert.x is an open source project of the Eclipse Foundation, granting the community the opportunity to contribute
 fixes beyond that deadline and possibly extend the support.
-
-
-
-
-
