@@ -2,7 +2,7 @@ import Button from "../Button"
 import MainCodeExamples from "./MainCodeExamples"
 import "./Hero.scss"
 import GitHubStars from "../GitHubStars"
-import { FastForward } from "react-feather"
+import { ArrowUpCircle, FastForward } from "react-feather"
 import Link from "next/link"
 import { versions } from "../../docs/metadata/all"
 
@@ -19,6 +19,11 @@ const Hero = () => (
             <a><Button primary><FastForward className="feather" /> Get started with v{versions[0]}</Button></a>
           </Link>
           <GitHubStars org="eclipse-vertx" repo="vert.x" button />
+        </div>
+        <div className="hero-buttons hero-buttons-second">
+          <Link href="/from-vert-x-3-to-vert-x-4/">
+            <a><Button primary><ArrowUpCircle className="feather" /> Migrate from Vert.x 3</Button></a>
+          </Link>
         </div>
       </div>
       <div className="hero-right">

@@ -99,6 +99,10 @@ section.hero {
         @media (max-width: $sm) and (orientation: portrait) {
           margin-top: $spacer * 3;
         }
+
+        &.hero-buttons-second {
+          margin-top: $spacer;
+        }
       }
 
       @media (max-width: $xl) {
