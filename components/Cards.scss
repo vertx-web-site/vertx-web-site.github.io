@@ -1,0 +1,12 @@
+@import "../css/variables";
+
+.cards {
+  display: grid;
+  grid-gap: $spacer;
+  padding: 0;
+  margin-top: $spacer * 1.5;
+
+  @media (max-width: $md) {
+    grid-template-columns: 1fr;
+  }
+}

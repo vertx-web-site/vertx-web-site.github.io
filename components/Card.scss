@@ -1,0 +1,24 @@
+@import "../css/variables";
+
+.card-content {
+  border: 1px solid $gray-300;
+  border-radius: $border-radius;
+  padding: $spacer * 1.5 $spacer * 1.5 $spacer * 2 $spacer * 1.5;
+  cursor: pointer;
+  transition: $button-border-color-transition;
+
+  h4 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.25rem;
+    color: $primary;
+  }
+}
+
+a.card-link {
+  color: $gray-800;
+  text-decoration: none;
+
+  &:hover .card-content {
+    border-color: $primary;
+  }
+}

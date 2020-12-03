@@ -1,3 +1,5 @@
+import Card from "../components/Card"
+import Cards from "../components/Cards"
 import Layout from "../components/layouts/GetStarted"
 import Link from "next/link"
 import CodeExample from "../components/CodeExample"
@@ -274,17 +276,14 @@ $ curl -v http://localhost:8888\?name\="Francesco"
 
 Now that you have had a taste of how easy and fun it is to get started with Vert.x, here are a few pointers to help guide you further along your journey:
 
-<ul className="get-started-next-steps">
-  <Link href="/introduction-to-vertx-and-reactive/" passHref={true}><a><li>
-    <h4>Intro</h4>
+<Cards columns={3}>
+  <Card href="/introduction-to-vertx-and-reactive/" title="Intro">
     Read our short introduction into reactive programming with Eclipse Vert.x
-  </li></a></Link>
-  <Link href="/docs/" passHref={true}><a><li>
-    <h4>Documentation</h4>
+  </Card>
+  <Card href="/docs/" title="Documentation">
     Deep dive through the documentation to check out all Vert.x modules
-  </li></a></Link>
-  <a href="https://how-to.vertx.io/"><li>
-    <h4>How-tos</h4>
+  </Card>
+  <Card href="https://how-to.vertx.io/" title="How-tos">
     Check out the Vert.x How-tos to get pragmatic guides for specific topics
-  </li></a>
-</ul>
+  </Card>
+</Cards>
