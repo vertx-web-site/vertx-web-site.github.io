@@ -39,7 +39,20 @@ The revamped OpenAPI implementation uses it to enforce Contract Driven Developme
 
 ## Reactive Redis client
 
-todo???
+New client API with support for all redis connection modes, single, sentinel and cluster.
+
+Underlying protocol upgraded to handle the new `RESP3` format (which allows richer types to be used).
+
+Support for all redis commands (existing and future added ones), as well as, support for any redis extension is now
+possible using the same single api.
+
+## Authentication and Authorization
+
+New modules `vertx-auth-properties` and `vertx-auth-ldap` to replace the deprecated `shiro` auth.
+
+New module `vertx-auth-sql` to work with reactive sql clients instead of blocking jdbc clients.
+
+New module `vertx-auth-webauth` as a FIDO2 verified implementation of FIDO2/Webauthn Relay Party.
 
 ## Improved metrics
 
