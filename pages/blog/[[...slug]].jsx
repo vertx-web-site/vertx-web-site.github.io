@@ -105,7 +105,16 @@ async function compileAllPosts() {
     posts.push(post)
   }
 
-  posts.sort((a, b) => new Date(b.date) - new Date(a.date))
+  posts.sort((a, b) => {
+    // put pinned blog post at the beginning
+    if (a.meta.pinned && !b.meta.pinned) {
+      return -1
+    } else if (!a.meta.pinned && b.meta.pinned) {
+      return 1
+    }
+    // sort all posts by date
+    return new Date(b.date) - new Date(a.date)
+  })
 
   if (process.env.NODE_ENV === "production") {
     compileAllPostsCachedResult = posts
