@@ -1,14 +1,18 @@
-import Card from "../components/Card"
-import Cards from "../components/Cards"
-import Layout from "../components/layouts/Intro"
-import Link from "next/link"
-export default Layout
-
-export const meta = {
-  title: "What's new in Vert.x 4"
-}
-
-# What's new in Vert.x 4
+---
+title: "What's new in Vert.x 4"
+category: releases
+authors:
+  - name: Julien Viet
+    github_id: vietj
+  - name: Francesco Guardiani
+    github_id: slinkydeveloper
+  - name: Paulo Lopes
+    github_id: pmlopes
+summary: >-
+  See an overview of all new and exciting features in Vert.x 4, including futures,
+  distributed tracing, reactive database clients, SQL templating, and more.
+pinned: true
+---
 
 Vert.x 4 comes with plenty of new exciting features, some of them have been developed in Vert.x 3 and made available
 as tech previews.
@@ -51,9 +55,3 @@ New modules are available
 - `vertx-auth-properties` and `vertx-auth-ldap` to replace the deprecated `shiro` auth.
 - `vertx-auth-sql` to work with reactive sql clients instead of blocking jdbc clients.
 - `vertx-auth-webauth` as a FIDO2 verified implementation of FIDO2/Webauthn Relay Party.
-
-
-
-
-
-
