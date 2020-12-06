@@ -49,6 +49,10 @@
 
         &:not(:last-child) {
           margin-right: $spacer;
+
+          &.avatars-only {
+            margin-right: $spacer / 4;
+          }
         }
 
         img {

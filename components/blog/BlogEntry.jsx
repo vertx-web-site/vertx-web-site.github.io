@@ -2,17 +2,21 @@ import Link from "next/link"
 import BlogDate from "./BlogDate"
 import ReadMoreLink from "../ReadMoreLink"
 import Label from "../Label"
+import classNames from "classnames"
 import "./BlogEntry.scss"
 
 const BlogEntry = ({ post }) => {
   let authors = post.meta.authors.map(a => {
-    return (
-      <li key={a.github_id}>
-        <img src={`https://github.com/${a.github_id}.png?size=50`} />
-        <a href={`https://github.com/${a.github_id}`}
-          target="_blank" rel="noopener noreferrer">{a.name}</a>
-      </li>
-    )
+    let img = <img src={`https://github.com/${a.github_id}.png?size=50`} />
+    let name = a.name
+    let avatarsOnly = post.meta.authors.length > 2
+    if (avatarsOnly) {
+      name = img
+      img = undefined
+    }
+    let link = <a href={`https://github.com/${a.github_id}`}
+        target="_blank" rel="noopener noreferrer">{name}</a>
+    return <li key={a.github_id} className={classNames({ "avatars-only": avatarsOnly })}>{img}{link}</li>
   })
 
   return (
