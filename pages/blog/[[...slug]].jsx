@@ -4,6 +4,8 @@ import BlogDate from "../../components/blog/BlogDate"
 import BlogEntry from "../../components/blog/BlogEntry"
 import Pagination from "../../components/blog/Pagination"
 import Alert from "../../components/Alert"
+import Card from "../../components/Card"
+import Cards from "../../components/Cards"
 import Gist from "super-react-gist"
 import Link from "next/link"
 import ScrollLink from "../../components/ScrollLink"
@@ -20,6 +22,8 @@ const MAX_ITEMS_PER_PAGE = 6
 // components that will be available in mdx files
 const COMPONENTS = {
   Alert,
+  Card,
+  Cards,
   Gist,
   Link,
   ScrollLink
