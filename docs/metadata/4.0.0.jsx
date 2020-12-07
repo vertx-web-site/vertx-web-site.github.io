@@ -36,7 +36,6 @@ docs.categories = [
 remove(docs, "vertx-web-api-contract")
 remove(docs, "vertx-sync")
 remove(docs, "vertx-lang-kotlin-coroutines")
-remove(docs, "vertx-zookeeper")
 remove(docs, "vertx-auth-jdbc")
 remove(docs, "vertx-auth-shiro")
 remove(docs, "vertx-sql-common")
