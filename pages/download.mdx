@@ -1,0 +1,59 @@
+import Card from "../components/Card"
+import Cards from "../components/Cards"
+import Layout from "../components/layouts/GetStarted"
+import Link from "next/link"
+import CodeExample from "../components/CodeExample"
+import CodeExamples from "../components/CodeExamples"
+import { versions as docsVersions } from "../docs/metadata/all"
+
+export default Layout
+
+export const meta = {
+  title: "Distributions"
+}
+
+# Distributions
+
+
+You can download the vert.x distributions.
+
+The distributions are providing the vertx command line tool. To modify the content of the distribution once
+downloaded, use the stack manager.
+
+If you are using Apache Maven or Gradle, you don't need to download anything, as the required artifacts
+are retrieved by your dependency manager.
+
+## Downloads
+
+You can browse available 4.x packages from [Maven Central](https://repo1.maven.org/maven2/io/vertx/vertx-stack-manager/) .
+
+You can browse available 3.x packages from [Bintray](https://bintray.com/vertx/downloads/distribution/3.9.4/view) .
+
+## From Homebrew
+
+The full distribution can be downloaded from [Homebrew](https://brew.sh/):
+
+### Vert.x 4
+
+```
+> brew tap vertx-distrib/tap
+> brew install vertx4
+```
+
+### Vert.x 3
+
+```
+> brew install vert.x
+```
+
+## From SDKMan
+
+todo
+
+## Snapshots
+
+todo
+
+## From Docker
+
+todo
