@@ -19,21 +19,32 @@ as tech previews.
 
 Here is an highlight of the most important features supported in Vert.x 4.
 
-## Future model
+## User experience
 
-Vert.x 4 uses futures over callbacks for modelling asynchronous operations.
+Vert.x 4 has been designed to improve user experience and APIs usability while keeping it
+performant, un-opinionated and most importantly fun!
 
-## Distributed tracing
+## Callback to the Future
 
-Monitor your microservices with Vert.x tracing supporting both [Opentracing](https://opentracing.io/) or [Zipking](https://zipkin.io/).
+Get away from callback hell and use the power of Vert.x 4 futures.
+
+## Microservices monitoring
+
+Vert.x Tracing supports both [Opentracing](https://opentracing.io/) or [Zipking](https://zipkin.io/) and complements
+Vert.x Metrics.
 
 ## Reactive SQL clients
 
-A new set of high performance reactive SQL clients, fully integrated with Vert.x metrics and Vert.x tracing.
+A new set of high performance reactive SQL clients, fully integrated with Vert.x Metrics and Vert.x Tracing.
+
+## Reactive Redis client
+
+The new client API with support for all redis connection modes, single, sentinel and cluster, with a full and extensible
+support for redis commands.
 
 ## SQL templating
 
-SQL Client Templates is a library designed to facilitate the execution of SQL queries.
+SQL Client Templates is a library designed to facilitate building SQL queries.
 
 ## Web
 
@@ -43,14 +54,9 @@ Web sessions can now be stored on a external database, redis as a backend is pro
 
 The revamped OpenAPI implementation uses it to enforce Contract Driven Development.
 
-## Reactive Redis client
-
-New client API with support for all redis connection modes, single, sentinel and cluster, with a full and extensible
-support for redis commands.
-
 ## Authentication and Authorization
 
-New modules are available
+A set of new modules are available
 
 - `vertx-auth-properties` and `vertx-auth-ldap` to replace the deprecated `shiro` auth.
 - `vertx-auth-sql` to work with reactive sql clients instead of blocking jdbc clients.
