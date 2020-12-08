@@ -23,7 +23,7 @@ const BlogEntry = ({ post }) => {
     <div className="blog-entry">
       <div className="blog-entry-meta">
         <div className="blog-entry-meta-left">
-          <span className="blog-entry-date"><BlogDate date={post.date} /></span>&#8203;
+          {post.meta.pinned || <span className="blog-entry-date"><BlogDate date={post.date} /></span>}&#8203;
           <Link href="/blog/[[...slug]]" as={`/blog/category/${post.meta.category}/`}>
             <a className="blog-entry-category">{post.meta.category}</a>
           </Link>

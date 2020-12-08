@@ -8,6 +8,7 @@ import Card from "../../components/Card"
 import Cards from "../../components/Cards"
 import Gist from "super-react-gist"
 import Link from "next/link"
+import Label from "../../components/Label"
 import ScrollLink from "../../components/ScrollLink"
 import capitalize from "lodash/capitalize"
 import renderToString from "next-mdx-remote/render-to-string"
@@ -358,10 +359,11 @@ const BlogPage = ({ post, prevPost, nextPost, relatedPosts, category, categories
               </div>
             </div>
           ))}
-          <div className="blog-post-sidebar-date">Posted on <BlogDate date={post.date} /></div>
+          {post.meta.pinned && <div className="blog-post-sidebar-pinned"><Label dark><strong>Pinned post</strong></Label></div>}
+          {post.meta.pinned || <><div className="blog-post-sidebar-date">Posted on <BlogDate date={post.date} /></div>
           in <Link href="/blog/[[...slug]]" as={`/blog/category/${post.meta.category}/`}>
             <a className="blog-post-sidebar-category">{post.meta.category}</a>
-          </Link>
+          </Link></>}
           <div className="blog-post-sidebar-reading-time"><Clock className="feather" /> {post.readingTime.text}</div>
           <div className="blog-post-sidebar-share-icons">
             <a href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.meta.title)}&url=${encodeURIComponent(url)}&via=vertx_project`}

@@ -103,6 +103,11 @@
         }
       }
 
+      .blog-post-sidebar-pinned {
+        display: flex;
+        margin-top: $spacer * 2;
+      }
+
       .blog-post-sidebar-date {
         margin-top: $spacer;
       }
