@@ -65,3 +65,9 @@ A set of new modules are available
 - `vertx-auth-properties` and `vertx-auth-ldap` to replace the deprecated `shiro` auth.
 - `vertx-auth-sql` to work with reactive sql clients instead of blocking jdbc clients.
 - `vertx-auth-webauth` as a FIDO2 verified implementation of FIDO2/Webauthn Relay Party.
+
+The `vertx-auth-oauth2` module now supports [PKCE](https://tools.ietf.org/html/rfc7636) as an extra layer of
+security to your application.
+
+JSON Web Tokens (JWT) and JSON Web Keys (JWK) have been enhanced to support more algorithms, `EC`, `RS` and `PS`
+as well as now fully support certificate chain validations, allowing better verifications.
