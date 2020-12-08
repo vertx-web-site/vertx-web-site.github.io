@@ -193,7 +193,9 @@ delete find(docs, "vertx-web-graphql").label
 // update examples
 for (let entry of docs.entries) {
   if (entry.examples !== undefined) {
-    entry.examples = entry.examples.replace(/3\.x/, "4.x")
+    entry.examples = entry.examples
+      .replace(/3\.x/, "4.x")
+      .replace("reactive-sql-client-examples", "sql-client-examples")
   }
 }
 
