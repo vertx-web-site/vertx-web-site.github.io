@@ -6,7 +6,7 @@ import "./NavBar.scss"
 import { useContext, useEffect, useRef, useState } from "react"
 import throttle from "lodash/throttle"
 
-import { Awesomelists, Gitter, Stackoverflow, Youtube } from "@icons-pack/react-simple-icons"
+import { Awesomelists, Discord, Stackoverflow, Youtube } from "@icons-pack/react-simple-icons"
 
 const NavBar = () => {
   const refNavBar = useRef()
@@ -98,8 +98,8 @@ const NavBar = () => {
             <a href="https://www.youtube.com/channel/UCGN6L3tRhs92Uer3c6VxOSA" className="navbar-social-link" title="YouTube" target="_blank" rel="noopener noreferrer">
               <Youtube aria-label="YouTube channel of Vert.x" />
             </a>
-            <a href="https://gitter.im/eclipse-vertx/vertx-users" className="navbar-social-link" title="Gitter" target="_blank" rel="noopener noreferrer">
-              <Gitter aria-label="Eclipse Vert.x channel on Gitter" />
+            <a href="https://discord.gg/KzEMwP2" className="navbar-social-link" title="Discord" target="_blank" rel="noopener noreferrer">
+              <Discord aria-label="Eclipse Vert.x channel on Discord" />
             </a>
           </div>
         </div>
