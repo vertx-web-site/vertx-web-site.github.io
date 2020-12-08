@@ -1,10 +1,4 @@
-import Card from "../components/Card"
-import Cards from "../components/Cards"
 import Layout from "../components/layouts/GetStarted"
-import Link from "next/link"
-import CodeExample from "../components/CodeExample"
-import CodeExamples from "../components/CodeExamples"
-import { versions as docsVersions } from "../docs/metadata/all"
 
 export default Layout
 
@@ -14,20 +8,17 @@ export const meta = {
 
 # Distributions
 
-
-You can download the vert.x distributions.
-
-The distributions are providing the vertx command line tool. To modify the content of the distribution once
+On this page, you can download the Vert.x distributions. The distributions provide the `vertx` command line tool. To modify the content of the distribution once
 downloaded, use the stack manager.
 
-If you are using Apache Maven or Gradle, you don't need to download anything, as the required artifacts
+If you are using Apache Maven or Gradle, you don't need to download anything. The required artifacts
 are retrieved by your dependency manager.
 
 ## Downloads
 
-You can browse available 4.x packages from [Maven Central](https://repo1.maven.org/maven2/io/vertx/vertx-stack-manager/) .
+You can browse available 4.x packages from [Maven Central](https://repo1.maven.org/maven2/io/vertx/vertx-stack-manager/).
 
-You can browse available 3.x packages from [Bintray](https://bintray.com/vertx/downloads/distribution/3.9.4/view) .
+You can browse available 3.x packages from [Bintray](https://bintray.com/vertx/downloads/distribution/3.9.4/view).
 
 ## From Homebrew
 
@@ -35,29 +26,29 @@ The full distribution can be downloaded from [Homebrew](https://brew.sh/):
 
 ### Vert.x 4
 
-```
-> brew tap vertx-distrib/tap
-> brew install vertx4
+```text
+$ brew tap vertx-distrib/tap
+$ brew install vertx4
 ```
 
 ### Vert.x 3
 
-```
-> brew install vert.x
+```text
+$ brew install vert.x
 ```
 
 ## From SDKMan
 
 ### Vert.x 4
 
-```
-> sdk install vertx4
+```text
+$ sdk install vertx4
 ```
 
 ### Vert.x 3
 
-```
-> sdk install vertx
+```text
+$ sdk install vertx
 ```
 
 ## Snapshots
@@ -65,6 +56,8 @@ The full distribution can be downloaded from [Homebrew](https://brew.sh/):
 We have continuous integration builds for all the Vert.x components. We also publish shapshots to
 the Sonatype OSS Snapshot [repository](https://oss.sonatype.org/content/repositories/snapshots/io/vertx/).
 
+<!--
 ## From Docker
 
 todo
+-->
