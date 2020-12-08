@@ -1,0 +1,70 @@
+import Card from "../components/Card"
+import Cards from "../components/Cards"
+import Layout from "../components/layouts/Intro"
+import Link from "next/link"
+export default Layout
+
+export const meta = {
+  title: "What's new in Vert.x 4"
+}
+
+# What's new in Vert.x 4
+
+Vert.x 4 comes with plenty of new exciting features, some of them have been developed in Vert.x 3 and made available
+as tech previews.
+
+Here is an highlight of the most important features supported in Vert.x 4.
+
+## Future model
+
+Vert.x 4 uses futures over callbacks for modelling asynchronous operations.
+
+## Distributed tracing
+
+Monitor your microservices with Vert.x tracing supporting both [Opentracing](https://opentracing.io/) or [Zipking](https://zipkin.io/).
+
+## Reactive SQL clients
+
+A new set of high performance reactive SQL clients, fully integrated with Vert.x metrics and Vert.x tracing.
+
+## SQL templating
+
+SQL Client Templates is a library designed to facilitate the execution of SQL queries.
+
+## Web
+
+Vert.x web support for sub routers have been improved to fix many of the flaws in 3.x.
+
+Web sessions can now be stored on a external database, redis as a backend is provided out of the box.
+
+Web validation has never been so easy using the latest Json Schema standards thanks to Vert.x Web validation.
+
+The revamped OpenAPI implementation uses it to enforce Contract Driven Development.
+
+## Reactive Redis client
+
+New client API with support for all redis connection modes, single, sentinel and cluster.
+
+Underlying protocol upgraded to handle the new `RESP3` format (which allows richer types to be used).
+
+Support for all redis commands (existing and future added ones), as well as, support for any redis extension is now
+possible using the same single api.
+
+## Authentication and Authorization
+
+New modules `vertx-auth-properties` and `vertx-auth-ldap` to replace the deprecated `shiro` auth.
+
+New module `vertx-auth-sql` to work with reactive sql clients instead of blocking jdbc clients.
+
+New module `vertx-auth-webauth` as a FIDO2 verified implementation of FIDO2/Webauthn Relay Party.
+
+## Improved metrics
+
+????
+
+
+
+
+
+
+

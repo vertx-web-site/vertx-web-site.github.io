@@ -1,0 +1,73 @@
+---
+title: "What's new in Vert.x 4"
+category: releases
+authors:
+  - name: Julien Viet
+    github_id: vietj
+  - name: Francesco Guardiani
+    github_id: slinkydeveloper
+  - name: Paulo Lopes
+    github_id: pmlopes
+summary: >-
+  See an overview of all new and exciting features in Vert.x 4, including futures,
+  distributed tracing, reactive database clients, SQL templating, and more.
+pinned: true
+---
+
+Vert.x 4 comes with plenty of new exciting features, some of them have been developed in Vert.x 3 and made available
+as tech previews.
+
+Here is an overview of the most important features supported in Vert.x 4.
+
+## User experience
+
+Vert.x 4 has been designed to improve user experience and API's usability while keeping it
+fast, un-opinionated, and most importantly fun!
+
+## Callback to the Future
+
+Get away from callback hell and use the power of Vert.x 4 futures.
+
+## Microservices monitoring
+
+Vert.x Tracing supports both [Opentracing](https://opentracing.io/) and [Zipkin](https://zipkin.io/). It also
+complements Vert.x Metrics.
+
+## Reactive SQL clients
+
+High-performance reactive SQL clients, fully integrated with Vert.x Metrics and Vert.x Tracing.
+
+## Reactive Redis client
+
+The revamped client API now supports all Redis connection modes, _single_, _sentinel_ and _cluster_, with full
+and extensible support for Redis commands.
+
+## SQL templating
+
+SQL Client Templates is a library designed to facilitate building SQL queries.
+
+## Web
+
+Web sessions can now be stored on a external backend such as Redis.
+
+Web routing experience has been improved.
+
+Web validation has never been so easy using the latest Json Schema standards thanks to Vert.x Web validation.
+
+## OpenAPI
+
+The revamped OpenAPI implementation uses Web validation to enforce Contract Driven Development.
+
+## Authentication and Authorization
+
+A set of new modules are available
+
+- `vertx-auth-properties` and `vertx-auth-ldap` to replace the deprecated `shiro` auth.
+- `vertx-auth-sql` to work with reactive sql clients instead of blocking jdbc clients.
+- `vertx-auth-webauth` as a FIDO2 verified implementation of FIDO2/Webauthn Relay Party.
+
+The `vertx-auth-oauth2` module now supports [PKCE](https://tools.ietf.org/html/rfc7636) as an extra layer of
+security to your application.
+
+JSON Web Tokens (JWT) and JSON Web Keys (JWK) have been enhanced to support more algorithms, `EC`, `RS` and `PS`
+as well as now fully support certificate chain validations, enabling better verifications.
