@@ -1,6 +1,7 @@
 import Link from "next/link"
 import BlogDate from "./BlogDate"
 import ReadMoreLink from "../ReadMoreLink"
+import Label from "../Label"
 import "./BlogEntry.scss"
 
 const BlogEntry = ({ post }) => {
@@ -17,10 +18,15 @@ const BlogEntry = ({ post }) => {
   return (
     <div className="blog-entry">
       <div className="blog-entry-meta">
-        <span className="blog-entry-date"><BlogDate date={post.date} /></span>
-        <Link href="/blog/[[...slug]]" as={`/blog/category/${post.meta.category}/`}>
-          <a className="blog-entry-category">{post.meta.category}</a>
-        </Link>
+        <div className="blog-entry-meta-left">
+          <span className="blog-entry-date"><BlogDate date={post.date} /></span>&#8203;
+          <Link href="/blog/[[...slug]]" as={`/blog/category/${post.meta.category}/`}>
+            <a className="blog-entry-category">{post.meta.category}</a>
+          </Link>
+        </div>
+        <div className="blog-entry-meta-right">
+          {post.meta.pinned && <Label tiny>Pinned</Label>}
+        </div>
       </div>
       <h3>
         <Link href="/blog/[[...slug]]" as={`/blog/${post.slug}/`}>

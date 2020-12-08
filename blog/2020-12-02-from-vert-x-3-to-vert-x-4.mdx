@@ -1,14 +1,14 @@
-import Card from "../components/Card"
-import Cards from "../components/Cards"
-import Layout from "../components/layouts/Intro"
-import Link from "next/link"
-export default Layout
-
-export const meta = {
-  title: "From Vert.x 3 to Vert.x 4"
-}
-
-# From Vert.x 3 to Vert.x 4
+---
+title: Migrate from Vert.x 3 to Vert.x 4
+category: guides
+authors:
+  - name: Julien Viet
+    github_id: vietj
+summary: >-
+  We provide a clear and well-documented migration path from Vert.x 3.9 to Vert.x 4.
+  Existing users will feel at home with the new version.
+pinned: true
+---
 
 Vert.x 4 extends the Vert.x 3 line with a set of new features while providing the same Vert.x 3 experience: Vert.x 3
 users will feel at home with Vert.x 4.
@@ -16,6 +16,9 @@ users will feel at home with Vert.x 4.
 ## Migration
 
 Vert.x 4 has been developed with migration from Vert.x 3 in mind.
+
+Vert.x 4 improves asynchronous programming with futures, however the callback API are still there to ease
+the migration from Vert.x 3.
 
 Whenever possible, Vert.x 4 APIs have been made available in Vert.x 3 with a deprecation of the old API, giving
 the opportunity to improve a Vert.x 3 application with a better API while allowing the application to be ready for a Vert.x 4

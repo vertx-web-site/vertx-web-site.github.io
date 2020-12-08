@@ -6,9 +6,14 @@
   padding: 0.22rem 0.5rem 0.3rem 0.5rem;
   border-radius: $border-radius;
 
-  &.small {
+  &.small, &.tiny {
     font-size: $font-size-small;
     border-radius: $border-radius-small;
+  }
+
+  &.tiny {
+    line-height: 1em;
+    border-radius: $border-radius-tiny;
   }
 
   &.nowrap {

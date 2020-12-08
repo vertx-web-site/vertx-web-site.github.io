@@ -21,7 +21,7 @@ const Hero = () => (
           <GitHubStars org="eclipse-vertx" repo="vert.x" button />
         </div>
         <div className="hero-buttons hero-buttons-second">
-          <Link href="/from-vert-x-3-to-vert-x-4/">
+          <Link href="/blog/from-vert-x-3-to-vert-x-4/">
             <a><Button primary><ArrowUpCircle className="feather" /> Migrate from Vert.x 3</Button></a>
           </Link>
         </div>

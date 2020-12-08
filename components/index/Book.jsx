@@ -1,7 +1,7 @@
 import "./Book.scss"
 import Button from "../Button"
 
-const URL = "https://www.manning.com/books/vertx-in-action?a_aid=vertx-in-action&a_bid=22152024"
+const URL = "https://www.manning.com/books/vertx-in-action"
 
 const Book = () => (
   <div className="book">
