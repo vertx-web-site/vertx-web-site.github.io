@@ -88,3 +88,4 @@ jobs:
           external_repository: vertx-web-site/vertx-web-site.github.io
           publish_branch: master
           publish_dir: vertx-web-site.github.io
+          cname: vertx.io
