@@ -45,6 +45,7 @@ const config = {
     return {
       "/": { page: "/" },
       "/blog": { page: "/blog/[[...slug]]" },
+      "/channels": { page: "/channels" },
       "/community": { page: "/community" },
       "/docs": { page: "/docs/[[...slug]]" },
       "/download": { page: "/download" },
