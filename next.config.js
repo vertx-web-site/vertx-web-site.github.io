@@ -47,9 +47,11 @@ const config = {
       "/blog": { page: "/blog/[[...slug]]" },
       "/community": { page: "/community" },
       "/docs": { page: "/docs/[[...slug]]" },
+      "/download": { page: "/download" },
       "/faq": { page: "/faq" },
       "/get-started": { page: "/get-started" },
-      "/introduction-to-vertx-and-reactive": { page: "/introduction-to-vertx-and-reactive" }
+      "/introduction-to-vertx-and-reactive": { page: "/introduction-to-vertx-and-reactive" },
+      "/materials": { page: "/materials" }
     }
   },
 
