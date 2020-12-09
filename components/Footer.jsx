@@ -53,6 +53,7 @@ const Footer = () => {
               <li><Link href="/faq/"><a>FAQ</a></Link></li>
               <li><Link href="/blog/"><a>Blog</a></Link></li>
               <li><Link href="/community/"><a>Community</a></Link></li>
+              <li><Link href="/channels/"><a>Channels</a></Link></li>
             </ul>
           </div>
           <div className="footer-nav-list">
