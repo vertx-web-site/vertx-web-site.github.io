@@ -1,4 +1,7 @@
-import Layout from "../components/layouts/GetStarted"
+import Card from "../components/Card"
+import Cards from "../components/Cards"
+import Layout from "../components/layouts/Guide"
+import { Discord, Googlemessages, Stackoverflow } from "@icons-pack/react-simple-icons"
 
 export default Layout
 
@@ -8,21 +11,21 @@ export const meta = {
 
 # Channels
 
-We have a thriving user and developer community and many exciting new developments to come, so why not be a part of it?
+We have a thriving user and developer community and many exciting new
+developments to come, so why not be a part of it?
 
-[User Group](https://groups.google.com/forum/?fromgroups#!forum/vertx)
-
-A Google Group for users. Post a message if you need help or to report problems.
-
-[Stack Overflow](https://stackoverflow.com/questions/tagged/vert.x?sort=newest&pageSize=15)
-
-Mark your questions with the vert.x tag. We do our best to answer questions there but keeping up with the User Group is our priority.
-
-[Discord](https://discord.gg/KzEMwP2)
-
-Come and chat with other users.
-
-[Developer Group](https://groups.google.com/forum/?fromgroups#!forum/vertx-dev)
-
-A Google Group for Vert.x core developers and contributors.
-
+<Cards columns={2}>
+  <Card title="User Group" icon={<Googlemessages />} href="https://groups.google.com/forum/?fromgroups#!forum/vertx">
+    A Google Group for users. Post a message if you need help or to report problems.
+  </Card>
+  <Card title="Stack Overflow" icon={<Stackoverflow />} href="https://stackoverflow.com/questions/tagged/vert.x">
+    Mark your questions with the vert.x tag. We do our best to answer questions
+    there but keeping up with the User Group is our priority.
+  </Card>
+  <Card title="Discord" icon={<Discord />} href="https://discord.gg/KzEMwP2">
+    Come and chat with other users.
+  </Card>
+  <Card title="Developer Group" icon={<Googlemessages />} href="https://groups.google.com/forum/?fromgroups#!forum/vertx-dev">
+    A Google Group for Vert.x core developers and contributors.
+  </Card>
+</Cards>

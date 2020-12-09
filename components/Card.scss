@@ -6,11 +6,19 @@
   padding: $spacer * 1.5 $spacer * 1.5 $spacer * 2 $spacer * 1.5;
   cursor: pointer;
   transition: $button-border-color-transition;
+  height: 100%;
 
   h4 {
     margin: 0 0 0.5rem 0;
     font-size: 1.25rem;
     color: $primary;
+
+    .card-content-icon svg {
+      height: $spacer * 2;
+      width: $spacer * 2;
+      margin-bottom: 4px;
+      margin-right: $spacer / 2;
+    }
   }
 }
 

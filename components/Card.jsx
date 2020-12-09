@@ -1,8 +1,11 @@
 import Link from "next/link"
 import "./Card.scss"
 
-const Card = ({ href, title, children }) => {
-  let result = <div className="card-content"><h4>{title}</h4>{children}</div>
+const Card = ({ href, title, icon, children }) => {
+  let result = <div className="card-content"><h4>
+      {icon && <span className="card-content-icon">{icon}</span>}
+      {title}
+    </h4>{children}</div>
 
   if (href !== undefined) {
     if (href.match(/^https?:\/\//)) {
