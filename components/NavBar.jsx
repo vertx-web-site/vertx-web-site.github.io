@@ -6,7 +6,7 @@ import "./NavBar.scss"
 import { useContext, useEffect, useRef, useState } from "react"
 import throttle from "lodash/throttle"
 
-import { Awesomelists, Discord, Stackoverflow, Youtube } from "@icons-pack/react-simple-icons"
+import { Awesomelists, Discord, Googlemessages, Stackoverflow, Youtube } from "@icons-pack/react-simple-icons"
 
 const NavBar = () => {
   const refNavBar = useRef()
@@ -100,6 +100,9 @@ const NavBar = () => {
             </a>
             <a href="https://discord.gg/KzEMwP2" className="navbar-social-link" title="Discord" target="_blank" rel="noopener noreferrer">
               <Discord aria-label="Eclipse Vert.x channel on Discord" />
+            </a>
+            <a href="https://groups.google.com/forum/?fromgroups#!forum/vertx" className="navbar-social-link" title="Vert.x User Group" target="_blank" rel="noopener noreferrer">
+              <Googlemessages aria-label="A Google group for Vert.x users" title="Vert.x User Group" />
             </a>
           </div>
         </div>
