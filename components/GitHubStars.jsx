@@ -4,9 +4,9 @@ import { useEffect, useState } from "react"
 import { GitHub } from "react-feather"
 import "./GitHubStars.scss"
 
-const GitHubStars = ({ org, repo, button }) => {
+const GitHubStars = ({ org, repo, fallbackValue, button }) => {
   const url = `https://api.github.com/repos/${org}/${repo}`
-  const [stars, setStars] = useState(undefined)
+  const [stars, setStars] = useState(fallbackValue)
 
   useEffect(() => {
     async function fetchStars() {

@@ -6,7 +6,7 @@ import { ArrowUpCircle, FastForward } from "react-feather"
 import Link from "next/link"
 import { versions } from "../../docs/metadata/all"
 
-const Hero = () => (
+const Hero = ({ gitHubStarsFallbackValue }) => (
   <section className="hero">
     <div className="hero-background" />
     <div className="hero-main container">
@@ -18,7 +18,7 @@ const Hero = () => (
           <Link href="/get-started/">
             <a><Button primary><FastForward className="feather" /> Get started with v{versions[0]}</Button></a>
           </Link>
-          <GitHubStars org="eclipse-vertx" repo="vert.x" button />
+          <GitHubStars org="eclipse-vertx" repo="vert.x" button fallbackValue={gitHubStarsFallbackValue} />
         </div>
         <div className="hero-buttons hero-buttons-second">
           <Link href="/blog/from-vert-x-3-to-vert-x-4/">

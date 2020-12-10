@@ -5,10 +5,10 @@ import Features from "../index/Features.mdx"
 import Book from "../index/Book"
 import Logos from "../index/Logos"
 
-const Layout = ({ meta = {} }) => (
+const Layout = ({ meta = {}, gitHubStarsFallbackValue }) => (
   <main>
     <Header title={meta.title}/>
-    <Hero />
+    <Hero gitHubStarsFallbackValue={gitHubStarsFallbackValue} />
     <div className="container">
       <Features />
     </div>
