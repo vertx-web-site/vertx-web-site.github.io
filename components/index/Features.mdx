@@ -1,15 +1,12 @@
-import Features from "../components/index/Features";
-import FeaturesItem from "../components/index/FeaturesItem";
-import Layout from "../components/layouts/Index";
-import * as icons from "react-feather";
-
-export default Layout;
+import FeaturesItem from "./FeaturesItem"
+import FeaturesList from "./FeaturesList"
+import * as icons from "react-feather"
 
 <!-- You have to leave a blank line after <FeaturesItem> and the feature's text,
      as well as between the text and </FeaturesItem>. Otherwise, you will
      disable hyphenation and smart punctuation. Also, the text must not indented. -->
 
-<Features>
+<FeaturesList>
 <FeaturesItem icon={<icons.Cpu />} title="Resource-efficient">
 
 Handle more requests with less resources compared to traditional stacks and frameworks based on blocking I/O.
@@ -51,4 +48,4 @@ And if you can't find what you are looking for, there is a very strong chance th
 Vert.x is a safe investment for your technology stack.
 
 </FeaturesItem>
-</Features>
+</FeaturesList>
