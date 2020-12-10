@@ -1,6 +1,7 @@
 import Layout from "../components/layouts/Community"
 import CommunityProfile from "../components/community/CommunityProfile"
 import CommunitySection from "../components/community/CommunitySection"
+import pMap from "p-map"
 
 const FULL_TIME_DEVELOPERS = [{
   githubId: "vietj",
@@ -93,14 +94,20 @@ const MAINTAINERS = [{
   role: "SQL Client"
 }]
 
+// maximum number of parallel requests against the GitHub API
+const MAX_CONCURRENCY = 10
+
 async function fetchUsers(users, contributors, octokit) {
   let result = []
 
-  for (let user of users) {
+  let fetchResults = await pMap(users, user => {
     console.log(`Fetching information about user ${user.githubId} ...`)
+    return octokit.users.getByUsername({ username: user.githubId })
+      .then(info => [info.data, user])
+  }, { concurrency: MAX_CONCURRENCY })
 
-    let info = await octokit.users.getByUsername({ username: user.githubId })
-    info = info.data
+  for (let fetchResult of fetchResults) {
+    let [info, user] = fetchResult
 
     let contributor = {}
     let i = contributors.findIndex(c => c.githubId === user.githubId)
@@ -144,17 +151,21 @@ async function fetchContributors(octokit) {
   }]
 
   console.log("Fetching repositories ...")
-  repos = repos.concat(await octokit.paginate(octokit.repos.listForOrg, { org: "vert-x" }))
-  repos = repos.concat(await octokit.paginate(octokit.repos.listForOrg, { org: "vert-x3" }))
-  repos = repos.concat(await octokit.paginate(octokit.repos.listForOrg, { org: "vertx-web-site" }))
+  let fetchedRepos = await pMap(["vert-x", "vert-x3", "vertx-web-site"], org =>
+    octokit.paginate(octokit.repos.listForOrg, { org }), { concurrency: MAX_CONCURRENCY })
+  for (let fetchedRepo of fetchedRepos) {
+    repos = repos.concat(fetchedRepo)
+  }
 
-  for (let repo of repos) {
+  let fetchedRepoContributors = await pMap(repos, repo => {
     console.log(`Fetching contributors of ${repo.full_name} ...`)
-    let repoContributors = await octokit.paginate(octokit.repos.listContributors, {
+    return octokit.paginate(octokit.repos.listContributors, {
       owner: repo.owner.login,
       repo: repo.name
     })
+  }, { concurrency: MAX_CONCURRENCY })
 
+  for (let repoContributors of fetchedRepoContributors) {
     // merge found contributors into list of all contributors
     for (let repoContributor of repoContributors) {
       let contributor = contributors.find(c => c.githubId === repoContributor.login)
