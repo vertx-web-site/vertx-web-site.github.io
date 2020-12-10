@@ -4,6 +4,7 @@ import VersionContext from "../../components/contexts/VersionContext"
 import { metadata } from "../../docs/metadata/all"
 import parse5 from "parse5"
 import { useContext, useEffect } from "react"
+import { fetchGitHubStarsByUrl } from "../../components/lib/github-stars"
 
 const extractedDocsPath = "docs/extracted"
 const hashesPath = "docs/hashes"
@@ -204,10 +205,19 @@ export async function getStaticProps({ params }) {
 
   toc = toc || ""
 
+  // get metadata for this page
+  let versionMetadata = getMetadataByVersion(version)
+  let pageMetadata = findMetadataEntryBySlug(versionMetadata.metadata, slug)
+  let fallbackGitHubStars = null
+  if (pageMetadata !== undefined) {
+    fallbackGitHubStars = (await fetchGitHubStarsByUrl(pageMetadata.repository)) || null
+  }
+
   cache[slug] = {
     props: {
       slug,
       title,
+      fallbackGitHubStars,
       toc,
       contents,
       ...(version && { version })
@@ -231,20 +241,21 @@ function findMetadataEntryBySlug(metadata, slug) {
   })
 }
 
-const DocsPage = ({ slug, title, toc, contents, version }) => {
+function getMetadataByVersion(version) {
+  if (version !== undefined) {
+    return metadata.find(m => m.version === version)
+  }
+  return metadata[metadata.length - 1]
+}
+
+const DocsPage = ({ slug, title, fallbackGitHubStars, toc, contents, version }) => {
   const setVersion = useContext(VersionContext.Dispatch)
 
   useEffect(() => {
     setVersion({ version })
   }, [setVersion, version])
 
-  let m
-  if (version !== undefined) {
-    m = metadata.find(m => m.version === version)
-  } else {
-    m = metadata[metadata.length - 1]
-  }
-
+  let m = getMetadataByVersion(version)
   if (contents === undefined) {
     return <DocsIndex metadata={m} version={version} />
   } else {
@@ -259,7 +270,8 @@ const DocsPage = ({ slug, title, toc, contents, version }) => {
       .filter(am => findMetadataEntryBySlug(am.metadata, slug) !== undefined)
       .map(am => am.version)
 
-    return <Docs metadata={sm} allVersions={allVersions} toc={toc} contents={contents} />
+    return <Docs metadata={sm} allVersions={allVersions}
+      fallbackGitHubStars={fallbackGitHubStars} toc={toc} contents={contents} />
   }
 }
 

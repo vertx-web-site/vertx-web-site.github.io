@@ -16,7 +16,7 @@ import { versions as allVersionsPossible } from "../../docs/metadata/all"
 import { Book, Code, Edit, List, Paperclip, X } from "react-feather"
 import "./Docs.scss"
 
-const Docs = ({ metadata, allVersions, toc, contents }) => {
+const Docs = ({ metadata, allVersions, fallbackGitHubStars, toc, contents }) => {
   const tocRef = useRef()
   const searchResultsRef = useRef()
   const contentRef = useRef()
@@ -161,7 +161,7 @@ const Docs = ({ metadata, allVersions, toc, contents }) => {
     if (m) {
       let org = m[1]
       let repo = m[2]
-      repository = <GitHubStars org={org} repo={repo} />
+      repository = <GitHubStars org={org} repo={repo} fallbackValue={fallbackGitHubStars} />
     } else {
       repository = <a href={metadata.repository}><Code className="feather" /> Source code</a>
     }
