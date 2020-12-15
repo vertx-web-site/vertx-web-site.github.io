@@ -66,25 +66,25 @@ const NavBar = () => {
             ref={refRight} style={{ maxHeight: rightMaxHeight }}>
           <div className="navbar-menu">
             <Link href="/introduction-to-vertx-and-reactive/">
-              <a className="navbar-menu-item">Intro</a>
+              <a className="navbar-menu-item">简介</a>
             </Link>
             {currentVersion.version ? (
               <Link href={`/docs/${currentVersion.version}/`}>
-                <a className="navbar-menu-item">Docs</a>
+                <a className="navbar-menu-item">文档</a>
               </Link>
             ) : (
               <Link href="/docs/">
-                <a className="navbar-menu-item">Docs</a>
+                <a className="navbar-menu-item">文档</a>
               </Link>
             )}
             <Link href="/faq/">
-              <a className="navbar-menu-item">FAQ</a>
+              <a className="navbar-menu-item">答疑</a>
             </Link>
             <Link href="/blog/">
-              <a className="navbar-menu-item">Blog</a>
+              <a className="navbar-menu-item">博客</a>
             </Link>
             <Link href="/community/">
-              <a className="navbar-menu-item">Community</a>
+              <a className="navbar-menu-item">社区</a>
             </Link>
           </div>
 
