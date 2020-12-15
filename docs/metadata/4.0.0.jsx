@@ -1,4 +1,5 @@
 import { Book, Monitor } from "react-feather"
+import { Groovy, Kotlin } from "@icons-pack/react-simple-icons"
 import oldDocs from "./3.9.4"
 import { clone, find, findCategory, insert, move, remove } from "./helpers"
 
@@ -19,12 +20,12 @@ docs.categories = [
   {
     id: "kotlin",
     name: "Kotlin",
-    icon: <Book />
+    icon: <Kotlin className="no-stroke" />
   },
   {
     id: "groovy",
     name: "Groovy",
-    icon: <Book />
+    icon: <Groovy className="no-stroke" />
   },
   findCategory(docs, "authentication-and-authorization"),
   findCategory(docs, "databases"),
