@@ -110,7 +110,7 @@ docs.entries.push({
 docs.entries.push({
   id: "vertx-lang-groovy",
   name: "Vert.x for Groovy",
-  description: `Groovy bindings and helpers for Vert.x.`,
+  description: "Groovy bindings and helpers for Vert.x.",
   category: "groovy",
   href: "/vertx-core/groovy/",
   repository: "https://github.com/vert-x3/vertx-lang-groovy",
@@ -120,12 +120,13 @@ docs.entries.push({
 docs.entries.push({
   id: "vertx-lang-kotlin",
   name: "Vert.x for Kotlin",
-  description: `Kotlin bindings and helpers for Vert.x.`,
+  description: "Kotlin bindings and helpers for Vert.x.",
   category: "kotlin",
   href: "/vertx-core/kotlin/",
   repository: "https://github.com/vert-x3/vertx-lang-kotlin",
   edit: "https://github.com/vert-x3/vertx-lang-kotlin/tree/master/vertx-lang-kotlin/src/main/asciidoc"
 })
+
 docs.entries.push({
     id: "vertx-lang-kotlin-coroutines",
     name: "Kotlin coroutines",
