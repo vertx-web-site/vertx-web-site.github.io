@@ -41,18 +41,18 @@ const Footer = () => {
               <li>
                 {currentVersion.version ? (
                   <Link href={`/docs/${currentVersion.version}/`}>
-                    <a className="navbar-menu-item">Docs</a>
+                    <a className="navbar-menu-item">文档</a>
                   </Link>
                 ) : (
                   <Link href="/docs/">
-                    <a className="navbar-menu-item">Docs</a>
+                    <a className="navbar-menu-item">文档</a>
                   </Link>
                 )}
               </li>
-              <li><Link href="/download/"><a>Download</a></Link></li>
-              <li><Link href="/faq/"><a>FAQ</a></Link></li>
-              <li><Link href="/blog/"><a>Blog</a></Link></li>
-              <li><Link href="/community/"><a>Community</a></Link></li>
+              <li><Link href="/download/"><a>下载</a></Link></li>
+              <li><Link href="/faq/"><a>答疑</a></Link></li>
+              <li><Link href="/blog/"><a>博客</a></Link></li>
+              <li><Link href="/community/"><a>社区</a></Link></li>
               <li><Link href="/channels/"><a>Channels</a></Link></li>
             </ul>
           </div>
