@@ -1,4 +1,5 @@
 import { Book, Monitor } from "react-feather"
+import { Groovy, Kotlin } from "@icons-pack/react-simple-icons"
 import oldDocs from "./3.9.4"
 import { clone, find, findCategory, insert, move, remove } from "./helpers"
 
@@ -15,6 +16,16 @@ docs.categories = [
     id: "standards",
     name: "Standards",
     icon: <Book />
+  },
+  {
+    id: "kotlin",
+    name: "Kotlin",
+    icon: <Kotlin className="no-stroke" />
+  },
+  {
+    id: "groovy",
+    name: "Groovy",
+    icon: <Groovy className="no-stroke" />
   },
   findCategory(docs, "authentication-and-authorization"),
   findCategory(docs, "databases"),
@@ -95,6 +106,39 @@ docs.entries.push({
   repository: "https://github.com/eclipse-vertx/vertx-json-schema",
   edit: "https://github.com/eclipse-vertx/vertx-json-schema/tree/master/src/main/asciidoc",
   label: "Technical Preview"
+})
+
+docs.entries.push({
+  id: "vertx-lang-groovy",
+  name: "Vert.x for Groovy",
+  description: "Groovy bindings and helpers for Vert.x.",
+  category: "groovy",
+  href: "/vertx-core/groovy/",
+  repository: "https://github.com/vert-x3/vertx-lang-groovy",
+  edit: "https://github.com/vert-x3/vertx-lang-groovy/tree/master/src/main/asciidoc"
+})
+
+docs.entries.push({
+  id: "vertx-lang-kotlin",
+  name: "Vert.x for Kotlin",
+  description: "Kotlin bindings and helpers for Vert.x.",
+  category: "kotlin",
+  href: "/vertx-core/kotlin/",
+  repository: "https://github.com/vert-x3/vertx-lang-kotlin",
+  edit: "https://github.com/vert-x3/vertx-lang-kotlin/tree/master/vertx-lang-kotlin/src/main/asciidoc"
+})
+
+docs.entries.push({
+    id: "vertx-lang-kotlin-coroutines",
+    name: "Kotlin coroutines",
+    description: `Kotlin coroutines for Vert.x, gives you super powers such as
+      async/await or Go-like channels. This enables you to write your verticle
+      code in a familiar sequential style.`,
+    category: "kotlin",
+    href: "/vertx-lang-kotlin-coroutines/kotlin/",
+    repository: "https://github.com/vert-x3/vertx-lang-kotlin",
+    edit: "https://github.com/vert-x3/vertx-lang-kotlin/tree/master/vertx-lang-kotlin/src/main/asciidoc",
+    examples: "https://github.com/vert-x3/vertx-examples/tree/3.x/kotlin-examples/coroutines"
 })
 
 insert(docs, "vertx-auth-mongo",
