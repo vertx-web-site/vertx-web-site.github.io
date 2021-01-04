@@ -2377,30 +2377,30 @@ router.route().handler(ctx -> {
 Multi tenant is a powerful handler that will allow applications to live side by side, however it provides no sandboxing
 for execution. It should not be used as isolation as wrongly written applications may leak state across tenants.
 
-== Templates
+== 模板
 
-Vert.x-Web includes dynamic page generation capabilities by including out of the box support for several popular template
-engines. You can also easily add your own.
+Vert.x Web 为若干流行的模板引擎提供了开箱即用的支持，通过这种方式来提供生成动态页面的能力。
+您也可以很容易地添加您自己的实现。
 
-Template engines are described by `link:../../apidocs/io/vertx/ext/web/common/template/TemplateEngine.html[TemplateEngine]`. In order to render a template
-`link:../../apidocs/io/vertx/ext/web/common/template/TemplateEngine.html#render-io.vertx.core.json.JsonObject-java.lang.String-io.vertx.core.Handler-[render]` is used.
+`link:../../apidocs/io/vertx/ext/web/common/template/TemplateEngine.html[TemplateEngine]` 定义了使用模板引擎的接口。
+当渲染模板时会调用 `link:../../apidocs/io/vertx/ext/web/common/template/TemplateEngine.html#render-io.vertx.core.json.JsonObject-java.lang.String-io.vertx.core.Handler-[render]` 方法。
 
-The simplest way to use templates is not to call the template engine directly but to use the
-`link:../../apidocs/io/vertx/ext/web/handler/TemplateHandler.html[TemplateHandler]`.
-This handler calls the template engine for you based on the path in the HTTP request.
+最简单的使用模板的方式不是直接调用模板引擎，而是使用模板处理器
+`link:../../apidocs/io/vertx/ext/web/handler/TemplateHandler.html[TemplateHandler]` 。
+这个处理器会根据 HTTP 请求的路径来调用模板引擎。
 
-By default the template handler will look for templates in a directory called `templates`. This can be configured.
+缺省情况下，模板处理器会在 `templates` 目录中查找模板文件。这是可以配置的。
 
-The handler will return the results of rendering with a content type of `text/html` by default. This can also be configured.
+该处理器会返回渲染的结果，并默认设置 Content-Type 消息头为 `text/html` 。这也是可以配置的。
 
-When you create the template handler you pass in an instance of the template engine you want. Template engines are
-not embedded in vertx-web so, you need to configure your project to access them. Configuration is provided for
-each template engine.
+您需要在创建模板处理器时提供您想要使用的模板引擎实例。
+Vert.x Web 并未嵌入模板引擎的实现，您需要配置项目来访问它们。
+Vert.x Web 提供了每一种模板引擎的配置。
 
-Here are some examples:
+以下是例子：
 
 ////
-These examples are not using the traditional "transcoding" as they use an API providing in another project.
+这些例子并未使用传统方式的“转码”，因为用了其他项目的API
 ////
 
 [source, java]
@@ -2408,11 +2408,11 @@ These examples are not using the traditional "transcoding" as they use an API pr
 TemplateEngine engine = HandlebarsTemplateEngine.create();
 TemplateHandler handler = TemplateHandler.create(engine);
 
-// This will route all GET requests starting with /dynamic/ to the template handler
-// E.g. /dynamic/graph.hbs will look for a template in /templates/graph.hbs
+// 这会将所有以 `/dynamic` 开头的 GET 请求路由到模板处理器上
+// 例如 /dynamic/graph.hbs 会查找模板 /templates/graph.hbs
 router.get("/dynamic/*").handler(handler);
 
-// Route all GET requests for resource ending in .hbs to the template handler
+// 将所有以 `.hbs` 结尾的 GET 请求路由到模板处理器上
 router.getWithRegex(".+\\.hbs").handler(handler);
 ----
 
