@@ -242,7 +242,7 @@ NOTE: Vert.x 3的API只提供了回调模式；为了减少从Vert.x 3迁移到V
 
 `link:../../apidocs/io/vertx/core/Future.html#compose-java.util.function.Function-[compose]` 方法作用于顺序组合 future：
 
-- 若当前future成功，执行`compose`方法指定的方法，该方法返回新的future；当返回的新future完成时，future组合成功；
+- 若当前future成功，执行 `compose` 方法指定的方法，该方法返回新的future；当返回的新future完成时，future组合成功；
 - 若当前future失败，则future组合失败。
 
 [source,java]
@@ -357,7 +357,7 @@ CompositeFuture.join(Arrays.asList(future1, future2, future3));
 === 兼容CompletionStage
 
 JDK的 `CompletionStage` 接口用于组合异步操作，
-Vert.x的 `Future` API可兼容`CompletionStage`。
+Vert.x的 `Future` API可兼容 `CompletionStage` 。
 
 我们可以用 `link:../../apidocs/io/vertx/core/Future.html#toCompletionStage--[toCompletionStage]` 方法将Vert.x的 `Future` 对象转为 `CompletionStage` 对象，如：
 
@@ -381,7 +381,7 @@ future.toCompletionStage().whenComplete((ip, err) -> {
 . 第二个重载方法额外多接收一个 `link:../../apidocs/io/vertx/core/Context.html[Context]` 参数，会在Vert.x的Context中调用 `Future` 的方法。
 
 IMPORTANT: 由于Vert.x的 `Future` 通常会与Vert.x的代码、库以及客户端等一起使用，为了与Vert.x的线程模型更好地配合，
-大部分场景下应使用`Future.fromCompletionStage(CompletionStage, Context)`方法。
+大部分场景下应使用 `Future.fromCompletionStage(CompletionStage, Context)` 方法。
 
 下面的例子展示了如何将 `CompletionStage` 对象转为Vert.x的 `Future` 对象，这里选择使用Vert.x的Context执行:
 
@@ -838,7 +838,7 @@ include::parsetools.adoc[]
 我们不会将所有的内容重写成异步方式，所以我们为您提供一种在
 Vert.x 应用中安全调用"传统"阻塞API的方法。
 
-如之前讨论，您不能在 Event Loop 中直接调用阻塞式操作，因为这样做会阻止 Event Loop 
+如之前讨论，您不能在 Event Loop 中直接调用阻塞式操作，因为这样做会阻止 Event Loop
 执行其他有用的任务。那您该怎么做？
 
 可以通过调用 `link:../../apidocs/io/vertx/core/Vertx.html#executeBlocking-io.vertx.core.Handler-boolean-io.vertx.core.Handler-[executeBlocking]`
@@ -1003,7 +1003,7 @@ vertx run groovy:io.vertx.example.MyGroovyVerticle
 如果没有指定，则默认使用 `cluster-host` 的值
 * `-ha` - 若指定，该Verticle将部署为（支持）高可用性（HA）。
 有关详细信息，请参阅相关章节。
-* `-quorum` - 该参数需要和 `-ha` 一起使用，它指定集群中所有 _HA deploymentIDs_ 
+* `-quorum` - 该参数需要和 `-ha` 一起使用，它指定集群中所有 _HA deploymentIDs_
 处于活动状态的最小节点数，默认为0。
 * `-hagroup` - 该参数需要和 `-ha` 一起使用，它指定此节点将加入的HA组。
 集群中可以有多个HA组，节点只会故障转移到同一组中的其他节点。默认为
@@ -1165,7 +1165,7 @@ java -jar my-verticle-fat.jar list
 
 若选项值包含空白，则需使用 `""` （双引号）将选项值括起来。
 
-由于 `start` 命令产生一个新的进程，传递给JVM的java选项不会被传播，所以您 **必须** 
+由于 `start` 命令产生一个新的进程，传递给JVM的java选项不会被传播，所以您 **必须**
 使用 `java-opts` 来配置JVM（`-X`， `-D`...）。若您使用 `CLASSPATH` 环境变量，
 请确保路径下包含所有需要的jar（vertx-core、您的jar和所有依赖项）。
 
@@ -1173,7 +1173,7 @@ java -jar my-verticle-fat.jar list
 
 === 实时重部署
 
-在开发时，可以方便在文件更改时实时重新部署应用程序。`vertx` 
+在开发时，可以方便在文件更改时实时重新部署应用程序。`vertx`
 命令行工具和更普遍的 `link:../../apidocs/io/vertx/core/Launcher.html[Launcher]` 类提供了这个功能。
 这里有些例子：
 
@@ -1202,12 +1202,12 @@ _监视_ 的文件集，这个集合可使用 Ant样式模式（使用 `\**`，`
 
 也可以在IDE中使用重部署功能：
 
-* Eclipse - 创建一个 _Run_ 配置，使用 `io.vertx.core.Launcher` 类作为 _主类_ 。在 _Program Arguments_ 
-区域（ _Arguments_ 选项卡中），写入 `run your-verticle-fully-qualified-name --redeploy=*/*.java 
+* Eclipse - 创建一个 _Run_ 配置，使用 `io.vertx.core.Launcher` 类作为 _主类_ 。在 _Program Arguments_
+区域（ _Arguments_ 选项卡中），写入 `run your-verticle-fully-qualified-name --redeploy=*/*.java
 --launcher-class=io.vertx.core.Launcher` ，您还可以添加其他参数。随着 Eclipse
 在保存时增量编译您的文件，重部署工作会顺利进行。
 * IntelliJ - 创建一个 _Run_ 配置（_Application_）,将主类设置为 `io.vertx.core.Launcher`。在
-程序参数中写：`run your-verticle-fully-qualified-name --redeploy=*/*.class 
+程序参数中写：`run your-verticle-fully-qualified-name --redeploy=*/*.class
 --launcher-class=io.vertx.core.Launcher` 。要触发重新部署，您需要显式 _构造_
 项目或模块（_Build_ -> _Make project_）。
 
@@ -1305,7 +1305,7 @@ Vert.x会尝试查找最合适的日志框架：
 === 配置JUL日志记录
 
 JUL日志配置文件可以使用普通的JUL方式指定 —— 通过设置系统属性 `java.util.logging.config.file` 的值为您的配置文件。
-更多关于此部分以及JUL配置文件结构的内容，请参阅`JUL`日志记录的文档。
+更多关于此部分以及JUL配置文件结构的内容，请参阅 `JUL` 日志记录的文档。
 
 Vert.x还提供了一种更方便的方式指定配置文件，无需设置系统属性。
 您只需在您的类路径中提供名为 `vertx-default-jul-logging.properties` 的JUL配置文件（例如在您的fatjar中），Vert.x将使用该配置文件配置JUL。
@@ -1501,7 +1501,7 @@ vertx run yet-another-verticle.js -ha -quorum 3
 如果我们关闭或者强行杀死其中一个节点，那么这些模块将会被自动卸载，
 因为节点数量已经不满足 `quorum` 数值条件。
 
-Quora 也可以和高可用分组联合使用，此时 quora 
+Quora 也可以和高可用分组联合使用，此时 quora
 仅在指定的分组中起作用。
 
 == 本地传输
@@ -1740,7 +1740,7 @@ java -jar my-fat-jar.jar hello vert.x
 
 === 启动器（Launcher）子类
 
-您还可以创建 `link:../../apidocs/io/vertx/core/Launcher.html[Launcher]`的子类来启动您的应用程序。
+您还可以创建 `link:../../apidocs/io/vertx/core/Launcher.html[Launcher]` 的子类来启动您的应用程序。
 这个类设计得易于扩展。
 
 一个启动器 `link:../../apidocs/io/vertx/core/Launcher.html[Launcher]` 的子类可以：
@@ -1761,7 +1761,7 @@ java -jar my-fat-jar.jar hello vert.x
 * `0` :进程顺利结束，或抛出未捕获的错误；
 * `1` :用于通用错误；
 * `11`:Vert.x无法初始化；
-* `12`:生成的进程无法启动、发现或停止，该错误代码一般由 `start` 和 
+* `12`:生成的进程无法启动、发现或停止，该错误代码一般由 `start` 和
 `stop` 命令使用；
 * `14`:系统配置不符合系统要求（如找不到 `java` 命令）；
 * `15`:主Verticle不能被部署；
