@@ -1,21 +1,22 @@
 = Vert.x-Web
 :toc: left
 
-Vert.x-Web是基于Vert.x的,用于构建Web应用程序的一系列构建模块. 可以将其视为一把构建现代的,可扩展的Web应用的瑞士军刀.
+Vert.x-Web是基于Vert.x的，用于构建Web应用程序的一系列构建模块。 可以将其视为一把构建现代的，可扩展的Web应用的瑞士军刀。
 
 Vert.x Core 提供了一系列相对底层的功能用于操作HTTP，对于一部分应用是足够的。
 
-Vert.x Web 基于 Vert.x Core 提供了一系列更丰富的功能, 以便更容易地开发实际的 Web 应用。
+Vert.x Web 基于 Vert.x Core 提供了一系列更丰富的功能，以便更容易地开发实际的 Web 应用。
 
-它继承了 Vert.x 2.x 里的 http://pmlopes.github.io/yoke/[Yoke] 的特点,灵感来自于 Node.js 的框架 http://expressjs.com/[Express] 和 Ruby 的框架 http://www.sinatrarb.com/[Sinatra] 等等.
+它继承了 Vert.x 2.x 里的 http://pmlopes.github.io/yoke/[Yoke] 的特点，灵感来自于 Node.js 的框架 http://expressjs.com/[Express] 和 Ruby 的框架 http://www.sinatrarb.com/[Sinatra] 等等。
 
-Vert.x Web 的设计是强大的，非侵入式的, 并且是完全可插拔的.您可以只使用您需要的部分. Vert.x Web 不是一个容器.
+Vert.x Web 的设计是强大的，非侵入式的, 并且是完全可插拔的。您可以只使用您需要的部分。 Vert.x Web 不是一个容器。
 
-您可以使用 Vert.x Web 来构建经典的服务端 Web 应用, RESTful 应用, 实时的（服务端推送)Web 应用, 或任何您所能想到的 Web 应用类型.应用类型的选择取决于您的喜好,而不是 Vert.x Web.
+您可以使用 Vert.x Web 来构建经典的服务端 Web 应用， RESTful 应用， 实时的（服务端推送)Web 应用, 或任何您所能想到的 Web 应用类型。应用类型的选择取决于您的喜好，而不是 Vert.x Web。
 
-Vert.x Web 非常适合编写 **RESTful HTTP 微服务**, 但我们不强制您必须把应用实现成这样.
+Vert.x-Web is a great fit for writing RESTful HTTP micro-services, but we don’t force you to write apps like that。
+Vert.x Web 非常适合编写 RESTful HTTP 微服务，** 但我们不强制 ** 您必须把应用实现成这样。
 
-Vert.x Web 的一部分关键特性有:
+Vert.x Web 的一部分关键特性有：
 
 * 路由(基于方法,路径等)
 * 基于正则表达式的路径匹配
@@ -38,7 +39,7 @@ Vert.x Web 的一部分关键特性有:
 
 * 支持服务端模板渲染，包括以下开箱即用的模板引擎: 
 ** Handlebars
-** Jade,
+** Jade
 ** MVEL
 ** Thymeleaf
 ** Apache FreeMarker
@@ -53,15 +54,15 @@ Vert.x Web 的一部分关键特性有:
 * CSRF 跨域请求伪造
 * 虚拟主机
 
-Vert.x Web 的大部分特性是使用Handler实现的, 而且您随时可以实现您自己的处理器。我们预计随着时间的推移会有更多的处理器被实现。
+Vert.x Web 的大部分特性是使用Handler实现的， 而且您随时可以实现您自己的处理器。我们预计随着时间的推移会有更多的处理器被实现。
 
 我们会在本手册里讨论所有上述的特性。
 
 == 使用 Vert.x Web
 
-在使用 Vert.x Web 之前，需要为您的构建工具在描述文件中添加  _dependencies_ 依赖项:
+在使用 Vert.x Web 之前，需要为您的构建工具在描述文件中添加  _dependencies_ 依赖项：
 
-* Maven (在你的 `pom.xml` 文件中):
+* Maven (在您的 `pom.xml` 文件中):
 
 [source,xml,subs="+attributes"]
 ----
@@ -72,7 +73,7 @@ Vert.x Web 的大部分特性是使用Handler实现的, 而且您随时可以实
 </dependency>
 ----
 
-* Gradle (在你的 `build.gradle` 文件中):
+* Gradle (在您的 `build.gradle` 文件中)：
 
 [source,groovy,subs="+attributes"]
 ----
@@ -83,26 +84,26 @@ dependencies {
 
 === 开发模式
 
-Vert.x Web 默认使用生产模式.
-您可以通过设置`dev`值到下面的其中一个来切换开发模式:
+Vert.x Web 默认使用生产模式。
+您可以通过设置 `dev` 值到下面的其中一个来切换开发模式：
 
-* `VERTXWEB_ENVIRONMENT` 环境变量, 或
+* `VERTXWEB_ENVIRONMENT` 环境变量，或
 * `vertxweb.environment` 系统属性
 
-在开发模式:
+在开发模式：
 
 * 模板引擎缓存被禁用
-* `ErrorHandler`不显示异常详细信息
-* `StaticHandler`不处理缓存头
-* GraphiQL开发工具被禁用
+* `ErrorHandler` 不显示异常详细信息
+* `StaticHandler` 不处理缓存头
+* GraphQL开发工具被禁用
 
 == 回顾 Vert.x Core 的 HTTP 服务端
 
-Vert.x Web 使用并暴露了 Vert.x Core 的 API, 所以熟悉基于 Vert.x Core 编写 HTTP 服务端的基本概念是很有价值的.
+Vert.x Web 使用并暴露了 Vert.x Core 的 API，所以熟悉基于 Vert.x Core 编写 HTTP 服务端的基本概念是很有价值的。
 
-Vert.x core HTTP文档对此进行了详细介绍.
+Vert.x core HTTP文档对此进行了详细介绍。
 
-这是一个用 Vert.x core 编写的 Hello World Web服务. 暂不涉及Vert.x-Web:
+这是一个用 Vert.x core 编写的 Hello World Web服务。暂不涉及Vert.x-Web：
 [source,java]
 ----
 HttpServer server = vertx.createHttpServer();
@@ -120,26 +121,26 @@ server.requestHandler(request -> {
 server.listen(8080);
 ----
 
-我们创建了一个 HTTP 服务实例, 并设置了一个请求处理器. 所有的请求都会调用这个处理器处理.
+我们创建了一个 HTTP 服务实例，并设置了一个请求处理器。所有的请求都会调用这个处理器处理。
 
-当请求到达时, 我们设置响应的 Content Type 为 `text/plain`, 并写入了 `Hello World!` 然后结束了处理。
+当请求到达时，我们设置响应的 Content Type 为 `text/plain` ， 并写入了 `Hello World!` 然后结束了处理。
 
-之后，我们告诉服务器监听 `8080` 端口(默认的主机名是 `localhost`).
+之后，我们告诉服务器监听 `8080` 端口(默认的主机名是 `localhost` )。
 
 您可以执行这段代码，并打开浏览器访问 `http://localhost:8080` 来验证它是否如预期的一样工作。
 
 == Vert.x Web 的基本概念
 
-高屋建瓴 (Here's the 10000 foot view):
+高屋建瓴 (Here's the 10000 foot view)：
 
-`link:../../apidocs/io/vertx/ext/web/Router.html[Router]` 是 Vert.x Web 的核心概念之一. 它是一个维护了零或多个
-`link:../../apidocs/io/vertx/ext/web/Route.html[Routes]` 的对象.
+`link:../../apidocs/io/vertx/ext/web/Router.html[Router]` 是 Vert.x Web 的核心概念之一。 它是一个维护了零或多个
+`link:../../apidocs/io/vertx/ext/web/Route.html[Routes]` 的对象。
 
 一个 router 接收 HTTP 请求，并查找首个匹配该请求的route, 然后将请求传递给这个route
 
-`Route` 可以持有一个与之关联的 _handler_ 用于接收请求. 您可以通过这个处理器对请求 _做一些事情_, 然后结束响应或者把请求传递给下一个匹配的处理器。
+`Route` 可以持有一个与之关联的 _handler_ 用于接收请求。 您可以通过这个处理器对请求 _做一些事情_, 然后结束响应或者把请求传递给下一个匹配的处理器。
 
-以下是一个简单的路由示例:
+以下是一个简单的路由示例：
 
 [source,java]
 ----
@@ -160,31 +161,31 @@ router.route().handler(ctx -> {
 server.requestHandler(router).listen(8080);
 ----
 
-它做了和上文使用 Vert.x Core 实现的 hello world HTTP 服务基本相同的事情, 只是这一次换成了 Vert.x Web.
+它做了和上文使用 Vert.x Core 实现的 hello world HTTP 服务基本相同的事情，只是这一次换成了 Vert.x Web。
 
-我们像以前一样创建一个HTTP服务器, 然后我们创建一个 router. 当我们完成这些之后,我们创建一个简单的没有匹配条件的 route,它能够匹配 _全部_ 到来的请求.
+我们像以前一样创建一个HTTP服务器，然后我们创建一个 router。当我们完成这些之后,我们创建一个简单的没有匹配条件的 rout，它能够匹配 _全部_ 到来的请求。
 
-然后, 我们为该路由指定一个处理器. 该处理器将处理所有到来的请求.
+然后，我们为该路由指定一个处理器。该处理器将处理所有到来的请求。
 
-传递给处理器的对象是 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html[RoutingContext]` - 它包含标准的 Vert.x `link:../../apidocs/io/vertx/core/http/HttpServerRequest.html[HttpServerRequest]` 和 `link:../../apidocs/io/vertx/core/http/HttpServerResponse.html[HttpServerResponse]`
-还有其他各种有用的东西,让使用Vert.x-Web变得更加简单.
+传递给处理器的对象是 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html[RoutingContext]` - 它包含标准的 Vert.x `link:../../apidocs/io/vertx/core/http/HttpServerRequest.html[HttpServerRequest]` 和 `link:../../apidocs/io/vertx/core/http/HttpServerResponse.html[HttpServerResponse]` 
+还有其他各种有用的东西，让使用Vert.x-Web变得更加简单。
 
-处理器调用的参数是一个 http://vertx.io/docs/apidocs/io/vertx/ext/web/RoutingContext.html[`RoutingContext`] 对象. 它不仅包含了 Vert.x 中标准的 http://vertx.io/docs/apidocs/io/vertx/core/http/HttpServerRequest.html[`HttpServerRequest`] 和
-http://vertx.io/docs/apidocs/io/vertx/core/http/HttpServerResponse.html[`HttpServerResponse`], 还包含了各种用于简化 Vert.x Web 使用的东西。
+处理器调用的参数是一个 http://vertx.io/docs/apidocs/io/vertx/ext/web/RoutingContext.html[ `RoutingContext` ] 对象。 它不仅包含了 Vert.x 中标准的 http://vertx.io/docs/apidocs/io/vertx/core/http/HttpServerRequest.html[ `HttpServerRequest` ] 和
+http://vertx.io/docs/apidocs/io/vertx/core/http/HttpServerResponse.html[ `HttpServerResponse` ]，还包含了各种用于简化 Vert.x Web 使用的东西。
 
-每个被路由的请求, 都有一个唯一的路由上下文实例, 并将这个实例传递给该请求的所有处理器.
+每个被路由的请求， 都有一个唯一的路由上下文实例， 并将这个实例传递给该请求的所有处理器。
 
-当我们建立了处理器之后, 我们设置 HTTP 服务器的请求处理器, 使所有的请求都通过 `link:../../apidocs/io/vertx/core/Handler.html#handle-java.lang.Object-[handle]` 处理.
+当我们建立了处理器之后，我们设置 HTTP 服务器的请求处理器，使所有的请求都通过 `link:../../apidocs/io/vertx/core/Handler。html#handle-java.lang.Object-[handle]` 处理。
 
-这些是最基本的, 下面我们来看一下更多的细节:
+这些是最基本的，下面我们来看一下更多的细节：
 
 == 处理请求并调用下一个处理器
 
-当 Vert.x Web 决定路由一个请求到匹配的route, 它会调用对应处理器并将一个 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html[RoutingContext]` 实例传递给它. route可以具有不同的处理器, 您可以叠加使用 `link:../../apidocs/io/vertx/ext/web/Route.html#handler-io.vertx.core.Handler-[handler]`
+当 Vert.x Web 决定路由一个请求到匹配的route，它会调用对应处理器并将一个 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html[RoutingContext]` 实例传递给它. route可以具有不同的处理器， 您可以叠加使用 `link:../../apidocs/io/vertx/ext/web/Route。html#handler-io.vertx.core.Handler-[handler]` 
 
-如果您不在处理器里结束这个响应, 您需要调用 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#next--[next]`方法让其他匹配的 route 来处理请求(如果有).
+如果您不在处理器里结束这个响应，您需要调用 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#next--[next]` 方法让其他匹配的 route 来处理请求(如果有)。
 
-您不需要在处理器执行完毕时调用 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#next--[next]`. 您可以在之后需要的时间点调用它:
+您不需要在处理器执行完毕时调用 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#next--[next]` 。 您可以在之后需要的时间点调用它：
 
 [source,java]
 ----
@@ -192,7 +193,7 @@ Route route = router.route("/some/path/");
 route.handler(ctx -> {
 
   HttpServerResponse response = ctx.response();
-  // 开启分块响应, 因为我们将在执行其他处理器时添加数据
+  // 开启分块响应，因为我们将在执行其他处理器时添加数据
   // 仅当有多个处理器输出时
   response.setChunked(true);
 
@@ -221,17 +222,17 @@ route.handler(ctx -> {
 });
 ----
 
-在上述的例子中, `route1` 向响应里写入了数据, 5秒之后 `route2` 向响应里写入了数据, 再5秒之后 `route3` 向响应里写入了数据并结束了响应。
+在上述的例子中， `route1` 向响应里写入了数据， 5秒之后 `route2` 向响应里写入了数据，再5秒之后 `route3` 向响应里写入了数据并结束了响应。
 
-注意，所有发生的这些没有线程阻塞.
+注意，所有发生的这些没有线程阻塞。
 
 == 简单的响应
 
-处理器非常强大, 因为它们允许您构建非常复杂的应用程序. 为了保证简单的响应, 例如直接从vert.x API返回异步响应, router 包含一个快捷的处理器:
+处理器非常强大， 因为它们允许您构建非常复杂的应用程序。 为了保证简单的响应，例如直接从vert.x API返回异步响应，router 包含一个快捷的处理器：
 
-1. 响应返回JSON
-2. 如果处理过程中发生错误，一个适当的错误会返回.
-3. 如果序列化JSON中发生错误，一个适当的错误会返回.
+1. 响应返回JSON。
+2. 如果处理过程中发生错误，一个适当的错误会返回。
+3. 如果序列化JSON中发生错误，一个适当的错误会返回。
 
 [source,java]
 ----
@@ -250,7 +251,7 @@ router
     ctx -> Future.succeededFuture(new Pojo()));
 ----
 
-不过, 如果提供的函数支持调用`write`或`end`, 您还可以将其用于非JSON响应. 
+不过， 如果提供的函数支持调用 `write` 或 `end` ， 您还可以将其用于非JSON响应。
 
 [source,java]
 ----
@@ -264,7 +265,7 @@ router
 
 router
   .get("/some/path")
-  // in this case, the handler ensures that the connection is ended
+  // 在这种情况下，处理器确保连接被终止
   .respond(
     ctx -> ctx
       .response()
@@ -274,13 +275,13 @@ router
 
 == 使用阻塞式处理器
 
-某些时候您可能需要在处理器里执行一些需要阻塞 Event Loop 的操作, 比如调用某个传统的阻塞式 API 或者执行密集计算.
+某些时候您可能需要在处理器里执行一些需要阻塞 Event Loop 的操作，比如调用某个传统的阻塞式 API 或者执行密集计算。
 
-您不能在普通的处理器里执行这些操作, 因此我们提供了将route设置成阻塞式处理器的功能.
+您不能在普通的处理器里执行这些操作， 因此我们提供了将route设置成阻塞式处理器的功能。
 
-阻塞式处理器和普通处理器很像, 区别是 Vert.x 会使用 Worker Pool 中的线程而不是 Event Loop 线程来处理请求。
-您可以使用 `link:../../apidocs/io/vertx/ext/web/Route.html#blockingHandler-io.vertx.core.Handler-[blockingHandler]`.
-方法来建立阻塞式处理器. 下面是一个例子:
+阻塞式处理器和普通处理器很像， 区别是 Vert.x 会使用 Worker Pool 中的线程而不是 Event Loop 线程来处理请求。
+您可以使用 `link:../../apidocs/io/vertx/ext/web/Route.html#blockingHandler-io.vertx.core.Handler-[blockingHandler]` 
+方法来建立阻塞式处理器。 下面是一个例子:
 
 [source,java]
 ----
@@ -295,9 +296,9 @@ router.route().blockingHandler(ctx -> {
 });
 ----
 
-默认情况下, 在同一个 Context (例如同一个 Verticle 实例) 上执行的所有阻塞式处理器是顺序的, 也就意味着只有一个处理器执行完了才会继续执行下一个. 如果您不关心执行的顺序，并且不介意阻塞式处理器以并行的方式执行, 您可以在使用 `link:../../apidocs/io/vertx/ext/web/Route.html#blockingHandler-io.vertx.core.Handler-boolean-[blockingHandler]` 时, 设置阻塞式处理器的 `ordered` 为 false.
+默认情况下，在同一个 Context (例如同一个 Verticle 实例) 上执行的所有阻塞式处理器是顺序的， 也就意味着只有一个处理器执行完了才会继续执行下一个。 如果您不关心执行的顺序，并且不介意阻塞式处理器以并行的方式执行， 您可以在使用 `link:../../apidocs/io/vertx/ext/web/Route.html#blockingHandler-io.vertx.core.Handler-boolean-[blockingHandler]` 时，设置阻塞式处理器的 `ordered` 为 false。
 
-注意，如果您需要在一个阻塞处理器中处理一个 multipart 类型的表单数据，您需要首先使用一个非阻塞的处理器来调用 `setExpectMultipart(true)`。下面是一个例子：
+注意，如果您需要在一个阻塞处理器中处理一个 multipart 类型的表单数据，您需要首先使用一个非阻塞的处理器来调用 `setExpectMultipart(true)` 。下面是一个例子：
 [source,java]
 ----
 router.post("/some/endpoint").handler(ctx -> {
@@ -312,20 +313,20 @@ router.post("/some/endpoint").handler(ctx -> {
 
 可以将 `Route` 设置为根据需要所匹配的 URI。在这种情况下它只会匹配路径一致的请求。
 
-在下面这个例子中,处理器会被路径为 `/some/path/` 的请求调用. 我们会忽略结尾的 `/`, 所以路径 `/some/path` 或者 `/some/path//` 的请求也是匹配的
+在下面这个例子中，处理器会被路径为 `/some/path/` 的请求调用。我们会忽略结尾的 `/` ， 所以路径 `/some/path` 或者 `/some/path//` 的请求也是匹配的
 [source,java]
 ----
 Route route = router.route().path("/some/path/");
 
 route.handler(ctx -> {
-  // 这个处理器会被以下路径的请求调用:
+  // 这个处理器会被以下路径的请求调用：
 
-  // `/some/path/`
-  // `/some/path//`
+  // `/some/path/` 
+  // `/some/path//` 
   //
   // 但不包括:
   // `/some/path` 路径末尾的斜线会被严格限制
-  // `/some/path/subdir`
+  // `/some/path/subdir` 
 });
 
 // 路径结尾没有斜线的不会被严格限制
@@ -334,30 +335,30 @@ route.handler(ctx -> {
 Route route2 = router.route().path("/some/path");
 
 route2.handler(ctx -> {
-  // 这个处理器会被以下路径的请求调用:
+  // 这个处理器会被以下路径的请求调用：
 
   // `/some/path`
   // `/some/path/`
   // `/some/path//`
   //
   // 但不包括:
-  // `/some/path/subdir`
+  // `/some/path/subdir` 
 });
 ----
 
 == 基于路径前缀的路由
 
-您经常需要为所有以某些路径开始的请求设置 `Route`. 您可以使用正则表达式来实现, 但更简单的方式是在声明 `Route` 的路径时使用一个 `*` 作为结尾.
+您经常需要为所有以某些路径开始的请求设置 `Route` 。 您可以使用正则表达式来实现， 但更简单的方式是在声明 `Route` 的路径时使用一个 `*` 作为结尾。
 
-在下面的例子中处理器会匹配所有 URI 以 `/some/path` 开头的请求.
+在下面的例子中处理器会匹配所有 URI 以 `/some/path` 开头的请求。
 
-例如 `/some/path/foo.html` 和 `/some/path/otherdir/blah.css` 都会匹配.
+例如 `/some/path/foo.html` 和 `/some/path/otherdir/blah.css` 都会匹配。
 [source,java]
 ----
 Route route = router.route().path("/some/path/*");
 
 route.handler(ctx -> {
-  // 这个处理器处理会被所有以 `/some/path/` 开头的请求调用, 例如:
+  // 这个处理器处理会被所有以 `/some/path/` 开头的请求调用， 例如：
 
   // `/some/path/`
   // `/some/path/subdir`
@@ -369,7 +370,7 @@ route.handler(ctx -> {
 });
 ----
 
-也可以在创建 `Route` 的时候指定任意的路径:
+也可以在创建 `Route` 的时候指定任意的路径：
 [source,java]
 ----
 Route route = router.route("/some/path/*");
@@ -381,7 +382,7 @@ route.handler(ctx -> {
 
 == 捕捉路径参数
 
-可以通过占位符声明路径参数并在处理请求时通过 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#pathParam-java.lang.String-[pathParam]` . 方法获取
+可以通过占位符声明路径参数并在处理请求时通过 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#pathParam-java.lang.String-[pathParam]` 。 方法获取
 
 以下是一个例子
 
@@ -398,11 +399,11 @@ router
   });
 ----
 
-占位符由 `:` 和参数名构成. 参数名由字母, 数字和下划线构成.
+占位符由 `:` 和参数名构成. 参数名由字母， 数字和下划线构成。
 
-在上面的例子中, 如果一个 POST 请求的路径为  `/catalogue/products/tools/drill123/`, 那么会匹配这个 `Route`, 并且会接收参数 `productType` 的值为 `tools`, 参数 `productID` 的值为 `drill123`.
+在上面的例子中， 如果一个 POST 请求的路径为  `/catalogue/products/tools/drill123/` ， 那么会匹配这个 `Route` ， 并且会接收参数 `productType` 的值为 `tools` ，参数 `productID` 的值为 `drill123` 。
 
-注意: 您也可以将 * 捕获为路径参数 * 。
+注意： 您也可以将 * 捕获为路径参数 * 。
 
 == Routing with regular expressions
 
