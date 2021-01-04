@@ -2376,7 +2376,7 @@ router.route().handler(ctx -> {
 
 Multi tenant is a powerful handler that will allow applications to live side by side, however it provides no sandboxing
 for execution. It should not be used as isolation as wrongly written applications may leak state across tenants.
-
+[[_templates]]
 == 模板
 
 Vert.x Web 为若干流行的模板引擎提供了开箱即用的支持，通过这种方式来提供生成动态页面的能力。
