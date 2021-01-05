@@ -2708,7 +2708,7 @@ Hello @foo and @bar
 == 错误处理器
 
 您可使用模版处理器渲染您自己的错误页面，
-但是Vert.x web同样为您提供了开箱即用的错误处理器，可为您渲染错误页面。
+但是Vert.x web同样为您提供了开箱即用且“好看的”错误处理器，可为您渲染错误页面。
 
 该处理器是 `link:../../apidocs/io/vertx/ext/web/handler/ErrorHandler.html[ErrorHandler]`。
 要使用该错误处理器，仅需要将其设置为您希望覆盖的错误路径的失败处理器即可（failure handler）。
