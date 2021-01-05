@@ -2484,10 +2484,10 @@ html
 Handlebars 不允许在模板中随意地调用对象的方法，
 因此我们不能像对待其他模板引擎一样将RoutingContext传递到引擎里并让模板来识别它。
 
-替代方案是，可以使用 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#data--[data]` 来访问上下文数据。
+替代方案是，可以使用模版中的上下文 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#data--[data]` 对象。
 
-如果您要访问某些上下文数据里不存在的信息，
-比如请求的路径、请求参数或者会话等，您需要在模板处理器执行之前将他们添加到上下文数据里，例如：
+如果您要访问某些RoutingContext里不存在的信息，
+比如请求的路径、请求参数或者会话等，您需要在模板处理器执行之前将他们添加到上下文data里，例如：
 
 [source,java]
 ----
