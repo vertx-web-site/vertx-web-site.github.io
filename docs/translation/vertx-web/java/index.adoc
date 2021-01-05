@@ -2425,18 +2425,18 @@ router.getWithRegex(".+\\.hbs").handler(handler);
 [[_mvel_template_engine]]
 === MVEL 模版引擎
 
-To use MVEL, you need to add the following _dependency_ to your project:
-`io.vertx:vertx-web-templ-mvel:4.0.0`. Create an instance of the MVEL template engine using:
-`io.vertx.ext.web.templ.mvel.MVELTemplateEngine#create(io.vertx.core.Vertx)`
+您需要在项目中添加以下_依赖_以使用 MVEL 模板引擎：
+`io.vertx:vertx-web-templ-mvel:4.0.0` 。 并通过此方法以创建 MVEL 模板引擎实例：
+`io.vertx.ext.web.templ.mvel.MVELTemplateEngine#create(io.vertx.core.Vertx)`。
 
-When using the MVEL template engine, it will by default look for
-templates with the `.templ` extension if no extension is specified in the file name.
+在使用 MVEL 模板引擎时，如果不指定模板文件的扩展名，
+则默认会查找扩展名为 `.templ` 的文件。
 
-The routing context `link:../../apidocs/io/vertx/ext/web/RoutingContext.html[RoutingContext]` is available
-in the MVEL template as the `context` variable, this means you can render the template based on anything in the context
-including the request, response, session or context data.
+在 MVEL 模板中可以通过 `context` 变量来访问路由上下文 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html[RoutingContext]` 对象。
+这意味着您可使用任何基于上下文里的信息来渲染模板，
+包括请求、响应、会话或者上下文数据。
 
-Here are some examples:
+以下是例子：
 
 ----
 The request path is @{context.request().path()}
@@ -2446,23 +2446,23 @@ The variable 'foo' from the session is @{context.session().get('foo')}
 The value 'bar' from the context data is @{context.get('bar')}
 ----
 
-Please consult the http://mvel.codehaus.org/MVEL+2.0+Templating+Guide[MVEL templates documentation] for how to write
-MVEL templates.
+关于如何编写 MVEL 模板，
+请参考 http://mvel.codehaus.org/MVEL+2.0+Templating+Guide[MVEL 模板文档]。
+[[_jade_template_engine]]
+=== Jade 模版引擎（译者注：Jade 已更名为 Pug)
 
-=== Jade template engine
+您需要在项目中添加以下_依赖_以使用 MVEL 模板引擎：
+`io.vertx:vertx-web-templ-jade:4.0.0` 。 并通过此方法以创建 MVEL 模板引擎实例：
+`io.vertx.ext.web.templ.jade.JadeTemplateEngine#create(io.vertx.core.Vertx)`。
 
-To use the Jade template engine, you need to add the following _dependency_ to your project:
-`io.vertx:vertx-web-templ-jade:4.0.0`. Create an instance of the Jade template engine using:
-`io.vertx.ext.web.templ.jade.JadeTemplateEngine#create(io.vertx.core.Vertx)`.
+在使用 MVEL 模板引擎时，如果不指定模板文件的扩展名，
+则默认会查找扩展名为 `.jade` 的文件。
 
-When using the Jade template engine, it will by default look for
-templates with the `.jade` extension if no extension is specified in the file name.
+在 Jade 模板中可以通过 `context` 变量来访问路由上下文 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html[RoutingContext]` 对象。
+这意味着您可使用任何基于上下文里的信息来渲染模板，
+包括请求、响应、会话或者上下文数据。
 
-The routing context `link:../../apidocs/io/vertx/ext/web/RoutingContext.html[RoutingContext]` is available
-in the Jade template as the `context` variable, this means you can render the template based on anything in the context
-including the request, response, session or context data.
-
-Here are some examples:
+以下是例子：
 
 ----
 !!! 5
@@ -2472,8 +2472,8 @@ html
  body
 ----
 
-Please consult the https://github.com/neuland/jade4j[Jade4j documentation] for how to write
-Jade templates.
+关于如何编写 Jade 模板，
+请参考 https://github.com/neuland/jade4j[Jade4j 文档]。
 
 === Handlebars template engine
 
