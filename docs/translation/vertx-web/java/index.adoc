@@ -2716,7 +2716,7 @@ Hello @foo and @bar
 但是Vert.x-Web同样为您提供了开箱即用且“好看的”错误处理器，可为您渲染错误页面。
 
 该处理器是 `link:../../apidocs/io/vertx/ext/web/handler/ErrorHandler.html[ErrorHandler]`。
-要使用该错误处理器，仅需要将其设置为您希望覆盖的错误路径的失败处理器即可（failure handler）。
+要使用该错误处理器，仅需要将其设置为您希望覆盖的错误路径的失败处理器即可（译者注：例如router.route("/*").failureHandler(ErrorHandler.create(vertx))）。
 
 [[_request_logger]]
 == 请求日志
