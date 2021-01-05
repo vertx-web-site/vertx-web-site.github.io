@@ -1,3 +1,4 @@
+[[_RxJava2API]]
 == RxJava 2 API
 
 RxJava `link:../../apidocs/io/vertx/reactivex/ext/web/client/HttpRequest.html[HttpRequest]` 提供了RX化的原始版本API，
