@@ -2426,7 +2426,7 @@ router.getWithRegex(".+\\.hbs").handler(handler);
 === MVEL 模版引擎
 
 您需要在项目中添加以下_依赖_以使用 MVEL 模板引擎：
-`io.vertx:vertx-web-templ-mvel:4.0.0` 。 并通过此方法以创建 MVEL 模板引擎实例：
+`io.vertx:vertx-web-templ-mvel:4.0.0`。 并通过此方法以创建 MVEL 模板引擎实例：
 `io.vertx.ext.web.templ.mvel.MVELTemplateEngine#create(io.vertx.core.Vertx)`。
 
 在使用 MVEL 模板引擎时，如果不指定模板文件的扩展名，
@@ -2452,7 +2452,7 @@ The value 'bar' from the context data is @{context.get('bar')}
 === Jade 模版引擎（译者注：Jade 已更名为 Pug)
 
 您需要在项目中添加以下_依赖_以使用 Jade 模板引擎：
-`io.vertx:vertx-web-templ-jade:4.0.0` 。 并通过此方法以创建 MVEL 模板引擎实例：
+`io.vertx:vertx-web-templ-jade:4.0.0`。 并通过此方法以创建 MVEL 模板引擎实例：
 `io.vertx.ext.web.templ.jade.JadeTemplateEngine#create(io.vertx.core.Vertx)`。
 
 在使用 Jade 模板引擎时，如果不指定模板文件的扩展名，
@@ -2478,7 +2478,7 @@ html
 === Handlebars 模板引擎
 
 您需要在项目中添加以下_依赖_以使用 Handlebars 模板引擎：
-`io.vertx:vertx-web-templ-handlebars:4.0.0` 。 并通过此方法以创建 MVEL 模板引擎实例：
+`io.vertx:vertx-web-templ-handlebars:4.0.0`。 并通过此方法以创建 MVEL 模板引擎实例：
 `io.vertx.ext.web.templ.handlebars.HandlebarsTemplateEngine#create(io.vertx.core.Vertx)`。
 
 在使用 Handlebars 模板引擎时，如果不指定模板文件的扩展名，
@@ -2513,7 +2513,7 @@ router.get("/dynamic/").handler(handler);
 === Thymeleaf 模板引擎
 
 您需要在项目中添加以下_依赖_以使用 Thymeleaf 模板引擎：
-`io.vertx:vertx-web-templ-thymeleaf:4.0.0` 。 并通过此方法以创建 MVEL 模板引擎实例：
+`io.vertx:vertx-web-templ-thymeleaf:4.0.0`。 并通过此方法以创建 MVEL 模板引擎实例：
 `io.vertx.ext.web.templ.thymeleaf.ThymeleafTemplateEngine#create(io.vertx.core.Vertx)`。
 
 在使用 Thymeleaf 模板引擎时，如果不指定模板文件的扩展名，
@@ -2541,7 +2541,7 @@ router.get("/dynamic/").handler(handler);
 === Apache FreeMarker 模版引擎
 
 您需要在项目中添加以下_依赖_以使用 Apache FreeMarker ：
-`io.vertx:vertx-web-templ-freemarker:4.0.0` 。 并通过此方法以创建 Apache FreeMarker 模板引擎实例：
+`io.vertx:vertx-web-templ-freemarker:4.0.0`。 并通过此方法以创建 Apache FreeMarker 模板引擎实例：
 `io.vertx.ext.web.templ.Engine#create()`。
 
 在使用 Apache FreeMarker 模板引擎时，如果不指定模板文件的扩展名，
@@ -2569,7 +2569,7 @@ router.get("/dynamic/").handler(handler);
 === Pebble 模版引擎
 
 您需要在项目中添加以下_依赖_以使用 Pebble ：
-`io.vertx:vertx-web-templ-pebble:4.0.0` 。 并通过此方法以创建 Pebble 模板引擎实例：
+`io.vertx:vertx-web-templ-pebble:4.0.0`。 并通过此方法以创建 Pebble 模板引擎实例：
 `io.vertx.ext.web.templ.pebble.PebbleTemplateEngine#create(vertx)`。
 
 在使用 Pebble 模板引擎时，如果不指定模板文件的扩展名，
@@ -2623,18 +2623,18 @@ engine.render(context, "somedir/TestRockerTemplate2", render -> {
 Hello @foo and @bar
 Request path is @context.getString("path")
 ----
+[[_httl_template_engine]]
+=== HTTL 模版引擎
 
-=== HTTL template engine
+您需要在项目中添加以下_依赖_以使用 HTTL ：
+`io.vertx:vertx-web-templ-httl:4.0.0`。 并通过此方法以创建 HTTL 模板引擎实例：
+`io.vertx.ext.web.templ.httl.HTTLTemplateEngine#create(io.vertx.core.Vertx)`。
 
-To use HTTL, you need to add the following _dependency_ to your project:
-`io.vertx:vertx-web-templ-httl:4.0.0`. Create an instance of the HTTL template engine
-using: `io.vertx.ext.web.templ.httl.HTTLTemplateEngine#create(io.vertx.core.Vertx)`.
+在使用 HTTL 模板引擎时，如果不指定模板文件的扩展名，
+则默认会查找扩展名为 `.httl` 的文件。
 
-When using the HTTL template engine, it will by default look for
-templates with the `.httl` extension if no extension is specified in the file name.
-
-The values of the JSON context object passed to the `render` method are then exposed as template parameters.
-Given:
+HTTL会将JSON上下文对象的值传递给 `render` 方法作为模版的参数。
+假定已知：
 
 ----
 [snip]
@@ -2649,7 +2649,7 @@ engine.render(context, "somedir/test-httl-template1.httl", render -> {
 [snip]
 ----
 
-then the template can be as the following `somedir/test-httl-template1.httl` resource file:
+那么相对应的模版文件 `somedir/test-httl-template1.httl` 可写作：
 
 ----
 <!-- #set(String foo, String bar) -->
@@ -2657,20 +2657,20 @@ Hello ${foo} and ${bar}
 
 ----
 
-Please consult the https://httl.github.io/en/[HTTL documentation] for how to write
-HTTL templates.
+关于如何编写 HTTL 模板，
+请参考 https://httl.github.io/en/[HTTL 文档]。
+[[_rythm_template_engine]]
+=== Rythm 模版引擎
 
-=== Rythm template engine
+您需要在项目中添加以下_依赖_以使用 Rythm ：
+`io.vertx:vertx-web-templ-rythm:4.0.0`。 并通过此方法以创建 Rythm 模板引擎实例：
+`io.vertx.ext.web.templ.rythm.RythmTemplateEngine#create(io.vertx.core.Vertx)`。
 
-To use Rythm, you need to add the following _dependency_ to your project:
-`io.vertx:vertx-web-templ-rythm:4.0.0`. Create an instance of the Rythm template engine
-using: `io.vertx.ext.web.templ.rythm.RythmTemplateEngine#create(io.vertx.core.Vertx)`.
+在使用 Rythm 模板引擎时，如果不指定模板文件的扩展名，
+则默认会查找扩展名为 `.html` 的文件。
 
-When using the Rythm template engine, it will by default look for
-templates with the `.html` extension if no extension is specified in the file name.
-
-The values of the JSON context object passed to the `render` method are then exposed as template parameters.
-Given:
+Rythm会将JSON上下文对象的值传递给 `render` 方法作为模版的参数。
+假定已知：
 
 ----
 [snip]
@@ -2685,14 +2685,14 @@ engine.render(context, "somedir/test-rythm-template1.html", render -> {
 [snip]
 ----
 
-then the template can be as the following `somedir/test-rythm-template1.httl` resource file:
+那么相对应的模版文件 `somedir/test-rythm-template1.httl` 可写作：
 
 ----
 <!-- #set(String foo, String bar) -->
 Hello @foo and @bar
 ----
 
-Please consult the http://www.rythmengine.org/[RythmEngine documentation] for how to write templates.
+关于如何编写 HTTL 模板，请参考 http://www.rythmengine.org/[RythmEngine 文档]。
 
 === Caching
 
