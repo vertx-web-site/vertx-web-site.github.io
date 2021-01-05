@@ -2376,6 +2376,7 @@ router.route().handler(ctx -> {
 
 Multi tenant is a powerful handler that will allow applications to live side by side, however it provides no sandboxing
 for execution. It should not be used as isolation as wrongly written applications may leak state across tenants.
+
 [[_templates]]
 == 模板
 
@@ -2416,23 +2417,17 @@ router.get("/dynamic/*").handler(handler);
 router.getWithRegex(".+\\.hbs").handler(handler);
 ----
 
-
-
-
-
-
-
 [[_mvel_template_engine]]
 === MVEL 模版引擎
 
-您需要在项目中添加以下_依赖_以使用 MVEL 模板引擎：
+您需要在项目中添加以下 _依赖_ 以使用 MVEL 模板引擎：
 `io.vertx:vertx-web-templ-mvel:4.0.0`。 并通过此方法以创建 MVEL 模板引擎实例：
 `io.vertx.ext.web.templ.mvel.MVELTemplateEngine#create(io.vertx.core.Vertx)`。
 
 在使用 MVEL 模板引擎时，如果不指定模板文件的扩展名，
 则默认会查找扩展名为 `.templ` 的文件。
 
-在 MVEL 模板中可以通过 `context` 变量来访问路由上下文 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html[RoutingContext]` 对象。
+在 MVEL 模板中可以通过 `context` 上下文变量来访问路由上下文 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html[RoutingContext]` 对象。
 这意味着您可使用任何基于上下文里的信息来渲染模板，
 包括请求、响应、会话或者上下文数据。
 
@@ -2448,17 +2443,18 @@ The value 'bar' from the context data is @{context.get('bar')}
 
 关于如何编写 MVEL 模板，
 请参考 http://mvel.codehaus.org/MVEL+2.0+Templating+Guide[MVEL 模板文档]。
+
 [[_jade_template_engine]]
 === Jade 模版引擎（译者注：Jade 已更名为 Pug)
 
-您需要在项目中添加以下_依赖_以使用 Jade 模板引擎：
-`io.vertx:vertx-web-templ-jade:4.0.0`。 并通过此方法以创建 MVEL 模板引擎实例：
+您需要在项目中添加以下 _依赖_ 以使用 Jade 模板引擎：
+`io.vertx:vertx-web-templ-jade:4.0.0`。 并通过此方法以创建 Jade 模板引擎实例：
 `io.vertx.ext.web.templ.jade.JadeTemplateEngine#create(io.vertx.core.Vertx)`。
 
 在使用 Jade 模板引擎时，如果不指定模板文件的扩展名，
 则默认会查找扩展名为 `.jade` 的文件。
 
-在 Jade 模板中可以通过 `context` 变量来访问路由上下文 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html[RoutingContext]` 对象。
+在 Jade 模板中可以通过 `context` 上下文变量来访问路由上下文 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html[RoutingContext]` 对象。
 这意味着您可使用任何基于上下文里的信息来渲染模板，
 包括请求、响应、会话或者上下文数据。
 
@@ -2474,18 +2470,19 @@ html
 
 关于如何编写 Jade 模板，
 请参考 https://github.com/neuland/jade4j[Jade4j 文档]。
+
 [[_handlebars_template_engine]]
 === Handlebars 模板引擎
 
-您需要在项目中添加以下_依赖_以使用 Handlebars 模板引擎：
-`io.vertx:vertx-web-templ-handlebars:4.0.0`。 并通过此方法以创建 MVEL 模板引擎实例：
+您需要在项目中添加以下 _依赖_ 以使用 Handlebars 模板引擎：
+`io.vertx:vertx-web-templ-handlebars:4.0.0`。 并通过此方法以创建 Handlebars 模板引擎实例：
 `io.vertx.ext.web.templ.handlebars.HandlebarsTemplateEngine#create(io.vertx.core.Vertx)`。
 
 在使用 Handlebars 模板引擎时，如果不指定模板文件的扩展名，
 则默认会查找扩展名为 `.hbs` 的文件。
 
 Handlebars 不允许在模板中随意地调用对象的方法，
-因此我们不能像对待其他模板引擎一样将路由上下文传递到引擎里并让模板来识别它。
+因此我们不能像对待其他模板引擎一样将RoutingContext传递到引擎里并让模板来识别它。
 
 替代方案是，可以使用 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#data--[data]` 来访问上下文数据。
 
@@ -2509,17 +2506,18 @@ router.get("/dynamic/").handler(handler);
 
 关于如何编写 Handlebars 模板，
 请参考 https://github.com/jknack/handlebars.java[Handlebars Java 文档]。
+
 [[_thymeleaf_template_engine]]
 === Thymeleaf 模板引擎
 
-您需要在项目中添加以下_依赖_以使用 Thymeleaf 模板引擎：
-`io.vertx:vertx-web-templ-thymeleaf:4.0.0`。 并通过此方法以创建 MVEL 模板引擎实例：
+您需要在项目中添加以下 _依赖_ 以使用 Thymeleaf 模板引擎：
+`io.vertx:vertx-web-templ-thymeleaf:4.0.0`。 并通过此方法以创建 Thymeleaf 模板引擎实例：
 `io.vertx.ext.web.templ.thymeleaf.ThymeleafTemplateEngine#create(io.vertx.core.Vertx)`。
 
 在使用 Thymeleaf 模板引擎时，如果不指定模板文件的扩展名，
 则默认会查找扩展名为 `.html` 的文件。
 
-在 Thymeleaf 模板中可以通过 `context` 变量来访问路由上下文 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html[RoutingContext]` 对象。
+在 Thymeleaf 模板中可以通过 `context` 上下文变量来访问路由上下文 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html[RoutingContext]` 对象。
 这意味着您可使用任何基于上下文里的信息来渲染模板，
 包括请求、响应、会话或者上下文数据。
 
@@ -2537,6 +2535,7 @@ router.get("/dynamic/").handler(handler);
 
 关于如何编写 Thymeleaf 模板，
 请参考 http://www.thymeleaf.org/[Thymeleaf 文档]。
+
 [[_apache_freemarker_template_engine]]
 === Apache FreeMarker 模版引擎
 
@@ -2547,7 +2546,7 @@ router.get("/dynamic/").handler(handler);
 在使用 Apache FreeMarker 模板引擎时，如果不指定模板文件的扩展名，
 则默认会查找扩展名为 `.ftl` 的文件。
 
-在 Apache FreeMarker 模板中可以通过 `context` 变量来访问路由上下文 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html[RoutingContext]` 对象。
+在 Apache FreeMarker 模板中可以通过 `context` 上下文变量来访问路由上下文 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html[RoutingContext]` 对象。
 这意味着您可使用任何基于上下文里的信息来渲染模板，
 包括请求、响应、会话或者上下文数据。
 
@@ -2565,17 +2564,18 @@ router.get("/dynamic/").handler(handler);
 
 关于如何编写 Apache FreeMarker 模板，
 请参考 http://www.freemarker.org/[Apache FreeMarker 文档]。
+
 [[_pebble_template_engine]]
 === Pebble 模版引擎
 
-您需要在项目中添加以下_依赖_以使用 Pebble ：
+您需要在项目中添加以下 _依赖_ 以使用 Pebble ：
 `io.vertx:vertx-web-templ-pebble:4.0.0`。 并通过此方法以创建 Pebble 模板引擎实例：
 `io.vertx.ext.web.templ.pebble.PebbleTemplateEngine#create(vertx)`。
 
 在使用 Pebble 模板引擎时，如果不指定模板文件的扩展名，
 则默认会查找扩展名为 `.ped` 的文件。
 
-在 Pebble 模板中可以通过 `context` 变量来访问路由上下文 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html[RoutingContext]` 对象。
+在 Pebble 模板中可以通过 `context` 上下文变量来访问路由上下文 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html[RoutingContext]` 对象。
 这意味着您可使用任何基于上下文里的信息来渲染模板，
 包括请求、响应、会话或者上下文数据。
 
@@ -2593,10 +2593,11 @@ router.get("/dynamic/").handler(handler);
 
 关于如何编写 Pebble 模板，
 请参考 http://www.mitchellbosecke.com/pebble/home/[Pebble 文档]。
+
 [[_rocker_template_engine]]
 === Rocker 模版引擎
 
-您需要在项目中添加以下_依赖_以使用 Rocker：`io.vertx:vertx-web-templ-rocker:4.0.0`。 
+您需要在项目中添加以下 _依赖_ 以使用 Rocker：`io.vertx:vertx-web-templ-rocker:4.0.0`。 
 并通过此方法以创建 Rocker 模板引擎实例：`io.vertx.ext.web.templ.rocker#create()`。
 
 Rocker会将JSON上下文对象的值传递给 `render` 方法作为模版的参数。
@@ -2623,10 +2624,11 @@ engine.render(context, "somedir/TestRockerTemplate2", render -> {
 Hello @foo and @bar
 Request path is @context.getString("path")
 ----
+
 [[_httl_template_engine]]
 === HTTL 模版引擎
 
-您需要在项目中添加以下_依赖_以使用 HTTL ：
+您需要在项目中添加以下 _依赖_ 以使用 HTTL ：
 `io.vertx:vertx-web-templ-httl:4.0.0`。 并通过此方法以创建 HTTL 模板引擎实例：
 `io.vertx.ext.web.templ.httl.HTTLTemplateEngine#create(io.vertx.core.Vertx)`。
 
@@ -2659,10 +2661,11 @@ Hello ${foo} and ${bar}
 
 关于如何编写 HTTL 模板，
 请参考 https://httl.github.io/en/[HTTL 文档]。
+
 [[_rythm_template_engine]]
 === Rythm 模版引擎
 
-您需要在项目中添加以下_依赖_以使用 Rythm ：
+您需要在项目中添加以下 _依赖_ 以使用 Rythm ：
 `io.vertx:vertx-web-templ-rythm:4.0.0`。 并通过此方法以创建 Rythm 模板引擎实例：
 `io.vertx.ext.web.templ.rythm.RythmTemplateEngine#create(io.vertx.core.Vertx)`。
 
@@ -2693,6 +2696,7 @@ Hello @foo and @bar
 ----
 
 关于如何编写 HTTL 模板，请参考 http://www.rythmengine.org/[RythmEngine 文档]。
+
 [[_caching]]
 === 缓存
 
@@ -2704,6 +2708,7 @@ Hello @foo and @bar
 在开发时，为了让每一次请求可以读取最新的模板，您可能希望禁用模板的缓存。
 您可通过设置系统变量：`vertxweb.environment` 或环境变量
 `VERTXWEB_ENVIRONMENT` 为 `dev` 或 `development` 将其禁用。缓存默认是启用的。
+
 [[_error_handler]]
 == 错误处理器
 
@@ -2712,6 +2717,7 @@ Hello @foo and @bar
 
 该处理器是 `link:../../apidocs/io/vertx/ext/web/handler/ErrorHandler.html[ErrorHandler]`。
 要使用该错误处理器，仅需要将其设置为您希望覆盖的错误路径的失败处理器即可（failure handler）。
+
 [[_request_logger]]
 == 请求日志
 
@@ -2721,6 +2727,7 @@ Vert.x-Web通过内置处理器 `link:../../apidocs/io/vertx/ext/web/handler/Log
 默认情况下，请求日志将会被记录到Vert.x logger中，亦可通过更改配置使用JUL logging, log4j 或 SLF4J记录。
 
 详见 `link:../../apidocs/io/vertx/ext/web/handler/LoggerFormat.html[LoggerFormat]`。
+
 [[_serving_favicons]]
 == 提供网页图标
 
@@ -2728,6 +2735,7 @@ Vert.x-Web通过内置处理器 `link:../../apidocs/io/vertx/ext/web/handler/Fav
 
 图标可以指定为文件系统上的某个路径，否则 Vert.x Web 默认会在 classpath 上寻找名为 `favicon.ico` 的文件。
 这意味着您可以将图标打包到包含您应用的 jar 包里。
+
 [[_timeout_handler]]
 == 超时处理器
 
@@ -2744,6 +2752,7 @@ Vert.x-Web内置一个超时处理器以处理超时请求。
 ----
 router.route("/foo/").handler(TimeoutHandler.create(5000));
 ----
+
 [[_response_time_handler]]
 == 响应时间处理器
 
