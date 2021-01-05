@@ -61,8 +61,9 @@ const MAINTAINERS = [{
   githubId: "davsclaus",
   role: "Camel bridge"
 }, {
-  githubId: "agura",
-  role: "Apache Ignite Cluster Manager"
+  githubId: "zyclonite",
+  role: "Apache Ignite Cluster Manager",
+  twitter: "zyclonite"
 }, {
   githubId: "poiuytrez",
   role: "RabbitMQ client"
@@ -92,6 +93,9 @@ const MAINTAINERS = [{
 }, {
   githubId: "BillyYccc",
   role: "SQL Client"
+}, {
+  githubId: "jellenelis",
+  role: "OSGi"
 }]
 
 // maximum number of parallel requests against the GitHub API
