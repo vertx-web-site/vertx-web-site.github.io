@@ -2747,7 +2747,7 @@ router.route("/foo/").handler(TimeoutHandler.create(5000));
 [[_response_time_handler]]
 == 响应时间处理器
 
-该处理器会将从接收到请求到写入响应的消息头之间的毫秒数写入到响应的 x-response-time 里，
+该处理器会将从接收到请求到写入响应的消息头之间的毫秒数写入到响应的 `x-response-time` 里，
 例如：
 
 x-response-time: 1456ms
