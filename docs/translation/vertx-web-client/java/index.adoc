@@ -17,7 +17,7 @@ Web Client使得发送 HTTP 请求以及从 Web 服务器接收 HTTP 响应变�
 
 另外Web Client并未提供 WebSocket API，此时您应当使用 Vert.x Core的 `link:../../apidocs/io/vertx/core/http/HttpClient.html[HttpClient]` 。目前还无法处理cookies。
 
-[[_UsingtheWebClient]]
+[[_using_the_web_client]]
 == 使用Web Client
 
 如需使用Vert.x Web Client，请先加入以下依赖,到您的build描述 _dependencies_ 部分 ：
@@ -42,12 +42,12 @@ dependencies {
 }
 ----
 
-[[_Re-caponVertxcoreHTTPclient]]
+[[_re_cap_on_vert_x_core_http_client]]
 == 回顾 Vert.x Core的 HTTP Client
 
 Vert.x Web Client使用Vert.x core的API，如果您对此还不熟悉，熟悉基于 Vert.x core的 `link:../../apidocs/io/vertx/core/http/HttpClient.html[HttpClient]` 基本概念是很有价值的。
 
-[[_CreatingaWebClient]]
+[[_creating_a_web_client]]
 == 创建Web Client
 
 您可以创建一个缺省 `link:../../apidocs/io/vertx/ext/web/client/WebClient.html[WebClient]` 实例：
@@ -77,7 +77,7 @@ WebClient client = WebClient.wrap(httpClient);
 IMPORTANT: 在大多数情况下，一个Web Client 应该在应用程序启动时创建，并重用它。
 否则，您将失去很多好处，例如连接池。如果实例未正确关闭，则可能会资源泄漏。
 
-[[_Makingrequests]]
+[[_making_requests]]
 == 发送请求
 
 === 无请求体的简单请求
@@ -415,7 +415,7 @@ client
 
 若请求在设定时间内没有返回任何数据，则一个异常将会传递给响应处理器。
 
-[[_Handlinghttpresponses]]
+[[_handling_http_responses]]
 == 处理HTTP响应
 
 Web Client请求发送之后，您总是在单个 `link:../../apidocs/io/vertx/ext/web/client/HttpResponse.html[HttpResponse]` 中处理单个异步结果 。
@@ -768,7 +768,7 @@ WebClient client = WebClient
 
 NOTE: 出于安全原因,客户端不会使用除了GET或HEAD的方法来跟随着重定向请求
 
-[[_UsingHTTPS]]
+[[_using_https]]
 == 使用 HTTPS
 
 Vert.x Web Client 可以用跟 Vert.x `link:../../apidocs/io/vertx/core/http/HttpClient.html[HttpClient]` 完全一样的方式配置使用HTTPS。
@@ -800,7 +800,7 @@ client
     System.out.println("Something went wrong " + err.getMessage()));
 ----
 
-[[_Sessionsmanagement]]
+[[_sessions_management]]
 == 会话管理
 
 Vert.x Web提供了Web会话管理设施；使用它，您需要对于每个用户（会话）创建一个 `link:../../apidocs/io/vertx/ext/web/client/WebClientSession.html[WebClientSession]` ，并使用它来代替 `link:../../apidocs/io/vertx/ext/web/client/WebClient.html[WebClient]` 。
@@ -836,7 +836,7 @@ ifeval::["java" == "java"]
 include::override/rxjava2.adoc[]
 endif::[]
 
-[[_Domainsockets]]
+[[_domain_sockets]]
 == 域套接字
 
 自3.7.1后， Web Client 支持domain sockets, 例如，您可以跟 https://docs.docker.com/engine/reference/commandline/dockerd/[local Docker daemon] 交流。

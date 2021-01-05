@@ -58,7 +58,7 @@ Vert.x Web 的大部分特性是使用Handler实现的， 而且您随时可以�
 
 我们会在本手册里讨论所有上述的特性。
 
-[[_usingVertxWeb]]
+[[_using_vert_x_web]]
 == 使用 Vert.x Web
 
 在使用 Vert.x Web 之前，需要为您的构建工具在描述文件中添加  _dependencies_ 依赖项：
@@ -98,7 +98,7 @@ Vert.x Web 默认使用生产模式。
 * `StaticHandler` 不处理缓存头
 * GraphQL开发工具被禁用
 
-[[_Re-caponVertxcoreHTTPservers]]
+[[_re_cap_on_vert_x_core_http_servers]]
 == 回顾 Vert.x Core 的 HTTP 服务端
 
 Vert.x Web 使用并暴露了 Vert.x Core 的 API，所以熟悉基于 Vert.x Core 编写 HTTP 服务端的基本概念是很有价值的。
@@ -131,7 +131,7 @@ server.listen(8080);
 
 您可以执行这段代码，并打开浏览器访问 `http://localhost:8080` 来验证它是否如预期的一样工作。
 
-[[_basicVertxWebconcepts]]
+[[_basic_vert_x_web_concepts]]
 == Vert.x Web 的基本概念
 
 高屋建瓴 (Here's the 10000 foot view)：
@@ -182,7 +182,7 @@ http://vertx.io/docs/apidocs/io/vertx/core/http/HttpServerResponse.html[ `HttpSe
 
 这些是最基本的，下面我们来看一下更多的细节：
 
-[[_Handlingrequestsandcallingthenexthandler]]
+[[_handling_requests_and_calling_the_next_handler]]
 == 处理请求并调用下一个处理器
 
 当 Vert.x Web 决定路由一个请求到匹配的route，它会调用对应处理器并将一个 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html[RoutingContext]` 实例传递给它. route可以具有不同的处理器， 您可以叠加使用 `link:../../apidocs/io/vertx/ext/web/Route。html#handler-io.vertx.core.Handler-[handler]` 
@@ -230,7 +230,7 @@ route.handler(ctx -> {
 
 NOTE: 所有发生的这些没有线程阻塞。
 
-[[_Simpleresponses]]
+[[_simple_responses]]
 == 简单的响应
 
 处理器非常强大， 因为它们允许您构建非常复杂的应用程序。 为了保证简单的响应，例如直接从vert.x API返回异步响应，router 包含一个快捷的处理器：
@@ -278,7 +278,7 @@ router
         .write("Write some text..."));
 ----
 
-[[_Usingblockinghandlers]]
+[[_using_blocking_handlers]]
 == 使用阻塞式处理器
 
 某些时候您可能需要在处理器里执行一些需要阻塞 Event Loop 的操作，比如调用某个传统的阻塞式 API 或者执行密集计算。
@@ -315,7 +315,7 @@ router.post("/some/endpoint").handler(ctx -> {
 });
 ----
 
-[[_Routingbyexactpath]]
+[[_routing_by_exact_path]]
 == 基于精确路径的路由
 
 可以将 `Route` 设置为根据需要所匹配的 URI。在这种情况下它只会匹配路径一致的请求。
@@ -353,7 +353,7 @@ route2.handler(ctx -> {
 });
 ----
 
-[[_Routingbypathsthatbeginwithsomething]]
+[[_routing_by_paths_that_begin_with_something]]
 == 基于路径前缀的路由
 
 您经常需要为所有以某些路径开始的请求设置 `Route` 。 您可以使用正则表达式来实现， 但更简单的方式是在声明 `Route` 的路径时使用一个 `*` 作为结尾。
@@ -388,7 +388,7 @@ route.handler(ctx -> {
 });
 ----
 
-[[_Capturingpathparameters]]
+[[_capturing_path_parameters]]
 == 捕捉路径参数
 
 可以通过占位符声明路径参数并在处理请求时通过 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#pathParam-java.lang.String-[pathParam]` 。 方法获取
