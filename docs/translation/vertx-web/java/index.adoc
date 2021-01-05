@@ -2539,7 +2539,7 @@ router.get("/dynamic/").handler(handler);
 [[_apache_freemarker_template_engine]]
 === Apache FreeMarker 模版引擎
 
-您需要在项目中添加以下_依赖_以使用 Apache FreeMarker ：
+您需要在项目中添加以下 _依赖_ 以使用 Apache FreeMarker ：
 `io.vertx:vertx-web-templ-freemarker:4.0.0`。 并通过此方法以创建 Apache FreeMarker 模板引擎实例：
 `io.vertx.ext.web.templ.Engine#create()`。
 
