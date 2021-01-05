@@ -2451,11 +2451,11 @@ The value 'bar' from the context data is @{context.get('bar')}
 [[_jade_template_engine]]
 === Jade 模版引擎（译者注：Jade 已更名为 Pug)
 
-您需要在项目中添加以下_依赖_以使用 MVEL 模板引擎：
+您需要在项目中添加以下_依赖_以使用 Jade 模板引擎：
 `io.vertx:vertx-web-templ-jade:4.0.0` 。 并通过此方法以创建 MVEL 模板引擎实例：
 `io.vertx.ext.web.templ.jade.JadeTemplateEngine#create(io.vertx.core.Vertx)`。
 
-在使用 MVEL 模板引擎时，如果不指定模板文件的扩展名，
+在使用 Jade 模板引擎时，如果不指定模板文件的扩展名，
 则默认会查找扩展名为 `.jade` 的文件。
 
 在 Jade 模板中可以通过 `context` 变量来访问路由上下文 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html[RoutingContext]` 对象。
@@ -2474,23 +2474,23 @@ html
 
 关于如何编写 Jade 模板，
 请参考 https://github.com/neuland/jade4j[Jade4j 文档]。
+[[_handlebars_template_engine]]
+=== Handlebars 模板引擎
 
-=== Handlebars template engine
+您需要在项目中添加以下_依赖_以使用 Handlebars 模板引擎：
+`io.vertx:vertx-web-templ-handlebars:4.0.0` 。 并通过此方法以创建 MVEL 模板引擎实例：
+`io.vertx.ext.web.templ.handlebars.HandlebarsTemplateEngine#create(io.vertx.core.Vertx)`。
 
-To use Handlebars, you need to add the following _dependency_ to your project:
-`io.vertx:vertx-web-templ-handlebars:4.0.0`. Create an instance of the Handlebars template engine
-using: `io.vertx.ext.web.templ.handlebars.HandlebarsTemplateEngine#create(io.vertx.core.Vertx)`.
+在使用 Handlebars 模板引擎时，如果不指定模板文件的扩展名，
+则默认会查找扩展名为 `.hbs` 的文件。
 
-When using the Handlebars template engine, it will by default look for
-templates with the `.hbs` extension if no extension is specified in the file name.
+Handlebars 不允许在模板中随意地调用对象的方法，
+因此我们不能像对待其他模板引擎一样将路由上下文传递到引擎里并让模板来识别它。
 
-Handlebars templates are not able to call arbitrary methods in objects so we can't just pass the routing context
-into the template and let the template introspect it like we can with other template engines.
+替代方案是，可以使用 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#data--[data]` 来访问上下文数据。
 
-Instead, the context `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#data--[data]` is available in the template.
-
-If you want to have access to other data like the request path, request params or session data you should
-add it the context data in a handler before the template handler. For example:
+如果您要访问某些上下文数据里不存在的信息，
+比如请求的路径、请求参数或者会话等，您需要在模板处理器执行之前将他们添加到上下文数据里，例如：
 
 [source,java]
 ----
@@ -2507,23 +2507,23 @@ router.get("/dynamic").handler(ctx -> {
 router.get("/dynamic/").handler(handler);
 ----
 
-Please consult the https://github.com/jknack/handlebars.java[Handlebars Java port documentation] for how to write
-handlebars templates.
+关于如何编写 Handlebars 模板，
+请参考 https://github.com/jknack/handlebars.java[Handlebars Java 文档]。
+[[_thymeleaf_template_engine]]
+=== Thymeleaf 模板引擎
 
-=== Thymeleaf template engine
+您需要在项目中添加以下_依赖_以使用 Thymeleaf 模板引擎：
+`io.vertx:vertx-web-templ-thymeleaf:4.0.0` 。 并通过此方法以创建 MVEL 模板引擎实例：
+`io.vertx.ext.web.templ.thymeleaf.ThymeleafTemplateEngine#create(io.vertx.core.Vertx)`。
 
-To use Thymeleaf, you need to add the following _dependency_ to your project:
-`io.vertx:vertx-web-templ-thymeleaf:4.0.0`. Create an instance of the Thymeleaf template engine
-using: `io.vertx.ext.web.templ.thymeleaf.ThymeleafTemplateEngine#create(io.vertx.core.Vertx)`.
+在使用 Thymeleaf 模板引擎时，如果不指定模板文件的扩展名，
+则默认会查找扩展名为 `.html` 的文件。
 
-When using the Thymeleaf template engine, it will by default look for
-templates with the `.html` extension if no extension is specified in the file name.
+在 Thymeleaf 模板中可以通过 `context` 变量来访问路由上下文 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html[RoutingContext]` 对象。
+这意味着您可使用任何基于上下文里的信息来渲染模板，
+包括请求、响应、会话或者上下文数据。
 
-The routing context `link:../../apidocs/io/vertx/ext/web/RoutingContext.html[RoutingContext]` is available
-in the Thymeleaf template as the `context` variable, this means you can render the template based on anything in the context
-including the request, response, session or context data.
-
-Here are some examples:
+以下是例子：
 
 ----
 [snip]
@@ -2535,23 +2535,23 @@ Here are some examples:
 [snip]
 ----
 
-Please consult the http://www.thymeleaf.org/[Thymeleaf documentation] for how to write
-Thymeleaf templates.
+关于如何编写 Thymeleaf 模板，
+请参考 http://www.thymeleaf.org/[Thymeleaf 文档]。
+[[_apache_freemarker_template_engine]]
+=== Apache FreeMarker 模版引擎
 
-=== Apache FreeMarker template engine
+您需要在项目中添加以下_依赖_以使用 Apache FreeMarker ：
+`io.vertx:vertx-web-templ-freemarker:4.0.0` 。 并通过此方法以创建 Apache FreeMarker 模板引擎实例：
+`io.vertx.ext.web.templ.Engine#create()`。
 
-To use Apache FreeMarker, you need to add the following _dependency_ to your project:
-`io.vertx:vertx-web-templ-freemarker:4.0.0`. Create an instance of the Apache FreeMarker template engine
-using: `io.vertx.ext.web.templ.Engine#create()`.
+在使用 Apache FreeMarker 模板引擎时，如果不指定模板文件的扩展名，
+则默认会查找扩展名为 `.ftl` 的文件。
 
-When using the Apache FreeMarker template engine, it will by default look for
-templates with the `.ftl` extension if no extension is specified in the file name.
+在 Apache FreeMarker 模板中可以通过 `context` 变量来访问路由上下文 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html[RoutingContext]` 对象。
+这意味着您可使用任何基于上下文里的信息来渲染模板，
+包括请求、响应、会话或者上下文数据。
 
-The routing context `link:../../apidocs/io/vertx/ext/web/RoutingContext.html[RoutingContext]` is available
-in the Apache FreeMarker template as the `context` variable, this means you can render the template based on anything in the context
-including the request, response, session or context data.
-
-Here are some examples:
+以下是例子：
 
 ----
 [snip]
@@ -2563,9 +2563,9 @@ Here are some examples:
 [snip]
 ----
 
-Please consult the http://www.freemarker.org/[Apache FreeMarker documentation] for how to write
-Apache FreeMarker templates.
-
+关于如何编写 Apache FreeMarker 模板，
+请参考 http://www.freemarker.org/[Apache FreeMarker 文档]。
+[[_pebble_template_engine]]
 === Pebble template engine
 
 To use Pebble, you need to add the following _dependency_ to your project:
