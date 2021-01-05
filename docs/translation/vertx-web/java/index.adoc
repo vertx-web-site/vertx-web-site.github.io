@@ -2693,18 +2693,18 @@ Hello @foo and @bar
 ----
 
 关于如何编写 HTTL 模板，请参考 http://www.rythmengine.org/[RythmEngine 文档]。
-
+[[_caching]]
 === 缓存
 
 许多引擎支持将编译好的模版存入缓存。该缓存存放在vert.x的可分享的数据local map里。
 这样引擎便可在多个verticle中安全高效地使用该缓存。
-
+[[_disabling_caching]]
 ==== 禁用缓存
 
 在开发时，为了让每一次请求可以读取最新的模板，您可能希望禁用模板的缓存。
 您可通过设置系统变量：`vertxweb.environment` 或环境变量
 `VERTXWEB_ENVIRONMENT` 为 `dev` 或 `development` 将其禁用。缓存默认是启用的。
-
+[[_error_handler]]
 == 错误处理器
 
 您可使用模版处理器自行渲染错误页面，
