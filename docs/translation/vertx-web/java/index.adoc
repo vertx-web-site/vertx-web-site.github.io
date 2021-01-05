@@ -2703,7 +2703,7 @@ Hello @foo and @bar
 
 在开发时，为了让每一次请求可以读取最新的模板，您可能希望禁用模板的缓存。
 您可通过设置系统变量：`vertxweb.environment` 或环境变量
-`VERTXWEB_ENVIRONMENT` 为`dev` 或 `development`将其禁用。缓存默认是启用的。
+`VERTXWEB_ENVIRONMENT` 为 `dev` 或 `development` 将其禁用。缓存默认是启用的。
 
 == 错误处理器
 
