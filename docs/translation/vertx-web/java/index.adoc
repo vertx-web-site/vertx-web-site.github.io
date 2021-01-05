@@ -2696,7 +2696,7 @@ Hello @foo and @bar
 [[_caching]]
 === 缓存
 
-许多引擎支持将编译好的模版存入缓存。该缓存存放在vert.x的可分享的数据local map里。
+许多引擎支持将编译好的模版存入缓存。该缓存存放在Vert.x的可分享的数据local map里。
 这样引擎便可在多个verticle中安全高效地使用该缓存。
 [[_disabling_caching]]
 ==== 禁用缓存
@@ -2708,47 +2708,47 @@ Hello @foo and @bar
 == 错误处理器
 
 您可使用模版处理器自行渲染错误页面，
-但是Vert.x web同样为您提供了开箱即用且“好看的”错误处理器，可为您渲染错误页面。
+但是Vert.x-Web同样为您提供了开箱即用且“好看的”错误处理器，可为您渲染错误页面。
 
 该处理器是 `link:../../apidocs/io/vertx/ext/web/handler/ErrorHandler.html[ErrorHandler]`。
 要使用该错误处理器，仅需要将其设置为您希望覆盖的错误路径的失败处理器即可（failure handler）。
+[[_request_logger]]
+== 请求日志
 
-== Request logger
+Vert.x-Web通过内置处理器 `link:../../apidocs/io/vertx/ext/web/handler/LoggerHandler.html[LoggerHandler]` 来记录请求日志。
+您需在挂载任何可能导致 `RoutingContext` 失败的处理器之前挂载该处理器。
 
-Vert.x-Web includes a handler `link:../../apidocs/io/vertx/ext/web/handler/LoggerHandler.html[LoggerHandler]` that you can use to log HTTP requests.
-You should mount this handler before any handler that could fail the `RoutingContext`
+默认情况下，请求日志将会被记录到Vert.x logger中，亦可通过更改配置使用JUL logging, log4j 或 SLF4J记录。
 
-By default requests are logged to the Vert.x logger which can be configured to use JUL logging, log4j or SLF4J.
+详见 `link:../../apidocs/io/vertx/ext/web/handler/LoggerFormat.html[LoggerFormat]`。
+[[_serving_favicons]]
+== 提供网页图标
 
-See `link:../../apidocs/io/vertx/ext/web/handler/LoggerFormat.html[LoggerFormat]`.
+Vert.x-Web通过内置处理器 `link:../../apidocs/io/vertx/ext/web/handler/FaviconHandler.html[FaviconHandler]` 以提供网页图标。
 
-== Serving favicons
+图标可以指定为文件系统上的某个路径，否则 Vert.x Web 默认会在 classpath 上寻找名为 `favicon.ico` 的文件。
+这意味着您可以将图标打包到包含您应用的 jar 包里。
+[[_timeout_handler]]
+== 超时处理器
 
-Vert.x-Web includes the handler `link:../../apidocs/io/vertx/ext/web/handler/FaviconHandler.html[FaviconHandler]` especially for serving favicons.
+Vert.x-Web内置一个超时处理器以处理超时请求。
 
-Favicons can be specified using a path to the filesystem, or by default Vert.x-Web will look for a file on the classpath
-with the name `favicon.ico`. This means you bundle the favicon in the jar of your application.
+可通过 `link:../../apidocs/io/vertx/ext/web/handler/TimeoutHandler.html[TimeoutHandler]` 配置。
 
-== Timeout handler
+如果一个请求超时，则会给客户端返回一个 503 的响应。
 
-Vert.x-Web includes a timeout handler that you can use to timeout requests if they take too long to process.
-
-This is configured using an instance of `link:../../apidocs/io/vertx/ext/web/handler/TimeoutHandler.html[TimeoutHandler]`.
-
-If a request times out before the response is written a `503` response will be returned to the client.
-
-Here's an example of using a timeout handler which will timeout all requests to paths starting with `/foo` after 5
-seconds:
+下面的例子设置了一个超时处理器。对于所有以 `/foo` 路径开头的请求，
+都会在执行时间超过 5 秒之后自动超时。
 
 [source,java]
 ----
 router.route("/foo/").handler(TimeoutHandler.create(5000));
 ----
+[[_response_time_handler]]
+== 响应时间处理器
 
-== Response time handler
-
-This handler sets the header `x-response-time` response header containing the time from when the request was received
-to when the response headers were written, in ms., e.g.:
+该处理器会将从接收到请求到写入响应的消息头之间的毫秒数写入到响应的 x-response-time 里，
+例如：
 
 x-response-time: 1456ms
 
