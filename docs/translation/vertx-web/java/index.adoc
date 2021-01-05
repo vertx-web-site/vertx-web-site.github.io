@@ -2377,30 +2377,31 @@ router.route().handler(ctx -> {
 Multi tenant is a powerful handler that will allow applications to live side by side, however it provides no sandboxing
 for execution. It should not be used as isolation as wrongly written applications may leak state across tenants.
 
-== Templates
+[[_templates]]
+== 模板
 
-Vert.x-Web includes dynamic page generation capabilities by including out of the box support for several popular template
-engines. You can also easily add your own.
+Vert.x Web 为若干流行的模板引擎提供了开箱即用的支持，通过这种方式来提供生成动态页面的能力。
+您也可以很容易地添加您自己的实现。
 
-Template engines are described by `link:../../apidocs/io/vertx/ext/web/common/template/TemplateEngine.html[TemplateEngine]`. In order to render a template
-`link:../../apidocs/io/vertx/ext/web/common/template/TemplateEngine.html#render-io.vertx.core.json.JsonObject-java.lang.String-io.vertx.core.Handler-[render]` is used.
+`link:../../apidocs/io/vertx/ext/web/common/template/TemplateEngine.html[TemplateEngine]` 定义了使用模板引擎的接口。
+当渲染模板时会调用 `link:../../apidocs/io/vertx/ext/web/common/template/TemplateEngine.html#render-io.vertx.core.json.JsonObject-java.lang.String-io.vertx.core.Handler-[render]` 方法。
 
-The simplest way to use templates is not to call the template engine directly but to use the
-`link:../../apidocs/io/vertx/ext/web/handler/TemplateHandler.html[TemplateHandler]`.
-This handler calls the template engine for you based on the path in the HTTP request.
+最简单的使用模板的方式不是直接调用模板引擎，而是使用模板处理器
+`link:../../apidocs/io/vertx/ext/web/handler/TemplateHandler.html[TemplateHandler]` 。
+这个处理器会根据 HTTP 请求的路径来调用模板引擎。
 
-By default the template handler will look for templates in a directory called `templates`. This can be configured.
+缺省情况下，模板处理器会在 `templates` 目录中查找模板文件。这是可以配置的。
 
-The handler will return the results of rendering with a content type of `text/html` by default. This can also be configured.
+该处理器会返回渲染的结果，并默认设置 Content-Type 消息头为 `text/html` 。这也是可以配置的。
 
-When you create the template handler you pass in an instance of the template engine you want. Template engines are
-not embedded in vertx-web so, you need to configure your project to access them. Configuration is provided for
-each template engine.
+您需要在创建模板处理器时提供您想要使用的模板引擎实例。
+Vert.x Web 并未嵌入模板引擎的实现，您需要配置项目来访问它们。
+Vert.x Web 提供了每一种模板引擎的配置。
 
-Here are some examples:
+以下是例子：
 
 ////
-These examples are not using the traditional "transcoding" as they use an API providing in another project.
+这些例子并未使用传统方式的“转码”，因为用了其他项目的API
 ////
 
 [source, java]
@@ -2408,35 +2409,29 @@ These examples are not using the traditional "transcoding" as they use an API pr
 TemplateEngine engine = HandlebarsTemplateEngine.create();
 TemplateHandler handler = TemplateHandler.create(engine);
 
-// This will route all GET requests starting with /dynamic/ to the template handler
-// E.g. /dynamic/graph.hbs will look for a template in /templates/graph.hbs
+// 这会将所有以 `/dynamic` 开头的 GET 请求路由到模板处理器上
+// 例如 /dynamic/graph.hbs 会查找模板 /templates/graph.hbs
 router.get("/dynamic/*").handler(handler);
 
-// Route all GET requests for resource ending in .hbs to the template handler
+// 将所有以 `.hbs` 结尾的 GET 请求路由到模板处理器上
 router.getWithRegex(".+\\.hbs").handler(handler);
 ----
 
+[[_mvel_template_engine]]
+=== MVEL 模版引擎
 
+您需要在项目中添加以下 _依赖_ 以使用 MVEL 模板引擎：
+`io.vertx:vertx-web-templ-mvel:4.0.0`。 并通过此方法以创建 MVEL 模板引擎实例：
+`io.vertx.ext.web.templ.mvel.MVELTemplateEngine#create(io.vertx.core.Vertx)`。
 
+在使用 MVEL 模板引擎时，如果不指定模板文件的扩展名，
+则默认会查找扩展名为 `.templ` 的文件。
 
+在 MVEL 模板中可以通过 `context` 上下文变量来访问路由上下文 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html[RoutingContext]` 对象。
+这意味着您可使用任何基于上下文里的信息来渲染模板，
+包括请求、响应、会话或者上下文数据。
 
-
-
-
-=== MVEL template engine
-
-To use MVEL, you need to add the following _dependency_ to your project:
-`io.vertx:vertx-web-templ-mvel:4.0.0`. Create an instance of the MVEL template engine using:
-`io.vertx.ext.web.templ.mvel.MVELTemplateEngine#create(io.vertx.core.Vertx)`
-
-When using the MVEL template engine, it will by default look for
-templates with the `.templ` extension if no extension is specified in the file name.
-
-The routing context `link:../../apidocs/io/vertx/ext/web/RoutingContext.html[RoutingContext]` is available
-in the MVEL template as the `context` variable, this means you can render the template based on anything in the context
-including the request, response, session or context data.
-
-Here are some examples:
+以下是例子：
 
 ----
 The request path is @{context.request().path()}
@@ -2446,23 +2441,24 @@ The variable 'foo' from the session is @{context.session().get('foo')}
 The value 'bar' from the context data is @{context.get('bar')}
 ----
 
-Please consult the http://mvel.codehaus.org/MVEL+2.0+Templating+Guide[MVEL templates documentation] for how to write
-MVEL templates.
+关于如何编写 MVEL 模板，
+请参考 http://mvel.codehaus.org/MVEL+2.0+Templating+Guide[MVEL 模板文档]。
 
-=== Jade template engine
+[[_jade_template_engine]]
+=== Jade 模版引擎（译者注：Jade 已更名为 Pug)
 
-To use the Jade template engine, you need to add the following _dependency_ to your project:
-`io.vertx:vertx-web-templ-jade:4.0.0`. Create an instance of the Jade template engine using:
-`io.vertx.ext.web.templ.jade.JadeTemplateEngine#create(io.vertx.core.Vertx)`.
+您需要在项目中添加以下 _依赖_ 以使用 Jade 模板引擎：
+`io.vertx:vertx-web-templ-jade:4.0.0`。 并通过此方法以创建 Jade 模板引擎实例：
+`io.vertx.ext.web.templ.jade.JadeTemplateEngine#create(io.vertx.core.Vertx)`。
 
-When using the Jade template engine, it will by default look for
-templates with the `.jade` extension if no extension is specified in the file name.
+在使用 Jade 模板引擎时，如果不指定模板文件的扩展名，
+则默认会查找扩展名为 `.jade` 的文件。
 
-The routing context `link:../../apidocs/io/vertx/ext/web/RoutingContext.html[RoutingContext]` is available
-in the Jade template as the `context` variable, this means you can render the template based on anything in the context
-including the request, response, session or context data.
+在 Jade 模板中可以通过 `context` 上下文变量来访问路由上下文 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html[RoutingContext]` 对象。
+这意味着您可使用任何基于上下文里的信息来渲染模板，
+包括请求、响应、会话或者上下文数据。
 
-Here are some examples:
+以下是例子：
 
 ----
 !!! 5
@@ -2472,25 +2468,26 @@ html
  body
 ----
 
-Please consult the https://github.com/neuland/jade4j[Jade4j documentation] for how to write
-Jade templates.
+关于如何编写 Jade 模板，
+请参考 https://github.com/neuland/jade4j[Jade4j 文档]。
 
-=== Handlebars template engine
+[[_handlebars_template_engine]]
+=== Handlebars 模板引擎
 
-To use Handlebars, you need to add the following _dependency_ to your project:
-`io.vertx:vertx-web-templ-handlebars:4.0.0`. Create an instance of the Handlebars template engine
-using: `io.vertx.ext.web.templ.handlebars.HandlebarsTemplateEngine#create(io.vertx.core.Vertx)`.
+您需要在项目中添加以下 _依赖_ 以使用 Handlebars 模板引擎：
+`io.vertx:vertx-web-templ-handlebars:4.0.0`。 并通过此方法以创建 Handlebars 模板引擎实例：
+`io.vertx.ext.web.templ.handlebars.HandlebarsTemplateEngine#create(io.vertx.core.Vertx)`。
 
-When using the Handlebars template engine, it will by default look for
-templates with the `.hbs` extension if no extension is specified in the file name.
+在使用 Handlebars 模板引擎时，如果不指定模板文件的扩展名，
+则默认会查找扩展名为 `.hbs` 的文件。
 
-Handlebars templates are not able to call arbitrary methods in objects so we can't just pass the routing context
-into the template and let the template introspect it like we can with other template engines.
+Handlebars 不允许在模板中随意地调用对象的方法，
+因此我们不能像对待其他模板引擎一样将RoutingContext传递到引擎里并让模板来识别它。
 
-Instead, the context `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#data--[data]` is available in the template.
+替代方案是，可以使用模版中的上下文 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#data--[data]` 对象。
 
-If you want to have access to other data like the request path, request params or session data you should
-add it the context data in a handler before the template handler. For example:
+如果您要访问某些RoutingContext里不存在的信息，
+比如请求的路径、请求参数或者会话等，您需要在模板处理器执行之前将他们添加到上下文data里，例如：
 
 [source,java]
 ----
@@ -2507,23 +2504,24 @@ router.get("/dynamic").handler(ctx -> {
 router.get("/dynamic/").handler(handler);
 ----
 
-Please consult the https://github.com/jknack/handlebars.java[Handlebars Java port documentation] for how to write
-handlebars templates.
+关于如何编写 Handlebars 模板，
+请参考 https://github.com/jknack/handlebars.java[Handlebars Java 文档]。
 
-=== Thymeleaf template engine
+[[_thymeleaf_template_engine]]
+=== Thymeleaf 模板引擎
 
-To use Thymeleaf, you need to add the following _dependency_ to your project:
-`io.vertx:vertx-web-templ-thymeleaf:4.0.0`. Create an instance of the Thymeleaf template engine
-using: `io.vertx.ext.web.templ.thymeleaf.ThymeleafTemplateEngine#create(io.vertx.core.Vertx)`.
+您需要在项目中添加以下 _依赖_ 以使用 Thymeleaf 模板引擎：
+`io.vertx:vertx-web-templ-thymeleaf:4.0.0`。 并通过此方法以创建 Thymeleaf 模板引擎实例：
+`io.vertx.ext.web.templ.thymeleaf.ThymeleafTemplateEngine#create(io.vertx.core.Vertx)`。
 
-When using the Thymeleaf template engine, it will by default look for
-templates with the `.html` extension if no extension is specified in the file name.
+在使用 Thymeleaf 模板引擎时，如果不指定模板文件的扩展名，
+则默认会查找扩展名为 `.html` 的文件。
 
-The routing context `link:../../apidocs/io/vertx/ext/web/RoutingContext.html[RoutingContext]` is available
-in the Thymeleaf template as the `context` variable, this means you can render the template based on anything in the context
-including the request, response, session or context data.
+在 Thymeleaf 模板中可以通过 `context` 上下文变量来访问路由上下文 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html[RoutingContext]` 对象。
+这意味着您可使用任何基于上下文里的信息来渲染模板，
+包括请求、响应、会话或者上下文数据。
 
-Here are some examples:
+以下是例子：
 
 ----
 [snip]
@@ -2535,23 +2533,24 @@ Here are some examples:
 [snip]
 ----
 
-Please consult the http://www.thymeleaf.org/[Thymeleaf documentation] for how to write
-Thymeleaf templates.
+关于如何编写 Thymeleaf 模板，
+请参考 http://www.thymeleaf.org/[Thymeleaf 文档]。
 
-=== Apache FreeMarker template engine
+[[_apache_freemarker_template_engine]]
+=== Apache FreeMarker 模版引擎
 
-To use Apache FreeMarker, you need to add the following _dependency_ to your project:
-`io.vertx:vertx-web-templ-freemarker:4.0.0`. Create an instance of the Apache FreeMarker template engine
-using: `io.vertx.ext.web.templ.Engine#create()`.
+您需要在项目中添加以下 _依赖_ 以使用 Apache FreeMarker ：
+`io.vertx:vertx-web-templ-freemarker:4.0.0`。 并通过此方法以创建 Apache FreeMarker 模板引擎实例：
+`io.vertx.ext.web.templ.Engine#create()`。
 
-When using the Apache FreeMarker template engine, it will by default look for
-templates with the `.ftl` extension if no extension is specified in the file name.
+在使用 Apache FreeMarker 模板引擎时，如果不指定模板文件的扩展名，
+则默认会查找扩展名为 `.ftl` 的文件。
 
-The routing context `link:../../apidocs/io/vertx/ext/web/RoutingContext.html[RoutingContext]` is available
-in the Apache FreeMarker template as the `context` variable, this means you can render the template based on anything in the context
-including the request, response, session or context data.
+在 Apache FreeMarker 模板中可以通过 `context` 上下文变量来访问路由上下文 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html[RoutingContext]` 对象。
+这意味着您可使用任何基于上下文里的信息来渲染模板，
+包括请求、响应、会话或者上下文数据。
 
-Here are some examples:
+以下是例子：
 
 ----
 [snip]
@@ -2563,23 +2562,24 @@ Here are some examples:
 [snip]
 ----
 
-Please consult the http://www.freemarker.org/[Apache FreeMarker documentation] for how to write
-Apache FreeMarker templates.
+关于如何编写 Apache FreeMarker 模板，
+请参考 http://www.freemarker.org/[Apache FreeMarker 文档]。
 
-=== Pebble template engine
+[[_pebble_template_engine]]
+=== Pebble 模版引擎
 
-To use Pebble, you need to add the following _dependency_ to your project:
-`io.vertx:vertx-web-templ-pebble:4.0.0`. Create an instance of the Pebble template engine
-using: `io.vertx.ext.web.templ.pebble.PebbleTemplateEngine#create(vertx)`.
+您需要在项目中添加以下 _依赖_ 以使用 Pebble ：
+`io.vertx:vertx-web-templ-pebble:4.0.0`。 并通过此方法以创建 Pebble 模板引擎实例：
+`io.vertx.ext.web.templ.pebble.PebbleTemplateEngine#create(vertx)`。
 
-When using the Pebble template engine, it will by default look for
-templates with the `.peb` extension if no extension is specified in the file name.
+在使用 Pebble 模板引擎时，如果不指定模板文件的扩展名，
+则默认会查找扩展名为 `.ped` 的文件。
 
-The routing context `link:../../apidocs/io/vertx/ext/web/RoutingContext.html[RoutingContext]` is available
-in the Pebble template as the `context` variable, this means you can render the template based on anything in the context
-including the request, response, session or context data.
+在 Pebble 模板中可以通过 `context` 上下文变量来访问路由上下文 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html[RoutingContext]` 对象。
+这意味着您可使用任何基于上下文里的信息来渲染模板，
+包括请求、响应、会话或者上下文数据。
 
-Here are some examples:
+以下是例子：
 
 ----
 [snip]
@@ -2591,16 +2591,17 @@ Here are some examples:
 [snip]
 ----
 
-Please consult the http://www.mitchellbosecke.com/pebble/home/[Pebble documentation] for how to write
-Pebble templates.
+关于如何编写 Pebble 模板，
+请参考 http://www.mitchellbosecke.com/pebble/home/[Pebble 文档]。
 
-=== Rocker template engine
+[[_rocker_template_engine]]
+=== Rocker 模版引擎
 
-To use Rocker, then add `io.vertx:vertx-web-templ-rocker:4.0.0` as a dependency to your project.
-You can then create a Rocker template engine instance with `io.vertx.ext.web.templ.rocker#create()`.
+您需要在项目中添加以下 _依赖_ 以使用 Rocker：`io.vertx:vertx-web-templ-rocker:4.0.0`。 
+并通过此方法以创建 Rocker 模板引擎实例：`io.vertx.ext.web.templ.rocker#create()`。
 
-The values of the JSON context object passed to the `render` method are then exposed as template parameters.
-Given:
+Rocker会将JSON上下文对象的值传递给 `render` 方法作为模版的参数。
+假定已知：
 
 ----
 [snip]
@@ -2615,7 +2616,7 @@ engine.render(context, "somedir/TestRockerTemplate2", render -> {
 [snip]
 ----
 
-then the template can be as the following `somedir/TestRockerTemplate2.rocker.html` resource file:
+那么相对应的模版文件 `somedir/TestRockerTemplate2.rocker.html` 可写作：
 
 ----
 @import io.vertx.core.json.JsonObject
@@ -2624,17 +2625,18 @@ Hello @foo and @bar
 Request path is @context.getString("path")
 ----
 
-=== HTTL template engine
+[[_httl_template_engine]]
+=== HTTL 模版引擎
 
-To use HTTL, you need to add the following _dependency_ to your project:
-`io.vertx:vertx-web-templ-httl:4.0.0`. Create an instance of the HTTL template engine
-using: `io.vertx.ext.web.templ.httl.HTTLTemplateEngine#create(io.vertx.core.Vertx)`.
+您需要在项目中添加以下 _依赖_ 以使用 HTTL ：
+`io.vertx:vertx-web-templ-httl:4.0.0`。 并通过此方法以创建 HTTL 模板引擎实例：
+`io.vertx.ext.web.templ.httl.HTTLTemplateEngine#create(io.vertx.core.Vertx)`。
 
-When using the HTTL template engine, it will by default look for
-templates with the `.httl` extension if no extension is specified in the file name.
+在使用 HTTL 模板引擎时，如果不指定模板文件的扩展名，
+则默认会查找扩展名为 `.httl` 的文件。
 
-The values of the JSON context object passed to the `render` method are then exposed as template parameters.
-Given:
+HTTL会将JSON上下文对象的值传递给 `render` 方法作为模版的参数。
+假定已知：
 
 ----
 [snip]
@@ -2649,7 +2651,7 @@ engine.render(context, "somedir/test-httl-template1.httl", render -> {
 [snip]
 ----
 
-then the template can be as the following `somedir/test-httl-template1.httl` resource file:
+那么相对应的模版文件 `somedir/test-httl-template1.httl` 可写作：
 
 ----
 <!-- #set(String foo, String bar) -->
@@ -2657,20 +2659,21 @@ Hello ${foo} and ${bar}
 
 ----
 
-Please consult the https://httl.github.io/en/[HTTL documentation] for how to write
-HTTL templates.
+关于如何编写 HTTL 模板，
+请参考 https://httl.github.io/en/[HTTL 文档]。
 
-=== Rythm template engine
+[[_rythm_template_engine]]
+=== Rythm 模版引擎
 
-To use Rythm, you need to add the following _dependency_ to your project:
-`io.vertx:vertx-web-templ-rythm:4.0.0`. Create an instance of the Rythm template engine
-using: `io.vertx.ext.web.templ.rythm.RythmTemplateEngine#create(io.vertx.core.Vertx)`.
+您需要在项目中添加以下 _依赖_ 以使用 Rythm ：
+`io.vertx:vertx-web-templ-rythm:4.0.0`。 并通过此方法以创建 Rythm 模板引擎实例：
+`io.vertx.ext.web.templ.rythm.RythmTemplateEngine#create(io.vertx.core.Vertx)`。
 
-When using the Rythm template engine, it will by default look for
-templates with the `.html` extension if no extension is specified in the file name.
+在使用 Rythm 模板引擎时，如果不指定模板文件的扩展名，
+则默认会查找扩展名为 `.html` 的文件。
 
-The values of the JSON context object passed to the `render` method are then exposed as template parameters.
-Given:
+Rythm会将JSON上下文对象的值传递给 `render` 方法作为模版的参数。
+假定已知：
 
 ----
 [snip]
@@ -2685,70 +2688,76 @@ engine.render(context, "somedir/test-rythm-template1.html", render -> {
 [snip]
 ----
 
-then the template can be as the following `somedir/test-rythm-template1.httl` resource file:
+那么相对应的模版文件 `somedir/test-rythm-template1.httl` 可写作：
 
 ----
 <!-- #set(String foo, String bar) -->
 Hello @foo and @bar
 ----
 
-Please consult the http://www.rythmengine.org/[RythmEngine documentation] for how to write templates.
+关于如何编写 HTTL 模板，请参考 http://www.rythmengine.org/[RythmEngine 文档]。
 
-=== Caching
+[[_caching]]
+=== 缓存
 
-Many of the engines support caching of the compiled templates. The cache is stored inside a vert.x shared data local map
-which allows the engines to share the same cache across several verticles in a efficient and safe way.
+许多引擎支持将编译好的模版存入缓存。该缓存存放在Vert.x的可分享的数据local map里。
+这样引擎便可在多个verticle中安全高效地使用该缓存。
+[[_disabling_caching]]
+==== 禁用缓存
 
-==== Disabling caching
+在开发时，为了让每一次请求可以读取最新的模板，您可能希望禁用模板的缓存。
+您可通过设置系统变量：`vertxweb.environment` 或环境变量
+`VERTXWEB_ENVIRONMENT` 为 `dev` 或 `development` 将其禁用。缓存默认是启用的。
 
-During development you might want to disable template caching so that the template gets reevaluated on each request.
-In order to do this you need to set the system property: `vertxweb.environment` or environment variable
-`VERTXWEB_ENVIRONMENT` to `dev` or `development`. By default caching is always enabled.
+[[_error_handler]]
+== 错误处理器
 
-== Error handler
+您可使用模版处理器自行渲染错误页面，
+但是Vert.x-Web同样为您提供了开箱即用且“好看的”错误处理器，可为您渲染错误页面。
 
-You can render your own errors using a template handler or otherwise but Vert.x-Web also includes an out of the boxy
-"pretty" error handler that can render error pages for you.
+该处理器是 `link:../../apidocs/io/vertx/ext/web/handler/ErrorHandler.html[ErrorHandler]`。
+要使用该错误处理器，仅需要将其设置为您希望覆盖的错误路径的失败处理器即可（译者注：例如router.route("/*").failureHandler(ErrorHandler.create(vertx))）。
 
-The handler is `link:../../apidocs/io/vertx/ext/web/handler/ErrorHandler.html[ErrorHandler]`. To use the error handler just set it as a
-failure handler for any paths that you want covered.
+[[_request_logger]]
+== 请求日志
 
-== Request logger
+Vert.x-Web通过内置处理器 `link:../../apidocs/io/vertx/ext/web/handler/LoggerHandler.html[LoggerHandler]` 来记录请求日志。
+您需在挂载任何可能导致 `RoutingContext` 失败的处理器之前挂载该处理器。
 
-Vert.x-Web includes a handler `link:../../apidocs/io/vertx/ext/web/handler/LoggerHandler.html[LoggerHandler]` that you can use to log HTTP requests.
-You should mount this handler before any handler that could fail the `RoutingContext`
+默认情况下，请求日志将会被记录到Vert.x logger中，亦可通过更改配置使用JUL logging, log4j 或 SLF4J记录。
 
-By default requests are logged to the Vert.x logger which can be configured to use JUL logging, log4j or SLF4J.
+详见 `link:../../apidocs/io/vertx/ext/web/handler/LoggerFormat.html[LoggerFormat]`。
 
-See `link:../../apidocs/io/vertx/ext/web/handler/LoggerFormat.html[LoggerFormat]`.
+[[_serving_favicons]]
+== 提供网页图标
 
-== Serving favicons
+Vert.x-Web通过内置处理器 `link:../../apidocs/io/vertx/ext/web/handler/FaviconHandler.html[FaviconHandler]` 以提供网页图标。
 
-Vert.x-Web includes the handler `link:../../apidocs/io/vertx/ext/web/handler/FaviconHandler.html[FaviconHandler]` especially for serving favicons.
+图标可以指定为文件系统上的某个路径，否则 Vert.x Web 默认会在 classpath 上寻找名为 `favicon.ico` 的文件。
+这意味着您可以将图标打包到包含您应用的 jar 包里。
 
-Favicons can be specified using a path to the filesystem, or by default Vert.x-Web will look for a file on the classpath
-with the name `favicon.ico`. This means you bundle the favicon in the jar of your application.
+[[_timeout_handler]]
+== 超时处理器
 
-== Timeout handler
+Vert.x-Web内置一个超时处理器以处理超时请求。
 
-Vert.x-Web includes a timeout handler that you can use to timeout requests if they take too long to process.
+可通过 `link:../../apidocs/io/vertx/ext/web/handler/TimeoutHandler.html[TimeoutHandler]` 配置。
 
-This is configured using an instance of `link:../../apidocs/io/vertx/ext/web/handler/TimeoutHandler.html[TimeoutHandler]`.
+如果一个请求超时，则会给客户端返回一个 503 的响应。
 
-If a request times out before the response is written a `503` response will be returned to the client.
-
-Here's an example of using a timeout handler which will timeout all requests to paths starting with `/foo` after 5
-seconds:
+下面的例子设置了一个超时处理器。对于所有以 `/foo` 路径开头的请求，
+都会在执行时间超过 5 秒之后自动超时。
 
 [source,java]
 ----
 router.route("/foo/").handler(TimeoutHandler.create(5000));
 ----
 
-== Response time handler
+[[_response_time_handler]]
+== 响应时间处理器
 
-This handler sets the header `x-response-time` response header containing the time from when the request was received
-to when the response headers were written, in ms., e.g.:
+该处理器会将从接收到请求到写入响应的消息头之间的毫秒数写入到响应的 `x-response-time` 里，
+例如：
 
 x-response-time: 1456ms
 
