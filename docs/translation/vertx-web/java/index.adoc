@@ -37,7 +37,7 @@ Vert.x Web 的一部分关键特性有：
 * 用户/角色/权限授权
 * 网页图标处理器
 
-* 支持服务端模板渲染，包括以下开箱即用的模板引擎: 
+* 支持服务端模板渲染，包括以下开箱即用的模板引擎:
 ** Handlebars
 ** Jade
 ** MVEL
@@ -83,6 +83,7 @@ dependencies {
 }
 ----
 
+[[_development_mode]]
 === 开发模式
 
 Vert.x Web 默认使用生产模式。
@@ -170,7 +171,7 @@ server.requestHandler(router).listen(8080);
 
 然后，我们为该路由指定一个处理器。该处理器将处理所有到来的请求。
 
-传递给处理器的对象是 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html[RoutingContext]` - 它包含标准的 Vert.x `link:../../apidocs/io/vertx/core/http/HttpServerRequest.html[HttpServerRequest]` 和 `link:../../apidocs/io/vertx/core/http/HttpServerResponse.html[HttpServerResponse]` 
+传递给处理器的对象是 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html[RoutingContext]` - 它包含标准的 Vert.x `link:../../apidocs/io/vertx/core/http/HttpServerRequest.html[HttpServerRequest]` 和 `link:../../apidocs/io/vertx/core/http/HttpServerResponse.html[HttpServerResponse]`
 还有其他各种有用的东西，让使用Vert.x-Web变得更加简单。
 
 处理器调用的参数是一个 http://vertx.io/docs/apidocs/io/vertx/ext/web/RoutingContext.html[ `RoutingContext` ] 对象。 它不仅包含了 Vert.x 中标准的 http://vertx.io/docs/apidocs/io/vertx/core/http/HttpServerRequest.html[ `HttpServerRequest` ] 和
@@ -185,7 +186,7 @@ http://vertx.io/docs/apidocs/io/vertx/core/http/HttpServerResponse.html[ `HttpSe
 [[_handling_requests_and_calling_the_next_handler]]
 == 处理请求并调用下一个处理器
 
-当 Vert.x Web 决定路由一个请求到匹配的route，它会调用对应处理器并将一个 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html[RoutingContext]` 实例传递给它. route可以具有不同的处理器， 您可以叠加使用 `link:../../apidocs/io/vertx/ext/web/Route。html#handler-io.vertx.core.Handler-[handler]` 
+当 Vert.x Web 决定路由一个请求到匹配的route，它会调用对应处理器并将一个 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html[RoutingContext]` 实例传递给它. route可以具有不同的处理器， 您可以叠加使用 `link:../../apidocs/io/vertx/ext/web/Route。html#handler-io.vertx.core.Handler-[handler]`
 
 如果您不在处理器里结束这个响应，您需要调用 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#next--[next]` 方法让其他匹配的 route 来处理请求(如果有)。
 
@@ -286,7 +287,7 @@ router
 您不能在普通的处理器里执行这些操作， 因此我们提供了将route设置成阻塞式处理器的功能。
 
 阻塞式处理器和普通处理器很像， 区别是 Vert.x 会使用 Worker Pool 中的线程而不是 Event Loop 线程来处理请求。
-您可以使用 `link:../../apidocs/io/vertx/ext/web/Route.html#blockingHandler-io.vertx.core.Handler-[blockingHandler]` 
+您可以使用 `link:../../apidocs/io/vertx/ext/web/Route.html#blockingHandler-io.vertx.core.Handler-[blockingHandler]`
 方法来建立阻塞式处理器。 下面是一个例子:
 
 [source,java]
@@ -328,12 +329,12 @@ Route route = router.route().path("/some/path/");
 route.handler(ctx -> {
   // 这个处理器会被以下路径的请求调用：
 
-  // `/some/path/` 
-  // `/some/path//` 
+  // `/some/path/`
+  // `/some/path//`
   //
   // 但不包括:
   // `/some/path` 路径末尾的斜线会被严格限制
-  // `/some/path/subdir` 
+  // `/some/path/subdir`
 });
 
 // 路径结尾没有斜线的不会被严格限制
@@ -349,7 +350,7 @@ route2.handler(ctx -> {
   // `/some/path//`
   //
   // 但不包括:
-  // `/some/path/subdir` 
+  // `/some/path/subdir`
 });
 ----
 
@@ -2567,7 +2568,7 @@ router.get("/dynamic/").handler(handler);
 [[_rocker_template_engine]]
 === Rocker 模版引擎
 
-您需要在项目中添加以下 _依赖_ 以使用 Rocker：`io.vertx:vertx-web-templ-rocker:4.0.0`。 
+您需要在项目中添加以下 _依赖_ 以使用 Rocker：`io.vertx:vertx-web-templ-rocker:4.0.0`。
 并通过此方法以创建 Rocker 模板引擎实例：`io.vertx.ext.web.templ.rocker#create()`。
 
 Rocker会将JSON上下文对象的值传递给 `render` 方法作为模版的参数。
@@ -2672,6 +2673,7 @@ Hello @foo and @bar
 
 许多引擎支持将编译好的模版存入缓存。该缓存存放在Vert.x的可分享的数据local map里。
 这样引擎便可在多个verticle中安全高效地使用该缓存。
+
 [[_disabling_caching]]
 ==== 禁用缓存
 
