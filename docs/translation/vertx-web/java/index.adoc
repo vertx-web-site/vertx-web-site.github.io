@@ -137,7 +137,7 @@ server.listen(8080);
 
 高屋建瓴 (Here's the 10000 foot view)：
 
-`link:../../apidocs/io/vertx/ext/web/Router.html[Router]` 是 Vert.x Web 的核心概念之一。 它是一个维护了零或多个
+`link:../../apidocs/io/vertx/ext/web/Router.html[路由 Router]` 是 Vert.x Web 的核心概念之一。 它是一个维护了零或多个
 `link:../../apidocs/io/vertx/ext/web/Route.html[Routes]` 的对象。
 
 一个 router 接收 HTTP 请求，并查找首个匹配该请求的route, 然后将请求传递给这个route
@@ -415,9 +415,10 @@ router
 
 NOTE: 您也可以将 * 捕获为路径参数 * 。
 
-== Routing with regular expressions
+[[_routing_with_regular_expressions]]
+== 基于正则表达式的路由
 
-Regular expressions can also be used to match URI paths in routes.
+同样也可用正则表达式匹配路由的 URI 路径。
 
 [source,java]
 ----
@@ -425,19 +426,19 @@ Route route = router.route().pathRegex(".*foo");
 
 route.handler(ctx -> {
 
-  // This handler will be called for:
+  // 以下路径的请求都会调用这个处理器：
 
   // /some/path/foo
   // /foo
   // /foo/bar/wibble/foo
   // /bar/foo
 
-  // But not:
+  // 但不包括：
   // /bar/wibble
 });
 ----
 
-Alternatively the regex can be specified when creating the route:
+或者在创建 route 时指定正则表达式：
 
 [source,java]
 ----
@@ -445,7 +446,7 @@ Route route = router.routeWithRegex(".*foo");
 
 route.handler(ctx -> {
 
-  // This handler will be called same as previous example
+  // 这个路由器的调用规则和上面的例子一样
 
 });
 ----
