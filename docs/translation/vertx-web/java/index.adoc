@@ -451,35 +451,38 @@ route.handler(ctx -> {
 });
 ----
 
-== Capturing path parameters with regular expressions
 
-You can also capture path parameters when using regular expressions, here's an example:
+[[_capturing_path_parameters_with_regular_expressions]]
+== 通过正则表达式捕捉路径参数
+
+您也可以通过正则表达式声明捕捉路径参数，这是一个例子：
 
 [source,java]
 ----
 Route route = router.routeWithRegex(".*foo");
 
-// This regular expression matches paths that start with something like:
-// "/foo/bar" - where the "foo" is captured into param0 and the "bar" is
-// captured into param1
+// 这个正则表达式可以匹配路径类似于：
+// `/foo/bar` 的请求
+// `foo` 可以通过参数 param0 获取，`bar` 可以通过参数 param1 获取
 route.pathRegex("\\/([^\\/]+)\\/([^\\/]+)").handler(ctx -> {
 
   String productType = ctx.pathParam("param0");
   String productID = ctx.pathParam("param1");
 
-  // Do something with them...
+  // 执行某些操作……
 });
 ----
 
-In the above example, if a request is made to path: `/tools/drill123/` then the route will match
-and `productType` will receive the value `tools` and `productID` will receive the value `drill123`.
+在上述的例子中，如果一个请求的路径为 `/tools/drill123/`，那么会匹配这个 `route`，
+并且会接收到参数 `productType` 的值为 `tools`，参数 `productID` 的值为 `drill123`。
 
-Captures are denoted in regular expressions with capture groups (i.e. surrounding the capture with round brackets)
+捕获在正则表达式中用捕获组表示（即用圆括号括住捕获）
 
-== Using named capture groups
+[[_using_named_capture_groups]]
+== 使用命名的捕捉组
 
-Using int index param names might be troublesome in some cases.
-It's possible to use named capture groups in the regex path.
+使用序号参数名在某些场景下可能会比较麻烦。
+亦可在正则表达式路径中使用命名的捕捉组。
 
 [source,java]
 ----
@@ -490,13 +493,13 @@ router
     String productType = ctx.pathParam("productType");
     String productID = ctx.pathParam("productID");
 
-    // Do something with them...
+    // 执行某些操作……
   });
 ----
 
-In the example above, named capture groups are mapped to path parameters of the same name as the group.
+在上述的例子中，命名捕获组将路径参数映射到同名的捕捉组中。
 
-Additionally, you can still access group parameters as you would with normal groups (i.e. `params0, params1...`)
+此外，您仍可以使用普通捕捉组访问组参数（例如：`params0, params1...`）
 
 == Routing by HTTP method
 
