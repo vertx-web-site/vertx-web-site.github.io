@@ -124,21 +124,21 @@ server.requestHandler(request -> {
 server.listen(8080);
 ----
 
-我们创建了一个 HTTP 服务实例，并设置了一个请求处理器。所有的请求都会调用这个处理器处理。
+我们创建了一个 HTTP 服务器实例，并设置了一个请求处理器。所有的请求都会调用这个处理器处理。
 
 当请求到达时，我们设置响应的 Content Type 为 `text/plain` ， 并写入了 `Hello World!` 然后结束了处理。
 
 之后，我们告诉服务器监听 `8080` 端口(默认的主机名是 `localhost` )。
 
-您可以执行这段代码，并打开浏览器访问 `http://localhost:8080` 来验证它是否如预期的一样工作。
+您可以执行这段代码，并打开浏览器访问 `http://localhost:8080` 来验证它是否如预期一样工作。
 
 [[_basic_vert_x_web_concepts]]
 == Vert.x Web 的基本概念
 
 高屋建瓴 (Here's the 10000 foot view)：
 
-`link:../../apidocs/io/vertx/ext/web/Router.html[路由 Router]` 是 Vert.x Web 的核心概念之一。 它是一个维护了零或多个
-`link:../../apidocs/io/vertx/ext/web/Route.html[Routes]` 的对象。
+`link:../../apidocs/io/vertx/ext/web/Router.html[路由器 Router]` 是 Vert.x Web 的核心概念之一。 它是一个维护了零或多个
+`link:../../apidocs/io/vertx/ext/web/Route.html[路由 Routes]` 的对象。
 
 一个 router 接收 HTTP 请求，并查找首个匹配该请求的route, 然后将请求传递给这个route
 
