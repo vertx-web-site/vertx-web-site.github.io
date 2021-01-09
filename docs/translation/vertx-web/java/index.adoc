@@ -501,11 +501,12 @@ router
 
 此外，您仍可以使用普通捕捉组访问组参数（例如：`params0, params1...`）
 
-== Routing by HTTP method
+[[_routing_by_http_method]]
+== 基于 HTTP 方法的路由
 
-By default a route will match all HTTP methods.
+Route 默认会匹配所有的 HTTP 方法。
 
-If you want a route to only match for a specific HTTP method you can use `link:../../apidocs/io/vertx/ext/web/Route.html#method-io.vertx.core.http.HttpMethod-[method]`
+如果您只想让 route 匹配特定的 HTTP 方法，那么您可以使用 `link:../../apidocs/io/vertx/ext/web/Route.html#method-io.vertx.core.http.HttpMethod-[method]`
 
 [source,java]
 ----
@@ -513,52 +514,52 @@ Route route = router.route().method(HttpMethod.POST);
 
 route.handler(ctx -> {
 
-  // This handler will be called for any POST request
+  // 所有的 POST 请求都会调用这个处理器
 
 });
 ----
 
-Or you can specify this with a path when creating the route:
+或者您可以在创建 Route 时和路径一起指定：
 
 [source,java]
 ----
 Route route = router.route(HttpMethod.POST, "/some/path/");
 
 route.handler(ctx -> {
-  // This handler will be called for any POST request
-  // to a URI path starting with /some/path/
+  // 所有路径为 `/some/path/` 
+  // 的 POST 请求都会调用这个处理器
 });
 ----
 
-If you want to route for a specific HTTP method you can also use the methods such as `link:../../apidocs/io/vertx/ext/web/Router.html#get--[get]`,
-`link:../../apidocs/io/vertx/ext/web/Router.html#post--[post]` and `link:../../apidocs/io/vertx/ext/web/Router.html#put--[put]` named after the HTTP
-method name. For example:
+如果您想让 Route 指定 HTTP 方法，您也可以使用对应的 `link:../../apidocs/io/vertx/ext/web/Router.html#get--[get]`，
+`link:../../apidocs/io/vertx/ext/web/Router.html#post--[post]` 以及 `link:../../apidocs/io/vertx/ext/web/Router.html#put--[put]` 等方法。
+例如：
 
 [source,java]
 ----
 router.get().handler(ctx -> {
 
-  // Will be called for any GET request
+  // 所有 GET 请求都会调用这个处理器
 
 });
 
 router.get("/some/path/").handler(ctx -> {
 
-  // Will be called for any GET request to a path
-  // starting with /some/path
+  // 所有路径以 `/some/path/` 开始的 
+  // GET 请求都会调用这个处理器
 
 });
 
 router.getWithRegex(".*foo").handler(ctx -> {
 
-  // Will be called for any GET request to a path
-  // ending with `foo`
+  // 所有路径以 `foo` 结尾的
+  // GET 请求都会调用这个处理器
 
 });
 ----
 
-If you want to specify a route will match for more than HTTP method you can call `link:../../apidocs/io/vertx/ext/web/Route.html#method-io.vertx.core.http.HttpMethod-[method]`
-multiple times:
+如果您想要让 route 匹配不止一个 HTTP 方法，
+您可多次调用 `link:../../apidocs/io/vertx/ext/web/Route.html#method-io.vertx.core.http.HttpMethod-[method]` 方法：
 
 [source,java]
 ----
@@ -566,25 +567,25 @@ Route route = router.route().method(HttpMethod.POST).method(HttpMethod.PUT);
 
 route.handler(ctx -> {
 
-  // This handler will be called for any POST or PUT request
+  // 所有 GET 或 POST 请求都会调用这个处理器
 
 });
 ----
 
-If you are creating an application that require custom HTTP verbs, for example, an `WebDav` server, then you can specify
-custom verbs like:
+如果您的应用程序需要自定义 HTTP 动词，例如，在一个 `基于Web的分布式编写和版本控制（WebDAV）` 服务器中，
+您可这样自定义动词：
 
 [source,java]
 ----
 Route route = router.route()
   .method(HttpMethod.valueOf("MKCOL"))
   .handler(ctx -> {
-    // This handler will be called for any MKCOL request
+    // 所有 MKCOL 请求都会调用这个处理器
   });
 ----
 
-NOTE: It is important to notice that features such as rerouting will not accept custom http methods and inspecting the
-route verbs will yield the enumeration value `OTHER` instead of the custom name.
+NOTE: 请务必留意，像 rerouting 等特性不接受自定义 http 方法，
+这些操作在检测到自定义动词时将会使用 `OTHER` 值以替代自定义名。
 
 == Route order
 
