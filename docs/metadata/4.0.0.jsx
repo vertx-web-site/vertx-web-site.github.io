@@ -14,7 +14,7 @@ docs.categories = [
   findCategory(docs, "testing"),
   {
     id: "standards",
-    name: "Standards",
+    name: "标准",
     icon: <Book />
   },
   {
@@ -34,7 +34,7 @@ docs.categories = [
   findCategory(docs, "event-bus-bridges"),
   {
     id: "monitoring",
-    name: "Monitoring",
+    name: "监控",
     icon: <Monitor />
   },
   findCategory(docs, "services"),
