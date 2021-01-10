@@ -75,8 +75,7 @@ insert(docs, "vertx-web-api-service",
   {
     id: "vertx-web-validation",
     name: "Web Validation",
-    description: `A library to declaratively parse and validate incoming Vert.x
-      Web HTTP requests.`,
+    description: `一个声明式的用于解析和校验http请求的库` ,
     category: "web",
     href: "/vertx-web-validation/java/",
     repository: "https://github.com/vert-x3/vertx-web",

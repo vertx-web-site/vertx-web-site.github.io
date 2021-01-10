@@ -288,8 +288,8 @@ const entries = [
   // microservices
   {
     id: "vertx-service-discovery",
-    name: "Service Discovery",
-    description: "Publish, lookup and bind any type of service.",
+    name: "服务发现",
+    description: "发布、查找、绑定任何类型的服务",
     category: "microservices",
     href: "/vertx-service-discovery/java/",
     repository: "https://github.com/vert-x3/vertx-service-discovery",
