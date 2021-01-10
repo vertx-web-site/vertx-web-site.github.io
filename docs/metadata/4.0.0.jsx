@@ -34,7 +34,7 @@ docs.categories = [
   findCategory(docs, "event-bus-bridges"),
   {
     id: "monitoring",
-    name: "监控 ",
+    name: "监控",
     icon: <Monitor />
   },
   findCategory(docs, "services"),
