@@ -6,7 +6,7 @@ import { clone, find, findCategory, insert, move, remove } from "./helpers"
 // never forget to clone the old docs first!
 const docs = clone(oldDocs)
 
-// override old categories 
+// override old categories
 docs.categories = [
   findCategory(docs, "core"),
   findCategory(docs, "web"),
@@ -14,7 +14,7 @@ docs.categories = [
   findCategory(docs, "testing"),
   {
     id: "standards",
-    name: "标准",
+    name: "规范",
     icon: <Book />
   },
   {
@@ -34,7 +34,7 @@ docs.categories = [
   findCategory(docs, "event-bus-bridges"),
   {
     id: "monitoring",
-    name: "监控",
+    name: "监控 ",
     icon: <Monitor />
   },
   findCategory(docs, "services"),
