@@ -74,7 +74,7 @@ find(docs, "vertx-health-check").category = "monitoring"
 insert(docs, "vertx-web-api-service",
   {
     id: "vertx-web-validation",
-    name: "Web Validation",
+    name: "网络校验",
     description: `一个声明式的用于解析和校验http请求的库` ,
     category: "web",
     href: "/vertx-web-validation/java/",
