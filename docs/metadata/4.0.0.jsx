@@ -6,7 +6,7 @@ import { clone, find, findCategory, insert, move, remove } from "./helpers"
 // never forget to clone the old docs first!
 const docs = clone(oldDocs)
 
-// override old categories
+// override old categories 
 docs.categories = [
   findCategory(docs, "core"),
   findCategory(docs, "web"),
