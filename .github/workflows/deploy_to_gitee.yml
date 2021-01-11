@@ -1,4 +1,4 @@
-name: Sync to Coding.net
+name: Deploy to gitee.com
 
 on:
   push:
