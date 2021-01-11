@@ -99,6 +99,7 @@ jobs:
           user-name: okou19900722
           user-email: 512058895@qq.com
           commit-message: publish
+          force-orphan: true
 
       - uses: okou19900722/workflows/git-deploy@v1
         with:
@@ -109,3 +110,4 @@ jobs:
           user-name: okou19900722
           user-email: 512058895@qq.com
           commit-message: publish
+          force-orphan: true
