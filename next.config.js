@@ -53,7 +53,8 @@ const config = {
       "/faq": { page: "/faq" },
       "/get-started": { page: "/get-started" },
       "/introduction-to-vertx-and-reactive": { page: "/introduction-to-vertx-and-reactive" },
-      "/materials": { page: "/materials" }
+      "/materials": { page: "/materials" },
+      "/translation": { page: "/translation" }
     }
   },
 

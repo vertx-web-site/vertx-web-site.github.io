@@ -49,6 +49,7 @@ jobs:
       - run: npm run build
         env:
           GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CONTRIBUTE_FETCH_TOKEN: ${{ secrets.CONTRIBUTE_FETCH_TOKEN }}
           VERTX_WEBSITE_BASEPATH: ${{ steps.basePath.outputs.basePath }}
 
       - name: Clone current GitHub Pages repo
