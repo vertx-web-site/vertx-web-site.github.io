@@ -42,7 +42,7 @@ const SectionPart = ({ title, label, href, children }) => {
       <p className="docs-index-section-content-summary">{children}</p>
 
       <ReadMoreLink href={href}>
-        <a>Read</a>
+        <a>详情</a>
       </ReadMoreLink>
     </div>
   )
