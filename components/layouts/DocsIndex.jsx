@@ -59,7 +59,7 @@ const Docs = ({ metadata, version }) => {
       <div className="docs-index-main">
         <aside>
           <div className="docs-index-aside-main">
-            <h2>Documentation</h2>
+            <h2>文档资料</h2>
             <div className="docs-index-aside-content">
               <div className="docs-index-toc">
                 <ul>
