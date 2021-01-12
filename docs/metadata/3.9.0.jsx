@@ -4,12 +4,12 @@ import { Box, CheckCircle, Database, Feather, Globe, Grid, Inbox, Key,
 const categories = [
   {
     id: "core",
-    name: "Core",
+    name: "核心",
     icon: <Box />
   },
   {
     id: "web",
-    name: "Web",
+    name: "网络",
     icon: <Globe />
   },
   {
