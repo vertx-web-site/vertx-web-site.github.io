@@ -297,10 +297,8 @@ export async function getStaticProps({ params }) {
     categories: allCategories
   }
 
-  // write RSS feed in production mode
-  if (process.env.NODE_ENV === "production") {
-    await writeFeed(allPosts, anyPostChanged)
-  }
+  // write RSS feed
+  await writeFeed(allPosts, anyPostChanged)
 
   // handle blog index
   if (!params.slug) {
