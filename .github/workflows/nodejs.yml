@@ -91,18 +91,8 @@ jobs:
           publish_dir: vertx-china.github.io
 #          cname: vertx.io
 
-#      - uses: okou19900722/workflows/git-deploy@v1
-#        with:
-#          ssh-key: ${{ secrets.CODING_TOKEN }}
-#          src-dir: vertx-china.github.io
-#          branch: master
-#          repo-url: git@e.coding.net:lippen/cn.vertx.tk.git
-#          user-name: okou19900722
-#          user-email: 512058895@qq.com
-#          commit-message: publish
-#          force-orphan: true
-
-      - uses: okou19900722/workflows/git-deploy@v1
+      - name: Deploy to Gitee Pages
+        uses: okou19900722/workflows/git-deploy@v1
         with:
           ssh-key: ${{ secrets.GITEE_TOKEN }}
           src-dir: vertx-china.github.io
@@ -112,3 +102,13 @@ jobs:
           user-email: 512058895@qq.com
           commit-message: publish
           force-orphan: true
+
+      - name: Refresh Gitee Pages
+        uses: okou19900722/gitee-pages@v1
+        with:
+          username: "okou19900722"
+          password: ${{ secrets.GITEE_PASSWORD }}
+          repository: "https://gitee.com/vertx-china/vertx-china"
+          branch: "master"
+          directory: ""
+          https: 'true'
