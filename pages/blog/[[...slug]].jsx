@@ -40,24 +40,17 @@ async function compileAllPosts() {
   const cacache = require("cacache")
   const crypto = require("crypto")
   const fs = require("fs").promises
-  const path = require("path")
   const readdir = require("recursive-readdir")
   const readingTime = require("reading-time")
   const mdxOptions = require("../../components/lib/mdx-options")
   const AutoBasePath = require("../../components/lib/remark-auto-basepath")
   const TermFrequency = require("../../components/lib/remark-term-frequency")
+  const { slash } = require("../../components/lib/path-utils")
 
   const cachePath = "./.cache/blog"
 
-  let pattern
-  if (path.sep === "\\") {
-    pattern = /.\\([0-9]+-[0-9]+-[0-9]+)-(.*)\.mdx/
-  } else {
-    pattern = /.\/([0-9]+-[0-9]+-[0-9]+)-(.*)\.mdx/
-  }
-
   let files = (await readdir("blog")).filter(f => {
-    let e = f.match(pattern)
+    let e = slash(f).match(/.\/([0-9]+-[0-9]+-[0-9]+)-(.*)\.mdx/)
     if (e === null) {
       return false
     }
@@ -86,7 +79,7 @@ async function compileAllPosts() {
     } else {
       let { content, data } = matter(source)
 
-      let e = f.match(pattern)
+      let e = slash(f).match(/.\/([0-9]+-[0-9]+-[0-9]+)-(.*)\.mdx/)
       let stats = readingTime(content)
 
       post = {
