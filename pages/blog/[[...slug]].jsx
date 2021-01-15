@@ -45,11 +45,12 @@ async function compileAllPosts() {
   const mdxOptions = require("../../components/lib/mdx-options")
   const AutoBasePath = require("../../components/lib/remark-auto-basepath")
   const TermFrequency = require("../../components/lib/remark-term-frequency")
+  const { slash } = require("../../components/lib/path-utils")
 
   const cachePath = "./.cache/blog"
 
   let files = (await readdir("blog")).filter(f => {
-    let e = f.match(/.\/([0-9]+-[0-9]+-[0-9]+)-(.*)\.mdx/)
+    let e = slash(f).match(/.\/([0-9]+-[0-9]+-[0-9]+)-(.*)\.mdx/)
     if (e === null) {
       return false
     }
@@ -78,7 +79,7 @@ async function compileAllPosts() {
     } else {
       let { content, data } = matter(source)
 
-      let e = f.match(/.\/([0-9]+-[0-9]+-[0-9]+)-(.*)\.mdx/)
+      let e = slash(f).match(/.\/([0-9]+-[0-9]+-[0-9]+)-(.*)\.mdx/)
       let stats = readingTime(content)
 
       post = {
