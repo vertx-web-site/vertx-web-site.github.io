@@ -3038,8 +3038,8 @@ var options = {
    vertxbus_reconnect_attempts_max: Infinity, // 重连尝试最多次数
    vertxbus_reconnect_delay_min: 1000, // 在第一次尝试重连之前的初始延迟（单位为毫秒）
    vertxbus_reconnect_delay_max: 5000, // 尝试重连之间的最大延迟（单位为毫秒）
-   vertxbus_reconnect_exponent: 2, // Exponential backoff factor
-   vertxbus_randomization_factor: 0.5 // Randomization factor between 0 and 1
+   vertxbus_reconnect_exponent: 2, // 指数退避因子
+   vertxbus_randomization_factor: 0.5 // 介于0和1之间的随机因子
 };
 
 var eb2 = new EventBus('http://localhost:8080/eventbus', options);
