@@ -3033,7 +3033,7 @@ eb.enableReconnect(true);
 eb.onopen = function() {}; // 在此处设立处理器，每次建立连接或重连时候调用
 eb.onreconnect = function() {}; // 可选，仅在重连时被调用
 
-// Alternatively, pass in an options object
+// 或者，传入一个 options 对象
 var options = {
    vertxbus_reconnect_attempts_max: Infinity, // 重连尝试最多次数
    vertxbus_reconnect_delay_min: 1000, // 在第一次尝试重连之前的初始延迟（单位为毫秒）
