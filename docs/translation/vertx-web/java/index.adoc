@@ -2970,7 +2970,7 @@ Vert.x Web 提供了一个内置的被称为事件总线桥（event bus bridge�
 而该处理器将会处理 SockJS 的数据，并将建立起与服务器端的事件总线的连接桥。
 
 启用该连接桥您只需要在 
-SockJS 中调用 
+SockJS 处理器中调用 
 `link:../../apidocs/io/vertx/ext/web/handler/sockjs/SockJSHandler.html#bridge-io.vertx.ext.web.handler.sockjs.SockJSBridgeOptions-[bridge]`。
 
 [source,java]
