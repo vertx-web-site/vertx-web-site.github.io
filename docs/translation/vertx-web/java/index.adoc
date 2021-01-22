@@ -288,7 +288,7 @@ router
 
 阻塞式处理器和普通处理器很像， 区别是 Vert.x 会使用 Worker Pool 中的线程而不是 Event Loop 线程来处理请求。
 您可以使用 `link:../../apidocs/io/vertx/ext/web/Route.html#blockingHandler-io.vertx.core.Handler-[blockingHandler]`
-方法来建立阻塞式处理器。 下面是一个例子:
+方法来建立阻塞式处理器。 下面是一个例子：
 
 [source,java]
 ----
@@ -3076,28 +3076,28 @@ eb2.enableReconnect(true);
 `link:../../apidocs/io/vertx/ext/bridge/PermittedOptions.html#setAddress-java.lang.String-[setAddress]`:: 该配置规则精确地定义了消息可以被发送到哪些地址。
 如您需要通过精确地址来控制消息的话，使用该选项。
 `link:../../apidocs/io/vertx/ext/bridge/PermittedOptions.html#setAddressRegex-java.lang.String-[setAddressRegex]`:: 该配置规则通过正则表达式来定义消息可以被发送到哪些地址。如您需要通过正则表达式来控制消息的话，请使用这个选项。
-如果指定了 `address` ，该选项则被忽略。
-`link:../../apidocs/io/vertx/ext/bridge/PermittedOptions.html#setMatch-io.vertx.core.json.JsonObject-[setMatch]`:: This allows you to allow messages based on their structure. Any fields in the match must exist in the
-message with the same values for them to be allowed. This currently only works with JSON messages.
+如果指定了 `address` ，则该选项会被忽略。
+`link:../../apidocs/io/vertx/ext/bridge/PermittedOptions.html#setMatch-io.vertx.core.json.JsonObject-[setMatch]`:: 该配置规则通过消息的结构来控制消息是否可被发送。该配置中定义的每一个字段必须在消息中存在，且值一致。
+目前仅适用于 JSON 格式的消息。
 
-If a message is _in-bound_ (i.e. being sent from client side JavaScript to the server) when it is received Vert.x-Web
-will look through any inbound permitted matches. If any match, it will be allowed through.
+对于一个 _输入_ 的消息（例如通过客户端 JavaScript 发送到服务器）
+当消息抵达时，Vert.x Web 会检查每一条输入许可。如果存在匹配规则，则消息可以通过。
 
-If a message is _out-bound_ (i.e. being sent from the server to client side JavaScript) before it is sent to the client
-Vert.x-Web will look through any outbound permitted matches. If any match, it will be allowed through.
+对于一个 _输出_ 的消息（例如通过服务器端发送给客户端 JavaScript）
+当消息发送时，Vert.x Web 会检查每一条输出许可。如果存在匹配，则消息可以通过。
 
-The actual matching works as follows:
+实际的匹配过程如下：
 
-If an `address` field has been specified then the `address` must match _exactly_ with the address of the message
-for it to be considered matched.
+如果指定了 `address` 字段，并且消息的目标地址与 `address` _精确_ 匹配，
+则匹配成功。
 
-If an `address` field has not been specified and an `addressRegex` field has been specified then the regular expression
-in `address_re` must match with the address of the message for it to be considered matched.
+如果没有指定 `address` 但指定了 `addressRegex` 字段，并且消息的目标地址匹配了 `address_re` 里的正则表达式，
+则匹配成功。
 
-If a `match` field has been specified, then also the structure of the message must match. Structuring matching works
-by looking at all the fields and values in the match object and checking they all exist in the actual message body.
+如果指定了 `match` 字段，则消息的结构也必须匹配。
+消息需包含有 match 对象中的所有键值对，方能匹配成功。
 
-Here's an example:
+下面是一个例子：
 
 [source,java]
 ----
