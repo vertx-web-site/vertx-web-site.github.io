@@ -288,7 +288,7 @@ router
 
 阻塞式处理器和普通处理器很像， 区别是 Vert.x 会使用 Worker Pool 中的线程而不是 Event Loop 线程来处理请求。
 您可以使用 `link:../../apidocs/io/vertx/ext/web/Route.html#blockingHandler-io.vertx.core.Handler-[blockingHandler]`
-方法来建立阻塞式处理器。 下面是一个例子：
+方法来建立阻塞式处理器。 以下是例子：
 
 [source,java]
 ----
@@ -305,7 +305,7 @@ router.route().blockingHandler(ctx -> {
 
 默认情况下，在同一个 Context (例如同一个 Verticle 实例) 上执行的所有阻塞式处理器是顺序的， 也就意味着只有一个处理器执行完了才会继续执行下一个。 如果您不关心执行的顺序，并且不介意阻塞式处理器以并行的方式执行， 您可以在使用 `link:../../apidocs/io/vertx/ext/web/Route.html#blockingHandler-io.vertx.core.Handler-boolean-[blockingHandler]` 时，设置阻塞式处理器的 `ordered` 为 false。
 
-NOTE: 如果您需要在一个阻塞处理器中处理一个 multipart 类型的表单数据，您需要首先使用一个非阻塞的处理器来调用 `setExpectMultipart(true)` 。下面是一个例子：
+NOTE: 如果您需要在一个阻塞处理器中处理一个 multipart 类型的表单数据，您需要首先使用一个非阻塞的处理器来调用 `setExpectMultipart(true)` 。以下是例子：
 [source,java]
 ----
 router.post("/some/endpoint").handler(ctx -> {
@@ -455,7 +455,7 @@ route.handler(ctx -> {
 [[_capturing_path_parameters_with_regular_expressions]]
 == 通过正则表达式捕捉路径参数
 
-您也可以通过正则表达式声明捕捉路径参数，这是一个例子：
+您也可以通过正则表达式声明捕捉路径参数，以下是例子：
 
 [source,java]
 ----
@@ -3097,7 +3097,7 @@ eb2.enableReconnect(true);
 如果指定了 `match` 字段，则消息的结构也必须匹配。
 消息需包含有 match 对象中的所有键值对，方能匹配成功。
 
-下面是一个例子：
+以下是例子：
 
 [source,java]
 ----
@@ -3145,18 +3145,19 @@ SockJSBridgeOptions options = new SockJSBridgeOptions().
 router.mountSubRouter("/eventbus", sockJSHandler.bridge(options));
 ----
 
-=== Requiring authorization for messages
+[[_requiring_authorization_for_messages]]
+=== 消息授权
 
-The event bus bridge can also be configured to use the Vert.x-Web authorization functionality to require
-authorization for messages, either in-bound or out-bound on the bridge.
+连接桥可使用 Vert.x Web 的授权功能以配置消息的访问权限，
+同时支持输入和输出的消息。
 
-To do this, you can add extra fields to the match described in the previous section that determine what authority is
-required for the match.
+为此，您可通过向上文所述的匹配规则中加入额外的字段
+以指定匹配需要哪些权限。
 
-To declare that a specific authority for the logged-in user is required in order to access allow the messages you use the
-`link:../../apidocs/io/vertx/ext/bridge/PermittedOptions.html#setRequiredAuthority-java.lang.String-[setRequiredAuthority]` field.
+通过 `link:../../apidocs/io/vertx/ext/bridge/PermittedOptions.html#setRequiredAuthority-java.lang.String-[setRequiredAuthority]`
+方法来指定对于登录用户，需要具有哪些权限才允许访问这个消息。
 
-Here's an example:
+以下是例子：
 
 [source,java]
 ----
