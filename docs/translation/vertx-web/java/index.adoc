@@ -2957,7 +2957,7 @@ Vert.x Web 提供了一个内置的被称为事件总线桥（event bus bridge�
 该 event bus 不仅可以在服务器端多个 Vert.x 实例中使用，还可以通过运行在浏览器里的 JavaScript 访问。
 
 由此，我们可以建立起一个连接多个浏览器和服务器群的庞大的分布式 event bus。 
-浏览器只需与服务器群建立连接，无需每次都与固定的单一服务器建立连接。
+浏览器只需与服务器集群建立连接，无需每次都与固定的某个服务器建立连接。
 
 这些是通过 Vert.x 提供的一个简单的客户端 JavaScript 库 vertx-eventbus.js 来实现的。 
 它提供了一系列与服务器端的 Vert.x event-bus 极为类似的 API。 
