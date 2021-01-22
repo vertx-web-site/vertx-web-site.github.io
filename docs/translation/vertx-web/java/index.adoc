@@ -3106,34 +3106,34 @@ Router router = Router.router(vertx);
 SockJSHandler sockJSHandler = SockJSHandler.create(vertx);
 
 
-// Let through any messages sent to 'demo.orderMgr' from the client
+// 允许客户端向地址 `demo.orderMgr` 发送消息
 PermittedOptions inboundPermitted1 = new PermittedOptions()
   .setAddress("demo.orderMgr");
 
-// Allow calls to the address 'demo.persistor' from the client as
-// long as the messages have an action field with value 'find'
-// and a collection field with value 'albums'
+// 允许客户端向地址 `demo.orderMgr` 发送
+// 包含有 `action` 的值为 `find`、
+// `collecton` 的值为 `albums` 的消息。
 PermittedOptions inboundPermitted2 = new PermittedOptions()
   .setAddress("demo.persistor")
   .setMatch(new JsonObject().put("action", "find")
     .put("collection", "albums"));
 
-// Allow through any message with a field `wibble` with value `foo`.
+// 允许 `wibble` 值为 `foo` 的消息。
 PermittedOptions inboundPermitted3 = new PermittedOptions()
   .setMatch(new JsonObject().put("wibble", "foo"));
 
-// First let's define what we're going to allow from server -> client
+// 让我们定义 服务端 -> 客户端 发送消息匹配规则
 
-// Let through any messages coming from address 'ticker.mystock'
+// 允许向客户端发送地址为 `ticker.mystock` 的消息
 PermittedOptions outboundPermitted1 = new PermittedOptions()
   .setAddress("ticker.mystock");
 
-// Let through any messages from addresses starting with "news."
-// (e.g. news.europe, news.usa, etc)
+// 允许向客户端发送地址以 `news.` 开头的消息
+//（例如 news.europe, news.usa, 等）
 PermittedOptions outboundPermitted2 = new PermittedOptions()
   .setAddressRegex("news\\..+");
 
-// Let's define what we're going to allow from client -> server
+// 让我们定义 客户x端 -> 客户端 发送消息匹配规则
 SockJSBridgeOptions options = new SockJSBridgeOptions().
   addInboundPermitted(inboundPermitted1).
   addInboundPermitted(inboundPermitted1).
@@ -3141,7 +3141,7 @@ SockJSBridgeOptions options = new SockJSBridgeOptions().
   addOutboundPermitted(outboundPermitted1).
   addOutboundPermitted(outboundPermitted2);
 
-// mount the bridge on the router
+// 将连接桥挂载到路由器上
 router.mountSubRouter("/eventbus", sockJSHandler.bridge(options));
 ----
 
