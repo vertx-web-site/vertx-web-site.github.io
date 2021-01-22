@@ -3133,7 +3133,7 @@ PermittedOptions outboundPermitted1 = new PermittedOptions()
 PermittedOptions outboundPermitted2 = new PermittedOptions()
   .setAddressRegex("news\\..+");
 
-// 让我们定义 客户x端 -> 客户端 发送消息匹配规则
+// 让我们定义 客户端 -> 客户端 发送消息匹配规则
 SockJSBridgeOptions options = new SockJSBridgeOptions().
   addInboundPermitted(inboundPermitted1).
   addInboundPermitted(inboundPermitted1).
