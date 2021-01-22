@@ -3110,7 +3110,7 @@ SockJSHandler sockJSHandler = SockJSHandler.create(vertx);
 PermittedOptions inboundPermitted1 = new PermittedOptions()
   .setAddress("demo.orderMgr");
 
-// 允许客户端向地址 `demo.orderMgr` 发送
+// 允许客户端向地址 `demo.persistor` 发送
 // 包含有 `action` 的值为 `find`、
 // `collecton` 的值为 `albums` 的消息。
 PermittedOptions inboundPermitted2 = new PermittedOptions()
