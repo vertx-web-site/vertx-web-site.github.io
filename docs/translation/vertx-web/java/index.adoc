@@ -288,7 +288,7 @@ router
 
 阻塞式处理器和普通处理器很像， 区别是 Vert.x 会使用 Worker Pool 中的线程而不是 Event Loop 线程来处理请求。
 您可以使用 `link:../../apidocs/io/vertx/ext/web/Route.html#blockingHandler-io.vertx.core.Handler-[blockingHandler]`
-方法来建立阻塞式处理器。 下面是一个例子:
+方法来建立阻塞式处理器。 以下是例子：
 
 [source,java]
 ----
@@ -305,7 +305,7 @@ router.route().blockingHandler(ctx -> {
 
 默认情况下，在同一个 Context (例如同一个 Verticle 实例) 上执行的所有阻塞式处理器是顺序的， 也就意味着只有一个处理器执行完了才会继续执行下一个。 如果您不关心执行的顺序，并且不介意阻塞式处理器以并行的方式执行， 您可以在使用 `link:../../apidocs/io/vertx/ext/web/Route.html#blockingHandler-io.vertx.core.Handler-boolean-[blockingHandler]` 时，设置阻塞式处理器的 `ordered` 为 false。
 
-NOTE: 如果您需要在一个阻塞处理器中处理一个 multipart 类型的表单数据，您需要首先使用一个非阻塞的处理器来调用 `setExpectMultipart(true)` 。下面是一个例子：
+NOTE: 如果您需要在一个阻塞处理器中处理一个 multipart 类型的表单数据，您需要首先使用一个非阻塞的处理器来调用 `setExpectMultipart(true)` 。以下是例子：
 [source,java]
 ----
 router.post("/some/endpoint").handler(ctx -> {
@@ -455,7 +455,7 @@ route.handler(ctx -> {
 [[_capturing_path_parameters_with_regular_expressions]]
 == 通过正则表达式捕捉路径参数
 
-您也可以通过正则表达式声明捕捉路径参数，这是一个例子：
+您也可以通过正则表达式声明捕捉路径参数，以下是例子：
 
 [source,java]
 ----
@@ -2951,9 +2951,9 @@ eventBus.send(writeHandlerID, Buffer.buffer("foo"));
 == SockJS 桥接 Event Bus
 
 Vert.x Web 提供了一个内置的被称为事件总线桥（event bus bridge）的 SockJS 套接字处理器。 
-该处理器有效地将服务器端的 Vert.x 的 event bus 延伸到客户端的 JavaScript 运行环境里。
+该处理器有效地将服务器端的 Vert.x 的事件总线延伸到客户端的 JavaScript 运行环境里。
 
-这将创建一个分布式的 event bus。 
+这将创建一个分布式的事件总线。 
 该 event bus 不仅可以在服务器端多个 Vert.x 实例中使用，还可以通过运行在浏览器里的 JavaScript 访问。
 
 由此，我们可以建立起一个连接多个浏览器和服务器群的庞大的分布式 event bus。 
@@ -2984,7 +2984,7 @@ router.mountSubRouter("/eventbus", sockJSHandler.bridge(options));
 ----
 
 在客户端的 JavaScript 中，您可以使用 http://npmjs.com/package/@vertx/eventbus-bridge-client.js[@vertx/eventbus-bridge-client.js]
-库以创建跟 event bus 的连接，并以此发送和接收消息。 该库可在 http://npmjs.com/package/@vertx/eventbus-bridge-client.js[NPM] 上找到。
+库以创建跟事件总线的连接，并以此发送和接收消息。 该库可在 http://npmjs.com/package/@vertx/eventbus-bridge-client.js[NPM] 上找到。
 您可直接在捆绑软件或构建工具中直接引用它，但同时它亦可以在 CDN 中使用
 （就像之前的 sockJS 例子）：
 
@@ -3047,56 +3047,57 @@ eb2.enableReconnect(true);
 // 创建处理器……
 ----
 
-=== Securing the Bridge
+[[_securing_the_bridge]]
+=== 守护连接桥
 
-If you started a bridge like in the above example without securing it, and attempted to send messages through
-it you'd find that the messages mysteriously disappeared. What happened to them?
+如果您像上面的例子一样建立连接桥但未开启守护机制，此时您试图通过该桥发送消息，
+您会发现消息神秘地失踪了。发生了什么？
 
-For most applications you probably don't want client side JavaScript being able to send just any message to any
-handlers on the server side or to all other browsers.
+对于大多数的应用，您恐怕不希望客户端的 JavaScript 
+代码可以发送任何消息到任意服务端处理器或其他所有浏览器上。
 
-For example, you may have a service on the event bus which allows data to be accessed or deleted. We don't want
-badly behaved or malicious clients being able to delete all the data in your database!
+例如，您可能在事件总线上注册了一个服务，用于访问或删除数据。
+我们并不希望出现恶意的行为或有害的客户端能够利用该服务删除数据库中所有的数据！
 
-Also, we don't necessarily want any client to be able to listen in on any event bus address.
+此外，我们恐怕也不希望任意一个客户端都能监听任意一个事件总线地址。
 
-To deal with this, a SockJS bridge will by default refuse to let through any messages. It's up to you to tell the
-bridge what messages are ok for it to pass through. (There is an exception for reply messages which are always allowed through).
+为了解决这个问题，SockJs连接桥默认会拒绝所有的消息。
+您需要告诉连接桥哪些消息是可以通过的。（例外情况是，所有的回复消息都是可以通过的）。
 
-In other words the bridge acts like a kind of firewall which has a default _deny-all_ policy.
+换句话说，连接桥的行为就像是配置了缺省策略为 _全部拒绝_ 策略的防火墙。
 
-Configuring the bridge to tell it what messages it should pass through is easy.
+为连接桥配置哪些消息可以通过是很简单的一件事。
 
-You can specify which _matches_ you want to allow for inbound and outbound traffic using the
-`link:../../apidocs/io/vertx/ext/web/handler/sockjs/SockJSBridgeOptions.html[SockJSBridgeOptions]` that you pass in when calling bridge.
+您可以通过调用连接桥时传入的 
+`link:../../apidocs/io/vertx/ext/web/handler/sockjs/SockJSBridgeOptions.html[SockJSBridgeOptions]` 来配置 _匹配_ 规则以指定哪些输入和输出的流量是允许通过的。
 
-Each match is a `link:../../apidocs/io/vertx/ext/bridge/PermittedOptions.html[PermittedOptions]` object:
+每一个匹配规则对应一个 `link:../../apidocs/io/vertx/ext/bridge/PermittedOptions.html[PermittedOptions]` 对象：
 
-`link:../../apidocs/io/vertx/ext/bridge/PermittedOptions.html#setAddress-java.lang.String-[setAddress]`:: This represents the exact address the message is being sent to. If you want to allow messages based on
-an exact address you use this field.
-`link:../../apidocs/io/vertx/ext/bridge/PermittedOptions.html#setAddressRegex-java.lang.String-[setAddressRegex]`:: This is a regular expression that will be matched against the address. If you want to allow messages
-based on a regular expression you use this field. If the `address` field is specified this field will be ignored.
-`link:../../apidocs/io/vertx/ext/bridge/PermittedOptions.html#setMatch-io.vertx.core.json.JsonObject-[setMatch]`:: This allows you to allow messages based on their structure. Any fields in the match must exist in the
-message with the same values for them to be allowed. This currently only works with JSON messages.
+`link:../../apidocs/io/vertx/ext/bridge/PermittedOptions.html#setAddress-java.lang.String-[setAddress]`:: 该配置规则精确地定义了消息可以被发送到哪些地址。
+如您需要通过精确地址来控制消息的话，使用该选项。
+`link:../../apidocs/io/vertx/ext/bridge/PermittedOptions.html#setAddressRegex-java.lang.String-[setAddressRegex]`:: 该配置规则通过正则表达式来定义消息可以被发送到哪些地址。如您需要通过正则表达式来控制消息的话，请使用这个选项。
+如果指定了 `address` ，则该选项会被忽略。
+`link:../../apidocs/io/vertx/ext/bridge/PermittedOptions.html#setMatch-io.vertx.core.json.JsonObject-[setMatch]`:: 该配置规则通过消息的结构来控制消息是否可被发送。该配置中定义的每一个字段必须在消息中存在，且值一致。
+目前仅适用于 JSON 格式的消息。
 
-If a message is _in-bound_ (i.e. being sent from client side JavaScript to the server) when it is received Vert.x-Web
-will look through any inbound permitted matches. If any match, it will be allowed through.
+对于一个 _输入_ 的消息（例如通过客户端 JavaScript 发送到服务器）
+当消息抵达时，Vert.x Web 会检查每一条输入许可。如果存在匹配规则，则消息可以通过。
 
-If a message is _out-bound_ (i.e. being sent from the server to client side JavaScript) before it is sent to the client
-Vert.x-Web will look through any outbound permitted matches. If any match, it will be allowed through.
+对于一个 _输出_ 的消息（例如通过服务器端发送给客户端 JavaScript）
+当消息发送时，Vert.x Web 会检查每一条输出许可。如果存在匹配，则消息可以通过。
 
-The actual matching works as follows:
+实际的匹配过程如下：
 
-If an `address` field has been specified then the `address` must match _exactly_ with the address of the message
-for it to be considered matched.
+如果指定了 `address` 字段，并且消息的目标地址与 `address` _精确_ 匹配，
+则匹配成功。
 
-If an `address` field has not been specified and an `addressRegex` field has been specified then the regular expression
-in `address_re` must match with the address of the message for it to be considered matched.
+如果没有指定 `address` 但指定了 `addressRegex` 字段，并且消息的目标地址匹配了 `address_re` 里的正则表达式，
+则匹配成功。
 
-If a `match` field has been specified, then also the structure of the message must match. Structuring matching works
-by looking at all the fields and values in the match object and checking they all exist in the actual message body.
+如果指定了 `match` 字段，则消息的结构也必须匹配。
+消息需包含有 match 对象中的所有键值对，方能匹配成功。
 
-Here's an example:
+以下是例子：
 
 [source,java]
 ----
@@ -3105,34 +3106,34 @@ Router router = Router.router(vertx);
 SockJSHandler sockJSHandler = SockJSHandler.create(vertx);
 
 
-// Let through any messages sent to 'demo.orderMgr' from the client
+// 允许客户端向地址 `demo.orderMgr` 发送消息
 PermittedOptions inboundPermitted1 = new PermittedOptions()
   .setAddress("demo.orderMgr");
 
-// Allow calls to the address 'demo.persistor' from the client as
-// long as the messages have an action field with value 'find'
-// and a collection field with value 'albums'
+// 允许客户端向地址 `demo.persistor` 发送
+// 包含有 `action` 的值为 `find`、
+// `collecton` 的值为 `albums` 的消息。
 PermittedOptions inboundPermitted2 = new PermittedOptions()
   .setAddress("demo.persistor")
   .setMatch(new JsonObject().put("action", "find")
     .put("collection", "albums"));
 
-// Allow through any message with a field `wibble` with value `foo`.
+// 允许 `wibble` 值为 `foo` 的消息。
 PermittedOptions inboundPermitted3 = new PermittedOptions()
   .setMatch(new JsonObject().put("wibble", "foo"));
 
-// First let's define what we're going to allow from server -> client
+// 让我们定义 服务端 -> 客户端 发送消息匹配规则
 
-// Let through any messages coming from address 'ticker.mystock'
+// 允许向客户端发送地址为 `ticker.mystock` 的消息
 PermittedOptions outboundPermitted1 = new PermittedOptions()
   .setAddress("ticker.mystock");
 
-// Let through any messages from addresses starting with "news."
-// (e.g. news.europe, news.usa, etc)
+// 允许向客户端发送地址以 `news.` 开头的消息
+//（例如 news.europe, news.usa, 等）
 PermittedOptions outboundPermitted2 = new PermittedOptions()
   .setAddressRegex("news\\..+");
 
-// Let's define what we're going to allow from client -> server
+// 让我们定义 客户端 -> 客户端 发送消息匹配规则
 SockJSBridgeOptions options = new SockJSBridgeOptions().
   addInboundPermitted(inboundPermitted1).
   addInboundPermitted(inboundPermitted1).
@@ -3140,53 +3141,54 @@ SockJSBridgeOptions options = new SockJSBridgeOptions().
   addOutboundPermitted(outboundPermitted1).
   addOutboundPermitted(outboundPermitted2);
 
-// mount the bridge on the router
+// 将连接桥挂载到路由器上
 router.mountSubRouter("/eventbus", sockJSHandler.bridge(options));
 ----
 
-=== Requiring authorization for messages
+[[_requiring_authorization_for_messages]]
+=== 消息授权
 
-The event bus bridge can also be configured to use the Vert.x-Web authorization functionality to require
-authorization for messages, either in-bound or out-bound on the bridge.
+连接桥可使用 Vert.x Web 的授权功能以配置消息的访问权限，
+同时支持输入和输出的消息。
 
-To do this, you can add extra fields to the match described in the previous section that determine what authority is
-required for the match.
+为此，您可通过向上文所述的匹配规则中加入额外的字段
+以指定匹配需要哪些权限。
 
-To declare that a specific authority for the logged-in user is required in order to access allow the messages you use the
-`link:../../apidocs/io/vertx/ext/bridge/PermittedOptions.html#setRequiredAuthority-java.lang.String-[setRequiredAuthority]` field.
+通过 `link:../../apidocs/io/vertx/ext/bridge/PermittedOptions.html#setRequiredAuthority-java.lang.String-[setRequiredAuthority]`
+方法来指定对于登录用户，需要具有哪些权限才允许访问这个消息。
 
-Here's an example:
+以下是例子：
 
 [source,java]
 ----
 PermittedOptions inboundPermitted = new PermittedOptions()
   .setAddress("demo.orderService");
 
-// But only if the user is logged in and has the authority "place_orders"
+// 仅限用户已登录并且拥有权限 `place_orders`
 inboundPermitted.setRequiredAuthority("place_orders");
 
 SockJSBridgeOptions options = new SockJSBridgeOptions()
   .addInboundPermitted(inboundPermitted);
 ----
 
-For the user to be authorised they must be first logged in and secondly have the required authority.
+用户需要登录，并被授权才能够访问消息。
 
-To handle the login and actually auth you can configure the normal Vert.x auth handlers. For example:
+因此，您需要配置一个 Vert.x 认证处理器来处理登录和授权。例如：
 
 [source,java]
 ----
 Router router = Router.router(vertx);
 
-// Let through any messages sent to 'demo.orderService' from the client
+// 允许客户端向 `demo.orderService` 发送消息
 PermittedOptions inboundPermitted = new PermittedOptions()
   .setAddress("demo.orderService");
 
-// But only if the user is logged in and has the authority "place_orders"
+// 仅限用户已登录并且拥有权限 `place_orders`
 inboundPermitted.setRequiredAuthority("place_orders");
 
 SockJSHandler sockJSHandler = SockJSHandler.create(vertx);
 
-// Now set up some basic auth handling:
+// 设置基础认证处理器：
 
 router.route().handler(SessionHandler.create(LocalSessionStore.create(vertx)));
 
@@ -3194,7 +3196,7 @@ AuthenticationHandler basicAuthHandler = BasicAuthHandler.create(authProvider);
 
 router.route("/eventbus/*").handler(basicAuthHandler);
 
-// mount the bridge on the router
+// 将连接桥挂载到路由器上
 router.mountSubRouter(
   "/eventbus",
   sockJSHandler.bridge(new SockJSBridgeOptions()
