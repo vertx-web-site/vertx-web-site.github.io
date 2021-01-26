@@ -9,6 +9,7 @@ Vert.x Web API 服务通过事件总线帮助你处理HTTP请求
 这个模块提供给你创建Web API 服务的能力，即一个事件总线消息消费者(基于与 https://vertx.io/docs/vertx-service-proxy/java/[Vert.x service proxy] 同样的概念 )
 然后它提供一个处理器来代理访问这些服务的请求。
 
+[[_using_vert_x_api_service]]
 == 使用Vert.x API服务
 
 为了使用Vert.x API 服务，需要添加如下依赖
@@ -57,6 +58,7 @@ dependencies {
 如果你希望用不同语言来调用接口，那么你需要添加 _语言_ 依赖，譬如：
 为groovy语言添加 `vertx-lang-groovy` 依赖.
 
+[[_proxy_an_http_request_to_a_web_api_service]]
 == 代理一个HTTP请求 到一个Web API服务
 
 你可以用 `link:../../apidocs/io/vertx/ext/web/api/service/RouteToEBServiceHandler.html[RouteToEBServiceHandler]` 来代理发送到事件总线的请求。
@@ -89,6 +91,7 @@ router
 IMPORTANT: 在挂载 `link:../../apidocs/io/vertx/ext/web/api/service/RouteToEBServiceHandler.html[RouteToEBServiceHandler]` 的时候，您 *必须* 同时挂载一个 `link:../../apidocs/io/vertx/ext/web/validation/ValidationHandler.html[ValidationHandler]` ，这个ValidationHandler提取了请求当中的参数。否则，在发送请求的时候不回存在任何请求参数。
 
 
+[[_define_your_web_api_service_interface]]
 == 定义您的Web API 服务接口
 
 在更进一步之前，我们建议您去查阅 https://vertx.io/docs/vertx-service-proxy/java/[Service Proxy documentation]
@@ -157,6 +160,7 @@ void putTransaction(RequestParameter body, ServiceRequest context, Handler<Async
 
 我们建议用 `link:../../apidocs/io/vertx/ext/web/validation/RequestParameter.html[RequestParameter]` 类型来提取以json shcema（allOf/anyOf/oneOf/not）定义的参数，因为提取参数可能产生未定义的行为。
 
+[[_implement_your_web_api_service]]
 == 实现您自己的Web API服务
 
 现在您可以实现您自己的服务。切记 `link:../../apidocs/io/vertx/ext/web/api/service/ServiceRequest.html[ServiceRequest]` 对象包含了请求头以及请求参数的映射。
@@ -186,6 +190,7 @@ resultHandler.handle(
 );
 ----
 
+[[_the_servicerequest_data_object]]
 === `ServiceRequest` 数据对象
 
 `ServiceRequest` 是一个 _可序列化_ 的 `RoutingContext` ，但是 它并不包含 `RoutingContext` 的所有数据。它将如下数据转送到你的服务：
@@ -198,6 +203,7 @@ resultHandler.handle(
 
 你可以用 `link:../../apidocs/io/vertx/ext/web/api/service/RouteToEBServiceHandler.html#extraPayloadMapper-java.util.function.Function-[extraPayloadMapper]` 配置一个lambda表达式来构建额外的 payload
 
+[[_the_serviceresponse_data_object]]
 === `ServiceResponse` 数据对象
 
 `ServiceResponse` 由如下元素组成：
@@ -206,6 +212,7 @@ resultHandler.handle(
 * 状态码/状态信息
 * 作为payload的请求体。如果你不设置payload或者设置为null，则不会发送响应体。
 
+[[_expose_your_web_api_service]]
 == 暴露您的Web API 服务
 
 现在您可以将服务注册到事件总线上：
