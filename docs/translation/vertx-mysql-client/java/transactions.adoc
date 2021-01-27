@@ -1,12 +1,11 @@
-== Using transactions
+== 使用事务
 
-=== Transactions with connections
+=== 带事务的连接
 
-You can execute transaction using SQL `BEGIN`/`COMMIT`/`ROLLBACK`, if you do so you must use
-a `link:../../apidocs/io/vertx/sqlclient/SqlConnection.html[SqlConnection]` and manage it yourself.
+您可以使用SQL `BEGIN`/`COMMIT`/`ROLLBACK` 执行事务，如果您必须这么做就必须使用 `link:../../apidocs/io/vertx/sqlclient/SqlConnection.html[SqlConnection]` 自己管理事务。
 
 Or you can use the transaction API of `link:../../apidocs/io/vertx/sqlclient/SqlConnection.html[SqlConnection]`:
-
+或者您使用事务API `link:../../apidocs/io/vertx/sqlclient/SqlConnection.html[SqlConnection]`：
 [source,java]
 ----
 pool.getConnection(res -> {
@@ -15,11 +14,11 @@ pool.getConnection(res -> {
     // Transaction must use a connection
     SqlConnection conn = res.result();
 
-    // Begin the transaction
+    // 开始事务
     conn.begin(ar0 -> {
       if (ar0.succeeded()) {
         Transaction tx = ar0.result();
-        // Various statements
+        // 各种语句
         conn
           .query("INSERT INTO Users (first_name,last_name) VALUES ('Julien','Viet')")
           .execute(ar1 -> {
@@ -28,28 +27,28 @@ pool.getConnection(res -> {
                 .query("INSERT INTO Users (first_name,last_name) VALUES ('Emad','Alblueshi')")
                 .execute(ar2 -> {
                   if (ar2.succeeded()) {
-                    // Commit the transaction
+                    // 提交事务
                     tx.commit(ar3 -> {
                       if (ar3.succeeded()) {
                         System.out.println("Transaction succeeded");
                       } else {
                         System.out.println("Transaction failed " + ar3.cause().getMessage());
                       }
-                      // Return the connection to the pool
+                      // 将连接返回到连接池
                       conn.close();
                     });
                   } else {
-                    // Return the connection to the pool
+                    // 将连接返回到连接池
                     conn.close();
                   }
                 });
             } else {
-              // Return the connection to the pool
+              // 将连接返回到连接池
               conn.close();
             }
           });
       } else {
-        // Return the connection to the pool
+        // 将连接返回到连接池
         conn.close();
       }
     });
@@ -61,6 +60,8 @@ When the database server reports the current transaction is failed (e.g the infa
 end of transaction block_), the transaction is rollbacked and the `link:../../apidocs/io/vertx/sqlclient/Transaction.html#completion--[completion]` future
 is failed with a `link:../../apidocs/io/vertx/sqlclient/TransactionRollbackException.html[TransactionRollbackException]`:
 
+当数据库服务器报告当前事务失败时（例如，臭名昭著的 _current transaction is aborted, commands ignored until end of transaction block_），事务被回滚，并且 `link:../../apidocs/io/vertx/sqlclient/Transaction.html#completion--[completion]` future 随着 `link:../../apidocs/io/vertx/sqlclient/TransactionRollbackException.html[TransactionRollbackException]` 失败：
+
 [source,java]
 ----
 tx.completion().onFailure(err -> {
@@ -68,20 +69,18 @@ tx.completion().onFailure(err -> {
 });
 ----
 
-=== Simplified transaction API
+=== 简单事务 API
 
-When you use a pool, you can call `link:../../apidocs/io/vertx/sqlclient/Pool.html#withTransaction-java.util.function.Function-io.vertx.core.Handler-[withTransaction]` to pass it a function executed
-within a transaction.
+当你使用连接池，您可调用 `link:../../apidocs/io/vertx/sqlclient/Pool.html#withTransaction-java.util.function.Function-io.vertx.core.Handler-[withTransaction]` 传递一个函数在事务内执行。
 
-It borrows a connection from the pool, begins the transaction and calls the function with a client executing all
-operations in the scope of this transaction.
+它从连接池中借用一个连接，开始事务，并在此事务范围内所有执行操作的客户端调用该函数。
 
-The function must return a future of an arbitrary result:
+该函数必须返回一个任意结果的future。
 
-- when the future succeeds the client will commit the transaction
-- when the future fails the client will rollback the transaction
+- 当future成功，客户端提交这个事务
+- 当future失败，客户端回滚这个事务
 
-After the transaction completes, the connection is returned to the pool and the overall result is provided.
+事务完成后, 连接将返回到连接池中，并提供全部的结果。
 
 [source,java]
 ----
@@ -91,16 +90,16 @@ pool.withTransaction(client -> client
   .flatMap(res -> client
     .query("INSERT INTO Users (first_name,last_name) VALUES ('Julien','Viet')")
     .execute()
-    // Map to a message result
+    // 映射一个消息结果
     .map("Users inserted"))
 ).onComplete(ar -> {
-  // The connection was automatically return to the pool
+  // 连接已自动返回到连接池中
   if (ar.succeeded()) {
-    // Transaction was committed
+    // 事务被提交
     String message = ar.result();
     System.out.println("Transaction succeeded: " + message);
   } else {
-    // Transaction was rolled back
+    // 事务被回滚
     System.out.println("Transaction failed " + ar.cause().getMessage());
   }
 });
