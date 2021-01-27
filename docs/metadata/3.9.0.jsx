@@ -477,7 +477,7 @@ const entries = [
   {
     id: "vertx-camel-bridge",
     name: "Camel Bridge",
-    description: "event bus与 Apache Camel 的端点和路由进行交互的桥接。",
+    description: "Apache Camel 端点和路由与事件总线沟通的桥梁。",
     category: "event-bus-bridges",
     href: "/vertx-camel-bridge/java/",
     repository: "https://github.com/vert-x3/vertx-camel-bridge",
