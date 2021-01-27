@@ -53,6 +53,7 @@ const Footer = () => {
               <li><Link href="/faq/"><a>答疑</a></Link></li>
               <li><Link href="/blog/"><a>博客</a></Link></li>
               <li><Link href="/community/"><a>社区</a></Link></li>
+              <li><Link href="/translation/"><a>翻译团队</a></Link></li>
               <li><Link href="/channels/"><a>Channels</a></Link></li>
             </ul>
           </div>

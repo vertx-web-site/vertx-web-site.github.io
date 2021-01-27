@@ -86,6 +86,9 @@ const NavBar = () => {
             <Link href="/community/">
               <a className="navbar-menu-item">社区</a>
             </Link>
+            <Link href="/translation/">
+              <a className="navbar-menu-item">翻译团队</a>
+            </Link>
           </div>
 
           <div className="navbar-social">

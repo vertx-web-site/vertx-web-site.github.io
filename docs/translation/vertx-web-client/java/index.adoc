@@ -80,6 +80,7 @@ IMPORTANT: 在大多数情况下，一个Web Client 应该在应用程序启动�
 [[_making_requests]]
 == 发送请求
 
+[[_simple_requests_with_no_body]]
 === 无请求体的简单请求
 
 通常，您想发送一个无请求体的HTTP请求。以下是一般情况下的 HTTP GET， OPTIONS和HEAD 请求
@@ -151,6 +152,7 @@ request.addQueryParam("param1", "param1_value");
 request.uri("/some-uri?param1=param1_value&param2=param2_value");
 ----
 
+[[_writing_request_bodies]]
 === 填充请求体
 
 如需要发送请求体，可使用相同的API，并在最后加上 `sendXXX` 方法，发送相应的请求体。
@@ -182,7 +184,7 @@ client
 
 Web Client负责为您设置泵传输（transfer pump）。如果流长度未知则使用分块传输（chunked transfer）编码。
 
-当您知道流的大小，您应该在HTTP header中设置 `content-length` 
+当您知道流的大小，您应该在HTTP header中设置 `content-length`
 
 [source,java]
 ----
@@ -207,6 +209,7 @@ fs.open("content.txt", new OpenOptions(), fileRes -> {
 
 这个POST方法不会被分块传输。
 
+[[_json_bodies]]
 ==== JSON bodies
 
 有时您需要发送JSON body请求，可使用 `link:../../apidocs/io/vertx/ext/web/client/HttpRequest.html#sendJsonObject-io.vertx.core.json.JsonObject-io.vertx.core.Handler-[sendJsonObject]` 发送一个 `link:../../apidocs/io/vertx/core/json/JsonObject.html[JsonObject]`
@@ -224,7 +227,7 @@ client
   });
 ----
 
-在Java，Groovy以及Kotlin中，您可以使用 `link:../../apidocs/io/vertx/ext/web/client/HttpRequest.html#sendJson-java.lang.Object-io.vertx.core.Handler-[sendJson]` 方法，它使用 `link:../../apidocs/io/vertx/core/json/Json.html#encode-java.lang.Object-[Json.encode]` 方法映射一个 POJO (Plain Old Java Object) 到一个 Json 对象 
+在Java，Groovy以及Kotlin中，您可以使用 `link:../../apidocs/io/vertx/ext/web/client/HttpRequest.html#sendJson-java.lang.Object-io.vertx.core.Handler-[sendJson]` 方法，它使用 `link:../../apidocs/io/vertx/core/json/Json.html#encode-java.lang.Object-[Json.encode]` 方法映射一个 POJO (Plain Old Java Object) 到一个 Json 对象
 
 [source,java]
 ----
@@ -238,6 +241,7 @@ client
 
 NOTE: `link:../../apidocs/io/vertx/core/json/Json.html#encode-java.lang.Object-[Json.encode]` 方法使用Jackson mapper将 POJO 编码成 JSON。
 
+[[_form_submissions]]
 ==== 表单提交
 
 您可以使用 `link:../../apidocs/io/vertx/ext/web/client/HttpRequest.html#sendForm-io.vertx.core.MultiMap-io.vertx.core.Handler-[sendForm]` 的变体发送http表单提交。
@@ -296,6 +300,7 @@ client
   });
 ----
 
+[[_writing_request_headers]]
 === 填充请求头
 
 您可使用headers的multi-map 填充请求头：
@@ -323,6 +328,7 @@ request.putHeader("content-type", "application/json");
 request.putHeader("other-header", "foo");
 ----
 
+[[_configure_the_request_to_add_authentication]]
 === 配置请求以添加身份验证
 
 可以通过设置正确的 headers 来手动执行身份验证，或我们的预定义方法 （我们强烈建议启用HTTPS，尤其是对于经过身份验证的请求）：
@@ -348,6 +354,7 @@ HttpRequest<Buffer> request = client
   .authentication(new TokenCredentials("myBearerToken"));
 ----
 
+[[_reusing_requests]]
 === 重用请求
 
 `link:../../apidocs/io/vertx/ext/web/client/HttpRequest.html#send-io.vertx.core.Handler-[send]` 方法可被安全的重复多次调用，这使得它可以很容易的配置以及重用 `link:../../apidocs/io/vertx/ext/web/client/HttpRequest.html[HttpRequest]` 对象
@@ -395,6 +402,7 @@ get
   });
 ----
 
+[[_timeouts]]
 === 超时
 
 您可通过 `link:../../apidocs/io/vertx/ext/web/client/HttpRequest.html#timeout-long-[timeout]`. 方法设置超时时间。
@@ -410,7 +418,7 @@ client
   })
   .onFailure(err -> {
     // 当是由java.util.concurrent.TimeoutException导致时，或许是一个超时
-  });    
+  });
 ----
 
 若请求在设定时间内没有返回任何数据，则一个异常将会传递给响应处理器。
@@ -440,6 +448,7 @@ client
 
 WARNING: 响应会被完全缓冲，请使用 `link:../../apidocs/io/vertx/ext/web/codec/BodyCodec.html#pipe-io.vertx.core.streams.WriteStream-[BodyCodec.pipe]` 将响应接入写入流。
 
+[[_decoding_responses]]
 === 响应解码
 
 缺省状况下，Web Client提供一个response body作为 `Buffer` ，并且未运用任何解码器。
@@ -511,7 +520,7 @@ client
     System.out.println("Something went wrong " + err.getMessage()));
 ----
 
-经常会看到API返回一个JSON对象流。例如，Twitter API可以提供一个推文回馈。处理这个情况，您可以使用 `link:../../apidocs/io/vertx/ext/web/codec/BodyCodec.html#jsonStream-io.vertx.core.parsetools.JsonParser-[BodyCodec.jsonStream]`。传递一个JSON解析器，该解析器从HTTP响应中开始读取JSON流。  
+经常会看到API返回一个JSON对象流。例如，Twitter API可以提供一个推文回馈。处理这个情况，您可以使用 `link:../../apidocs/io/vertx/ext/web/codec/BodyCodec.html#jsonStream-io.vertx.core.parsetools.JsonParser-[BodyCodec.jsonStream]`。传递一个JSON解析器，该解析器从HTTP响应中开始读取JSON流。
 
 [source,java]
 ----
@@ -660,6 +669,7 @@ client
 
 TIP: 响应谓词是在收到响应体 _之前_ 对其进行评估。 因此，您无法在谓词测试函数中检查response body。
 
+[[_predefined_predicates]]
 ==== 预定义谓词
 
 为了方便起见，Web Client附带了一些常见用例的谓词。
@@ -693,6 +703,7 @@ client
 请参考 `link:../../apidocs/io/vertx/ext/web/client/predicate/ResponsePredicate.html[ResponsePredicate]` 文档获取预定义谓词的完整列表。
 
 ifeval::["java" == "java"]
+[[_creating_custom_failures]]
 ==== 创建自定义失败
 
 默认情况下, 响应谓词 (包括预定义的) 使用默认的错误转换器，它将丢弃body并传递一条简单消息。您可以通过自定义异常类来替换错误转换器：
@@ -748,6 +759,7 @@ WARNING: 在Java中，当捕获了stack trace，创建异常可能会带来性�
 
 endif::[]
 
+[[_handling_30x_redirections]]
 === 处理 30x 重定向
 
 默认情况下，客户端跟随着重定向，您可以在 `link:../../apidocs/io/vertx/ext/web/client/WebClientOptions.html[WebClientOptions]` 配置默认行为 :
@@ -805,6 +817,7 @@ client
 
 Vert.x Web提供了Web会话管理设施；使用它，您需要对于每个用户（会话）创建一个 `link:../../apidocs/io/vertx/ext/web/client/WebClientSession.html[WebClientSession]` ，并使用它来代替 `link:../../apidocs/io/vertx/ext/web/client/WebClient.html[WebClient]` 。
 
+[[_creating_a_websession]]
 === 创建一个 WebSession
 
 您像下面一样创建一个 `link:../../apidocs/io/vertx/ext/web/client/WebClientSession.html[WebClientSession]` 实例
@@ -815,11 +828,13 @@ WebClient client = WebClient.create(vertx);
 WebClientSession session = WebClientSession.create(client);
 ----
 
+[[_making_requests_2]]
 === 发出请求
 
 一旦创建, `link:../../apidocs/io/vertx/ext/web/client/WebClientSession.html[WebClientSession]` 可以代替
 `link:../../apidocs/io/vertx/ext/web/client/WebClient.html[WebClient]` 去做HTTP(s) 请求并且自动管理你正在调用的，从服务器收到的所有cookie。
 
+[[_setting_session_level_headers]]
 === 设置会话级别headers
 
 您可以按以下步骤设置任何会话级别的headers到要添加的每个请求：

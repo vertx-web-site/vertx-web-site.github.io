@@ -4,27 +4,27 @@ import { Box, CheckCircle, Database, Feather, Globe, Grid, Inbox, Key,
 const categories = [
   {
     id: "core",
-    name: "Core",
+    name: "核心",
     icon: <Box />
   },
   {
     id: "web",
-    name: "Web",
+    name: "网络",
     icon: <Globe />
   },
   {
     id: "databases",
-    name: "Databases",
+    name: "数据库",
     icon: <Database />
   },
   {
     id: "reactive",
-    name: "Reactive",
+    name: "响应式",
     icon: <Feather />
   },
   {
     id: "microservices",
-    name: "Microservices",
+    name: "微服务",
     icon: <Search />
   },
   {
@@ -34,22 +34,22 @@ const categories = [
   },
   {
     id: "authentication-and-authorization",
-    name: "Authentication and authorization",
+    name: "认证与授权",
     icon: <Key />
   },
   {
     id: "messaging",
-    name: "Messaging",
+    name: "消息机制",
     icon: <Send />
   },
   {
     id: "integration",
-    name: "Integration",
+    name: "集成",
     icon: <Inbox />
   },
   {
     id: "event-bus-bridges",
-    name: "Event bus bridges",
+    name: "Event bus 桥接",
     icon: <Share2 />
   },
   {
@@ -59,17 +59,17 @@ const categories = [
   },
   {
     id: "testing",
-    name: "Testing",
+    name: "测试",
     icon: <CheckCircle />
   },
   {
     id: "clustering",
-    name: "Clustering",
+    name: "集群",
     icon: <Grid />
   },
   {
     id: "services",
-    name: "Services",
+    name: "服务",
     icon: <PhoneCall />
   }
 ]
@@ -104,8 +104,8 @@ const entries = [
   },
   {
     id: "vertx-web-client",
-    name: "Web Client",
-    description: "An easy-to-use client for HTTP and HTTP/2 with many advanced features.",
+    name: "Web 客户端",
+    description: "一款具有许多先进功能且易于使用的HTTP和HTTP/2客户端。",
     category: "web",
     href: "/vertx-web-client/java/",
     repository: "https://github.com/vert-x3/vertx-web",
@@ -288,8 +288,8 @@ const entries = [
   // microservices
   {
     id: "vertx-service-discovery",
-    name: "Service Discovery",
-    description: "Publish, lookup and bind any type of service.",
+    name: "服务发现",
+    description: "发布、查找、绑定任何类型的服务",
     category: "microservices",
     href: "/vertx-service-discovery/java/",
     repository: "https://github.com/vert-x3/vertx-service-discovery",
@@ -571,8 +571,8 @@ const entries = [
   // clustering
   {
     id: "vertx-hazelcast",
-    name: "Hazelcast Clustering",
-    description: "Cluster manager implementation that uses Hazelcast.",
+    name: "Hazelcast 集群",
+    description: "基于 Hazelcast 实现的集群管理器。",
     category: "clustering",
     href: "/vertx-hazelcast/java/",
     repository: "https://github.com/vert-x3/vertx-hazelcast",
@@ -580,8 +580,8 @@ const entries = [
   },
   {
     id: "vertx-infinispan",
-    name: "Infinispan Clustering",
-    description: "Cluster manager implementation that uses Infinispan.",
+    name: "Infinispan 集群",
+    description: "基于 Infinispan 实现的集群管理器。",
     category: "clustering",
     href: "/vertx-infinispan/java/",
     repository: "https://github.com/vert-x3/vertx-infinispan",
@@ -589,8 +589,8 @@ const entries = [
   },
   {
     id: "vertx-ignite",
-    name: "Apache Ignite Clustering",
-    description: "Cluster manager implementation that uses Apache Ignite.",
+    name: "Apache Ignite 集群",
+    description: "基于 Apache Ignite 实现的集群管理器。",
     category: "clustering",
     href: "/vertx-ignite/java/",
     repository: "https://github.com/vert-x3/vertx-ignite",
@@ -598,8 +598,8 @@ const entries = [
   },
   {
     id: "vertx-zookeeper",
-    name: "Apache Zookeeper Clustering",
-    description: "Cluster manager implementation that uses Apache Zookeeper.",
+    name: "Apache Zookeeper 集群",
+    description: "基于 Apache Zookeeper 实现的集群管理器。",
     category: "clustering",
     href: "/vertx-zookeeper/java/",
     repository: "https://github.com/vert-x3/vertx-zookeeper",

@@ -49,6 +49,7 @@ jobs:
       - run: npm run build
         env:
           GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CONTRIBUTE_FETCH_TOKEN: ${{ secrets.CONTRIBUTE_FETCH_TOKEN }}
           VERTX_WEBSITE_BASEPATH: ${{ steps.basePath.outputs.basePath }}
 
       - name: Clone current GitHub Pages repo
@@ -89,3 +90,38 @@ jobs:
           publish_branch: master
           publish_dir: vertx-china.github.io
 #          cname: vertx.io
+
+      - name: Deploy to Gitee Pages
+        uses: okou19900722/workflows/git-deploy@v1
+        with:
+          ssh-key: ${{ secrets.GITEE_TOKEN }}
+          src-dir: vertx-china.github.io
+          branch: master
+          repo-url: git@gitee.com:vertx-china/vertx-china.git
+          user-name: okou19900722
+          user-email: 512058895@qq.com
+          commit-message: publish
+          force-orphan: true
+
+      - uses: okou19900722/workflows/git-deploy@v1
+        with:
+          ssh-key: ${{ secrets.CODING_TOKEN }}
+          src-dir: vertx-china.github.io
+          branch: master
+          repo-url: git@e.coding.net:lippen/cn.vertx.tk.git
+          user-name: okou19900722
+          user-email: 512058895@qq.com
+          commit-message: publish
+          force-orphan: true
+
+      - name: Refresh Gitee Pages
+        uses: okou19900722/gitee-pages@v1
+        with:
+          username: "okou19900722"
+          password: ${{ secrets.GITEE_PASSWORD }}
+          repository: "https://gitee.com/vertx-china/vertx-china"
+          branch: "master"
+          directory: ""
+          https: 'true'
+        env:
+          RUNNER_DEBUG: 1

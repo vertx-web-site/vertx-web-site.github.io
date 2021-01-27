@@ -37,7 +37,7 @@ Vert.x Web 的一部分关键特性有：
 * 用户/角色/权限授权
 * 网页图标处理器
 
-* 支持服务端模板渲染，包括以下开箱即用的模板引擎: 
+* 支持服务端模板渲染，包括以下开箱即用的模板引擎:
 ** Handlebars
 ** Jade
 ** MVEL
@@ -83,6 +83,7 @@ dependencies {
 }
 ----
 
+[[_development_mode]]
 === 开发模式
 
 Vert.x Web 默认使用生产模式。
@@ -123,21 +124,21 @@ server.requestHandler(request -> {
 server.listen(8080);
 ----
 
-我们创建了一个 HTTP 服务实例，并设置了一个请求处理器。所有的请求都会调用这个处理器处理。
+我们创建了一个 HTTP 服务器实例，并设置了一个请求处理器。所有的请求都会调用这个处理器处理。
 
 当请求到达时，我们设置响应的 Content Type 为 `text/plain` ， 并写入了 `Hello World!` 然后结束了处理。
 
 之后，我们告诉服务器监听 `8080` 端口(默认的主机名是 `localhost` )。
 
-您可以执行这段代码，并打开浏览器访问 `http://localhost:8080` 来验证它是否如预期的一样工作。
+您可以执行这段代码，并打开浏览器访问 `http://localhost:8080` 来验证它是否如预期一样工作。
 
 [[_basic_vert_x_web_concepts]]
 == Vert.x Web 的基本概念
 
 高屋建瓴 (Here's the 10000 foot view)：
 
-`link:../../apidocs/io/vertx/ext/web/Router.html[Router]` 是 Vert.x Web 的核心概念之一。 它是一个维护了零或多个
-`link:../../apidocs/io/vertx/ext/web/Route.html[Routes]` 的对象。
+`link:../../apidocs/io/vertx/ext/web/Router.html[路由器 Router]` 是 Vert.x Web 的核心概念之一。 它是一个维护了零或多个
+`link:../../apidocs/io/vertx/ext/web/Route.html[路由 Routes]` 的对象。
 
 一个 router 接收 HTTP 请求，并查找首个匹配该请求的route, 然后将请求传递给这个route
 
@@ -170,7 +171,7 @@ server.requestHandler(router).listen(8080);
 
 然后，我们为该路由指定一个处理器。该处理器将处理所有到来的请求。
 
-传递给处理器的对象是 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html[RoutingContext]` - 它包含标准的 Vert.x `link:../../apidocs/io/vertx/core/http/HttpServerRequest.html[HttpServerRequest]` 和 `link:../../apidocs/io/vertx/core/http/HttpServerResponse.html[HttpServerResponse]` 
+传递给处理器的对象是 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html[RoutingContext]` - 它包含标准的 Vert.x `link:../../apidocs/io/vertx/core/http/HttpServerRequest.html[HttpServerRequest]` 和 `link:../../apidocs/io/vertx/core/http/HttpServerResponse.html[HttpServerResponse]`
 还有其他各种有用的东西，让使用Vert.x-Web变得更加简单。
 
 处理器调用的参数是一个 http://vertx.io/docs/apidocs/io/vertx/ext/web/RoutingContext.html[ `RoutingContext` ] 对象。 它不仅包含了 Vert.x 中标准的 http://vertx.io/docs/apidocs/io/vertx/core/http/HttpServerRequest.html[ `HttpServerRequest` ] 和
@@ -185,7 +186,7 @@ http://vertx.io/docs/apidocs/io/vertx/core/http/HttpServerResponse.html[ `HttpSe
 [[_handling_requests_and_calling_the_next_handler]]
 == 处理请求并调用下一个处理器
 
-当 Vert.x Web 决定路由一个请求到匹配的route，它会调用对应处理器并将一个 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html[RoutingContext]` 实例传递给它. route可以具有不同的处理器， 您可以叠加使用 `link:../../apidocs/io/vertx/ext/web/Route。html#handler-io.vertx.core.Handler-[handler]` 
+当 Vert.x Web 决定路由一个请求到匹配的route，它会调用对应处理器并将一个 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html[RoutingContext]` 实例传递给它. route可以具有不同的处理器， 您可以叠加使用 `link:../../apidocs/io/vertx/ext/web/Route。html#handler-io.vertx.core.Handler-[handler]`
 
 如果您不在处理器里结束这个响应，您需要调用 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#next--[next]` 方法让其他匹配的 route 来处理请求(如果有)。
 
@@ -286,8 +287,8 @@ router
 您不能在普通的处理器里执行这些操作， 因此我们提供了将route设置成阻塞式处理器的功能。
 
 阻塞式处理器和普通处理器很像， 区别是 Vert.x 会使用 Worker Pool 中的线程而不是 Event Loop 线程来处理请求。
-您可以使用 `link:../../apidocs/io/vertx/ext/web/Route.html#blockingHandler-io.vertx.core.Handler-[blockingHandler]` 
-方法来建立阻塞式处理器。 下面是一个例子:
+您可以使用 `link:../../apidocs/io/vertx/ext/web/Route.html#blockingHandler-io.vertx.core.Handler-[blockingHandler]`
+方法来建立阻塞式处理器。 以下是例子：
 
 [source,java]
 ----
@@ -304,7 +305,7 @@ router.route().blockingHandler(ctx -> {
 
 默认情况下，在同一个 Context (例如同一个 Verticle 实例) 上执行的所有阻塞式处理器是顺序的， 也就意味着只有一个处理器执行完了才会继续执行下一个。 如果您不关心执行的顺序，并且不介意阻塞式处理器以并行的方式执行， 您可以在使用 `link:../../apidocs/io/vertx/ext/web/Route.html#blockingHandler-io.vertx.core.Handler-boolean-[blockingHandler]` 时，设置阻塞式处理器的 `ordered` 为 false。
 
-NOTE: 如果您需要在一个阻塞处理器中处理一个 multipart 类型的表单数据，您需要首先使用一个非阻塞的处理器来调用 `setExpectMultipart(true)` 。下面是一个例子：
+NOTE: 如果您需要在一个阻塞处理器中处理一个 multipart 类型的表单数据，您需要首先使用一个非阻塞的处理器来调用 `setExpectMultipart(true)` 。以下是例子：
 [source,java]
 ----
 router.post("/some/endpoint").handler(ctx -> {
@@ -333,7 +334,7 @@ route.handler(ctx -> {
   //
   // 但不包括:
   // `/some/path` 路径末尾的斜线会被严格限制
-  // `/some/path/subdir` 
+  // `/some/path/subdir`
 });
 
 // 路径结尾没有斜线的不会被严格限制
@@ -349,7 +350,7 @@ route2.handler(ctx -> {
   // `/some/path//`
   //
   // 但不包括:
-  // `/some/path/subdir` 
+  // `/some/path/subdir`
 });
 ----
 
@@ -414,9 +415,10 @@ router
 
 NOTE: 您也可以将 * 捕获为路径参数 * 。
 
-== Routing with regular expressions
+[[_routing_with_regular_expressions]]
+== 基于正则表达式的路由
 
-Regular expressions can also be used to match URI paths in routes.
+同样也可用正则表达式匹配路由的 URI 路径。
 
 [source,java]
 ----
@@ -424,19 +426,19 @@ Route route = router.route().pathRegex(".*foo");
 
 route.handler(ctx -> {
 
-  // This handler will be called for:
+  // 以下路径的请求都会调用这个处理器：
 
   // /some/path/foo
   // /foo
   // /foo/bar/wibble/foo
   // /bar/foo
 
-  // But not:
+  // 但不包括：
   // /bar/wibble
 });
 ----
 
-Alternatively the regex can be specified when creating the route:
+或者在创建 route 时指定正则表达式：
 
 [source,java]
 ----
@@ -444,40 +446,43 @@ Route route = router.routeWithRegex(".*foo");
 
 route.handler(ctx -> {
 
-  // This handler will be called same as previous example
+  // 这个路由器的调用规则和上面的例子一样
 
 });
 ----
 
-== Capturing path parameters with regular expressions
 
-You can also capture path parameters when using regular expressions, here's an example:
+[[_capturing_path_parameters_with_regular_expressions]]
+== 通过正则表达式捕捉路径参数
+
+您也可以通过正则表达式声明捕捉路径参数，以下是例子：
 
 [source,java]
 ----
 Route route = router.routeWithRegex(".*foo");
 
-// This regular expression matches paths that start with something like:
-// "/foo/bar" - where the "foo" is captured into param0 and the "bar" is
-// captured into param1
+// 这个正则表达式可以匹配路径类似于：
+// `/foo/bar` 的请求
+// `foo` 可以通过参数 param0 获取，`bar` 可以通过参数 param1 获取
 route.pathRegex("\\/([^\\/]+)\\/([^\\/]+)").handler(ctx -> {
 
   String productType = ctx.pathParam("param0");
   String productID = ctx.pathParam("param1");
 
-  // Do something with them...
+  // 执行某些操作……
 });
 ----
 
-In the above example, if a request is made to path: `/tools/drill123/` then the route will match
-and `productType` will receive the value `tools` and `productID` will receive the value `drill123`.
+在上述的例子中，如果一个请求的路径为 `/tools/drill123/`，那么会匹配这个 `route`，
+并且会接收到参数 `productType` 的值为 `tools`，参数 `productID` 的值为 `drill123`。
 
-Captures are denoted in regular expressions with capture groups (i.e. surrounding the capture with round brackets)
+捕捉（译者注：这里指的是捕捉参数这一行为）在正则表达式中用捕捉组表示（即用圆括号括住捕捉）
 
-== Using named capture groups
+[[_using_named_capture_groups]]
+== 使用命名的捕捉组
 
-Using int index param names might be troublesome in some cases.
-It's possible to use named capture groups in the regex path.
+使用序号参数名在某些场景下可能会比较麻烦。
+亦可在正则表达式路径中使用命名的捕捉组。
 
 [source,java]
 ----
@@ -488,19 +493,20 @@ router
     String productType = ctx.pathParam("productType");
     String productID = ctx.pathParam("productID");
 
-    // Do something with them...
+    // 执行某些操作……
   });
 ----
 
-In the example above, named capture groups are mapped to path parameters of the same name as the group.
+在上述的例子中，命名捕捉组将路径参数映射到同名的捕捉组中。
 
-Additionally, you can still access group parameters as you would with normal groups (i.e. `params0, params1...`)
+此外，您仍可以使用普通捕捉组访问组参数（例如：`params0, params1...`）
 
-== Routing by HTTP method
+[[_routing_by_http_method]]
+== 基于 HTTP 方法的路由
 
-By default a route will match all HTTP methods.
+Route 默认会匹配所有的 HTTP 方法。
 
-If you want a route to only match for a specific HTTP method you can use `link:../../apidocs/io/vertx/ext/web/Route.html#method-io.vertx.core.http.HttpMethod-[method]`
+如果您只想让 route 匹配特定的 HTTP 方法，那么您可以使用 `link:../../apidocs/io/vertx/ext/web/Route.html#method-io.vertx.core.http.HttpMethod-[method]`
 
 [source,java]
 ----
@@ -508,52 +514,52 @@ Route route = router.route().method(HttpMethod.POST);
 
 route.handler(ctx -> {
 
-  // This handler will be called for any POST request
+  // 所有的 POST 请求都会调用这个处理器
 
 });
 ----
 
-Or you can specify this with a path when creating the route:
+或者您可以在创建 Route 时和路径一起指定：
 
 [source,java]
 ----
 Route route = router.route(HttpMethod.POST, "/some/path/");
 
 route.handler(ctx -> {
-  // This handler will be called for any POST request
-  // to a URI path starting with /some/path/
+  // 所有路径为 `/some/path/` 
+  // 的 POST 请求都会调用这个处理器
 });
 ----
 
-If you want to route for a specific HTTP method you can also use the methods such as `link:../../apidocs/io/vertx/ext/web/Router.html#get--[get]`,
-`link:../../apidocs/io/vertx/ext/web/Router.html#post--[post]` and `link:../../apidocs/io/vertx/ext/web/Router.html#put--[put]` named after the HTTP
-method name. For example:
+如果您想让 Route 指定 HTTP 方法，您也可以使用对应的 `link:../../apidocs/io/vertx/ext/web/Router.html#get--[get]`，
+`link:../../apidocs/io/vertx/ext/web/Router.html#post--[post]` 以及 `link:../../apidocs/io/vertx/ext/web/Router.html#put--[put]` 等方法。
+例如：
 
 [source,java]
 ----
 router.get().handler(ctx -> {
 
-  // Will be called for any GET request
+  // 所有 GET 请求都会调用这个处理器
 
 });
 
 router.get("/some/path/").handler(ctx -> {
 
-  // Will be called for any GET request to a path
-  // starting with /some/path
+  // 所有路径以 `/some/path/` 开始的 
+  // GET 请求都会调用这个处理器
 
 });
 
 router.getWithRegex(".*foo").handler(ctx -> {
 
-  // Will be called for any GET request to a path
-  // ending with `foo`
+  // 所有路径以 `foo` 结尾的
+  // GET 请求都会调用这个处理器
 
 });
 ----
 
-If you want to specify a route will match for more than HTTP method you can call `link:../../apidocs/io/vertx/ext/web/Route.html#method-io.vertx.core.http.HttpMethod-[method]`
-multiple times:
+如果您想要让 route 匹配不止一个 HTTP 方法，
+您可多次调用 `link:../../apidocs/io/vertx/ext/web/Route.html#method-io.vertx.core.http.HttpMethod-[method]` 方法：
 
 [source,java]
 ----
@@ -561,25 +567,25 @@ Route route = router.route().method(HttpMethod.POST).method(HttpMethod.PUT);
 
 route.handler(ctx -> {
 
-  // This handler will be called for any POST or PUT request
+  // 所有 GET 或 POST 请求都会调用这个处理器
 
 });
 ----
 
-If you are creating an application that require custom HTTP verbs, for example, an `WebDav` server, then you can specify
-custom verbs like:
+如果您的应用程序需要自定义 HTTP 动词，例如，在一个 `基于Web的分布式编写和版本控制（WebDAV）` 服务器中，
+您可这样自定义动词：
 
 [source,java]
 ----
 Route route = router.route()
   .method(HttpMethod.valueOf("MKCOL"))
   .handler(ctx -> {
-    // This handler will be called for any MKCOL request
+    // 所有 MKCOL 请求都会调用这个处理器
   });
 ----
 
-NOTE: It is important to notice that features such as rerouting will not accept custom http methods and inspecting the
-route verbs will yield the enumeration value `OTHER` instead of the custom name.
+NOTE: 请务必留意，像 rerouting 等特性不接受自定义 http 方法，
+这些操作在检测到自定义动词时将会使用 `OTHER` 值以替代自定义名。
 
 == Route order
 
@@ -2567,7 +2573,7 @@ router.get("/dynamic/").handler(handler);
 [[_rocker_template_engine]]
 === Rocker 模版引擎
 
-您需要在项目中添加以下 _依赖_ 以使用 Rocker：`io.vertx:vertx-web-templ-rocker:4.0.0`。 
+您需要在项目中添加以下 _依赖_ 以使用 Rocker：`io.vertx:vertx-web-templ-rocker:4.0.0`。
 并通过此方法以创建 Rocker 模板引擎实例：`io.vertx.ext.web.templ.rocker#create()`。
 
 Rocker会将JSON上下文对象的值传递给 `render` 方法作为模版的参数。
@@ -2672,6 +2678,7 @@ Hello @foo and @bar
 
 许多引擎支持将编译好的模版存入缓存。该缓存存放在Vert.x的可分享的数据local map里。
 这样引擎便可在多个verticle中安全高效地使用该缓存。
+
 [[_disabling_caching]]
 ==== 禁用缓存
 
@@ -2731,10 +2738,11 @@ router.route("/foo/").handler(TimeoutHandler.create(5000));
 
 x-response-time: 1456ms
 
-== Content type handler
+[[_content_type_handler]]
+== 内容类型（Content type）处理器
 
-The `ResponseContentTypeHandler` can set the `Content-Type` header automatically.
-Suppose we are building a RESTful web application. We need to set the content type in all our handlers:
+`ResponseContentTypeHandler` 会自动设置响应的 `Content-Type` 消息头。
+假设我们要构建一个 RESTful 的 Web 应用，我们需要在所有处理器里设置消息类型：
 
 [source,java]
 ----
@@ -2747,8 +2755,8 @@ router
       .end(toJson(books))).onFailure(ctx::fail));
 ----
 
-If the API surface becomes pretty large, setting the content type can become cumbersome.
-To avoid this situation, add the `ResponseContentTypeHandler` to the corresponding routes:
+随着 API 接口数量的增长，设置内容类型会变得很麻烦。
+可以通过在相应的 Route 上添加 `ResponseContentTypeHandler` 来避免这个问题：
 
 [source,java]
 ----
@@ -2761,8 +2769,8 @@ router
       .end(toJson(books))).onFailure(ctx::fail));
 ----
 
-The handler gets the approriate content type from `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#getAcceptableContentType--[getAcceptableContentType]`.
-As a consequence, you can easily share the same handler to produce data of different types:
+处理器会通过 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#getAcceptableContentType--[getAcceptableContentType]` 方法来选择适当的内容类型。
+因此，您可以很容易地使用同一个处理器以提供不同类型的数据：
 
 [source,java]
 ----
@@ -2785,24 +2793,25 @@ router
 
 == SockJS
 
-SockJS is a client side JavaScript library and protocol which provides a simple WebSocket-like interface allowing you
-to make connections to SockJS servers irrespective of whether the actual browser or network will allow real WebSockets.
+SockJS 是一个客户端的 JavaScript 库以及协议，它提供了类似 WebSocket 的接口以方便您与 SockJS 服务器创建连接，
+而无需您关心浏览器或网络是否允许真正的 WebSocket。
 
-It does this by supporting various different transports between browser and server, and choosing one at run-time
-according to browser and network capabilities.
+它提供了若干不同的传输方式，
+并在运行时根据浏览器和网络的兼容性来选择使用哪种传输方式处理。
 
-All this is transparent to you - you are simply presented with the WebSocket-like interface which _just works_.
+然而这一切对您而言是透明的，您只需要简单地使用类似 WebSocket 的接口 _即可_。
 
-Please see the https://github.com/sockjs/sockjs-client[SockJS website] for more information on SockJS.
+请参阅 https://github.com/sockjs/sockjs-client[ SockJS 网站]以获取更多关于SockJS的信息。
 
-=== SockJS handler
+[[_sockjs_handler]]
+=== SockJS 处理器
 
-Vert.x provides an out of the box handler called `link:../../apidocs/io/vertx/ext/web/handler/sockjs/SockJSHandler.html[SockJSHandler]` for
-using SockJS in your Vert.x-Web applications.
+Vert.x 提供了一个开箱即用的处理器 `link:../../apidocs/io/vertx/ext/web/handler/sockjs/SockJSHandler.html[SockJSHandler]` 
+以便您在 Vert.x-Web 应用中使用 SockJS。
 
-You should create one handler per SockJS application using `link:../../apidocs/io/vertx/ext/web/handler/sockjs/SockJSHandler.html#create-io.vertx.core.Vertx-[SockJSHandler.create]`.
-You can also specify configuration options when creating the instance. The configuration options are described with
-an instance of `link:../../apidocs/io/vertx/ext/web/handler/sockjs/SockJSHandlerOptions.html[SockJSHandlerOptions]`.
+您需要通过 `link:../../apidocs/io/vertx/ext/web/handler/sockjs/SockJSHandler.html#create-io.vertx.core.Vertx-[SockJSHandler.create]` 方法为每一个 SockJS 的应用创建处理器。
+您也可以在创建处理器时通过 `link:../../apidocs/io/vertx/ext/web/handler/sockjs/SockJSHandlerOptions.html[SockJSHandlerOptions]`
+对象来指定配置选项。
 
 [source,java]
 ----
@@ -2814,17 +2823,18 @@ SockJSHandlerOptions options = new SockJSHandlerOptions()
 SockJSHandler sockJSHandler = SockJSHandler.create(vertx, options);
 ----
 
-=== Handling SockJS sockets
+[[_handling_sockjs_sockets]]
+=== 处理 SockJS 套接字
 
-On the server-side you set a handler on the SockJS handler, and
-this will be called every time a SockJS connection is made from a client:
+您可以在服务器端设置一个 SockJS 处理器，
+这个处理器会在客户端创建连接时被调用：
 
-The object passed into the handler is a `link:../../apidocs/io/vertx/ext/web/handler/sockjs/SockJSSocket.html[SockJSSocket]`. This has a familiar
-socket-like interface which you can read and write to similarly to a `link:../../apidocs/io/vertx/core/net/NetSocket.html[NetSocket]` or
-a `link:../../apidocs/io/vertx/core/http/WebSocket.html[WebSocket]`. It also implements `link:../../apidocs/io/vertx/core/streams/ReadStream.html[ReadStream]` and
-`link:../../apidocs/io/vertx/core/streams/WriteStream.html[WriteStream]` so you can pump it to and from other read and write streams.
+传递给处理器的是 `link:../../apidocs/io/vertx/ext/web/handler/sockjs/SockJSSocket.html[SockJSSocket]` 对象。
+这是一个类似套接字的接口，您可以像使用 `link:../../apidocs/io/vertx/core/net/NetSocket.html[NetSocket]` 或
+`link:../../apidocs/io/vertx/core/http/WebSocket.html[WebSocket]` 那样通过它来读写数据。它实现了 `link:../../apidocs/io/vertx/core/streams/ReadStream.html[ReadStream]` 和
+`link:../../apidocs/io/vertx/core/streams/WriteStream.html[WriteStream]` 接口，因此您可以将它套用（pump）到其他读写流上。
 
-Here's an example of a simple SockJS handler that simply echoes back any back any data that it reads:
+下面的例子中的 SockJS 处理器直接使用了它读取到的数据进行回写：
 
 [source,java]
 ----
@@ -2837,19 +2847,20 @@ SockJSHandler sockJSHandler = SockJSHandler.create(vertx, options);
 
 router.mountSubRouter("/myapp", sockJSHandler.socketHandler(sockJSSocket -> {
 
-  // Just echo the data back
+  // 将数据回写
   sockJSSocket.handler(sockJSSocket::write);
 
 }));
 ----
 
-=== The client side
+[[_the_client_side]]
+=== 客户端
 
-In client side JavaScript you use the SockJS client side library to make connections. For convenience the package is
-available on https://www.npmjs.com/package/sockjs-client[https://www.npmjs.com/package/sockjs-client].
+在客户端 JavaScript 环境里您需要通过 SockJS 的客户端库来建立连接。
+这是SockJS 客户端的地址 https://www.npmjs.com/package/sockjs-client[https://www.npmjs.com/package/sockjs-client]。
 
-This means you can refer to it from bundlers or build tools. If however you want to get a `CDN` version to use directly
-on your `HTML` document, first you need to refer to the sockjs dependency:
+您可直接在捆绑软件或构建工具中直接引用它。
+或者您想在 `HTML` 文档中直接使用 `CDN` 版本，那么首先需要引入 sockjs 的依赖：
 
 [source,html]
 ----
@@ -2863,8 +2874,8 @@ on your `HTML` document, first you need to refer to the sockjs dependency:
 </html>
 ----
 
-Full details for using the SockJS JavaScript client are on the https://github.com/sockjs/sockjs-client[SockJS website],
-but in summary you use it something like this:
+完整的使用细节可参阅 https://github.com/sockjs/sockjs-client[SockJS 网站]，
+但简而言之可像这样使用：
 
 [source,js]
 ----
@@ -2880,7 +2891,7 @@ sock.onmessage = function(e) {
 
 sock.onevent = function(event, message) {
  console.log('event: %o, message:%o', event, message);
- return true; // in order to signal that the message has been processed
+ return true; // 为了标记消息已被处理了
 };
 
 sock.onunhandled = function(json) {
@@ -2896,17 +2907,19 @@ sock.send('test');
 sock.close();
 ----
 
-=== Configuring the SockJS handler
+[[_configuring_the_sockjs_handler]]
+=== 配置 SockJS 处理器
 
-The handler can be configured with various options using `link:../../apidocs/io/vertx/ext/web/handler/sockjs/SockJSHandlerOptions.html[SockJSHandlerOptions]`.
+可使用 `link:../../apidocs/io/vertx/ext/web/handler/sockjs/SockJSHandlerOptions.html[SockJSHandlerOptions]` 为处理器配置各种选项。
 
-=== Writing to a SockJS socket over the event bus
+[[_writing_to_a_sockjs_socket_over_the_event_bus]]
+=== 通过 event bus 写入 SockJS 套接字
 
-When a `link:../../apidocs/io/vertx/ext/web/handler/sockjs/SockJSSocket.html[SockJSSocket]` is created, it can register an event handler with the event bus.
-The address of that handler is given by `link:../../apidocs/io/vertx/ext/web/handler/sockjs/SockJSSocket.html#writeHandlerID--[writeHandlerID]`.
+在创建 `link:../../apidocs/io/vertx/ext/web/handler/sockjs/SockJSSocket.html[SockJSSocket]` 的时候，可为其注册一个 event bus 上的事件处理器。
+该处理器的地址就是 `link:../../apidocs/io/vertx/ext/web/handler/sockjs/SockJSSocket.html#writeHandlerID--[writeHandlerID]` 。
 
-By default, the event handler is not registered.
-It must enabled in `link:../../apidocs/io/vertx/ext/web/handler/sockjs/SockJSHandlerOptions.html[SockJSHandlerOptions]`.
+默认情况下，不允许注册事件处理器。
+需要通过 `link:../../apidocs/io/vertx/ext/web/handler/sockjs/SockJSHandlerOptions.html[SockJSHandlerOptions]` 以启用该设置。
 
 [source,java]
 ----
@@ -2918,46 +2931,47 @@ SockJSHandler sockJSHandler = SockJSHandler.create(vertx, options);
 
 router.mountSubRouter("/myapp", sockJSHandler.socketHandler(sockJSSocket -> {
 
-  // Retrieve the writeHandlerID and store it (e.g. in a local map)
+  // 获取 writeHandlerID 并将其存放 (例如放在本地 map 里)
   String writeHandlerID = sockJSSocket.writeHandlerID();
 
 }));
 ----
 
-NOTE: By default, the handler is registered only locally.
-It can be made cluster-wide with `link:../../apidocs/io/vertx/ext/web/handler/sockjs/SockJSHandlerOptions.html#setLocalWriteHandler-boolean-[setLocalWriteHandler]`.
+NOTE: 默认情况下，处理器仅在本地注册。
+集群可通过配置 `link:../../apidocs/io/vertx/ext/web/handler/sockjs/SockJSHandlerOptions.html#setLocalWriteHandler-boolean-[setLocalWriteHandler]` 为false启用。
 
-Then you can write `link:../../apidocs/io/vertx/core/buffer/Buffer.html[Buffer]`s to the SockJS socket over the event bus.
+随后将数据写入 `link:../../apidocs/io/vertx/core/buffer/Buffer.html[Buffer]` 便可发送给 SockJS 套接字。
 
 [source,java]
 ----
 eventBus.send(writeHandlerID, Buffer.buffer("foo"));
 ----
 
-== SockJS event bus bridge
+[[_sockjs_event_bus_bridge]]
+== SockJS 桥接 Event Bus
 
-Vert.x-Web comes with a built-in SockJS socket handler called the event bus bridge which effectively extends the server-side
-Vert.x event bus into client side JavaScript.
+Vert.x Web 提供了一个内置的被称为事件总线桥（event bus bridge）的 SockJS 套接字处理器。 
+该处理器有效地将服务器端的 Vert.x 的事件总线延伸到客户端的 JavaScript 运行环境里。
 
-This creates a distributed event bus which not only spans multiple Vert.x instances on the server side, but includes
-client side JavaScript running in browsers.
+这将创建一个分布式的事件总线。 
+该 event bus 不仅可以在服务器端多个 Vert.x 实例中使用，还可以通过运行在浏览器里的 JavaScript 访问。
 
-We can therefore create a huge distributed bus encompassing many browsers and servers. The browsers don't have to
-be connected to the same server as long as the servers are connected.
+由此，我们可以建立起一个连接多个浏览器和服务器群的庞大的分布式 event bus。 
+浏览器只需与服务器集群建立连接，无需每次都与固定的某个服务器建立连接。
 
-This is done by providing a simple client side JavaScript library called `vertx-eventbus.js` which provides an API
-very similar to the server-side Vert.x event-bus API, which allows you to send and publish messages to the event bus
-and register handlers to receive messages.
+这些是通过 Vert.x 提供的一个简单的客户端 JavaScript 库 `vertx-eventbus.js` 来实现的。 
+它提供了一系列与服务器端的 Vert.x event-bus 极为类似的 API。 
+通过这些 API 您可以发送或发布消息，或注册处理器来接收消息。
 
-This JavaScript library uses the JavaScript SockJS client to tunnel the event bus traffic over SockJS connections
-terminating at at a `link:../../apidocs/io/vertx/ext/web/handler/sockjs/SockJSHandler.html[SockJSHandler]` on the server-side.
+该 JavaScript 库使用了 JavaScript 的 SockJS 客户端，与另外一端的 `link:../../apidocs/io/vertx/ext/web/handler/sockjs/SockJSHandler.html[SockJS 处理器]` 建立起 SockJS 连接，
+并将事件总线上的流量通过管道（tunnel）传送至该客户端。
 
-A special SockJS socket handler is then installed on the `link:../../apidocs/io/vertx/ext/web/handler/sockjs/SockJSHandler.html[SockJSHandler]` which
-handles the SockJS data and bridges it to and from the server side event bus.
+一个特殊的 SockJS 套接字处理器因此被安装到 `link:../../apidocs/io/vertx/ext/web/handler/sockjs/SockJSHandler.html[SockJS 处理器]` 上，
+而该处理器将会处理 SockJS 的数据，并将建立起与服务器端的事件总线的连接桥。
 
-To activate the bridge you simply call
-`link:../../apidocs/io/vertx/ext/web/handler/sockjs/SockJSHandler.html#bridge-io.vertx.ext.web.handler.sockjs.SockJSBridgeOptions-[bridge]` on the
-SockJS handler.
+启用该连接桥您只需要在 
+SockJS 处理器中调用 
+`link:../../apidocs/io/vertx/ext/web/handler/sockjs/SockJSHandler.html#bridge-io.vertx.ext.web.handler.sockjs.SockJSBridgeOptions-[bridge]`。
 
 [source,java]
 ----
@@ -2965,14 +2979,14 @@ Router router = Router.router(vertx);
 
 SockJSHandler sockJSHandler = SockJSHandler.create(vertx);
 SockJSBridgeOptions options = new SockJSBridgeOptions();
-// mount the bridge on the router
+// 将连接桥挂载到路由器上
 router.mountSubRouter("/eventbus", sockJSHandler.bridge(options));
 ----
 
-In client side JavaScript you use the http://npmjs.com/package/@vertx/eventbus-bridge-client.js[@vertx/eventbus-bridge-client.js]
-library to create connections to the event bus and to send and receive messages. The library is available on http://npmjs.com/package/@vertx/eventbus-bridge-client.js[NPM]
-so it can easily be used with bundlers or build tools, but in can easily be used from a CDN (like the sockJS example
-before):
+在客户端的 JavaScript 中，您可以使用 http://npmjs.com/package/@vertx/eventbus-bridge-client.js[@vertx/eventbus-bridge-client.js]
+库以创建跟事件总线的连接，并以此发送和接收消息。 该库可在 http://npmjs.com/package/@vertx/eventbus-bridge-client.js[NPM] 上找到。
+您可直接在捆绑软件或构建工具中直接引用它，但同时它亦可以在 CDN 中使用
+（就像之前的 sockJS 例子）：
 
 [source,html]
 ----
@@ -2985,12 +2999,12 @@ var eb = new EventBus('http://localhost:8080/eventbus');
 
 eb.onopen = () => {
 
- // set a handler to receive a message
+ // 设置一个处理器以接收消息
  eb.registerHandler('some-address', (error, message) => {
    console.log('received a message: ' + JSON.stringify(message));
  });
 
- // send a message
+ // 发送消息
  eb.send('some-address', {name: 'tim', age: 587});
 
 }
@@ -2998,91 +3012,92 @@ eb.onopen = () => {
 </script>
 ----
 
-The first thing the example does is to create a instance of the event bus
+该例子中首先创建了一个 event bus 实例
 
 [source,javascript]
 ----
 var eb = new EventBus('http://localhost:8080/eventbus');
 ----
 
-The parameter to the constructor is the URI where to connect to the event bus. Since we create our bridge with
-the prefix `eventbus` we will connect there.
+构造器中的参数是连接 event bus 的URI。
+因为我们建立的连接桥是以 `eventbus` 为前缀，所以我们将会成功建立连接。
 
-You can't actually do anything with the connection until it is opened. When it is open the `onopen` handler will be called.
+您在连接开启之前无法做任何事。当连接开启时 `onopen` 处理器将会被调用。
 
-The bridge supports automatic reconnection, with configurable delay and backoff options.
+连接桥支持自动重连，可设置延迟和退避选项。
 
 [source,javascript]
 ----
 var eb = new EventBus('http://localhost:8080/eventbus');
 eb.enableReconnect(true);
-eb.onopen = function() {}; // Set up handlers here, will be called on initial connection and all reconnections
-eb.onreconnect = function() {}; // Optional, will only be called on reconnections
+eb.onopen = function() {}; // 在此处设立处理器，每次建立连接或重连时候调用
+eb.onreconnect = function() {}; // 可选，仅在重连时被调用
 
-// Alternatively, pass in an options object
+// 或者，传入一个 options 对象
 var options = {
-   vertxbus_reconnect_attempts_max: Infinity, // Max reconnect attempts
-   vertxbus_reconnect_delay_min: 1000, // Initial delay (in ms) before first reconnect attempt
-   vertxbus_reconnect_delay_max: 5000, // Max delay (in ms) between reconnect attempts
-   vertxbus_reconnect_exponent: 2, // Exponential backoff factor
-   vertxbus_randomization_factor: 0.5 // Randomization factor between 0 and 1
+   vertxbus_reconnect_attempts_max: Infinity, // 重连尝试最多次数
+   vertxbus_reconnect_delay_min: 1000, // 在第一次尝试重连之前的初始延迟（单位为毫秒）
+   vertxbus_reconnect_delay_max: 5000, // 尝试重连之间的最大延迟（单位为毫秒）
+   vertxbus_reconnect_exponent: 2, // 指数退避因子
+   vertxbus_randomization_factor: 0.5 // 介于0和1之间的随机因子
 };
 
 var eb2 = new EventBus('http://localhost:8080/eventbus', options);
 eb2.enableReconnect(true);
-// Set up handlers...
+// 创建处理器……
 ----
 
-=== Securing the Bridge
+[[_securing_the_bridge]]
+=== 守护连接桥
 
-If you started a bridge like in the above example without securing it, and attempted to send messages through
-it you'd find that the messages mysteriously disappeared. What happened to them?
+如果您像上面的例子一样建立连接桥但未开启守护机制，此时您试图通过该桥发送消息，
+您会发现消息神秘地失踪了。发生了什么？
 
-For most applications you probably don't want client side JavaScript being able to send just any message to any
-handlers on the server side or to all other browsers.
+对于大多数的应用，您恐怕不希望客户端的 JavaScript 
+代码可以发送任何消息到任意服务端处理器或其他所有浏览器上。
 
-For example, you may have a service on the event bus which allows data to be accessed or deleted. We don't want
-badly behaved or malicious clients being able to delete all the data in your database!
+例如，您可能在事件总线上注册了一个服务，用于访问或删除数据。
+我们并不希望出现恶意的行为或有害的客户端能够利用该服务删除数据库中所有的数据！
 
-Also, we don't necessarily want any client to be able to listen in on any event bus address.
+此外，我们恐怕也不希望任意一个客户端都能监听任意一个事件总线地址。
 
-To deal with this, a SockJS bridge will by default refuse to let through any messages. It's up to you to tell the
-bridge what messages are ok for it to pass through. (There is an exception for reply messages which are always allowed through).
+为了解决这个问题，SockJs连接桥默认会拒绝所有的消息。
+您需要告诉连接桥哪些消息是可以通过的。（例外情况是，所有的回复消息都是可以通过的）。
 
-In other words the bridge acts like a kind of firewall which has a default _deny-all_ policy.
+换句话说，连接桥的行为就像是配置了缺省策略为 _全部拒绝_ 策略的防火墙。
 
-Configuring the bridge to tell it what messages it should pass through is easy.
+为连接桥配置哪些消息可以通过是很简单的一件事。
 
-You can specify which _matches_ you want to allow for inbound and outbound traffic using the
-`link:../../apidocs/io/vertx/ext/web/handler/sockjs/SockJSBridgeOptions.html[SockJSBridgeOptions]` that you pass in when calling bridge.
+您可以通过调用连接桥时传入的 
+`link:../../apidocs/io/vertx/ext/web/handler/sockjs/SockJSBridgeOptions.html[SockJSBridgeOptions]` 来配置 _匹配_ 规则以指定哪些输入和输出的流量是允许通过的。
 
-Each match is a `link:../../apidocs/io/vertx/ext/bridge/PermittedOptions.html[PermittedOptions]` object:
+每一个匹配规则对应一个 `link:../../apidocs/io/vertx/ext/bridge/PermittedOptions.html[PermittedOptions]` 对象：
 
-`link:../../apidocs/io/vertx/ext/bridge/PermittedOptions.html#setAddress-java.lang.String-[setAddress]`:: This represents the exact address the message is being sent to. If you want to allow messages based on
-an exact address you use this field.
-`link:../../apidocs/io/vertx/ext/bridge/PermittedOptions.html#setAddressRegex-java.lang.String-[setAddressRegex]`:: This is a regular expression that will be matched against the address. If you want to allow messages
-based on a regular expression you use this field. If the `address` field is specified this field will be ignored.
-`link:../../apidocs/io/vertx/ext/bridge/PermittedOptions.html#setMatch-io.vertx.core.json.JsonObject-[setMatch]`:: This allows you to allow messages based on their structure. Any fields in the match must exist in the
-message with the same values for them to be allowed. This currently only works with JSON messages.
+`link:../../apidocs/io/vertx/ext/bridge/PermittedOptions.html#setAddress-java.lang.String-[setAddress]`:: 该配置规则精确地定义了消息可以被发送到哪些地址。
+如您需要通过精确地址来控制消息的话，使用该选项。
+`link:../../apidocs/io/vertx/ext/bridge/PermittedOptions.html#setAddressRegex-java.lang.String-[setAddressRegex]`:: 该配置规则通过正则表达式来定义消息可以被发送到哪些地址。如您需要通过正则表达式来控制消息的话，请使用这个选项。
+如果指定了 `address` ，则该选项会被忽略。
+`link:../../apidocs/io/vertx/ext/bridge/PermittedOptions.html#setMatch-io.vertx.core.json.JsonObject-[setMatch]`:: 该配置规则通过消息的结构来控制消息是否可被发送。该配置中定义的每一个字段必须在消息中存在，且值一致。
+目前仅适用于 JSON 格式的消息。
 
-If a message is _in-bound_ (i.e. being sent from client side JavaScript to the server) when it is received Vert.x-Web
-will look through any inbound permitted matches. If any match, it will be allowed through.
+对于一个 _输入_ 的消息（例如通过客户端 JavaScript 发送到服务器）
+当消息抵达时，Vert.x Web 会检查每一条输入许可。如果存在匹配规则，则消息可以通过。
 
-If a message is _out-bound_ (i.e. being sent from the server to client side JavaScript) before it is sent to the client
-Vert.x-Web will look through any outbound permitted matches. If any match, it will be allowed through.
+对于一个 _输出_ 的消息（例如通过服务器端发送给客户端 JavaScript）
+当消息发送时，Vert.x Web 会检查每一条输出许可。如果存在匹配，则消息可以通过。
 
-The actual matching works as follows:
+实际的匹配过程如下：
 
-If an `address` field has been specified then the `address` must match _exactly_ with the address of the message
-for it to be considered matched.
+如果指定了 `address` 字段，并且消息的目标地址与 `address` _精确_ 匹配，
+则匹配成功。
 
-If an `address` field has not been specified and an `addressRegex` field has been specified then the regular expression
-in `address_re` must match with the address of the message for it to be considered matched.
+如果没有指定 `address` 但指定了 `addressRegex` 字段，并且消息的目标地址匹配了 `address_re` 里的正则表达式，
+则匹配成功。
 
-If a `match` field has been specified, then also the structure of the message must match. Structuring matching works
-by looking at all the fields and values in the match object and checking they all exist in the actual message body.
+如果指定了 `match` 字段，则消息的结构也必须匹配。
+消息需包含有 match 对象中的所有键值对，方能匹配成功。
 
-Here's an example:
+以下是例子：
 
 [source,java]
 ----
@@ -3091,34 +3106,34 @@ Router router = Router.router(vertx);
 SockJSHandler sockJSHandler = SockJSHandler.create(vertx);
 
 
-// Let through any messages sent to 'demo.orderMgr' from the client
+// 允许客户端向地址 `demo.orderMgr` 发送消息
 PermittedOptions inboundPermitted1 = new PermittedOptions()
   .setAddress("demo.orderMgr");
 
-// Allow calls to the address 'demo.persistor' from the client as
-// long as the messages have an action field with value 'find'
-// and a collection field with value 'albums'
+// 允许客户端向地址 `demo.persistor` 发送
+// 包含有 `action` 的值为 `find`、
+// `collecton` 的值为 `albums` 的消息。
 PermittedOptions inboundPermitted2 = new PermittedOptions()
   .setAddress("demo.persistor")
   .setMatch(new JsonObject().put("action", "find")
     .put("collection", "albums"));
 
-// Allow through any message with a field `wibble` with value `foo`.
+// 允许 `wibble` 值为 `foo` 的消息。
 PermittedOptions inboundPermitted3 = new PermittedOptions()
   .setMatch(new JsonObject().put("wibble", "foo"));
 
-// First let's define what we're going to allow from server -> client
+// 让我们定义 服务端 -> 客户端 发送消息匹配规则
 
-// Let through any messages coming from address 'ticker.mystock'
+// 允许向客户端发送地址为 `ticker.mystock` 的消息
 PermittedOptions outboundPermitted1 = new PermittedOptions()
   .setAddress("ticker.mystock");
 
-// Let through any messages from addresses starting with "news."
-// (e.g. news.europe, news.usa, etc)
+// 允许向客户端发送地址以 `news.` 开头的消息
+//（例如 news.europe, news.usa, 等）
 PermittedOptions outboundPermitted2 = new PermittedOptions()
   .setAddressRegex("news\\..+");
 
-// Let's define what we're going to allow from client -> server
+// 让我们定义 客户端 -> 客户端 发送消息匹配规则
 SockJSBridgeOptions options = new SockJSBridgeOptions().
   addInboundPermitted(inboundPermitted1).
   addInboundPermitted(inboundPermitted1).
@@ -3126,53 +3141,54 @@ SockJSBridgeOptions options = new SockJSBridgeOptions().
   addOutboundPermitted(outboundPermitted1).
   addOutboundPermitted(outboundPermitted2);
 
-// mount the bridge on the router
+// 将连接桥挂载到路由器上
 router.mountSubRouter("/eventbus", sockJSHandler.bridge(options));
 ----
 
-=== Requiring authorization for messages
+[[_requiring_authorization_for_messages]]
+=== 消息授权
 
-The event bus bridge can also be configured to use the Vert.x-Web authorization functionality to require
-authorization for messages, either in-bound or out-bound on the bridge.
+连接桥可使用 Vert.x Web 的授权功能以配置消息的访问权限，
+同时支持输入和输出的消息。
 
-To do this, you can add extra fields to the match described in the previous section that determine what authority is
-required for the match.
+为此，您可通过向上文所述的匹配规则中加入额外的字段
+以指定匹配需要哪些权限。
 
-To declare that a specific authority for the logged-in user is required in order to access allow the messages you use the
-`link:../../apidocs/io/vertx/ext/bridge/PermittedOptions.html#setRequiredAuthority-java.lang.String-[setRequiredAuthority]` field.
+通过 `link:../../apidocs/io/vertx/ext/bridge/PermittedOptions.html#setRequiredAuthority-java.lang.String-[setRequiredAuthority]`
+方法来指定对于登录用户，需要具有哪些权限才允许访问这个消息。
 
-Here's an example:
+以下是例子：
 
 [source,java]
 ----
 PermittedOptions inboundPermitted = new PermittedOptions()
   .setAddress("demo.orderService");
 
-// But only if the user is logged in and has the authority "place_orders"
+// 仅限用户已登录并且拥有权限 `place_orders`
 inboundPermitted.setRequiredAuthority("place_orders");
 
 SockJSBridgeOptions options = new SockJSBridgeOptions()
   .addInboundPermitted(inboundPermitted);
 ----
 
-For the user to be authorised they must be first logged in and secondly have the required authority.
+用户需要登录，并被授权才能够访问消息。
 
-To handle the login and actually auth you can configure the normal Vert.x auth handlers. For example:
+因此，您需要配置一个 Vert.x 认证处理器来处理登录和授权。例如：
 
 [source,java]
 ----
 Router router = Router.router(vertx);
 
-// Let through any messages sent to 'demo.orderService' from the client
+// 允许客户端向 `demo.orderService` 发送消息
 PermittedOptions inboundPermitted = new PermittedOptions()
   .setAddress("demo.orderService");
 
-// But only if the user is logged in and has the authority "place_orders"
+// 仅限用户已登录并且拥有权限 `place_orders`
 inboundPermitted.setRequiredAuthority("place_orders");
 
 SockJSHandler sockJSHandler = SockJSHandler.create(vertx);
 
-// Now set up some basic auth handling:
+// 设置基础认证处理器：
 
 router.route().handler(SessionHandler.create(LocalSessionStore.create(vertx)));
 
@@ -3180,7 +3196,7 @@ AuthenticationHandler basicAuthHandler = BasicAuthHandler.create(authProvider);
 
 router.route("/eventbus/*").handler(basicAuthHandler);
 
-// mount the bridge on the router
+// 将连接桥挂载到路由器上
 router.mountSubRouter(
   "/eventbus",
   sockJSHandler.bridge(new SockJSBridgeOptions()
