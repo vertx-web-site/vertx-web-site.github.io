@@ -75,7 +75,7 @@ router
   );
 ----
 
-您也可以定义 `link:../../apidocs/io/vertx/core/eventbus/DeliveryOptions.html[DeliveryOptions]` ，这个option会被用在每次通过事件总线发送消息的时候：
+您也可以定义 `link:../../apidocs/io/vertx/core/eventbus/DeliveryOptions.html[DeliveryOptions]` ，每次通过事件总线发送消息的时候会使用该选项：
 
 [source,java]
 ----
