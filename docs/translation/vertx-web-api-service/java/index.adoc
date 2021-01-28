@@ -3,7 +3,7 @@
 
 Vert.x Web API 服务通过事件总线帮助您处理HTTP请求
 
-事件总线提供了一些重要特性，例如：负载均衡、通过不同Vert.x实例分发请求
+事件总线提供了一些重要特性，例如：负载均衡、通过不同Vert.x实例分发请求。
 我们建议您查看 https://vertx.io/docs/vertx-core/java/#event_bus[Event Bus documentation] 来了解更多信息
 
 这个模块提供给您创建Web API 服务的能力，即一个事件总线消息消费者(基于与 https://vertx.io/docs/vertx-service-proxy/java/[Vert.x service proxy] 同样的概念 )
