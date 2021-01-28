@@ -126,7 +126,6 @@ const entries = [
   {
     id: "vertx-web-api-service",
     name: "Web API 服务",
-    description: "Directly connect your OpenAPI 3 web routers to event-bus services.",
     description: "直接连接您的OpenAPI 3的web路由器到事件总线服务",
     category: "web",
     href: "/vertx-web-api-service/java/",
