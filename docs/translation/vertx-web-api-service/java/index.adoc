@@ -179,7 +179,7 @@ resultHandler.handle(
 );
 ----
 
-或者当请求失败时：
+或当请求失败时：
 
 [source,java]
 ----
