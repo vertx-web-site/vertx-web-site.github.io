@@ -88,7 +88,7 @@ router
   );
 ----
 
-IMPORTANT: 在挂载 `link:../../apidocs/io/vertx/ext/web/api/service/RouteToEBServiceHandler.html[RouteToEBServiceHandler]` 的时候，您 *必须* 同时挂载一个 `link:../../apidocs/io/vertx/ext/web/validation/ValidationHandler.html[ValidationHandler]` ，这个ValidationHandler提取了请求当中的参数。否则，在发送请求的时候不回存在任何请求参数。
+IMPORTANT: 在挂载 `link:../../apidocs/io/vertx/ext/web/api/service/RouteToEBServiceHandler.html[RouteToEBServiceHandler]` 的时候，您 *必须* 同时挂载一个 `link:../../apidocs/io/vertx/ext/web/validation/ValidationHandler.html[ValidationHandler]` ，该验证处理器提取了请求中的参数。否则，不会发送任何请求参数。
 
 
 [[_define_your_web_api_service_interface]]
