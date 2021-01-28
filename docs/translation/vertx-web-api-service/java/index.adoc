@@ -56,7 +56,7 @@ dependencies {
 如果您只需要 `link:../../apidocs/io/vertx/ext/web/api/service/RouteToEBServiceHandler.html[RouteToEBServiceHandler]` ，那么您不需要 `vertx-codegen`。
 
 如果您希望用不同语言来调用接口，那么您需要添加 _语言_ 依赖，譬如：
-为groovy语言添加 `vertx-lang-groovy` 依赖.
+为groovy语言添加 `vertx-lang-groovy` 依赖。
 
 [[_proxy_an_http_request_to_a_web_api_service]]
 == 代理一个HTTP请求 到一个Web API服务
