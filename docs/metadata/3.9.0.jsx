@@ -161,7 +161,7 @@ const entries = [
   {
     id: "vertx-mysql-client",
     name: "MySQL Client",
-    description: "A lightweight, event-driven client for MySQL.",
+    description: "一个轻量级，事件驱动 MySQL 客户端",
     category: "databases",
     href: "/vertx-mysql-client/java/",
     repository: "https://github.com/eclipse-vertx/vertx-sql-client",

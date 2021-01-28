@@ -1,3 +1,4 @@
+[[_cursors_and_streaming]]
 == 游标和流
 
 默认情况下，预处理查询执行将获取所有行，您可以使用 `link:../../apidocs/io/vertx/sqlclient/Cursor.html[Cursor]` 控制您想读取的行数量：
@@ -42,7 +43,7 @@ cursor.read(50, ar2 -> {
 ----
 
 A stream API is also available for cursors, which can be more convenient, specially with the Rxified version.
-还可以为游标提供流式API，这可以更加方便，尤其是在Rx化的版本中。
+游标还可以使用流式API，这可以更加方便，尤其是在Rx化的版本中。
 
 [source,java]
 ----
@@ -67,6 +68,6 @@ connection.prepare("SELECT * FROM users WHERE age > ?", ar1 -> {
 });
 ----
 
-当这些行已传递给处理程序时，该流将批量读取50行并将其流化。读取新一批的“ 50”，依此类推。
+当这些行已传递给处理程序时，该流将批量读取50行并将其流化。读取新一批的50行，依此类推。
 
 流可以恢复或暂停，已加载的行将保留在内存中，直到被送达，游标将停止迭代。

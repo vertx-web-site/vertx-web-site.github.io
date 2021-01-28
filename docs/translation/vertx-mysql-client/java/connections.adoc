@@ -1,3 +1,4 @@
+[[_using_connections]]
 == 使用连接
 
 === 获得一个连接
@@ -48,7 +49,7 @@ connection.prepare("SELECT * FROM users WHERE first_name LIKE ?", ar1 -> {
 
 === 简单事务 API
 
-当您创建了一个连接池, 您可调用 `link:../../apidocs/io/vertx/sqlclient/Pool.html#withConnection-java.util.函数。Function-io.vertx.core.Handler-[withConnection]` 传递一个在连接内执行的函数。
+当您创建了一个连接池, 您可以调用 `link:../../apidocs/io/vertx/sqlclient/Pool.html#withConnection-java.util.函数。Function-io.vertx.core.Handler-[withConnection]` 并传递一个在连接内执行的函数。
 
 它从连接池中借用一个连接，并使用该连接调用函数。
 

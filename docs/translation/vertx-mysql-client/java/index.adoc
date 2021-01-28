@@ -21,6 +21,7 @@
 * 丰富的排序和字符集支持
 * Unix 域套接字
 
+[[_usage]]
 == 使用
 
 若要使用响应式 MySQL 客户端，请将以下依赖项添加到构建描述符的 _dependencies_ 部分
@@ -44,6 +45,7 @@ dependencies {
 }
 ----
 
+[[_getting_started]]
 == 开始
 
 以下是最简单的连接，查询和断开连接方法
@@ -80,6 +82,7 @@ client
 });
 ----
 
+[[_connecting_to_mysql]]
 == 连接到 MySQL
 
 大多数时间，您将使用连接池连接到 MySQL：
@@ -228,6 +231,7 @@ MySQLPool client2 = MySQLPool.pool(vertx, connectOptions, poolOptions);
 
 有关native transports的详细信息，请参阅 [Vert.x documentation](https://vertx.io/docs/vertx-core/java/#_native_transports)。
 
+[[_configuration]]
 == 配置
 
 有几个选项供您配置客户端。
@@ -345,6 +349,7 @@ MySQLConnection.connect(vertx, connectionUri, res -> {
 * socket
 * useAffectedRows
 
+[[_connect_retries]]
 == 连接重试
 
 您可以将客户端配置为在连接无法建立时重试。
@@ -358,6 +363,7 @@ options
 
 include::queries.adoc[]
 
+[[_mysql_last_insert_id]]
 == MySQL LAST_INSERT_ID
 
 如果在表中插入一条记录，则可以获得自动递增的值。
@@ -385,10 +391,12 @@ include::transactions.adoc[]
 
 include::cursor.adoc[]
 
+[[_tracing_queries]]
 == 追踪查询
 
 include::tracing.adoc[]
 
+[[_mysql_type_mapping]]
 == MySQL 类型映射
 
 当前客户端支持以下MySQL类型
@@ -710,6 +718,7 @@ client
 });
 ----
 
+[[_collector_queries]]
 == 集合类查询
 
 您可以将查询API与Java集合类结合使用：
@@ -759,6 +768,7 @@ client.query("SELECT * FROM users").collecting(collector).execute(ar -> {
   });
 ----
 
+[[_mysql_stored_procedure]]
 == MySQL 存储过程
 
 您可以在查询中运行存储过程。结果将按照 https://dev.mysql.com/doc/dev/mysql-server/8.0.12/page_protocol_command_phase_sp.html[MySQL protocol] 从服务器检索，无需任何魔法。
@@ -800,11 +810,13 @@ client.query("CREATE PROCEDURE multi() BEGIN\n" +
 
 Note: 目前尚不支持绑定OUT参数的预处理语句。
 
-== MySQL 本地导入文件
+[[_mysql_local_infile]]
+== MySQL 导入本地文件
 
 该客户端支持处理 LOCAL INFILE 请求, 如果要将数据从本地文件加载到服务器，则可以使用语句
 `LOAD DATA LOCAL INFILE '<filename>' INTO TABLE <table>;`。 更多有关信息，请参阅 https://dev.mysql.com/doc/refman/8.0/en/load-data.html[MySQL Reference Manual].
 
+[[_authentication]]
 == 认证
 
 === 默认身份验证插件
@@ -861,6 +873,7 @@ MySQLConnectOptions options2 = new MySQLConnectOptions()
 
 有关 `caching_sha2_password` 身份验证方法的更多信息，请参见 https://dev.mysql.com/doc/refman/8.0/en/caching-sha2-pluggable-authentication.html[MySQL Reference Manual].
 
+[[_using_ssltls]]
 == 使用 SSL/TLS
 
 配置客户端使用SSL连接, 您可以像 Vert.x `NetClient` 一样配置 `link:../../apidocs/io/vertx/mysqlclient/MySQLConnectOptions.html[MySQLConnectOptions]` 。
@@ -888,6 +901,7 @@ MySQLConnection.connect(vertx, options, res -> {
 
 更多详细信息，请参阅 http://vertx.io/docs/vertx-core/java/#ssl[Vert.x documentation].
 
+[[_mysql_utility_command]]
 == MySQL 实用程序命令
 
 有时您希望使用 MySQL 实用程序命令，我们为此提供支持。有关更多信息，请参阅 https://dev.mysql.com/doc/dev/mysql-server/8.0.12/page_protocol_command_phase_utility.html[MySQL utility commands].
@@ -1001,6 +1015,7 @@ connection.setOption(MySQLSetOption.MYSQL_OPTION_MULTI_STATEMENTS_OFF, ar -> {
 });
 ----
 
+[[_mysql_and_mariadb_version_support_matrix]]
 == MySQL 和 MariaDB 版本支持矩阵
 
 [cols="^,^,^,^", options="header"]
@@ -1038,7 +1053,8 @@ connection.setOption(MySQLSetOption.MYSQL_OPTION_MULTI_STATEMENTS_OFF, ar -> {
 - 重置连接实用程序命令在 MySQL 5.5、5.6 和 MariaDB 10.1 中不起作用
 - MariaDB 10.2 和 10.3 不支持更改用户实用程序命令
 
-== 陷阱 & 最佳实践
+[[_pitfalls_good_practices]]
+== 陷阱和最佳实践
 
 以下是使用响应式 MySQL 客户端时避免常见陷阱的一些最佳实践。
 

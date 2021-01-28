@@ -1,17 +1,17 @@
+[[_using_transactions]]
 == 使用事务
 
 === 带事务的连接
 
-您可以使用SQL `BEGIN`/`COMMIT`/`ROLLBACK` 执行事务，如果您必须这么做就必须使用 `link:../../apidocs/io/vertx/sqlclient/SqlConnection.html[SqlConnection]` 自己管理事务。
+您可以使用SQL `BEGIN`/`COMMIT`/`ROLLBACK` 执行事务，如果您必须这么做，就必须使用 `link:../../apidocs/io/vertx/sqlclient/SqlConnection.html[SqlConnection]` 自己管理事务。
 
-Or you can use the transaction API of `link:../../apidocs/io/vertx/sqlclient/SqlConnection.html[SqlConnection]`:
-或者您使用事务API `link:../../apidocs/io/vertx/sqlclient/SqlConnection.html[SqlConnection]`：
+或者您使用 `link:../../apidocs/io/vertx/sqlclient/SqlConnection.html[SqlConnection]` 的事务API：
 [source,java]
 ----
 pool.getConnection(res -> {
   if (res.succeeded()) {
 
-    // Transaction must use a connection
+    // 事务必须使用一个连接
     SqlConnection conn = res.result();
 
     // 开始事务
@@ -56,10 +56,6 @@ pool.getConnection(res -> {
 });
 ----
 
-When the database server reports the current transaction is failed (e.g the infamous _current transaction is aborted, commands ignored until
-end of transaction block_), the transaction is rollbacked and the `link:../../apidocs/io/vertx/sqlclient/Transaction.html#completion--[completion]` future
-is failed with a `link:../../apidocs/io/vertx/sqlclient/TransactionRollbackException.html[TransactionRollbackException]`:
-
 当数据库服务器报告当前事务失败时（例如，臭名昭著的 _current transaction is aborted, commands ignored until end of transaction block_），事务被回滚，并且 `link:../../apidocs/io/vertx/sqlclient/Transaction.html#completion--[completion]` future 随着 `link:../../apidocs/io/vertx/sqlclient/TransactionRollbackException.html[TransactionRollbackException]` 失败：
 
 [source,java]
@@ -71,9 +67,9 @@ tx.completion().onFailure(err -> {
 
 === 简单事务 API
 
-当你使用连接池，您可调用 `link:../../apidocs/io/vertx/sqlclient/Pool.html#withTransaction-java.util.function.Function-io.vertx.core.Handler-[withTransaction]` 传递一个函数在事务内执行。
+当您创建了一个连接池, 您可以调用 `link:../../apidocs/io/vertx/sqlclient/Pool.html#withConnection-java.util.函数。Function-io.vertx.core.Handler-[withConnection]` 并传递一个在连接内执行的函数。
 
-它从连接池中借用一个连接，开始事务，并在此事务范围内所有执行操作的客户端调用该函数。
+它从连接池中借用一个连接，开始事务，并且，在此事务范围内所有执行操作的客户端调用该函数。
 
 该函数必须返回一个任意结果的future。
 
