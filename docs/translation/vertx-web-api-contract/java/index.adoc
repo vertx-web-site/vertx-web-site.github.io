@@ -7,6 +7,7 @@ Vert.x Web API Contract 继承了 Vert.x Web 用以支持 https://www.openapis.o
 
 WARNING: 这个模块已经过时了，如果您想构建一个新的应用，请查阅 https://vertx.io/docs/vertx-web-openapi/java/[Vert.x Web OpenAPI 文档]
 
+[[_using_vert_x_api_contract]]
 == 使用 Vert.x API Contract
 
 要使用Vert.x API Contract 请添加如下依赖：
@@ -31,6 +32,7 @@ dependencies {
 }
 ----
 
+[[_http_requests_validation]]
 == HTTP 请求校验
 
 Vert.x提供了一个框架，这个框架校验了请求并且在一个容器当中放入校验结果。定义一个 `link:../../apidocs/io/vertx/ext/web/api/validation/HTTPRequestValidationHandler.html[HTTPRequestValidationHandler]` ：
@@ -73,6 +75,7 @@ router.get("/awesome/:pathParam")
 如果校验成功，则在 `link:../../apidocs/io/vertx/ext/web/api/RequestParameters.html[RequestParameters]` 中返回请求参数，
 否则，会让 `RoutingContext` 以400状态码失败，并抛出 `link:../../apidocs/io/vertx/ext/web/api/validation/ValidationException.html[ValidationException]` 。
 
+[[_types_of_request_parameters]]
 === 请求参数类型
 每一个参数都有一个类型校验器，即一个描述期望类型的参数。
 一个类型校验器对一个值进行校验，在转换成特定语言的类型，然后在 `link:../../apidocs/io/vertx/ext/web/api/RequestParameter.html[RequestParameter]` 对象中加载它。描述参数类型有三种方法：
@@ -80,6 +83,7 @@ router.get("/awesome/:pathParam")
 * 这里有一系列预置类型供您使用： `link:../../apidocs/io/vertx/ext/web/api/validation/ParameterType.html[ParameterType]`
 * 您可以用 `link:../../apidocs/io/vertx/ext/web/api/validation/ParameterTypeValidator.html[ParameterTypeValidator]` 的静态方法来实例化您的自定义预置类型的实例，然后用后缀是 `WithCustomTypeValidator` 的函数将它加载到 `link:../../apidocs/io/vertx/ext/web/api/validation/HTTPRequestValidationHandler.html[HTTPRequestValidationHandler]`
 
+[[_handling_parameters]]
 === 处理参数
 现在您可以处理参数值
 
@@ -110,6 +114,7 @@ if (body != null) {
 }
 ----
 
+[[_manage_validation_failures]]
 === 管理校验失败的情况
 校验失败了，则 `RoutingContext` 的状态码则变成400，并抛出 `link:../../apidocs/io/vertx/ext/web/api/validation/ValidationException.html[ValidationException]` 异常。
 您在路由层面即可以用 `link:../../apidocs/io/vertx/ext/web/Route.html#failureHandler-io.vertx.core.Handler-[failureHandler]` 也可以用 `link:../../apidocs/io/vertx/ext/web/Router.html#errorHandler-int-io.vertx.core.Handler-[errorHandler]` 来管理失败情况下的处理方式：
@@ -153,6 +158,7 @@ Vert.x允许您使用“设计优先”方法直接在代码内部使用OpenAPI 
 
 您也可以用社区项目 https://github.com/pmlopes/vertx-starter[`vertx-starter`] 来从您的OpenAPI3规范来生成服务端代码
 
+[[_the_router_factory]]
 === 路由器工厂
 
 您可以用 `link:../../apidocs/io/vertx/ext/web/api/contract/openapi3/OpenAPI3RouterFactory.html[OpenAPI3RouterFactory]` 来创建您自己的基于 OpenAPI 3 规范的web应用。
@@ -165,6 +171,7 @@ Vert.x允许您使用“设计优先”方法直接在代码内部使用OpenAPI 
 * 声明式方法：在规范中以声明的顺序来挂载处理步骤
 * 自动挂载安全处理器
 
+[[_create_a_new_router_factory]]
 === 创建新的路由器工厂
 要创建新的路由器工厂，则使用 `link:../../apidocs/io/vertx/ext/web/api/contract/openapi3/OpenAPI3RouterFactory.html#create-io.vertx.core.Vertx-java.lang.String-io.vertx.core.Handler-[OpenAPI3RouterFactory.create]` 方法。
 它以接收到的绝对路径、本地路径、本地/远程URL（HTTP或文件协议）来作为location。
@@ -228,6 +235,7 @@ OpenAPI3RouterFactory.create(
 
 您也可以用 `link:../../apidocs/io/vertx/ext/web/api/contract/RouterFactoryOptions.html[RouterFactoryOptions]` 来修改路由器工厂的行为。
 
+[[_mount_the_handlers]]
 === 挂载处理器
 现在挂载您的第一个操作处理器：
 要加载一个处理器，则使用 `link:../../apidocs/io/vertx/ext/web/api/contract/openapi3/OpenAPI3RouterFactory.html#addHandlerByOperationId-java.lang.String-io.vertx.core.Handler-[addHandlerByOperationId]` 。
@@ -252,6 +260,7 @@ routerFactory.addFailureHandlerByOperationId("awesomeOperation", routingContext 
 
 现在您可以如上述所示来使用您的参数值。
 
+[[_define_security_handlers]]
 === 定义安全处理器
 一个安全处理器是由 schema name 和 scope的绑定关系所定义。一个安全处理器只能挂载一对绑定关系：
 
@@ -269,11 +278,13 @@ routerFactory.addSecurityHandler("jwt_auth", JWTAuthHandler.create(jwtAuthProvid
 
 对于 调试/测试 的目的，您在生成 `link:../../apidocs/io/vertx/ext/web/Router.html[Router]` 的时候，路由器工厂会执行失败。
 
+[[_not_implemented_error]]
 === 未实现错误
 路由器工厂在没有指定处理器时，会挂载默认的处理器。
 这个默认处理器让 `routing context` 处于405 `Method Not Allowed` 错误状态 或 处于 501 `Not Implemented` 错误状态。
 您可以用 `link:../../apidocs/io/vertx/ext/web/api/contract/RouterFactoryOptions.html#setMountNotImplementedHandler-boolean-[setMountNotImplementedHandler]` 来启用/禁用它，而且您可以用 `link:../../apidocs/io/vertx/ext/web/Router.html#errorHandler-int-io.vertx.core.Handler-[errorHandler]` 来自定义错误的处理方式。
 
+[[_response_content_type_handler]]
 === 响应内容类型处理器
 当接口需要时，路由器工厂会自动挂载一个 `link:../../apidocs/io/vertx/ext/web/handler/ResponseContentTypeHandler.html[ResponseContentTypeHandler]` 处理器。
 您可以用 `link:../../apidocs/io/vertx/ext/web/api/contract/RouterFactoryOptions.html#setMountResponseContentTypeHandler-boolean-[setMountResponseContentTypeHandler]` 来禁用这个特性。
@@ -300,10 +311,12 @@ routerFactory.addHandlerByOperationId("listPets", routingContext -> {
 });
 ----
 
+[[_body_handler]]
 === 请求体处理器
 路由器工厂为了管理请求体，会自动挂载一个 `link:../../apidocs/io/vertx/ext/web/handler/BodyHandler.html[BodyHandler]` 。
 您可以用 `link:../../apidocs/io/vertx/ext/web/api/contract/RouterFactory.html#setBodyHandler-io.vertx.ext.web.handler.BodyHandler-[setBodyHandler]` 配置一个 `link:../../apidocs/io/vertx/ext/web/handler/BodyHandler.html[BodyHandler]` 对象（例如 更改上传目录）：
 
+[[_multipart_form_data_validation]]
 === `multipart/form-data` 校验
 校验处理器像如下描述来区分文件上传和表单属性：
 
@@ -316,9 +329,11 @@ routerFactory.addHandlerByOperationId("listPets", routingContext -> {
 对于表单属性，他们被解析为其他请求参数并校验，
 然而对于文件上传请求，校验处理器仅仅检查存在性和Content-Type。
 
+[[_custom_global_handlers]]
 === 自定义全局处理器
 如果您需要挂载一个处理器，而这个处理器在您路由器中每个操作执行之前都需要执行特定操作，那么您可以用 `link:../../apidocs/io/vertx/ext/web/api/contract/RouterFactory.html#addGlobalHandler-io.vertx.core.Handler-[addGlobalHandler]`
 
+[[_router_factory_handlers_mount_order]]
 === 路由器工厂处理器挂载顺序
 路由器工厂以如下顺序加载处理器：
 
@@ -329,6 +344,7 @@ routerFactory.addHandlerByOperationId("listPets", routingContext -> {
 5. 生成的校验处理器
 6. 用户处理器 或者 "尚未实现的"处理器（如果启用）
 
+[[_generate_the_router]]
 === 生成路由器
 您准备就绪时，便生成路由器并使用它：
 
