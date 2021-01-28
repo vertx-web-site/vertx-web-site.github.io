@@ -78,7 +78,7 @@ router.get("/awesome/:pathParam")
 一个类型校验器对一个值进行校验，在转换成特定语言的类型，然后在 `link:../../apidocs/io/vertx/ext/web/api/RequestParameter.html[RequestParameter]` 对象中加载它。描述参数类型有三种方法：
 
 * 这里有一系列预置类型供您使用： `link:../../apidocs/io/vertx/ext/web/api/validation/ParameterType.html[ParameterType]`
-* 你可以用 `link:../../apidocs/io/vertx/ext/web/api/validation/ParameterTypeValidator.html[ParameterTypeValidator]` 的静态方法来实例化您的自定义预置类型的实例，然后用后缀是 `WithCustomTypeValidator` 的函数将它加载到 `link:../../apidocs/io/vertx/ext/web/api/validation/HTTPRequestValidationHandler.html[HTTPRequestValidationHandler]`
+* 您可以用 `link:../../apidocs/io/vertx/ext/web/api/validation/ParameterTypeValidator.html[ParameterTypeValidator]` 的静态方法来实例化您的自定义预置类型的实例，然后用后缀是 `WithCustomTypeValidator` 的函数将它加载到 `link:../../apidocs/io/vertx/ext/web/api/validation/HTTPRequestValidationHandler.html[HTTPRequestValidationHandler]`
 
 === 处理参数
 现在您可以处理参数值
