@@ -121,7 +121,7 @@ router.post("/api/transactions")
 
 `GET /api/transactions` 获取这样两个可选参数 `from` 和 `to` 。`POST /api/transactions` 从请求体获取一个 `link:../../apidocs/io/vertx/core/json/JsonObject.html[JsonObject]` 。
 
-现在我们可以构建用于处理那些终端（endpoint）的 *TransactionService* 接口。对于各个终端 您在构建 `link:../../apidocs/io/vertx/ext/web/api/service/RouteToEBServiceHandler.html[RouteToEBServiceHandler]` 的时候 需要写一个方法，这个方法名称与指定的 `action` 相关联。
+现在我们可以构建用于处理那些终端（endpoint）的 *TransactionService* 接口。对于各个终端您在构建 `link:../../apidocs/io/vertx/ext/web/api/service/RouteToEBServiceHandler.html[RouteToEBServiceHandler]` 时需要写入一个方法，该方法名与指定的 `action` 相关联。
 对于方法参数，有如下几个规则：
 
 * 最后一个参数的类型必须是 `Handler<AsyncResult<ServiceResponse>>`
