@@ -71,7 +71,7 @@ TCP客户端可以发送如下 `type` 的消息：
 
 该客户端使用了与SockJS对应部分相同的API这将会便于在TCP与SockJS之间切换。
 
-关于如何开始使用此birdge的示例如下:
+关于如何开始使用此birdge的示例如下：
 
 [source,java]
 ----
