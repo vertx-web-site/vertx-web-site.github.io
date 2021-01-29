@@ -49,7 +49,7 @@ TCP EventBus bridge建立在TCP之上，任何能够创建TCP套接字的应用�
 该消息必须以大端序32位整数(4 bytes)作为前缀来指示JSON文档的完整长度(以字节为单位)。
 
 
-TCP客户端可以发送如下 `type` 的消息:
+TCP客户端可以发送如下 `type` 的消息：
 
 1. `send` 发送消息到 `address` ，
 2. `publish` 发布消息到 `address` ，
