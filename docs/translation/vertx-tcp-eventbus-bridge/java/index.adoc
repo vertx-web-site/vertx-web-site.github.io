@@ -1,7 +1,7 @@
 = Vert.x-tcp-eventbus-bridge
 :toc: left
 
-Vert.x-tcp-eventbus-bridge 是连接 Vert.x EventBus 的 TCP bridge。要使用此项目, 请先加入以下依赖到您的 build 描述 dependencies 部分:
+Vert.x-tcp-eventbus-bridge是连接Vert.x EventBus的TCP bridge。要使用此项目，请先加入以下依赖:
 
 
 Maven (in your `pom.xml`):
@@ -22,17 +22,17 @@ Gradle (in your `build.gradle` file):
 compile 'io.vertx:vertx-tcp-eventbus-bridge:4.0.0'
 ----
 
-TCP EventBus bridge 建立在 TCP 之上, 任何能够创建 TCP 套接字的应用程序都可以通过它的 EventBus 与远端的 Vert.x 程序进行交互。
+TCP EventBus bridge建立在TCP之上，任何能够创建TCP套接字的应用程序都可以通过它的EventBus与远端的Vert.x程序进行交互。
 
 
-因为整个 HTTP WebSockets 已经替换为纯TCP套接字, 所以 TCP bridge 与 SockJS bridge 的主要使用场景是资源受限的轻量化应用程序。
+因为整个HTTP WebSockets已经替换为纯TCP套接字，所以相比于SockJS bridge来说TCP bridge的主要使用场景是有限资源的轻量化应用程序。
 
 
-即使是对于没有严格资源限制的应用程序, 协议仍然有用: 该协议足够简单, 容易与非JVM程序集成。
+即使是对于没有严格资源限制的应用程序，协议仍然有用: 该协议足够简单，容易与非JVM程序高效集成。
 
 
 
-该协议已尽可能的保持简单, 通信使用双向帧。
+该协议已尽可能的保持简单，通信使用双向帧。
 帧结构如下:
 
 ----
@@ -45,33 +45,33 @@ TCP EventBus bridge 建立在 TCP 之上, 任何能够创建 TCP 套接字的应
 }: JsonObject>
 ----
 
-该消息内包含一个可能未被压缩过的 JSON 文档。
-该消息必须以大端序32位整数(4 bytes)作为前缀来指示 JSON 文档的完整长度(以字节为单位)。
+该消息内包含一个可能未被压缩过的JSON文档。
+该消息必须以大端序32位整数(4 bytes)作为前缀来指示JSON文档的完整长度(以字节为单位)。
 
 
-TCP 客户端可以发送如下`type`的消息:
+TCP客户端可以发送如下 `type` 的消息:
 
-1. `send`发送消息到`address`,
-2. `publish`发布消息到`address`,
-3. `register`订阅发送或发布到`address`的消息,
-4. `unregister`退订已经发送或发布到`address`的消息,
-5. `ping`发送`ping`请求到 bridge 。
+1. `send` 发送消息到 `address` ，
+2. `publish` 发布消息到 `address` ，
+3. `register` 订阅发送或发布到 `address` 的消息，
+4. `unregister` 退订已经发送或发布到 `address` 的消息，
+5. `ping` 发送 `ping` 请求到bridge。
 
-请注意, `replyAddress`字段是可选的, 并且只能用于`send`消息。
-带有该字段的消息, 期望从服务端收到一条返回消息, 返回消息中`address`的值是原始`replyAddress`的值。
+请注意， `replyAddress` 字段是可选的，并且只能用于 `send` 消息。
+带有该字段的消息，期望从服务端收到一条返回消息，返回消息中 `address` 的值是原始 `replyAddress` 的值。
 
 
-服务端返回到客户端的消息可以是如下的`type`:
+服务端返回到客户端的消息可以是如下的 `type` :
 
-1. `message`发送或者发布到`address`,
-2. `err`报告错误(`body`应该包含详细信息),
-3. `pong`响应客户端发送的`ping`请求。
+1. `message` 发送或者发布到 `address` ，
+2. `err` 报告错误( `body` 应该包含详细信息)，
+3. `pong` 响应客户端发送的 `ping` 请求。
 
-项目源代码中提供了一个可用的 NodeJS 客户端示例。
+项目源代码中提供了一个可用的NodeJS客户端示例。
 
-该客户端使用了与SockJS对应部分相同的API, 这将会便于在 TCP 与 SockJS 之间切换。
+该客户端使用了与SockJS对应部分相同的API这将会便于在TCP与SockJS之间切换。
 
-关于如何开始使用此 birdge 的示例如下:
+关于如何开始使用此birdge的示例如下:
 
 [source,java]
 ----
