@@ -469,6 +469,8 @@ const entries = [
     name: "TCP Eventbus Bridge",
     description: `An event-bus bridge that lets you interact with Vert.x from
       any application over a simple TCP-based protocol.`,
+    description: `基于简化 TCP 协议建立的应用程序与
+      Vert.x 事件总线沟通的桥梁。`,
     category: "event-bus-bridges",
     href: "/vertx-tcp-eventbus-bridge/java/",
     repository: "https://github.com/vert-x3/vertx-tcp-eventbus-bridge",
