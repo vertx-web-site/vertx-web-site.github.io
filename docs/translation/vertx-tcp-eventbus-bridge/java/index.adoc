@@ -49,7 +49,7 @@ TCP EventBus bridge建立在TCP之上，任何能够创建TCP套接字的应用�
 该消息必须以大端序32位整数(4 bytes)作为前缀来指示JSON文档的完整长度(以字节为单位)。
 
 
-TCP客户端可以发送如下 `type` 的消息：
+TCP客户端可以发送如下 `类型 type` 的消息：
 
 1. `send` 发送消息到 `address` ，
 2. `publish` 发布消息到 `address` ，
@@ -57,11 +57,11 @@ TCP客户端可以发送如下 `type` 的消息：
 4. `unregister` 退订已经发送或发布到 `address` 的消息，
 5. `ping` 发送 `ping` 请求到bridge。
 
-请注意， `replyAddress` 字段是可选的，并且只能用于 `send` 消息。
-带有该字段的消息，期望从服务端收到一条返回消息，返回消息中 `address` 的值是原始 `replyAddress` 的值。
+请注意 `replyAddress` 字段是可选的，并且只能用于 `send` 消息。
+带有该字段的消息希望 _最终_ 从服务端收到一条对应的返回消息，返回消息中 `address` 的值便是原先消息中的 `replyAddress` 的值。
 
 
-服务端返回到客户端的消息可以是如下的 `type` ：
+服务端返回到客户端的消息可以是如下的 `类型 type` ：
 
 1. `message` 发送或者发布到 `address` ，
 2. `err` 报告错误( `body` 应该包含详细信息)，
