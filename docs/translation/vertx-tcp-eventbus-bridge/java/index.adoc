@@ -15,7 +15,7 @@ Maven（在您的 `pom.xml`）：
 </dependency>
 ----
 
-Gradle (in your `build.gradle` file):
+Gradle（在您的 `build.gradle` 文件中）：
 
 [source,groovy,subs="+attributes"]
 ----
@@ -83,9 +83,9 @@ TcpEventBusBridge bridge = TcpEventBusBridge.create(
 
 bridge.listen(7000, res -> {
   if (res.succeeded()) {
-    // succeed...
+    // 成功……
   } else {
-    // fail...
+    // 失败……
   }
 });
 ----
