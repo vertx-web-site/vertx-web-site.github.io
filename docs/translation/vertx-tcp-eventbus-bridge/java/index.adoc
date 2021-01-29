@@ -22,7 +22,7 @@ Gradle (in your `build.gradle` file):
 compile 'io.vertx:vertx-tcp-eventbus-bridge:4.0.0'
 ----
 
-TCP EventBus bridge建立在TCP之上，任何能够创建TCP套接字的应用程序都可以通过它的EventBus与远端的Vert.x程序进行交互。
+TCP EventBus bridge建立在TCP之上，任何能够创建TCP套接字的应用程序都可以通过它的EventBus与远端的Vert.x程序沟通。
 
 
 因为整个HTTP WebSockets已经替换为纯TCP套接字，所以相比于SockJS bridge来说TCP bridge的主要使用场景是有限资源的轻量化应用程序。
