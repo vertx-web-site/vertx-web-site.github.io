@@ -306,8 +306,8 @@ const entries = [
   },
   {
     id: "vertx-circuit-breaker",
-    name: "Circuit Breaker",
-    description: "Implementation of the circuit-breaker pattern to mitigate failures.",
+    name: "熔断器（Circuit Breaker）",
+    description: "实现熔断器模式以减轻故障。",
     category: "microservices",
     href: "/vertx-circuit-breaker/java/",
     repository: "https://github.com/vert-x3/vertx-circuit-breaker",
