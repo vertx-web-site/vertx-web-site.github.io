@@ -23,7 +23,7 @@
 compile io.vertx:vertx-mqtt:4.0.0
 ----
 
-= Vert.x MQTT server
+= Vert.x MQTT 服务端
 
 这个组件提供了一个服务，它能处理远程link:http://mqtt.org/[MQTT] 连接，通信和信息交换。
 它的API提供了一系列接收客户端原生协议消息的事件，并且提供了一些发送信息到客户端的功能。
@@ -43,6 +43,10 @@ WARNING: 这个模块还处于技术预览阶段,这意味着它的API在接下�
 在handler内,_endpoint_ 实例提供accept方法以相应的CONNACK消息响应远程客户端，通过这种方式，成功建立连接。
 最后，通过 `link:../../apidocs/io/vertx/mqtt/MqttServer.html#listen-io.vertx.core.Handler-[listen]` 方法启动一个默认的服务端（运行在localhost上.默认MQTT端口为1883），
 这个方法同样允许指定一个Handler来检查是否服务器是否已经正常启动。
+
+
+
+
 
 [source,java]
 ----
@@ -82,6 +86,7 @@ mqttServer.endpointHandler(endpoint -> {
 当远程客户端发送一个 DISCONNECT 消息来主动断开与服务端的连接，这个 _endpoint_ 实例提供了一个 `link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html#disconnectHandler-io.vertx.core.Handler-[disconnectHandler]` 方法来指定 handler 进行处理，
 该handler没有参数
 
+
 [source,java]
 ----
 endpoint.disconnectHandler(v -> {
@@ -97,6 +102,12 @@ endpoint.disconnectHandler(v -> {
 这个方法需要一个 `link:../../apidocs/io/vertx/core/net/KeyCertOptions.html[KeyCertOptions]` 接口的实例作为参数传入。与此同时，`link:../../apidocs/io/vertx/core/net/PemKeyCertOptions.html[PemKeyCertOptions]` 类提供了
 `link:../../apidocs/io/vertx/core/net/PemKeyCertOptions.html#setCertPath-java.lang.String-[setCertPath]` 和 `link:../../apidocs/io/vertx/core/net/PemKeyCertOptions.html#setKeyPath-java.lang.String-[setKeyPath]` 来分别设置 服务端的证书和私钥的路径。
 MQTT服务端需要一个 Vertx实例和一个上面提到的MQTT配置实例作为参数来启动。
+
+
+
+
+
+
 
 [source,java]
 ----
@@ -139,6 +150,7 @@ mqttServer.endpointHandler(endpoint -> {
     }
   });
 ----
+
 在没有SSL/TLS支持的情况下，使用相同的方式来管理endpoint的连接和断开。
 
 === 处理客户端 订阅/退订 请求
@@ -146,6 +158,10 @@ mqttServer.endpointHandler(endpoint -> {
 在客户端和服务端的连接建立后，客户端可以以指定的主题发送订阅消息。 `link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html[MqttEndpoint]` 允许使用 `link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html#subscribeHandler-io.vertx.core.Handler-[subscribeHandler]`
 方法来指定一个handler来处理到来的订阅请求，这个handler接收一个 `link:../../apidocs/io/vertx/mqtt/messages/MqttSubscribeMessage.html[MqttSubscribeMessage]` 类型的实例，该实例携带了主题列表以及客户端指定的Qos等级。
 最后，这个endpoint实例提供了 `link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html#subscribeAcknowledge-int-java.util.List-[subscribeAcknowledge]` 方法来回复一个包含相关许可Qos等级的SUBACK消息给客户端。
+
+
+
+
 
 [source,java]
 ----
@@ -165,6 +181,8 @@ endpoint.subscribeHandler(subscribe -> {
 相应的，也可以使用endpoint上的 `link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html#unsubscribeHandler-io.vertx.core.Handler-[unsubscribeHandler]` 方法来指定一个handler来处理客户端的UNSUBSCRIBE消息，
 这个handler接收一个携带退订主题列表的 `link:../../apidocs/io/vertx/mqtt/messages/MqttUnsubscribeMessage.html[MqttUnsubscribeMessage]` 类型实例作为参数。
 最后，这个endpoint实例提供了 `link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html#unsubscribeAcknowledge-int-[unsubscribeAcknowledge]` 方法来回复客户端相关的UNSUBACK消息。
+
+
 
 [source,java]
 ----
@@ -193,6 +211,10 @@ endpoint.unsubscribeHandler(unsubscribe -> {
 在这种情况下，这个endpoint同时也要通过 `link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html#publishReleaseHandler-io.vertx.core.Handler-[publishReleaseHandler]` 指定一个handler来处理来自客户端的PUBREL(远程客户端接收到endpoint发送的PUBREC后发送的)消息
 为了结束Qos等级为2的消息的传递，endpoint可以使用 `link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html#publishComplete-int-[publishComplete]` 方法发送一个PUBCOMP消息给客户端。
 
+
+
+
+
 [source,java]
 ----
 endpoint.publishHandler(message -> {
@@ -212,6 +234,7 @@ endpoint.publishHandler(message -> {
 ----
 
 === 发布消息到客户端
+
 可以使用 `link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html#publish-java.lang.String-io.vertx.core.buffer.Buffer-io.netty.handler.codec.mqtt.MqttQoS-boolean-boolean-[publish]` 方法发布一个消息到远程客户端，该方法需要补充一下参数：
 发布主题，消息载荷，Qos等级，复制和保留标识。
 
@@ -222,6 +245,12 @@ endpoint.publishHandler(message -> {
 如果Qos等级是 2(EXACTLY_ONCE)， endpoint 需要处理客户端的PUBREC消息，可以通过 `link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html#publishReceivedHandler-io.vertx.core.Handler-[publishReceivedHandler]` 方法指定一个handler来实现。
 在这个handler内，endpoint 可以使用 `link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html#publishRelease-int-[publishRelease]` 方法回复客户端 PUBREL 消息。最后一步是处理来自客户端的PUBCOMP消息作为已发布消息的最终确认。
 这可以使用 `link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html#publishCompletionHandler-io.vertx.core.Handler-[publishCompletionHandler]` 方法指定一个handler来处理最终接收到的 PUBCOMP 消息。
+
+
+
+
+
+
 
 [source,java]
 ----
@@ -253,6 +282,11 @@ MQTT底层的保活机制是由服务端内部处理的。当接收到CONNECT消
 尽管上层应用不需要处理这些，`link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html[MqttEndpoint]` 依然提供了 `link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html#pingHandler-io.vertx.core.Handler-[pingHandler]` 方法来选定一个handler
 来自客户端的PINGREQ消息。对于应用程序来说这只是一个通知，客户端只会发送一个用于检测保活的没有任何意义的ping消息。无论如何，PINGRESP都会被服务端内部自动发送。
 
+
+
+
+
+
 [source,java]
 ----
 endpoint.pingHandler(v -> {
@@ -265,6 +299,8 @@ endpoint.pingHandler(v -> {
 
 link:../../apidocs/io/vertx/mqtt/MqttServer.html[MqttServer]` 提供了 `link:../../apidocs/io/vertx/mqtt/MqttServer.html#close-io.vertx.core.Handler-[close]` 来关闭服务。
 他会停止监听到来的连接以及关闭所有已经建立的连接，该方法是一个异步方法，并且可以指定一个成功回调handler，这个handler会在服务端完全关闭后被调用
+
+
 
 [source,java]
 ----
@@ -283,6 +319,8 @@ mqttServer.close(v -> {
 与MQTT服务器相关的handler总是在同一个event loop线程中执行。这意味着在一个多核系统中，仅有一个实例被部署，一个核被使用。
 为了使用更多的核，可以部署更多的MQTT服务端实例
 可以通过编程方式实现：
+
+
 
 [source,java]
 ----
@@ -308,12 +346,13 @@ DeploymentOptions options = new DeploymentOptions().setInstances(10);
 vertx.deployVerticle("com.mycompany.MyVerticle", options);
 ----
 
-实际上，尽管仅有一个MQTT服务器被部署，但是当传入的连接到达时，会被Vert.x使用轮转算法分发到不同的核上运行的handlers上。
-
+实际上，尽管仅有一个MQTT服务器被部署，
+但是当传入的连接到达时，会被Vert.x使用轮转算法分发到不同的核上运行的handlers上。
 
 = Vert.x MQTT 客户端
 
 这个组件提供了一个符合3.1.1版本规范的 link:http://mqtt.org/[MQTT] 客户端，他的API提供了一系列方法来处理连接建立/连接断开，发布消息（完整支持3种不同等级的Qos）以及主题订阅
+
 
 WARNING: 这个模块还处于技术预览阶段，这意味着它的API在接下来的版本中可能会改变
 
@@ -350,9 +389,8 @@ client.publishHandler(s -> {
   .subscribe("rpi2/temp", 2);
 ----
 
-这里我们有一个使用 `link:../../apidocs/io/vertx/mqtt/MqttClient.html#subscribe-java.lang.String-int-[subscribe]` 方法的例子，
-为了接收到主题为 rpi2/temp 的消息，我们调用了 `link:../../apidocs/io/vertx/mqtt/MqttClient.html#subscribe-java.lang.String-int-[subscribe]` 方法，
-因此，为了能接收到的服务端的消息，你需要提供一个handler，每当你订阅的主题有新的消息传来，这个handler就会被调用。
+这里我们有一个使用 `link:../../apidocs/io/vertx/mqtt/MqttClient.html#subscribe-java.lang.String-int-[subscribe]` 方法的例子， 为了接收到主题为 rpi2/temp 的消息，
+我们调用了 `link:../../apidocs/io/vertx/mqtt/MqttClient.html#subscribe-java.lang.String-int-[subscribe]` 方法， 因此，为了能接收到的服务端的消息，你需要提供一个handler，每当你订阅的主题有新的消息传来，这个handler就会被调用。
 正如这个实例描述的，你需要通过 `link:../../apidocs/io/vertx/mqtt/MqttClient.html#publishHandler-io.vertx.core.Handler-[publishHandler]` 方法来指定handler。
 
 === 发布主题消息
@@ -374,6 +412,7 @@ client.publish("temperature",
 使用 `link:../../apidocs/io/vertx/mqtt/MqttClient.html#ping--[ping]` 方法来保持连接是一个不错的选择。
 
 IMPORTANT: 你的客户端默认情况下会自动保持与服务端的连接，这也意味着你不需要调用 `link:../../apidocs/io/vertx/mqtt/MqttClient.html#ping--[ping]` 方法来保活，因为 `link:../../apidocs/io/vertx/mqtt/MqttClient.html[MqttClient]` 已经帮你做了这些事。
+
 
 如果你不想要这个特性，你需要调用 `link:../../apidocs/io/vertx/mqtt/MqttClientOptions.html#setAutoKeepAlive-boolean-[setAutoKeepAlive]` 方法，设置参数为 `false` 即可。
 [source,java]
