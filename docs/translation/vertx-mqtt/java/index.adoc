@@ -239,6 +239,7 @@ endpoint.publishHandler(message -> {
 });
 ----
 
+[[_publish_message_to_the_client]]
 === 发布消息到客户端
 
 可以使用 `link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html#publish-java.lang.String-io.vertx.core.buffer.Buffer-io.netty.handler.codec.mqtt.MqttQoS-boolean-boolean-[publish]` 方法发布一个消息到远程客户端，该方法需要补充一下参数：
