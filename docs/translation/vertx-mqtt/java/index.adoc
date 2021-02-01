@@ -360,6 +360,7 @@ vertx.deployVerticle("com.mycompany.MyVerticle", options);
 实际上，尽管仅有一个MQTT服务器被部署，
 但是当传入的连接到达时，会被Vert.x使用轮转算法分发到不同的核上运行的handlers上。
 
+[[_vert_x_mqtt_client]]
 = Vert.x MQTT 客户端
 
 这个组件提供了一个符合3.1.1版本规范的 link:http://mqtt.org/[MQTT] 客户端，他的API提供了一系列方法来处理连接建立/连接断开，发布消息（完整支持3种不同等级的Qos）以及主题订阅
