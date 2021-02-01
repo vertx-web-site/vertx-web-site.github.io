@@ -37,6 +37,7 @@ WARNING: 这个模块还处于技术预览阶段,这意味着它的API在接下�
 [[_getting_started]]
 == 开始
 
+[[_handling_client_connectiondisconnection]]
 === 处理客户端连接/断开
 
 这个例子展示了如何处理一个来自远程MQTT客户端的请求，首先，它会创建一个 `link:../../apidocs/io/vertx/mqtt/MqttServer.html[MqttServer]` 实例，
