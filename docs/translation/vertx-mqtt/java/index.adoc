@@ -381,6 +381,7 @@ client.connect(1883, "mqtt.eclipse.org", s -> {
 ----
 NOTE: 如果你在使用SSL/TSL，服务端 `link:../../apidocs/io/vertx/mqtt/MqttClientOptions.html[MqttClientOptions]` 提供的默认的地址是 localhost:1883 和 localhost:8883 。
 
+[[_subscribe_to_a_topic]]
 === 订阅主题消息
 
 现在，让我们再仔细看一下这个示例：
