@@ -201,6 +201,7 @@ endpoint.unsubscribeHandler(unsubscribe -> {
 });
 ----
 
+[[_handling_client_published_message]]
 === 处理客户端发布的消息
 
 为了处理远程客户端发布的消息，`link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html[MqttEndpoint]` 接口提供了
