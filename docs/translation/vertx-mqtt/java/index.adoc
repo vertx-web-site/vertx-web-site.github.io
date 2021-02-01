@@ -157,6 +157,7 @@ mqttServer.endpointHandler(endpoint -> {
 
 在没有SSL/TLS支持的情况下，使用相同的方式来管理endpoint的连接和断开。
 
+[[_handling_client_subscriptionunsubscription_request]]
 === 处理客户端 订阅/退订 请求
 
 在客户端和服务端的连接建立后，客户端可以以指定的主题发送订阅消息。 `link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html[MqttEndpoint]` 允许使用 `link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html#subscribeHandler-io.vertx.core.Handler-[subscribeHandler]`
