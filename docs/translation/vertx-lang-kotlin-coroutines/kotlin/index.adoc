@@ -25,7 +25,7 @@ RxJava 1 和 2。
 
 `vertx-lang-kotlin-coroutines` 使用 https://github.com/Kotlin/kotlinx.coroutines[kotlinx.coroutines] 来实现协程。
 
-注意： `vertx-lang-kotlin-coroutines` 目前仅在 Kotlin 下工作，并且将在 Kotlin 1.3
+Note:  `vertx-lang-kotlin-coroutines` 目前仅在 Kotlin 下工作，并且将在 Kotlin 1.3
 脱离https://kotlinlang.org/docs/reference/coroutines.html#experimental-status-of-coroutines[实验]状态
 
 [[_running_a_coroutine_from_a_vert_x_context]]
