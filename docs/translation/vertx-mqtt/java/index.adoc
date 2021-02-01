@@ -303,6 +303,7 @@ endpoint.pingHandler(v -> {
 });
 ----
 
+[[_closing_the_server]]
 === 关闭服务端
 
 link:../../apidocs/io/vertx/mqtt/MqttServer.html[MqttServer]` 提供了 `link:../../apidocs/io/vertx/mqtt/MqttServer.html#close-io.vertx.core.Handler-[close]` 来关闭服务。
