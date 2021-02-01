@@ -396,6 +396,7 @@ client.publishHandler(s -> {
 我们调用了 `link:../../apidocs/io/vertx/mqtt/MqttClient.html#subscribe-java.lang.String-int-[subscribe]` 方法， 因此，为了能接收到的服务端的消息，你需要提供一个handler，每当你订阅的主题有新的消息传来，这个handler就会被调用。
 正如这个实例描述的，你需要通过 `link:../../apidocs/io/vertx/mqtt/MqttClient.html#publishHandler-io.vertx.core.Handler-[publishHandler]` 方法来指定handler。
 
+[[_publishing_message_to_a_topic]]
 === 发布主题消息
 
 如果你想要发布消息到主题上去就需要使用 `link:../../apidocs/io/vertx/mqtt/MqttClient.html#publish-java.lang.String-io.vertx.core.buffer.Buffer-io.netty.handler.codec.mqtt.MqttQoS-boolean-boolean-[publish]` 方法。
