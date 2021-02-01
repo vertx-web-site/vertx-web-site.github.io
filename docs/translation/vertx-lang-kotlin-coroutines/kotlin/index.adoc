@@ -82,7 +82,7 @@ Vert.x 中的许多异步操作的最后一个参数是一个 `Handler<AsyncResu
 include::Example.kt[tags=awaitResult]
 ----
 
-当块中的代码产生了一个失败是时，调用者可以通过
+当块中的代码产生了一个失败时，调用者可以通过
 `try`/`catch` 结构像处理一个普通的异常一样进行处理。
 `try`/`catch` constructs:
 
