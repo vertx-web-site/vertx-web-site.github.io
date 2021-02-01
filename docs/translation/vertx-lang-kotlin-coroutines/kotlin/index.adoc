@@ -211,8 +211,6 @@ include::Example.kt[tags=channel3]
 include::Example.kt[tags=sendChannel]
 ----
 
-Both `SendChannel#send` and `WriteStream#write` are non blocking operations, however unlike `SendChannel#send`
-can suspend the execution when the channel is full, the equivalent without a channel would look like
 `SendChannel#send` 和 `WriteStream#write` 都是非阻塞操作，然而不同于 `SendChannel#send` 可以在通道满时暂停执行，不使用通道的情况看起来像
 
 [source,kotlin,indent=0]
