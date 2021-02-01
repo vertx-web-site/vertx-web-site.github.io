@@ -129,10 +129,8 @@ docs.entries.push({
 
 docs.entries.push({
     id: "vertx-lang-kotlin-coroutines",
-    name: "Kotlin coroutines",
-    description: `Kotlin coroutines for Vert.x, gives you super powers such as
-      async/await or Go-like channels. This enables you to write your verticle
-      code in a familiar sequential style.`,
+    name: "Kotlin 协程",
+    description: `Vert.x 对 Kotlin 协程的支持，提供如 async/await 或 Go-like 通道 的强大支持。使你可以如熟悉的顺序风格一样编写 Verticle 代码`,
     category: "kotlin",
     href: "/vertx-lang-kotlin-coroutines/kotlin/",
     repository: "https://github.com/vert-x3/vertx-lang-kotlin",
