@@ -152,7 +152,7 @@ include::Example.kt[tags=generatedSuspendingExtensionMethod]
 [[_channels]]
 == 通道
 
-通道接近 Java 的 `BlockingQueue`，不同之处在于它不是阻塞的，而是在如下情况中挂起协程：
+通道类似于 Java 的 `BlockingQueue`，不同之处在于它不是阻塞的，而是在如下情况中挂起协程：
 
 * 向一个满了的通道中写入值
 * 从一个空的通道中读取值
