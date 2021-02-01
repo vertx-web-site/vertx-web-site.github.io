@@ -1,5 +1,6 @@
 = Vert.x MQTT
 
+[[_using_vert_x_mqtt]]
 == 使用 Vert.x MQTT
 
 这个组件已经在Vertx栈中正式发布了，现在只需要在构建描述符中添加如下内容即可使用
