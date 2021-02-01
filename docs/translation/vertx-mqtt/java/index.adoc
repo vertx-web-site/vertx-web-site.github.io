@@ -98,6 +98,7 @@ endpoint.disconnectHandler(v -> {
 });
 ----
 
+[[_handling_client_connectiondisconnection_with_ssltls_support]]
 === 支持使用SSL / TLS 处理客户端连接/断开连接
 
 服务端支持通过SSL/TLS方式来授权和加密客户端的连接请求，为了做到这一点，`link:../../apidocs/io/vertx/mqtt/MqttServerOptions.html[MqttServerOptions]` 类提供了 `link:../../apidocs/io/vertx/mqtt/MqttServerOptions.html#setSsl-boolean-[setSsl]`
