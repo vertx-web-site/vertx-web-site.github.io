@@ -154,8 +154,8 @@ include::Example.kt[tags=generatedSuspendingExtensionMethod]
 
 通道接近 Java 的 `BlockingQueue`，不同之处在于它不是阻塞的，而是在如下情况中挂起协程：
 
-- 向一个满了的通道中写入值
-- 从一个空的通道中读取值
+* 向一个满了的通道中写入值
+* 从一个空的通道中读取值
 
 可以通过使用 `toChannel` 扩展方法使 Vert.x 的 `ReadStream` 和 `WriteStream` 适配到通道
 
