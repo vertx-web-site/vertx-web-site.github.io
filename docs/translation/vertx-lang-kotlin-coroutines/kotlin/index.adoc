@@ -249,7 +249,7 @@ include::Example.kt[tags=withTimeout]
 [[_coroutine_builders]]
 == 协程构建器
 
-Vert.x 适用于任何协程构建器，只要 `CoroutineScope` 实例是有效的：`launch`, `async`, `produce·, ... . 以下重要事项必须被注意：
+Vert.x 适用于任何协程构建器，只要 `CoroutineScope` 实例是有效的：`launch`, `async`, `produce`, ... . 以下重要事项必须被注意：
 
 - `runBlocking` 没有 `CoroutineScope` 因此禁止在 Vert.x 事件循环线程上只用。
 - The `runBlocking` doesn't need a `CoroutineScope` and must not be used from a Vert.x event loop thread.
