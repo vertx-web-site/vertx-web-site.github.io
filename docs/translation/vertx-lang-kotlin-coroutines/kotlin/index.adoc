@@ -3,7 +3,7 @@
 `vertx-lang-kotlin-coroutines` 集成了 Kotlin _协程_ 以执行异步操作和处理事件。
 以便在不阻塞内核线程的情况下使用类似顺序代码的编程模型。
 
-[[Introduction]]
+[[_introduction]]
 == 介绍
 
 Vert.x 和许多经典应用平台的一个关键优势是它几乎是完全非阻塞的
@@ -28,7 +28,7 @@ RxJava 1 和 2。
 注意： `vertx-lang-kotlin-coroutines` 目前仅在 Kotlin 下工作，并且将在 Kotlin 1.3
 脱离https://kotlinlang.org/docs/reference/coroutines.html#experimental-status-of-coroutines[实验]状态
 
-[[Running a coroutine from a Vert.x context]]
+[[_running_a_coroutine_from_a_vert_x_context]]
 == 在 Vert.x 上下文中运行协程
 
 导入 `io.vertx.kotlin.coroutines.VertxCoroutine` ，通过 `GlobalScope.launch` 方法可以在 "Global" 作用域中运行一个协程代码块，
@@ -47,7 +47,7 @@ include::Example.kt[tags=launchCoroutine]
 
 下一章节会提供更多有关 handler, 事件和流事件的信息。
 
-[[Extending CoroutineVerticle]]
+[[_extending_coroutineverticle]]
 == 继承 CoroutineVerticle
 
 你可以将代码部署为 `io.vertx.kotlin.coroutines.CoroutineVerticle` 的一个实例，它是专为 Kotlin 协程准备的一个特殊类型的 Verticle。
@@ -63,7 +63,7 @@ include::Example.kt[tags=CoroutineVerticle]
 以上所有的代码都假设被运行在一个 `CoroutineVerticle` 实现中，但是也可以通过替换所有的 `<builder> { .. }` 为
 `GlobalScope.<builder> { .. }` 来使用应用作用域。
 
-[[Getting one-shot asynchronous results]]
+[[_getting_one_shot_asynchronous_results]]
 == 单次获取异步执行的结果
 
 Vert.x 中的许多异步操作的最后一个参数是一个 `Handler<AsyncResult<T>>`。
@@ -91,7 +91,7 @@ include::Example.kt[tags=awaitResult]
 include::Example.kt[tags=awaitResultFailure]
 ----
 
-[[Getting one-shot events]]
+[[_getting_one_shot_events]]
 == 获取获取事件
 
 单次处理事件（如果该事件再次产生，不会再进行处理）可以使用函数 `awaitEvent` ：
@@ -101,7 +101,7 @@ include::Example.kt[tags=awaitResultFailure]
 include::Example.kt[tags=awaitEvent]
 ----
 
-[[Getting one-shot worker results]]
+[[_getting_one_shot_worker_results]]
 == 单次获取 worker 结果
 
 处理阻塞计算的结果可以使用函数 `awaitBlocking` ：
@@ -111,7 +111,7 @@ include::Example.kt[tags=awaitEvent]
 include::Example.kt[tags=awaitBlocking]
 ----
 
-[[Streams of events]]
+[[_streams_of_events]]
 == 事件流
 
 Vert.x API 有许多地方使用 handlers 处理事件流。
@@ -124,7 +124,7 @@ Vert.x API 有许多地方使用 handlers 处理事件流。
 include::Example.kt[tags=streamExample]
 ----
 
-[[Awaiting the completion of Vert.x asynchronous results]]
+[[_awaiting_the_completion_of_vert_x_asynchronous_results]]
 == 获取 Vert.x 异步操作的完成结果
 
 Vert.x 4 提供了 future 模型并且 `Future` 有个 `await()` 可挂起方法用于异步获取结果。
@@ -136,7 +136,7 @@ Vert.x 异步结果实例上的 `await` 扩展方法挂起协程直到异步操�
 include::Example.kt[tags=awaitingFuture]
 ----
 
-[[Suspending extension methods]]
+[[_suspending_extension_methods]]
 == 挂起方法扩展
 
 为了简化使用 Vert.x 异步 API 的协程编写，Vert.x 3 生成了扩展方法。
@@ -149,7 +149,7 @@ include::Example.kt[tags=awaitingFuture]
 include::Example.kt[tags=generatedSuspendingExtensionMethod]
 ----
 
-[[Channels]]
+[[_channels]]
 == 通道
 
 通道接近 Java 的 `BlockingQueue`，不同之处在于它不是阻塞的，而是在如下情况中挂起协程：
@@ -164,7 +164,7 @@ include::Example.kt[tags=generatedSuspendingExtensionMethod]
 * `ReadStream<T>` 适配到 `ReceiveChannel<T>`
 * `WriteStream<T>` 适配到 `SendChannel<T>`
 
-[[Receiving data]]
+[[_receiving_data]]
 === 接收数据
 
 当需要处理流中互相关联的值时，通道真的很有用：
@@ -201,7 +201,7 @@ include::Example.kt[tags=channel2]
 include::Example.kt[tags=channel3]
 ----
 
-[[Sending data]]
+[[_sending_data]]
 === 发送数据
 
 使用通道发送数据非常简单清晰：
@@ -220,7 +220,7 @@ can suspend the execution when the channel is full, the equivalent without a cha
 include::Example.kt[tags=sendChannel]
 ----
 
-[[Delay, cancellation and timeouts]]
+[[_delay_cancellation_and_timeouts]]
 == 延迟，取消和超时
 
 Vertx 分发器通过定时器为协程的 `delay` 函数提供完整的支持：
@@ -246,7 +246,7 @@ include::Example.kt[tags=cancellation]
 include::Example.kt[tags=withTimeout]
 ----
 
-[[Coroutine builders]]
+[[_coroutine_builders]]
 == 协程构建器
 
 Vert.x 适用于任何协程构建器，只要 `CoroutineScope` 实例是有效的：`launch`, `async`, `produce', ... . 一下重要事项必须被注意：
@@ -255,7 +255,7 @@ Vert.x 适用于任何协程构建器，只要 `CoroutineScope` 实例是有效�
 - The `runBlocking` doesn't need a `CoroutineScope` and must not be used from a Vert.x event loop thread.
 - 为避免内存泄漏，总是使用 `coroutineScope {..}` 定义一个子作用域。在这种情况下，如果一个作用域中的协程失败，所有在该作用域中的协程都会被取消
 
-[[Coroutine interoperability]]
+[[_coroutine_interoperability]]
 == 协程互操作性
 
 Vert.x 集成被设计成完全与 Kotlin 协程互操作的
@@ -263,7 +263,7 @@ Vert.x 集成被设计成完全与 Kotlin 协程互操作的
 * `kotlinx.coroutines.experimental.sync.Mutex` are executed on the event loop thread when using the vertx dispatcher
 * 当使用 vertx 分发器时，`kotlinx.coroutines.experimental.sync.Mutex` 在事件循环线程上执行
 
-[[RxJava interoperability]]
+[[_rxjava_interoperability]]
 == RxJava 互操作性
 
 模块 `vertx-lang-kotlin-coroutines` 没有与 RxJava 的特定集成，然而 Kotlin 协程提供了 RxJava 的集成，它与 `vertx-lang-kotlin-coroutines` 一同工作良好。
