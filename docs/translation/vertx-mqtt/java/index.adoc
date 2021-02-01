@@ -281,6 +281,7 @@ endpoint.publishAcknowledgeHandler(messageId -> {
 });
 ----
 
+[[_be_notified_by_client_keep_alive]]
 === 客户端保活通知
 
 MQTT底层的保活机制是由服务端内部处理的。当接收到CONNECT消息，服务端解析消息中指定的保活超时时间以便于检查客户端在这段时间内是否有发送消息，
