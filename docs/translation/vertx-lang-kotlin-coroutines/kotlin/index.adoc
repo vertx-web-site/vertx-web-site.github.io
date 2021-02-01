@@ -1,85 +1,89 @@
 = vertx-lang-kotlin-coroutines
 
-The `vertx-lang-kotlin-coroutines` integrates Kotlin _coroutines_ for performing asynchronous operations and processing events.
-This results in using a programming model that looks like sequential code, yet it does not block kernel threads.
+`vertx-lang-kotlin-coroutines` 集成了 Kotlin _协程_ 以执行异步操作和处理事件。
+以便在不阻塞内核线程的情况下使用类似顺序代码的编程模型。
 
-== Introduction
+[[Introduction]]
+== 介绍
 
-One of the key advantages of Vert.x over many legacy application platforms is that it is almost entirely non-blocking
-(of kernel threads).
-This allows Vert.x-based applications to handle a lot of concurrency (e.g., many connections and messages) using a very
-small number of kernel threads, which in turns unlocks great scalability.
+Vert.x 和许多经典应用平台的一个关键优势是它几乎是完全非阻塞的
+(指内核线程)。
+这允许基于 Vert.x 的应用程序使用极小数量的内核线程处理极高的并发（比如许多连接和消息），
+这为强大的扩容能力扫除了障碍。
 
-The non-blocking nature of Vert.x leads to asynchronous APIs. Asynchronous APIs can take various forms including
-callbacks, promises, fibers or reactive extensions. Vert.x uses the callback style for the core APIs but it
-also supports other models like RxJava 1 and 2.
+非阻塞的性质促生了异步的API，异步API存在很多种变种形式，比如 callbacks, promises, fibers 和 reactive 扩展。Vert.x对核心 API
+使用了回调风格，但它也支持其他模型比如
+RxJava 1 和 2。
 
-In some cases, programming using asynchronous APIs can be more challenging than using a classic / sequential style
-of code, in particular with several operations need to be done in sequence. Also, error propagation is often more
-complex when using asynchronous APIs.
+在一些情况下，使用异步 API 编程要比使用经典的/顺序风格更加富有挑战性，
+特别是当几个操作需要以顺序的形式完成时。
+同理，当使用异步 API 时，错误传递通常也更加复杂。
 
-`vertx-lang-kotlin-coroutines` uses _coroutines_. Coroutines are very lightweight threads that do not correspond
-to underlying kernel threads, so that when a _coroutine_ needs to _"block_" it gets _suspended_ and frees
-its current kernel thread so that another coroutine can process events.
+`vertx-lang-kotlin-coroutines` 使用 _协程_。协程是一种非常轻量级的、不对应到内核线程的线程，
+因此当一个_协程_需要“阻塞”时，它会_挂起_并释放当前的内核线程，
+使另一个协程可以处理事件。
 
-`vertx-lang-kotlin-coroutines` uses https://github.com/Kotlin/kotlinx.coroutines[kotlinx.coroutines] to implement the Coroutines.
+`vertx-lang-kotlin-coroutines` 使用 https://github.com/Kotlin/kotlinx.coroutines[kotlinx.coroutines] 来实现协程。
 
-NOTE: `vertx-lang-kotlin-coroutines` currently only works with Kotlin and will be out of the https://kotlinlang.org/docs/reference/coroutines.html#experimental-status-of-coroutines[experimental] status
-in Kotlin 1.3
+注意： `vertx-lang-kotlin-coroutines` 目前仅在 Kotlin 下工作，并且将在 Kotlin 1.3
+脱离https://kotlinlang.org/docs/reference/coroutines.html#experimental-status-of-coroutines[实验]状态
 
-== Running a coroutine from a Vert.x context
+[[Running a coroutine from a Vert.x context]]
+== 在 Vert.x 上下文中运行协程
 
-Having imported `io.vertx.kotlin.coroutines.VertxCoroutine`, the `GlobalScope.launch` method allows to run a block of code as a
-coroutine in the "Global" application scope (bounded on the lifetime of the application):
+导入 `io.vertx.kotlin.coroutines.VertxCoroutine` ，通过 `GlobalScope.launch` 方法可以在 "Global" 作用域中运行一个协程代码块，
+（生命周期与应用一致）：
 
 [source,kotlin,indent=0]
 ----
 include::Example.kt[tags=launchCoroutine]
 ----
 
-The `vertx.dispatcher()` returns a coroutine dispatcher that execute coroutines using the Vert.x event loop.
+`vertx.dispatcher()` 返回了一个协程分发器，以便让协程运行在 Vert.x 的事件循环上。
 
-The `awaitEvent` function suspends the execution of the coroutine until the timer fires and resumes the coroutines
+`awaitEvent` 函数挂起了协程，当定时器超时时协程会通过被提供的 handler
+恢复执行。
  with the value that was given to the handler.
 
-More details are given in the next sections on handlers, events and stream of events.
+下一章节会提供更多有关 handler, 事件和流事件的信息。
 
-== Extending CoroutineVerticle
+[[Extending CoroutineVerticle]]
+== 继承 CoroutineVerticle
 
-You can deploy your code as instances of `io.vertx.kotlin.coroutines.CoroutineVerticle`, a specialized type of verticle
-for Kotlin coroutines. The `CoroutineVerticle` class implements the `kotlinx.coroutines.experimental.CoroutineScope` interface,
-making all coroutines builder methods bounded by default to the verticle context. You should override the suspending `start()`
-and (optionally) the suspending `stop()` methods of the verticle:
+你可以将代码部署为 `io.vertx.kotlin.coroutines.CoroutineVerticle` 的一个实例，它是专为 Kotlin 协程准备的一个特殊类型的 Verticle。
+`CoroutineVerticle` 类实现了 `kotlinx.coroutines.experimental.CoroutineScope` 接口，所有协程构建器都默认绑定到 Verticle 的上下文。
+应当重写 Verticle 中挂起的 `start()` 方法，重写挂起的 `stop()` 
+方法是可选的：
 
 [source,kotlin,indent=0]
 ----
 include::Example.kt[tags=CoroutineVerticle]
 ----
 
-All code examples below assume to be run inside a `CoroutineVerticle` implementation, but you can replace all `<builder> { .. }`
-calls with `GlobalScope.<builder> { .. }` to use the application scope instead.
+以上所有的代码都假设被运行在一个 `CoroutineVerticle` 实现中，但是也可以通过替换所有的 `<builder> { .. }` 为
+`GlobalScope.<builder> { .. }` 来使用应用作用域。
 
-== Getting one-shot asynchronous results
+[[Getting one-shot asynchronous results]]
+== 单次获取异步执行的结果
 
-Many asynchronous operations in Vert.x take a `Handler<AsyncResult<T>>` as the last argument.
-An example would be executing an object retrieval using the Vert.x Mongo client, or sending an event bus message then
-awaiting for a reply.
+Vert.x 中的许多异步操作的最后一个参数是一个 `Handler<AsyncResult<T>>`。
+比如在通过 Vert.x Mongo 客户端获取一个对象，或者在事件总线上发送一条消息并等待回复的时候。
 
-This is achieved by using the `awaitResult` method which returns the value or throws an exception.
+可以通过 `awaitResult` 方法来返回值或者抛出一个异常。
 
-The coroutine is being suspended until the event is being processed, and no kernel thread is being blocked.
+协程将被挂起直到事件被处理，内核线程不会被阻塞。
 
-The method is executed by specifying the asynchronous operation that needs to be executed in the form of a block that
-is passed to the handler at run-time.
+该方法通过指定一个会在运行时被传入 handler 的异步操作代码块来运行。
 
-Here is an example:
+示例如下：
 
 [source,kotlin,indent=0]
 ----
 include::Example.kt[tags=awaitResult]
 ----
 
-When the block produces a failure, the caller can handle it as an exception using the usual exception
+当块中的代码产生了一个失败是时，调用者可以通过
+`try`/`catch` 结构像处理一个普通的异常一样进行处理。
 `try`/`catch` constructs:
 
 [source,kotlin,indent=0]
@@ -87,117 +91,120 @@ When the block produces a failure, the caller can handle it as an exception usin
 include::Example.kt[tags=awaitResultFailure]
 ----
 
-== Getting one-shot events
+[[Getting one-shot events]]
+== 获取获取事件
 
-Processing a one-shot event (and not the next occurrences, if any) is achieved using the `awaitEvent` function:
+单次处理事件（如果该事件再次产生，不会再进行处理）可以使用函数 `awaitEvent` ：
 
 [source,kotlin,indent=0]
 ----
 include::Example.kt[tags=awaitEvent]
 ----
 
-== Getting one-shot worker results
+[[Getting one-shot worker results]]
+== 单次获取 worker 结果
 
-Processing a blocking computation is achieved using the `awaitBlocking` function:
+处理阻塞计算的结果可以使用函数 `awaitBlocking` ：
 
 [source,kotlin,indent=0]
 ----
 include::Example.kt[tags=awaitBlocking]
 ----
 
-== Streams of events
+[[Streams of events]]
+== 事件流
 
-In many places in Vert.x APIs, streams of events are processed through handlers.
-Examples include event bus message consumers and HTTP server requests.
+Vert.x API 有许多地方使用 handlers 处理事件流。
+以下示例包含了处理事件总线消息和 HTTP 服务请求。
 
-The `ReceiveChannelHandler` class allows receiving events through the (suspendable) `receive` method:
+`ReceiveChannelHandler` 类允许通过（可挂起的） `receive` 方法接收事件：
 
 [source,kotlin,indent=0]
 ----
 include::Example.kt[tags=streamExample]
 ----
 
-== Awaiting the completion of Vert.x asynchronous results
+[[Awaiting the completion of Vert.x asynchronous results]]
+== 获取 Vert.x 异步操作的完成结果
 
-Vert.x 4 provides futures and `Future` has an `await()` suspending method latching the asynchronous result.
+Vert.x 4 提供了 future 模型并且 `Future` 有个 `await()` 可挂起方法用于异步获取结果。
 
-The `await` extension method on instances of Vert.x asynchronous results suspend coroutines until they have completed, in
-which case the method returns the corresponding `AsyncResult<T>` object.
+Vert.x 异步结果实例上的 `await` 扩展方法挂起协程直到异步操作完成，并返回一个关联的 `AsyncResult<T>` 对象。
 
 [source,kotlin,indent=0]
 ----
 include::Example.kt[tags=awaitingFuture]
 ----
 
-== Suspending extension methods
+[[Suspending extension methods]]
+== 挂起方法扩展
 
-Vert.x 3 generated extension methods to simplify writing coroutines with Vert.x asynchronous APIs. It relieved
-the user from using the idiomatic `awaitResult` and makes the code more natural and readable.
+为了简化使用 Vert.x 异步 API 的协程编写，Vert.x 3 生成了扩展方法。
+它让用户不必使用 `awaitResult` ，这使得代码更加简洁和可读。
 
-Since Vert.x 4 provides a future based API, such extension methods still exists for compatibility but
-are _deprecated_.
+由于 Vert.x 4 提供了基于 future 的 API，那些扩展方法仍会存在，但将被_弃用_。
 
 [source,kotlin,indent=0]
 ----
 include::Example.kt[tags=generatedSuspendingExtensionMethod]
 ----
 
-== Channels
+[[Channels]]
+== 通道
 
-Channels are similar to Java `BlockingQueue` except that they do not block and instead suspend the coroutine
-instead of blocking:
+通道接近 Java 的 `BlockingQueue`，不同之处在于它不是阻塞的，而是在如下情况中挂起协程：
 
-- sending a value to full channel suspends the coroutine
-- receving a value from an empty channels also suspends the coroutine
+- 向一个满了的通道中写入值
+- 从一个空的通道中读取值
 
-Vert.x `ReadStream` and `WriteStream` can be adapted to channels with the `toChannel` extension method.
+可以通过使用 `toChannel` 扩展方法使 Vert.x 的 `ReadStream` 和 `WriteStream` 适配到通道
 
-These adapters take care of managing the back-pressure and the stream termination
+这些适配器将会管理背压和流终止
 
-* `ReadStream<T>` is adapted to a `ReceiveChannel<T>`
-* `WriteStream<T>` is adapted to a `SendChannel<T>`
+* `ReadStream<T>` 适配到 `ReceiveChannel<T>`
+* `WriteStream<T>` 适配到 `SendChannel<T>`
 
-=== Receiving data
+[[Receiving data]]
+=== 接收数据
 
-Channel can be really useful when you need to handle a stream of correlated values:
+当需要处理流中互相关联的值时，通道真的很有用：
 
 [source,kotlin,indent=0]
 ----
 include::Example.kt[tags=channel0]
 ----
 
-It can also be useful for parsing protocols. We will build a non blocking HTTP request parser to show
-the power of channels.
+还有一个很有用的场景是解析协议时，我们将构建一个非阻塞的 HTTP 请求解析器来展示通道的强大。
 
-We will rely on the http://vertx.io/docs/apidocs/io/vertx/core/parsetools/RecordParser.html[`RecordParser`]
-to slice the stream of buffer to a stream of buffer delimited by `\r\n`.
+我们将依靠 http://vertx.io/docs/apidocs/io/vertx/core/parsetools/RecordParser.html[`RecordParser`] 来根据 `\r\n` 切分缓冲流。
 
-Here is the initial version of the parser, that handles only the HTTP request-line
+如下是一个初始版本的解析器，只处理 HTTP 的请求行
 
 [source,kotlin,indent=0]
 ----
 include::Example.kt[tags=channel1]
 ----
 
-Parsing the request-line is as simple as calling `receive` on the channel.
+解析请求行只需简单地在通道上调用 `receive`。
 
-The next step parses HTTP headers by receiving chunks until we get an empty one
+接下来接收分片并解析 HTTP 头，直到遇到一个空白行。
 
 [source,kotlin,indent=0]
 ----
 include::Example.kt[tags=channel2]
 ----
 
-Finally we terminate the parser by handling optional request bodies
+最终终止解析器来处理一个可选的请求体
 
 [source,kotlin,indent=0]
 ----
 include::Example.kt[tags=channel3]
 ----
 
-=== Sending data
+[[Sending data]]
+=== 发送数据
 
-Using a channel to send data is quite straightforward:
+使用通道发送数据非常简单清晰：
 
 [source,kotlin,indent=0]
 ----
@@ -206,55 +213,59 @@ include::Example.kt[tags=sendChannel]
 
 Both `SendChannel#send` and `WriteStream#write` are non blocking operations, however unlike `SendChannel#send`
 can suspend the execution when the channel is full, the equivalent without a channel would look like
+`SendChannel#send` 和 `WriteStream#write` 都是非阻塞操作，然而不同于 `SendChannel#send` 可以在通道满时暂停执行，不使用通道的情况看起来像
 
 [source,kotlin,indent=0]
 ----
 include::Example.kt[tags=sendChannel]
 ----
 
-== Delay, cancellation and timeouts
+[[Delay, cancellation and timeouts]]
+== 延迟，取消和超时
 
-Vertx dispatcher fully supports coroutine `delay` function via Vert.x timers:
+Vertx 分发器通过定时器为协程的 `delay` 函数提供完整的支持：
 
 [source,kotlin,indent=0]
 ----
 include::Example.kt[tags=delay]
 ----
 
-Timers support cancellation
+定时器支持取消
 
 [source,kotlin,indent=0]
 ----
 include::Example.kt[tags=cancellation]
 ----
 
-cancellation is https://github.com/Kotlin/kotlinx.coroutines/blob/master/coroutines-guide.md#cancellation-is-cooperative[cooperative]
+取消是https://github.com/Kotlin/kotlinx.coroutines/blob/master/coroutines-guide.md#cancellation-is-cooperative[协作的]
 
-You can also schedule timeout with the `withTimeout` function
+也可以使用 `withTimeout` 计划一个超时值
 
 [source,kotlin,indent=0]
 ----
 include::Example.kt[tags=withTimeout]
 ----
 
-== Coroutine builders
+[[Coroutine builders]]
+== 协程构建器
 
-Vert.x works will all coroutine builders, as long as an instance of `CoroutineScope` is available: `launch`, `async`,
-`produce', ... . A couple of important things to remember:
+Vert.x 适用于任何协程构建器，只要 `CoroutineScope` 实例是有效的：`launch`, `async`, `produce', ... . 一下重要事项必须被注意：
 
+- `runBlocking` 没有 `CoroutineScope` 因此禁止在 Vert.x 事件循环线程上只用。
 - The `runBlocking` doesn't need a `CoroutineScope` and must not be used from a Vert.x event loop thread.
-- To avoid memory leaks, always use `coroutineScope {..}` to define a child scope. In this way, if a coroutine fails
-inside the scope, all the others, defined inside that scope, will be cancelled too.
+- 为避免内存泄漏，总是使用 `coroutineScope {..}` 定义一个子作用域。在这种情况下，如果一个作用域中的协程失败，所有在该作用域中的协程都会被取消
 
-== Coroutine interoperability
+[[Coroutine interoperability]]
+== 协程互操作性
 
-Vert.x integration has been designed to be fully interoperable with Kotlin coroutines
+Vert.x 集成被设计成完全与 Kotlin 协程互操作的
 
 * `kotlinx.coroutines.experimental.sync.Mutex` are executed on the event loop thread when using the vertx dispatcher
+* 当使用 vertx 分发器时，`kotlinx.coroutines.experimental.sync.Mutex` 在事件循环线程上执行
 
-== RxJava interoperability
+[[RxJava interoperability]]
+== RxJava 互操作性
 
-The module `vertx-lang-kotlin-coroutines` does not have specific integration with RxJava however Kotlin coroutines
-provide integration with RxJava, which works out nicely with `vertx-lang-kotlin-coroutines`.
+模块 `vertx-lang-kotlin-coroutines` 没有与 RxJava 的特定集成，然而 Kotlin 协程提供了 RxJava 的集成，它与 `vertx-lang-kotlin-coroutines` 一同工作良好。
 
-You can read about it in the https://github.com/Kotlin/kotlinx.coroutines/blob/master/reactive/coroutines-guide-reactive.md[Guide to reactive streams with coroutines]
+可以在这里了解更多：https://github.com/Kotlin/kotlinx.coroutines/blob/master/reactive/coroutines-guide-reactive.md[Guide to reactive streams with coroutines]
