@@ -237,7 +237,7 @@ include::Example.kt[tags=delay]
 include::Example.kt[tags=cancellation]
 ----
 
-取消是https://github.com/Kotlin/kotlinx.coroutines/blob/master/coroutines-guide.md#cancellation-is-cooperative[协作的]
+取消是 https://github.com/Kotlin/kotlinx.coroutines/blob/master/coroutines-guide.md#cancellation-is-cooperative[协作的]
 
 也可以使用 `withTimeout` 计划一个超时值
 
