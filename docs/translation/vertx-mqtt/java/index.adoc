@@ -35,6 +35,7 @@ compile io.vertx:vertx-mqtt:4.0.0
 
 WARNING: 这个模块还处于技术预览阶段,这意味着它的API在接下来的版本中可能会改变
 
+[[_getting_started]]
 == 开始
 
 === 处理客户端连接/断开
