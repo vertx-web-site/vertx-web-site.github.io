@@ -425,6 +425,7 @@ IMPORTANT: 你的客户端默认情况下会自动保持与服务端的连接，
 options.setAutoKeepAlive(false);
 ----
 
+[[_be_notified_when]]
 === 通知时机
 * 发布完成
 +
