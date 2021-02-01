@@ -319,6 +319,7 @@ mqttServer.close(v -> {
 });
 ----
 
+[[_automatic_clean_up_in_verticles]]
 === 在verticles中自动清理
 
 如果你是在verticles内部创建的MQTT服务端，当verticle卸载时这些服务端会被自动关闭。
