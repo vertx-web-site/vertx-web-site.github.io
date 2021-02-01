@@ -411,6 +411,7 @@ client.publish("temperature",
 ----
 在这个示例中我们发布了消息到名称为 “temperature” 的主题上去。
 
+[[_keep_connection_with_server_alive]]
 === 与服务端保持连接
 为了保持与服务端的连接，你需要时不时地发送一些数据到服务端，否则服务端可能会断开连接。
 使用 `link:../../apidocs/io/vertx/mqtt/MqttClient.html#ping--[ping]` 方法来保持连接是一个不错的选择。
