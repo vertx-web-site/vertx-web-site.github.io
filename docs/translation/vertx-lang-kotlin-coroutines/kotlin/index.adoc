@@ -52,8 +52,8 @@ include::Example.kt[tags=launchCoroutine]
 
 你可以将代码部署为 `io.vertx.kotlin.coroutines.CoroutineVerticle` 的一个实例，它是专为 Kotlin 协程准备的一个特殊类型的 Verticle。
 `CoroutineVerticle` 类实现了 `kotlinx.coroutines.experimental.CoroutineScope` 接口，所有协程构建器都默认绑定到 Verticle 的上下文。
-应当重写 Verticle 中挂起的 `start()` 方法，重写挂起的 `stop()` 
-方法是可选的：
+应当重写 Verticle 中挂起的 `start()` 方法，可选重写挂起的 
+`stop()` 方法：
 
 [source,kotlin,indent=0]
 ----
