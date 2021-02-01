@@ -324,6 +324,7 @@ mqttServer.close(v -> {
 
 如果你是在verticles内部创建的MQTT服务端，当verticle卸载时这些服务端会被自动关闭。
 
+[[_scaling_sharing_mqtt_servers]]
 === 扩展：共享MQTT服务器
 
 与MQTT服务器相关的handler总是在同一个event loop线程中执行。这意味着在一个多核系统中，仅有一个实例被部署，一个核被使用。
