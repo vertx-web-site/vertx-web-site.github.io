@@ -83,7 +83,6 @@ include::Example.kt[tags=awaitResult]
 
 当块中的代码产生了一个失败时，调用者可以通过
 `try`/`catch` 结构像处理一个普通的异常一样进行处理。
-`try`/`catch` constructs:
 
 [source,kotlin,indent=0]
 ----
