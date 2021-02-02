@@ -248,7 +248,6 @@ include::Example.kt[tags=withTimeout]
 Vert.x 适用于任何协程构建器，只要 `CoroutineScope` 实例是有效的：`launch` ， `async` ， `produce` …… 。 以下重要事项必须被注意：
 
 - `runBlocking` 没有 `CoroutineScope` 因此禁止在 Vert.x 事件循环线程上只用。
-- The `runBlocking` doesn't need a `CoroutineScope` and must not be used from a Vert.x event loop thread.
 - 为避免内存泄漏，总是使用 `coroutineScope {..}` 定义一个子作用域。在这种情况下，如果一个作用域中的协程失败，所有在该作用域中的协程都会被取消
 
 [[_coroutine_interoperability]]
