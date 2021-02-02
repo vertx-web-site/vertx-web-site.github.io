@@ -65,7 +65,7 @@ include::Example.kt[tags=CoroutineVerticle]
 [[_getting_one_shot_asynchronous_results]]
 == 单次获取异步执行的结果
 
-Vert.x 中的许多异步操作的最后一个参数是一个 `Handler<AsyncResult<T>>`。
+Vert.x 中的许多异步操作的最后一个参数是一个 `Handler<AsyncResult<T>>` 。
 比如在通过 Vert.x Mongo 客户端获取一个对象，或者在事件总线上发送一条消息并等待回复的时候。
 
 可以通过 `awaitResult` 方法来返回值或者抛出一个异常。
