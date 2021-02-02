@@ -140,7 +140,7 @@ include::Example.kt[tags=awaitingFuture]
 为了简化使用 Vert.x 异步 API 的协程编写，Vert.x 3 生成了扩展方法。
 它让用户不必使用 `awaitResult` ，这使得代码更加简洁和可读。
 
-由于 Vert.x 4 提供了基于 future 的 API，那些扩展方法仍会存在，但将被_弃用_。
+由于 Vert.x 4 提供了基于 future 的 API，那些扩展方法仍会存在，但将被 _弃用_ 。
 
 [source,kotlin,indent=0]
 ----
