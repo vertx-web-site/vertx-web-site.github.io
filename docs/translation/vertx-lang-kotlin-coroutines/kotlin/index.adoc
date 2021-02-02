@@ -263,4 +263,4 @@ Vert.x 集成被设计成完全与 Kotlin 协程互操作的
 
 模块 `vertx-lang-kotlin-coroutines` 没有与 RxJava 的特定集成，然而 Kotlin 协程提供了 RxJava 的集成，它与 `vertx-lang-kotlin-coroutines` 一同工作良好。
 
-可以在这里了解更多：https://github.com/Kotlin/kotlinx.coroutines/blob/master/reactive/coroutines-guide-reactive.md[Guide to reactive streams with coroutines]
+可以在这里了解更多： https://github.com/Kotlin/kotlinx.coroutines/blob/master/reactive/coroutines-guide-reactive.md[Guide to reactive streams with coroutines]
