@@ -183,7 +183,7 @@ include::Example.kt[tags=channel0]
 include::Example.kt[tags=channel1]
 ----
 
-解析请求行只需简单地在通道上调用 `receive`。
+解析请求行只需简单地在通道上调用 `receive` 。
 
 接下来接收分片并解析 HTTP 头，直到遇到一个空白行。
 
