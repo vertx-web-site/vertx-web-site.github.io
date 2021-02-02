@@ -43,7 +43,6 @@ include::Example.kt[tags=launchCoroutine]
 
 `awaitEvent` 函数挂起了协程，当定时器超时时协程会通过被提供的 handler
 恢复执行。
- with the value that was given to the handler.
 
 下一章节会提供更多有关 handler, 事件和流事件的信息。
 
