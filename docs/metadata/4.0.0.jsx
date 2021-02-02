@@ -130,7 +130,7 @@ docs.entries.push({
 docs.entries.push({
     id: "vertx-lang-kotlin-coroutines",
     name: "Kotlin 协程",
-    description: "Vert.x 对 Kotlin 协程的支持，提供如 async/await 或 类似 Go 通道的强大支持。使您可以如熟悉的顺序风格一样编写 Verticle 代码",
+    description: "Vert.x 对 Kotlin 协程的支持，提供如 async/await 或 类似 Go 通道的强大支持。由此您可用熟悉的顺序风格编写 Verticle 代码。",
     category: "kotlin",
     href: "/vertx-lang-kotlin-coroutines/kotlin/",
     repository: "https://github.com/vert-x3/vertx-lang-kotlin",
