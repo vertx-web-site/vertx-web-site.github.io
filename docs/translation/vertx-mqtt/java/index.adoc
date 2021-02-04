@@ -245,7 +245,7 @@ endpoint.publishHandler(message -> {
 可以使用 `link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html#publish-java.lang.String-io.vertx.core.buffer.Buffer-io.netty.handler.codec.mqtt.MqttQoS-boolean-boolean-[publish]` 方法发布一个消息到远程客户端，该方法需要补充一下参数：
 发布主题，消息载荷，Qos等级，复制和保留标识。
 
-如果Qos等级是 0(AT_MOST_ONCE),endpoint 就不会收到任何客户端的响应
+如果Qos等级是 0（AT_MOST_ONCE），endpoint 就不会收到任何客户端的响应
 
 如果Qos等级是 1（AT_LEAST_ONCE），endpoint需要处理客户端的PUBACK消息,为了收到最后的确认消息，需要使用 `link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html#publishAcknowledgeHandler-io.vertx.core.Handler-[publishAcknowledgeHandler]` 指定一个handler来接收。
 
