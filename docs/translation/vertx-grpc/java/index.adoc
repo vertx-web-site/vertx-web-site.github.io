@@ -1,30 +1,50 @@
 = Vert.x gRPC
 
-The best description of gRPC can be seen at wikipedia.
+//The best description of gRPC can be seen at wikipedia.
+可以在维基百科看到对gRPC全面的介绍
 
+//[quote, wikipedia, wikipedia]
+//____
+//gRPC is an open source remote procedure call (RPC) system initially developed at Google. It uses HTTP/2 for
+//transport, Protocol Buffers as the interface description language, and provides features such as authentication,
+//bidirectional streaming and flow control, blocking or nonblocking bindings, and cancellation and timeouts. It
+//generates cross-platform client and server bindings for many languages.
+//____
 [quote, wikipedia, wikipedia]
-____
-gRPC is an open source remote procedure call (RPC) system initially developed at Google. It uses HTTP/2 for
-transport, Protocol Buffers as the interface description language, and provides features such as authentication,
-bidirectional streaming and flow control, blocking or nonblocking bindings, and cancellation and timeouts. It
-generates cross-platform client and server bindings for many languages.
-____
+----
+gRPC是一个由谷歌开发的开源远程方法调用（RPC）系统。它用HTTP/2协议
+传输信息，以协议Buffer作为接口描述语言，它提供一些特性，例如认证、
+双向streming和flow的控制，阻塞或非阻塞绑定，和
+撤销、超时操作。它
+为很多语言生成跨平台客户端和服务端。
+----
 
-Vert.x gRPC is a module that will align the programming style of Google gRPC with Vert.x style. As a user of this
-module you will be more familiar with the code style using Vert.x Streams and Futures while benefiting from all the
-benefits of gRPC.
+//Vert.x gRPC is a module that will align the programming style of Google gRPC with Vert.x style. As a user of this
+//module you will be more familiar with the code style using Vert.x Streams and Futures while benefiting from all the
+//benefits of gRPC.
+Vert.x gRPV是一个将谷歌风格gRPC编程风格对应到Vert.x风格的模块。作为这个模块的用户，
+您会更加习惯于用Vert.x Streams和Futures的编码风格从而体验到
+gRPC的好处
 
-For more information related to gRPC please consult the official documentation site http://www.grpc.io/.
+//For more information related to gRPC please consult the official documentation site http://www.grpc.io/.
+更多关于gRPC的信息请查看官方文档 http://www.grpc.io/ 。
 
-In addition Vert.x gRPC supports
+//In addition Vert.x gRPC supports
+Vert.x gRPC 额外支持：
 
-* gRPC service scaling with Verticles
-* non-blocking native transports
+//* gRPC service scaling with Verticles
+//* non-blocking native transports
+* 用Verticle横向扩展gRPC服务
+* 非阻塞的本地传输
 
-== gRPC types
+//== gRPC types
+[[_grpc_types]]
+== gRPC类型
 
-With gRPC you benefit from HTTP/2 which means that you will have asynchronous streaming support which means that your
-Remote Procedure Calls can have the following characteristics:
+//With gRPC you benefit from HTTP/2 which means that you will have asynchronous streaming support which means that your
+//Remote Procedure Calls can have the following characteristics:
+用gRPC，您将受益于HTTP/2协议，这意味着您会获得异步流的支持，
+同时您的远程方法调用会有如下特性：
 
 * Client streams request objects while Server replies with a single response object
 * Client streams request objects while Server replies with a stream of response objects
