@@ -257,7 +257,8 @@ VertxGreeterGrpc.GreeterVertxImplBase service =
 [[_server_gzip_compression]]
 ==== 服务 gzip 压缩
 
-您可以启用gzip压缩来告诉服务端来返回压缩的响应（服务器会自动处理压缩过的请求）
+您可以启用gzip压缩来告诉服务端来返回压缩的响应
+（服务器会自动处理压缩过的请求）
 
 [source,java]
 ----
