@@ -318,7 +318,7 @@ const entries = [
   {
     id: "vertx-mqtt",
     name: "MQTT",
-    description: "A client and server for MQTT, compliant with MQTT 3.1.1.",
+    description: "一款 MQTT 客户端和服务器，兼容 MQTT 3.1.1 。",
     category: "mqtt",
     href: "/vertx-mqtt/java/",
     repository: "https://github.com/vert-x3/vertx-mqtt",
@@ -609,7 +609,7 @@ const entries = [
   {
     id: "vertx-grpc",
     name: "gRPC",
-    description: "Implement gRPC clients and servers with Vert.x.",
+    description: "使用 Vert.x 实现的 gRPC 客户端和服务器。",
     category: "services",
     href: "/vertx-grpc/java/",
     repository: "https://github.com/vert-x3/vertx-grpc",
