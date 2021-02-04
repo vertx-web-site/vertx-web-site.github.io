@@ -528,7 +528,6 @@ stub.sayHello(request, new StreamObserver<HelloReply>() {
 </protocPlugin>
 ```
 
-which can be more convenient in the Vert.x ecosystem.
 它用Vert.x的异步架构（ 例如 `Future` 或 `ReadStream` 或 `WriteStream` ）生成客户端版本，这样在Vert.x生态中更加方便。
 
 [source,java]
