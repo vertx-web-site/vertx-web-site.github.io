@@ -1,6 +1,6 @@
 == Vert.x for Kotlin
 
-如果你使用 Maven 或者 Gradle， 可以通过将以下依赖添加到项目描述中的 _dependencies_ 节来使用 
+如果你使用 Maven 或者 Gradle， 可以通过添加以下依赖来使用 
 Vert.x 核心 API 以及启用 JavaScript 支持：
 
 * Maven (in your `pom.xml`):
@@ -31,7 +31,7 @@ compile "io.vertx:vertx-lang-kotlin:4.0.0"
 
 === Writing Verticles
 
-使用 Kotlin 编写一个 Verticle 的方式与 Java 相同，继承 `link:../../apidocs/io/vertx/core/AbstractVerticle.html[AbstractVerticle]`
+使用 Kotlin 编写一个 Verticle 的方式与 Java 相同，即继承 `link:../../apidocs/io/vertx/core/AbstractVerticle.html[AbstractVerticle]`
 类即可。
 
 示例如下：
@@ -82,9 +82,9 @@ val options = httpServerOptionsOf(idleTimeout = 5, idleTimeoutUnit = TimeUnit.MI
 不像其他语言， Java 没有为 http://json.org/[JSON] 提供一等公民的支持，
 所以我们提供了两个类，使 Vert.x 应用中使用 JSON 更加容易
 
-`link:../../apidocs/io/vertx/core/json/JsonObject.html[JsonObject]` 类用来表达 JSON 对象，
+`link:../../apidocs/io/vertx/core/json/JsonObject.html[JsonObject]` 类用来表示 JSON 对象，
 `link:../../apidocs/io/vertx/core/json/JsonArray.html[JsonArray]`
-类用来表达数组，可以参考 Java 文档获得更多信息。
+类用来表示数组，可以参考 Java 文档获得更多信息。
 
 [[builders]]
 === 构建器
@@ -93,7 +93,7 @@ val options = httpServerOptionsOf(idleTimeout = 5, idleTimeoutUnit = TimeUnit.MI
 
 [source, kotlin]
 ----
-// 这个 json 构建器用于构建 JSON 结构
+// 该 json 建造器声明了一个 JSON 结构
 val result = json {
 
  // 在该块中可以使用 `obj` 函数
@@ -124,15 +124,15 @@ val result = json {
 
 [source, kotlin]
 ----
-// 这个 json 构建器用于构建 JSON 结构
+// 这个 json 构建器用于声明 JSON 结构
 val result = json {
 
  // 在这个块中可以使用 array 函数
 
- // 直接用值作为变长参数
+ // 直接用变长的值数组作为参数
  array("1", "2", "3")
 
- // 一个值的可迭代对象
+ // 一个可迭代的值集合
  array((1..3).map { "$it" })
 
  // apply function on array receiver
@@ -148,7 +148,7 @@ val result = json {
 
 [source, kotlin]
 ----
-// 这个 json 构建器用于构建 JSON 结构
+// 这个 json 构建器用于声明 JSON 结构
 val result = json {
 
  "firstName" to "Dale",
