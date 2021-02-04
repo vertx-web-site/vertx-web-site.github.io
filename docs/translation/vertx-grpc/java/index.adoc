@@ -123,7 +123,9 @@ message HelloReply {
 </plugin>
 ----
 
-`${os.detected.classifier}` 属性在构建时用来区分操作系统，在苹果系统（OSX）中，需要替换为 _osx-x86_64_ ，其他同理。要使用它，您需要在 `pom.xml` 文件中添加 os-maven-plugin[https://github.com/trustin/os-maven-plugin] 插件：
+`${os.detected.classifier}` 属性在构建时用来区分操作系统，在苹果系统（OSX）中，
+需要替换为 _osx-x86_64_ ，其他同理。要使用它，您需要在 `pom.xml` 文件中添加 https://github.com/trustin/os-maven-plugin[os-maven-plugin] 
+插件：
 
 [source,xml]
 ----
