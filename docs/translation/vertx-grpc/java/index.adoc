@@ -556,6 +556,7 @@ GreeterGrpc.GreeterStub stub = GreeterGrpc
 
 NOTE: 只要客户端支持，您可以使用任何其他的压缩器，他们在构建 `ManagedChannel` 时被注册。
 
+[[_ssl_configuration]]
 ==== SSL 配置
 
 如果您先前启用了SSL，那么您的客户端也必须用SSL，我们需要像如下配置channel：
