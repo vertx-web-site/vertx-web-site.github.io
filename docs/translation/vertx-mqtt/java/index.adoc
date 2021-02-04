@@ -209,7 +209,7 @@ endpoint.unsubscribeHandler(unsubscribe -> {
 这个handler接收一个 `link:../../apidocs/io/vertx/mqtt/messages/MqttPublishMessage.html[MqttPublishMessage]` 类型的实例作为参数，该实例
 包含了载荷信息，QoS等级以及复制和保留标识。
 
-如果Qos等级是 0(AT_MOST_ONCE),endpoint就没有必要回复客户端了。
+如果Qos等级是 0（AT_MOST_ONCE），endpoint就没有必要回复客户端了。
 
 如果Qos等级是 1(AT_LEAST_ONCE),endpoint 需要使用`link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html#publishAcknowledge-int-[publishAcknowledge]`方法回复一个PUBACK消息给客户端
 
