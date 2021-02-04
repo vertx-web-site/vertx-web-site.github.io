@@ -275,7 +275,9 @@ VertxGreeterGrpc.GreeterVertxImplBase service =
     .withCompression("gzip");
 ----
 
-`withCompression` 配置是由Vert.x gRPC protoc 插件生成。您也可以在默认服务上启用压缩功能（将 `ResponseObserver` 转换成 `ServerCallStreamObserver` 并在响应之前调用 `setCompression` ）
+`withCompression` 配置是由Vert.x gRPC protoc 插件生成。
+您也可以在默认服务上启用压缩功能
+（将 `ResponseObserver` 转换成 `ServerCallStreamObserver` 并在响应之前调用 `setCompression` ）
 
 [source,java]
 ----
