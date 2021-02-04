@@ -305,7 +305,7 @@ NOTE: 只要服务端支持，您可以使用任何其他的压缩器，在构�
 [[_ssl_configuration]]
 ==== SSL 配置
 
-前一个例子很简单，但是您的RPC不安全。为了让RPC更安全，我们应该启用SSL/TLS：
+前一个例子很简单，但您的RPC并不安全。为了让RPC更安全，我们应该启用SSL/TLS：
 
 [source,java]
 ----
