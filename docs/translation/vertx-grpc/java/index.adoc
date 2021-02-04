@@ -527,7 +527,6 @@ stub.sayHello(request, new StreamObserver<HelloReply>() {
 </protocPlugin>
 ```
 
-This generates a client version that uses Vert.x asynchronous constructs such as `Future` or `ReadStream` or `WriteStream`
 which can be more convenient in the Vert.x ecosystem.
 它用Vert.x的异步架构（ 例如 `Future` 或 `ReadStream` 或 `WriteStream` ）生成客户端版本，这样在Vert.x生态中更加方便。
 
