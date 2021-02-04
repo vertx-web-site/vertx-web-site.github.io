@@ -247,7 +247,7 @@ endpoint.publishHandler(message -> {
 
 如果Qos等级是 0(AT_MOST_ONCE),endpoint 就不会收到任何客户端的响应
 
-如果Qos等级是 1(AT_LEAST_ONCE), endpoint需要处理客户端的PUBACK消息,为了收到最后的确认消息，需要使用 `link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html#publishAcknowledgeHandler-io.vertx.core.Handler-[publishAcknowledgeHandler]` 指定一个handler来接收。
+如果Qos等级是 1（AT_LEAST_ONCE），endpoint需要处理客户端的PUBACK消息,为了收到最后的确认消息，需要使用 `link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html#publishAcknowledgeHandler-io.vertx.core.Handler-[publishAcknowledgeHandler]` 指定一个handler来接收。
 
 如果Qos等级是 2(EXACTLY_ONCE)， endpoint 需要处理客户端的PUBREC消息，可以通过 `link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html#publishReceivedHandler-io.vertx.core.Handler-[publishReceivedHandler]` 方法指定一个handler来实现。
 在这个handler内，endpoint 可以使用 `link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html#publishRelease-int-[publishRelease]` 方法回复客户端 PUBREL 消息。最后一步是处理来自客户端的PUBCOMP消息作为已发布消息的最终确认。
