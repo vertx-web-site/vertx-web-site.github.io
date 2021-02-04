@@ -74,7 +74,7 @@ message HelloReply {
 [[_compile_the_rpc_definition]]
 === 编译RPC的定义
 
-要用前述的定义，那么我们需要编译它。
+要用前述的定义，那么我们需要将其编译。
 
 如果您 https://github.com/google/protobuf/tree/master/java#installation---without-maven[喜欢] ，您可以用 `protoc` 编译器来编译原始文件，您也可以添加如下依赖：
 
