@@ -358,7 +358,7 @@ vertx.deployVerticle("com.mycompany.MyVerticle", options);
 ----
 
 实际上，尽管仅有一个MQTT服务器被部署，
-但是当传入的连接到达时，会被Vert.x使用轮转算法分发到不同的核上运行的handlers上。
+但是当传入的连接到达时，会被Vert.x使用轮转算法分发到不同的核上运行的处理器（handlers）上。
 
 [[_vert_x_mqtt_client]]
 = Vert.x MQTT 客户端
