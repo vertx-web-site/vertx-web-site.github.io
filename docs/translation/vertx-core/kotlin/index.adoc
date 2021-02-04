@@ -135,7 +135,7 @@ val result = json {
  // 一个可迭代的值集合
  array((1..3).map { "$it" })
 
- // apply function on array receiver
+ // 在对象接收者上附加函数
  array {
    for (i in 1..3) {
      add("$i")
