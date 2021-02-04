@@ -180,7 +180,6 @@ protobuf {
 }
 ----
 
-This plugin will compile your proto files under `build/generated/source/proto/main` and make them available to your project.
 这个插件会编译 `build/generated/source/proto/main` 目录下的原始文件，然后使其对项目可用。
 
 //=== gRPC Server
