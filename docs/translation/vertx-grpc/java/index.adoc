@@ -182,7 +182,6 @@ protobuf {
 
 这个插件会编译 `build/generated/source/proto/main` 目录下的原始文件，然后使其对项目可用。
 
-//=== gRPC Server
 [[_grpc_server]]
 === gRPC 服务
 
