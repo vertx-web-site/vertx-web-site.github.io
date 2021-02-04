@@ -300,7 +300,7 @@ GreeterGrpc.GreeterImplBase service = new GreeterGrpc.GreeterImplBase() {
 };
 ----
 
-NOTE: 只要服务端支持，您可以使用任何其他的压缩器，他们在构建 `ManagedChannel` 时被注册。
+NOTE: 只要服务端支持，您可以使用任何其他的压缩器，在构建 `ManagedChannel` 时注册它们。
 
 [[_ssl_configuration]]
 ==== SSL 配置
