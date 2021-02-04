@@ -318,7 +318,7 @@ VertxServerBuilder builder = VertxServerBuilder.forPort(vertx, 8080)
       .setPassword("secret")));
 ----
 
-恭喜，您拥有了第一个gRPC服务。
+恭喜您拥有了第一个gRPC服务。
 
 IMPORTANT: 因为gRPC用HTTP/2作为传输协议，SSL/TLS服务的启用必须拥有 https://wikipedia.org/wiki/Application-Layer_Protocol_Negotiation[Application-Layer Protocol Negotiation]
 
