@@ -36,7 +36,14 @@ NOTE: `vertx-lang-kotlin-coroutines` 目前仅在 Kotlin 下工作，并且将�
 
 [source,kotlin,indent=0]
 ----
-include::Example.kt[tags=launchCoroutine]
+val vertx = Vertx.vertx()
+
+GlobalScope.launch(vertx.dispatcher()) {
+  val timerId = awaitEvent<Long> { handler ->
+    vertx.setTimer(1000, handler)
+  }
+  println("Event fired from timer with id $timerId")
+}
 ----
 
 `vertx.dispatcher()` 返回了一个协程分发器，以便让协程运行在 Vert.x 的事件循环上。
@@ -51,12 +58,20 @@ include::Example.kt[tags=launchCoroutine]
 
 你可以将代码部署为 `io.vertx.kotlin.coroutines.CoroutineVerticle` 的一个实例，它是专为 Kotlin 协程准备的一个特殊类型的 Verticle。
 `CoroutineVerticle` 类实现了 `kotlinx.coroutines.experimental.CoroutineScope` 接口，所有协程构建器都默认绑定到 Verticle 的上下文。
-应当重写 Verticle 中挂起的 `start()` 方法，可选重写挂起的 
+应当重写 Verticle 中挂起的 `start()` 方法，可选重写挂起的
 `stop()` 方法：
 
 [source,kotlin,indent=0]
 ----
-include::Example.kt[tags=CoroutineVerticle]
+class MyVerticle : CoroutineVerticle() {
+  override suspend fun start() {
+    // ...
+  }
+
+  override suspend fun stop() {
+    // ...
+  }
+}
 ----
 
 以上所有的代码都被假设运行在一个 `CoroutineVerticle` 实现中，但是也可以通过替换所有的 `<builder> { .. }` 为
@@ -78,7 +93,19 @@ Vert.x 中的许多异步操作的最后一个参数是一个 `Handler<AsyncResu
 
 [source,kotlin,indent=0]
 ----
-include::Example.kt[tags=awaitResult]
+suspend fun awaitResultExample() {
+  val consumer = vertx.eventBus().localConsumer<String>("a.b.c")
+  consumer.handler { message ->
+    println("Consumer received: ${message.body()}")
+    message.reply("pong")
+  }
+
+  // Send a message and wait for a reply
+  val reply = awaitResult<Message<String>> { h ->
+    vertx.eventBus().request("a.b.c", "ping", h)
+  }
+  println("Reply received: ${reply.body()}")
+}
 ----
 
 当块中的代码产生了一个失败时，调用者可以通过
@@ -86,7 +113,23 @@ include::Example.kt[tags=awaitResult]
 
 [source,kotlin,indent=0]
 ----
-include::Example.kt[tags=awaitResultFailure]
+suspend fun awaitResultFailureExample() {
+  val consumer = vertx.eventBus().localConsumer<String>("a.b.c")
+  consumer.handler { message ->
+    // The consumer will get a failure
+    message.fail(0, "it failed!!!")
+  }
+
+  // Send a message and wait for a reply
+  try {
+    awaitResult<Message<String>> { h ->
+      vertx.eventBus().request("a.b.c", "ping", h)
+    }
+  } catch (e: ReplyException) {
+    // Handle specific reply exception here
+    println("Reply failure: ${e.message}")
+  }
+}
 ----
 
 [[_getting_one_shot_events]]
@@ -96,7 +139,10 @@ include::Example.kt[tags=awaitResultFailure]
 
 [source,kotlin,indent=0]
 ----
-include::Example.kt[tags=awaitEvent]
+suspend fun awaitEventExample() {
+  val id = awaitEvent<Long> { h -> vertx.setTimer(2000L, h) }
+  println("This should be fired in 2s by some time with id=$id")
+}
 ----
 
 [[_getting_one_shot_worker_results]]
@@ -106,7 +152,12 @@ include::Example.kt[tags=awaitEvent]
 
 [source,kotlin,indent=0]
 ----
-include::Example.kt[tags=awaitBlocking]
+suspend fun awaitBlockingExample() {
+  awaitBlocking {
+    Thread.sleep(1000)
+    "some-string"
+  }
+}
 ----
 
 [[_streams_of_events]]
@@ -119,7 +170,19 @@ Vert.x API 有许多地方使用处理器（handlers）处理事件流。
 
 [source,kotlin,indent=0]
 ----
-include::Example.kt[tags=streamExample]
+suspend fun streamExample() {
+  val adapter = vertx.receiveChannelHandler<Message<Int>>()
+  vertx.eventBus().localConsumer<Int>("a.b.c").handler(adapter)
+
+  // Send 15 messages
+  for (i in 0..15) vertx.eventBus().send("a.b.c", i)
+
+  // Receive the first 10 messages
+  for (i in 0..10) {
+    val message = adapter.receive()
+    println("Received: ${message.body()}")
+  }
+}
 ----
 
 [[_awaiting_the_completion_of_vert_x_asynchronous_results]]
@@ -131,7 +194,23 @@ Vert.x 异步结果实例上的 `await` 扩展方法挂起协程直到异步操�
 
 [source,kotlin,indent=0]
 ----
-include::Example.kt[tags=awaitingFuture]
+suspend fun awaitingFuture(anotherFuture: Future<String>) {
+  // Getting a future
+  val httpServerFuture = vertx.createHttpServer()
+    .requestHandler { req -> req.response().end("Hello!") }
+    .listen(8000)
+
+  val httpServer = httpServerFuture.await()
+  println("HTTP server port: ${httpServer.actualPort()}")
+
+  // It also works for composite futures
+  val result = CompositeFuture.all(httpServerFuture, anotherFuture).await()
+  if (result.succeeded()) {
+    println("The server is now running!")
+  } else {
+    result.cause().printStackTrace()
+  }
+}
 ----
 
 [[_suspending_extension_methods]]
@@ -145,7 +224,11 @@ include::Example.kt[tags=awaitingFuture]
 
 [source,kotlin,indent=0]
 ----
-include::Example.kt[tags=generatedSuspendingExtensionMethod]
+suspend fun generatedSuspendingExtensionMethod() {
+  // Use the extension instead of wrapping with awaitResult
+  val client = vertx.createNetClient()
+  val socket = client.connect(1234, "localhost").await()
+}
 ----
 
 [[_channels]]
@@ -170,7 +253,23 @@ include::Example.kt[tags=generatedSuspendingExtensionMethod]
 
 [source,kotlin,indent=0]
 ----
-include::Example.kt[tags=channel0]
+suspend fun handleTemperatureStream() {
+  val stream = vertx.eventBus().consumer<Double>("temperature")
+  val channel = stream.toChannel(vertx)
+
+  var min = Double.MAX_VALUE
+  var max = Double.MIN_VALUE
+
+  // Iterate until the stream is closed
+  // Non-blocking
+  for (msg in channel) {
+    val temperature = msg.body()
+    min = Math.min(min, temperature)
+    max = Math.max(max, temperature)
+  }
+
+  // The stream is now closed
+}
 ----
 
 还有一个很有用的场景是解析协议时，我们将构建一个非阻塞的 HTTP 请求解析器来展示通道的强大。
@@ -181,7 +280,28 @@ include::Example.kt[tags=channel0]
 
 [source,kotlin,indent=0]
 ----
-include::Example.kt[tags=channel1]
+vertx.createNetServer().connectHandler { socket ->
+
+  // The record parser provides a stream of buffers delimited by \r\n
+  val stream = RecordParser.newDelimited("\r\n", socket)
+
+  // Convert the stream to a Kotlin channel
+  val channel = stream.toChannel(vertx)
+
+  // Run the coroutine
+  launch {
+
+    // Receive the request-line
+    // Non-blocking
+    val line = channel.receive().toString().split(" ")
+    val method = line[0]
+    val uri = line[1]
+
+    println("Received HTTP request ($method, $uri)")
+
+    // Still need to parse headers and body...
+  }
+}
 ----
 
 解析请求行只需简单地在通道上调用 `receive` 。
@@ -190,14 +310,76 @@ include::Example.kt[tags=channel1]
 
 [source,kotlin,indent=0]
 ----
-include::Example.kt[tags=channel2]
+// Receive HTTP headers
+val headers = HashMap<String, String>()
+while (true) {
+
+  // Non-blocking
+  val header = channel.receive().toString()
+
+  // Done with parsing headers
+  if (header.isEmpty()) {
+    break
+  }
+
+  val pos = header.indexOf(':')
+  headers[header.substring(0, pos).toLowerCase()] = header.substring(pos + 1).trim()
+}
+
+println("Received HTTP request ($method, $uri) with headers ${headers.keys}")
 ----
 
 最终我们用处理一个可选的请求体来终止解析器
 
 [source,kotlin,indent=0]
 ----
-include::Example.kt[tags=channel3]
+// Receive the request body
+val transferEncoding = headers["transfer-encoding"]
+val contentLength = headers["content-length"]
+
+val body: Buffer?
+if (transferEncoding == "chunked") {
+
+  // Handle chunked encoding, e.g
+  // 5\r\n
+  // HELLO\r\n
+  // 0\r\n
+  // \r\n
+
+  body = Buffer.buffer()
+  while (true) {
+
+    // Parse length chunk
+    // Non-blocking
+    val len = channel.receive().toString().toInt(16)
+    if (len == 0) {
+      break
+    }
+
+    // The stream is flipped to parse a chunk of the exact size
+    stream.fixedSizeMode(len + 2)
+
+    // Receive the chunk and append it
+    // Non-blocking
+    val chunk = channel.receive()
+    body.appendBuffer(chunk, 0, chunk.length() - 2)
+
+    // The stream is flipped back to the \r\n delimiter to parse the next chunk
+    stream.delimitedMode("\r\n")
+  }
+} else if (contentLength != null) {
+
+  // The stream is flipped to parse a body of the exact size
+  stream.fixedSizeMode(contentLength.toInt())
+
+  // Non-blocking
+  body = channel.receive()
+} else {
+  body = null
+}
+
+val bodySize = body?.length() ?: 0
+println("Received HTTP request ($method, $uri) with headers ${headers.keys} and body with size $bodySize")
 ----
 
 [[_sending_data]]
@@ -207,7 +389,20 @@ include::Example.kt[tags=channel3]
 
 [source,kotlin,indent=0]
 ----
-include::Example.kt[tags=sendChannel]
+suspend fun sendChannel(httpResponse: HttpServerResponse) {
+  val channel = httpResponse.toChannel(vertx)
+
+  while (true) {
+    val buffer = readBuffer()
+
+    // Broadcast the temperature
+    // Non-blocking but could be suspended
+    channel.send(buffer)
+
+    // Wait for one second
+    awaitEvent<Long> { vertx.setTimer(1000, it) }
+  }
+}
 ----
 
 `SendChannel#send` 和 `WriteStream#write` 都是非阻塞操作，然而不同于
@@ -215,7 +410,24 @@ include::Example.kt[tags=sendChannel]
 
 [source,kotlin,indent=0]
 ----
-include::Example.kt[tags=sendChannel]
+// Check we can write in the stream
+if (httpResponse.writeQueueFull()) {
+
+  // We can't write so we set a drain handler to be called when we can write again
+  httpResponse.drainHandler { broadcastTemperature(httpResponse) }
+} else {
+
+  // Read temperature
+  val temperature = readBuffer()
+
+  // Write it to the stream
+  httpResponse.write(temperature)
+
+  // Wait for one second
+  vertx.setTimer(1000) {
+    broadcastTemperature()
+  }
+}
 ----
 
 [[_delay_cancellation_and_timeouts]]
@@ -225,14 +437,26 @@ Vertx 分发器通过定时器为协程的 `delay` 函数提供完整的支持�
 
 [source,kotlin,indent=0]
 ----
-include::Example.kt[tags=delay]
+launch {
+  // Set a one second Vertx timer
+  delay(1000)
+}
 ----
 
 定时器支持取消
 
 [source,kotlin,indent=0]
 ----
-include::Example.kt[tags=cancellation]
+val job = launch {
+  // Set a one second Vertx timer
+  while (true) {
+    delay(1000)
+    // Do something periodically
+  }
+}
+
+// Sometimes later
+job.cancel()
 ----
 
 取消操作是 https://github.com/Kotlin/kotlinx.coroutines/blob/master/coroutines-guide.md#cancellation-is-cooperative[协作的]
@@ -241,7 +465,15 @@ include::Example.kt[tags=cancellation]
 
 [source,kotlin,indent=0]
 ----
-include::Example.kt[tags=withTimeout]
+launch {
+  try {
+    val id = withTimeout<String>(1000) {
+      awaitEvent { anAsyncMethod(it) }
+    }
+  } catch (e: TimeoutCancellationException) {
+    // Cancelled
+  }
+}
 ----
 
 [[_coroutine_builders]]
