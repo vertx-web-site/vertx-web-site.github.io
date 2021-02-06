@@ -17,7 +17,7 @@ To use this module, add the following to the _dependencies_ section of your Mave
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-web-graphql</artifactId>
- <version>4.0.0</version>
+ <version>4.0.2</version>
 </dependency>
 ----
 
@@ -25,7 +25,7 @@ Or, if you use Gradle:
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-web-graphql:4.0.0'
+compile 'io.vertx:vertx-web-graphql:4.0.2'
 ----
 
 == Handlers setup
@@ -42,7 +42,7 @@ router.route("/graphql").handler(GraphQLHandler.create(graphQL));
 ----
 
 The handler serves both `GET` and `POST` requests.
-However you can restrict the service to one type of HTTP method:
+However, you can restrict the service to one type of HTTP method:
 
 [source,java]
 ----
@@ -51,7 +51,7 @@ GraphQL graphQL = setupGraphQLJava();
 router.post("/graphql").handler(GraphQLHandler.create(graphQL));
 ----
 
-TIP: The `link:../../apidocs/io/vertx/ext/web/handler/graphql/GraphQLHandler.html[GraphQLHandler]` does not require a `link:../../apidocs/io/vertx/ext/web/handler/BodyHandler.html[BodyHandler]` to read `POST` requests content.
+IMPORTANT: The `link:../../apidocs/io/vertx/ext/web/handler/graphql/GraphQLHandler.html[GraphQLHandler]` requires a `link:../../apidocs/io/vertx/ext/web/handler/BodyHandler.html[BodyHandler]` to read `POST` requests content.
 
 ==== Query batching
 

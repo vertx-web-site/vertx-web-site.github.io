@@ -51,7 +51,7 @@ descriptor:
 <dependency>
 <groupId>io.vertx</groupId>
 <artifactId>vertx-service-discovery</artifactId>
-<version>4.0.0</version>
+<version>4.0.2</version>
 </dependency>
 ----
 
@@ -59,7 +59,7 @@ descriptor:
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-service-discovery:4.0.0'
+compile 'io.vertx:vertx-service-discovery:4.0.2'
 ----
 
 == Overall concepts

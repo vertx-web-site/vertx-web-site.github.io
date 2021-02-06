@@ -61,12 +61,13 @@ def writeHash(sourceFile, version) {
   def outFile = new File(outDir, "${version}.sha")
   outFile.text = new DigestUtils("sha-256").digestAsHex(sourceFile)
 }
-
+String[] excludePaths = ["**/apidocs/**", "**/jsdoc/**", "**/kdoc/**", "**/scaladocs/**"]
 task extractDocsLatest(type: Sync) {
   dependsOn configurations.runtimeClasspath
   from {
     configurations.runtimeClasspath.collect { zipTree(it) }
   }
+  exclude(excludePaths)
   into "$projectDir/extracted"
   configurations.runtimeClasspath.each { writeHash(it, "latest") }
 }
@@ -83,6 +84,7 @@ versions.take(versions.size() - 1).each { version ->
       conf.collect { zipTree(it) }
     }
     into "$projectDir/extracted/$version"
+    exclude(excludePaths)
     conf.each { writeHash(it, version) }
   }
   extractDocs.dependsOn t
@@ -119,4 +121,4 @@ clean {
     .findAll { it.name != ".gitkeep" }
 }
 
-defaultTasks 'extractDocs', 'copyApidocs'
+defaultTasks 'extractDocs', 'copyEnglish'
