@@ -14,7 +14,7 @@ docs.categories = [
   findCategory(docs, "testing"),
   {
     id: "standards",
-    name: "Standards",
+    name: "规范",
     icon: <Book />
   },
   {
@@ -34,7 +34,7 @@ docs.categories = [
   findCategory(docs, "event-bus-bridges"),
   {
     id: "monitoring",
-    name: "Monitoring",
+    name: "监控",
     icon: <Monitor />
   },
   findCategory(docs, "services"),
@@ -74,9 +74,8 @@ find(docs, "vertx-health-check").category = "monitoring"
 insert(docs, "vertx-web-api-service",
   {
     id: "vertx-web-validation",
-    name: "Web Validation",
-    description: `A library to declaratively parse and validate incoming Vert.x
-      Web HTTP requests.`,
+    name: "网络校验",
+    description: "一个声明式解析和校验HTTP请求的类库",
     category: "web",
     href: "/vertx-web-validation/java/",
     repository: "https://github.com/vert-x3/vertx-web",
@@ -130,10 +129,8 @@ docs.entries.push({
 
 docs.entries.push({
     id: "vertx-lang-kotlin-coroutines",
-    name: "Kotlin coroutines",
-    description: `Kotlin coroutines for Vert.x, gives you super powers such as
-      async/await or Go-like channels. This enables you to write your verticle
-      code in a familiar sequential style.`,
+    name: "Kotlin 协程",
+    description: "Vert.x 对 Kotlin 协程的支持，提供如 async/await 或 类似 Go 通道的强大支持。由此您可用熟悉的顺序风格编写 Verticle 代码。",
     category: "kotlin",
     href: "/vertx-lang-kotlin-coroutines/kotlin/",
     repository: "https://github.com/vert-x3/vertx-lang-kotlin",
@@ -241,6 +238,10 @@ for (let entry of docs.entries) {
       .replace(/3\.x/, "4.x")
       .replace("reactive-sql-client-examples", "sql-client-examples")
   }
+  entry.edit = `https://github.com/vertx-china/vertx-web-site/tree/master/docs/translation/${entry.id}/java`
 }
+find(docs, "vertx-lang-kotlin-coroutines").edit = "https://github.com/vertx-china/vertx-web-site/edit/master/docs/translation/vertx-lang-kotlin-coroutines/kotlin/index.adoc"
+find(docs, "vertx-lang-kotlin").edit = "https://github.com/vertx-china/vertx-web-site/edit/master/docs/translation/vertx-core/kotlin/index.adoc"
+find(docs, "vertx-lang-groovy").edit = "https://github.com/vertx-china/vertx-web-site/edit/master/docs/translation/vertx-core/groovy/index.adoc"
 
 export default docs
