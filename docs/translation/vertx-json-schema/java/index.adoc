@@ -1,23 +1,25 @@
 = Vert.x Json Schema
 :toc: left
 
+Vert.x Json Schema组件提供了一个可扩展的、异步的 https://json-schema.org/[Json Schema] 规范实现。
+你可以使用 Json Schemas 去校验每一个json结构的数据。这个组件提供以下特性：
 Vert.x Json Schema provides an extendable and asynchronous implementation for https://json-schema.org/[Json Schema] specification.
 You can use Json Schemas to validate every json structure. This module provides:
 
-* Implementation of https://tools.ietf.org/html/draft-handrews-json-schema-validation-02[Json Schema draft2019-09]
-* Implementation of https://tools.ietf.org/html/draft-handrews-json-schema-validation-01[Json Schema draft-7]
-* Implementation of https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.1.md#schemaObject[OpenAPI 3 dialect].
-* Non blocking `$ref` resolution and caching
-* Lookup into the schema cache using `link:../../apidocs/io/vertx/core/json/pointer/JsonPointer.html[JsonPointer]`
-* Synchronous and asynchronous validation
-* Ability to extend the validation tree adding new keywords and new format predicates
-* DSL to build schemas programmatically
+* 实现了 https://tools.ietf.org/html/draft-handrews-json-schema-validation-02[Json Schema draft2019-09]
+* 实现了 https://tools.ietf.org/html/draft-handrews-json-schema-validation-01[Json Schema draft-7]
+* 实现了 https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.1.md#schemaObject[OpenAPI 3 dialect].
+* 非阻塞的 `$ref` 引用和缓存 Non blocking `$ref` resolution and caching
+* 使用 `link:../../apidocs/io/vertx/core/json/pointer/JsonPointer.html[JsonPointer]` 查找缓存
+* 支持同步和异步校验
+* 可以添加新的关键字和新的格式条件来扩展校验树 Ability to extend the validation tree adding new keywords and new format predicates
+* 以DSL编程方式来构建schemas  DSL to build schemas programmatically
 
-== Using Vert.x Json Schema
+== 使用 Vert.x Json Schema
 
-To use Vert.x Json Schema, add the following dependency to the _dependencies_ section of your build descriptor:
+为了使用Vert.x Json Schema，需要在构建描述符中添加如下 _依赖_：
 
-* Maven (in your `pom.xml`):
+* Maven (在`pom.xml`文件中):
 
 [source,xml,subs="+attributes"]
 ----
@@ -28,7 +30,7 @@ To use Vert.x Json Schema, add the following dependency to the _dependencies_ se
 </dependency>
 ----
 
-* Gradle (in your `build.gradle` file):
+* Gradle (在 `build.gradle` 文件中):
 
 [source,groovy,subs="+attributes"]
 ----
@@ -37,10 +39,14 @@ dependencies {
 }
 ----
 
-== Concepts
+== 相关概念
 
 === Schema
 
+schema是一个由 `link:../../apidocs/io/vertx/json/schema/common/Validator.html[Validator]` 对象组成的树，树中的每一个元素都包含了必要的校验逻辑。
+这种校验具有 快速失败 的特性：一旦遇到验证错误，验证就会失败而不再继续
+
+每一个已解析的schema叫做 `link:../../apidocs/io/vertx/json/schema/Schema.html[Schema]`，
 Each parsed schema is represented by a `link:../../apidocs/io/vertx/json/schema/Schema.html[Schema]` instance. A schema is a tree of `link:../../apidocs/io/vertx/json/schema/common/Validator.html[Validator]` objects,
 where each one contains the necessary logic to perform the validation. The performed validation is _fail-fast_: as soon as a validation error is encountered, the validation fails without going further
 
