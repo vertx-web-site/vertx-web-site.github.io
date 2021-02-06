@@ -70,7 +70,7 @@ Vert.x Web 的大部分特性是使用Handler实现的， 而且您随时可以�
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-web</artifactId>
- <version>4.0.0</version>
+ <version>4.0.2</version>
 </dependency>
 ----
 
@@ -79,7 +79,7 @@ Vert.x Web 的大部分特性是使用Handler实现的， 而且您随时可以�
 [source,groovy,subs="+attributes"]
 ----
 dependencies {
- compile 'io.vertx:vertx-web:4.0.0'
+ compile 'io.vertx:vertx-web:4.0.2'
 }
 ----
 
@@ -526,7 +526,7 @@ route.handler(ctx -> {
 Route route = router.route(HttpMethod.POST, "/some/path/");
 
 route.handler(ctx -> {
-  // 所有路径为 `/some/path/` 
+  // 所有路径为 `/some/path/`
   // 的 POST 请求都会调用这个处理器
 });
 ----
@@ -545,7 +545,7 @@ router.get().handler(ctx -> {
 
 router.get("/some/path/").handler(ctx -> {
 
-  // 所有路径以 `/some/path/` 开始的 
+  // 所有路径以 `/some/path/` 开始的
   // GET 请求都会调用这个处理器
 
 });
@@ -1902,7 +1902,7 @@ router
 === JWT authentication
 
 With JWT authentication resources can be protected by means of permissions and users without enough rights are denied
-access. You need to add the `io.vertx:vertx-auth-jwt:4.0.0` dependency to use `JWTAuthProvider`
+access. You need to add the `io.vertx:vertx-auth-jwt:4.0.2` dependency to use `JWTAuthProvider`
 
 To use this handler there are 2 steps involved:
 
@@ -2397,7 +2397,7 @@ router.getWithRegex(".+\\.hbs").handler(handler);
 === MVEL 模版引擎
 
 您需要在项目中添加以下 _依赖_ 以使用 MVEL 模板引擎：
-`io.vertx:vertx-web-templ-mvel:4.0.0`。 并通过此方法以创建 MVEL 模板引擎实例：
+`io.vertx:vertx-web-templ-mvel:4.0.2`。 并通过此方法以创建 MVEL 模板引擎实例：
 `io.vertx.ext.web.templ.mvel.MVELTemplateEngine#create(io.vertx.core.Vertx)`。
 
 在使用 MVEL 模板引擎时，如果不指定模板文件的扩展名，
@@ -2424,7 +2424,7 @@ The value 'bar' from the context data is @{context.get('bar')}
 === Jade 模版引擎（译者注：Jade 已更名为 Pug)
 
 您需要在项目中添加以下 _依赖_ 以使用 Jade 模板引擎：
-`io.vertx:vertx-web-templ-jade:4.0.0`。 并通过此方法以创建 Jade 模板引擎实例：
+`io.vertx:vertx-web-templ-jade:4.0.2`。 并通过此方法以创建 Jade 模板引擎实例：
 `io.vertx.ext.web.templ.jade.JadeTemplateEngine#create(io.vertx.core.Vertx)`。
 
 在使用 Jade 模板引擎时，如果不指定模板文件的扩展名，
@@ -2451,7 +2451,7 @@ html
 === Handlebars 模板引擎
 
 您需要在项目中添加以下 _依赖_ 以使用 Handlebars 模板引擎：
-`io.vertx:vertx-web-templ-handlebars:4.0.0`。 并通过此方法以创建 Handlebars 模板引擎实例：
+`io.vertx:vertx-web-templ-handlebars:4.0.2`。 并通过此方法以创建 Handlebars 模板引擎实例：
 `io.vertx.ext.web.templ.handlebars.HandlebarsTemplateEngine#create(io.vertx.core.Vertx)`。
 
 在使用 Handlebars 模板引擎时，如果不指定模板文件的扩展名，
@@ -2487,7 +2487,7 @@ router.get("/dynamic/").handler(handler);
 === Thymeleaf 模板引擎
 
 您需要在项目中添加以下 _依赖_ 以使用 Thymeleaf 模板引擎：
-`io.vertx:vertx-web-templ-thymeleaf:4.0.0`。 并通过此方法以创建 Thymeleaf 模板引擎实例：
+`io.vertx:vertx-web-templ-thymeleaf:4.0.2`。 并通过此方法以创建 Thymeleaf 模板引擎实例：
 `io.vertx.ext.web.templ.thymeleaf.ThymeleafTemplateEngine#create(io.vertx.core.Vertx)`。
 
 在使用 Thymeleaf 模板引擎时，如果不指定模板文件的扩展名，
@@ -2516,7 +2516,7 @@ router.get("/dynamic/").handler(handler);
 === Apache FreeMarker 模版引擎
 
 您需要在项目中添加以下 _依赖_ 以使用 Apache FreeMarker ：
-`io.vertx:vertx-web-templ-freemarker:4.0.0`。 并通过此方法以创建 Apache FreeMarker 模板引擎实例：
+`io.vertx:vertx-web-templ-freemarker:4.0.2`。 并通过此方法以创建 Apache FreeMarker 模板引擎实例：
 `io.vertx.ext.web.templ.Engine#create()`。
 
 在使用 Apache FreeMarker 模板引擎时，如果不指定模板文件的扩展名，
@@ -2545,7 +2545,7 @@ router.get("/dynamic/").handler(handler);
 === Pebble 模版引擎
 
 您需要在项目中添加以下 _依赖_ 以使用 Pebble ：
-`io.vertx:vertx-web-templ-pebble:4.0.0`。 并通过此方法以创建 Pebble 模板引擎实例：
+`io.vertx:vertx-web-templ-pebble:4.0.2`。 并通过此方法以创建 Pebble 模板引擎实例：
 `io.vertx.ext.web.templ.pebble.PebbleTemplateEngine#create(vertx)`。
 
 在使用 Pebble 模板引擎时，如果不指定模板文件的扩展名，
@@ -2573,7 +2573,7 @@ router.get("/dynamic/").handler(handler);
 [[_rocker_template_engine]]
 === Rocker 模版引擎
 
-您需要在项目中添加以下 _依赖_ 以使用 Rocker：`io.vertx:vertx-web-templ-rocker:4.0.0`。
+您需要在项目中添加以下 _依赖_ 以使用 Rocker：`io.vertx:vertx-web-templ-rocker:4.0.2`。
 并通过此方法以创建 Rocker 模板引擎实例：`io.vertx.ext.web.templ.rocker#create()`。
 
 Rocker会将JSON上下文对象的值传递给 `render` 方法作为模版的参数。
@@ -2605,7 +2605,7 @@ Request path is @context.getString("path")
 === HTTL 模版引擎
 
 您需要在项目中添加以下 _依赖_ 以使用 HTTL ：
-`io.vertx:vertx-web-templ-httl:4.0.0`。 并通过此方法以创建 HTTL 模板引擎实例：
+`io.vertx:vertx-web-templ-httl:4.0.2`。 并通过此方法以创建 HTTL 模板引擎实例：
 `io.vertx.ext.web.templ.httl.HTTLTemplateEngine#create(io.vertx.core.Vertx)`。
 
 在使用 HTTL 模板引擎时，如果不指定模板文件的扩展名，
@@ -2642,7 +2642,7 @@ Hello ${foo} and ${bar}
 === Rythm 模版引擎
 
 您需要在项目中添加以下 _依赖_ 以使用 Rythm ：
-`io.vertx:vertx-web-templ-rythm:4.0.0`。 并通过此方法以创建 Rythm 模板引擎实例：
+`io.vertx:vertx-web-templ-rythm:4.0.2`。 并通过此方法以创建 Rythm 模板引擎实例：
 `io.vertx.ext.web.templ.rythm.RythmTemplateEngine#create(io.vertx.core.Vertx)`。
 
 在使用 Rythm 模板引擎时，如果不指定模板文件的扩展名，
@@ -2806,7 +2806,7 @@ SockJS 是一个客户端的 JavaScript 库以及协议，它提供了类似 Web
 [[_sockjs_handler]]
 === SockJS 处理器
 
-Vert.x 提供了一个开箱即用的处理器 `link:../../apidocs/io/vertx/ext/web/handler/sockjs/SockJSHandler.html[SockJSHandler]` 
+Vert.x 提供了一个开箱即用的处理器 `link:../../apidocs/io/vertx/ext/web/handler/sockjs/SockJSHandler.html[SockJSHandler]`
 以便您在 Vert.x-Web 应用中使用 SockJS。
 
 您需要通过 `link:../../apidocs/io/vertx/ext/web/handler/sockjs/SockJSHandler.html#create-io.vertx.core.Vertx-[SockJSHandler.create]` 方法为每一个 SockJS 的应用创建处理器。
@@ -2832,7 +2832,11 @@ SockJSHandler sockJSHandler = SockJSHandler.create(vertx, options);
 传递给处理器的是 `link:../../apidocs/io/vertx/ext/web/handler/sockjs/SockJSSocket.html[SockJSSocket]` 对象。
 这是一个类似套接字的接口，您可以像使用 `link:../../apidocs/io/vertx/core/net/NetSocket.html[NetSocket]` 或
 `link:../../apidocs/io/vertx/core/http/WebSocket.html[WebSocket]` 那样通过它来读写数据。它实现了 `link:../../apidocs/io/vertx/core/streams/ReadStream.html[ReadStream]` 和
-`link:../../apidocs/io/vertx/core/streams/WriteStream.html[WriteStream]` 接口，因此您可以将它套用（pump）到其他读写流上。
+`link:../../apidocs/io/vertx/core/streams/WriteStream.html[WriteStream]` 接口，因此您可以将它套用（pump）到其他读写流上。 The
+`link:../../apidocs/io/vertx/ext/web/RoutingContext.html[RoutingContext]` is accessible for manual session management while the SockJS connection
+is loaded using `link:../../apidocs/io/vertx/ext/web/handler/sockjs/SockJSSocket.html#routingContext--[routingContext]`. With this you can manage
+the users and sessions accessible through `link:../../apidocs/io/vertx/ext/web/handler/sockjs/SockJSSocket.html#webSession--[webSession]`
+and `link:../../apidocs/io/vertx/ext/web/handler/sockjs/SockJSSocket.html#webUser--[webUser]`.
 
 下面的例子中的 SockJS 处理器直接使用了它读取到的数据进行回写：
 
@@ -2950,17 +2954,17 @@ eventBus.send(writeHandlerID, Buffer.buffer("foo"));
 [[_sockjs_event_bus_bridge]]
 == SockJS 桥接 Event Bus
 
-Vert.x Web 提供了一个内置的被称为事件总线桥（event bus bridge）的 SockJS 套接字处理器。 
+Vert.x Web 提供了一个内置的被称为事件总线桥（event bus bridge）的 SockJS 套接字处理器。
 该处理器有效地将服务器端的 Vert.x 的事件总线延伸到客户端的 JavaScript 运行环境里。
 
-这将创建一个分布式的事件总线。 
+这将创建一个分布式的事件总线。
 该 event bus 不仅可以在服务器端多个 Vert.x 实例中使用，还可以通过运行在浏览器里的 JavaScript 访问。
 
-由此，我们可以建立起一个连接多个浏览器和服务器群的庞大的分布式 event bus。 
+由此，我们可以建立起一个连接多个浏览器和服务器群的庞大的分布式 event bus。
 浏览器只需与服务器集群建立连接，无需每次都与固定的某个服务器建立连接。
 
-这些是通过 Vert.x 提供的一个简单的客户端 JavaScript 库 `vertx-eventbus.js` 来实现的。 
-它提供了一系列与服务器端的 Vert.x event-bus 极为类似的 API。 
+这些是通过 Vert.x 提供的一个简单的客户端 JavaScript 库 `vertx-eventbus.js` 来实现的。
+它提供了一系列与服务器端的 Vert.x event-bus 极为类似的 API。
 通过这些 API 您可以发送或发布消息，或注册处理器来接收消息。
 
 该 JavaScript 库使用了 JavaScript 的 SockJS 客户端，与另外一端的 `link:../../apidocs/io/vertx/ext/web/handler/sockjs/SockJSHandler.html[SockJS 处理器]` 建立起 SockJS 连接，
@@ -2969,8 +2973,8 @@ Vert.x Web 提供了一个内置的被称为事件总线桥（event bus bridge�
 一个特殊的 SockJS 套接字处理器因此被安装到 `link:../../apidocs/io/vertx/ext/web/handler/sockjs/SockJSHandler.html[SockJS 处理器]` 上，
 而该处理器将会处理 SockJS 的数据，并将建立起与服务器端的事件总线的连接桥。
 
-启用该连接桥您只需要在 
-SockJS 处理器中调用 
+启用该连接桥您只需要在
+SockJS 处理器中调用
 `link:../../apidocs/io/vertx/ext/web/handler/sockjs/SockJSHandler.html#bridge-io.vertx.ext.web.handler.sockjs.SockJSBridgeOptions-[bridge]`。
 
 [source,java]
@@ -3053,7 +3057,7 @@ eb2.enableReconnect(true);
 如果您像上面的例子一样建立连接桥但未开启守护机制，此时您试图通过该桥发送消息，
 您会发现消息神秘地失踪了。发生了什么？
 
-对于大多数的应用，您恐怕不希望客户端的 JavaScript 
+对于大多数的应用，您恐怕不希望客户端的 JavaScript
 代码可以发送任何消息到任意服务端处理器或其他所有浏览器上。
 
 例如，您可能在事件总线上注册了一个服务，用于访问或删除数据。
@@ -3068,7 +3072,7 @@ eb2.enableReconnect(true);
 
 为连接桥配置哪些消息可以通过是很简单的一件事。
 
-您可以通过调用连接桥时传入的 
+您可以通过调用连接桥时传入的
 `link:../../apidocs/io/vertx/ext/web/handler/sockjs/SockJSBridgeOptions.html[SockJSBridgeOptions]` 来配置 _匹配_ 规则以指定哪些输入和输出的流量是允许通过的。
 
 每一个匹配规则对应一个 `link:../../apidocs/io/vertx/ext/bridge/PermittedOptions.html[PermittedOptions]` 对象：
@@ -3408,6 +3412,11 @@ Note that this handler is session aware. If there is a session available the for
 during the `POST` action as it will be read from the session. This also implies that tokens will only be regenerated
 on session upgrades.
 
+Note, for extra security users are advised to rotate the key that signs the tokens. This can be done online by replacing
+the handler, or by restarting the application with a new configuration. Clickjacking could still affect applications. If
+this is a critical application consider setting the header: `X-Frame-Options` as described in:
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options
+
 === Using AJAX
 
 When accessing protected routes via ajax both the csrf token will need to be passed in the request. Typically this is
@@ -3480,6 +3489,25 @@ router.route().handler(
     .addDirective("default-src", "*.trusted.com"));
 ----
 
+== XFrame Handler
+
+The `X-Frame-Options` HTTP response header can be used to indicate whether or not a browser should be allowed to render
+a page in a `frame`, `iframe`, `embed` or `object`. Sites can use this to avoid click-jacking attacks, by ensuring that
+their content is not embedded into other sites.
+
+The added security is provided only if the user accessing the document is using a browser that supports
+`X-Frame-Options`.
+
+If you specify `DENY`, not only will attempts to load the page in a frame fail when loaded from other sites, attempts to
+do so will fail when loaded from the same site. On the other hand, if you specify `SAMEORIGIN`, you can still use the
+page in a frame as long as the site including it in a frame is the same as the one serving the page.
+
+This handler will configure the correct header for your application in a single step:
+
+[source,java]
+----
+router.route().handler(XFrameHandler.create(XFrameHandler.DENY));
+----
 
 == OAuth2AuthHandler Handler
 

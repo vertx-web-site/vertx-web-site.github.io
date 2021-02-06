@@ -53,7 +53,7 @@ public class MyVerticle extends AbstractVerticle {
 
  private HttpServer server;
 
- public void start(Future<Void> startFuture) {
+ public void start(Promise<Void> startPromise) {
    server = vertx.createHttpServer().requestHandler(req -> {
      req.response()
        .putHeader("content-type", "text/plain")
@@ -63,9 +63,9 @@ public class MyVerticle extends AbstractVerticle {
    // Now bind the server:
    server.listen(8080, res -> {
      if (res.succeeded()) {
-       startFuture.complete();
+       startPromise.complete();
      } else {
-       startFuture.fail(res.cause());
+       startPromise.fail(res.cause());
      }
    });
  }
@@ -82,12 +82,12 @@ public class MyVerticle extends AbstractVerticle {
    // 做一些事
  }
 
- public void stop(Future<Void> stopFuture) {
+ public void stop(Promise<Void> stopPromise) {
    obj.doSomethingThatTakesTime(res -> {
      if (res.succeeded()) {
-       stopFuture.complete();
+       stopPromise.complete();
      } else {
-       stopFuture.fail();
+       stopPromise.fail();
      }
    });
  }

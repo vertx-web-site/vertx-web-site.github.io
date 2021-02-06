@@ -9,52 +9,24 @@ Or you can use the transaction API of `link:../../apidocs/io/vertx/sqlclient/Sql
 
 [source,java]
 ----
-pool.getConnection(res -> {
-  if (res.succeeded()) {
-
-    // Transaction must use a connection
-    SqlConnection conn = res.result();
-
-    // Begin the transaction
-    conn.begin(ar0 -> {
-      if (ar0.succeeded()) {
-        Transaction tx = ar0.result();
-
-        // Various statements
-        conn
-          .query("INSERT INTO Users (first_name,last_name) VALUES ('Julien','Viet')")
-          .execute(ar1 -> {
-            if (ar1.succeeded()) {
-              conn
-                .query("INSERT INTO Users (first_name,last_name) VALUES ('Emad','Alblueshi')")
-                .execute(ar2 -> {
-                  if (ar2.succeeded()) {
-                    // Commit the transaction
-                    tx.commit(ar3 -> {
-                      if (ar3.succeeded()) {
-                        System.out.println("Transaction succeeded");
-                      } else {
-                        System.out.println("Transaction failed " + ar3.cause().getMessage());
-                      }
-                      // Return the connection to the pool
-                      conn.close();
-                    });
-                  } else {
-                    // Return the connection to the pool
-                    conn.close();
-                  }
-                });
-            } else {
-              // Return the connection to the pool
-              conn.close();
-            }
-          });
-      } else {
-        // Return the connection to the pool
-        conn.close();
-      }
-    });
-  }
+pool.getConnection()
+  // Transaction must use a connection
+  .onSuccess(conn -> {
+  // Begin the transaction
+  conn.begin()
+    .compose(tx -> conn
+      // Various statements
+      .query("INSERT INTO Users (first_name,last_name) VALUES ('Julien','Viet')")
+      .execute()
+      .compose(res2 -> conn
+        .query("INSERT INTO Users (first_name,last_name) VALUES ('Emad','Alblueshi')")
+        .execute())
+      // Commit the transaction
+      .compose(res3 -> tx.commit()))
+    // Return the connection to the pool
+    .eventually(v -> conn.close())
+    .onSuccess(v -> System.out.println("Transaction succeeded"))
+    .onFailure(err -> System.out.println("Transaction failed: " + err.getMessage()));
 });
 ----
 
@@ -64,8 +36,9 @@ is failed with a `link:../../apidocs/io/vertx/sqlclient/TransactionRollbackExcep
 
 [source,java]
 ----
-tx.completion().onFailure(err -> {
-  System.out.println("Transaction failed => rollbacked");
+tx.completion()
+  .onFailure(err -> {
+  System.out.println("Transaction failed => rolled back");
 });
 ----
 
@@ -90,19 +63,10 @@ pool.withTransaction(client -> client
   .query("INSERT INTO Users (first_name,last_name) VALUES ('Julien','Viet')")
   .execute()
   .flatMap(res -> client
-    .query("INSERT INTO Users (first_name,last_name) VALUES ('Julien','Viet')")
+    .query("INSERT INTO Users (first_name,last_name) VALUES ('Emad','Alblueshi')")
     .execute()
     // Map to a message result
-    .map("Users inserted"))
-).onComplete(ar -> {
-  // The connection was automatically return to the pool
-  if (ar.succeeded()) {
-    // Transaction was committed
-    String message = ar.result();
-    System.out.println("Transaction succeeded: " + message);
-  } else {
-    // Transaction was rolled back
-    System.out.println("Transaction failed " + ar.cause().getMessage());
-  }
-});  }
+    .map("Users inserted")))
+  .onSuccess(v -> System.out.println("Transaction succeeded"))
+  .onFailure(err -> System.out.println("Transaction failed: " + err.getMessage()));
 ----

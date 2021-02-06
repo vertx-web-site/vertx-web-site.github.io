@@ -32,14 +32,14 @@ _dependencies_ section of your build descriptor:
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-config</artifactId>
- <version>4.0.0</version>
+ <version>4.0.2</version>
 </dependency>
 ----
 
 * Gradle (in your `build.gradle` file):
 
 [source,groovy,subs="+attributes"]
-compile 'io.vertx:vertx-config:4.0.0'
+compile 'io.vertx:vertx-config:4.0.2'
 ----
 
 Once done, you first need to instantiate the `link:../../apidocs/io/vertx/config/ConfigRetriever.html[ConfigRetriever]`:
@@ -306,7 +306,7 @@ global configuration.
 ----
 ConfigStoreOptions json = new ConfigStoreOptions()
   .setType("sys")
-  .setConfig(new JsonObject().put("cache", "false"));
+  .setConfig(new JsonObject().put("cache", false));
 ----
 
 This configuration store does not support the `format` configuration.

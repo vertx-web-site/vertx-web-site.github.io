@@ -9,52 +9,25 @@
 或者您使用 `link:../../apidocs/io/vertx/sqlclient/SqlConnection.html[SqlConnection]` 的事务API：
 [source,java]
 ----
-pool.getConnection(res -> {
-  if (res.succeeded()) {
-
-    // 事务必须使用一个连接
-    SqlConnection conn = res.result();
-
+pool.getConnection()
+  // 事务必须使用一个连接
+  .onSuccess(conn -> {
     // 开始事务
-    conn.begin(ar0 -> {
-      if (ar0.succeeded()) {
-        Transaction tx = ar0.result();
+    conn.begin()
+      .compose(tx -> conn
         // 各种语句
-        conn
-          .query("INSERT INTO Users (first_name,last_name) VALUES ('Julien','Viet')")
-          .execute(ar1 -> {
-            if (ar1.succeeded()) {
-              conn
-                .query("INSERT INTO Users (first_name,last_name) VALUES ('Emad','Alblueshi')")
-                .execute(ar2 -> {
-                  if (ar2.succeeded()) {
-                    // 提交事务
-                    tx.commit(ar3 -> {
-                      if (ar3.succeeded()) {
-                        System.out.println("Transaction succeeded");
-                      } else {
-                        System.out.println("Transaction failed " + ar3.cause().getMessage());
-                      }
-                      // 将连接返回到连接池
-                      conn.close();
-                    });
-                  } else {
-                    // 将连接返回到连接池
-                    conn.close();
-                  }
-                });
-            } else {
-              // 将连接返回到连接池
-              conn.close();
-            }
-          });
-      } else {
-        // 将连接返回到连接池
-        conn.close();
-      }
-    });
-  }
-});
+        .query("INSERT INTO Users (first_name,last_name) VALUES ('Julien','Viet')")
+        .execute()
+        .compose(res2 -> conn
+          .query("INSERT INTO Users (first_name,last_name) VALUES ('Emad','Alblueshi')")
+          .execute())
+        // 提交事务
+        .compose(res3 -> tx.commit()))
+      // 将连接返回到连接池
+      .eventually(v -> conn.close())
+      .onSuccess(v -> System.out.println("Transaction succeeded"))
+      .onFailure(err -> System.out.println("Transaction failed: " + err.getMessage()));
+  });
 ----
 
 当数据库服务器报告当前事务失败时（例如，臭名昭著的 _current transaction is aborted, commands ignored until end of transaction block_），
@@ -63,9 +36,10 @@ pool.getConnection(res -> {
 
 [source,java]
 ----
-tx.completion().onFailure(err -> {
-  System.out.println("Transaction failed => rollbacked");
-});
+tx.completion()
+  .onFailure(err -> {
+    System.out.println("Transaction failed => rolled back");
+  });
 ----
 
 [[_simplified_transaction_api_2]]
@@ -88,19 +62,10 @@ pool.withTransaction(client -> client
   .query("INSERT INTO Users (first_name,last_name) VALUES ('Julien','Viet')")
   .execute()
   .flatMap(res -> client
-    .query("INSERT INTO Users (first_name,last_name) VALUES ('Julien','Viet')")
+    .query("INSERT INTO Users (first_name,last_name) VALUES ('Emad','Alblueshi')")
     .execute()
     // 映射一个消息结果
-    .map("Users inserted"))
-).onComplete(ar -> {
-  // 连接已自动返回到连接池中
-  if (ar.succeeded()) {
-    // 事务被提交
-    String message = ar.result();
-    System.out.println("Transaction succeeded: " + message);
-  } else {
-    // 事务被回滚
-    System.out.println("Transaction failed " + ar.cause().getMessage());
-  }
-});
+    .map("Users inserted")))
+  .onSuccess(v -> System.out.println("Transaction succeeded"))
+  .onFailure(err -> System.out.println("Transaction failed: " + err.getMessage()));
 ----

@@ -94,3 +94,15 @@ HttpClient client = vertx.createHttpClient(new HttpClientOptions()
   .setTracingPolicy(TracingPolicy.IGNORE)
 );
 ----
+
+== EventBus tracing
+
+The Vert.x EventBus reports spans around message exchanges.
+
+The default sending policy is `PROPAGATE`, you can configure the policy with `link:../../apidocs/io/vertx/core/eventbus/DeliveryOptions.html#setTracingPolicy-io.vertx.core.tracing.TracingPolicy-[setTracingPolicy]`.
+
+[source,java]
+----
+DeliveryOptions options = new DeliveryOptions().setTracingPolicy(TracingPolicy.ALWAYS);
+vertx.eventBus().send("the-address", "foo", options);
+----

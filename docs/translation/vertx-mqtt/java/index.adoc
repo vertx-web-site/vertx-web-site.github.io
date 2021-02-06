@@ -13,7 +13,7 @@
 <dependency>
    <groupId>io.vertx</groupId>
    <artifactId>vertx-mqtt</artifactId>
-   <version>4.0.0</version>
+   <version>4.0.2</version>
 </dependency>
 ----
 
@@ -21,7 +21,7 @@
 
 [source,groovy,subs="+attributes"]
 ----
-compile io.vertx:vertx-mqtt:4.0.0
+compile io.vertx:vertx-mqtt:4.0.2
 ----
 
 [[_vert_x_mqtt_server]]
@@ -155,7 +155,20 @@ mqttServer.endpointHandler(endpoint -> {
   });
 ----
 
-在没有SSL/TLS支持的情况下，使用相同的方式来管理endpoint的连接和断开。
+=== Handling client connections via WebSocket
+
+If you want to support connections via WebSockets, you can enable this via `link:../../apidocs/io/vertx/mqtt/MqttServerOptions.html[MqttServerOptions]`,
+too. By passing `true` to `link:../../apidocs/io/vertx/mqtt/MqttServerOptions.html#setUseWebSocket-boolean-[setUseWebSocket]`, it will listen for
+websocket connections on the path `/mqtt`.
+
+As with other setup configurations, the resulting endpoint connections and related disconnection are managed the same
+way as regular connections.
+
+[source,java]
+----
+DeploymentOptions options = new DeploymentOptions().setInstances(10);
+vertx.deployVerticle("com.mycompany.MyVerticle", options);
+----
 
 [[_handling_client_subscriptionunsubscription_request]]
 === 处理客户端 订阅/退订 请求

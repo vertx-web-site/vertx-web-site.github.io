@@ -51,7 +51,7 @@ include::Example.kt[tags=launchCoroutine]
 
 你可以将代码部署为 `io.vertx.kotlin.coroutines.CoroutineVerticle` 的一个实例，它是专为 Kotlin 协程准备的一个特殊类型的 Verticle。
 `CoroutineVerticle` 类实现了 `kotlinx.coroutines.experimental.CoroutineScope` 接口，所有协程构建器都默认绑定到 Verticle 的上下文。
-应当重写 Verticle 中挂起的 `start()` 方法，可选重写挂起的 
+应当重写 Verticle 中挂起的 `start()` 方法，可选重写挂起的
 `stop()` 方法：
 
 [source,kotlin,indent=0]
@@ -266,4 +266,4 @@ Vert.x 集成被设计成可与 Kotlin 协程全面互通
 模块 `vertx-lang-kotlin-coroutines` 没有与 RxJava 的特定集成，然而 Kotlin 协程提供了 RxJava 的集成，
 它与 `vertx-lang-kotlin-coroutines` 一同工作良好。
 
-可以在这里了解更多： https://github.com/Kotlin/kotlinx.coroutines/blob/master/reactive/coroutines-guide-reactive.md[Guide to reactive streams with coroutines]
+可以在这里了解更多： https://github.com/Kotlin/kotlinx.coroutines/tree/master/reactive[Coroutines for reactive streams] 。
