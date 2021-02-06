@@ -410,22 +410,24 @@ suspend fun sendChannel(httpResponse: HttpServerResponse) {
 
 [source,kotlin,indent=0]
 ----
+fun broadcastTemperature(httpResponse: HttpServerResponse) {
 // Check we can write in the stream
-if (httpResponse.writeQueueFull()) {
+  if (httpResponse.writeQueueFull()) {
 
-  // We can't write so we set a drain handler to be called when we can write again
-  httpResponse.drainHandler { broadcastTemperature(httpResponse) }
-} else {
+    // We can't write so we set a drain handler to be called when we can write again
+    httpResponse.drainHandler { broadcastTemperature(httpResponse) }
+  } else {
 
-  // Read temperature
-  val temperature = readBuffer()
+    // Read temperature
+    val temperature = readBuffer()
 
-  // Write it to the stream
-  httpResponse.write(temperature)
+    // Write it to the stream
+    httpResponse.write(temperature)
 
-  // Wait for one second
-  vertx.setTimer(1000) {
-    broadcastTemperature()
+    // Wait for one second
+    vertx.setTimer(1000) {
+      broadcastTemperature()
+    }
   }
 }
 ----
