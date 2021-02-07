@@ -438,8 +438,8 @@ Vertx vertx = Vertx.vertx(new VertxOptions().setMetricsOptions(
 ));
 ----
 
-Http request routes can be reported by frameworks like vertx-web per request, i.e. core vert.x doesn't report any route information by itself. Like URI
-metrics, route metrics must be configured explicitly in the options:
+每个 HTTP 请求的请求路由可以由 HTTP 框架（如 vertx-web）上报，换而言之 Vert.x core 本身不会上报任何路由信息。
+与 URI 监控指标一样，路由监控指标必须在以下选项中显式配置： 
 
 [source,java]
 ----
@@ -450,9 +450,9 @@ Vertx vertx = Vertx.vertx(new VertxOptions().setMetricsOptions(
 ));
 ----
 
-Similar to URI metrics it is possible to provide aliases but usually routes itself provide sufficient and appropriate semantic grouping of URIs. Note
-that a single http request can be routed multiple times (for example because of vertx-web sub routers) and all reported routes per request will be
-joined together with `>` (for example `/internal_api>/resource/:id`)
+与 URI 监控指标类似，请求路由监控也可以提供监控指标别名，但通常请求路由本身已经提供了足够和适当的 URI 语义分组。
+请注意，单个 HTTP 请求可以多次路由（例如由于 vertx-web 子路由器的作用），
+而每个请求的所有路由在监控中将用 `>` 拼接在一起（例如 `/internal_api>/resource/:id` ）。
 
 *`bytes-read` 和 `bytes-written` 监控指标只统计了请求体/响应体的字节数，不包括 header 等。*
 
