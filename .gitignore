@@ -10,3 +10,7 @@ out/
 # Do not put anything in the `public/docs` directory! Contents will be added
 # automatically by the 'docs/build.gradle' script
 public/docs/
+
+# Do not put anything in the `public/feed` directory! Contents will be added
+# automatically by the '/pages/blog/[[...slug]].jsx' script
+public/feed/

@@ -26,7 +26,7 @@ You can use Json Schemas to validate every json structure. This module provides:
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-json-schema</artifactId>
- <version>4.0.0</version>
+ <version>4.0.2</version>
 </dependency>
 ----
 
@@ -35,7 +35,7 @@ You can use Json Schemas to validate every json structure. This module provides:
 [source,groovy,subs="+attributes"]
 ----
 dependencies {
- compile 'io.vertx:vertx-json-schema:4.0.0'
+ compile 'io.vertx:vertx-json-schema:4.0.2'
 }
 ----
 

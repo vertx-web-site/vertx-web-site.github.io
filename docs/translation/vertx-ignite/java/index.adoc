@@ -29,7 +29,7 @@ Vert.x 集群管理器是可插拔的组件，您可以选择您想用的或最�
 [[_using_vertx_from_command_line]]
 === Vert.x 命令行模式
 
-请将 `vertx-ignite-4.0.0.jar` 放入 Vert.x 中安装路径的 `lib` 目录中。
+请将 `vertx-ignite-4.0.2.jar` 放入 Vert.x 中安装路径的 `lib` 目录中。
 
 [[_using_vertx_in_maven_or_gradle_project]]
 === 在 Maven 或 Gradle 项目中使用 Vert.x
@@ -43,7 +43,7 @@ Vert.x 集群管理器是可插拔的组件，您可以选择您想用的或最�
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-ignite</artifactId>
- <version>4.0.0</version>
+ <version>4.0.2</version>
 </dependency>
 ----
 
@@ -51,7 +51,7 @@ Vert.x 集群管理器是可插拔的组件，您可以选择您想用的或最�
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-ignite:4.0.0'
+compile 'io.vertx:vertx-ignite:4.0.2'
 ----
 
 [[_programmatically_specifying_cluster_manager]]
@@ -110,10 +110,14 @@ Ignite 集群管理器通过 `default-ignite.json` 文件配置，该文件已�
  }],
  "sslContextFactory": {
    "protocol": "TLSv1.2",
-   "keyStoreFilePath": "server.jks",
-   "keyStorePassword": "changeme",
-   "trustStoreFilePath": "server.jks",
-   "trustStorePassword": "changeme",
+   "jksKeyCertOptions": {
+     "path": "server.jks",
+     "password": "changeme",
+   },
+   "jksTrustOptions": {
+     "path": "server.jks",
+     "password": "changeme",
+   },
    "trustAll": false
  },
  "includeEventTypes": ["EVT_CACHE_OBJECT_PUT", "EVT_CACHE_OBJECT_REMOVED"],
@@ -240,7 +244,7 @@ Vertx.clusteredVertx(options, res -> {
 
 Ignite 默认配置使用 `TcpDiscoveryMulticastIpFinder` ，因此您的网络必须保证组播可用。
 对于禁用组播的情况，应将 `TcpDiscoveryVmIpFinder` 与预先配置的IP地址列表一起使用。
-更多详细信息请参阅 Apache Ignite 文档的 
+更多详细信息请参阅 Apache Ignite 文档的
 http://apacheignite.readme.io/docs/cluster-config[集群配置] 章节。
 
 [[_trouble_shooting_clustering]]

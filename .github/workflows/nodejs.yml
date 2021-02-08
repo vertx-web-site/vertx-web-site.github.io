@@ -92,7 +92,7 @@ jobs:
 #          cname: vertx.io
 
       - name: Deploy to Gitee Pages
-        uses: okou19900722/workflows/git-deploy@v1
+        uses: actionhub/workflows/git-deploy@v1
         with:
           ssh-key: ${{ secrets.GITEE_TOKEN }}
           src-dir: vertx-china.github.io
@@ -103,7 +103,7 @@ jobs:
           commit-message: publish
           force-orphan: true
 
-      - uses: okou19900722/workflows/git-deploy@v1
+      - uses: actionhub/workflows/git-deploy@v1
         with:
           ssh-key: ${{ secrets.CODING_TOKEN }}
           src-dir: vertx-china.github.io
@@ -115,7 +115,7 @@ jobs:
           force-orphan: true
 
       - name: Refresh Gitee Pages
-        uses: okou19900722/gitee-pages@v1
+        uses: actionhub/gitee-pages@v1
         with:
           username: "okou19900722"
           password: ${{ secrets.GITEE_PASSWORD }}

@@ -15,7 +15,7 @@ Docker Links 桥接器可以从 Docker Links 中导入服务到 Vert.x 的服务
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-service-discovery-bridge-docker</artifactId>
- <version>4.0.0</version>
+ <version>4.0.2</version>
 </dependency>
 ----
 
@@ -23,7 +23,7 @@ Docker Links 桥接器可以从 Docker Links 中导入服务到 Vert.x 的服务
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-service-discovery-bridge-docker:4.0.0'
+compile 'io.vertx:vertx-service-discovery-bridge-docker:4.0.2'
 ----
 
 创建服务发现对象时，注册桥接器的示例：

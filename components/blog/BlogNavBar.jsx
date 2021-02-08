@@ -1,4 +1,5 @@
 import Link from "next/link"
+import { Rss } from "react-feather"
 import "./BlogNavBar.scss"
 
 const BlogNavBar = ({ categories }) => (
@@ -14,6 +15,9 @@ const BlogNavBar = ({ categories }) => (
         </li>
       ))}
     </ul>
+    <div className="feed-icons">
+      <a href="/feed/atom.xml"><Rss /></a>
+    </div>
   </div>
 )
 
