@@ -88,7 +88,7 @@ HttpServer server = vertx.createHttpServer(new HttpServerOptions()
 );
 ----
 
-HTTP 客户端的缺省追踪策略是 `PROPAGATE`, 您可以通过 `link:../../apidocs/io/vertx/core/http/HttpClientOptions.html#setTracingPolicy-io.vertx.core.tracing.TracingPolicy-[setTracingPolicy]` 来配置追踪策略
+HTTP 客户端的缺省追踪策略是 `PROPAGATE` ， 您可以通过 `link:../../apidocs/io/vertx/core/http/HttpClientOptions.html#setTracingPolicy-io.vertx.core.tracing.TracingPolicy-[setTracingPolicy]` 来配置追踪策略
 
 [source,java]
 ----
