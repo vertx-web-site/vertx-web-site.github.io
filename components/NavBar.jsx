@@ -91,9 +91,21 @@ const NavBar = () => {
                 <a className="navbar-menu-item">Docs</a>
               </Link>
             )}
-            <Link href="/faq/">
-              <a className="navbar-menu-item">FAQ</a>
-            </Link>
+            <span className="navbar-menu-item with-drop-down">
+              <DropDown title="Resources">
+                <Link href="/faq/">
+                  <a><DropDownItem>FAQ</DropDownItem></a>
+                </Link>
+                <a href="https://how-to.vertx.io/" target="_blank" rel="noreferrer">
+                  <DropDownItem>How-To’s <ExternalLink className="external-link-icon"
+                    size="1em" /></DropDownItem>
+                </a>
+                <a href="https://github.com/vert-x3/vertx-eventbus-bridge-clients" target="_blank" rel="noreferrer">
+                  <DropDownItem>EventBus Bridge Clients <ExternalLink className="external-link-icon"
+                    size="1em" /></DropDownItem>
+                </a>
+              </DropDown>
+            </span>
             <Link href="/blog/">
               <a className="navbar-menu-item">Blog</a>
             </Link>
