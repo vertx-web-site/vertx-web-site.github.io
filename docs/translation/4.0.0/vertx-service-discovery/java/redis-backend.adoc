@@ -1,7 +1,9 @@
+[[_redis_backend]]
 === Redis backend
 
 服务发现组件通过实现 `link:../../apidocs/io/vertx/servicediscovery/spi/ServiceDiscoveryBackend.html[ServiceDiscoveryBackend]` SPI提供了一种可插拔的存储后端扩展机制，这是以Redis为基础的SPI的实现。
 
+[[_using_the_redis_backend]]
 ==== 使用 Redis 存储后端
 
 要使用 Redis 存储后端，需要将如下的依赖包加入到依赖配置文件中：
@@ -26,6 +28,7 @@ compile 'io.vertx:vertx-service-discovery-backend-redis:4.0.0'
 
 需要注意的是，你只能在 `classpath` 中指定一个SPI的实现；如果没有指定，那么将使用默认的存储后端。
 
+[[_configuration]]
 ==== 配置
 
 Redis存储后端是基于 http://vertx.io/docs/vertx-redis-client/java[vertx-redis-client] 实现的，这个配置是客户端配置以及在Redis上 `key` 的存储记录
