@@ -77,7 +77,7 @@ Vert.x HTTP 服务端和客户端基于 HTTP 请求来报告 span ：
 - tags
 - `http.method` ：HTTP 方法
 - `http.url` ：请求的 URL
-- `http.status_code`: HTTP 状态码
+- `http.status_code` ：HTTP 状态码
 
 HTTP 服务端的缺省追踪策略是 `ALWAYS`, 您可以通过 `link:../../apidocs/io/vertx/core/http/HttpServerOptions.html#setTracingPolicy-io.vertx.core.tracing.TracingPolicy-[setTracingPolicy]` 来配置追踪策略
 
