@@ -63,3 +63,31 @@ HttpClient client = vertx.createHttpClient(new HttpClientOptions()
   .setTracingPolicy(TracingPolicy.IGNORE)
 );
 ----
+
+To initiate a trace for a client call, you need to create it first and make Vert.x
+aware of it by using `OpenTracingUtil.setSpan`:
+
+[source,java]
+----
+Span span = tracer.buildSpan("my-operation")
+  .withTag("some-key", "some-value")
+  .start();
+OpenTracingUtil.setSpan(span);
+// Do something, e.g. client request
+span.finish();
+----
+
+In an HTTP scenario between two Vert.x services, a span will be created client-side, then
+the trace context will be propagated server-side and another span will be added to the trace.
+
+== EventBus tracing
+
+The Vert.x EventBus reports spans around message exchanges.
+
+The default sending policy is `PROPAGATE`, you can configure the policy with `link:../../apidocs/io/vertx/core/eventbus/DeliveryOptions.html#setTracingPolicy-io.vertx.core.tracing.TracingPolicy-[setTracingPolicy]`.
+
+[source,java]
+----
+DeliveryOptions options = new DeliveryOptions().setTracingPolicy(TracingPolicy.ALWAYS);
+vertx.eventBus().send("the-address", "foo", options);
+----

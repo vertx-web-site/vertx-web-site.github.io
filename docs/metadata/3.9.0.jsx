@@ -4,12 +4,12 @@ import { Box, CheckCircle, Database, Feather, Globe, Grid, Inbox, Key,
 const categories = [
   {
     id: "core",
-    name: "Core",
+    name: "核心",
     icon: <Box />
   },
   {
     id: "web",
-    name: "Web",
+    name: "网络",
     icon: <Globe />
   },
   {
@@ -125,8 +125,8 @@ const entries = [
   },
   {
     id: "vertx-web-api-service",
-    name: "Web API Service",
-    description: "Directly connect your OpenAPI 3 web routers to event-bus services.",
+    name: "Web API 服务",
+    description: "直接连接您的OpenAPI 3的web路由器到事件总线服务",
     category: "web",
     href: "/vertx-web-api-service/java/",
     repository: "https://github.com/vert-x3/vertx-web",
@@ -160,8 +160,8 @@ const entries = [
   },
   {
     id: "vertx-mysql-client",
-    name: "MySQL Client",
-    description: "A lightweight, event-driven client for MySQL.",
+    name: "MySQL 客户端",
+    description: "一款轻量级的事件驱动 MySQL 客户端。",
     category: "databases",
     href: "/vertx-mysql-client/java/",
     repository: "https://github.com/eclipse-vertx/vertx-sql-client",
@@ -306,8 +306,8 @@ const entries = [
   },
   {
     id: "vertx-circuit-breaker",
-    name: "Circuit Breaker",
-    description: "Implementation of the circuit-breaker pattern to mitigate failures.",
+    name: "熔断器（Circuit Breaker）",
+    description: "实现熔断器模式以减轻故障。",
     category: "microservices",
     href: "/vertx-circuit-breaker/java/",
     repository: "https://github.com/vert-x3/vertx-circuit-breaker",
@@ -318,7 +318,7 @@ const entries = [
   {
     id: "vertx-mqtt",
     name: "MQTT",
-    description: "A client and server for MQTT, compliant with MQTT 3.1.1.",
+    description: "一款 MQTT 客户端和服务器，兼容 MQTT 3.1.1 。",
     category: "mqtt",
     href: "/vertx-mqtt/java/",
     repository: "https://github.com/vert-x3/vertx-mqtt",
@@ -467,8 +467,8 @@ const entries = [
   {
     id: "vertx-tcp-eventbus-bridge",
     name: "TCP Eventbus Bridge",
-    description: `An event-bus bridge that lets you interact with Vert.x from
-      any application over a simple TCP-based protocol.`,
+    description: `基于简化 TCP 协议建立的应用程序与
+      Vert.x 事件总线沟通的桥梁。`,
     category: "event-bus-bridges",
     href: "/vertx-tcp-eventbus-bridge/java/",
     repository: "https://github.com/vert-x3/vertx-tcp-eventbus-bridge",
@@ -477,8 +477,7 @@ const entries = [
   {
     id: "vertx-camel-bridge",
     name: "Camel Bridge",
-    description: `An event-bus bridge that lets you interact with Apache Camel
-      endpoints and routes.`,
+    description: "Apache Camel 端点和路由与事件总线沟通的桥梁。",
     category: "event-bus-bridges",
     href: "/vertx-camel-bridge/java/",
     repository: "https://github.com/vert-x3/vertx-camel-bridge",
@@ -571,8 +570,8 @@ const entries = [
   // clustering
   {
     id: "vertx-hazelcast",
-    name: "Hazelcast Clustering",
-    description: "Cluster manager implementation that uses Hazelcast.",
+    name: "Hazelcast 集群",
+    description: "基于 Hazelcast 实现的集群管理器。",
     category: "clustering",
     href: "/vertx-hazelcast/java/",
     repository: "https://github.com/vert-x3/vertx-hazelcast",
@@ -580,8 +579,8 @@ const entries = [
   },
   {
     id: "vertx-infinispan",
-    name: "Infinispan Clustering",
-    description: "Cluster manager implementation that uses Infinispan.",
+    name: "Infinispan 集群",
+    description: "基于 Infinispan 实现的集群管理器。",
     category: "clustering",
     href: "/vertx-infinispan/java/",
     repository: "https://github.com/vert-x3/vertx-infinispan",
@@ -589,8 +588,8 @@ const entries = [
   },
   {
     id: "vertx-ignite",
-    name: "Apache Ignite Clustering",
-    description: "Cluster manager implementation that uses Apache Ignite.",
+    name: "Apache Ignite 集群",
+    description: "基于 Apache Ignite 实现的集群管理器。",
     category: "clustering",
     href: "/vertx-ignite/java/",
     repository: "https://github.com/vert-x3/vertx-ignite",
@@ -598,8 +597,8 @@ const entries = [
   },
   {
     id: "vertx-zookeeper",
-    name: "Apache Zookeeper Clustering",
-    description: "Cluster manager implementation that uses Apache Zookeeper.",
+    name: "Apache Zookeeper 集群",
+    description: "基于 Apache Zookeeper 实现的集群管理器。",
     category: "clustering",
     href: "/vertx-zookeeper/java/",
     repository: "https://github.com/vert-x3/vertx-zookeeper",
@@ -610,7 +609,7 @@ const entries = [
   {
     id: "vertx-grpc",
     name: "gRPC",
-    description: "Implement gRPC clients and servers with Vert.x.",
+    description: "使用 Vert.x 实现的 gRPC 客户端和服务器。",
     category: "services",
     href: "/vertx-grpc/java/",
     repository: "https://github.com/vert-x3/vertx-grpc",

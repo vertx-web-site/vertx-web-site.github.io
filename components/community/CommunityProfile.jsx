@@ -17,7 +17,7 @@ const CommunityProfile = ({ profile, size = "small" }) => {
         <img data-srcset={
           (`${profile.avatar_url}&s=${cx} 2x,` || `https://github.com/${profile.githubId}.png?size=${cx} 2x,`) +
           (`${profile.avatar_url}&s=${cx / 2}` || `https://github.com/${profile.githubId}.png?size=${cx / 2}`)
-        } alt={profile.name || profile.githubId} title={size === "small" && (profile.name || profile.githubId)}
+        } alt={profile.name || profile.githubId} title={size === "small" ? (profile.name || profile.githubId) : undefined}
         className="lazyload" />
       </a>
       {profile.name && <div className="community-profile-name">{profile.name}</div>}

@@ -32,7 +32,7 @@ To use the Reactive PostgreSQL Client add the following dependency to the _depen
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-pg-client</artifactId>
- <version>4.0.0</version>
+ <version>4.0.2</version>
 </dependency>
 ----
 * Gradle (in your `build.gradle` file):
@@ -40,7 +40,7 @@ To use the Reactive PostgreSQL Client add the following dependency to the _depen
 [source,groovy]
 ----
 dependencies {
- compile 'io.vertx:vertx-pg-client:4.0.0'
+ compile 'io.vertx:vertx-pg-client:4.0.2'
 }
 ----
 
@@ -201,7 +201,7 @@ PgPool client = PgPool.pool(connectOptions, poolOptions);
 PgPool client2 = PgPool.pool(vertx, connectOptions, poolOptions);
 ----
 
-More information can be found in the [Vert.x documentation](https://vertx.io/docs/vertx-core/java/#_native_transports).
+More information can be found in the https://vertx.io/docs/vertx-core/java/#_native_transports[Vert.x documentation].
 
 == Connect retries
 

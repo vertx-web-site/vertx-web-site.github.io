@@ -75,7 +75,7 @@ insert(docs, "vertx-web-api-service",
   {
     id: "vertx-web-validation",
     name: "网络校验",
-    description: `一个声明式解析和校验HTTP请求的类库` ,
+    description: "一个声明式解析和校验HTTP请求的类库",
     category: "web",
     href: "/vertx-web-validation/java/",
     repository: "https://github.com/vert-x3/vertx-web",
@@ -85,8 +85,8 @@ insert(docs, "vertx-web-api-service",
   {
     id: "vertx-web-openapi",
     name: "Web OpenAPI",
-    description: `Extends Vert.x Web to support OpenAPI 3, bringing a simple
-      interface for building web routers that conform to OpenAPI contracts.`,
+    description: `继承 Vert.x Web 以支持 OpenAPI 3 ，
+    提供一个简便的接口用来创建符合OpenAPI接口协议的web路由器。`,
     category: "web",
     href: "/vertx-web-openapi/java/",
     repository: "https://github.com/vert-x3/vertx-web",
@@ -129,10 +129,8 @@ docs.entries.push({
 
 docs.entries.push({
     id: "vertx-lang-kotlin-coroutines",
-    name: "Kotlin coroutines",
-    description: `Kotlin coroutines for Vert.x, gives you super powers such as
-      async/await or Go-like channels. This enables you to write your verticle
-      code in a familiar sequential style.`,
+    name: "Kotlin 协程",
+    description: "Vert.x 对 Kotlin 协程的支持，提供如 async/await 或 类似 Go 通道的强大支持。由此您可用熟悉的顺序风格编写 Verticle 代码。",
     category: "kotlin",
     href: "/vertx-lang-kotlin-coroutines/kotlin/",
     repository: "https://github.com/vert-x3/vertx-lang-kotlin",
@@ -196,8 +194,8 @@ insert(docs, "vertx-mongo-client",
   {
     id: "vertx-sql-client-templates",
     name: "SQL Client Templates",
-    description: `A small library designed to facilitate the execution and data
-      manipulation of SQL queries.`,
+    description: `一个轻量级的库，
+    和数据的处理`,
     category: "databases",
     href: "/vertx-sql-client-templates/java/",
     repository: "https://github.com/eclipse-vertx/vertx-sql-client",
@@ -239,8 +237,11 @@ for (let entry of docs.entries) {
     entry.examples = entry.examples
       .replace(/3\.x/, "4.x")
       .replace("reactive-sql-client-examples", "sql-client-examples")
-    entry.edit = `https://github.com/vertx-china/vertx-web-site/tree/master/docs/translation/${entry.id}/java`
   }
+  entry.edit = `https://github.com/vertx-china/vertx-web-site/tree/master/docs/translation/${entry.id}/java`
 }
+find(docs, "vertx-lang-kotlin-coroutines").edit = "https://github.com/vertx-china/vertx-web-site/edit/master/docs/translation/vertx-lang-kotlin-coroutines/kotlin/index.adoc"
+find(docs, "vertx-lang-kotlin").edit = "https://github.com/vertx-china/vertx-web-site/edit/master/docs/translation/vertx-core/kotlin/index.adoc"
+find(docs, "vertx-lang-groovy").edit = "https://github.com/vertx-china/vertx-web-site/edit/master/docs/translation/vertx-core/groovy/index.adoc"
 
 export default docs
