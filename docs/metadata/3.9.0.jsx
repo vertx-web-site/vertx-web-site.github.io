@@ -253,7 +253,7 @@ const entries = [
   {
     id: "vertx-reactive-streams",
     name: "Reactive Streams",
-    description: `对Reactive streams的支持。你的应用可以与其他 reactive systems 互操作，
+    description: `对Reactive streams的支持。您的应用可以与其他 reactive systems 互操作，
       比如Akka和Project Reactor`,
     category: "reactive",
     href: "/vertx-reactive-streams/java/",
