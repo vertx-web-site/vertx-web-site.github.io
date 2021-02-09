@@ -10,10 +10,19 @@ windows系统需要修改package.json里的 `update-docs` 的命令为 `cd docs 
 如果需要在本地执行build，还需要删除build命令中的 `rm -rf .next out`
 
 ## 翻译说明
+### 如何认领
+Issues 里面带 `文档` 标签且未Assign的都是 [需要翻译的文档](https://github.com/vertx-china/vertx-web-site/issues?q=is%3Aissue+is%3Aopen+label%3A%E6%96%87%E6%A1%A3+no%3Aassignee)。 
+
+也可以在 [V4.0.2文档翻译计划](https://github.com/vertx-china/vertx-web-site/projects/1) 的左侧 `未翻译` 列中找到需要翻译的文档。
+
+请在想翻译的文档对应 issue 下面留言认领，我们会Assign给你，并修改issue标签等。
+
+### 翻译注意事项
+请 Fork 本项目再进行翻译。
 
 除文档外，其他翻译直接翻译项目内的文件。
 
-文档翻译需要翻译的是 `docs/translation` 目录
+文档翻译需要翻译的是 `docs/translation` 目录。翻译完一个模块后，请在 `docs/metadata/*.jsx` 中搜索对应模块的简介并翻译（对应文档首页的简介）。
 
 翻译原则上，建议中文段落和英文段落行数一致，这样在合并英文版本时，可以更清晰的发现文档中的冲突并解决。
 
@@ -30,6 +39,23 @@ windows系统需要修改package.json里的 `update-docs` 的命令为 `cd docs 
 > 使用地址栏#后面的内容，比如上面的示例，在地址栏中的链接应该是 http://localhost:3000/docs/xxx/#id
 
 如果是通过 `npm run dev` 来预览的话，翻译完成后，刷新即可看到翻译后的文档。
+
+### 如何提交
+提交翻译通过PR（Pull Request）进行。请在自己Fork的项目中发起PR，而不是本项目（本项目Fork了官方项目，若在本项目发起PR，默认会提交到官方项目）。
+
+PR的描述中请注明对应的issue ID，如： `完成 #23 翻译`。
+
+提交PR后，我们会分配 Reviewer； Review 文档给出的建议，可以直接在github页面对应修改意见里点击 `Commit Suggestion` 按钮直接提交，也可以自己在本地修改后直接提交，然后在github页面对应修改意见里面点击 `Resolve Conversation`。（截图待补充）
+
+### 如何 Review
+分配Reviewer后Github会发送邮件，也可以主动到 PR 列表里找感兴趣的文档协助Review。 
+
+在具体PR页面里，点击 `Files changed` 标签页可以看到该PR的修改内容。在有修改意见或疑问的行，点击左边的加号，可以评论，或加入修改意见（点击 `Insert a suggestion` 按钮）。
+
+review完毕后，点击左上角 `Review changes`，有三个选项：
+- `Comment` ： 只提交评论
+- `Approve` : 觉得PR没问题，同意修改内容
+- `Request Change` : 觉得PR还需要进一步修改
 
 ## 分支说明
 
