@@ -102,7 +102,7 @@ HttpClient client = vertx.createHttpClient(new HttpClientOptions()
 
 Vert.x EventBus 在消息交换过程中报告 span 。
 
-发送消息时的缺省追踪策略是 `PROPAGATE`, 您可以通过 `link:../../apidocs/io/vertx/core/eventbus/DeliveryOptions.html#setTracingPolicy-io.vertx.core.tracing.TracingPolicy-[setTracingPolicy]` 来配置追踪策略。
+发送消息时的缺省追踪策略是 `PROPAGATE` ，您可以通过 `link:../../apidocs/io/vertx/core/eventbus/DeliveryOptions.html#setTracingPolicy-io.vertx.core.tracing.TracingPolicy-[setTracingPolicy]` 来配置追踪策略。
 
 [source,java]
 ----
