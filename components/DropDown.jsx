@@ -1,9 +1,9 @@
 import classNames from "classnames"
 import "./DropDown.scss"
 import { ChevronDown } from "react-feather"
-import { useEffect, useState } from "react"
+import { Children, cloneElement, isValidElement, useEffect, useState } from "react"
 
-const DropDown = (({ title, children }) => {
+const DropDown = (({ title, children, align = "left" }) => {
   const [visible, setVisible] = useState(false)
 
   useEffect(() => {
@@ -20,11 +20,24 @@ const DropDown = (({ title, children }) => {
     }
   }, [visible])
 
+  let hasActive = false
+  Children.forEach(children, c => {
+    let active = isValidElement(c) && c.props !== undefined && c.props.active
+    if (active) {
+      hasActive = true
+    }
+  })
+
+  let menuItems = children
+  if (hasActive) {
+    menuItems = Children.map(children, c => cloneElement(c, { hasActiveSiblings: true }))
+  }
+
   return (
     <div className="dropdown">
       <a className="dropdown-title" onClick={() => setVisible(!visible)}>{title}<ChevronDown /></a>
-      <ul className={classNames("dropdown-menu", { visible })}>
-        {children}
+      <ul className={classNames("dropdown-menu", { visible, "align-right": align === "right" })}>
+        {menuItems}
       </ul>
     </div>
   )

@@ -12,7 +12,6 @@
 
   .dropdown-menu {
     position: absolute;
-    right: 0;
     background-color: $gray-100;
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.1);
     list-style-type: none;
@@ -21,6 +20,16 @@
     z-index: 100;
     display: none;
     user-select: none;
+
+    a {
+      color: #4d4d4d;
+      text-decoration: none;
+      font-weight: 300;
+    }
+
+    &.align-right {
+      right: 0;
+    }
 
     &.visible {
       display: block;

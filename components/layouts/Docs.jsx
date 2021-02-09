@@ -210,7 +210,7 @@ const Docs = ({ metadata, allVersions, fallbackGitHubStars, toc, contents }) => 
                   {examples && <div className="docs-content-metadata-examples">{examples}</div>}
                   {edit && <div className="docs-content-metadata-edit">{edit}</div>}
                   <span className="docs-content-metadata-version">
-                    <DropDown title={`v${currentVersion.version || sortedAllVersions[0]}`}>
+                    <DropDown title={`v${currentVersion.version || sortedAllVersions[0]}`} align="right">
                       {existsForLatestVersion && <DropDownItem active={currentVersion.version === undefined ||
                             currentVersion.version === sortedAllVersions[0]} href={`/docs${metadata.href}`}>
                         Latest (v{sortedAllVersions[0]})

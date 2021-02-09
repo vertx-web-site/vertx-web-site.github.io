@@ -1,8 +1,11 @@
+import DropDown from "./DropDown"
+import DropDownItem from "./DropDownItem"
 import NavBarContext from "./contexts/NavBarContext"
 import VersionContext from "./contexts/VersionContext"
 import classNames from "classnames"
 import Link from "next/link"
 import "./NavBar.scss"
+import { ExternalLink } from "react-feather"
 import { useContext, useEffect, useRef, useState } from "react"
 import throttle from "lodash/throttle"
 
@@ -65,9 +68,20 @@ const NavBar = () => {
         <div className={classNames("navbar-right", { collapse })}
             ref={refRight} style={{ maxHeight: rightMaxHeight }}>
           <div className="navbar-menu">
-            <Link href="/introduction-to-vertx-and-reactive/">
-              <a className="navbar-menu-item">Intro</a>
-            </Link>
+            <span className="navbar-menu-item with-drop-down">
+              <DropDown title="Start">
+                <Link href="/introduction-to-vertx-and-reactive/">
+                  <a><DropDownItem>Intro to reactive</DropDownItem></a>
+                </Link>
+                <Link href="/get-started/">
+                  <a><DropDownItem>Get started</DropDownItem></a>
+                </Link>
+                <a href="https://start.vertx.io/" target="_blank" rel="noreferrer">
+                  <DropDownItem>App generator <ExternalLink className="external-link-icon"
+                    size="1em" /></DropDownItem>
+                </a>
+              </DropDown>
+            </span>
             {currentVersion.version ? (
               <Link href={`/docs/${currentVersion.version}/`}>
                 <a className="navbar-menu-item">Docs</a>

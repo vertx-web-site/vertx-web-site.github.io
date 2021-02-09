@@ -87,7 +87,7 @@ const Docs = ({ metadata, version }) => {
               </span>
 
               <span className="docs-index-content-version">
-                <DropDown title={`v${version || docsVersions[0]}`}>
+                <DropDown title={`v${version || docsVersions[0]}`} align="right">
                   <DropDownItem active={version === undefined ||
                         version === docsVersions[0]} href="/docs/">
                     Latest (v{docsVersions[0]})
