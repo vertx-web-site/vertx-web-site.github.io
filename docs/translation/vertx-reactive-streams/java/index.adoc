@@ -9,6 +9,10 @@ Vert.x提供了自己的机制来处理数据流，实现了一个流可以使�
 相关的接口包括 `io.vertx.core.streams.ReadStream`, `io.vertx.core.streams.WriteStream` 和 `io.vertx.core.streams.Pump` 。
 请参阅Vert.x core手册，以获取有关Vert.x stream的更多信息。
 
+这个库提供了 read stream 和 write stream 的实现，
+同时也是作为 reactive streams publishers 和 subscribers 存在。
+这允许我们将任何 reactive streams publisher 或 subscriber 实例像 Vert.x read 或 write stream 一样处理。
+
 [[_using_vert_x_reactive_streams]]
 == 使用Vert.x Reactive Streams
 
@@ -38,12 +42,12 @@ compile io.vertx:vertx-reactive-streams:4.0.2
 我们提供了Vert.x `ReadStream` 接口的实现，在 `link:../../apidocs/io/vertx/ext/reactivestreams/ReactiveReadStream.html[ReactiveReadStream]`
 同时也实现了 reactive streams `Subscriber` 。
 
-你可以将ReactiveReadStream实例传递给任何一个实现了reactive streams `Publisher` 接口的实例（比如Akka中的Publisher），
+你可以将ReactiveReadStream实例传递给任何一个实现了reactive streams `Publisher` 接口的实例（比如Akka中的Publisher），
 接着你就可以从上游读取数据，就像Vert.x中其他的 `ReadStream`。
 （比如，使用 `Pump` 接口将其中的数据抽取到一个 `WriteStream` ）。
 
 这里在有一个例子，给定一个实现了reactive streams的publisher（比如akka），
-将它数据抽取出来，作为http服务端响应的body。
+将它数据抽取出来，作为http服务端响应的消息正文。
 它将自己处理背压。
 
 [source,java]
@@ -71,9 +75,9 @@ pump.start();
 可以像任何Vert.x read stream一样，
 使用 `pause`, `resume`, and `writeQueueFull` 来处理背压。
 这会在内部自动转换为传播背压的reactive streams方法。
-（需要更多的items）。
+（需要更多的元素）。
 
-这里有一个例子，从其他reactive streams实现库订阅流，并抽取http request body数据至subscriber。
+这里有一个例子，从其他reactive streams实现库订阅流，并抽取http响应的消息正文数据至subscriber。
 这里会自动处理背压。
 
 [source,java]
