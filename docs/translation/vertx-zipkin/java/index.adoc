@@ -73,7 +73,7 @@ Vertx vertx = Vertx.vertx(new VertxOptions()
 
 Vert.x HTTP 服务端和客户端基于 HTTP 请求来报告 span ：
 
-- `operationName`: HTTP 方法
+- `operationName` ：HTTP 方法
 - tags
 - `http.method` ：HTTP 方法
 - `http.url` ：请求的 URL
