@@ -12,6 +12,7 @@ import SearchPanel from "../search/SearchPanel"
 import GitHubStars from "../GitHubStars"
 import Label from "../Label"
 import { versions as allVersionsPossible } from "../../docs/metadata/all"
+import { filterLatestBugfixVersions } from "../../docs/metadata/helpers"
 import { Book, Code, Edit, List, Paperclip, X } from "react-feather"
 import "./Docs.scss"
 
@@ -214,7 +215,7 @@ const Docs = ({ metadata, allVersions, fallbackGitHubStars, toc, contents }) => 
                             currentVersion.version === sortedAllVersions[0]} href={`/docs${metadata.href}`}>
                         Latest (v{sortedAllVersions[0]})
                       </DropDownItem>}
-                      {sortedAllVersions.slice(existsForLatestVersion ? 1 : 0).map(v => (
+                      {filterLatestBugfixVersions(sortedAllVersions).slice(existsForLatestVersion ? 1 : 0).map(v => (
                         <DropDownItem key={v} active={currentVersion.version === v}
                             href={`/docs/${v}${metadata.href}`}>
                           v{v}
