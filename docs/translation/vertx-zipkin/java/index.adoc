@@ -3,7 +3,7 @@
 Vert.x 借助 Zipkin Brave client 的支持集成了 Zipkin。
 
 Vert.x 在 Vert.x HTTP Client 中使用 ZipKin HTTP sender 将 span 信息以 JSON 格式
-报告给 `http://localhost:9411/api/v2/spans`。
+报告给 `http://localhost:9411/api/v2/spans` 。
 
 [source,java]
 ----
