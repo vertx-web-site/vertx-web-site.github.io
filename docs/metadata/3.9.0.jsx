@@ -253,8 +253,8 @@ const entries = [
   {
     id: "vertx-reactive-streams",
     name: "Reactive Streams",
-    description: `Reactive streams support so your applications can interoperate
-      with other reactive systems such as Akka and Project Reactor.`,
+    description: `对Reactive streams的支持。你的应用可以与其他 reactive systems 互操作，
+      比如Akka和Project Reactor`,
     category: "reactive",
     href: "/vertx-reactive-streams/java/",
     repository: "https://github.com/vert-x3/vertx-reactive-streams",
