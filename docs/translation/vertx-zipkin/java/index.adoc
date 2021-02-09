@@ -62,7 +62,7 @@ Vertx vertx = Vertx.vertx(new VertxOptions()
 
 当开启追踪时，追踪策略用于在指定组件的追踪行为：
 
-- `link:../../apidocs/io/vertx/core/tracing/TracingPolicy.html#PROPAGATE[PROPAGATE]`: 组件在当前追踪活动中报告 span
+- `link:../../apidocs/io/vertx/core/tracing/TracingPolicy.html#PROPAGATE[PROPAGATE]` ：组件在当前追踪活动中报告 span
 - `link:../../apidocs/io/vertx/core/tracing/TracingPolicy.html#ALWAYS[ALWAYS]`: 组件在当前追踪活动中报告 span 或者创建一个新的追踪活动
 - `link:../../apidocs/io/vertx/core/tracing/TracingPolicy.html#IGNORE[IGNORE]`: 该组件不参与任何追踪活动。
 
