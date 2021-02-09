@@ -96,6 +96,7 @@ HttpClient client = vertx.createHttpClient(new HttpClientOptions()
 );
 ----
 
+[[_eventbus_tracing]]
 == EventBus 追踪
 
 Vert.x EventBus 在消息交换过程中报告 span 。
