@@ -5,7 +5,6 @@ import DropDownItem from "../DropDownItem"
 import { smoothScrollTo } from "../lib/scroll-utils"
 import VersionContext from "../contexts/VersionContext"
 import { useCallback, useContext, useEffect, useRef, useState } from "react"
-import Link from "next/link"
 import Router from "next/router"
 import Header from "../Header"
 import Footer from "../Footer"
@@ -203,9 +202,9 @@ const Docs = ({ metadata, allVersions, fallbackGitHubStars, toc, contents }) => 
                 <div className="docs-content-metadata-left">
                   {repository && <div className="docs-content-metadata-repo">{repository}</div>}
                   <div>
-                    <Link href={`/docs/${currentVersion.version ? `${currentVersion.version}/` : ""}apidocs`}>
-                      <a><Book className="feather" /> API</a>
-                    </Link>
+                    <a href={`/docs/${currentVersion.version ? `${currentVersion.version}/` : ""}apidocs`}>
+                      <Book className="feather" /> API
+                    </a>
                   </div>
                   {examples && <div className="docs-content-metadata-examples">{examples}</div>}
                   {edit && <div className="docs-content-metadata-edit">{edit}</div>}

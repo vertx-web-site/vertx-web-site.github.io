@@ -95,9 +95,9 @@ const Docs = ({ metadata, version }) => {
 
             <div className="docs-index-content-heading-right">
               <span className="docs-index-api">
-                <Link href={`/docs/${version ? `${version}/` : ""}apidocs`}>
-                  <a><Book className="feather" />API</a>
-                </Link>
+                <a href={`/docs/${version ? `${version}/` : ""}apidocs`}>
+                  <Book className="feather" />API
+                </a>
               </span>
 
               <span className="docs-index-content-version">
