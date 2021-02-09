@@ -100,7 +100,7 @@ suspend fun awaitResultExample() {
     message.reply("pong")
   }
 
-  // Send a message and wait for a reply
+  // 发送一条消息并等待回复
   val reply = awaitResult<Message<String>> { h ->
     vertx.eventBus().request("a.b.c", "ping", h)
   }
@@ -116,17 +116,17 @@ suspend fun awaitResultExample() {
 suspend fun awaitResultFailureExample() {
   val consumer = vertx.eventBus().localConsumer<String>("a.b.c")
   consumer.handler { message ->
-    // The consumer will get a failure
+    // consumer会接收到一个失败
     message.fail(0, "it failed!!!")
   }
 
-  // Send a message and wait for a reply
+  // 发送一条消息并等待回复
   try {
     awaitResult<Message<String>> { h ->
       vertx.eventBus().request("a.b.c", "ping", h)
     }
   } catch (e: ReplyException) {
-    // Handle specific reply exception here
+    // 在这里处理特定的异常回复
     println("Reply failure: ${e.message}")
   }
 }
@@ -174,10 +174,10 @@ suspend fun streamExample() {
   val adapter = vertx.receiveChannelHandler<Message<Int>>()
   vertx.eventBus().localConsumer<Int>("a.b.c").handler(adapter)
 
-  // Send 15 messages
+  // 发送15条消息
   for (i in 0..15) vertx.eventBus().send("a.b.c", i)
 
-  // Receive the first 10 messages
+  // 接收前面10条消息
   for (i in 0..10) {
     val message = adapter.receive()
     println("Received: ${message.body()}")
@@ -195,7 +195,7 @@ Vert.x 异步结果实例上的 `await` 扩展方法挂起协程直到异步操�
 [source,kotlin,indent=0]
 ----
 suspend fun awaitingFuture(anotherFuture: Future<String>) {
-  // Getting a future
+  // 获取一个 future
   val httpServerFuture = vertx.createHttpServer()
     .requestHandler { req -> req.response().end("Hello!") }
     .listen(8000)
@@ -203,7 +203,7 @@ suspend fun awaitingFuture(anotherFuture: Future<String>) {
   val httpServer = httpServerFuture.await()
   println("HTTP server port: ${httpServer.actualPort()}")
 
-  // It also works for composite futures
+  // 对于 composite futures 也一样
   val result = CompositeFuture.all(httpServerFuture, anotherFuture).await()
   if (result.succeeded()) {
     println("The server is now running!")
@@ -225,7 +225,7 @@ Vert.x 4 提供了基于 future 的 API，但那些扩展方法仍会存在，
 [source,kotlin,indent=0]
 ----
 suspend fun generatedSuspendingExtensionMethod() {
-  // Use the extension instead of wrapping with awaitResult
+  // 使用扩展方法代替 awaitResult
   val client = vertx.createNetClient()
   val socket = client.connect(1234, "localhost").await()
 }
@@ -260,15 +260,15 @@ suspend fun handleTemperatureStream() {
   var min = Double.MAX_VALUE
   var max = Double.MIN_VALUE
 
-  // Iterate until the stream is closed
-  // Non-blocking
+  // 迭代直到 stream 被关闭
+  // 非阻塞的
   for (msg in channel) {
     val temperature = msg.body()
     min = Math.min(min, temperature)
     max = Math.max(max, temperature)
   }
 
-  // The stream is now closed
+  // stream 现在被关闭了
 }
 ----
 
@@ -282,24 +282,24 @@ suspend fun handleTemperatureStream() {
 ----
 vertx.createNetServer().connectHandler { socket ->
 
-  // The record parser provides a stream of buffers delimited by \r\n
+  // 记录解析器提供了一个以\r\n分隔的缓冲流
   val stream = RecordParser.newDelimited("\r\n", socket)
 
-  // Convert the stream to a Kotlin channel
+  // 将 stream 转换为一个 Kotlin channel
   val channel = stream.toChannel(vertx)
 
-  // Run the coroutine
+  // 启动协程
   launch {
 
-    // Receive the request-line
-    // Non-blocking
+    // 接收请求行
+    // 非阻塞
     val line = channel.receive().toString().split(" ")
     val method = line[0]
     val uri = line[1]
 
     println("Received HTTP request ($method, $uri)")
 
-    // Still need to parse headers and body...
+    // 仍然需要解析标题和正文……
   }
 }
 ----
@@ -310,14 +310,14 @@ vertx.createNetServer().connectHandler { socket ->
 
 [source,kotlin,indent=0]
 ----
-// Receive HTTP headers
+// 接收 HTTP 头
 val headers = HashMap<String, String>()
 while (true) {
 
-  // Non-blocking
+  // 非阻塞
   val header = channel.receive().toString()
 
-  // Done with parsing headers
+  // 完成头解析
   if (header.isEmpty()) {
     break
   }
@@ -333,14 +333,14 @@ println("Received HTTP request ($method, $uri) with headers ${headers.keys}")
 
 [source,kotlin,indent=0]
 ----
-// Receive the request body
+// 接收请求体
 val transferEncoding = headers["transfer-encoding"]
 val contentLength = headers["content-length"]
 
 val body: Buffer?
 if (transferEncoding == "chunked") {
 
-  // Handle chunked encoding, e.g
+  // 处理分块编码，例如
   // 5\r\n
   // HELLO\r\n
   // 0\r\n
@@ -349,30 +349,30 @@ if (transferEncoding == "chunked") {
   body = Buffer.buffer()
   while (true) {
 
-    // Parse length chunk
-    // Non-blocking
+    // 解析长度块
+    // 非阻塞
     val len = channel.receive().toString().toInt(16)
     if (len == 0) {
       break
     }
 
-    // The stream is flipped to parse a chunk of the exact size
+    // 翻转stream以解析确切大小的块
     stream.fixedSizeMode(len + 2)
 
-    // Receive the chunk and append it
-    // Non-blocking
+    // 接收数据块并添加到末尾
+    // 非阻塞
     val chunk = channel.receive()
     body.appendBuffer(chunk, 0, chunk.length() - 2)
 
-    // The stream is flipped back to the \r\n delimiter to parse the next chunk
+    // stream被翻转回\r\n分隔符以解析下一个块
     stream.delimitedMode("\r\n")
   }
 } else if (contentLength != null) {
 
-  // The stream is flipped to parse a body of the exact size
+  // 翻转stream以解析确切大小的块
   stream.fixedSizeMode(contentLength.toInt())
 
-  // Non-blocking
+  // 非阻塞
   body = channel.receive()
 } else {
   body = null
@@ -395,11 +395,11 @@ suspend fun sendChannel(httpResponse: HttpServerResponse) {
   while (true) {
     val buffer = readBuffer()
 
-    // Broadcast the temperature
-    // Non-blocking but could be suspended
+    // 广播 temperature
+    // 非阻塞但是可以被挂起
     channel.send(buffer)
 
-    // Wait for one second
+    //等待1秒
     awaitEvent<Long> { vertx.setTimer(1000, it) }
   }
 }
@@ -411,20 +411,20 @@ suspend fun sendChannel(httpResponse: HttpServerResponse) {
 [source,kotlin,indent=0]
 ----
 fun broadcastTemperature(httpResponse: HttpServerResponse) {
-// Check we can write in the stream
+// 检查是否可以向 stream 中写入
   if (httpResponse.writeQueueFull()) {
 
-    // We can't write so we set a drain handler to be called when we can write again
+    // 这时我们不能写入，所以我们设置了一个引流处理程序，当我们可以再次写的时候被调用
     httpResponse.drainHandler { broadcastTemperature(httpResponse) }
   } else {
 
-    // Read temperature
+    // 读入 temperature
     val temperature = readBuffer()
 
-    // Write it to the stream
+    // 将它写回 stream
     httpResponse.write(temperature)
 
-    // Wait for one second
+    // 等待1秒
     vertx.setTimer(1000) {
       broadcastTemperature()
     }
@@ -440,7 +440,7 @@ Vertx 调度器通过Vert.x timers为协程的 `delay` 函数提供了完整的�
 [source,kotlin,indent=0]
 ----
 launch {
-  // Set a one second Vertx timer
+  // 设置一个1秒的 Vertx timer计时器
   delay(1000)
 }
 ----
@@ -450,14 +450,14 @@ launch {
 [source,kotlin,indent=0]
 ----
 val job = launch {
-  // Set a one second Vertx timer
+  // 设置一个1秒的 Vertx timer计时器
   while (true) {
     delay(1000)
-    // Do something periodically
+    // 做一些周期性的工作
   }
 }
 
-// Sometimes later
+// 一段时间后
 job.cancel()
 ----
 
@@ -473,7 +473,7 @@ launch {
       awaitEvent { anAsyncMethod(it) }
     }
   } catch (e: TimeoutCancellationException) {
-    // Cancelled
+    // 被取消
   }
 }
 ----
