@@ -45,12 +45,21 @@ Issues 里面带 `文档` 标签且未Assign的都是 [需要翻译的文档](ht
 
 PR的描述中请注明对应的issue ID，如： `完成 #23 翻译`。
 
-提交PR后，我们会分配 Reviewer； Review 文档给出的建议，可以直接在github页面对应修改意见里点击 `Commit Suggestion` 按钮直接提交，也可以自己在本地修改后直接提交，然后在github页面对应修改意见里面点击 `Resolve Conversation`。（截图待补充）
+提交PR后，我们会分配 Reviewer； Review 文档给出的建议，可以:
+1. 直接在github页面对应修改意见里点击 `Commit Suggestion` 按钮直接提交；
+2. 在github页面对应修改意见里点击 `Batch suggestion to batch`，接受多个修改意见后，在上方的 `Commit suggestions` 统一提交；
+3. 也可以自己在本地修改后直接提交，然后在github页面对应修改意见里面点击 `Resolve Conversation`。
+
+![image](https://user-images.githubusercontent.com/13050963/107318381-9b3e5b00-6ad7-11eb-9aa6-37a61b1b06f6.png)
+
+![image](https://user-images.githubusercontent.com/13050963/107318576-0c7e0e00-6ad8-11eb-9007-bc5cb5af71f4.png)
 
 ### 如何 Review
 分配Reviewer后Github会发送邮件，也可以主动到 PR 列表里找感兴趣的文档协助Review。 
 
 在具体PR页面里，点击 `Files changed` 标签页可以看到该PR的修改内容。在有修改意见或疑问的行，点击左边的加号，可以评论，或加入修改意见（点击 `Insert a suggestion` 按钮）。
+
+![](https://user-images.githubusercontent.com/13050963/107318109-f754af80-6ad6-11eb-9096-e9b90f86a5f1.png)
 
 review完毕后，点击左上角 `Review changes`，有三个选项：
 - `Comment` ： 只提交评论
