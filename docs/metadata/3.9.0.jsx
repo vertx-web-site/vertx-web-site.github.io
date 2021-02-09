@@ -181,8 +181,8 @@ const entries = [
   },
   {
     id: "vertx-redis-client",
-    name: "Redis Client",
-    description: "Redis client.",
+    name: "Redis 客户端",
+    description: "Redis 客户端。",
     category: "databases",
     href: "/vertx-redis-client/java/",
     repository: "https://github.com/vert-x3/vertx-redis-client",
