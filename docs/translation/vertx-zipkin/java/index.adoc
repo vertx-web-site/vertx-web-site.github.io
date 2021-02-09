@@ -68,6 +68,7 @@ Vertx vertx = Vertx.vertx(new VertxOptions()
 
 追踪策略一般是通过组件选项来配置。
 
+[[_http_tracing]]
 == HTTP追踪
 
 Vert.x HTTP 服务端和客户端基于 HTTP 请求来报告 span ：
