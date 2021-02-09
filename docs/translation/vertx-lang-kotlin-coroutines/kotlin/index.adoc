@@ -11,8 +11,8 @@ Vert.x 不同于许多经典应用平台的一个关键优势是它几乎是完�
 这允许基于 Vert.x 的应用程序使用极小数量的内核线程处理极高的并发（比如许多连接和消息），
 这为强大的扩容能力扫除了障碍。
 
-非阻塞的性质促生了异步的API，异步API存在很多种变种形式，比如 callbacks, promises, fibers 和 reactive 扩展。Vert.x对核心 API
-使用了回调风格，但它也支持其他模型比如
+非阻塞的特性促生了异步的API，异步API存在很多种变种形式，比如 callbacks, promises, fibers 和 reactive 扩展。在核心API中，Vert.x
+使用了callback风格，但它也支持其他模型比如
 RxJava 1 和 2。
 
 在一些情况下，使用异步 API 编程要比使用经典的/顺序风格更加富有挑战性，
@@ -26,13 +26,13 @@ RxJava 1 和 2。
 `vertx-lang-kotlin-coroutines` 使用 https://github.com/Kotlin/kotlinx.coroutines[kotlinx.coroutines] 来实现协程。
 
 NOTE: `vertx-lang-kotlin-coroutines` 目前仅在 Kotlin 下工作，并且将在 Kotlin 1.3
-脱离 https://kotlinlang.org/docs/reference/coroutines.html#experimental-status-of-coroutines[实验] 状态
+脱离 https://kotlinlang.org/docs/reference/coroutines.html#experimental-status-of-coroutines[Experimental（实验性）] 状态
 
 [[_running_a_coroutine_from_a_vert_x_context]]
 == 在 Vert.x 上下文中运行协程
 
-导入 `io.vertx.kotlin.coroutines.VertxCoroutine` ，通过 `GlobalScope.launch` 方法可以在 "Global" 作用域中运行一个协程代码块，
-（生命周期与应用一致）：
+导入 `io.vertx.kotlin.coroutines.VertxCoroutine` 后，通过 `GlobalScope.launch` 方法可以在 "Global" 作用域（生命周期与应用一致）
+中运行一个协程代码块，
 
 [source,kotlin,indent=0]
 ----
@@ -46,7 +46,7 @@ GlobalScope.launch(vertx.dispatcher()) {
 }
 ----
 
-`vertx.dispatcher()` 返回了一个协程分发器，以便让协程运行在 Vert.x 的事件循环上。
+`vertx.dispatcher()` 返回了一个协程调度器，以便让协程运行在 Vert.x 的事件循环上。
 
 `awaitEvent` 函数挂起了协程，当定时器超时时协程会通过被提供的 handler
 恢复执行。
@@ -56,10 +56,10 @@ GlobalScope.launch(vertx.dispatcher()) {
 [[_extending_coroutineverticle]]
 == 继承 CoroutineVerticle
 
-你可以将代码部署为 `io.vertx.kotlin.coroutines.CoroutineVerticle` 的一个实例，它是专为 Kotlin 协程准备的一个特殊类型的 Verticle。
+你可以在代码中编写一个继承于 `io.vertx.kotlin.coroutines.CoroutineVerticle` 的实例，这是专为 Kotlin 协程准备的一个特殊类型的 Verticle。
 `CoroutineVerticle` 类实现了 `kotlinx.coroutines.experimental.CoroutineScope` 接口，所有协程构建器都默认绑定到 Verticle 的上下文。
-应当重写 Verticle 中挂起的 `start()` 方法，可选重写挂起的
-`stop()` 方法：
+你应当重写 Verticle 中的suspend方法 `start()` ，
+以及 `stop()`（可选的）：
 
 [source,kotlin,indent=0]
 ----
@@ -74,8 +74,8 @@ class MyVerticle : CoroutineVerticle() {
 }
 ----
 
-以上所有的代码都被假设运行在一个 `CoroutineVerticle` 实现中，但是也可以通过替换所有的 `<builder> { .. }` 为
-`GlobalScope.<builder> { .. }` 来使用应用的作用域。
+以上所有的代码都将会被运行在一个 `CoroutineVerticle` 实例中，但是你也可以把所有的 `<builder> { .. }` 都替换为
+`GlobalScope.<builder> { .. }` 以使代码运行在应用内自定义的作用域。
 
 [[_getting_one_shot_asynchronous_results]]
 == 单次获取异步执行的结果
@@ -108,8 +108,8 @@ suspend fun awaitResultExample() {
 }
 ----
 
-当块中的代码产生了一个失败时，调用者可以通过
-`try`/`catch` 结构像处理一个普通的异常一样进行处理。
+当块中的代码产生了一个异常时，调用者可以像处理一个普通的异常一样，使用
+`try`/`catch` 来处理异常：
 
 [source,kotlin,indent=0]
 ----
@@ -133,9 +133,9 @@ suspend fun awaitResultFailureExample() {
 ----
 
 [[_getting_one_shot_events]]
-== 获取获取事件
+== 单次获取事件
 
-单次处理事件（如果该事件再次产生，不会再进行处理）可以使用函数 `awaitEvent` ：
+可以使用函数 `awaitEvent` 来处理一个单次事件（如果事件再次发生，它将不会继续被处理）。
 
 [source,kotlin,indent=0]
 ----
@@ -166,7 +166,7 @@ suspend fun awaitBlockingExample() {
 Vert.x API 有许多地方使用处理器（handlers）处理事件流。
 以下示例包含了处理事件总线消息和 HTTP 服务请求。
 
-`ReceiveChannelHandler` 类允许通过（可挂起的） `receive` 方法接收事件：
+`ReceiveChannelHandler` 类允许通过suspend方法 `receive` 接收事件：
 
 [source,kotlin,indent=0]
 ----
@@ -188,7 +188,7 @@ suspend fun streamExample() {
 [[_awaiting_the_completion_of_vert_x_asynchronous_results]]
 == 获取 Vert.x 异步操作的完成结果
 
-Vert.x 4 提供了 future 模型并且 `Future` 有个 `await()` 可挂起方法用于异步获取结果。
+Vert.x 4 提供了 future 模型并且 `Future` 包含一个可用来异步获取结果的suspend方法 `await()` 。
 
 Vert.x 异步结果实例上的 `await` 扩展方法挂起协程直到异步操作完成，并返回一个关联的 `AsyncResult<T>` 对象。
 
@@ -214,12 +214,12 @@ suspend fun awaitingFuture(anotherFuture: Future<String>) {
 ----
 
 [[_suspending_extension_methods]]
-== 挂起方法扩展
+== suspend（可挂起）的扩展方法
 
 为了简化使用 Vert.x 异步 API 的协程编写，Vert.x 3 生成了扩展方法。
 它让用户不必使用 `awaitResult` ，这使得代码更加简洁和可读。
 
-由于 Vert.x 4 提供了基于 future 的 API，那些扩展方法仍会存在，
+Vert.x 4 提供了基于 future 的 API，但那些扩展方法仍会存在，
 但将被 _弃用_ 。
 
 [source,kotlin,indent=0]
@@ -232,14 +232,14 @@ suspend fun generatedSuspendingExtensionMethod() {
 ----
 
 [[_channels]]
-== 通道
+== channels（通道）
 
-通道类似于 Java 的 `BlockingQueue` ，不同之处在于它不是阻塞的，而是在如下情况中挂起协程：
+channel类似于 Java 的 `BlockingQueue` ，不同之处在于它不是阻塞的，而是在如下情况中挂起协程：
 
-- 向一个满了的通道中写入值
-- 从一个空的通道中读取值
+- 向一个满的channel中写入值
+- 从一个空的channel中读取值
 
-可以通过使用 `toChannel` 扩展方法使 Vert.x 的 `ReadStream` 和 `WriteStream` 适配到通道
+可以通过使用 `toChannel` 扩展方法使 Vert.x 的 `ReadStream` 和 `WriteStream` 适配到channel
 
 这些适配器将会管理背压和流终止
 
@@ -249,7 +249,7 @@ suspend fun generatedSuspendingExtensionMethod() {
 [[_receiving_data]]
 === 接收数据
 
-当需要处理流中互相关联的值时，通道真的很有用：
+当你需要处理一系列互相关联的值时，channel非常有用:
 
 [source,kotlin,indent=0]
 ----
@@ -272,11 +272,11 @@ suspend fun handleTemperatureStream() {
 }
 ----
 
-还有一个很有用的场景是解析协议时，我们将构建一个非阻塞的 HTTP 请求解析器来展示通道的强大。
+解析协议时，channel也非常有用，下面我们将构建一个非阻塞的 HTTP 请求解析器来展示channel的强大功能。
 
 我们将依靠 http://vertx.io/docs/apidocs/io/vertx/core/parsetools/RecordParser.html[`RecordParser`] 来根据 `\r\n` 切分缓冲流。
 
-如下是一个初始版本的解析器，仅处理 HTTP 的请求行
+下面是这个解析器的一个初始版本，它仅处理 HTTP 的请求行
 
 [source,kotlin,indent=0]
 ----
@@ -304,9 +304,9 @@ vertx.createNetServer().connectHandler { socket ->
 }
 ----
 
-解析请求行只需简单地在通道上调用 `receive` 。
+解析请求行只需简单地在channel上调用 `receive` 。
 
-接下来接收分片并解析 HTTP 头，直到遇到一个空白行。
+下一步是通过接收分块来解析 HTTP 头，直到遇到一个空白行。
 
 [source,kotlin,indent=0]
 ----
@@ -385,7 +385,7 @@ println("Received HTTP request ($method, $uri) with headers ${headers.keys} and 
 [[_sending_data]]
 === 发送数据
 
-使用通道发送数据非常简单清晰：
+使用channel发送数据非常简单清晰：
 
 [source,kotlin,indent=0]
 ----
@@ -406,7 +406,7 @@ suspend fun sendChannel(httpResponse: HttpServerResponse) {
 ----
 
 `SendChannel#send` 和 `WriteStream#write` 都是非阻塞操作，然而不同于
-`SendChannel#send` 可以在通道满时暂停执行，不使用通道的情况看起来像
+`SendChannel#send` 可以在channel满时暂停执行，不使用channel的情况看起来像
 
 [source,kotlin,indent=0]
 ----
@@ -435,7 +435,7 @@ fun broadcastTemperature(httpResponse: HttpServerResponse) {
 [[_delay_cancellation_and_timeouts]]
 == 延迟，取消和超时
 
-Vertx 分发器通过定时器为协程的 `delay` 函数提供完整的支持：
+Vertx 调度器通过Vert.x timers为协程的 `delay` 函数提供了完整的支持：
 
 [source,kotlin,indent=0]
 ----
@@ -463,7 +463,7 @@ job.cancel()
 
 取消操作是 https://github.com/Kotlin/kotlinx.coroutines/blob/master/coroutines-guide.md#cancellation-is-cooperative[协作的]
 
-也可以使用 `withTimeout` 安排一个超时值
+你也可以使用 `withTimeout` 来设定一个超时值
 
 [source,kotlin,indent=0]
 ----
@@ -481,23 +481,23 @@ launch {
 [[_coroutine_builders]]
 == 协程构建器
 
-Vert.x 适用于任何协程构建器，只要 `CoroutineScope` 实例是有效的：`launch` ， `async` ， `produce` …… 。
-以下重要事项必须被注意：
+Vert.x 适用于任何协程构建器，如 `launch` ， `async` ， `produce` …… ，只要 `CoroutineScope` 实例是有效的。
+下面是几个注意事项：
 
-- `runBlocking` 没有 `CoroutineScope` 因此禁止在 Vert.x 事件循环线程上只用。
-- 为避免内存泄漏，总是使用 `coroutineScope {..}` 定义一个子作用域。在这种情况下，如果一个作用域中的协程失败，所有在该作用域中的协程都会被取消
+- 不要在 Vert.x 事件循环线程中使用`runBlocking`，因为这个方法不需要提供 `CoroutineScope` 。
+- 为了避免内存泄漏，请始终使用 `coroutineScope {..}` 来定义一个子作用域。这样，如果作用域中的一个协程失败，所有在该作用域中的协程也都会被取消。
 
 [[_coroutine_interoperability]]
 == 协程互操作性
 
 Vert.x 集成被设计成可与 Kotlin 协程全面互通
 
-* 当使用 vertx 分发器时，`kotlinx.coroutines.experimental.sync.Mutex` 在事件循环线程上执行
+* 当使用 vertx 调度器时，`kotlinx.coroutines.experimental.sync.Mutex` 将在事件循环线程上执行
 
 [[_rxjava_interoperability]]
 == RxJava 互操作性
 
-模块 `vertx-lang-kotlin-coroutines` 没有与 RxJava 的特定集成，然而 Kotlin 协程提供了 RxJava 的集成，
-它与 `vertx-lang-kotlin-coroutines` 一同工作良好。
+模块 `vertx-lang-kotlin-coroutines` 没有提供与 RxJava 的特定集成，然而 Kotlin 协程提供与 RxJava 的集成，
+它可以很好地和 `vertx-lang-kotlin-coroutines` 一起工作。
 
 可以在这里了解更多： https://github.com/Kotlin/kotlinx.coroutines/tree/master/reactive[Coroutines for reactive streams] 。
