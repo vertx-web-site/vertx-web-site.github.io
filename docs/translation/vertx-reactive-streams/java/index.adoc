@@ -46,8 +46,8 @@ compile io.vertx:vertx-reactive-streams:4.0.2
 接着你就可以从上游读取数据，就像Vert.x中其他的 `ReadStream`。
 （比如，使用 `Pump` 接口将其中的数据抽取到一个 `WriteStream` ）。
 
-这里有一个例子，给定一个实现了reactive streams的publisher（比如akka），
-将它的数据抽取出来，作为http服务端响应的消息正文。
+这里在有一个例子，给定一个实现了reactive streams的publisher（比如akka），
+将它数据抽取出来，作为http服务端响应的消息正文。
 它将自己处理背压。
 
 [source,java]
