@@ -2,13 +2,13 @@
 
 .blog-navbar {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   margin-bottom: $spacer * 2;
 
   h2 {
     display: inline;
     margin: 0;
+    flex: 1;
   }
 
   ul {
@@ -35,6 +35,20 @@
 
     ul {
       margin-top: $spacer;
+    }
+  }
+
+  .feed-icons {
+    display: flex;
+    margin-left: $spacer * 1.85;
+
+    svg {
+      height: 1.05rem;
+      margin-bottom: 3px;
+    }
+
+    @media (max-width: $sm) {
+      margin-top: $spacer / 2;
     }
   }
 }

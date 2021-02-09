@@ -14,6 +14,53 @@ single.subscribe(result -> {
 });
 ----
 
+=== Connection
+
+The simplified connection API allows to easily use a connection, the `withConnection` method borrows
+a connection from the pool and return it for you:
+
+[source,java]
+----
+Maybe<RowSet<Row>> maybe = pool.rxWithConnection((Function<SqlConnection, Maybe<RowSet<Row>>>) conn ->
+  conn
+    .query("INSERT INTO Users (first_name,last_name) VALUES ('Julien','Viet')")
+    .rxExecute()
+    .flatMap(result -> conn
+      .query("SELECT * FROM Users")
+      .rxExecute())
+    .toMaybe());
+
+maybe.subscribe(rows -> {
+  // Success
+}, err -> {
+  // Failed
+});
+----
+
+=== Transaction
+
+The simplified transaction API allows to easily write transactional asynchronous flows, The `withTransaction`
+method start and commit a transaction for you:
+
+[source,java]
+----
+Completable completable = pool.rxWithTransaction((Function<SqlConnection, Maybe<RowSet<Row>>>) conn ->
+  conn
+    .query("INSERT INTO Users (first_name,last_name) VALUES ('Julien','Viet')")
+    .rxExecute()
+    .flatMap(result -> conn
+      .query("INSERT INTO Users (first_name,last_name) VALUES ('Emad','Alblueshi')")
+      .rxExecute())
+    .toMaybe())
+  .ignoreElement();
+
+completable.subscribe(() -> {
+  // Transaction succeeded
+}, err -> {
+  // Transaction failed
+});
+----
+
 === Streaming
 
 RxJava 2 supports `Observable` and `Flowable` types, these are exposed using
@@ -86,32 +133,5 @@ flowable.subscribe(new Subscriber<Row>() {
   public void onComplete() {
     System.out.println("End of stream");
   }
-});
-----
-
-=== Transaction
-
-The simplified transaction API allows to easily write transactional
-asynchronous flows:
-
-[source,java]
-----
-Completable completable = pool.rxGetConnection()
-  .flatMapCompletable(conn -> conn
-    .rxBegin()
-    .flatMapCompletable(tx ->
-    conn
-      .query("INSERT INTO Users (first_name,last_name) VALUES ('Julien','Viet')")
-      .rxExecute()
-      .flatMap(result -> conn
-        .query("INSERT INTO Users (first_name,last_name) VALUES ('Emad','Alblueshi')")
-        .rxExecute())
-      .flatMapCompletable(res -> tx.rxCommit())
-  ));
-
-completable.subscribe(() -> {
-  // Transaction succeeded
-}, err -> {
-  // Transaction failed
 });
 ----

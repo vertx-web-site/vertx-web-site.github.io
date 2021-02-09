@@ -160,8 +160,8 @@ const entries = [
   },
   {
     id: "vertx-mysql-client",
-    name: "MySQL Client",
-    description: "A lightweight, event-driven client for MySQL.",
+    name: "MySQL 客户端",
+    description: "一款轻量级的事件驱动 MySQL 客户端。",
     category: "databases",
     href: "/vertx-mysql-client/java/",
     repository: "https://github.com/eclipse-vertx/vertx-sql-client",
@@ -318,7 +318,7 @@ const entries = [
   {
     id: "vertx-mqtt",
     name: "MQTT",
-    description: "A client and server for MQTT, compliant with MQTT 3.1.1.",
+    description: "一款 MQTT 客户端和服务器，兼容 MQTT 3.1.1 。",
     category: "mqtt",
     href: "/vertx-mqtt/java/",
     repository: "https://github.com/vert-x3/vertx-mqtt",
@@ -609,7 +609,7 @@ const entries = [
   {
     id: "vertx-grpc",
     name: "gRPC",
-    description: "Implement gRPC clients and servers with Vert.x.",
+    description: "使用 Vert.x 实现的 gRPC 客户端和服务器。",
     category: "services",
     href: "/vertx-grpc/java/",
     repository: "https://github.com/vert-x3/vertx-grpc",

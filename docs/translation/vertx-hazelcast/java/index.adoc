@@ -11,7 +11,7 @@ Vert.x 基于 https://hazelcast.com[Hazelcast] 实现了一个集群管理器。
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-hazelcast</artifactId>
- <version>4.0.0</version>
+ <version>4.0.2</version>
 </dependency>
 ----
 
@@ -28,11 +28,11 @@ Vert.x 集群器 *并不* 处理节点之间的通信。在 Vert.x 中，集群�
 [[_using_this_cluster_manager]]
 == 使用集群管理器
 
-如果通过命令行来使用 Vert.x，对应集群管理器的 `jar` 包（名为 `vertx-hazelcast-4.0.0.jar` ）
+如果通过命令行来使用 Vert.x，对应集群管理器的 `jar` 包（名为 `vertx-hazelcast-4.0.2.jar` ）
 应该在 Vert.x 中安装路径的 `lib` 目录中。
 
 如果在 Maven 或者 Gradle 工程中使用 Vert.x， 只需要在工程依赖中加上依赖：
-`io.vertx:vertx-hazelcast:4.0.0`。
+`io.vertx:vertx-hazelcast:4.0.2`。
 
 如果（集群管理器的）jar 包在 classpath 中，Vert.x将自动检测到并将其作为集群管理器。
 需要注意的是，要确保 Vert.x 的 classpath 中没有其它的集群管理器实现，
@@ -337,7 +337,7 @@ Hazelcast 的日志默认采用 `JDK` 的实现（即 JUL）。
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-hazelcast</artifactId>
- <version>4.0.0</version>
+ <version>4.0.2</version>
 </dependency>
 ----
 
@@ -348,7 +348,7 @@ Hazelcast 的日志默认采用 `JDK` 的实现（即 JUL）。
 [source]
 ----
 dependencies {
-compile ("io.vertx:vertx-hazelcast:4.0.0"){
+compile ("io.vertx:vertx-hazelcast:4.0.2"){
   exclude group: 'com.hazelcast', module: 'hazelcast'
 }
 compile "com.hazelcast:hazelcast:ENTER_YOUR_VERSION_HERE"

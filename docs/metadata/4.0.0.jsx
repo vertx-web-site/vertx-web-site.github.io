@@ -85,8 +85,8 @@ insert(docs, "vertx-web-api-service",
   {
     id: "vertx-web-openapi",
     name: "Web OpenAPI",
-    description: `Extends Vert.x Web to support OpenAPI 3, bringing a simple
-      interface for building web routers that conform to OpenAPI contracts.`,
+    description: `继承 Vert.x Web 以支持 OpenAPI 3 ，
+    提供一个简便的接口用来创建符合OpenAPI接口协议的web路由器。`,
     category: "web",
     href: "/vertx-web-openapi/java/",
     repository: "https://github.com/vert-x3/vertx-web",
@@ -194,8 +194,8 @@ insert(docs, "vertx-mongo-client",
   {
     id: "vertx-sql-client-templates",
     name: "SQL Client Templates",
-    description: `A small library designed to facilitate the execution and data
-      manipulation of SQL queries.`,
+    description: `一个轻量级的库，
+    和数据的处理`,
     category: "databases",
     href: "/vertx-sql-client-templates/java/",
     repository: "https://github.com/eclipse-vertx/vertx-sql-client",
@@ -241,5 +241,7 @@ for (let entry of docs.entries) {
   entry.edit = `https://github.com/vertx-china/vertx-web-site/tree/master/docs/translation/${entry.id}/java`
 }
 find(docs, "vertx-lang-kotlin-coroutines").edit = "https://github.com/vertx-china/vertx-web-site/edit/master/docs/translation/vertx-lang-kotlin-coroutines/kotlin/index.adoc"
+find(docs, "vertx-lang-kotlin").edit = "https://github.com/vertx-china/vertx-web-site/edit/master/docs/translation/vertx-core/kotlin/index.adoc"
+find(docs, "vertx-lang-groovy").edit = "https://github.com/vertx-china/vertx-web-site/edit/master/docs/translation/vertx-core/groovy/index.adoc"
 
 export default docs
