@@ -19,7 +19,7 @@ Vert.x AMQP 客户端基于 Vert.x Proton 实现。如果您需要更细粒度�
 == 使用 Vert.x AMQP 客户端
 
 
-* Maven (在您的 `pom.xml` 文件):
+* Maven（在您的 `pom.xml` 文件中）：
 
 [source,xml,subs="+attributes"]
 ----
