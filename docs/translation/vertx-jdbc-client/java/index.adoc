@@ -184,7 +184,7 @@ pool
 [[_getting_a_connection]]
 === 建立连接
 
-创建客户端后,你可以通过 `link:../../apidocs/io/vertx/ext/sql/SQLClient.html#getConnection-io.vertx.core.Handler-[getConnection]` 
+创建客户端后，您可以通过 `link:../../apidocs/io/vertx/ext/sql/SQLClient.html#getConnection-io.vertx.core.Handler-[getConnection]` 
 以获取一个连接。
 
 当池中有连接处于准备（ready）状态时，将在处理器（handler）中返回。
