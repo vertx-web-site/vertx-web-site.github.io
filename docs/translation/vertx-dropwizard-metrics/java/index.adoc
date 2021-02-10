@@ -765,7 +765,7 @@ check_jmx4perl --url http://10.0.2.2:8778/jolokia --name eventloops --mbean vert
 请参阅 http://search.cpan.org/~roland/jmx4perl/scripts/check_jmx4perl[check_jmx4perl 文档]
 获取更多关于检查配置的详情。
 
-[[_metrics_commands_via_telnet_or_ssh_in_vert.x_shell_service]]
+[[_metrics_commands_via_telnet_or_ssh_in_vert_x_shell_service]]
 == 在 Vert.x Shell 服务中通过 Telnet 或 SSH 执行的监控指标命令
 Metrics commands via Telnet or SSH in Vert.x Shell service
 
