@@ -137,7 +137,7 @@ connection.createReceiver("my-queue",
 处理器在连接创建完成之后被人工关联。这样，您可以获得更多控制权并添加其他的处理器。
 
 在 completion handler 中传入的 receiver 可以作为Stream来使用。所以您可以暂停、恢复
-消息的接收。背压协议（back-pressure protocol）是
+消息的接收。背压协议（back-pressure protocol）由
 用 http://docs.oasis-open.org/amqp/core/v1.0/csprd02/amqp-core-transport-v1.0-csprd02.html#doc-flow-control[AMQP credits] 实现的。
 
 接收到的消息是 `link:../../apidocs/io/vertx/amqp/AmqpMessage.html[AmqpMessage]` 实例。这些实例是不可变（immutable）的，
