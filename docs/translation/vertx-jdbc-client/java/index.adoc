@@ -1,6 +1,6 @@
 = Vert.x JDBC client
 
-Verx.x JDBC client 允许您使用Vert.x应用程序中的异步API
+Verx.x JDBC 客户端允许您使用 Vert.x 应用程序中的异步API
 与任何符合JDBC协议的数据库进行交互。
 
 JDBC client API的接口描述请参考 `link:../../apidocs/io/vertx/ext/jdbc/JDBCClient.html[JDBCClient]`.
