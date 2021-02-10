@@ -5,7 +5,7 @@ Verx.x JDBC 客户端允许您使用 Vert.x 应用程序中的异步API
 
 JDBC 客户端 API 接口描述请参考 `link:../../apidocs/io/vertx/ext/jdbc/JDBCClient.html[JDBCClient]`。
 
-如需使用Vert.x JDBC Client，请先加入以下依赖,到您的build描述 _dependencies_ 部分 ：
+如需使用Vert.x JDBC Client，请先加入以下依赖，到您的build描述 _dependencies_ 部分 ：
 
 * Maven（在您的 `pom.xml` 文件中添加）：
 
@@ -26,26 +26,26 @@ compile 'io.vertx:vertx-jdbc-client:4.0.2'
 ----
 
 [[Using_the_Sql_Client_API]]
-== 使用Sql 客户端 API
+== 使用Sql Client API
 
-SQL客户端是使用SQL数据库通信的vert.x响应式API, 
+SQL客户端是使用SQL数据库通信的vert.x响应式API， 
 已经实现了MySQL、PostgreSQL、MSSQL和IBM DB2等多个流行数据的异步驱动程序。
 但是，由于还有许多其他数据库没有异步驱动程序，
-因此JDBC客户端实现了相同的API，直接使用JDBC驱动,实现数据库的异步支持。
+因此JDBC客户端实现了相同的API，直接使用JDBC驱动，实现数据库的异步支持。
 
 [[Creating_a_DB_Pool]]
 === 创建一个数据库连接池
-一切始于连接池。创建一个连接池非常简单。 最简单的例子如下：
+一切始于连接池，创建一个连接池是非常简单的。 最简单的例子如下：
 
 [source,java]
 ----
 JDBCPool pool = JDBCPool.pool(vertx, config);
 ----
 
-在这种情况下，我们将重用JDBC 客户端 API 来创建池。
+在这种情况下，我们将重用JDBC client 的 API 来创建池。
 该配置为自由格式，用户需要查找对应JDBC连接池所需的属性。
 
-对于类型安全的替代方案, 存在第二种工厂方法。
+对于类型安全的替代方案， 存在第二种工厂方法。
 第二种工厂方法可确保配置正确(因为其属性和类型已由编译器验证)，
 但当前仅适用于Agroal连接池。
 
@@ -143,7 +143,7 @@ pool
   });
 ----
 
-当然,预准备的sql语句也适用于此模式：
+当然，预准备的sql语句也适用于此模式：
 
 [source,java]
 ----
@@ -184,10 +184,10 @@ pool
 [[Getting_a_connection]]
 === 建立连接
 
-创建客户端后,你可以通过 `link:../../apidocs/io/vertx/ext/sql/SQLClient.html#getConnection-io.vertx.core.Handler-[getConnection]` 
-以获取一个连接。
+创建客户端后，你可以通过 `link:../../apidocs/io/vertx/ext/sql/SQLClient.html#getConnection-io.vertx.core.Handler-[getConnection]` 
+来获取一个连接
 
-当池中有连接处于准备（ready）状态时，将在处理器（handler）中返回。
+从池中准备好连接后，将在 handler 中返回链接
 
 [source,java]
 ----
@@ -220,7 +220,7 @@ client.getConnection(res -> {
 有时，您将需要运行单个SQL操作，
 例如：单行查询或对一组行的更新，这些操作不需要成为事务的一部分，也不必依赖于上一个或下一个操作。
 
-对于这些情况，客户端提供了无模板的API `link:../../apidocs/io/vertx/ext/sql/SQLOperations.html[SQLOperations]` ,
+对于这些情况，客户端提供了无模板的API `link:../../apidocs/io/vertx/ext/sql/SQLOperations.html[SQLOperations]` ，
 该接口将为您执行以下步骤：
 
 1. 从连接池获取连接
@@ -267,7 +267,7 @@ client.query("SELECT * FROM USERS", ar -> {
 
 在大多数情况下，您需要在不同的客户端实例之间共享数据源。
 
-例如，您通过部署多个Verticle实例来扩展应用程序，并且希望每个Verticle实例共享相同的数据源，这样就不会有多个链接池
+例如，您通过部署多个Verticle实例来扩展应用程序，并且希望每个Verticle实例共享相同的数据源，这样就不会有多个链接池。
 
 您可以按照以下步骤进行操作：
 
@@ -283,7 +283,7 @@ SQLClient client = JDBCClient.createShared(vertx, config);
 [[Specifying_a_data_source_name]]
 ==== 指定数据源名称
 
-您可以创建一个指定数据源名称的客户端，如下所示:
+您可以创建一个指定数据源名称的客户端，如下所示：
 
 [source,java]
 ----
@@ -330,12 +330,12 @@ SQLClient client = JDBCClient.create(vertx, dataSource);
 ----
 
 [[Closing_the_client]]
-=== 关闭客户端
+=== 关闭客户
 
 长时间保持客户端(例如，在你的verticle的生命周期内)是可以的，
 但是一旦完成，就应该关闭它。
 
-共享同一数据源的客户端将计算引用次数（reference counted）。
+与其他客户端实例共享数据源的客户端被计数。
 一旦最后一个引用的相同数据源被关闭，该数据源将被关闭。
 
 [[Automatic_clean-up_in_verticles]]
@@ -346,7 +346,7 @@ SQLClient client = JDBCClient.create(vertx, dataSource);
 [[The_SQL_Connection]]
 === SQL连接
 
-与数据库的连接用表示 `link:../../apidocs/io/vertx/ext/sql/SQLConnection.html[SQLConnection]` 。
+与数据库的连接用表示 `link:../../apidocs/io/vertx/ext/sql/SQLConnection.html[SQLConnection]`.
 
 [[Auto-commit]]
 ==== 自动提交
@@ -379,7 +379,7 @@ connection.setAutoCommit(false, res -> {
 
 
 当执行查询时，
-返回结果通过 `link:../../apidocs/io/vertx/ext/sql/ResultSet.html[ResultSet]` 回调处理。
+返回结果通过 `link:../../apidocs/io/vertx/ext/sql/ResultSet.html[ResultSet]` 回调处理
 
 [source,java]
 ----
@@ -395,9 +395,9 @@ connection.query("SELECT ID, FNAME, LNAME, SHOE_SIZE from PEOPLE", res -> {
 `link:../../apidocs/io/vertx/ext/sql/ResultSet.html[ResultSet]` 表示查询的结果。
 
 列名称列表可通过 `link:../../apidocs/io/vertx/ext/sql/ResultSet.html#getColumnNames--[getColumnNames]` 获取，
-而实际结果通过 `link:../../apidocs/io/vertx/ext/sql/ResultSet.html#getResults--[getResults]` 获取。
+而实际结果通过 `link:../../apidocs/io/vertx/ext/sql/ResultSet.html#getResults--[getResults]`
 
-结果是 `link:../../apidocs/io/vertx/core/json/JsonArray.html[JsonArray]` 类型，每个元素对应一行查询结果。
+结果是 `link:../../apidocs/io/vertx/core/json/JsonArray.html[JsonArray]` 类型，每个元素对应一行查询结果
 
 [source,java]
 ----
@@ -417,10 +417,10 @@ for (JsonArray row : results) {
 
 您还可以使用 `link:../../apidocs/io/vertx/ext/sql/ResultSet.html#getRows--[getRows]` 
 - 作为Json对象实例的列表来检索行 
-- 这可以使您使用的API稍微简单一些，但是请注意，SQL结果可以包含重复的列名 - 如果是这种情况，
-则应改用 `link:../../apidocs/io/vertx/ext/sql/ResultSet.html#getResults--[getResults]`
+- 这可以使您使用的API稍微简单一些，但是请注意，SQL结果可以包含重复的列名-如果是这种情况，则应
+改用 `link:../../apidocs/io/vertx/ext/sql/ResultSet.html#getResults--[getResults]`
 
-使用Json对象作为返回类型,进行迭代的示例：
+使用Json对象作为返回类型，进行迭代的示例：
 
 [source,java]
 ----
@@ -440,10 +440,10 @@ for (JsonObject row : rows) {
 ==== 预备语句查询
 
 要执行准备好的语句查询，
-可以使用 `link:../../apidocs/io/vertx/ext/sql/SQLConnection.html#queryWithParams-java.lang.String-io.vertx.core.json.JsonArray-io.vertx.core.Handler-[queryWithParams]` 。
+可以使用 `link:../../apidocs/io/vertx/ext/sql/SQLConnection.html#queryWithParams-java.lang.String-io.vertx.core.json.JsonArray-io.vertx.core.Handler-[queryWithParams]`.
 
 这将进行查询，其中包含参数占位符和一个 `link:../../apidocs/io/vertx/core/json/JsonArray.html[JsonArray]` 
-或参数值。
+或参数值
 
 [source,java]
 ----
@@ -471,7 +471,7 @@ connection.queryWithParams(query, params, res -> {
 更新执行完成后，
 通过回调返回 `link:../../apidocs/io/vertx/ext/sql/UpdateResult.html[UpdateResult]` 的结果
 
-更新内容的行数通过 `link:../../apidocs/io/vertx/ext/sql/UpdateResult.html#getUpdated--[getUpdated]` 获取,
+更新内容的行数通过 `link:../../apidocs/io/vertx/ext/sql/UpdateResult.html#getUpdated--[getUpdated]` 获取，
 如果更新生成了键，则可以使用 `link:../../apidocs/io/vertx/ext/sql/UpdateResult.html#getKeys--[getKeys]` 获取
 
 [source,java]
@@ -493,7 +493,7 @@ connection.update("INSERT INTO PEOPLE VALUES (null, 'john', 'smith', 9)", res ->
 ==== 准备的语句更新
 
 要执行准备好的语句更新，
-可以使用 `link:../../apidocs/io/vertx/ext/sql/SQLConnection.html#updateWithParams-java.lang.String-io.vertx.core.json.JsonArray-io.vertx.core.Handler-[updateWithParams]` 。
+可以使用 `link:../../apidocs/io/vertx/ext/sql/SQLConnection.html#updateWithParams-java.lang.String-io.vertx.core.json.JsonArray-io.vertx.core.Handler-[updateWithParams]` .
 
 这种方式的更新语句包含参数占位符，
 和JsonArray参数列表或参数值进行更新
@@ -523,7 +523,7 @@ connection.updateWithParams(update, params, res -> {
 ==== 可赎回声明
 
 要执行可调用语句(SQL函数或SQL过程)，可以使用 
-`link:../../apidocs/io/vertx/ext/sql/SQLConnection.html#callWithParams-java.lang.String-io.vertx.core.json.JsonArray-io.vertx.core.json.JsonArray-io.vertx.core.Handler-[callWithParams]`.
+`link:../../apidocs/io/vertx/ext/sql/SQLConnection.html#callWithParams-java.lang.String-io.vertx.core.json.JsonArray-io.vertx.core.json.JsonArray-io.vertx.core.Handler-[callWithParams]`。
 
 这将使用标准JDBC格式 `{call func_proc_name()}` 接受可调用语句，
 还可以选择包含参数占位符，例如：`{call func_proc_name(?,?)}` ，
@@ -566,7 +566,7 @@ connection.callWithParams(func, new JsonArray().add("John").add("Doe"), null, re
 });
 ----
 
-但是，您还可以返回如下值：
+但是，您还可以返回如下值:
 
 [source,java]
 ----
@@ -620,7 +620,7 @@ connection.batch(batch, res -> {
 });
 ----
 
-使用一个参数列表执行一个预处理sql语句，如下示例：
+执行一个预处理sql语句，并且使用一个参数列表，示例如下
 
 [source,java]
 ----
@@ -679,7 +679,7 @@ while (rs != null) {
 [[Streaming]]
 ==== 流式返回
 
-在处理大量数据返回时，建议不要使用刚刚描述的API，而是使用流式返回。
+在处理大量数据返回时，建议不要使用刚刚描述的API，而是使用流式返回.
 因为这样可以避免将整个响应内容填充到内存和JSON中，而是逐行处理数据，例如：
 
 [source,java]
@@ -693,7 +693,7 @@ connection.queryStream("SELECT * FROM large_table", stream -> {
 });
 ----
 
-您可以完全控制流何时暂停,恢复和结束。
+您可以完全控制流何时暂停，恢复和结束。
 对于查询返回多个结果集的情况，您应该使用结果集结束事件来获取下一个结果(如果有)。
 如果有更多数据，则流处理程序将接收新数据，否则将调用结束处理程序。
 
@@ -726,7 +726,7 @@ connection.queryStream("SELECT * FROM large_table; SELECT * FROM other_table", s
 然后，您可以进行事务性操作，并在要提交或回滚时使用 
 `link:../../apidocs/io/vertx/ext/sql/SQLConnection.html#commit-io.vertx.core.Handler-[commit]`
 或 
-`link:../../apidocs/io/vertx/ext/sql/SQLConnection.html#rollback-io.vertx.core.Handler-[rollback]` .
+`link:../../apidocs/io/vertx/ext/sql/SQLConnection.html#rollback-io.vertx.core.Handler-[rollback]` 。
 
 提交/回滚完成后，将调用处理程序，并且下一个事务将自动启动。
 
@@ -758,8 +758,8 @@ endif::[]
 以下配置属性通常适用：
 
 `provider_class`:: 实际用于管理数据库连接的类的类名。
-默认情况下是, `io.vertx.ext.jdbc.spi.impl.C3P0DataSourceProvider` 但是如果您要使用其他提供程序，则可以覆盖此属性并提供您的实现。
-`row_stream_fetch_size`::  `SQLRowStream` 内部缓存的大小,
+默认情况下是， `io.vertx.ext.jdbc.spi.impl.C3P0DataSourceProvider` 但是如果您要使用其他提供程序，则可以覆盖此属性并提供您的实现。
+`row_stream_fetch_size`::  `SQLRowStream` 内部缓存的大小，
 曾经用来提高性能。默认情况下等于128
 
 假设正在使用C3P0实现(默认设置)，则将应用以下额外的配置属性：
@@ -768,21 +768,21 @@ endif::[]
 `driver_class`:: JDBC驱动程序的类
 `user`:: 数据库的用户名
 `password`:: 数据库的密码
-`max_pool_size`:: 池的最大连接数 , 默认为 `15`
-`initial_pool_size`:: 用于初始化池的连接数 , 默认为 `3`
+`max_pool_size`:: 池的最大连接数 ， 默认为 `15`
+`initial_pool_size`:: 用于初始化池的连接数 ， 默认为 `3`
 `min_pool_size`:: 连接池的最小连接数
-`max_statements`::  `PreparedStatement` 缓存的数量,默认值为 `0` 。
-`max_statements_per_connection`::  每个链接 `PreparedStatement` 缓存的数量 , 默认值为 `0`.
-`max_idle_time`:: 空闲连接将关闭之前经过的秒数，默认值为 `0`（永不过期）。
+`max_statements`::  `PreparedStatement` 缓存的数量，默认值为 `0`。
+`max_statements_per_connection`::  每个链接 `PreparedStatement` 缓存的数量 ， 默认值为 `0`。
+`max_idle_time`:: 空闲连接将关闭之前经过的秒数 ，默认值为 `0` (永不过期)。
 
-其他连接池提供程序：
+其他连接池提供程序是：
 
 * Hikari
 * Agroal
 
 与C3P0类似，它们可以通过在JSON配置对象上传递配置值来进行配置。
 对于特殊情况，您不想将应用程序部署为 _fat jar_ ，而是使用 vert.x 发行版运行，
-如果您没有写权限将JDBC驱动程序添加到vert.x lib目录,
+如果您没有写权限将JDBC驱动程序添加到vert.x lib目录，
 并使用 `-cp` 命令行标志传递它，则建议使用Agroal。
 
 如果要配置任何其他C3P0属性，可以将文件 `c3p0.properties` 添加到类路径。
