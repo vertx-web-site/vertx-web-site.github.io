@@ -799,7 +799,7 @@ JsonObject config = new JsonObject()
 SQLClient client = JDBCClient.createShared(vertx, config);
 ----
 
-Hikari使用一组不同的属性:
+Hikari使用一组不同的属性：
 
 * `jdbcUrl` JDBC的URL
 * `driverClassName` JDBC驱动的类名
