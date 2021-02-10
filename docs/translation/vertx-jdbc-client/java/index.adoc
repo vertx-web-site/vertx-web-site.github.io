@@ -25,15 +25,15 @@ JDBC 客户端 API 接口描述请参考 `link:../../apidocs/io/vertx/ext/jdbc/J
 compile 'io.vertx:vertx-jdbc-client:4.0.2'
 ----
 
-[[Using_the_Sql_Client_API]]
-== 使用Sql Client API
+[[_using_the_sql_client_api]]
+== 使用Sql 客户端 API
 
 SQL客户端是使用SQL数据库通信的vert.x响应式API， 
 已经实现了MySQL、PostgreSQL、MSSQL和IBM DB2等多个流行数据的异步驱动程序。
 但是，由于还有许多其他数据库没有异步驱动程序，
 因此JDBC客户端实现了相同的API，直接使用JDBC驱动，实现数据库的异步支持。
 
-[[Creating_a_DB_Pool]]
+[[_creating_a_db_pool]]
 === 创建一个数据库连接池
 一切始于连接池，创建一个连接池是非常简单的。 最简单的例子如下：
 
@@ -66,7 +66,7 @@ JDBCPool pool = JDBCPool.pool(
     .setMaxSize(16)
 );
 ----
-[[Using_the_Pool]]
+[[_using_the_pool]]
 ==== 使用连接池
 
 有了链接池后，就可以开始使用数据库了，连接池以两种模式运行：
@@ -174,18 +174,18 @@ pool
   });
 ----
 
-[[Legacy_JDBC_Client_API]]
+[[_legacy_jdbc_client_api]]
 == 旧版JDBC客户端API
 现在已弃用Vert.x 3中创建的JDBC客户端API，而应使用新的SQL客户端API。
 
 在Vert.x 4的生命周期内仍将支持该功能，
 以允许将应用程序迁移到新的SQL Client API。
 
-[[Getting_a_connection]]
+[[_getting_a_connection]]
 === 建立连接
 
-创建客户端后，你可以通过 `link:../../apidocs/io/vertx/ext/sql/SQLClient.html#getConnection-io.vertx.core.Handler-[getConnection]` 
-来获取一个连接
+创建客户端后，您可以通过 `link:../../apidocs/io/vertx/ext/sql/SQLClient.html#getConnection-io.vertx.core.Handler-[getConnection]` 
+以获取一个连接。
 
 从池中准备好连接后，将在 handler 中返回链接
 
@@ -214,7 +214,7 @@ client.getConnection(res -> {
 
 您可以在 http://vertx.io/docs/vertx-sql-common/java/[常见的sql接口] 文档中学习如何使用它。
 
-[[Simple_SQL_Operations]]
+[[_simple_sql_operations]]
 === 简单的SQL操作
 
 有时，您将需要运行单个SQL操作，
@@ -224,7 +224,7 @@ client.getConnection(res -> {
 该接口将为您执行以下步骤：
 
 1. 从连接池获取连接
-2. 执行你的动作
+2. 执行您的动作
 3. 关闭并将连接返回到连接池
 
 从`USERS`表中加载用户的示例如下：
@@ -257,12 +257,12 @@ client.query("SELECT * FROM USERS", ar -> {
 
 有关这些API的更多详细信息，请参阅 `link:../../apidocs/io/vertx/ext/sql/SQLOperations.html[SQLOperations]` 接口。
 
-[[Creating_a_the_client]]
+[[_creating_a_the_client]]
 === 创建一个客户端
 
 有几种创建客户端的方法。让我们把它们都过一遍。
 
-[[Using_default_shared_data_source]]
+[[_using_default_shared_data_source]]
 ==== 使用默认的共享数据源
 
 在大多数情况下，您需要在不同的客户端实例之间共享数据源。
@@ -280,7 +280,7 @@ SQLClient client = JDBCClient.createShared(vertx, config);
 
 随后的调用将返回使用相同数据源的新客户端实例，因此将不会使用该配置。
 
-[[Specifying_a_data_source_name]]
+[[_specifying_a_data_source_name]]
 ==== 指定数据源名称
 
 您可以创建一个指定数据源名称的客户端，如下所示：
@@ -301,7 +301,7 @@ SQLClient client = JDBCClient.createShared(vertx, config, "MyDataSource");
 
 如果您希望不同的客户端组具有不同的数据源(例如，它们与不同的数据库进行交互)，请使用这种创建方式。
 
-[[Creating_a_client_with_a_non_shared_data_source]]
+[[_creating_a_client_with_a_non_shared_data_source]]
 ==== 使用非共享数据源创建客户端
 
 在大多数情况下，您将需要在不同的客户端实例之间共享数据源。
@@ -319,7 +319,7 @@ SQLClient client = JDBCClient.create(vertx, config);
 这等效于 `link:../../apidocs/io/vertx/ext/jdbc/JDBCClient.html#createShared-io.vertx.core.Vertx-io.vertx.core.json.JsonObject-java.lang.String-[JDBCClient.createShared]` 
 每次使用唯一的数据源名称进行调用。
 
-[[Specifying_a_data_source]]
+[[_specifying_a_data_source]]
 ==== 指定数据源
 
 如果您已经有一个预先存在的数据源，则还可以直接指定以下内容来创建客户端：
@@ -329,8 +329,8 @@ SQLClient client = JDBCClient.create(vertx, config);
 SQLClient client = JDBCClient.create(vertx, dataSource);
 ----
 
-[[Closing_the_client]]
-=== 关闭客户
+[[_closing_the_client]]
+=== 关闭客户端
 
 长时间保持客户端(例如，在你的verticle的生命周期内)是可以的，
 但是一旦完成，就应该关闭它。
@@ -338,17 +338,17 @@ SQLClient client = JDBCClient.create(vertx, dataSource);
 与其他客户端实例共享数据源的客户端被计数。
 一旦最后一个引用的相同数据源被关闭，该数据源将被关闭。
 
-[[Automatic_clean-up_in_verticles]]
+[[_automatic_clean_up_in_verticles]]
 ==== verticles中自动清理
 
 如果要从verticle内部创建客户端，则取消部署verticle时将自动关闭客户端。
 
-[[The_SQL_Connection]]
+[[_the_sql_connection]]
 === SQL连接
 
 与数据库的连接用表示 `link:../../apidocs/io/vertx/ext/sql/SQLConnection.html[SQLConnection]`.
 
-[[Auto-commit]]
+[[_auto_commit]]
 ==== 自动提交
 
 获取连接时，自动提交设置为true。
@@ -370,7 +370,7 @@ connection.setAutoCommit(false, res -> {
 });
 ----
 
-[[Executing_queries]]
+[[_executing_queries]]
 ==== 执行查询
 
 执行查询使用 `link:../../apidocs/io/vertx/ext/sql/SQLConnection.html#query-java.lang.String-io.vertx.core.Handler-[query]`
@@ -436,7 +436,7 @@ for (JsonObject row : rows) {
 }
 ----
 
-[[Prepared_statement_queries]]
+[[_prepared_statement_queries]]
 ==== 预备语句查询
 
 要执行准备好的语句查询，
@@ -461,7 +461,7 @@ connection.queryWithParams(query, params, res -> {
 });
 ----
 
-[[Executing_INSERT_UPDATE_or_DELETE]]
+[[_executing_insert_update_or_delete]]
 ==== 执行INSERT，UPDATE或DELETE
 
 要执行更新数据库的操作，请使用 `link:../../apidocs/io/vertx/ext/sql/SQLConnection.html#update-java.lang.String-io.vertx.core.Handler-[update]`.
@@ -489,7 +489,7 @@ connection.update("INSERT INTO PEOPLE VALUES (null, 'john', 'smith', 9)", res ->
 });
 ----
 
-[[Prepared_statement_updates]]
+[[_prepared_statement_updates]]
 ==== 准备的语句更新
 
 要执行准备好的语句更新，
@@ -519,7 +519,7 @@ connection.updateWithParams(update, params, res -> {
 });
 ----
 
-[[Callable_statements]]
+[[_callable_statements]]
 ==== 可赎回声明
 
 要执行可调用语句(SQL函数或SQL过程)，可以使用 
@@ -594,7 +594,7 @@ connection.callWithParams(func, new JsonArray().add("John"), new JsonArray().add
 
 已注册的 `OUT` 参数将以数组形式出现在 `output` 属性下的结果集中。
 
-[[Batch_operations]]
+[[_batch_operations]]
 ==== 批量操作
 
 SQL通用接口还定义了如何执行批处理操作。批处理操作分为3种类型：
@@ -637,7 +637,7 @@ connection.batchWithParams("INSERT INTO emp (name) VALUES (?)", batch, res -> {
 });
 ----
 
-[[Executing_other_operations]]
+[[_executing_other_operations]]
 ==== 执行其他操作
 
 要执行任何其他数据库操作，例如 `CREATE TABLE` 您可以使用 
@@ -659,7 +659,7 @@ connection.execute(sql, execute -> {
 });
 ----
 
-[[Multiple_ResultSet_responses]]
+[[_multiple_resultset_responses]]
 ==== 多个ResultSet响应
 
 在某些情况下，您的查询可能返回多个结果集，
@@ -676,7 +676,7 @@ while (rs != null) {
 }
 ----
 
-[[Streaming]]
+[[_streaming]]
 ==== 流式返回
 
 在处理大量数据返回时，建议不要使用刚刚描述的API，而是使用流式返回.
@@ -718,7 +718,7 @@ connection.queryStream("SELECT * FROM large_table; SELECT * FROM other_table", s
 });
 ----
 
-[[Using_transactions]]
+[[_using_transactions]]
 ==== 使用事务
 
 要使用事务，请先使用 `link:../../apidocs/io/vertx/ext/sql/SQLConnection.html#setAutoCommit-boolean-io.vertx.core.Handler-[setAutoCommit]` 将自动提交设置为false 。
@@ -741,7 +741,7 @@ connection.commit(res -> {
 });
 ----
 
-[[Closing_connections]]
+[[_closing_connections]]
 ==== 关闭连接
 
 完成连接后，应使用 `link:../../apidocs/io/vertx/ext/sql/SQLConnection.html#close-io.vertx.core.Handler-[close]` 将其返回到池中。
@@ -750,7 +750,7 @@ ifeval::["java" == "java"]
 include::override/rxjava2.adoc[]
 endif::[]
 
-[[Configuration]]
+[[_configuration]]
 === 配置项
 
 在创建或部署配置时，会将配置传递给客户端。
@@ -810,7 +810,7 @@ Hikari使用一组不同的属性：
 请参阅 https://github.com/brettwooldridge/HikariCP#configuration-knobs-baby[Hikari documentation] 。
 另请参阅  https://agroal.github.io/[Agroal documentation] 以配置Agroal。
 
-[[JDBC_Drivers]]
+[[_jdbc_drivers]]
 JDBC驱动程序
 
 如果使用默认值 `DataSourceProvider`(依赖于c3p0)，则需要在类路径中复制JDBC驱动程序类。
@@ -818,7 +818,7 @@ JDBC驱动程序
 
 使用不同的连接池时，行为可能会有所不同。
 
-[[Data_types]]
+[[_data_types]]
 === 数据类型
 
 由于Vert.x使用JSON作为其标准消息格式，因此客户端接受的数据类型会有很多限制。
