@@ -1,4 +1,4 @@
-= Vert.x JDBC client
+= Vert.x JDBC 客户端
 
 Verx.x JDBC 客户端允许您使用 Vert.x 应用程序中的异步API
 与任何符合JDBC协议的数据库进行交互。
@@ -31,11 +31,11 @@ compile 'io.vertx:vertx-jdbc-client:4.0.2'
 SQL客户端是使用SQL数据库通信的vert.x响应式API， 
 已经实现了MySQL、PostgreSQL、MSSQL和IBM DB2等多个流行数据的异步驱动程序。
 但是，由于还有许多其他数据库没有异步驱动程序，
-因此JDBC客户端实现了相同的API，直接使用JDBC驱动，实现数据库的异步支持。
+因此JDBC客户端实现了相同的API，直接使用JDBC驱动，以实现数据库的异步支持。
 
 [[_creating_a_db_pool]]
 === 创建一个数据库连接池
-一切始于连接池，创建一个连接池是非常简单的。 最简单的例子如下：
+一切始于连接池，创建一个连接池是非常简单的。最简单的例子如下：
 
 [source,java]
 ----
