@@ -18,7 +18,7 @@ JDBC 客户端 API 接口描述请参考 `link:../../apidocs/io/vertx/ext/jdbc/J
 </dependency>
 ----
 
-* Gradle (在您的 `build.gradle` 文件中添加):
+* Gradle（在您的 `build.gradle` 文件中添加）：
 
 [source,groovy,subs="+attributes"]
 ----
