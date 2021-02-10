@@ -210,8 +210,8 @@ const entries = [
   },
   {
     id: "vertx-jdbc-client",
-    name: "JDBC client",
-    description: "JDBC support for Vert.x.",
+    name: "JDBC 客户端",
+    description: "Vert.x 的 JDBC 支持。",
     category: "databases",
     href: "/vertx-jdbc-client/java/",
     repository: "https://github.com/vert-x3/vertx-jdbc-client",
