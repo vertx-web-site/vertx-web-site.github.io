@@ -26,7 +26,7 @@ compile 'io.vertx:vertx-jdbc-client:4.0.2'
 ----
 
 [[Using_the_Sql_Client_API]]
-== 使用Sql Client API
+== 使用Sql 客户端 API
 
 SQL客户端是使用SQL数据库通信的vert.x响应式API, 
 已经实现了MySQL、PostgreSQL、MSSQL和IBM DB2等多个流行数据的异步驱动程序。
@@ -35,15 +35,15 @@ SQL客户端是使用SQL数据库通信的vert.x响应式API,
 
 [[Creating_a_DB_Pool]]
 === 创建一个数据库连接池
-一切始于连接池.创建一个连接池是非常简单的. 最简单的例子如下:
+一切始于连接池。创建一个连接池非常简单。 最简单的例子如下：
 
 [source,java]
 ----
 JDBCPool pool = JDBCPool.pool(vertx, config);
 ----
 
-在这种情况下，我们将重用JDBC client 的 API 来创建池 .
-该配置为自由格式，用户需要查找对应JDBC连接池所需的属性.
+在这种情况下，我们将重用JDBC 客户端 API 来创建池。
+该配置为自由格式，用户需要查找对应JDBC连接池所需的属性。
 
 对于类型安全的替代方案, 存在第二种工厂方法。
 第二种工厂方法可确保配置正确(因为其属性和类型已由编译器验证)，
@@ -113,7 +113,7 @@ pool
 
 使用此模式非常方便，因为它使您可以专注于业务逻辑，而不是连接管理。
 有时可能需要保留秩序和因果关系。
-在这种情况下，我们需要在手动连接模式下执行查询:
+在这种情况下，我们需要在手动连接模式下执行查询：
 
 [source,java]
 ----
@@ -185,9 +185,9 @@ pool
 === 建立连接
 
 创建客户端后,你可以通过 `link:../../apidocs/io/vertx/ext/sql/SQLClient.html#getConnection-io.vertx.core.Handler-[getConnection]` 
-来获取一个连接
+以获取一个连接。
 
-从池中准备好连接后，将在 handler 中返回链接
+当池中有连接处于准备（ready）状态时，将在处理器（handler）中返回。
 
 [source,java]
 ----
@@ -330,12 +330,12 @@ SQLClient client = JDBCClient.create(vertx, dataSource);
 ----
 
 [[Closing_the_client]]
-=== 关闭客户
+=== 关闭客户端
 
 长时间保持客户端(例如，在你的verticle的生命周期内)是可以的，
 但是一旦完成，就应该关闭它。
 
-与其他客户端实例共享数据源的客户端被计数。
+共享同一数据源的客户端将计算引用次数（reference counted）。
 一旦最后一个引用的相同数据源被关闭，该数据源将被关闭。
 
 [[Automatic_clean-up_in_verticles]]
@@ -346,7 +346,7 @@ SQLClient client = JDBCClient.create(vertx, dataSource);
 [[The_SQL_Connection]]
 === SQL连接
 
-与数据库的连接用表示 `link:../../apidocs/io/vertx/ext/sql/SQLConnection.html[SQLConnection]`.
+与数据库的连接用表示 `link:../../apidocs/io/vertx/ext/sql/SQLConnection.html[SQLConnection]` 。
 
 [[Auto-commit]]
 ==== 自动提交
@@ -379,7 +379,7 @@ connection.setAutoCommit(false, res -> {
 
 
 当执行查询时，
-返回结果通过 `link:../../apidocs/io/vertx/ext/sql/ResultSet.html[ResultSet]` 回调处理
+返回结果通过 `link:../../apidocs/io/vertx/ext/sql/ResultSet.html[ResultSet]` 回调处理。
 
 [source,java]
 ----
@@ -395,9 +395,9 @@ connection.query("SELECT ID, FNAME, LNAME, SHOE_SIZE from PEOPLE", res -> {
 `link:../../apidocs/io/vertx/ext/sql/ResultSet.html[ResultSet]` 表示查询的结果。
 
 列名称列表可通过 `link:../../apidocs/io/vertx/ext/sql/ResultSet.html#getColumnNames--[getColumnNames]` 获取，
-而实际结果通过 `link:../../apidocs/io/vertx/ext/sql/ResultSet.html#getResults--[getResults]`
+而实际结果通过 `link:../../apidocs/io/vertx/ext/sql/ResultSet.html#getResults--[getResults]` 获取。
 
-结果是 `link:../../apidocs/io/vertx/core/json/JsonArray.html[JsonArray]` 类型，每个元素对应一行查询结果
+结果是 `link:../../apidocs/io/vertx/core/json/JsonArray.html[JsonArray]` 类型，每个元素对应一行查询结果。
 
 [source,java]
 ----
@@ -417,8 +417,8 @@ for (JsonArray row : results) {
 
 您还可以使用 `link:../../apidocs/io/vertx/ext/sql/ResultSet.html#getRows--[getRows]` 
 - 作为Json对象实例的列表来检索行 
-- 这可以使您使用的API稍微简单一些，但是请注意，SQL结果可以包含重复的列名-如果是这种情况，则应
-改用 `link:../../apidocs/io/vertx/ext/sql/ResultSet.html#getResults--[getResults]`
+- 这可以使您使用的API稍微简单一些，但是请注意，SQL结果可以包含重复的列名 - 如果是这种情况，
+则应改用 `link:../../apidocs/io/vertx/ext/sql/ResultSet.html#getResults--[getResults]`
 
 使用Json对象作为返回类型,进行迭代的示例：
 
