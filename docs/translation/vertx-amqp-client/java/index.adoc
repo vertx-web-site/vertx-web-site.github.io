@@ -77,7 +77,7 @@ AmqpClient client2 = AmqpClient.create(vertx, options);
 == 建立连接
 
 一旦您创建了一个客户端，您需要显式地连接远程服务。
-这是由 `connect` 方法做到的：
+这可用 `connect` 方法实现：
 
 [source,java]
 ----
