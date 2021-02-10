@@ -804,7 +804,7 @@ Hikari使用一组不同的属性：
 * `jdbcUrl` JDBC的URL
 * `driverClassName` JDBC驱动的类名
 * `maximumPoolSize` 连接池的大小
-* `username` 数据库用户名 ( `password` 数据库密码)
+* `username` 数据库用户名（`password` 数据库密码）
 
 有关更多详细信息，
 请参阅 https://github.com/brettwooldridge/HikariCP#configuration-knobs-baby[Hikari documentation] 。
