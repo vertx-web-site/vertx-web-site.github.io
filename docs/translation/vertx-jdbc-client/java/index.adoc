@@ -7,7 +7,7 @@ JDBC 客户端 API 接口描述请参考 `link:../../apidocs/io/vertx/ext/jdbc/J
 
 如需使用Vert.x JDBC Client，请先加入以下依赖,到您的build描述 _dependencies_ 部分 ：
 
-* Maven (在您的 `pom.xml`文件中添加):
+* Maven（在您的 `pom.xml` 文件中添加）：
 
 [source,xml,subs="+attributes"]
 ----
