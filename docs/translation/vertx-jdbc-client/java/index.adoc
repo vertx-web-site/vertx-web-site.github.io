@@ -440,10 +440,10 @@ for (JsonObject row : rows) {
 ==== 预备语句查询
 
 要执行准备好的语句查询，
-可以使用 `link:../../apidocs/io/vertx/ext/sql/SQLConnection.html#queryWithParams-java.lang.String-io.vertx.core.json.JsonArray-io.vertx.core.Handler-[queryWithParams]`.
+可以使用 `link:../../apidocs/io/vertx/ext/sql/SQLConnection.html#queryWithParams-java.lang.String-io.vertx.core.json.JsonArray-io.vertx.core.Handler-[queryWithParams]` 。
 
 这将进行查询，其中包含参数占位符和一个 `link:../../apidocs/io/vertx/core/json/JsonArray.html[JsonArray]` 
-或参数值
+或参数值。
 
 [source,java]
 ----
@@ -468,7 +468,7 @@ connection.queryWithParams(query, params, res -> {
 
 更新字符串是原始SQL，无需更改实际数据库即可通过。
 
-更新执行完成后,
+更新执行完成后，
 通过回调返回 `link:../../apidocs/io/vertx/ext/sql/UpdateResult.html[UpdateResult]` 的结果
 
 更新内容的行数通过 `link:../../apidocs/io/vertx/ext/sql/UpdateResult.html#getUpdated--[getUpdated]` 获取,
@@ -493,9 +493,9 @@ connection.update("INSERT INTO PEOPLE VALUES (null, 'john', 'smith', 9)", res ->
 ==== 准备的语句更新
 
 要执行准备好的语句更新，
-可以使用 `link:../../apidocs/io/vertx/ext/sql/SQLConnection.html#updateWithParams-java.lang.String-io.vertx.core.json.JsonArray-io.vertx.core.Handler-[updateWithParams]` .
+可以使用 `link:../../apidocs/io/vertx/ext/sql/SQLConnection.html#updateWithParams-java.lang.String-io.vertx.core.json.JsonArray-io.vertx.core.Handler-[updateWithParams]` 。
 
-这种方式的更新语句包含参数占位符,
+这种方式的更新语句包含参数占位符，
 和JsonArray参数列表或参数值进行更新
 
 [source,java]
@@ -550,7 +550,7 @@ connection.call(func, res -> {
 ----
 
 在使用Procedures时，仍然通过其参数从过程中返回值，如果不返回任何内容，
-用法如下:
+用法如下：
 
 [source,java]
 ----
@@ -566,7 +566,7 @@ connection.callWithParams(func, new JsonArray().add("John").add("Doe"), null, re
 });
 ----
 
-但是，您还可以返回如下值:
+但是，您还可以返回如下值：
 
 [source,java]
 ----
@@ -597,13 +597,13 @@ connection.callWithParams(func, new JsonArray().add("John"), new JsonArray().add
 [[Batch_operations]]
 ==== 批量操作
 
-SQL通用接口还定义了如何执行批处理操作。批处理操作分为3种类型:
+SQL通用接口还定义了如何执行批处理操作。批处理操作分为3种类型：
 
 * 批量执行sql语句 `link:../../apidocs/io/vertx/ext/sql/SQLConnection.html#batch-java.util.List-io.vertx.core.Handler-[batch]`
 * 批量执行预处理sql语句 `link:../../apidocs/io/vertx/ext/sql/SQLConnection.html#batchWithParams-java.lang.String-java.util.List-io.vertx.core.Handler-[batchWithParams]`
 * 批量执行可调用语句 `link:../../apidocs/io/vertx/ext/sql/SQLConnection.html#batchCallableWithParams-java.lang.String-java.util.List-java.util.List-io.vertx.core.Handler-[batchCallableWithParams]`
 
-批量执行sql语句示例如下:
+批量执行sql语句示例如下：
 
 [source,java]
 ----
@@ -620,7 +620,7 @@ connection.batch(batch, res -> {
 });
 ----
 
-执行一个预处理sql语句,并且使用一个参数列表,示例如下
+使用一个参数列表执行一个预处理sql语句，如下示例：
 
 [source,java]
 ----
@@ -641,7 +641,7 @@ connection.batchWithParams("INSERT INTO emp (name) VALUES (?)", batch, res -> {
 ==== 执行其他操作
 
 要执行任何其他数据库操作，例如 `CREATE TABLE` 您可以使用 
-`link:../../apidocs/io/vertx/ext/sql/SQLConnection.html#execute-java.lang.String-io.vertx.core.Handler-[execute]`.
+`link:../../apidocs/io/vertx/ext/sql/SQLConnection.html#execute-java.lang.String-io.vertx.core.Handler-[execute]` 。
 
 sql语句将会直接在数据库中执行。操作完成后调用处理程序
 
@@ -679,8 +679,8 @@ while (rs != null) {
 [[Streaming]]
 ==== 流式返回
 
-在处理大量数据返回时，建议不要使用刚刚描述的API，而是使用流式返回.
-因为这样可以避免将整个响应内容填充到内存和JSON中，而是逐行处理数据，例如:
+在处理大量数据返回时，建议不要使用刚刚描述的API，而是使用流式返回。
+因为这样可以避免将整个响应内容填充到内存和JSON中，而是逐行处理数据，例如：
 
 [source,java]
 ----
@@ -721,14 +721,14 @@ connection.queryStream("SELECT * FROM large_table; SELECT * FROM other_table", s
 [[Using_transactions]]
 ==== 使用事务
 
-要使用事务，请先使用 `link:../../apidocs/io/vertx/ext/sql/SQLConnection.html#setAutoCommit-boolean-io.vertx.core.Handler-[setAutoCommit]` 将自动提交设置为false .
+要使用事务，请先使用 `link:../../apidocs/io/vertx/ext/sql/SQLConnection.html#setAutoCommit-boolean-io.vertx.core.Handler-[setAutoCommit]` 将自动提交设置为false 。
 
 然后，您可以进行事务性操作，并在要提交或回滚时使用 
 `link:../../apidocs/io/vertx/ext/sql/SQLConnection.html#commit-io.vertx.core.Handler-[commit]`
 或 
 `link:../../apidocs/io/vertx/ext/sql/SQLConnection.html#rollback-io.vertx.core.Handler-[rollback]` .
 
-提交/回滚完成后，将调用处理程序，并且下一个事务将自动启动.
+提交/回滚完成后，将调用处理程序，并且下一个事务将自动启动。
 
 [source,java]
 ----
@@ -744,7 +744,7 @@ connection.commit(res -> {
 [[Closing_connections]]
 ==== 关闭连接
 
-完成连接后，应使用 `link:../../apidocs/io/vertx/ext/sql/SQLConnection.html#close-io.vertx.core.Handler-[close]` 将其返回到池中.
+完成连接后，应使用 `link:../../apidocs/io/vertx/ext/sql/SQLConnection.html#close-io.vertx.core.Handler-[close]` 将其返回到池中。
 
 ifeval::["java" == "java"]
 include::override/rxjava2.adoc[]
@@ -753,16 +753,16 @@ endif::[]
 [[Configuration]]
 === 配置项
 
-在创建或部署配置时，会将配置传递给客户端.
+在创建或部署配置时，会将配置传递给客户端。
 
-以下配置属性通常适用:
+以下配置属性通常适用：
 
 `provider_class`:: 实际用于管理数据库连接的类的类名。
 默认情况下是, `io.vertx.ext.jdbc.spi.impl.C3P0DataSourceProvider` 但是如果您要使用其他提供程序，则可以覆盖此属性并提供您的实现。
 `row_stream_fetch_size`::  `SQLRowStream` 内部缓存的大小,
 曾经用来提高性能。默认情况下等于128
 
-假设正在使用C3P0实现(默认设置)，则将应用以下额外的配置属性:
+假设正在使用C3P0实现(默认设置)，则将应用以下额外的配置属性：
 
 `url`:: 数据库的JDBC连接URL
 `driver_class`:: JDBC驱动程序的类
@@ -771,11 +771,11 @@ endif::[]
 `max_pool_size`:: 池的最大连接数 , 默认为 `15`
 `initial_pool_size`:: 用于初始化池的连接数 , 默认为 `3`
 `min_pool_size`:: 连接池的最小连接数
-`max_statements`::  `PreparedStatement` 缓存的数量,默认值为 `0`.
+`max_statements`::  `PreparedStatement` 缓存的数量,默认值为 `0` 。
 `max_statements_per_connection`::  每个链接 `PreparedStatement` 缓存的数量 , 默认值为 `0`.
-`max_idle_time`:: 空闲连接将关闭之前经过的秒数 ,默认值为 `0` (永不过期).
+`max_idle_time`:: 空闲连接将关闭之前经过的秒数，默认值为 `0`（永不过期）。
 
-其他连接池提供程序是:
+其他连接池提供程序：
 
 * Hikari
 * Agroal
