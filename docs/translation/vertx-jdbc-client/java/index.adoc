@@ -332,7 +332,7 @@ SQLClient client = JDBCClient.create(vertx, dataSource);
 [[_closing_the_client]]
 === 关闭客户端
 
-长时间保持客户端(例如，在你的verticle的生命周期内)是可以的，
+长时间保持客户端（例如，在您的verticle的生命周期内）是可以的，
 但是一旦完成，就应该关闭它。
 
 与其他客户端实例共享数据源的客户端被计数。
