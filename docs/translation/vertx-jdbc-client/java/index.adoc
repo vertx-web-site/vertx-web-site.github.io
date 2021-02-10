@@ -3,7 +3,7 @@
 Verx.x JDBC 客户端允许您使用 Vert.x 应用程序中的异步API
 与任何符合JDBC协议的数据库进行交互。
 
-JDBC client API的接口描述请参考 `link:../../apidocs/io/vertx/ext/jdbc/JDBCClient.html[JDBCClient]`.
+JDBC 客户端 API 接口描述请参考 `link:../../apidocs/io/vertx/ext/jdbc/JDBCClient.html[JDBCClient]`。
 
 如需使用Vert.x JDBC Client，请先加入以下依赖,到您的build描述 _dependencies_ 部分 :
 
