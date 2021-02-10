@@ -335,7 +335,7 @@ SQLClient client = JDBCClient.create(vertx, dataSource);
 长时间保持客户端（例如，在您的verticle的生命周期内）是可以的，
 但是一旦完成，就应该关闭它。
 
-与其他客户端实例共享数据源的客户端被计数。
+共享同一数据源的客户端将计算引用次数（reference counted）。
 一旦最后一个引用的相同数据源被关闭，该数据源将被关闭。
 
 [[_automatic_clean_up_in_verticles]]
