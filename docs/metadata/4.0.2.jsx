@@ -75,7 +75,7 @@ insert(docs, "vertx-web-api-service",
   {
     id: "vertx-web-validation",
     name: "网络校验",
-    description: "一个声明式解析和校验HTTP请求的类库",
+    description: "一个声明式解析和校验HTTP请求的类库。",
     category: "web",
     href: "/vertx-web-validation/java/",
     repository: "https://github.com/vert-x3/vertx-web",
