@@ -346,7 +346,7 @@ SQLClient client = JDBCClient.create(vertx, dataSource);
 [[_the_sql_connection]]
 === SQL连接
 
-与数据库的连接用表示 `link:../../apidocs/io/vertx/ext/sql/SQLConnection.html[SQLConnection]`.
+与数据库的连接用表示 `link:../../apidocs/io/vertx/ext/sql/SQLConnection.html[SQLConnection]`。
 
 [[_auto_commit]]
 ==== 自动提交
