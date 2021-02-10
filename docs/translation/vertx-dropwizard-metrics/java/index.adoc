@@ -574,7 +574,7 @@ Vert.x JDBC客户端创建的数据源使用的池名为 _datasource_。
 [[jmx]]
 == JMX
 
-JMX 默认禁用。
+默认禁用 JMX。
 
 使用 JMX 需要手动启用，如下：
 
