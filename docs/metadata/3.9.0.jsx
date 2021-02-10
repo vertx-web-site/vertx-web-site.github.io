@@ -394,8 +394,8 @@ const entries = [
   // messaging
   {
     id: "vertx-amqp-client",
-    name: "AMQP Client",
-    description: "A client for AMQP 1.0 brokers and routers.",
+    name: "AMQP 客户端",
+    description: "一款用于支持 AMQP 1.0 brokers 和 routers 的客户端",
     category: "messaging",
     href: "/vertx-amqp-client/java/",
     repository: "https://github.com/vert-x3/vertx-amqp-client",
