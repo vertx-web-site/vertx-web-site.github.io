@@ -12,6 +12,7 @@ Vert.x 提供了一个相当易用的API接口 `link:../../apidocs/io/vertx/core
 
 本项目基于 Dropwizard 实现了可配置的 JMX 上报服务，可将 Vert.x 作为 JMX 的 MBean 使用。
 
+[[_getting_started]]
 == 入门
 
 使用 Vert.x 指标监控需要在您项目的构建配置增加以下 _依赖_ ：
