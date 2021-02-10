@@ -206,7 +206,7 @@ insert(docs, "vertx-dropwizard-metrics",
   {
     id: "vertx-zipkin",
     name: "Zipkin",
-    description: "Distributed tracing with Zipkin.",
+    description: "基于 Zipkin 的分布式链路追踪。",
     category: "monitoring",
     href: "/vertx-zipkin/java/",
     repository: "https://github.com/eclipse-vertx/vertx-tracing/tree/master/vertx-zipkin",
