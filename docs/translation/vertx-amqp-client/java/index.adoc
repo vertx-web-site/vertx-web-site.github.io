@@ -30,7 +30,7 @@ Vert.x AMQP 客户端基于 Vert.x Proton 实现。如果您需要更细粒度�
 </dependency>
 ----
 
-* Gradle (在您的 `build.gradle` 文件):
+* Gradle（在您的 `build.gradle` 文件中）：
 
 [source,groovy,subs="+attributes"]
 ----
