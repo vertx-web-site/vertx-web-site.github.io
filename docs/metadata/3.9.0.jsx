@@ -329,8 +329,7 @@ const entries = [
   {
     id: "vertx-auth-common",
     name: "Auth common",
-    description: `Common APIs for authentication and authorization for your
-      Vert.x applications, backed by several providers.`,
+    description: `为您的 Vert.x 应用程序量身定做，用于身份验证和授权的通用API，由多家供应商提供支持。`,
     category: "authentication-and-authorization",
     href: "/vertx-auth-common/java/",
     repository: "https://github.com/vert-x3/vertx-auth/tree/master/vertx-auth-common",
