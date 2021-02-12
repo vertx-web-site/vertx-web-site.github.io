@@ -215,7 +215,7 @@ insert(docs, "vertx-dropwizard-metrics",
   {
     id: "vertx-opentracing",
     name: "OpenTracing",
-    description: "Distributed tracing with OpenTracing.",
+    description: "基于 OpenTracing 的分布式链路追踪。",
     category: "monitoring",
     href: "/vertx-opentracing/java/",
     repository: "https://github.com/eclipse-vertx/vertx-tracing/tree/master/vertx-opentracing",
