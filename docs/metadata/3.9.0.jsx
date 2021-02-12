@@ -289,7 +289,7 @@ const entries = [
   {
     id: "vertx-service-discovery",
     name: "服务发现",
-    description: "发布、查找、绑定任何类型的服务",
+    description: "发布、查找、绑定任何类型的服务。",
     category: "microservices",
     href: "/vertx-service-discovery/java/",
     repository: "https://github.com/vert-x3/vertx-service-discovery",
@@ -395,7 +395,7 @@ const entries = [
   {
     id: "vertx-amqp-client",
     name: "AMQP 客户端",
-    description: "一款用于支持 AMQP 1.0 brokers 和 routers 的客户端",
+    description: "一款用于支持 AMQP 1.0 brokers 和 routers 的客户端。",
     category: "messaging",
     href: "/vertx-amqp-client/java/",
     repository: "https://github.com/vert-x3/vertx-amqp-client",
