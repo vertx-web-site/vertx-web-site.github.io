@@ -26,6 +26,7 @@ Vertx vertx = Vertx.vertx(new VertxOptions()
 );
 ----
 
+[[_tracing_policy]]
 == Tracing 策略
 
 当tracing功能启用时, 一个组件的行为由tracing策略来定义:
