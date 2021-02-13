@@ -2834,7 +2834,7 @@ SockJSHandler sockJSHandler = SockJSHandler.create(vertx, options);
 `link:../../apidocs/io/vertx/core/http/WebSocket.html[WebSocket]` 那样通过它来读写数据。它实现了 `link:../../apidocs/io/vertx/core/streams/ReadStream.html[ReadStream]` 和
 `link:../../apidocs/io/vertx/core/streams/WriteStream.html[WriteStream]` 接口，因此您可以将它套用（pump）到其他读写流上。 
 若 SockJS 连接使用 `link:../../apidocs/io/vertx/ext/web/handler/sockjs/SockJSSocket.html#routingContext--[routingContext]` 加载，
-那么 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html[RoutingContext]` 便可在手动管理会话（session）时访问。
+那么便可在手动管理会话（session）时访问 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html[RoutingContext]`。
 由此您可以通过 `link:../../apidocs/io/vertx/ext/web/handler/sockjs/SockJSSocket.html#webSession--[webSession]` 和
 `link:../../apidocs/io/vertx/ext/web/handler/sockjs/SockJSSocket.html#webUser--[webUser]` 管理用户和会话。
 
