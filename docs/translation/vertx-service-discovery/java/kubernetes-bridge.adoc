@@ -1,3 +1,4 @@
+[[_kubernetes_bridge]]
 === Kubernetes 桥接器
 
 Kubernetes 桥接器可以从Kubernetes（或者 Openshift v3）中导入服务到Vert.x的服务发现组件中。
@@ -5,6 +6,7 @@ Kubernetes的所有服务，都将映射为一条 `link:../../apidocs/io/vertx/s
 
 Kubernetes中的服务，在导入到Vert.x后都会创建对应的 `link:../../apidocs/io/vertx/servicediscovery/Record.html[Record]` ，服务类型是通过 `service-type` 标签推断出来，或者通过服务暴露的端口推断出来。
 
+[[_using_the_bridge_2]]
 ==== 桥接器的使用
 
 要使用该服务发现桥接器，需要将如下的依赖包加入到依赖配置文件中：
@@ -27,6 +29,7 @@ Kubernetes中的服务，在导入到Vert.x后都会创建对应的 `link:../../
 compile 'io.vertx:vertx-service-discovery-bridge-kubernetes:4.0.2'
 ----
 
+[[_configuring_the_bridge]]
 ==== 桥接器的配置
 
 桥接器的配置项有：
@@ -36,6 +39,7 @@ compile 'io.vertx:vertx-service-discovery-bridge-kubernetes:4.0.2'
 
 请注意，应用程序必须能够访问 Kubernetes 并且能够读取所选择的命名空间。
 
+[[_the_service_to_record_mapping]]
 ==== 服务记录的映射
 
 服务记录按照如下的步骤进行创建：
@@ -48,10 +52,12 @@ compile 'io.vertx:vertx-service-discovery-bridge-kubernetes:4.0.2'
 
 对于 HTTP 端点，如果服务带有值为 `true` 的 `ssl` (`https`) 标签的话，那么服务记录的 `ssl` (`https`)属性将被设置为 `true`。
 
+[[_dynamics]]
 ==== 动态性
 
 Kubernetes 桥接器将会在启动(`start`)的时候导入所有的服务，在停止(`stop`)的时候移除所有的服务。在运行期间，它将监听 Kubernetes 的服务，并且动态地导入新加入的服务，移除被删除的服务。
 
+[[_supported_types]]
 ==== 支持的类型
 
 桥接器使用 `service-type` 标签来指定类型。另外，它还检查服务的端口，支持如下：

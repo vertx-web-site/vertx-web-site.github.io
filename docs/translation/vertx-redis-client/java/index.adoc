@@ -29,7 +29,7 @@ Redis 有着丰富的 API，可以分成以下几组：
 
 要使用 Vert.x Redis 客户端，请将以下依赖项添加到项目的 _dependencies_ 中：
 
-* Maven (在 `pom.xml` 中):
+* Maven（在您的 `pom.xml` 中）：
 
 [source,xml,subs="+attributes"]
 ----
@@ -40,7 +40,7 @@ Redis 有着丰富的 API，可以分成以下几组：
 </dependency>
 ----
 
-* Gradle (在 `build.gradle` 文件中):
+* Gradle（在您的 `build.gradle` 文件中）：
 
 [source,groovy,subs="+attributes"]
 ----
@@ -50,7 +50,7 @@ compile 'io.vertx:vertx-redis-client:4.0.2'
 [[_connecting_to_redis]]
 == 连接到 Redis
 
-Redis 客户端可以在三种模式下操作:
+Redis 客户端可以在三种模式下操作：
 
 * 简易客户端 (大多数用户需要的)。
 * 哨兵 (在高可用模式下使用 Redis)。
@@ -301,7 +301,7 @@ Redis.createClient(
 1.如何处理当前执行的请求？
 2.是否调用异常处理程序？
 3.如果重试也将失败，该怎么办？
-4.是否应恢复以前的状态(数据库、身份验证、订阅)？
+4.是否应恢复以前的状态（数据库、身份验证、订阅）？
 5.等等等等。
 
 为了给用户充分的灵活性，我们决定不应由客户端执行。

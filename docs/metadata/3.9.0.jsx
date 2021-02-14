@@ -126,7 +126,7 @@ const entries = [
   {
     id: "vertx-web-api-service",
     name: "Web API 服务",
-    description: "直接连接您的OpenAPI 3的web路由器到事件总线服务",
+    description: "直接连接您的OpenAPI 3的web路由器到事件总线服务。",
     category: "web",
     href: "/vertx-web-api-service/java/",
     repository: "https://github.com/vert-x3/vertx-web",
@@ -181,8 +181,8 @@ const entries = [
   },
   {
     id: "vertx-redis-client",
-    name: "Redis Client",
-    description: "Redis client.",
+    name: "Redis 客户端",
+    description: "Redis 客户端。",
     category: "databases",
     href: "/vertx-redis-client/java/",
     repository: "https://github.com/vert-x3/vertx-redis-client",
@@ -210,8 +210,8 @@ const entries = [
   },
   {
     id: "vertx-jdbc-client",
-    name: "JDBC client",
-    description: "JDBC support for Vert.x.",
+    name: "JDBC 客户端",
+    description: "Vert.x 的 JDBC 支持。",
     category: "databases",
     href: "/vertx-jdbc-client/java/",
     repository: "https://github.com/vert-x3/vertx-jdbc-client",
@@ -253,8 +253,8 @@ const entries = [
   {
     id: "vertx-reactive-streams",
     name: "Reactive Streams",
-    description: `Reactive streams support so your applications can interoperate
-      with other reactive systems such as Akka and Project Reactor.`,
+    description: `Reactive streams的支持，您的应用可用此与其它响应式系统互操作，
+      例如Akka和Project Reactor。`,
     category: "reactive",
     href: "/vertx-reactive-streams/java/",
     repository: "https://github.com/vert-x3/vertx-reactive-streams",
@@ -289,7 +289,7 @@ const entries = [
   {
     id: "vertx-service-discovery",
     name: "服务发现",
-    description: "发布、查找、绑定任何类型的服务",
+    description: "发布、查找、绑定任何类型的服务。",
     category: "microservices",
     href: "/vertx-service-discovery/java/",
     repository: "https://github.com/vert-x3/vertx-service-discovery",
@@ -329,8 +329,7 @@ const entries = [
   {
     id: "vertx-auth-common",
     name: "Auth common",
-    description: `Common APIs for authentication and authorization for your
-      Vert.x applications, backed by several providers.`,
+    description: `为您的 Vert.x 应用程序量身定做，用于身份验证和授权的通用API，由多家供应商提供支持。`,
     category: "authentication-and-authorization",
     href: "/vertx-auth-common/java/",
     repository: "https://github.com/vert-x3/vertx-auth/tree/master/vertx-auth-common",
@@ -394,8 +393,8 @@ const entries = [
   // messaging
   {
     id: "vertx-amqp-client",
-    name: "AMQP Client",
-    description: "A client for AMQP 1.0 brokers and routers.",
+    name: "AMQP 客户端",
+    description: "一款用于支持 AMQP 1.0 brokers 和 routers 的客户端。",
     category: "messaging",
     href: "/vertx-amqp-client/java/",
     repository: "https://github.com/vert-x3/vertx-amqp-client",
@@ -489,7 +488,7 @@ const entries = [
   {
     id: "vertx-dropwizard-metrics",
     name: "Metrics using Dropwizard",
-    description: "Captures metrics from Vert.x core components and exposes them using Dropwizard.",
+    description: "使用 Dropwizard 收集并获取Vert.x Core组件的监控指标。",
     category: "devops",
     href: "/vertx-dropwizard-metrics/java/",
     repository: "https://github.com/vert-x3/vertx-dropwizard-metrics",

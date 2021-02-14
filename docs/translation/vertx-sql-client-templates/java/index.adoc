@@ -1,14 +1,14 @@
-= SQL Client Templates
+= SQL 客户端模版
 :toc:
 
-SQL Client Templates是一个用来方便执行SQL查询的库。
+SQL 客户端模版是一个用来方便执行SQL查询的库。
 
 [[_usage]]
 == 用法
 
-要使用 SQL Client Templates ，则添加如下依赖：
+要使用 SQL 客户端模版，需添加如下依赖：
 
-* Maven (在您的 `pom.xml` 文件):
+* Maven（在您的 `pom.xml` 文件中）：
 
 [source,xml]
 ----
@@ -18,7 +18,7 @@ SQL Client Templates是一个用来方便执行SQL查询的库。
  <version>4.0.2</version>
 </dependency>
 ----
-* Gradle (在您的 `build.gradle` 文件):
+* Gradle（在您的 `build.gradle` 文件中）：
 
 [source,groovy]
 ----
@@ -30,12 +30,12 @@ dependencies {
 [[_getting_started]]
 == 开始
 
-以下是 SQL template 的最简易的使用方式。
+以下是 SQL 模版最简易的使用方式。
 
-一个 SQL template 接收 _已命名的_ 参数，因此，默认情况下，它会接收一个map作为参数载体，而非接收元组（tuple）作为参数。
+一个 SQL 模版接收 _已命名的_ 参数，因此，默认情况下，它会接收一个map作为参数载体，而非接收元组（tuple）作为参数。
 
-一个SQL template 默认情况下生成一个类似 `PreparedQuery` 的 `RowSet<Row>` 。
-实际上这个template是 `PreparedQuery` 的轻量级封装。
+一个SQL 模版默认情况下生成一个类似 `PreparedQuery` 的 `RowSet<Row>` 。
+实际上这个模版是 `PreparedQuery` 的轻量级封装。
 
 [source,java]
 ----
@@ -79,7 +79,7 @@ SqlTemplate
 [[_row_mapping]]
 == 行映射
 
-默认情况下 template 以 `link:../../apidocs/io/vertx/sqlclient/Row.html[Row]` 作为结果值类型。
+默认情况下模版以 `link:../../apidocs/io/vertx/sqlclient/Row.html[Row]` 作为结果值类型。
 
 您可以提供一个自定义的 `link:../../apidocs/io/vertx/sqlclient/templates/RowMapper.html[RowMapper]` 来实现底层的映射操作：
 
@@ -310,7 +310,7 @@ public class LocalDateTimePojo {
 [[_mapping_with_vert_x_data_objects]]
 == 用Vert.x数据对象做映射
 
-SQL Client Templates 组件可为Vert.x数据对象生成映射方法。
+SQL 客户端模版组件可为 Vert.x 数据对象生成映射方法。
 
 Vert.x 数据对象是指被 `@DataObject` 注解修饰的普通 Java Bean。
 

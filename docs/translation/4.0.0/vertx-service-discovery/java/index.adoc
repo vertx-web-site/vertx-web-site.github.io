@@ -27,6 +27,7 @@ Vert.x 服务发现组件提供了一套用于对各种资源服务的发布、�
 
 vert.x的服务发现通过桥接方式 支持对其他服务发现技术的导入和导出。
 
+[[_using_the_service_discovery]]
 == 使用服务发现
 
 要使用Vert.x 服务发现组件，需要将下列依赖加入到依赖配置中文件：
@@ -49,10 +50,12 @@ vert.x的服务发现通过桥接方式 支持对其他服务发现技术的导�
 compile 'io.vertx:vertx-service-discovery:4.0.0'
 ----
 
+[[_overall_concepts]]
 == 概念总览
 
 服务发现机制基于以下章节的几个概念。
 
+[[_service_records]]
 === 服务记录
 
 一个服务 `link:../../apidocs/io/vertx/servicediscovery/Record.html[Record]` 是服务提供者发布的一个服务描述对象。它包含了名称、元数据、位置对象（描述服务发布在哪里）。这个 `服务记录` 是提供者（发布 `服务记录` ）和消费者（寻找服务时获取 `服务记录` ）之间仅有的共享对象。
@@ -61,10 +64,12 @@ compile 'io.vertx:vertx-service-discovery:4.0.0'
 
 服务提供方准备好之后，一个 `服务记录` 就被发布了，服务停止时 `服务记录` 被回收
 
+[[_service_provider_and_publisher]]
 === 提供者和发布者
 
 服务提供者是一个提供 _服务_ 的对象。发布者负责发布描述提供者的 `服务记录` 。它可能是同一个对象（提供者仅仅发布自己）也可能是个不同的对象。
 
+[[_service_consumer]]
 === 服务消费者
 
 //Service consumers search for services in the service discovery. Each lookup retrieves `0..n`
@@ -77,12 +82,14 @@ compile 'io.vertx:vertx-service-discovery:4.0.0'
 
 释放 `服务引用` 是一件很重要的事情，这清除了 `服务引用` 对象并更新了服务的使用状态
 
+[[_service_object]]
 === 服务对象
 
 `服务对象` 是一个提供了服务入口的对象。它可以是各种形式，例如 代理、客户端、甚至是一些不存在的服务类型。服务对象的性质取决于服务类型。
 
 注意：因为Vert.x多语言的性质，所以如果你在java、groovy或其他语言获取的 `服务对象` 会不一样。
 
+[[_service_types]]
 === 服务类型
 
 服务仅仅是一些 `资源（resource）` 或不同类型的 `服务`。他们可以是功能服务组件、数据库、REST-Api等等。Vert.x服务发现模块定义 `服务类型` 来处理各类型的差异。每个类型定义了：
@@ -92,6 +99,7 @@ compile 'io.vertx:vertx-service-discovery:4.0.0'
 
 服务发现组件提供了一些现成的服务类型，但是你可以添加你自己的类型。
 
+[[_service_events]]
 === 服务事件
 
 每当发布或注销一个服务，event-bus上就会触发一个事件(event),这个事件包含了被更新的服务记录。
@@ -100,6 +108,7 @@ compile 'io.vertx:vertx-service-discovery:4.0.0'
 
 关于事件的更多详细信息如下。
 
+[[_backend]]
 === 后台
 
 服务发现模块使用了Vert.x的分布式数据结构来存储 `服务记录` 。所以所有的集群成员都能获取到所有的 `服务记录` 。这是后台默认的实现。你可以实现 `link:../../apidocs/io/vertx/servicediscovery/spi/ServiceDiscoveryBackend.html[ServiceDiscoveryBackend]` SPI 来实现自己的Backend。例如，Vert.x提供了一个基于Redis的基础实现。
@@ -111,6 +120,7 @@ compile 'io.vertx:vertx-service-discovery:4.0.0'
 
 注意：服务发现不要求必须是Vert.x集群。在单节点模式下，这个数据结构存储于本地。它可以用 `link:../../apidocs/io/vertx/servicediscovery/spi/ServiceImporter.html[ServiceImporter]` 实现。从3.5.0版本开始，你可以在集群模式下用本地结构的event，这可以设置系统参数 `vertx-service-discovery-backend-local` 为 `true` (或者设置环境变量 `VERTX-SERVICE-DISCOVERY-BACKEND-LOCAL` 为 `true`) 来实现。
 
+[[_creating_a_service_discovery_instance]]
 == 创建服务发现实例
 
 提供者和消费者必须创建他们自己的 `link:../../apidocs/io/vertx/servicediscovery/ServiceDiscovery.html[ServiceDiscovery]` 实例来使用服务发现组件：
@@ -138,6 +148,7 @@ discovery.close();
 
 您应该避免共享服务发现实例，因此service usage 将代表正确的“usage”
 
+[[_publishing_services]]
 == 发布服务
 
 一旦你拥有了服务发现实例，你可以发布服务。步骤如下：
@@ -179,6 +190,7 @@ discovery.publish(record, ar -> {
 
 持有服务记录的引用是很重要的事情，因为服务记录中拥有一个 `注册 id`。
 
+[[_withdrawing_services]]
 == 回收服务
 
 要回收(下线)一个record，使用：
@@ -194,6 +206,7 @@ discovery.unpublish(record.getRegistration(), ar -> {
 });
 ----
 
+[[_looking_for_services]]
 == 寻找服务
 
 _本章解释了获取服务的底层原理，每个服务类型都提供了便捷的方式来整合各个的步骤_
@@ -297,6 +310,7 @@ discovery.getRecords(new JsonObject().put("some-label", "some-value"), ar -> {
 * 当使用JSON过滤器时，设置 `status` 为你的期望值（或者 `*` 来接收所有的状态）
 * 当使用函数时，在 `link:../../apidocs/io/vertx/servicediscovery/ServiceDiscovery.html#getRecords-java.util.function.Function-boolean-io.vertx.core.Handler-[getRecords]` 函数 设置 `includeOutOfService` 参数为 `true`。
 
+[[_retrieving_a_service_reference]]
 == 获取服务引用
 
 一旦你选择了 `link:../../apidocs/io/vertx/servicediscovery/Record.html[Record]` ，你可以获取一个 `link:../../apidocs/io/vertx/servicediscovery/ServiceReference.html[ServiceReference]` 和 `服务对象` :
@@ -339,6 +353,7 @@ reference.release();
 
 在前述例子当中，代码用了 `link:../../apidocs/io/vertx/servicediscovery/ServiceReference.html#getAs-java.lang.Class-[getAs]` 函数，其参数是你期望得到的服务类型。如果你用java语言，你可以用 `link:../../apidocs/io/vertx/servicediscovery/ServiceReference.html#get--[get]` 函数。然而其他语言 你必须传一个你期望的类型值。
 
+[[_types_of_services]]
 == 服务类型
 
 如上所述，服务发现有 `服务类型` 的概念来管理不同类型的服务。
@@ -355,12 +370,14 @@ reference.release();
 
 本节总体上给出有关服务类型的详细信息，并介绍如何使用默认服务类型。
 
+[[_services_with_no_type]]
 === 无类型的服务
 
 一些record也许没有类型(`link:../../apidocs/io/vertx/servicediscovery/spi/ServiceType.html#UNKNOWN[ServiceType.UNKNOWN]`)。所以不可能从这些record里面获取到服务对象，但是你可以通过 `link:../../apidocs/io/vertx/servicediscovery/Record.html[Record]` 对象的 `location` 和 `metadata` 来构建连接的具体信息。
 
 使用这些服务不会触发 `service usage` 事件
 
+[[_implementing_your_own_service_type]]
 === 实现您自己的服务类型
 
 你可以通过实现 `link:../../apidocs/io/vertx/servicediscovery/spi/ServiceType.html[ServiceType]` SPI 的方式来创建你自己的服务类型:
@@ -371,10 +388,12 @@ reference.release();
 4. 在打包jar时在jar内创建一个 `META-INF/services/io.vertx.servicediscovery.spi.ServiceType` 文件。这个文件仅仅包含您在第二步创建的类的全名。
 5. 创建一个包含service type interface（步骤1）的jar，实现类（步骤2，步骤3）和服务描述文件（步骤4）。把这个jar放在你应用的classpath下，然后您的服务类型现在就已经可用了。
 
+[[_http_endpoints]]
 === HTTP 节点
 
 一个HTTP节点代表一个REST API或者可用HTTP请求访问的服务。HTTP节点服务对象是一个由host、port、ssl所配置的 `link:../../apidocs/io/vertx/core/http/HttpClient.html[HttpClient]` 对象
 
+[[_publishing_a_http_endpoint]]
 ==== 发布一个HTTP节点
 
 要发布一个HTTP节点，你需要一个 `link:../../apidocs/io/vertx/servicediscovery/Record.html[Record]` ，你可以用 `link:../../apidocs/io/vertx/servicediscovery/types/HttpEndpoint.html#createRecord-java.lang.String-java.lang.String-int-java.lang.String-io.vertx.core.json.JsonObject-[HttpEndpoint.createRecord]` 来创建服务记录。
@@ -406,6 +425,7 @@ Record record2 = HttpEndpoint.createRecord(
 
 当你在容器或者云启动你的服务时，也许并不知道服务的公网IP和端口，所以发布操作必须要通过另一个对象来获取这个信息，通常它是一个 _桥接对象_ （ `bridge` ）。
 
+[[_consuming_a_http_endpoint]]
 ==== 消费一个HTTP服务节点
 
 一旦HTTP节点发布，一个消费者可以获取到它。这个服务对象是一个配置了host和port的 `link:../../apidocs/io/vertx/core/http/HttpClient.html[HttpClient]` ：
@@ -502,12 +522,14 @@ HttpEndpoint.getWebClient(discovery, new JsonObject().put("name", "some-http-ser
 });
 ----
 
+[[_event_bus_services]]
 === Event bus 服务
 
 Event bus服务是服务代理，它基于event bus实现了异步RPC服务。当从event bus服务获取一个服务对象，你获取到对应类型的服务代理。你可以从 `link:../../apidocs/io/vertx/servicediscovery/types/EventBusService.html[EventBusService]` 获取辅助函数。
 
 注意：服务代理（服务的实现和服务接口）是由java实现的
 
+[[_publishing_an_event_bus_service]]
 ==== 发布一个event bus服务
 
 发布event bus服务，你需要创建一个 `link:../../apidocs/io/vertx/servicediscovery/Record.html[Record]`：
@@ -542,7 +564,7 @@ discovery.publish(record, ar -> {
 });
 ----
 
-
+[[_consuming_an_event_bus_service]]
 ==== 消费event bus服务
 
 要消费一个event bus服务，你可以先获取服务记录，再通过服务记录获取服务引用；或者用 `link:../../apidocs/io/vertx/servicediscovery/types/EventBusService.html[EventBusService]` 接口通过一次调用来完成这两个操作。
@@ -576,19 +598,14 @@ ServiceDiscovery.releaseServiceObject(discovery, service);
 });
 ----
 
-
-
-
-
-
-
-
+[[_message_source]]
 === 消息源服务
 
 消息源是一个往event bus地址发送消息的组件，消息源客户端是 `link:../../apidocs/io/vertx/core/eventbus/MessageConsumer.html[MessageConsumer]`类。
 
 消息被发送给到eventBus的 _location_ 或 消息源服务上。
 
+[[_publishing_a_message_source]]
 ==== 推送消息
 
 就像其他类型的服务，推送一个消息分2步走：
@@ -634,7 +651,7 @@ new JsonObject().put("some-metadata", "some value")
 );
 ----
 
-
+[[_consuming_a_message_source]]
 ==== 消费消息服务
 
 在消费者端，你可以获取服务记录从而获取服务引用，或者用 `link:../../apidocs/io/vertx/servicediscovery/types/MessageSource.html[MessageSource]` 通过一次调用合两步为一。
@@ -677,10 +694,12 @@ MessageSource.<JsonObject>getConsumer(discovery, new JsonObject().put("name", "s
 });
 ----
 
+[[_jdbc_data_source]]
 === JDBC数据源
 
 数据源代表数据库或数据仓储。而JDBC数据源特指用JDBC驱动访问数据库。JDBC数据源客户端是 `link:../../apidocs/io/vertx/ext/jdbc/JDBCClient.html[JDBCClient]` 类。
 
+[[_publishing_a_jdbc_service]]
 ==== 发布JDBC服务
 
 类似其他类型的服务，发布JDBC服务需要2步：
@@ -703,6 +722,7 @@ discovery.publish(record, ar -> {
 
 因为JDBC数据源可以使用很多数据库，并且访问方式经常不一样，所以服务记录是没有标准结构定义的，`location` 是访问数据库配置而提供的一个通用JSONObject属性，用于访问数据源(JDBC url，username...)。其他字段的定义依赖于数据库以及所用连接池决定。
 
+[[_consuming_a_jdbc_service]]
 ==== 消费一个JDBC服务
 
 由前所述，如何获取数据源取决于数据源本身。要创建 `link:../../apidocs/io/vertx/ext/jdbc/JDBCClient.html[JDBCClient]` ，你可以同时提供：`record location`，元数据和一个有消费方提供的一个Json object：
@@ -749,13 +769,14 @@ JDBCDataSource.<JsonObject>getJDBCClient(discovery,
     });
 ----
 
+[[_redis_data_source]]
 === Redis 数据源
 
 Redis数据源是Redis持久性数据库的一种特殊实现。
 
 Redis数据源客户端是 `link:../../apidocs/io/vertx/redis/client/Redis.html[Redis]` 类
 
-
+[[_publishing_a_redis_service]]
 ==== 发布Redis服务
 
 发布Redis服务需要2步：
@@ -778,6 +799,7 @@ discovery.publish(record, ar -> {
 
 `location` 是一个简单的JSON对象，应提供用于访问Redis数据源的字段(url,port....)
 
+[[_consuming_a_redis_service]]
 ==== 消费Redis服务
 
 由前所述，如何访问数据源决定于数据源本身。创建一个 `link:../../apidocs/io/vertx/redis/client/Redis.html[Redis]` 对象，你可以同时提供：record地址，元数据和由消费方提供的Json object。
@@ -820,11 +842,13 @@ RedisDataSource.getRedisClient(discovery,
   });
 ----
 
+[[_mongo_data_source]]
 === Mongo数据源
 
 Mongo数据源是MongoDB数据库的专用化实现。
 Mongo数据源服务的客户端是 `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html[MongoClient]` 类
 
+[[_publishing_a_mongo_service]]
 ==== 发布Mongo服务
 
 发布Mongo服务需要2步：
@@ -847,7 +871,7 @@ discovery.publish(record, ar -> {
 
 `location` 是一个简单的JSON对象，应提供用于访问Mongo数据源的字段(url, port...)
 
-//==== Consuming a Mongo service
+[[_consuming_a_mongo_service]]
 ==== 消费Mongo服务
 
 由前所述，如何访问数据源取决于数据源本身。创建 `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html[MongoClient]` ，你可以同时提供：`record location` ,元数据和consumer提供的json object：
@@ -894,6 +918,7 @@ MongoDataSource.<JsonObject>getMongoClient(discovery,
   });
 ----
 
+[[_listening_for_service_arrivals_and_departures]]
 == 监听服务的注册和注销
 
 每当服务提供方被发布或移除， _vertx.discovery.announce_ 地址上会推送一个事件。
@@ -905,6 +930,7 @@ MongoDataSource.<JsonObject>getMongoClient(discovery,
 * `DOWN` : 服务不可获取，你不应该再使用它
 * `OUT_OF_SERVICE` : 服务不在运行状态，你不该再用它，但是可能过一会可能会恢复
 
+[[_listening_for_service_usage]]
 == 监听服务使用状况
 
 每当获取或释放服务引用时 _vertx.discovery.usage_ 地址上会推送一个event。这个地址可以由 `link:../../apidocs/io/vertx/servicediscovery/ServiceDiscoveryOptions.html[ServiceDiscoveryOptions]` 配置。
@@ -924,8 +950,7 @@ MongoDataSource.<JsonObject>getMongoClient(discovery,
 
 你可以禁用服务使用情况的功能，这可以通过 `link:../../apidocs/io/vertx/servicediscovery/ServiceDiscoveryOptions.html#setUsageAddress-java.lang.String-[setUsageAddress]` 设置 `usage address` 为 `null` 来实现。
 
-
-
+[[_service_discovery_bridges]]
 == 服务发现桥接器
 
 桥接器 可以让你从其他服务发现机制(Docker，Kubernetes，Consul...)里导入导出服务
@@ -944,11 +969,10 @@ MongoDataSource.<JsonObject>getMongoClient(discovery,
 
 注意：在集群当中，只需要注册服务记录当中一个成员的桥接器即可，因为所有的服务记录都是互通的。
 
+[[_additional_bridges]]
 == 其他的桥接器支持
 
 Vert.x 服务发现组件除了支持桥接器机制以外，还提供了一些现成的桥接器。
-
-
 
 include::consul-bridge.adoc[]
 
@@ -958,6 +982,7 @@ include::zookeeper-bridge.adoc[]
 
 include::docker-links-bridge.adoc[]
 
+[[_additional_backends]]
 == 其他的后台支持
 
 除了此库支持的后台之外，Vert.x服务发现还提供了其他后台以供您在自己的应用程序中使用。

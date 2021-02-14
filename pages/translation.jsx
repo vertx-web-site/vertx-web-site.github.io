@@ -149,13 +149,13 @@ export async function getStaticProps() {
         "`CONTRIBUTE_FETCH_TOKEN=abcdefghijklmnopqrs0123456789 npm run build`")
   } else {
 
-    const pulls = await octokit.pulls.list({
+    const pulls = await octokit.paginate(octokit.pulls.list, {
       repo: "vertx-web-site",
       owner:"vertx-china",
       state: "all"
     })
     const users = {}
-    for (let pull of pulls.data) {
+    for (let pull of pulls) {
       if (pull.merged_at === null) {
         continue
       }

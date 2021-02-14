@@ -29,7 +29,7 @@ compile "io.vertx:vertx-lang-kotlin:4.0.2"
 
 == Verticles
 
-=== Writing Verticles
+=== 编写 Verticles
 
 使用 Kotlin 编写一个 Verticle 的方式与 Java 相同，即继承 `link:../../apidocs/io/vertx/core/AbstractVerticle.html[AbstractVerticle]`
 类即可。
@@ -55,7 +55,7 @@ class MyVerticle : AbstractVerticle() {
 请参阅 Java 文档
 
 [[data_objects_builders]]
-== Data 对象构建器
+== Data 对象构造器
 
 Data 对象在 Vert.x 技术栈起着重要作用（Data 对象可以与 JSON 互相转换）
 
@@ -69,8 +69,8 @@ val classic: HttpServerOptions = HttpServerOptions()
  .setLogActivity(true)
 ----
 
-有一种更优雅的构建 Data 对象的方式（即使上述方法也是可以的）
-在 Kotlin 中，所有 Data 对象都有一个后缀为 `Of` 的构建器 (builder)：
+有一种更优雅的构造 Data 对象的方式（即使上述方法也是可以的）
+在 Kotlin 中，所有 Data 对象都有一个后缀为 `Of` 的构造器 (builder)：
 
 [source,kotlin]
 ----
@@ -79,7 +79,7 @@ val options = httpServerOptionsOf(idleTimeout = 5, idleTimeoutUnit = TimeUnit.MI
 
 == JSON
 
-不像其他语言， Java 没有为 http://json.org/[JSON] 提供一等公民的支持，
+不同于其他语言， Java 没有为 http://json.org/[JSON] 提供一等公民的支持，
 所以我们提供了两个类，使 Vert.x 应用中使用 JSON 更加容易
 
 `link:../../apidocs/io/vertx/core/json/JsonObject.html[JsonObject]` 类用来表示 JSON 对象，
@@ -87,13 +87,13 @@ val options = httpServerOptionsOf(idleTimeout = 5, idleTimeoutUnit = TimeUnit.MI
 类用来表示数组，可以参考 Java 文档获得更多信息。
 
 [[builders]]
-=== 构建器
+=== 构造器
 
-构建器可用于更顺畅地构建 JSON ：
+构造器可用于更顺畅地构造 JSON ：
 
 [source, kotlin]
 ----
-// 该 json 建造器声明了一个 JSON 结构
+// 该 json 构造器声明了一个 JSON 结构
 val result = json {
 
  // 在该块中可以使用 `obj` 函数
@@ -120,11 +120,11 @@ val result = json {
 }
 ----
 
-也构建 JSON 数组
+构造 JSON 数组也是同样的
 
 [source, kotlin]
 ----
-// 这个 json 构建器用于声明 JSON 结构
+// 这个 json 构造器用于声明 JSON 结构
 val result = json {
 
  // 在这个块中可以使用 array 函数
@@ -148,7 +148,7 @@ val result = json {
 
 [source, kotlin]
 ----
-// 这个 json 构建器用于声明 JSON 结构
+// 这个 json 构造器用于声明 JSON 结构
 val result = json {
 
  "firstName" to "Dale",

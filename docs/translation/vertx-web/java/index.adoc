@@ -2832,11 +2832,11 @@ SockJSHandler sockJSHandler = SockJSHandler.create(vertx, options);
 传递给处理器的是 `link:../../apidocs/io/vertx/ext/web/handler/sockjs/SockJSSocket.html[SockJSSocket]` 对象。
 这是一个类似套接字的接口，您可以像使用 `link:../../apidocs/io/vertx/core/net/NetSocket.html[NetSocket]` 或
 `link:../../apidocs/io/vertx/core/http/WebSocket.html[WebSocket]` 那样通过它来读写数据。它实现了 `link:../../apidocs/io/vertx/core/streams/ReadStream.html[ReadStream]` 和
-`link:../../apidocs/io/vertx/core/streams/WriteStream.html[WriteStream]` 接口，因此您可以将它套用（pump）到其他读写流上。 The
-`link:../../apidocs/io/vertx/ext/web/RoutingContext.html[RoutingContext]` is accessible for manual session management while the SockJS connection
-is loaded using `link:../../apidocs/io/vertx/ext/web/handler/sockjs/SockJSSocket.html#routingContext--[routingContext]`. With this you can manage
-the users and sessions accessible through `link:../../apidocs/io/vertx/ext/web/handler/sockjs/SockJSSocket.html#webSession--[webSession]`
-and `link:../../apidocs/io/vertx/ext/web/handler/sockjs/SockJSSocket.html#webUser--[webUser]`.
+`link:../../apidocs/io/vertx/core/streams/WriteStream.html[WriteStream]` 接口，因此您可以将它套用（pump）到其他读写流上。 
+若 SockJS 连接使用 `link:../../apidocs/io/vertx/ext/web/handler/sockjs/SockJSSocket.html#routingContext--[routingContext]` 加载，
+那么便可在手动管理会话（session）时访问 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html[RoutingContext]`。
+由此您可以通过 `link:../../apidocs/io/vertx/ext/web/handler/sockjs/SockJSSocket.html#webSession--[webSession]` 和
+`link:../../apidocs/io/vertx/ext/web/handler/sockjs/SockJSSocket.html#webUser--[webUser]` 管理用户和会话。
 
 下面的例子中的 SockJS 处理器直接使用了它读取到的数据进行回写：
 
