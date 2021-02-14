@@ -1,9 +1,9 @@
-== Using connections
+== 使用连接
 
-=== Getting a connection
+=== 获取一条连接
 
-When you need to execute sequential queries (without a transaction), you can create a new connection
-or borrow one from the pool. Remember that between acquiring the connection from the pool and returning it to the pool, you should take care of the connection because it might be closed by the server for some reason such as an idle time out.
+当您要执行查询(无事务)操作时, 您可以创建一条或者从连接池里拿到一条连接.
+请注意在从拿到连接到将连接释放回连接池这之间的连接状态, 服务端可能由于某些原因比如空闲时间超时, 而关闭这条连接.
 
 [source,java]
 ----
@@ -28,7 +28,7 @@ pool
 });
 ----
 
-Prepared queries can be created:
+也可以通过连接对象创建预查询:
 
 [source,java]
 ----
@@ -43,16 +43,16 @@ connection
 });
 ----
 
-=== Simplified connection API
+=== 简化的连接API
 
-When you use a pool, you can call `link:../../apidocs/io/vertx/sqlclient/Pool.html#withConnection-java.util.function.Function-io.vertx.core.Handler-[withConnection]` to pass it a function executed
-within a connection.
+当您使用连接池时, 您可以调用 `link:../../apidocs/io/vertx/sqlclient/Pool.html#withConnection-java.util.function.Function-io.vertx.core.Handler-[withConnection]`
+并以当前连接要执行的操作作为参数.
 
-It borrows a connection from the pool and calls the function with this connection.
+这样会从连接池里拿到一条连接, 并使用当前连接执行目标操作.
 
-The function must return a future of an arbitrary result.
+这种方式需要返回一个future对象来表示操作结果.
 
-After the future completes, the connection is returned to the pool and the overall result is provided.
+当这个future操作完成后, 当前连接会被释放会连接池同时您也可能拿到最终的执行结果.
 
 [source,java]
 ----
