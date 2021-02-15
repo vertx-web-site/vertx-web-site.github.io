@@ -41,7 +41,7 @@ maybe.subscribe(rows -> {
 
 === 事务
 
-简化版的事务API可以让您很容易地编码异步事务流,  `withTransaction`
+简化版的事务API可以让您很容易地编码异步事务流, `withTransaction`
 方法会帮助您开启和提交事务:
 
 [source,java]
