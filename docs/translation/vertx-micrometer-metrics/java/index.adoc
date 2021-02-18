@@ -9,7 +9,7 @@
 * Vert.x core 组件监控：TCP/HTTP 客户端和服务端、 `link:../../apidocs/io/vertx/core/datagram/DatagramSocket.html[DatagramSocket]` 、
 `link:../../apidocs/io/vertx/core/eventbus/EventBus.html[EventBus]` 和各类 pool
 * 用户通过Micrometer定义的监控指标
-* 向任何Micrometer支持的后端发送报告
+* 向所有 Micrometer 支持的后端发送报告
 * 内置可选项： https://www.influxdata.com/[InfluxDB] 、 https://prometheus.io/[Prometheus] 、 JMX 报告。
 
 == InfluxDB
