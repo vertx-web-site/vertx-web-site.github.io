@@ -100,7 +100,7 @@ Vertx vertx = Vertx.vertx(new VertxOptions().setMetricsOptions(
 === 开始
 
 必须在classpath中添加 _vertx-micrometer-metrics_ 和 _micrometer-registry-prometheus_ 模块。
-您也许需要 _vertx-web_ 来暴露指标。
+您也许需要 _vertx-web_ 来开放监控指标。
 
 Maven用户在pom文件中添加如下依赖：
 
