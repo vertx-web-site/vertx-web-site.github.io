@@ -526,7 +526,7 @@ NOTE: Matchers 在底层使用的是 MeterFilters.
 这样便于对相关指标和度量做出一个快照。
 这个快照以 `link:../../apidocs/io/vertx/core/json/JsonObject.html[JsonObject]` 形式返回。
 
-一个所熟知的 _Measured_ 对象便是
+一个所熟知的 _Measured_ 对象便是 `link:../../apidocs/io/vertx/core/Vertx.html[Vertx]` ：
 A well known _Measured_ object is simply `link:../../apidocs/io/vertx/core/Vertx.html[Vertx]` ：
 
 [source,java]
