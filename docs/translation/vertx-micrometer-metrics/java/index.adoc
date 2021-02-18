@@ -88,6 +88,7 @@ Vertx vertx = Vertx.vertx(new VertxOptions().setMetricsOptions(
     .setEnabled(true)));
 ----
 
+[[_prometheus]]
 == Prometheus
 
 [[_prerequisites0]]
