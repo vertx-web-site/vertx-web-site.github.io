@@ -500,7 +500,7 @@ const entries = [
   {
     id: "vertx-micrometer-metrics",
     name: "Micrometer 指标监控",
-    description: "使用 Micrometer 获取 Vert.x core 组件的监控指标，并将指标对外开放",
+    description: "使用 Micrometer 获取并展示 Vert.x core 组件的监控指标。",
     category: "devops",
     href: "/vertx-micrometer-metrics/java/",
     repository: "https://github.com/vert-x3/vertx-micrometer-metrics",
