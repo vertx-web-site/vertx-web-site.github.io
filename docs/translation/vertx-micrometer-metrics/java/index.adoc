@@ -94,7 +94,7 @@ Vertx vertx = Vertx.vertx(new VertxOptions().setMetricsOptions(
 [[_prerequisites0]]
 === 预先准备
 
-按照 https://prometheus.io/docs/prometheus/latest/getting_started/[Prometheus启动和运行手册] 。
+按照 https://prometheus.io/docs/prometheus/latest/getting_started/[手册启动并运行Prometheus] 。
 
 //=== Getting started
 [[_getting_started0]]
