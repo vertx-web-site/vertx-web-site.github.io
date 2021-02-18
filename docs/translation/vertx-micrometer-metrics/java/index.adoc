@@ -17,7 +17,7 @@
 [[_prerequisites]]
 === 预先准备
 
-按照 https://docs.influxdata.com/influxdb/latest/introduction/getting_started/[InfluxDb启动和运行说明] 。
+按照 https://docs.influxdata.com/influxdb/latest/introduction/getting_started/[说明文档启动并运行 InfluxDb] 。
 
 [[_getting_started]]
 === 开始
