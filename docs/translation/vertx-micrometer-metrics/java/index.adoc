@@ -240,10 +240,10 @@ Vertx vertx = Vertx.vertx(new VertxOptions().setMetricsOptions(
 The list of available backends includes Graphite, Ganglia, Atlas, link:http://micrometer.io/docs[etc].
 It also enables the link:http://micrometer.io/docs/concepts#_composite_registries[Micrometer Composite Registry]
 in order to report the same metrics to multiple backends.
-可用的后台包括 Graphite、Ganglia、Atlas、 link:http://micrometer.io/docs[等等] 。
-它也允许 link:http://micrometer.io/docs/concepts#_composite_registries[Micrometer 组合注册] 从而可以向多个后台报告同一项指标。
+可用的后端包括 Graphite、Ganglia、Atlas link:http://micrometer.io/docs[等等] 。
+它也允许 link:http://micrometer.io/docs/concepts#_composite_registries[Micrometer 组合注册] 从而可以向多个后端报告同一项指标。
 
-在以下例子中，指标同时被JMX 和 Graphite报告：
+在以下例子中，指标同时向 JMX 和 Graphite报告：
 
 [source,java]
 ----
@@ -277,8 +277,8 @@ Vertx vertx = Vertx.vertx(new VertxOptions()
  rate(vertx_http_client_response_time_seconds_count[5m])
 ----
 
-要计算分位数，则有两个选择。第一种，激活全局分位数分析
-并且让他们为 Prometheus 函数 `histogram_quantile` 所用：
+要计算分位数，则有两个方案可选择。第一种，激活全局分位数分析，
+并让 Prometheus 的 `histogram_quantile` 函数可以使用分位数：
 
 [source,java]
 ----
@@ -295,10 +295,10 @@ Vertx vertx = Vertx.vertx(new VertxOptions().setMetricsOptions(
  histogram_quantile(0.99, sum(rate(vertx_http_client_response_time_seconds_bucket[5m])) by (le))
 ----
 
-这个选项的优点是可以在 `promql` 中跨维度聚合使用。
+这个方案的优点是可以在 `promql` 中跨维度聚合使用。
 坏处是它为了统计数据而创建了大量的时间序列。
 
-第二个选项是创建分析限制，不许跨维度聚合。
+第二个方案是创建分析限制，不许跨维度聚合。
 这就需要直接访问 Micrometer / Prometheus 注册信息：
 
 [source,java]
@@ -380,7 +380,7 @@ vertx.setPeriodic(1000, l -> {
 [[_reusing_an_existing_registry]]
 === 复用一个已存在的 registry
 
-复用一个已存在的 registry 是可能的（或从Prometheus java客户端获取 `CollectorRegistry` ），
+您可以复用一个现存的 registry （或从Prometheus java客户端获取 `CollectorRegistry` ），
 在 Vert.x metrics options 中注入它：
 
 [source,java]
@@ -404,7 +404,7 @@ Vertx vertx = Vertx.vertx(new VertxOptions().setMetricsOptions(
 [[_jvm_or_other_instrumentations]]
 === JVM 或者其他平台
 
-因为已经提供了对Micrometer registry的原始访问方式，所以利用 Micrometer API 是可能的。
+因为已经提供了对Micrometer registry的原始访问方式，所以可以直接使用 Micrometer API 。
 例如，监控JVM：
 
 [source,java]
@@ -418,15 +418,15 @@ new ProcessorMetrics().bindTo(registry);
 new JvmThreadMetrics().bindTo(registry);
 ----
 
-_详见link:http://micrometer.io/docs/ref/jvm[Micrometer 文档]。_
+_详见 link:http://micrometer.io/docs/ref/jvm[Micrometer 文档]。_
 
 [[_metric_names]]
 === 指标名称
 
 每一个Vert.x提供的指标都可以通过options重命名，
 用 `link:../../apidocs/io/vertx/micrometer/MetricsNaming.html[MetricsNaming]` 和 `link:../../apidocs/io/vertx/micrometer/MicrometerMetricsOptions.html#setMetricsNaming-io.vertx.micrometer.MetricsNaming-[setMetricsNaming]` 即可。
-在 Vert.x 4 中，默认指标名称出现了变化，目的在于更好的适应于后台约定，
-但是用 Vert.x 3.x 名称以求兼容性依旧是可以的：
+在 Vert.x 4 中，默认指标名称出现了变化，目的在于更好的适应于后端约定，
+但是依旧可以用 Vert.x 3.x 的指标名称，以求兼容：
 
 [source,java]
 ----
@@ -440,8 +440,8 @@ Vertx vertx = Vertx.vertx(new VertxOptions().setMetricsOptions(
 [[_labels_and_matchers]]
 === Labels 和 matchers
 
-Vert.x Micrometer Metrics 定义了一系列label（aka tag 或 field）用于对某一指标提供维度。
-例如，和事件总线消息相关的指标有 _address_ label，它允许对一个
+Vert.x Micrometer Metrics 定义了一系列label（又称为 tag 或 field），用于对某一指标提供维度。
+例如，和事件总线消息相关的指标有 _address_ label，
 它允许对一个事件总线地址查询时间序列，或者对比每个地址的时间序列，
 或者做各种API允许的聚合操作。
 
