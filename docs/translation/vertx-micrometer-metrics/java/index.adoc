@@ -1,7 +1,7 @@
 = Vert.x Micrometer 指标监控
 
 这个项目是 Vert.x Metrics Service Provider Interface (SPI) 的一个实现。
-它使用 link:http://micrometer.io/[Micrometer] 来管理运行指标并向后台报告。
+它使用 link:http://micrometer.io/[Micrometer] 来管理运行指标并向后端报告。
 
 [[_features]]
 == 特性
