@@ -233,7 +233,7 @@ Vertx vertx = Vertx.vertx(new VertxOptions().setMetricsOptions(
 ----
 
 [[_other_backends_or_combinations]]
-== 其他后台或组合
+== 其他后端或其组合
 
 即使Vert.x并不对所有的Micrometer支持的后台提供实现，但是
 创建Micrometer注册信息并将其传入Vert.x依然是可能的。
