@@ -12,6 +12,7 @@
 * 向所有 Micrometer 支持的后端发送报告
 * 内置可选项： https://www.influxdata.com/[InfluxDB] 、 https://prometheus.io/[Prometheus] 、 JMX 报告。
 
+[[_influxdb]]
 == InfluxDB
 
 [[_prerequisites]]
