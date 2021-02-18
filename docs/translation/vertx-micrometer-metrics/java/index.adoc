@@ -444,7 +444,7 @@ Vertx vertx = Vertx.vertx(new VertxOptions().setMetricsOptions(
 Vert.x Micrometer Metrics 定义了一系列label（aka tag 或 field）用于对某一指标提供维度。
 例如，和事件总线消息相关的指标有 _address_ label，它允许对一个
 它允许对一个事件总线地址查询时间序列，或者对比每个地址的时间序列，
-做各种API允许的聚合操作。
+或者做各种API允许的聚合操作。
 
 当设置指标option的时候，您可以指定您想要开启的label：
 
