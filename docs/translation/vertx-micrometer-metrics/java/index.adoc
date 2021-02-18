@@ -218,7 +218,7 @@ Vertx vertx = Vertx.vertx(new VertxOptions().setMetricsOptions(
 [[_with_step_and_domain]]
 ==== 添加 step 和 domain
 
-在Micrometer中， `step` 是指报告时间区间，以秒为单位。 `domain` 是
+在Micrometer中， `step` 是指报告周期，以秒为单位。 `domain` 是
 MBeans被注册域名之下的JMX域名。
 
 [source,java]
