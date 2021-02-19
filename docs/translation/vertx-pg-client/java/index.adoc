@@ -504,6 +504,7 @@ value = tuple.get(Integer.class, 2); // Expect 3
 value = tuple.getInteger(2); // Expect 3
 ----
 
+[[_handling_numeric]]
 === 数字类型(Numeric)
 
 java的 `link:../../apidocs/io/vertx/sqlclient/data/Numeric.html[Numeric]` 用来表示PostgreSQL的 `NUMERIC` 类型.
