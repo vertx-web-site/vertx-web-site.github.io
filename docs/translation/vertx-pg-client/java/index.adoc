@@ -899,6 +899,7 @@ connection.cancelRequest(ar -> {
 
 更多详细信息可以在这里找到 https://www.postgresql.org/docs/11/protocol-flow.html#id-1.10.5.7.9[official documentation].
 
+[[_using_ssltls]]
 == 使用 SSL/TLS
 
 为客户端连接添加SSL的操作, 您可以参考Vert.x的
