@@ -910,6 +910,7 @@ PgConnection.connect(vertx, options, res -> {
 
 更多详细信息可以在这里找到 http://vertx.io/docs/vertx-core/java/#ssl[Vert.x documentation].
 
+[[_using_a_proxy]]
 == 使用代理
 
 您可以配置客户端使用HTTP/1.x 连接, SOCKS4a 或 SOCKS5 代理.
