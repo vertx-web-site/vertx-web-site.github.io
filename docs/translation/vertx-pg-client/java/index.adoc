@@ -652,6 +652,7 @@ client
   });
 ----
 
+[[_using_java_enum_types]]
 == 使用Java枚举类型
 
 您可以将Java的 https://docs.oracle.com/javase/tutorial/java/javaOO/enum.html[枚举类型]
