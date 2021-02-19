@@ -530,6 +530,7 @@ tuple.addArrayOfString(new String[]{"another", "array"});
 String[] array = tuple.getArrayOfStrings(0);
 ----
 
+[[_handling_datetime_infinity]]
 == 日期/时间类型(Date/Time)的最值
 
 PostgreSQL定义了几个特殊的值用来表示这些最值.
