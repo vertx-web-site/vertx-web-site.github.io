@@ -218,6 +218,7 @@ options
   .setReconnectInterval(1000);
 ----
 
+[[_configuration]]
 == 配置
 
 如下有几种配置客户端的可选方案
