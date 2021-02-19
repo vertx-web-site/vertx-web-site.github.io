@@ -21,6 +21,7 @@
 * Unix domain socket
 * 支持HTTP/1.x , SOCKS4a 或 SOCKS5 代理
 
+[[_usage]]
 == 用法
 
 在 _dependencies_ 里添加如下依赖来引入响应式PostgreSQL客户端:
