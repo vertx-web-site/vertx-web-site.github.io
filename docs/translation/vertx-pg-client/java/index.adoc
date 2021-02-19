@@ -638,6 +638,7 @@ client
 });
 ----
 
+[[_handling_enumerated_types]]
 == 枚举类型
 
 PostgreSQL的 https://www.postgresql.org/docs/9.1/datatype-enum.html[枚举类型] 被映射为java的字符串.
