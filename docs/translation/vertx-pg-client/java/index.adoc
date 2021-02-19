@@ -474,6 +474,7 @@ pool
 
 上述类型的数组形式也是支持的.
 
+[[_handling_json]]
 === JSON
 
 PostgreSQL的 `JSON` 和 `JSONB`  用下列的java类型表示:
