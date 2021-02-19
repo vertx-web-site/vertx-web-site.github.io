@@ -64,6 +64,7 @@ completable.subscribe(() -> {
 });
 ----
 
+[[_streaming]]
 === 流式操作
 
 RxJava 2 支持 `Observable` 和 `Flowable` 类型, 这些类型可以从 `link:../../apidocs/io/vertx/reactivex/sqlclient/PreparedQuery.html[PreparedQuery]`
