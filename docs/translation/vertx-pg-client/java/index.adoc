@@ -739,6 +739,7 @@ client.query("SELECT * FROM users").collecting(collector).execute(ar -> {
   });
 ----
 
+[[_pubsub]]
 == 发布/订阅
 
 PostgreSQL支持发布/订阅式的通信方式.
