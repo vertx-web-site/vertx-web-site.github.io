@@ -163,7 +163,7 @@ async function writeFeed(allPosts, anyPostChanged) {
     })
 
     for (let p of allPosts) {
-      let url = `${process.env.baseUrl}/${p.slug}`
+      let url = `${process.env.baseUrl}/blog/${p.slug}`
 
       let authors = []
       for (let a of p.meta.authors) {
