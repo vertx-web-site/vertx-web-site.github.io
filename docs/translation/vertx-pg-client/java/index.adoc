@@ -391,6 +391,7 @@ include::cursor.adoc[]
 注意: PostreSQL会在事务结束后销毁游标, 因而游标API应该在事务内使用,
 否则您将可能收到 `34000` PostgreSQL错误码.
 
+[[_tracing_queries]]
 == 跟踪查询
 
 include::tracing.adoc[]
