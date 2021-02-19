@@ -599,6 +599,7 @@ client
 });
 ----
 
+[[_handling_text_search]]
 == 文本检索
 
 文本检索使用的是java的 `String`
