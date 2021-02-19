@@ -15,6 +15,7 @@ single.subscribe(result -> {
 });
 ----
 
+[[_connection]]
 === 连接
 
 简化版的连接API可以让您很容易地使用connection对象,  `withConnection`
