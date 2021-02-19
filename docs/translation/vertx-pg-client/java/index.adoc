@@ -396,6 +396,7 @@ include::cursor.adoc[]
 
 include::tracing.adoc[]
 
+[[_postgresql_type_mapping]]
 == PostgreSQL 类型映射
 
 当前版本客户端支持下列的PostgreSQL类型
