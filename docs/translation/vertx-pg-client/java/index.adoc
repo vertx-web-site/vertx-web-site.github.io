@@ -206,6 +206,7 @@ PgPool client2 = PgPool.pool(vertx, connectOptions, poolOptions);
 
 更多详情可以在这里找到 https://vertx.io/docs/vertx-core/java/#_native_transports[Vert.x documentation].
 
+[[_connect_retries]]
 == 重连
 
 您可以配置客户端在建立连接失败的时候的重试策略
