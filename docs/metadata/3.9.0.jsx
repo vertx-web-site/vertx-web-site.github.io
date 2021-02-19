@@ -488,7 +488,7 @@ const entries = [
   {
     id: "vertx-dropwizard-metrics",
     name: "Dropwizard 指标监控",
-    description: "使用 Dropwizard 收集并获取Vert.x Core组件的监控指标。",
+    description: "使用 Dropwizard 获取并展示 Vert.x Core 组件的监控指标。",
     category: "devops",
     href: "/vertx-dropwizard-metrics/java/",
     repository: "https://github.com/vert-x3/vertx-dropwizard-metrics",
