@@ -1,3 +1,4 @@
+[[_using_connections]]
 == 使用连接
 
 === 获取一条连接
