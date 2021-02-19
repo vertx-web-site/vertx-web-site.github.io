@@ -82,6 +82,7 @@ client
 });
 ----
 
+[[_connecting_to_postgresql]]
 == 连接PostgreSQL
 
 Most of the time you will use a pool to connect to PostgreSQL:
