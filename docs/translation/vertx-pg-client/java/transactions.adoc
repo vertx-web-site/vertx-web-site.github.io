@@ -1,6 +1,7 @@
 [[_using_transactions]]
 == 事务
 
+[[_transactions_with_connections]]
 === 连接中使用事务操作
 
 您可以使用SQL语法 `BEGIN`/`COMMIT`/`ROLLBACK` 来执行事务操作, 同时您必须使用
