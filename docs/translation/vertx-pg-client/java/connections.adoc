@@ -1,6 +1,7 @@
 [[_using_connections]]
 == 使用连接
 
+[[_getting_a_connection]]
 === 获取一条连接
 
 当您要执行查询(无事务)操作时, 您可以创建一条或者从连接池里拿到一条连接.
