@@ -45,6 +45,7 @@ dependencies {
 }
 ----
 
+[[_getting_started]]
 == 开始使用
 
 如下是一种最为简单的连接、查询、关闭连接的方式
