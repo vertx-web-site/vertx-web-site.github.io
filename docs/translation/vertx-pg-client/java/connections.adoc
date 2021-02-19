@@ -45,6 +45,7 @@ connection
 });
 ----
 
+[[_simplified_connection_api]]
 === 简化的连接API
 
 当您使用连接池时, 您可以调用 `link:../../apidocs/io/vertx/sqlclient/Pool.html#withConnection-java.util.function.Function-io.vertx.core.Handler-[withConnection]`
