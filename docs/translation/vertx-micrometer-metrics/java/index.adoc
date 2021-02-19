@@ -25,7 +25,7 @@
 
 必须要在classpath下添加 _vertx-micrometer-metrics_ 和 _micrometer-registry-influx_ 模块。
 
-Maven用户在pom文件中添加如下依赖：
+Maven 用户应在 pom文件中添加如下依赖：
 
 [source,xml,subs="+attributes"]
 ----
@@ -52,7 +52,7 @@ compile 'io.micrometer:micrometer-registry-influx:${micrometer.version}'
 [[_configuration_examples]]
 === 配置示例
 
-Vert.x默认情况下不开启SPI的实现。您必须在Vert.x options中启用它。
+Vert.x默认情况下不开启SPI的实现。您必需在Vert.x options中启用。
 
 [source,java]
 ----
@@ -129,7 +129,7 @@ compile 'io.micrometer:micrometer-registry-prometheus:${micrometer.version}'
 [[_configuration_examples0]]
 === 配置示例
 
-Vert.x默认情况下不开启SPI的实现。您必须在Vert.x options中启用它。
+Vert.x默认情况下不开启SPI的实现。您必需在Vert.x options中将其启用。
 
 [source,java]
 ----
@@ -516,7 +516,7 @@ registry.config().meterFilter(
   }, ""));
 ----
 
-NOTE: Matchers 在底层使用的是 MeterFilters.
+NOTE: Matchers 在底层使用的是 MeterFilters。
 
 [[_snapshots]]
 === 快照
@@ -632,7 +632,7 @@ NOTE: 指标后台可能存在不同的约定或规则来命名指标
 |`vertx_http_client_queue_pending`
 |`local`, `remote`
 |Gauge
-|队列中挂起状态的元素数量
+|队列中挂起状态的元素数量。
 
 |`vertx_http_client_ active_requests`
 |`local`, `remote`, `path`, `method`
@@ -647,7 +647,7 @@ NOTE: 指标后台可能存在不同的约定或规则来命名指标
 |`vertx_http_client_request_bytes`
 |`local`, `remote`, `path`, `method`
 |Summary
-|请求的大小（字节数）
+|请求的大小（字节数）。
 
 |`vertx_http_client_response_time_seconds`
 |`local`, `remote`, `path`, `method`, `code`
@@ -667,7 +667,7 @@ NOTE: 指标后台可能存在不同的约定或规则来命名指标
 |`vertx_http_client_active_ws_connections`
 |`local`, `remote`
 |Gauge
-|当前打开状态的websocket数量
+|当前打开状态的websocket数量。
 
 |===
 
@@ -698,7 +698,7 @@ NOTE: 指标后台可能存在不同的约定或规则来命名指标
 |`vertx_net_server_errors`
 |`local`, `remote`, `class`
 |Counter
-|错误数.
+|错误数。
 
 |===
 
@@ -714,57 +714,57 @@ NOTE: 指标后台可能存在不同的约定或规则来命名指标
 |`vertx_http_server_bytes_read`
 |`local`, `remote`
 |Counter
-|HTTP Server接收的字节数
+|HTTP Server接收的字节数。
 
 |`vertx_http_server_bytes_written`
 |`local`, `remote`
 |Counter
-|HTTP Server发送的字节数
+|HTTP Server发送的字节数。
 
 |`vertx_http_server_active_connections`
 |`local`, `remote`
 |Gauge
-|HTTP Server开启的连接数
+|HTTP Server开启的连接数。
 
 |`vertx_http_server_errors`
 |`local`, `remote`, `class`
 |Counter
-|错误数
+|错误数。
 
 |`vertx_http_server_active_requests`
 |`local`, `remote`, `path`, `method`
 |Gauge
-|当前正在执行状态的请求数
+|当前正在执行状态的请求数。
 
 |`vertx_http_server_requests_total`
 |`local`, `remote`, `path`, `method`, `code`, `route`
 |Counter
-|执行完毕的请求数
+|执行完毕的请求数。
 
 |`vertx_http_server_request_resets_total`
 |`local`, `remote`, `path`, `method`
 |Counter
-|被重置的请求数
+|被重置的请求数。
 
 |`vertx_http_server_request_bytes`
 |`local`, `remote`, `path`, `method`
 |Summary
-|请求大小（字节）
+|请求大小（字节）。
 
 |`vertx_http_server_response_time_seconds`
 |`local`, `remote`, `path`, `method`, `code`, `route`
 |Timer
-|请求执行的时间（秒）
+|请求执行的时间（秒）。
 
 |`vertx_http_server_response_bytes`
 |`local`, `remote`, `path`, `method`, `code`, `route`
 |Summary
-|响应大小（字节）
+|响应大小（字节）。
 
 |`vertx_http_client_active_ws_connections`
 |`local`, `remote`
 |Gauge
-|当前开启状态的websocket
+|当前开启状态的websocket。
 
 |===
 
@@ -785,12 +785,12 @@ NOTE: 指标后台可能存在不同的约定或规则来命名指标
 |`vertx_datagram_bytes_written`
 |(none)
 |Summary
-|发送到远程的字节总数
+|发送到远程的字节总数。
 
 |`vertx_datagram_errors`
 |`class`
 |Counter
-|错误总数
+|错误总数。
 
 |===
 
@@ -806,12 +806,12 @@ NOTE: 指标后台可能存在不同的约定或规则来命名指标
 |`vertx_eventbus_bytes_read`
 |`address`
 |Summary
-|从事件总线集群读取消息时接收到的总字节数
+|从事件总线集群读取消息时接收到的总字节数。
 
 |`vertx_eventbus_bytes_written`
 |`address`
 |Summary
-|向事件总线集群发送消息的总字节数
+|向事件总线集群发送消息的总字节数。
 
 |`vertx_eventbus_handlers`
 |`address`
@@ -847,7 +847,7 @@ NOTE: 指标后台可能存在不同的约定或规则来命名指标
 |`vertx_eventbus_received`
 |`address`,`side` (local/remote)
 |Counter
-|接收的消息数
+|接收的消息数。
 
 |`vertx_eventbus_delivered`
 |`address`,`side` (local/remote)
