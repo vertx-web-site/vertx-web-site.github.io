@@ -44,6 +44,7 @@ tx.completion()
 });
 ----
 
+[[_simplified_transaction_api]]
 === 简化版事务API
 
 当您使用连接池时, 您可以调用 `link:../../apidocs/io/vertx/sqlclient/Pool.html#withTransaction-java.util.function.Function-io.vertx.core.Handler-[withTransaction]` 方法
