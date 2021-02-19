@@ -868,6 +868,7 @@ subscriber.reconnectPolicy(retries -> {
 
 默认的策略是不重连.
 
+[[_cancelling_request]]
 == 取消请求
 
 PostgreSQL 支持取消正在运行的请求. 您可以使用 `link:../../apidocs/io/vertx/pgclient/PgConnection.html#cancelRequest-io.vertx.core.Handler-[cancelRequest]` 正在运行的请求. 取消请求的操作在执行时将和PostgreSQL服务端新建一条连接、执行取消请求、关闭这条连接.
