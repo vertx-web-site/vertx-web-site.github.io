@@ -19,6 +19,7 @@ client
 });
 ----
 
+[[_prepared_queries]]
 === 预查询
 
 执行预查询也是一样的操作.
