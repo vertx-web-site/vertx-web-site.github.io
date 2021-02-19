@@ -560,6 +560,7 @@ client
   });
 ----
 
+[[_handling_custom_types]]
 == 自定义类型
 
 发送和从Postgres接收的自定义类型都由字符串来表示.
