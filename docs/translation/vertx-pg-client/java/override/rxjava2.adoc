@@ -1,3 +1,4 @@
+[[_rxjava_2_api]]
 == RxJava 2 API
 
 Rx风格的API支持 RxJava 1 and RxJava 2, 下边的例子使用的是 RxJava 2.
