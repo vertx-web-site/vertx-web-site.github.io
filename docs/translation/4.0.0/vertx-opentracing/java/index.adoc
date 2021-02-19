@@ -1,9 +1,9 @@
 = Vertx OpenTracing
 
-Vert.x integrates with OpenTracing thanks to the Jaeger client.
+Vert.x 借助 Jaeger 的支持集成了 OpenTracing 。
 
-You can configure Vert.x to use the Jaeger client configured via
-https://github.com/jaegertracing/jaeger-client-java/blob/master/jaeger-core/README.md#configuration-via-environment[Environment]
+您可以使用Jaeger客户端的下列配置项来配置 Vert.x
+https://github.com/jaegertracing/jaeger-client-java/blob/master/jaeger-core/README.md#configuration-via-environment[环境]。
 
 [source,java]
 ----
@@ -14,8 +14,8 @@ Vertx vertx = Vertx.vertx(new VertxOptions()
 );
 ----
 
-You can also pass a custom `Tracer` allowing for greater control
-over the configuration.
+您也可以传递一个自定义的`Tracer`来更好地调控
+配置项
 
 [source,java]
 ----
@@ -26,27 +26,29 @@ Vertx vertx = Vertx.vertx(new VertxOptions()
 );
 ----
 
-== Tracing policy
+[[_tracing_policy]]
+== 追踪策略
 
-The tracing policy defines the behavior of a component when tracing is enabled:
+当追踪功能启用时, 一个组件的行为由追踪策略来定义：
 
-- `link:../../apidocs/io/vertx/core/tracing/TracingPolicy.html#PROPAGATE[PROPAGATE]`: the component reports a span in the active trace
-- `link:../../apidocs/io/vertx/core/tracing/TracingPolicy.html#ALWAYS[ALWAYS]`: the component reports a span in the active trace or creates a new active trace
-- `link:../../apidocs/io/vertx/core/tracing/TracingPolicy.html#IGNORE[IGNORE]`: the component will not be involved in any trace.
+- `link:../../apidocs/io/vertx/core/tracing/TracingPolicy.html#PROPAGATE[PROPAGATE]`: 该组件上报活跃trace中的span
+- `link:../../apidocs/io/vertx/core/tracing/TracingPolicy.html#ALWAYS[ALWAYS]`: 该组件上报活跃trace中的span或者创建一个新的活跃trace
+- `link:../../apidocs/io/vertx/core/tracing/TracingPolicy.html#IGNORE[IGNORE]`: 该组件不会参与任何的trace
 
-The tracing policy is usually configured in the component options.
+tracing 策略通常可在组件选项里配置
 
 == HTTP tracing
 
-The Vert.x HTTP server and client reports span around HTTP requests:
+Vert.x HTTP服务端和客户端根据HTTP请求上报跨度（span）：
 
-- `operationName`: the HTTP method
+- `operationName`: 当前HTTP方法
 - tags
- - `http.method`: the HTTP method
- - `http.url`: the request URL
- - `http.status_code`: the HTTP status code
+- `http.method`: HTTP请求方法
+- `http.url`: 请求URL
+- `http.status_code`: HTTP状态码
 
-The default HTTP server tracing policy is `ALWAYS`, you can configure the policy with `link:../../apidocs/io/vertx/core/http/HttpServerOptions.html#setTracingPolicy-io.vertx.core.tracing.TracingPolicy-[setTracingPolicy]`
+HTTP服务端默认的追踪策略是 `ALWAYS`,
+您可以使用`link:../../apidocs/io/vertx/core/http/HttpServerOptions.html#setTracingPolicy-io.vertx.core.tracing.TracingPolicy-[setTracingPolicy]` 来调配该策略。
 
 [source,java]
 ----
@@ -55,7 +57,8 @@ HttpServer server = vertx.createHttpServer(new HttpServerOptions()
 );
 ----
 
-The default HTTP client tracing policy is `PROPAGATE`, you can configure the policy with `link:../../apidocs/io/vertx/core/http/HttpClientOptions.html#setTracingPolicy-io.vertx.core.tracing.TracingPolicy-[setTracingPolicy]`
+HTTP客户端默认的追踪策略是 `PROPAGATE` ,
+您可以使用`link:../../apidocs/io/vertx/core/http/HttpClientOptions.html#setTracingPolicy-io.vertx.core.tracing.TracingPolicy-[setTracingPolicy]` 来调配该策略。
 
 [source,java]
 ----

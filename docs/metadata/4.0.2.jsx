@@ -194,7 +194,7 @@ insert(docs, "vertx-mongo-client",
   {
     id: "vertx-sql-client-templates",
     name: "SQL 客户端模版",
-    description: `一个旨在促进SQL查询执行和数据操作的小型库。`,
+    description: "一个旨在促进SQL查询执行和数据操作的小型库。",
     category: "databases",
     href: "/vertx-sql-client-templates/java/",
     repository: "https://github.com/eclipse-vertx/vertx-sql-client",
