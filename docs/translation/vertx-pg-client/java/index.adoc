@@ -334,6 +334,7 @@ PgConnection.connect(vertx, res -> {
 });
 ----
 
+[[_sasl_scram_sha_256_authentication_mechanism]]
 === SASL SCRAM-SHA-256 鉴权机制.
 
 为了使用 sasl SCRAM-SHA-256鉴权, 需要在 _dependencies_ 里添加如下依赖:
