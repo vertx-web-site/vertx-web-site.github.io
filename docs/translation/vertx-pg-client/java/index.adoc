@@ -685,6 +685,7 @@ String and PostgreSQL enumerated types 对应Java枚举类的 `name()` 方法的
 
 Numbers类型对应Java枚举类的 `ordinal()` 方法的返回值.
 
+[[_collector_queries]]
 == Collector式查询
 
 您可以将Java collector与查询API结合使用:
