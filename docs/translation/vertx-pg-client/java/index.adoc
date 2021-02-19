@@ -264,6 +264,7 @@ connectOptions.setProperties(props);
 
 关于可用属性的更多信息可以在这里找到 https://www.postgresql.org/docs/current/runtime-config-client.html[PostgreSQL Manuals].
 
+[[_connection_uri]]
 === 连接uri
 
 除了使用 `PgConnectionOptions` 对象, 我们也提供了另一种基于URI的可选配置方案
