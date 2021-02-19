@@ -39,6 +39,7 @@ maybe.subscribe(rows -> {
 });
 ----
 
+[[_transaction]]
 === 事务
 
 简化版的事务API可以让您很容易地编写异步事务处理流,  `withTransaction`
