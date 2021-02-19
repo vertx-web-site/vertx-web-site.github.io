@@ -223,6 +223,7 @@ options
 
 如下有几种配置客户端的可选方案
 
+[[_data_object]]
 === data object
 
 通过指定 `PgConnectOptions` 数据对象是一种简单的客户端的配置方式
