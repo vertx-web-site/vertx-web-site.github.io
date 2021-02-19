@@ -519,6 +519,7 @@ if (numeric.isNaN()) {
 }
 ----
 
+[[_handling_arrays]]
 == 数组
 
 数组可以用在 `link:../../apidocs/io/vertx/sqlclient/Tuple.html[Tuple]` 和 `link:../../apidocs/io/vertx/sqlclient/Row.html[Row]`:
