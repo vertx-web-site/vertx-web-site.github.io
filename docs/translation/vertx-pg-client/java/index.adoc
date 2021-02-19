@@ -297,6 +297,7 @@ PgConnection.connect(vertx, connectionUri, res -> {
 
 注意: 通过URI配置的属性将会覆盖默认的配置属性.
 
+[[_environment_variables]]
 === 环境变量
 
 您也可以使用环境变量来设置连接的属性值, 以此来避免硬编码数据库连接信息.
