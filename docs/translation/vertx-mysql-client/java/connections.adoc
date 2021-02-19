@@ -5,7 +5,7 @@
 === 获取连接
 
 当需要执行顺序查询（无事务）时，可以创建一个新连接或从连接池中借用一个。
-Remember that between acquiring the connection from the pool and returning it to the pool, you should take care of the connection because it might be closed by the server for some reason such as an idle time out.
+请注意在从拿到连接到将连接释放回连接池这之间的连接状态，服务端可能由于某些原因比如空闲时间超时，而关闭这条连接。
 
 [source,java]
 ----
