@@ -260,7 +260,7 @@ SqlTemplate
   });
 ----
 
-[[_java_date_time_api_mapping]]
+[[_java_datetime_api_mapping]]
 === Java Date/Time API 映射
 
 您可以用 _jackson-modules-java8_ 的Jackson扩展包来实现对 `java.time` 的映射。
@@ -405,7 +405,7 @@ Maven 示例：
 </plugin>
 ----
 
-[[_row_mapping]]
+[[_row_mapping_2]]
 === 行映射
 
 您可以通过在数据对象上声明 `link:../../apidocs/io/vertx/sqlclient/templates/annotations/RowMapped.html[@RowMapped]` 注解的方式生成一个行映射器。
@@ -491,7 +491,7 @@ class UserDataObject {
 
 您可以用注解修饰属性、getter、setter方法。
 
-生成的映射器可以如 <<row_mapping_with_custom_mapper,row mapping chapter>> 所示来做行映射。
+生成的映射器可以如 <<row_mapping_with_custom_mapper, 行映射章节>> 所示来做行映射。
 
 [source,java]
 ----
@@ -506,7 +506,7 @@ SqlTemplate
   });
 ----
 
-[[_parameters_mapping]]
+[[_parameters_mapping_2]]
 === 参数映射
 
 您可以通过在数据对象上加 `link:../../apidocs/io/vertx/sqlclient/templates/annotations/ParametersMapped.html[@ParametersMapped]` 注解的方式生成参数映射器
@@ -592,7 +592,7 @@ class UserDataObject {
 
 您可以用注解修饰属性、getter、setter方法。
 
-生成的映射器可以用来做参数映射，正如 <<params_mapping_with_custom_mapper,parameter mapping chapter>> 所示
+生成的映射器可以用来做参数映射，正如 <<params_mapping_with_custom_mapper, 参数映射章节>> 所示
 
 [source,java]
 ----
