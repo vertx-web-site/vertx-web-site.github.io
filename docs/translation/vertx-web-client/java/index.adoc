@@ -20,9 +20,9 @@ Web Client使得发送 HTTP 请求以及从 Web 服务器接收 HTTP 响应变�
 [[_using_the_web_client]]
 == 使用Web Client
 
-如需使用Vert.x Web Client，请先加入以下依赖,到您的build描述 _dependencies_ 部分 ：
+如需使用Vert.x Web Client，请先加入以下依赖，到您的build描述 _dependencies_ 部分 ：
 
-* Maven (在您的 `pom.xml` 文件内):
+* Maven （在您的 `pom.xml` 文件内）：
 
 [source,xml,subs="+attributes"]
 ----
@@ -33,7 +33,7 @@ Web Client使得发送 HTTP 请求以及从 Web 服务器接收 HTTP 响应变�
 </dependency>
 ----
 
-* Gradle (在您的 `build.gradle` 文件内):
+* Gradle （在您的 `build.gradle` 文件内）：
 
 [source,groovy,subs="+attributes"]
 ----
@@ -170,7 +170,7 @@ client
 ----
 
 发送single buffer很有用，但是通常您不想完全将内容加载到内存中，因为它可能太大，或者您想同时处理多个请求，或者每个请求只想使用最小的（消耗）。
-为此，Web Client可以使用 `ReadStream<Buffer>` 的 (例如 `link:../../apidocs/io/vertx/core/file/AsyncFile.html[AsyncFile]` 是一个ReadStream<Buffer> ) `link:../../apidocs/io/vertx/ext/web/client/HttpRequest.html#sendStream-io.vertx.core.streams.ReadStream-io.vertx.core.Handler-[sendStream]` 方法发送。
+为此，Web Client可以使用 `ReadStream<Buffer>` 的（例如 `link:../../apidocs/io/vertx/core/file/AsyncFile.html[AsyncFile]` 是一个ReadStream<Buffer>） `link:../../apidocs/io/vertx/ext/web/client/HttpRequest.html#sendStream-io.vertx.core.streams.ReadStream-io.vertx.core.Handler-[sendStream]` 方法发送。
 
 [source,java]
 ----
@@ -227,7 +227,7 @@ client
   });
 ----
 
-在Java，Groovy以及Kotlin中，您可以使用 `link:../../apidocs/io/vertx/ext/web/client/HttpRequest.html#sendJson-java.lang.Object-io.vertx.core.Handler-[sendJson]` 方法，它使用 `link:../../apidocs/io/vertx/core/json/Json.html#encode-java.lang.Object-[Json.encode]` 方法映射一个 POJO (Plain Old Java Object) 到一个 Json 对象
+在Java，Groovy以及Kotlin中，您可以使用 `link:../../apidocs/io/vertx/ext/web/client/HttpRequest.html#sendJson-java.lang.Object-io.vertx.core.Handler-[sendJson]` 方法，它使用 `link:../../apidocs/io/vertx/core/json/Json.html#encode-java.lang.Object-[Json.encode]` 方法映射一个 POJO（Plain Old Java Object） 到一个 Json 对象
 
 [source,java]
 ----
@@ -279,7 +279,7 @@ client
   });
 ----
 
-如果你想上传文件的同时发送属性,您可以创建一个 `link:../../apidocs/io/vertx/ext/web/multipart/MultipartForm.html[MultipartForm]` , 然后使用 `link:../../apidocs/io/vertx/ext/web/client/HttpRequest.html#sendMultipartForm-io.vertx.ext.web.multipart.MultipartForm-io.vertx.core.Handler-[sendMultipartForm]` 。
+如果你想上传文件的同时发送属性，您可以创建一个 `link:../../apidocs/io/vertx/ext/web/multipart/MultipartForm.html[MultipartForm]` ，然后使用 `link:../../apidocs/io/vertx/ext/web/client/HttpRequest.html#sendMultipartForm-io.vertx.ext.web.multipart.MultipartForm-io.vertx.core.Handler-[sendMultipartForm]` 。
 
 [source,java]
 ----
@@ -405,7 +405,7 @@ get
 [[_timeouts]]
 === 超时
 
-您可通过 `link:../../apidocs/io/vertx/ext/web/client/HttpRequest.html#timeout-long-[timeout]`. 方法设置超时时间。
+您可通过 `link:../../apidocs/io/vertx/ext/web/client/HttpRequest.html#timeout-long-[timeout]` 。方法设置超时时间。
 
 [source,java]
 ----
@@ -462,7 +462,7 @@ WARNING: 响应会被完全缓冲，请使用 `link:../../apidocs/io/vertx/ext/w
 
 一个body解码器可以将任意二进制数据流解码为特定的对象实例，从而节省了您自己在响应处理器里解码的步骤。
 
-使用 `link:../../apidocs/io/vertx/ext/web/codec/BodyCodec.html#jsonObject--[BodyCodec.jsonObject]` 解码一个 Json 对象:
+使用 `link:../../apidocs/io/vertx/ext/web/codec/BodyCodec.html#jsonObject--[BodyCodec.jsonObject]` 解码一个 Json 对象：
 
 [source,java]
 ----
@@ -579,9 +579,9 @@ WARNING: 这种方式仅对响应结果为buffer有效。
 [[response-predicates]]
 === 响应谓词
 
-默认的, 仅当在网络级别发生错误时，Vert.x Web Client请求才以错误结尾。
+默认的，仅当在网络级别发生错误时，Vert.x Web Client请求才以错误结尾。
 
-换言之， 您必须在收到响应后手动执行健全性检查:
+换言之， 您必须在收到响应后手动执行健全性检查：
 
 [source,java]
 ----
@@ -674,7 +674,7 @@ TIP: 响应谓词是在收到响应体 _之前_ 对其进行评估。 因此，�
 
 为了方便起见，Web Client附带了一些常见用例的谓词。
 
-对于状态码, 例如 `link:../../apidocs/io/vertx/ext/web/client/predicate/ResponsePredicate.html#SC_SUCCESS[ResponsePredicate.SC_SUCCESS]` ，验证响应具有 `2xx` 代码，您也可以自定义创建一个
+对于状态码，例如 `link:../../apidocs/io/vertx/ext/web/client/predicate/ResponsePredicate.html#SC_SUCCESS[ResponsePredicate.SC_SUCCESS]` ，验证响应具有 `2xx` 代码，您也可以自定义创建一个
 
 [source,java]
 ----
@@ -687,7 +687,7 @@ client
   });
 ----
 
-对于content types, 例如 `link:../../apidocs/io/vertx/ext/web/client/predicate/ResponsePredicate.html#JSON[ResponsePredicate.JSON]` ，验证响应具有JSON数据，您也可以自定义创建一个
+对于content types，例如 `link:../../apidocs/io/vertx/ext/web/client/predicate/ResponsePredicate.html#JSON[ResponsePredicate.JSON]` ，验证响应具有JSON数据，您也可以自定义创建一个
 
 [source,java]
 ----
@@ -706,7 +706,7 @@ ifeval::["java" == "java"]
 [[_creating_custom_failures]]
 ==== 创建自定义失败
 
-默认情况下, 响应谓词 (包括预定义的) 使用默认的错误转换器，它将丢弃body并传递一条简单消息。您可以通过自定义异常类来替换错误转换器：
+默认情况下，响应谓词（包括预定义的）使用默认的错误转换器，它将丢弃body并传递一条简单消息。您可以通过自定义异常类来替换错误转换器：
 
 [source,java]
 ----
@@ -716,7 +716,7 @@ ResponsePredicate predicate = ResponsePredicate.create(
 ----
 
 许多Web API在错误响应中提供了详细信息。
-例如, https://developer.marvel.com/docs[Marvel API] 使用此JSON对象格式：
+例如， https://developer.marvel.com/docs[Marvel API] 使用此JSON对象格式：
 
 [source,javascript]
 ----
@@ -726,7 +726,7 @@ ResponsePredicate predicate = ResponsePredicate.create(
 }
 ----
 
-为避免丢失此信息, 在错误发生之前，可以在转换器被调用之前等待响应body被完全接收：
+为避免丢失此信息，在错误发生之前，可以在转换器被调用之前等待响应body被完全接收：
 
 [source,java]
 ----
@@ -762,7 +762,7 @@ endif::[]
 [[_handling_30x_redirections]]
 === 处理 30x 重定向
 
-默认情况下，客户端跟随着重定向，您可以在 `link:../../apidocs/io/vertx/ext/web/client/WebClientOptions.html[WebClientOptions]` 配置默认行为 :
+默认情况下，客户端跟随着重定向，您可以在 `link:../../apidocs/io/vertx/ext/web/client/WebClientOptions.html[WebClientOptions]` 配置默认行为：
 
 [source,java]
 ----
@@ -778,7 +778,7 @@ WebClient client = WebClient
   .create(vertx, new WebClientOptions().setMaxRedirects(5));
 ----
 
-NOTE: 出于安全原因,客户端不会使用除了GET或HEAD的方法来跟随着重定向请求
+NOTE: 出于安全原因，客户端不会使用除了GET或HEAD的方法来跟随着重定向请求
 
 [[_using_https]]
 == 使用 HTTPS
@@ -831,7 +831,7 @@ WebClientSession session = WebClientSession.create(client);
 [[_making_requests_2]]
 === 发出请求
 
-一旦创建, `link:../../apidocs/io/vertx/ext/web/client/WebClientSession.html[WebClientSession]` 可以代替
+一旦创建， `link:../../apidocs/io/vertx/ext/web/client/WebClientSession.html[WebClientSession]` 可以代替
 `link:../../apidocs/io/vertx/ext/web/client/WebClient.html[WebClient]` 去做HTTP(s) 请求并且自动管理你正在调用的，从服务器收到的所有cookie。
 
 [[_setting_session_level_headers]]
@@ -845,7 +845,7 @@ WebClientSession session = WebClientSession.create(client);
 session.addHeader("my-jwt-token", jwtToken);
 ----
 
-然后headers将被添加到每个请求中； 注意 这些headers将发送给所有主机; 如果你需要发送不同的headers到不同的主机, 您必须将它们手动添加到每个单个请求中，并且不添加到 `link:../../apidocs/io/vertx/ext/web/client/WebClientSession.html[WebClientSession]` 。
+然后headers将被添加到每个请求中； 注意 这些headers将发送给所有主机；如果你需要发送不同的headers到不同的主机， 您必须将它们手动添加到每个单个请求中，并且不添加到 `link:../../apidocs/io/vertx/ext/web/client/WebClientSession.html[WebClientSession]` 。
 
 ifeval::["java" == "java"]
 include::override/rxjava2.adoc[]
@@ -854,9 +854,9 @@ endif::[]
 [[_domain_sockets]]
 == 域套接字
 
-自3.7.1后， Web Client 支持domain sockets, 例如，您可以跟 https://docs.docker.com/engine/reference/commandline/dockerd/[local Docker daemon] 交流。
+自3.7.1后， Web Client 支持domain sockets， 例如，您可以跟 https://docs.docker.com/engine/reference/commandline/dockerd/[local Docker daemon] 交流。
 
-为了达成这个目的, `link:../../apidocs/io/vertx/core/Vertx.html[Vertx]` 实例必须使用native transport创建， 你可以阅读Vert.x核心文档，它清楚地说明了这一点。
+为了达成这个目的， `link:../../apidocs/io/vertx/core/Vertx.html[Vertx]` 实例必须使用native transport创建， 你可以阅读Vert.x核心文档，它清楚地说明了这一点。
 
 [source,java]
 ----
