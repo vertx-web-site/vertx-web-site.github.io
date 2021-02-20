@@ -170,7 +170,12 @@ Schema schema = parser.parse(mySchema);
 ----
 
 == 自定义关键词
-
+每当你想要添加一个新的关键词类型时，你必须要实现 `link:../../apidocs/io/vertx/json/schema/common/ValidatorFactory.html[ValidatorFactory]` ，
+然后使用 `link:../../apidocs/io/vertx/json/schema/SchemaParser.html#withValidatorFactory-io.vertx.json.schema.common.ValidatorFactory-[withValidatorFactory]` 提供一个实例给 `SchemaParser`。
+当解析开始时，`SchemaParser` 将会调用每一个注册的工厂的 `link:../../apidocs/io/vertx/json/schema/common/ValidatorFactory.html#canConsumeSchema-io.vertx.core.json.JsonObject-[canConsumeSchema]` 方法。
+如果工厂可以使用这个schema，那么就会调用 `link:../../apidocs/io/vertx/json/schema/common/ValidatorFactory.html#createValidator-io.vertx.core.json.JsonObject-io.vertx.core.json.pointer.JsonPointer-io.vertx.json.schema.common.SchemaParserInternal-io.vertx.json.schema.common.MutableStateValidator-[createValidator]` 方法。
+这个方法返回一个执行校验的 `link:../../apidocs/io/vertx/json/schema/common/Validator.html[Validator]` 对象实例，
+如果在 `Validator` 初始化过程中发生错误，将会抛出 `link:../../apidocs/io/vertx/json/schema/SchemaException.html[SchemaException]` 异常。
 For every new keyword type you want to provide, you must implement `link:../../apidocs/io/vertx/json/schema/common/ValidatorFactory.html[ValidatorFactory]`
 and provide an instance to `SchemaParser` using `link:../../apidocs/io/vertx/json/schema/SchemaParser.html#withValidatorFactory-io.vertx.json.schema.common.ValidatorFactory-[withValidatorFactory]`.
 When parsing happens, the `SchemaParser` calls `link:../../apidocs/io/vertx/json/schema/common/ValidatorFactory.html#canConsumeSchema-io.vertx.core.json.JsonObject-[canConsumeSchema]` for each registered factory.
@@ -179,13 +184,15 @@ is called. This method returns an instance of `link:../../apidocs/io/vertx/json/
 If something goes wrong during `Validator` creation, a `link:../../apidocs/io/vertx/json/schema/SchemaException.html[SchemaException]` should be thrown
 
 You can add custom keywords of three types:
+你可以自定义以下三种类型的关键词：
 
-* Keywords that always validate the input synchronously
-* Keywords that always validate the input asynchronously
-* Keywords with mutable state
+* 总是同步校验输入的关键词
+* 总是异步校验输入的关键词
+* 可变状态的关键词
 
-=== Synchronous keywords
+=== 同步状态的关键词
 
+同步校验器必须要实现 `link:../../apidocs/io/vertx/json/schema/common/SyncValidator.html[SyncValidator]` 接口。
 Synchronous validators must implement the interface `link:../../apidocs/io/vertx/json/schema/common/SyncValidator.html[SyncValidator]`.
 In the example below I add a keyword that checks if the number of properties in a json object is a multiple of a provided number:
 
