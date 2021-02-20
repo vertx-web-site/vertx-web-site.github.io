@@ -124,7 +124,7 @@ message HelloReply {
 ----
 
 `${os.detected.classifier}` 属性在构建时用来区分操作系统，在苹果系统（OSX）中，
-需要替换为 _osx-x86_64_ ，其他同理。要使用它，您需要在 `pom.xml` 文件中添加 https://github.com/trustin/os-maven-plugin[os-maven-plugin] 
+需要替换为 _osx-x86_64_ ，其他同理。要使用它，您需要在 `pom.xml` 文件中添加 https://github.com/trustin/os-maven-plugin[os-maven-plugin]
 插件：
 
 [source,xml]
@@ -509,7 +509,7 @@ stub.sayHello(request, new StreamObserver<HelloReply>() {
 });
 ----
 
-[[_using_vert_x_future_and_streams]]
+[[_using_vert_x_future_and_streams_2]]
 ==== 使用 Vert.x 的 future 和 streams
 
 前述示例用一个gRPC客户端基于gRPC异步架构（例如 `io.grpc.stub.StreamObserver` ）来执行异步操作。
@@ -555,7 +555,7 @@ GreeterGrpc.GreeterStub stub = GreeterGrpc
 
 NOTE: 只要客户端支持，您可以使用任何其他的压缩器，他们在构建 `ManagedChannel` 时被注册。
 
-[[_ssl_configuration]]
+[[_ssl_configuration_2]]
 ==== SSL 配置
 
 如果您先前启用了SSL，那么您的客户端也必须用SSL，我们需要像如下配置channel：
