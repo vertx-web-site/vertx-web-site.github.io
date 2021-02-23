@@ -9,12 +9,12 @@
  - `db.statement`: SQL语句
  - `db.type`: _sql_
 
-默认的 tracing 策略时 `link:../../apidocs/io/vertx/core/tracing/TracingPolicy.html#PROPAGATE[PROPAGATE]`, 客户端
-在一个活跃trace里只创建一个span.
+默认的 tracing 策略时 `link:../../apidocs/io/vertx/core/tracing/TracingPolicy.html#PROPAGATE[PROPAGATE]`，客户端
+在一个活跃trace里只创建一个span。
 
-您可以通过 `link:../../apidocs/io/vertx/sqlclient/SqlConnectOptions.html#setTracingPolicy-io.vertx.core.tracing.TracingPolicy-[setTracingPolicy]` 方法来调整tracing策略,
-e.g 您可以设置为 `link:../../apidocs/io/vertx/core/tracing/TracingPolicy.html#ALWAYS[ALWAYS]`,
-客户端将始终上报span:
+您可以通过 `link:../../apidocs/io/vertx/sqlclient/SqlConnectOptions.html#setTracingPolicy-io.vertx.core.tracing.TracingPolicy-[setTracingPolicy]` 方法来调整tracing策略，
+例如您可以设置为 `link:../../apidocs/io/vertx/core/tracing/TracingPolicy.html#ALWAYS[ALWAYS]`，
+客户端将始终上报span：
 
 [source,java]
 ----

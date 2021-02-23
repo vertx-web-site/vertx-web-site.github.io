@@ -904,8 +904,8 @@ connection.cancelRequest(ar -> {
 
 为客户端连接添加SSL的操作，您可以参考Vert.x的
 `NetClient` 的 `link:../../apidocs/io/vertx/pgclient/PgConnectOptions.html[PgConnectOptions]` 配置操作。
-当前版本客户端支持全部的PostgreSql https://www.postgresql.org/docs/current/libpq-ssl.html#LIBPQ-SSL-PROTECTION[SSL模式]配置, 您可以通过 `sslmode` 配置它们.客户端默认不启用SSL模式.
-`ssl` 参数仅作为一种设置 `sslmode` 的快捷方式. `setSsl(true)` 等价于 `setSslMode(VERIFY_CA)` , `setSsl(false)` 等价于 `setSslMode(DISABLE)`.
+当前版本客户端支持全部的PostgreSql https://www.postgresql.org/docs/current/libpq-ssl.html#LIBPQ-SSL-PROTECTION[SSL模式]配置，您可以通过 `sslmode` 配置它们。客户端默认不启用SSL模式。
+`ssl` 参数仅作为一种设置 `sslmode` 的快捷方式。 `setSsl(true)` 等价于 `setSslMode(VERIFY_CA)`，`setSsl(false)` 等价于 `setSslMode(DISABLE)`。
 
 [source,java]
 ----
@@ -927,14 +927,14 @@ PgConnection.connect(vertx, options, res -> {
 });
 ----
 
-更多详细信息可以在这里找到 http://vertx.io/docs/vertx-core/java/#ssl[Vert.x documentation].
+更多详细信息可以在这里找到 http://vertx.io/docs/vertx-core/java/#ssl[Vert.x documentation]。
 
 [[_using_a_proxy]]
 == 使用代理
 
-您可以配置客户端使用HTTP/1.x 连接, SOCKS4a 或 SOCKS5 代理.
+您可以配置客户端使用HTTP/1.x 连接，SOCKS4a 或 SOCKS5 代理。
 
-更多信息可以在这里找到 http://vertx.io/docs/vertx-core/java/#_using_a_proxy_for_client_connections[Vert.x documentation].
+更多信息可以在这里找到 http://vertx.io/docs/vertx-core/java/#_using_a_proxy_for_client_connections[Vert.x documentation]。
 
 ifeval::["java" == "java"]
 include::override/rxjava2.adoc[]

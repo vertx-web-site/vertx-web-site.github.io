@@ -2,7 +2,7 @@
 
 TODO== RxJava 2 API
 
-Rx风格的API支持RxJava 1 和 RxJava 2, 下边的例子使用的是 RxJava 2.
+Rx风格的API支持RxJava 1 和 RxJava 2，下边的例子使用的是 RxJava 2。
 
 [source,java]
 ----

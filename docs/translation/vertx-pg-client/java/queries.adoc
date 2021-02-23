@@ -1,9 +1,9 @@
 [[_running_queries]]
 == 执行查询
 
-当您不需要事务或者只是执行一个单次查询操作, 您可以直接在连接池里执行查询;
-连接池会使用某一条连接执行并给您返回结果.
-下边是如何执行一个简单的查询的例子:
+当您不需要事务或者只是执行一个单次查询操作，您可以直接在连接池里执行查询；
+连接池会使用某一条连接执行并给您返回结果。
+下边是如何执行一个简单的查询的例子：
 
 [source,java]
 ----
@@ -22,9 +22,9 @@ client
 [[_prepared_queries]]
 === 预查询
 
-执行预查询也是一样的操作.
+执行预查询也是一样的操作。
 
-SQL字符通过位置引用实际的参数, 并使用数据库的语法 {PREPARED_PARAMS}
+SQL字符通过位置引用实际的参数，并使用数据库的语法 {PREPARED_PARAMS}
 
 [source,java]
 ----
@@ -58,7 +58,7 @@ client
 });
 ----
 
-或者 _UPDATE_/_INSERT_ 类型的查询:
+或者 _UPDATE_/_INSERT_ 类型的查询：
 
 [source,java]
 ----
@@ -74,7 +74,7 @@ client
 });
 ----
 
-Row对象(`link:../../apidocs/io/vertx/sqlclient/Row.html[Row]`) 可以让您通过索引位置获取相应的数据
+Row对象（`link:../../apidocs/io/vertx/sqlclient/Row.html[Row]`）可以让您通过索引位置获取相应的数据
 
 
 [source,java]
@@ -89,7 +89,7 @@ System.out.println("User " + row.getString(0) + " " + row.getString(1));
 System.out.println("User " + row.getString("first_name") + " " + row.getString("last_name"));
 ----
 
-客户端在此处没有做特殊处理, 无论您的SQL文本时什么, 列名都将使用数据库表中的名称标识.
+客户端在此处没有做特殊处理，无论您的SQL文本时什么，列名都将使用数据库表中的名称标识。
 
 您也可以直接访问得到多种类型
 
@@ -100,7 +100,7 @@ Boolean male = row.getBoolean("male");
 Integer age = row.getInteger("age");
 ----
 
-您可以使用缓存过的预处理语句去执行一次性的预查询:
+您可以使用缓存过的预处理语句去执行一次性的预查询：
 
 [source,java]
 ----
@@ -117,7 +117,7 @@ client
   });
 ----
 
-您也可以创建 `PreparedStatement` 并自主地管理它的生命周期.
+您也可以创建 `PreparedStatement` 并自主地管理它的生命周期。
 
 [source,java]
 ----
