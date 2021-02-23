@@ -295,7 +295,7 @@ PgConnection.connect(vertx, connectionUri, res -> {
 * sslmode
 * properties including(application_name, fallback_application_name, search_path)
 
-注意：通过URI配置的属性将会覆盖默认的配置属性。
+Note：通过URI配置的属性将会覆盖默认的配置属性。
 
 [[_environment_variables]]
 === 环境变量
