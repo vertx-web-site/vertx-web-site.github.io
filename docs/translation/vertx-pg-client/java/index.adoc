@@ -358,7 +358,7 @@ dependencies {
 }
 ----
 
-注意 SCRAM-SHA-256-PLUS（在Postgresql 11中加入）当前版本客户端暂不支持。
+NOTE: SCRAM-SHA-256-PLUS（在Postgresql 11中加入）当前版本客户端暂不支持。
 
 
 include::queries.adoc[]
