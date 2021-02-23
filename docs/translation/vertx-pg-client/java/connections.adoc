@@ -51,7 +51,7 @@ connection
 当您使用连接池时, 您可以调用 `link:../../apidocs/io/vertx/sqlclient/Pool.html#withConnection-java.util.function.Function-io.vertx.core.Handler-[withConnection]`
 并以当前连接要执行的操作作为参数.
 
-这样会从连接池里拿到一条连接, 并使用当前连接执行目标操作.
+这样会从连接池里拿到一条连接, 并使用当前连接执行目标操作。
 
 这种方式需要返回一个future对象来表示操作结果.
 
