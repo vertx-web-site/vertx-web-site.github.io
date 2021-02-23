@@ -38,7 +38,7 @@ connection.prepare("SELECT * FROM users WHERE first_name LIKE $1", ar0 -> {
 });
 ----
 
-游标释放时需要同时执行关闭操作:
+游标释放时需要同时执行关闭操作：
 
 [source,java]
 ----
@@ -50,7 +50,7 @@ cursor.read(50, ar2 -> {
 });
 ----
 
-stream API也可以用于游标, 尤其是在Rx版的客户端, 可能更为方便.
+stream API也可以用于游标，尤其是在Rx版的客户端，可能更为方便。
 
 [source,java]
 ----
@@ -83,8 +83,8 @@ connection.prepare("SELECT * FROM users WHERE first_name LIKE $1", ar0 -> {
 });
 ----
 
-上边的stream会批量读取 `50` 行并同时将其转换为流, 当这些行记录被传递给处理器时,
-会以此类推地读取下一批的 `50` 行记录.
+上边的stream会批量读取 `50` 行并同时将其转换为流，当这些行记录被传递给处理器时，
+会以此类推地读取下一批的 `50` 行记录。
 
-stream支持重启或暂停, 已经加载到的行记录将会被保留在内存里直到被传递给处理器, 此时
-游标也将终止遍历.
+stream支持重启或暂停，已经加载到的行记录将会被保留在内存里直到被传递给处理器，此时
+游标也将终止遍历。

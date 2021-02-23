@@ -19,7 +19,7 @@ single.subscribe(result -> {
 === 连接
 
 简化版的 connection API 可以让您很容易地使用connection对象,  `withConnection` 方法
-可以从连接池里拿到一条连接:
+可以从连接池里拿到一条连接：
 
 [source,java]
 ----
