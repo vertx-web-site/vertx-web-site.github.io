@@ -149,8 +149,8 @@ const entries = [
   // databases
   {
     id: "vertx-pg-client",
-    name: "PostgreSQL Client",
-    description: "A PostgreSQL client focusing on scalability and low overhead.",
+    name: "PostgreSQL 客户端",
+    description: "一款为可扩展性和低开销而设计的PostgreSQL客户端。",
     category: "databases",
     href: "/vertx-pg-client/java/",
     repository: "https://github.com/eclipse-vertx/vertx-sql-client",
