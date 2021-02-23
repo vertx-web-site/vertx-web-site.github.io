@@ -295,7 +295,7 @@ PgConnection.connect(vertx, connectionUri, res -> {
 * sslmode
 * properties including(application_name, fallback_application_name, search_path)
 
-Note：通过URI配置的属性将会覆盖默认的配置属性。
+NOTE: 通过URI配置的属性将会覆盖默认的配置属性。
 
 [[_environment_variables]]
 === 环境变量
@@ -388,7 +388,7 @@ include::transactions.adoc[]
 
 include::cursor.adoc[]
 
-Note: PostreSQL会在事务结束后销毁游标，因而游标API应该在事务内使用，
+NOTE: PostreSQL会在事务结束后销毁游标，因而游标API应该在事务内使用，
 否则您将可能收到 `34000` PostgreSQL错误码。
 
 [[_tracing_queries]]
