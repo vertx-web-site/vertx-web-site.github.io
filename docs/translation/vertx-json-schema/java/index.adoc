@@ -29,7 +29,7 @@ Vert.x Json Schema组件提供了一个异步可扩展的 https://json-schema.or
 </dependency>
 ----
 
-* Gradle (在 `build.gradle` 文件中):
+* Gradle （在 `build.gradle` 文件中）：
 
 [source,groovy,subs="+attributes"]
 ----
