@@ -70,7 +70,7 @@ const Docs = ({ metadata, version }) => {
   }
 
   return (
-    <Layout meta={{ title: "Documentation" }}>
+    <Layout meta={{ title: "文档" }}>
       <div className="docs-index-main">
         <aside>
           <div className="docs-index-aside-main">

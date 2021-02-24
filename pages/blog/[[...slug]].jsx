@@ -391,12 +391,12 @@ const BlogPage = ({ post, prevPost, nextPost, relatedPosts, category, categories
   if (post === undefined) {
     let entries = posts.map(p => <BlogEntry key={p.slug} post={p} />)
 
-    let title = "Blog"
+    let title = "博客"
     if (category !== undefined) {
       title = `${capitalize(category)} | ${title}`
     }
     if (page > 1) {
-      title = `Page ${page} | ${title}`
+      title = `第${page}页 | ${title}`
     }
 
     return (
@@ -413,7 +413,7 @@ const BlogPage = ({ post, prevPost, nextPost, relatedPosts, category, categories
   let url = `${process.env.baseUrl}/blog/${post.slug}`
 
   return (
-    <BlogPost meta={{ title: `${post.meta.title} | Blog` }} categories={categories}>
+    <BlogPost meta={{ title: `${post.meta.title} | 博客` }} categories={categories}>
       <div className="blog-post-main">
         <div className="blog-post-content">
           <h1>{post.meta.title}</h1>
@@ -431,7 +431,7 @@ const BlogPage = ({ post, prevPost, nextPost, relatedPosts, category, categories
               </div>
             </div>
           ))}
-          {post.meta.pinned && <div className="blog-post-sidebar-pinned"><Label dark><strong>Pinned post</strong></Label></div>}
+          {post.meta.pinned && <div className="blog-post-sidebar-pinned"><Label dark><strong>置顶文章</strong></Label></div>}
           {post.meta.pinned || <><div className="blog-post-sidebar-date">Posted on <BlogDate date={post.date} /></div>
           in <Link href="/blog/[[...slug]]" as={`/blog/category/${post.meta.category}/`}>
             <a className="blog-post-sidebar-category">{post.meta.category}</a>
