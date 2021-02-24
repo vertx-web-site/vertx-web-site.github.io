@@ -18,7 +18,7 @@ Vert.x Json Schema组件提供了一个异步可扩展的 https://json-schema.or
 
 为了使用Vert.x Json Schema，需要在构建描述符中添加如下 _依赖_：
 
-* Maven (在`pom.xml`文件中):
+* Maven （在 `pom.xml` 文件中）：
 
 [source,xml,subs="+attributes"]
 ----
