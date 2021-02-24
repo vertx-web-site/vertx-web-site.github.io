@@ -1,10 +1,10 @@
-= 响应式(Reactive) PostgreSQL 客户端
+= 响应式（Reactive） PostgreSQL 客户端
 :PREPARED_PARAMS: `$1`, `$2`, etc…​
 
 响应式PostgreSQL客户端是一款以可扩展性和低开销为目标而专门为PostgreSQL数据库设计的
 客户端。
 
-客户端是响应式和非阻塞的, 可以仅仅使用一条线程来处理大量的数据库连接。
+客户端是响应式和非阻塞的，可以仅仅使用一条线程来处理大量的数据库连接。
 
 * 事件驱动
 * 轻量级
@@ -13,13 +13,13 @@
 * 基于PostgreSQL的`NOTIFY/LISTEN`机制实现的发布/订阅
 * 批处理和游标
 * 支持原生流式操作
-* 命令管道(pipeline)
+* 命令管道（pipeline）
 * RxJava 1 and RxJava 2
-* 使用直接内存存储对象, 避免了不必要的复制
+* 使用直接内存存储对象，避免了不必要的复制
 * 支持Java 8 Date and Time
 * SSL/TLS
 * Unix domain socket
-* 支持HTTP/1.x , SOCKS4a 或 SOCKS5 代理
+* 支持HTTP/1.x， SOCKS4a 或 SOCKS5 代理
 
 [[_usage]]
 == 用法
@@ -85,7 +85,7 @@ client
 [[_connecting_to_postgresql]]
 == 连接PostgreSQL
 
-Most of the time you will use a pool to connect to PostgreSQL:
+大多数时间，您将使用连接池连接到 PostgreSQL：
 
 [source,java]
 ----
@@ -134,7 +134,7 @@ pool.close();
 ----
 
 当您想要在同一条连接上执行多个操作时，您需要使用客户端
-`link:../../apidocs/io/vertx/pgclient/PgConnection.html[connection]`.
+`link:../../apidocs/io/vertx/pgclient/PgConnection.html[connection]` 。
 
 您可以很方便地从连接池里拿到一条连接：
 
@@ -183,7 +183,7 @@ client.getConnection().compose(conn -> {
 
 某些情况下您希望通过Unix domain socket类型的连接来提升性能，我们通过Vert.x本机传输支持了这种方式。
 
-首先确保您已经在classpath下添加了 `netty-transport-native` 这个必须的依赖，同时开启了Unix domain socket功能(pg)选项。
+首先确保您已经在classpath下添加了 `netty-transport-native` 这个必须的依赖，同时开启了Unix domain socket功能（pg）选项。
 
 [source,java]
 ----
@@ -267,7 +267,7 @@ connectOptions.setProperties(props);
 [[_connection_uri]]
 === 连接uri
 
-除了使用 `PgConnectionOptions` 对象, 我们也提供了另一种基于URI的可选配置方案：
+除了使用 `PgConnectionOptions` 对象，我们也提供了另一种基于URI的可选配置方案：
 
 [source,java]
 ----
@@ -282,7 +282,7 @@ PgConnection.connect(vertx, connectionUri, res -> {
 });
 ----
 
-关于连接uri字符串格式的更多信息可以在这里找到 https://www.postgresql.org/docs/9.6/static/libpq-connect.html#LIBPQ-CONNSTRING[PostgreSQL Manuals]。
+关于连接uri字符串格式的更多信息可以在这里找到 https://www.postgresql.org/docs/9.6/static/libpq-connect.html#LIBPQ-CONNSTRING[PostgreSQL 手册]。
 
 当前版本的客户端支持在连接uri里使用如下参数
 
@@ -505,7 +505,7 @@ value = tuple.getInteger(2); // Expect 3
 ----
 
 [[_handling_numeric]]
-=== 数字类型(Numeric)
+=== 数字类型（Numeric）
 
 java的 `link:../../apidocs/io/vertx/sqlclient/data/Numeric.html[Numeric]` 用来表示PostgreSQL的 `NUMERIC` 类型。
 
@@ -536,7 +536,7 @@ String[] array = tuple.getArrayOfStrings(0);
 ----
 
 [[_handling_datetime_infinity]]
-== 日期/时间类型(Date/Time)的最值
+== 日期/时间类型（Date/Time）的最值
 
 PostgreSQL定义了几个特殊的值用来表示这些最值。
 
@@ -715,7 +715,7 @@ client.query("SELECT * FROM users")
 collector式查询的结果集处理过程中不能再拿到 `link:../../apidocs/io/vertx/sqlclient/Row.html[Row]` 的引用，因为
 pg客户端在处理collector时，只会用一个row用于处理整个集合。
 
-Java的 `Collectors` 类提供了很多很有趣的预定义的collector, 比如您可以很容易
+Java的 `Collectors` 类提供了很多很有趣的预定义的collector，比如您可以很容易
 从row集合里得到一个字符串：
 
 [source,java]
@@ -742,7 +742,7 @@ client.query("SELECT * FROM users").collecting(collector).execute(ar -> {
 [[_pubsub]]
 == 发布/订阅
 
-PostgreSQL支持发布/订阅式的通信方式.
+PostgreSQL支持发布/订阅式的通信方式。
 
 您可以设置一个 `link:../../apidocs/io/vertx/pgclient/PgConnection.html#notificationHandler-io.vertx.core.Handler-[notificationHandler]` 用于
 接收PostgreSQL的通知消息：

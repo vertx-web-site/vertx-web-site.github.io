@@ -1,8 +1,8 @@
 [[_cursors_and_streaming]]
 == 游标和流式操作
 
-默认情况下预查询操作会拉去所有的行记录, 您可以使用
-`link:../../apidocs/io/vertx/sqlclient/Cursor.html[游标]` 来控制您想要读取的行数:
+默认情况下预查询操作会拉去所有的行记录，您可以使用
+`link:../../apidocs/io/vertx/sqlclient/Cursor.html[游标]` 来控制您想要读取的行数：
 
 [source,java]
 ----
