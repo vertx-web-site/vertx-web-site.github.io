@@ -2,7 +2,7 @@
 :toc: left
 
 Vert.x Json Schema组件提供了一个异步可扩展的 https://json-schema.org/[Json Schema] 规范实现。
-你可以使用 Json Schemas 去校验每一个json结构的数据。这个组件提供以下特性：
+你可以使用 Json Schema 去校验每一个json结构的数据。这个组件提供以下特性：
 
 * 实现了 https://tools.ietf.org/html/draft-handrews-json-schema-validation-02[Json Schema draft2019-09]
 * 实现了 https://tools.ietf.org/html/draft-handrews-json-schema-validation-01[Json Schema draft-7]
@@ -13,6 +13,7 @@ Vert.x Json Schema组件提供了一个异步可扩展的 https://json-schema.or
 * 支持校验树的扩展，允许添加自定义关键词和自定义格式条件
 * 通过DSL来构建schemas
 
+[[_using_vert_x_json_schema]]
 == 使用 Vert.x Json Schema
 
 为了使用Vert.x Json Schema，需要在构建描述符中添加如下 _依赖_：
@@ -37,13 +38,16 @@ dependencies {
 }
 ----
 
+[[_concepts]]
 == 相关概念
 
+[[_schema]]
 === Schema
 
 每一个schema都可以解析成 `link:../../apidocs/io/vertx/json/schema/Schema.html[Schema]` 实例，而schema是一个由 `link:../../apidocs/io/vertx/json/schema/common/Validator.html[Validator]` 对象组成的树，树中的每一个元素都包含了必要的校验逻辑。
 这种校验具有快速失败的特性：一旦遇到校验错误，校验就会直接失败而不再继续
 
+[[_schemaparser_schemarouter]]
 === SchemaParser 和 SchemaRouter
 
 `link:../../apidocs/io/vertx/json/schema/SchemaParser.html[SchemaParser]` 组件负责将json数据结构的schema解析成 `link:../../apidocs/io/vertx/json/schema/Schema.html[Schema]` 实例。
@@ -57,6 +61,7 @@ dependencies {
 * `link:../../apidocs/io/vertx/json/schema/draft7/Draft7SchemaParser.html[Draft7SchemaParser]` for Json Schema Draft 7
 * `link:../../apidocs/io/vertx/json/schema/openapi3/OpenAPI3SchemaParser.html[OpenAPI3SchemaParser]` for OpenAPI 3 dialect
 
+[[_parse_a_schema]]
 == 解析schema
 
 要开始解析schema，首先你需要一个能匹配你的schema _方言_ 的 schema router 和 schema parser。
@@ -86,13 +91,14 @@ Schema schema = parser.parse(object);
 schema.getScope(); // 获取schema的生成作用域 (schema pointer)
 ----
 
-[注意]
+[重要]
 ====
 需要注意的是，当使用 $ref` 引用schema或者处理相关的引用时，schema pointer 是必须的，
 如果你从文件系统中加载schema并且使用其引用时，**必须提供正确的pointer**，
 否则 `SchemaRouter` 将不能处理本地文件系统的 `$ref`。
 ====
 
+[[_validate]]
 == 校验
 
 一个schema可以有两种状态：
@@ -138,6 +144,7 @@ schema可以实时切换状态，比如，如果你有一个schema使用 `$ref` 
 这个schema将会在返回的 `Future` 中同步包含校验的结果，从而避免了不必要的异步计算和内存占用。
 ====
 
+[[_apply_default_values]]
 == 设置默认值
 
 你可以通过 `JsonObject` 和 `JsonArray` 来设置默认值
@@ -151,6 +158,7 @@ schema.applyDefaultValues(jsonArray);
 
 这个方法将改变所提供的Json结构的内部状态。
 
+[[_adding_custom_formats]]
 == 自定义格式
 
 你可以在解析schemas之前使用校验关键字 `format` 来自定义数据格式。
@@ -163,6 +171,7 @@ JsonObject mySchema = new JsonObject().put("format", "firstUppercase");
 Schema schema = parser.parse(mySchema);
 ----
 
+[[_adding_custom_keywords]]
 == 自定义关键词
 
 每当你想要添加一个新的关键词类型时，你必须要实现 `link:../../apidocs/io/vertx/json/schema/common/ValidatorFactory.html[ValidatorFactory]` ，
@@ -178,6 +187,7 @@ Schema schema = parser.parse(mySchema);
 * 总是异步校验输入的关键词
 * 可变状态的关键词
 
+[[_synchronous_keywords]]
 === 同步关键词
 
 同步校验器必须要实现 `link:../../apidocs/io/vertx/json/schema/common/SyncValidator.html[SyncValidator]` 接口。
@@ -205,6 +215,7 @@ JsonObject mySchema = new JsonObject().put("propertiesMultipleOf", 2);
 Schema schema = parser.parse(mySchema);
 ----
 
+[[_asynchronous_keywords]]
 === 异步关键词
 
 同步校验器必须要实现 `link:../../apidocs/io/vertx/json/schema/common/AsyncValidator.html[AsyncValidator]` 接口。
@@ -232,12 +243,14 @@ JsonObject mySchema = new JsonObject().put("asyncEnum", "enums.myapplication");
 Schema schema = parser.parse(mySchema);
 ----
 
-== 用代码来构建schemas
+[[_building_your_schemas_from_code]]
+== 用代码来构建schema
 
-如果你想要使用代码来构建schemas，你可以使用附带的DSL。目前只有Draft-7支持这个特性。
+如果你想要使用代码来构建schema，你可以使用附带的DSL。目前只有Draft-7支持这个特性。
 
 首先，通过静态导入 `link:../../apidocs/io/vertx/json/schema/draft7/dsl/Schemas.html[Schemas]` 和 `link:../../apidocs/io/vertx/json/schema/draft7/dsl/Keywords.html[Keywords]` 。
 
+[[_creating_the_schema]]
 === 创建schema
 
 在 `link:../../apidocs/io/vertx/json/schema/draft7/dsl/Schemas.html[Schemas]` 内部提供了schema创建的静态方法：
@@ -248,6 +261,7 @@ SchemaBuilder intSchemaBuilder = intSchema();
 SchemaBuilder objectSchemaBuilder = objectSchema();
 ----
 
+[[_using_the_keywords]]
 === 使用关键词
 
 对于每一个schema，你是否可以使用 `link:../../apidocs/io/vertx/json/schema/draft7/dsl/Keywords.html[Keywords]` 方法来构建关键词，
@@ -263,6 +277,7 @@ schema() // 生成同时接收数组和整数的schema
   .with(type(SchemaType.ARRAY, SchemaType.INT));
 ----
 
+[[_defining_the_schema_structure]]
 === 定义schema的结构
 
 根据你创建的schema，你可以定义结构。
@@ -295,6 +310,7 @@ tupleSchema()
   .item(booleanSchema()); // 第三个元素
 ----
 
+[[_ref_and_aliases]]
 === `$ref` 和 别名
 
 你可以使用 `link:../../apidocs/io/vertx/json/schema/common/dsl/Schemas.html#ref-io.vertx.core.json.pointer.JsonPointer-[Schemas.ref]` 方法来添加一个 `$ref` schema。
@@ -312,6 +328,7 @@ objectSchema()
   .requiredProperty("anInteger", refToAlias("myInt"));
 ----
 
+[[_using_the_schema]]
 === 使用schema
 
 在定义好schama后，你可以调用 `link:../../apidocs/io/vertx/json/schema/common/dsl/SchemaBuilder.html#build-io.vertx.json.schema.SchemaParser-[build]` 方法来解析和使用这个schema：
