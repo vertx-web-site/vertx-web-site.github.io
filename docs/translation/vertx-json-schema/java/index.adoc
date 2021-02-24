@@ -138,7 +138,7 @@ try {
 schema可以实时切换状态，比如，如果你有一个schema使用 `$ref` 引用了外部的schema，
 此时它处于异步状态，在第一次校验之后，外部schema被缓存了，这时schema将会切换到同步状态。
 
-[注意]
+[NOTE]
 ====
 如果schema在同步状态下使用 `link:../../apidocs/io/vertx/json/schema/Schema.html#validateAsync-java.lang.Object-[validateAsync]` 方法来校验，
 这个schema将会在返回的 `Future` 中同步包含校验的结果，从而避免了不必要的异步计算和内存占用。
