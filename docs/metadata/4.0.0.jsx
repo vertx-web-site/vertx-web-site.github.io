@@ -98,7 +98,7 @@ insert(docs, "vertx-web-api-service",
 docs.entries.push({
   id: "vertx-json-schema",
   name: "JSON Schema",
-  description: `Json模式规范的扩展实现，以异步的方式来校验每一个Json数据结构。`,
+  description: "Json模式规范的扩展实现，以异步的方式来校验每一个Json数据结构。",
   category: "standards",
   href: "/vertx-json-schema/java/",
   repository: "https://github.com/eclipse-vertx/vertx-json-schema",
