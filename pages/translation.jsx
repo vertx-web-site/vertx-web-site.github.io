@@ -100,7 +100,7 @@ async function fetchContributors(octokit, users) {
       repo: name
     })
     for (let repoContributor of repoContributors) {
-      if (filter && !users[repoContributor.login]) continue
+      if (filter && !users[repoContributor.login] || repoContributor.login === "VertxChina") continue
       let contributor = contributors.find(c => c.githubId === repoContributor.login)
       if (contributor === undefined) {
         contributor = {
