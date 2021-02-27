@@ -73,7 +73,7 @@ SchemaRouter schemaRouter = SchemaRouter.create(vertx, new SchemaRouterOptions()
 SchemaParser schemaParser = SchemaParser.createDraft201909SchemaParser(schemaRouter);
 ----
 
-对于不同的 `SchemaParser` ， 你可以复用同一个 `SchemaRouter` 实例，并且你还可以使用同一个的 `SchemaParser` 来解析不同的 `Schema` 。
+对于不同的 `SchemaParser` ， 你可以复用同一个 `SchemaRouter` 实例；而且还可以使用同一个 `SchemaParser` 来解析不同的 `Schema` 。
 
 现在你可以解析schema了：
 
