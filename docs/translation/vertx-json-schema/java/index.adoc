@@ -91,7 +91,7 @@ Schema schema = parser.parse(object);
 schema.getScope(); // 获取schema的生成作用域 (schema pointer)
 ----
 
-[重要]
+[IMPORTANT]
 ====
 需要注意的是，当使用 `$ref` 引用schema或者处理相关的引用时，schema pointer 是必须的，
 如果你从文件系统中加载schema并且使用其引用时， **必须提供正确的pointer** ，
