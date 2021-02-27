@@ -52,7 +52,7 @@ dependencies {
 
 `link:../../apidocs/io/vertx/json/schema/SchemaParser.html[SchemaParser]` 组件负责将json数据结构的schema解析成 `link:../../apidocs/io/vertx/json/schema/Schema.html[Schema]` 实例。
 `link:../../apidocs/io/vertx/json/schema/SchemaRouter.html[SchemaRouter]` 组件负责处理schema解析后的缓存以及相关的 `$ref` 引用。
-当处理 `$ref` 的引用或者使用`link:../../apidocs/io/vertx/json/schema/SchemaParser.html[SchemaParser]` 解析新的schema时，这个schema就会被缓存到相应的 `link:../../apidocs/io/vertx/json/schema/SchemaRouter.html[SchemaRouter]` 中去。
+当处理 `$ref` 的引用或者使用 `link:../../apidocs/io/vertx/json/schema/SchemaParser.html[SchemaParser]` 解析新的schema时，这个schema就会被缓存到相应的 `link:../../apidocs/io/vertx/json/schema/SchemaRouter.html[SchemaRouter]` 中去。
 `link:../../apidocs/io/vertx/json/schema/SchemaParser.html[SchemaParser]` 可以进行扩展并且支持自定义关键词和自定义格式。
 
 当前可用的 `link:../../apidocs/io/vertx/json/schema/SchemaParser.html[SchemaParser]` 有：
