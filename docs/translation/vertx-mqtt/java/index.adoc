@@ -155,14 +155,14 @@ mqttServer.endpointHandler(endpoint -> {
   });
 ----
 
-=== Handling client connections via WebSocket
+[[_handling_client_connections_via_websocket]]
+=== 通过 WebSocket 处理客户端的连接
 
-If you want to support connections via WebSockets, you can enable this via `link:../../apidocs/io/vertx/mqtt/MqttServerOptions.html[MqttServerOptions]`,
-too. By passing `true` to `link:../../apidocs/io/vertx/mqtt/MqttServerOptions.html#setUseWebSocket-boolean-[setUseWebSocket]`, it will listen for
-websocket connections on the path `/mqtt`.
+如果你想要通过 WebSocket 来进行连接，可以通过 `link:../../apidocs/io/vertx/mqtt/MqttServerOptions.html[MqttServerOptions]` 来启用它，
+调用 `link:../../apidocs/io/vertx/mqtt/MqttServerOptions.html#setUseWebSocket-boolean-[setUseWebSocket]` 方法并设置参数为 `true` ，
+它将会监听 `/mqtt` 路径上所有的 websocket 连接。
 
-As with other setup configurations, the resulting endpoint connections and related disconnection are managed the same
-way as regular connections.
+与其他连接的配置方式一样，这种方式下 endpoint 的连接创建以及连接断开与常规的连接管理方式相同。
 
 [source,java]
 ----
