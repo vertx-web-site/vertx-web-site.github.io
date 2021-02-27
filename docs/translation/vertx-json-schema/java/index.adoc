@@ -248,7 +248,7 @@ Schema schema = parser.parse(mySchema);
 
 如果你想要使用代码来构建schema，你可以使用附带的DSL。目前只有Draft-7支持这个特性。
 
-首先，通过静态导入 `link:../../apidocs/io/vertx/json/schema/draft7/dsl/Schemas.html[Schemas]` 和 `link:../../apidocs/io/vertx/json/schema/draft7/dsl/Keywords.html[Keywords]` 。
+首先，通过静态导入（import static） `link:../../apidocs/io/vertx/json/schema/draft7/dsl/Schemas.html[Schemas]` 和 `link:../../apidocs/io/vertx/json/schema/draft7/dsl/Keywords.html[Keywords]` 。
 
 [[_creating_the_schema]]
 === 创建schema
