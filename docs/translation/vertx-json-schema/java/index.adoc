@@ -45,7 +45,7 @@ dependencies {
 === Schema
 
 每一个schema都可以解析成 `link:../../apidocs/io/vertx/json/schema/Schema.html[Schema]` 实例，而schema是一个由 `link:../../apidocs/io/vertx/json/schema/common/Validator.html[Validator]` 对象组成的树，树中的每一个元素都包含了必要的校验逻辑。
-这种校验具有快速失败的特性：一旦遇到校验错误，校验就会直接失败而不再继续
+这种校验具有 _快速失败_ 的特性：一旦遇到校验错误，校验就会直接失败而不再继续。
 
 [[_schemaparser_schemarouter]]
 === SchemaParser 和 SchemaRouter
