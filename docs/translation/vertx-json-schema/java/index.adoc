@@ -82,7 +82,7 @@ SchemaParser schemaParser = SchemaParser.createDraft201909SchemaParser(schemaRou
 Schema schema = parser.parse(object, schemaPointer);
 ----
 
-当你解析schema时必须要指定一个 **schema pointer**，这个 pointer 是定位schema的一个标识。
+解析schema时，必须要指定一个 **schema pointer** ，这个 pointer 是定位 schema 的唯一标识。
 如果你没有指定 schema pointer，那么 `SchemaParser` 默认会生成一个。
 
 [source,java]
