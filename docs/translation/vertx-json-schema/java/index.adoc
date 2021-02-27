@@ -55,7 +55,7 @@ dependencies {
 当处理 `$ref` 的引用或者使用`link:../../apidocs/io/vertx/json/schema/SchemaParser.html[SchemaParser]` 解析新的schema时，这个schema就会被缓存到相应的 `link:../../apidocs/io/vertx/json/schema/SchemaRouter.html[SchemaRouter]` 中去。
 `link:../../apidocs/io/vertx/json/schema/SchemaParser.html[SchemaParser]` 可以进行扩展并且支持自定义关键词和自定义格式。
 
-当前提供的 `link:../../apidocs/io/vertx/json/schema/SchemaParser.html[SchemaParser]` 有：
+当前可用的 `link:../../apidocs/io/vertx/json/schema/SchemaParser.html[SchemaParser]` 有：
 
 * `link:../../apidocs/io/vertx/json/schema/draft201909/Draft201909SchemaParser.html[Draft201909SchemaParser]` for Json Schema Draft 2019-09
 * `link:../../apidocs/io/vertx/json/schema/draft7/Draft7SchemaParser.html[Draft7SchemaParser]` for Json Schema Draft 7
