@@ -8,14 +8,14 @@
 [source,xml,subs="+attributes"]
 ----
 <dependency>
-<groupId>io.vertx</groupId>
-<artifactId>vertx-core</artifactId>
-<version>4.0.2</version>
+  <groupId>io.vertx</groupId>
+  <artifactId>vertx-core</artifactId>
+  <version>4.0.2</version>
 </dependency>
 <dependency>
- <groupId>io.vertx</groupId>
- <artifactId>vertx-lang-groovy</artifactId>
- <version>4.0.2</version>
+  <groupId>io.vertx</groupId>
+  <artifactId>vertx-lang-groovy</artifactId>
+  <version>4.0.2</version>
 </dependency>
 ----
 
@@ -45,16 +45,17 @@ compile "io.vertx:vertx-lang-groovy:4.0.2"
 println "Hello from vertx"
 ----
 
-在部署时，默认的，Vert.x将会执行该脚本。此外，您的脚本中也可以提供 `startVertx` 和 `stopVertx` 方法。相应地，这些方法将会在verticle启动或者关闭时被调用：
+在部署时，默认的，Vert.x将会执行该脚本。此外， 您的脚本中也可以提供 `startVertx`
+和 `stopVertx` 方法。相应地，这些方法将会在verticle启动或者关闭时被调用：
 
 [source, groovy]
 ----
 void vertxStart() {
-println "starting"
+  println "starting"
 }
 
 void vertxStop() {
-println "stopping"
+  println "stopping"
 }
 ----
 
@@ -69,13 +70,13 @@ import io.vertx.core.AbstractVerticle;
 
 class HelloWorldHttpVerticle extends AbstractVerticle {
 
-void start() {
- println("Starting")
-}
+  void start() {
+   println("Starting")
+  }
 
-void stop() {
-  println("Stopping")
-}
+  void stop() {
+    println("Stopping")
+  }
 }
 ----
 
@@ -137,19 +138,19 @@ class HelloWorldHttpVerticle extends AbstractVerticle {
 import io.vertx.core.Promise
 
 void vertxStart(Promise<Void> promise) {
-println "starting"
-vertx.deployVerticle("v.rb", { res ->
-  if (res.succeeded()) {
-    promise.complete()
-  } else {
-    promise.fail(res.cause())
-  }
-})
+  println "starting"
+  vertx.deployVerticle("v.rb", { res ->
+    if (res.succeeded()) {
+      promise.complete()
+    } else {
+      promise.fail(res.cause())
+    }
+  })
 }
 
 void vertxStop(Promise<Void> future) {
-println "stopping"
-promise.complete()
+  println "stopping"
+  promise.complete()
 }
 ----
 
@@ -163,26 +164,27 @@ import io.vertx.core.Future
 import io.vertx.core.AbstractVerticle
 
 class HelloWorldHttpVerticle extends AbstractVerticle {
-void start(Promise<Void> future) {
-  println "starting"
-  vertx.deployVerticle("v.rb",
-  { res ->
-    if (res.succeeded()) {
-      future.complete()
-    } else {
-      future.fail(res.cause())
-    }
-  })
- }
+  void start(Promise<Void> future) {
+    println "starting"
+    vertx.deployVerticle("v.rb",
+    { res ->
+      if (res.succeeded()) {
+        future.complete()
+      } else {
+        future.fail(res.cause())
+      }
+    })
+   }
 
-void stop(Promise<Void> future) {
- println("stopping")
- future.complete()
-}
+  void stop(Promise<Void> future) {
+   println("stopping")
+   future.complete()
+  }
 }
 ----
 
-NOTE: 在verticle的stop方法中，您并不需要手动卸载子verticle。Vert.x将会在父verticle被卸载时自动卸载它的所有子verticle。
+NOTE: 在verticle的stop方法中，您并不需要手动卸载子verticle。
+Vert.x将会在父verticle被卸载时自动卸载它的所有子verticle。
 
 [[_passing_configuration_to_a_verticle]]
 === 往verticle中传递配置信息
@@ -192,8 +194,8 @@ NOTE: 在verticle的stop方法中，您并不需要手动卸载子verticle。Ver
 [source,Groovy]
 ----
 def config = [
-name:"tim",
-directory:"/blah"
+  name:"tim",
+  directory:"/blah"
 ]
 def options = [ "config" : config ];
 vertx.deployVerticle("com.mycompany.MyOrderProcessorVerticle", options);
@@ -280,7 +282,7 @@ JSON对象也支持 `null` 值。
 def object = new JsonObject("{\"foo\":\"bar\"}")
 def object2 = new JsonObject("""
 {
-"foo": "bar"
+  "foo": "bar"
 }
 """)
 ----
@@ -373,7 +375,7 @@ JSON数组也可以包含 `null` 值。
 def object = new JsonArray("[\"foo\", \"bar\"]")
 def object2 = new JsonObject("""
 [
-"foo", "bar"
+  "foo", "bar"
 ]
 """)
 ----
