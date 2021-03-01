@@ -69,7 +69,7 @@ const NavBar = () => {
             ref={refRight} style={{ maxHeight: rightMaxHeight }}>
           <div className="navbar-menu">
             <span className="navbar-menu-item with-drop-down">
-              <DropDown title="Start">
+              <DropDown title="开始">
                 <Link href="/introduction-to-vertx-and-reactive/">
                   <a><DropDownItem>简介</DropDownItem></a>
                 </Link>
@@ -92,7 +92,7 @@ const NavBar = () => {
               </Link>
             )}
             <span className="navbar-menu-item with-drop-down">
-              <DropDown title="Resources">
+              <DropDown title="资源">
                 <Link href="/faq/">
                   <a><DropDownItem>答疑</DropDownItem></a>
                 </Link>
