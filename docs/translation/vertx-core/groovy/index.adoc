@@ -26,6 +26,7 @@
 compile "io.vertx:vertx-core:4.0.2"
 compile "io.vertx:vertx-lang-groovy:4.0.2"
 ----
+
 [[_verticles]]
 == Verticles
 
