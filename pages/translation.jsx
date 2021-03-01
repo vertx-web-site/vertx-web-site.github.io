@@ -1,31 +1,7 @@
 import Layout from "../components/layouts/Translation"
-import CommunityProfile from "../components/community/CommunityProfile"
+import TranslationProfile from "../components/community/TranslationProfile"
 import CommunitySection from "../components/community/CommunitySection"
 import pMap from "p-map"
-
-const FULL_TIME_TRANSLATORS = [
-  {
-    githubId: "chengenzhao",
-    role: "翻译核心",
-    twitter: "whitewoodcity"
-  },
-  {
-    githubId: "fofofofoxier",
-    role: "翻译核心"
-  },
-  {
-    githubId: "Leibnizhu",
-    role: "翻译核心"
-  },
-  {
-    githubId: "okou19900722",
-    role: "技术人员"
-  },
-  {
-    githubId: "wkgcass",
-    role: "翻译核心"
-  }
-].sort()
 
 // maximum number of parallel requests against the GitHub API
 const MAX_CONCURRENCY = 10
@@ -57,10 +33,10 @@ async function fetchUsers(users, contributors, octokit) {
     let newUser = {
       ...user,
       avatar_url: info.avatar_url,
-      name: info.name,
-      blog,
-      location: info.location,
-      twitter: info.twitter_username || user.twitter || null,
+      name: info.name || info.login,
+      // blog,
+      // location: info.location,
+      // twitter: info.twitter_username || user.twitter || null,
       contributions: contributor.contributions || 0
     }
 
@@ -166,7 +142,7 @@ export async function getStaticProps() {
     contributors = await fetchContributors(octokit, users)
 
     // fetch information about full-time developers and maintainers
-    fullTimeDevelopers = await fetchUsers(FULL_TIME_TRANSLATORS, contributors, octokit)
+    fullTimeDevelopers = await fetchUsers(contributors, contributors, octokit)
     // maintainers = await fetchUsers(MAINTAINERS, contributors, octokit)
 
     // sort users by their number of contributions
@@ -177,23 +153,17 @@ export async function getStaticProps() {
 
   return {
     props: {
-      fullTimeDevelopers,
-      contributors
+      fullTimeDevelopers
     }
   }
 }
 
-const Translation = ({ fullTimeDevelopers, contributors }) => {
+const Translation = ({ fullTimeDevelopers }) => {
   return (
       <Layout>
         {fullTimeDevelopers !== null && (
-            <CommunitySection title="发起者">
-              {fullTimeDevelopers.map(c => <CommunityProfile key={c.githubId} profile={c} size="large" />)}
-            </CommunitySection>
-        )}
-        {contributors !== null && (
-            <CommunitySection title="更多参与翻译的人">
-              {contributors.map(c => <CommunityProfile key={c.githubId} profile={c} />)}
+            <CommunitySection title="参与者">
+              {fullTimeDevelopers.map(c => <TranslationProfile key={c.githubId} profile={c} size="small" />)}
             </CommunitySection>
         )}
       </Layout>
