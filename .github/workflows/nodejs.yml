@@ -103,7 +103,8 @@ jobs:
           commit-message: publish
           force-orphan: true
 
-      - uses: actionhub/workflows/git-deploy@v1
+      - name: Deploy to Coding.net
+        uses: actionhub/workflows/git-deploy@v1
         with:
           ssh-key: ${{ secrets.CODING_TOKEN }}
           src-dir: vertx-china.github.io

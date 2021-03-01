@@ -1,4 +1,4 @@
-name: Sync to Coding.net
+name: Sync to Gitee
 
 on:
   push:
