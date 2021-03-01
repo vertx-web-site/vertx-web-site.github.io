@@ -5,24 +5,10 @@ import ReadMoreLink from "../ReadMoreLink"
 import ScrollLink from "../ScrollLink"
 import Label from "../Label"
 import { versions as docsVersions } from "../../docs/metadata/all"
+import { filterLatestBugfixVersions } from "../../docs/metadata/helpers"
 import Link from "next/link"
 import { Book } from "react-feather"
-import { major, minor, maxSatisfying, rsort } from "semver"
 import "./DocsIndex.scss"
-
-function filterLatestBugfixVersions(versions) {
-  let majorAndMinorVersions = new Set()
-  for (let v of versions) {
-    majorAndMinorVersions.add(major(v) + "." + minor(v))
-  }
-
-  let filteredVersions = []
-  for (let mmv of majorAndMinorVersions) {
-    filteredVersions.push(maxSatisfying(versions, mmv))
-  }
-
-  return rsort(filteredVersions)
-}
 
 const Section = ({ icon, children, id, name }) => {
   let numChildren = 1
@@ -95,18 +81,18 @@ const Docs = ({ metadata, version }) => {
 
             <div className="docs-index-content-heading-right">
               <span className="docs-index-api">
-                <Link href={`https://vertx.io/docs/${version ? `${version}/` : ""}apidocs`}>
-                  <a><Book className="feather" />API</a>
-                </Link>
+                <a href={`https://vertx.io/docs/${version ? `${version}/` : ""}apidocs`}>
+                  <Book className="feather" />API
+                </a>
               </span>
 
               <span className="docs-index-content-version">
-                <DropDown title={`v${version || docsVersions[0]}`}>
+                <DropDown title={`v${version || docsVersions[0]}`} align="right">
                   <DropDownItem active={version === undefined ||
                         version === docsVersions[0]} href="/docs/">
                     Latest (v{docsVersions[0]})
                   </DropDownItem>
-                  {filterLatestBugfixVersions(docsVersions.slice(1)).map(v => (
+                  {filterLatestBugfixVersions(docsVersions).slice(1).map(v => (
                     <DropDownItem key={v} active={version === v}
                         href={`/docs/${v}/`}>
                       v{v}

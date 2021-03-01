@@ -96,6 +96,9 @@ const MAINTAINERS = [{
 }, {
   githubId: "jellenelis",
   role: "OSGi"
+}, {
+  githubId: "Yaytay",
+  role: "RabbitMQ client"
 }]
 
 // maximum number of parallel requests against the GitHub API

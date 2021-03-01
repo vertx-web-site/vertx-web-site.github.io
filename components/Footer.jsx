@@ -5,9 +5,9 @@ import Link from "next/link"
 import { useContext, useRef, useState } from "react"
 
 const Footer = () => {
-  const listRef = [useRef(), useRef()]
-  const listMaxHeight = [useState(undefined), useState(undefined)]
-  const listVisible = [useState(false), useState(false)]
+  const listRef = [useRef(), useRef(), useRef()]
+  const listMaxHeight = [useState(undefined), useState(undefined), useState(undefined)]
+  const listVisible = [useState(false), useState(false), useState(false)]
   const currentVersion = useContext(VersionContext.State)
 
   const onClick = (i) => {
@@ -50,17 +50,25 @@ const Footer = () => {
                 )}
               </li>
               <li><Link href="/download/"><a>下载</a></Link></li>
-              <li><Link href="/faq/"><a>答疑</a></Link></li>
               <li><Link href="/blog/"><a>博客</a></Link></li>
               <li><Link href="/community/"><a>社区</a></Link></li>
               <li><Link href="/translation/"><a>翻译团队</a></Link></li>
-              <li><Link href="/channels/"><a>Channels</a></Link></li>
             </ul>
           </div>
           <div className="footer-nav-list">
-            <h5 onClick={() => onClick(1)}>Eclipse</h5>
+            <h5 onClick={() => onClick(1)}>Resources</h5>
             <ul ref={listRef[1]} style={{ maxHeight: listMaxHeight[1][0] }}
                 className={classNames({ visible: listVisible[1][0] })}>
+              <li><Link href="/faq/"><a>答疑</a></Link></li>
+              <li><Link href="/channels/"><a>Channels</a></Link></li>
+              <li><a href="https://how-to.vertx.io/">How-To’s</a></li>
+              <li><a href="https://start.vertx.io/">App Generator</a></li>
+            </ul>
+          </div>
+          <div className="footer-nav-list">
+            <h5 onClick={() => onClick(2)}>Eclipse</h5>
+            <ul ref={listRef[2]} style={{ maxHeight: listMaxHeight[2][0] }}
+                className={classNames({ visible: listVisible[2][0] })}>
               <li><a href="https://www.eclipse.org/">Eclipse Foundation</a></li>
               <li><a href="https://www.eclipse.org/legal/privacy.php">Privacy Policy</a></li>
               <li><a href="https://www.eclipse.org/legal/termsofuse.php">Terms of Use</a></li>

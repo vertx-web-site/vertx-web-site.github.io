@@ -7,6 +7,9 @@
 
   a {
     color: $gray-800;
+  }
+
+  a.navbar-menu-item, .dropdown-title {
     text-transform: uppercase;
 
     &:hover {
@@ -89,6 +92,10 @@
         font-weight: 400;
         margin-right: $spacer * 2.5;
 
+        &.with-drop-down {
+          margin-right: $spacer * 1.8;
+        }
+
         @media (max-width: $xl) {
           margin-right: $spacer * 1.5;
         }
@@ -97,6 +104,10 @@
           display: block;
           margin-bottom: $spacer;
           font-size: 1.2rem;
+        }
+
+        .external-link-icon {
+          margin-left: 0.25em;
         }
       }
 
