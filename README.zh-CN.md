@@ -11,7 +11,7 @@ windows系统需要修改package.json里的 `update-docs` 的命令为 `cd docs 
 
 ## 翻译说明
 ### 如何认领
-Issues 里面带 `文档` 标签且未Assign的都是 [需要翻译的文档](https://github.com/vertx-china/vertx-web-site/issues?q=is%3Aissue+is%3Aopen+label%3A%E6%96%87%E6%A1%A3+no%3Aassignee)。 
+Issues 里面带 `待认领` 标签的都是 [需要翻译的文档](https://github.com/vertx-china/vertx-web-site/issues?q=is%3Aopen+is%3Aissue+label%3A%E5%BE%85%E8%AE%A4%E9%A2%86)。 
 
 也可以在 [V4.0.2文档翻译计划](https://github.com/vertx-china/vertx-web-site/projects/1) 的左侧 `未翻译` 列中找到需要翻译的文档。
 
