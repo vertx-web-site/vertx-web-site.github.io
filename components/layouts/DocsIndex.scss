@@ -132,6 +132,12 @@
   border-top: 1px solid $gray-300;
   margin-top: $spacer * 4;
   padding-top: $spacer * 2;
+  display: flex;
+  flex-direction: row;
+
+  @media (max-width: $lg) {
+    flex-direction: column;
+  }
 
   &:first-of-type {
     margin-top: 0;
@@ -211,6 +217,28 @@
 
     @media (max-width: $lg) {
       grid-template-columns: 1fr;
+    }
+  }
+
+  .docs-index-section-book {
+    margin-top: 2rem;
+    margin-left: auto;
+    margin-right: auto;
+
+    @media (min-width: $lg) {
+      margin-top: 0;
+      margin-left: 2rem;
+      margin-right: 0;
+      margin-bottom: -2rem;
+    }
+
+    img {
+      box-shadow: $button-box-shadow;
+      margin-bottom: 0.25rem;
+    }
+
+    .external-link-icon {
+      margin-bottom: 0.25rem;
     }
   }
 }

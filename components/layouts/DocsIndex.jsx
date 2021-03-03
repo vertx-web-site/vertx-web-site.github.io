@@ -7,7 +7,7 @@ import Label from "../Label"
 import { versions as docsVersions } from "../../docs/metadata/all"
 import { filterLatestBugfixVersions } from "../../docs/metadata/helpers"
 import Link from "next/link"
-import { Book } from "react-feather"
+import { Book, ExternalLink } from "react-feather"
 import "./DocsIndex.scss"
 
 const Section = ({ icon, children, id, name }) => {
@@ -16,14 +16,32 @@ const Section = ({ icon, children, id, name }) => {
     numChildren = Math.min(2, children.length)
   }
 
+  let book = undefined
+  if (id === "core") {
+    let url = "https://www.manning.com/books/vertx-in-action"
+    book = (
+      <div className="docs-index-section-book">
+        <a href={url} target="_blank" rel="noopener noreferrer">
+          <img src={require("../../assets/book-cover-medium.jpg")} width="230" />
+        </a><br />
+        <a href={url} target="_blank" rel="noopener noreferrer">
+          Get the book ... <ExternalLink className="external-link-icon" size="1em" />
+        </a>
+      </div>
+    )
+  }
+
   return (
     <section className="docs-index-section" id={id}>
-      <div className="docs-index-section-header">
-        <h3>{icon} {name}</h3>
+      <div className="docs-index-section-wrapper">
+        <div className="docs-index-section-header">
+          <h3>{icon} {name}</h3>
+        </div>
+        <div className={`docs-index-section-content docs-index-section-content-${numChildren}`}>
+          {children}
+        </div>
       </div>
-      <div className={`docs-index-section-content docs-index-section-content-${numChildren}`}>
-        {children}
-      </div>
+      {book}
     </section>
   )
 }
