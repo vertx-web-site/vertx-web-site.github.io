@@ -174,8 +174,8 @@ vertx.deployVerticle("com.mycompany.MyVerticle", options);
 === 处理客户端 订阅/退订 请求
 
 在客户端和服务端的连接建立后，客户端可以以指定的主题发送订阅消息。 `link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html[MqttEndpoint]` 允许使用 `link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html#subscribeHandler-io.vertx.core.Handler-[subscribeHandler]`
-方法来指定一个handler来处理到来的订阅请求，这个handler接收一个 `link:../../apidocs/io/vertx/mqtt/messages/MqttSubscribeMessage.html[MqttSubscribeMessage]` 类型的实例，该实例携带了主题列表以及客户端指定的Qos等级。
-最后，这个endpoint实例提供了 `link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html#subscribeAcknowledge-int-java.util.List-[subscribeAcknowledge]` 方法来回复一个包含相关许可Qos等级的SUBACK消息给客户端。
+方法来指定一个handler来处理到来的订阅请求，这个handler接收一个 `link:../../apidocs/io/vertx/mqtt/messages/MqttSubscribeMessage.html[MqttSubscribeMessage]` 类型的实例，该实例携带了主题列表以及客户端指定的 QoS 等级。
+最后，这个endpoint实例提供了 `link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html#subscribeAcknowledge-int-java.util.List-[subscribeAcknowledge]` 方法来回复一个包含相关许可 QoS 等级的SUBACK消息给客户端。
 
 
 
@@ -222,13 +222,13 @@ endpoint.unsubscribeHandler(unsubscribe -> {
 这个handler接收一个 `link:../../apidocs/io/vertx/mqtt/messages/MqttPublishMessage.html[MqttPublishMessage]` 类型的实例作为参数，该实例
 包含了载荷信息，QoS等级以及复制和保留标识。
 
-如果Qos等级是 0（AT_MOST_ONCE），endpoint就没有必要回复客户端了。
+如果 QoS 等级是 0（AT_MOST_ONCE），endpoint就没有必要回复客户端了。
 
-如果Qos等级是 1（AT_LEAST_ONCE），endpoint 需要使用`link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html#publishAcknowledge-int-[publishAcknowledge]`方法回复一个PUBACK消息给客户端
+如果 QoS 等级是 1（AT_LEAST_ONCE），endpoint 需要使用`link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html#publishAcknowledge-int-[publishAcknowledge]`方法回复一个PUBACK消息给客户端
 
-如果Qos等级是 2（EXACTLY_ONCE），endpoint 需要使用 `link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html#publishReceived-int-[publishReceived]` 方法回复一个PUBREC消息给客户端。
+如果 QoS 等级是 2（EXACTLY_ONCE），endpoint 需要使用 `link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html#publishReceived-int-[publishReceived]` 方法回复一个PUBREC消息给客户端。
 在这种情况下，这个endpoint同时也要通过 `link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html#publishReleaseHandler-io.vertx.core.Handler-[publishReleaseHandler]` 指定一个handler来处理来自客户端的PUBREL（远程客户端接收到endpoint发送的PUBREC后发送的）消息
-为了结束Qos等级为2的消息的传递，endpoint可以使用 `link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html#publishComplete-int-[publishComplete]` 方法发送一个PUBCOMP消息给客户端。
+为了结束 QoS 等级为2的消息的传递，endpoint可以使用 `link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html#publishComplete-int-[publishComplete]` 方法发送一个PUBCOMP消息给客户端。
 
 
 
@@ -256,13 +256,13 @@ endpoint.publishHandler(message -> {
 === 发布消息到客户端
 
 可以使用 `link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html#publish-java.lang.String-io.vertx.core.buffer.Buffer-io.netty.handler.codec.mqtt.MqttQoS-boolean-boolean-[publish]` 方法发布一个消息到远程客户端，该方法需要补充一下参数：
-发布主题，消息载荷，Qos等级，复制和保留标识。
+发布主题，消息载荷，QoS 等级，复制和保留标识。
 
-如果Qos等级是 0（AT_MOST_ONCE），endpoint 就不会收到任何客户端的响应
+如果 QoS 等级是 0（AT_MOST_ONCE），endpoint 就不会收到任何客户端的响应
 
-如果Qos等级是 1（AT_LEAST_ONCE），endpoint需要处理客户端的PUBACK消息,为了收到最后的确认消息，需要使用 `link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html#publishAcknowledgeHandler-io.vertx.core.Handler-[publishAcknowledgeHandler]` 指定一个handler来接收。
+如果 QoS 等级是 1（AT_LEAST_ONCE），endpoint需要处理客户端的PUBACK消息,为了收到最后的确认消息，需要使用 `link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html#publishAcknowledgeHandler-io.vertx.core.Handler-[publishAcknowledgeHandler]` 指定一个handler来接收。
 
-如果Qos等级是 2（EXACTLY_ONCE），endpoint 需要处理客户端的PUBREC消息，可以通过 `link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html#publishReceivedHandler-io.vertx.core.Handler-[publishReceivedHandler]` 方法指定一个handler来实现。
+如果 QoS 等级是 2（EXACTLY_ONCE），endpoint 需要处理客户端的PUBREC消息，可以通过 `link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html#publishReceivedHandler-io.vertx.core.Handler-[publishReceivedHandler]` 方法指定一个handler来实现。
 在这个handler内，endpoint 可以使用 `link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html#publishRelease-int-[publishRelease]` 方法回复客户端 PUBREL 消息。最后一步是处理来自客户端的PUBCOMP消息作为已发布消息的最终确认。
 这可以使用 `link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html#publishCompletionHandler-io.vertx.core.Handler-[publishCompletionHandler]` 方法指定一个handler来处理最终接收到的 PUBCOMP 消息。
 
@@ -319,7 +319,7 @@ endpoint.pingHandler(v -> {
 [[_closing_the_server]]
 === 关闭服务端
 
-link:../../apidocs/io/vertx/mqtt/MqttServer.html[MqttServer]` 提供了 `link:../../apidocs/io/vertx/mqtt/MqttServer.html#close-io.vertx.core.Handler-[close]` 来关闭服务。
+`link:../../apidocs/io/vertx/mqtt/MqttServer.html[MqttServer]` 提供了 `link:../../apidocs/io/vertx/mqtt/MqttServer.html#close-io.vertx.core.Handler-[close]` 方法来关闭服务。
 他会停止监听到来的连接以及关闭所有已经建立的连接，该方法是一个异步方法，并且可以指定一个成功回调handler，这个handler会在服务端完全关闭后被调用
 
 
@@ -376,7 +376,7 @@ vertx.deployVerticle("com.mycompany.MyVerticle", options);
 [[_vert_x_mqtt_client]]
 = Vert.x MQTT 客户端
 
-这个组件提供了一个符合3.1.1版本规范的 link:http://mqtt.org/[MQTT] 客户端，它的API提供了一系列方法来处理连接建立/断开，发布消息（完整支持3种不同等级的Qos）以及主题订阅
+这个组件提供了一个符合3.1.1版本规范的 link:http://mqtt.org/[MQTT] 客户端，它的API提供了一系列方法来处理连接建立/断开，发布消息（完整支持3种不同等级的 QoS）以及主题订阅
 
 
 WARNING: 这个模块还处于技术预览阶段，这意味着它的API在接下来的版本中可能会改变
