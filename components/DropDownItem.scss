@@ -4,7 +4,7 @@
   white-space: nowrap;
   line-height: 2;
   width: 100%;
-  padding: 0 $spacer;
+  padding: 0 $spacer * 1.5;
   cursor: pointer;
 
   &:hover {
@@ -16,13 +16,13 @@
     padding-left: $spacer * 0.75;
   }
 
-  &:not(.active) {
+  &:not(.active).has-active-siblings {
     padding-left: calc(#{$spacer * 0.75} + 16px + 0.5em);
   }
 
   .dropdown-check-icon {
     width: 16px;
     margin-right: 0.5em;
-    margin-top: 2px;
+    margin-top: 1px;
   }
 }

@@ -1,6 +1,7 @@
 import cloneDeepWith from "lodash/cloneDeepWith"
 import pull from "lodash/pull"
 import * as _remove from "lodash/remove"
+import { major, minor, maxSatisfying, rsort } from "semver"
 import React from "react"
 
 function clone(docs) {
@@ -33,11 +34,26 @@ function remove(docs, entryName) {
   _remove(docs.entries, e => e.id === entryName)
 }
 
+function filterLatestBugfixVersions(versions) {
+  let majorAndMinorVersions = new Set()
+  for (let v of versions) {
+    majorAndMinorVersions.add(major(v) + "." + minor(v))
+  }
+
+  let filteredVersions = []
+  for (let mmv of majorAndMinorVersions) {
+    filteredVersions.push(maxSatisfying(versions, mmv))
+  }
+
+  return rsort(filteredVersions)
+}
+
 export {
   clone,
   find,
   findCategory,
   insert,
   move,
-  remove
+  remove,
+  filterLatestBugfixVersions
 }

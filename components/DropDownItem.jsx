@@ -3,9 +3,10 @@ import "./DropDownItem.scss"
 import { Check } from "react-feather"
 import Link from "next/link"
 
-const DropDownItem = (({ active, onClick, href, children }) => {
+const DropDownItem = (({ active, onClick, href, hasActiveSiblings = false, children }) => {
   let content = (
-    <li className={classNames("dropdown-item", { active })} onClick={onClick}>
+    <li className={classNames("dropdown-item", { active, "has-active-siblings": hasActiveSiblings })}
+        onClick={onClick}>
       {active && <Check className="dropdown-check-icon" />}{children}
     </li>
   )
