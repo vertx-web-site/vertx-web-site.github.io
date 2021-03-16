@@ -4,7 +4,6 @@
 Zookeeper配置中心扩展了 Vert.x Configuration Retriever
 并提供了从Zookeeper服务获取配置的方法。它使用 Apache Curator 作为客户端
 
-
 [[_using_the_zookeeper_configuration_store]]
 ==== 使用zookeeper配置中心
 

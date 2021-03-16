@@ -861,9 +861,9 @@ subscriber.connect(ar -> {
 您可以自定义一个方法来实现重连，该方法的参数为 `retries` （重试次数），
 返回值为 `amountOfTime`（重试间隔）：
 
-* 当 `amountOfTime < 0`: 不重试，并关闭订阅
-* 当 `amountOfTime = 0`: 立即重试
-* 当 `amountOfTime > 0`: 在 `amountOfTime` 毫秒之后发起重试
+* 当 `amountOfTime < 0` ： 不重试，并关闭订阅
+* 当 `amountOfTime = 0` ： 立即重试
+* 当 `amountOfTime > 0` ： 在 `amountOfTime` 毫秒之后发起重试
 
 [source,java]
 ----
