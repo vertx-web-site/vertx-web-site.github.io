@@ -32,7 +32,7 @@ To use the Reactive PostgreSQL Client add the following dependency to the _depen
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-pg-client</artifactId>
- <version>4.0.2</version>
+ <version>4.0.3</version>
 </dependency>
 ----
 * Gradle (in your `build.gradle` file):
@@ -40,7 +40,7 @@ To use the Reactive PostgreSQL Client add the following dependency to the _depen
 [source,groovy]
 ----
 dependencies {
- compile 'io.vertx:vertx-pg-client:4.0.2'
+ compile 'io.vertx:vertx-pg-client:4.0.3'
 }
 ----
 
@@ -288,7 +288,7 @@ Currently the client supports the following parameter key words in connection ur
 * sslmode
 * properties including(application_name, fallback_application_name, search_path)
 
-Note: configuring properties in connection URI will override the default properties.
+NOTE: configuring properties in connection URI will override the default properties.
 
 === environment variables
 
@@ -349,7 +349,7 @@ dependencies {
 }
 ----
 
-Note that SCRAM-SHA-256-PLUS (added in Postgresql 11) is not supported.
+NOTE: SCRAM-SHA-256-PLUS (added in Postgresql 11) is not supported.
 
 
 include::queries.adoc[]
@@ -373,13 +373,32 @@ client
 });
 ----
 
+A batch query with a `RETURNING` clause creates a `link:../../apidocs/io/vertx/sqlclient/RowSet.html[RowSet]`
+containing a single for each element of the batch:
+
+[source,java]
+----
+client
+  .preparedQuery("INSERT INTO color (color_name) VALUES ($1) RETURNING color_id")
+  .executeBatch(Arrays.asList(Tuple.of("white"), Tuple.of("red"), Tuple.of("blue")),ar -> {
+    if (ar.succeeded()) {
+      for (RowSet<Row> rows = ar.result();rows.next() != null;rows = rows.next()) {
+        Integer colorId = rows.iterator().next().getInteger("color_id");
+        System.out.println("generated key: " + colorId);
+      }
+    } else {
+      System.out.println("Failure: " + ar.cause().getMessage());
+    }
+  });
+----
+
 include::connections.adoc[]
 
 include::transactions.adoc[]
 
 include::cursor.adoc[]
 
-Note: PostreSQL destroys cursors at the end of a transaction, so the cursor API shall be used
+NOTE: PostreSQL destroys cursors at the end of a transaction, so the cursor API shall be used
 within a transaction, otherwise you will likely get the `34000` PostgreSQL error.
 
 == Tracing queries

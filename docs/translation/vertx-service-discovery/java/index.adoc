@@ -51,7 +51,7 @@ descriptor:
 <dependency>
 <groupId>io.vertx</groupId>
 <artifactId>vertx-service-discovery</artifactId>
-<version>4.0.2</version>
+<version>4.0.3</version>
 </dependency>
 ----
 
@@ -59,7 +59,7 @@ descriptor:
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-service-discovery:4.0.2'
+compile 'io.vertx:vertx-service-discovery:4.0.3'
 ----
 
 == Overall concepts
@@ -1036,6 +1036,10 @@ The `link:../../apidocs/io/vertx/servicediscovery/spi/ServiceImporter.html#close
 This method must complete the given `link:../../apidocs/io/vertx/core/Future.html[Future]` to notify the caller of the completion.
 
 Notice than in a cluster, only one member needs to register the bridge as the records are accessible by all members.
+
+ifeval::["java" == "java"]
+include::override/rxjava2.adoc[]
+endif::[]
 
 == Additional bridges
 

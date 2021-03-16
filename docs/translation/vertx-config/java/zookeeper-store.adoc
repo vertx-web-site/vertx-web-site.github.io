@@ -15,12 +15,12 @@ _dependencies_ section of your build descriptor:
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-config-zookeeper</artifactId>
- <version>4.0.2</version>
+ <version>4.0.3</version>
 </dependency>
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-config</artifactId>
- <version>4.0.2</version>
+ <version>4.0.3</version>
 </dependency>
 ----
 
@@ -28,8 +28,8 @@ _dependencies_ section of your build descriptor:
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-config:4.0.2'
-compile 'io.vertx:vertx-config-zookeeper:4.0.2'
+compile 'io.vertx:vertx-config:4.0.3'
+compile 'io.vertx:vertx-config-zookeeper:4.0.3'
 ----
 
 ==== Configuring the store
@@ -53,7 +53,7 @@ ConfigRetriever retriever = ConfigRetriever.create(vertx,
 The store configuration is used to configure the Apache Curator client and the _path_ of the Zookeeper node
 containing the configuration. Notice that the format of the configuration can be JSON, or any supported format.
 
-The configuration requires the `configuration` attribute indicating the connection _string_ of the Zookeeper
+The configuration requires the `connection` attribute indicating the connection _string_ of the Zookeeper
 server, and the `path` attribute indicating the path of the node containing the configuration.
 
 In addition you can configure:

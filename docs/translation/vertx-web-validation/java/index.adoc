@@ -25,7 +25,7 @@ To use Vert.x Web Validation, add the following dependency to the _dependencies_
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-web-validation</artifactId>
- <version>4.0.2</version>
+ <version>4.0.3</version>
 </dependency>
 ----
 
@@ -34,7 +34,7 @@ To use Vert.x Web Validation, add the following dependency to the _dependencies_
 [source,groovy,subs="+attributes"]
 ----
 dependencies {
- compile 'io.vertx:vertx-web-validation:4.0.2'
+ compile 'io.vertx:vertx-web-validation:4.0.3'
 }
 ----
 

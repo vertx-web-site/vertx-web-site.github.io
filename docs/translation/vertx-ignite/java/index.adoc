@@ -27,7 +27,7 @@ Alternatively, you can configure the following system property to instruct vert.
 
 === Using Vert.x from command line
 
-`vertx-ignite-4.0.2.jar` should be in the `lib` directory of the Vert.x installation.
+`vertx-ignite-4.0.3.jar` should be in the `lib` directory of the Vert.x installation.
 
 === Using Vert.x in Maven or Gradle project
 
@@ -40,7 +40,7 @@ Add a dependency to the artifact.
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-ignite</artifactId>
- <version>4.0.2</version>
+ <version>4.0.3</version>
 </dependency>
 ----
 
@@ -48,7 +48,7 @@ Add a dependency to the artifact.
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-ignite:4.0.2'
+compile 'io.vertx:vertx-ignite:4.0.3'
 ----
 
 === Programmatically specifying cluster manager
@@ -91,7 +91,6 @@ In the example below the default config is extended to activate TLS for cluster 
  "cacheConfiguration": [{
    "name": "__vertx.*",
    "cacheMode": "REPLICATED",
-   "readFromBackup": false,
    "atomicityMode": "ATOMIC",
    "writeSynchronizationMode": "FULL_SYNC"
  }, {
@@ -114,7 +113,6 @@ In the example below the default config is extended to activate TLS for cluster 
    },
    "trustAll": false
  },
- "includeEventTypes": ["EVT_CACHE_OBJECT_PUT", "EVT_CACHE_OBJECT_REMOVED"],
  "metricsLogFrequency": 0,
  "shutdownOnSegmentation": true
 }
@@ -172,7 +170,6 @@ Then add an `ignite.xml` file like this one:
        <bean class="org.apache.ignite.configuration.CacheConfiguration">
          <property name="name" value="__vertx.*"/>
          <property name="cacheMode" value="REPLICATED"/>
-         <property name="readFromBackup" value="false"/>
          <property name="atomicityMode" value="ATOMIC"/>
          <property name="writeSynchronizationMode" value="FULL_SYNC"/>
        </bean>
@@ -189,13 +186,6 @@ Then add an `ignite.xml` file like this one:
          </property>
          <property name="writeSynchronizationMode" value="FULL_SYNC"/>
        </bean>
-     </list>
-   </property>
-
-   <property name="includeEventTypes">
-     <list>
-       <util:constant static-field="org.apache.ignite.events.EventType.EVT_CACHE_OBJECT_PUT"/>
-       <util:constant static-field="org.apache.ignite.events.EventType.EVT_CACHE_OBJECT_REMOVED"/>
      </list>
    </property>
 

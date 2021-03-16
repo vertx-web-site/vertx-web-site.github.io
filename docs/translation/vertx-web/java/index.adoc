@@ -74,7 +74,7 @@ To use vert.x web, add the following dependency to the _dependencies_ section of
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-web</artifactId>
- <version>4.0.2</version>
+ <version>4.0.3</version>
 </dependency>
 ----
 
@@ -83,7 +83,7 @@ To use vert.x web, add the following dependency to the _dependencies_ section of
 [source,groovy,subs="+attributes"]
 ----
 dependencies {
- compile 'io.vertx:vertx-web:4.0.2'
+ compile 'io.vertx:vertx-web:4.0.3'
 }
 ----
 
@@ -399,9 +399,13 @@ route.handler(ctx -> {
   // `/some/path/subdir`
   // `/some/path/subdir/blah.html`
   //
-  // but not:
-  // `/some/path` the path is strict because it ends with slash
-  // `/some/bath`
+  // but **ALSO**:
+  // `/some/path` the final slash is always optional with a wildcard to preserve
+  //              compatibility with many client libraries.
+  // but **NOT**:
+  // `/some/patha`
+  // `/some/patha/`
+  // etc...
 });
 ----
 
@@ -437,10 +441,32 @@ router
 ----
 
 The placeholders consist of `:` followed by the parameter name. Parameter names consist of any alphabetic character,
-numeric character or underscore.
+numeric character or underscore. In certain cases this is a bit limited, so users may switch to an extended name rule
+which includes 2 extra characters `-` and `$`. The extended param rule is enabled as a system property:
+
+----
+-Dio.vertx.web.route.param.extended-pattern=true
+----
 
 In the above example, if a POST request is made to path: `/catalogue/products/tools/drill123/` then the route will match
 and `productType` will receive the value `tools` and `productID` will receive the value `drill123`.
+
+A parameter is not required to be a path segment. For example path parameters like the following ones are valid too:
+
+[source,java]
+----
+router
+  .route(HttpMethod.GET, "/flights/:from-:to")
+  .handler(ctx -> {
+    // when handling requests to /flights/AMS-SFO will set:
+    String from = ctx.pathParam("from"); // AMS
+    String to = ctx.pathParam("to"); // SFO
+    // remember that this will not work as expected is the parameter
+    // naming pattern in use is the "extended" one. That is because in
+    // that case "-" is considered to be part of the variable name and
+    // not a separator.
+  });
+----
 
 Note: You can also capture `*` as path param `*`.
 
@@ -1926,7 +1952,7 @@ router
 === JWT authentication
 
 With JWT authentication resources can be protected by means of permissions and users without enough rights are denied
-access. You need to add the `io.vertx:vertx-auth-jwt:4.0.2` dependency to use `JWTAuthProvider`
+access. You need to add the `io.vertx:vertx-auth-jwt:4.0.3` dependency to use `JWTAuthProvider`
 
 To use this handler there are 2 steps involved:
 
@@ -2426,7 +2452,7 @@ router.getWithRegex(".+\\.hbs").handler(handler);
 === MVEL template engine
 
 To use MVEL, you need to add the following _dependency_ to your project:
-`io.vertx:vertx-web-templ-mvel:4.0.2`. Create an instance of the MVEL template engine using:
+`io.vertx:vertx-web-templ-mvel:4.0.3`. Create an instance of the MVEL template engine using:
 `io.vertx.ext.web.templ.mvel.MVELTemplateEngine#create(io.vertx.core.Vertx)`
 
 When using the MVEL template engine, it will by default look for
@@ -2452,7 +2478,7 @@ MVEL templates.
 === Jade template engine
 
 To use the Jade template engine, you need to add the following _dependency_ to your project:
-`io.vertx:vertx-web-templ-jade:4.0.2`. Create an instance of the Jade template engine using:
+`io.vertx:vertx-web-templ-jade:4.0.3`. Create an instance of the Jade template engine using:
 `io.vertx.ext.web.templ.jade.JadeTemplateEngine#create(io.vertx.core.Vertx)`.
 
 When using the Jade template engine, it will by default look for
@@ -2478,7 +2504,7 @@ Jade templates.
 === Handlebars template engine
 
 To use Handlebars, you need to add the following _dependency_ to your project:
-`io.vertx:vertx-web-templ-handlebars:4.0.2`. Create an instance of the Handlebars template engine
+`io.vertx:vertx-web-templ-handlebars:4.0.3`. Create an instance of the Handlebars template engine
 using: `io.vertx.ext.web.templ.handlebars.HandlebarsTemplateEngine#create(io.vertx.core.Vertx)`.
 
 When using the Handlebars template engine, it will by default look for
@@ -2513,7 +2539,7 @@ handlebars templates.
 === Thymeleaf template engine
 
 To use Thymeleaf, you need to add the following _dependency_ to your project:
-`io.vertx:vertx-web-templ-thymeleaf:4.0.2`. Create an instance of the Thymeleaf template engine
+`io.vertx:vertx-web-templ-thymeleaf:4.0.3`. Create an instance of the Thymeleaf template engine
 using: `io.vertx.ext.web.templ.thymeleaf.ThymeleafTemplateEngine#create(io.vertx.core.Vertx)`.
 
 When using the Thymeleaf template engine, it will by default look for
@@ -2541,7 +2567,7 @@ Thymeleaf templates.
 === Apache FreeMarker template engine
 
 To use Apache FreeMarker, you need to add the following _dependency_ to your project:
-`io.vertx:vertx-web-templ-freemarker:4.0.2`. Create an instance of the Apache FreeMarker template engine
+`io.vertx:vertx-web-templ-freemarker:4.0.3`. Create an instance of the Apache FreeMarker template engine
 using: `io.vertx.ext.web.templ.Engine#create()`.
 
 When using the Apache FreeMarker template engine, it will by default look for
@@ -2569,7 +2595,7 @@ Apache FreeMarker templates.
 === Pebble template engine
 
 To use Pebble, you need to add the following _dependency_ to your project:
-`io.vertx:vertx-web-templ-pebble:4.0.2`. Create an instance of the Pebble template engine
+`io.vertx:vertx-web-templ-pebble:4.0.3`. Create an instance of the Pebble template engine
 using: `io.vertx.ext.web.templ.pebble.PebbleTemplateEngine#create(vertx)`.
 
 When using the Pebble template engine, it will by default look for
@@ -2596,7 +2622,7 @@ Pebble templates.
 
 === Rocker template engine
 
-To use Rocker, then add `io.vertx:vertx-web-templ-rocker:4.0.2` as a dependency to your project.
+To use Rocker, then add `io.vertx:vertx-web-templ-rocker:4.0.3` as a dependency to your project.
 You can then create a Rocker template engine instance with `io.vertx.ext.web.templ.rocker#create()`.
 
 The values of the JSON context object passed to the `render` method are then exposed as template parameters.
@@ -2627,7 +2653,7 @@ Request path is @context.getString("path")
 === HTTL template engine
 
 To use HTTL, you need to add the following _dependency_ to your project:
-`io.vertx:vertx-web-templ-httl:4.0.2`. Create an instance of the HTTL template engine
+`io.vertx:vertx-web-templ-httl:4.0.3`. Create an instance of the HTTL template engine
 using: `io.vertx.ext.web.templ.httl.HTTLTemplateEngine#create(io.vertx.core.Vertx)`.
 
 When using the HTTL template engine, it will by default look for
@@ -2663,7 +2689,7 @@ HTTL templates.
 === Rythm template engine
 
 To use Rythm, you need to add the following _dependency_ to your project:
-`io.vertx:vertx-web-templ-rythm:4.0.2`. Create an instance of the Rythm template engine
+`io.vertx:vertx-web-templ-rythm:4.0.3`. Create an instance of the Rythm template engine
 using: `io.vertx.ext.web.templ.rythm.RythmTemplateEngine#create(io.vertx.core.Vertx)`.
 
 When using the Rythm template engine, it will by default look for

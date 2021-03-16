@@ -24,7 +24,7 @@ To use Vert.x Json Schema, add the following dependency to the _dependencies_ se
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-json-schema</artifactId>
- <version>4.0.2</version>
+ <version>4.0.3</version>
 </dependency>
 ----
 
@@ -33,7 +33,7 @@ To use Vert.x Json Schema, add the following dependency to the _dependencies_ se
 [source,groovy,subs="+attributes"]
 ----
 dependencies {
- compile 'io.vertx:vertx-json-schema:4.0.2'
+ compile 'io.vertx:vertx-json-schema:4.0.3'
 }
 ----
 
@@ -97,8 +97,8 @@ and to resolve relative references. If you load a schema from filesystem and you
 
 A schema could have two states:
 
-* Synchronous: The validators tree can provide a synchronous validation. You can validate your json both using `link:../../apidocs/io/vertx/json/schema/Schema.html#validateSync-java.lang.Object-[validateSync]` and `link:../../apidocs/io/vertx/json/schema/Schema.html#validateAsync-java.lang.Object-[validateAsync]`</li>
-* Asynchronous: One or more branches of the validator tree requires an asynchronous validation. You must use `link:../../apidocs/io/vertx/json/schema/Schema.html#validateAsync-java.lang.Object-[validateAsync]` to validate your json. If you use `link:../../apidocs/io/vertx/json/schema/Schema.html#validateSync-java.lang.Object-[validateSync]` it will throw a `link:../../apidocs/io/vertx/json/schema/NoSyncValidationException.html[NoSyncValidationException]`</li>
+* Synchronous: The validators tree can provide a synchronous validation. You can validate your json both using `link:../../apidocs/io/vertx/json/schema/Schema.html#validateSync-java.lang.Object-[validateSync]` and `link:../../apidocs/io/vertx/json/schema/Schema.html#validateAsync-java.lang.Object-[validateAsync]`
+* Asynchronous: One or more branches of the validator tree requires an asynchronous validation. You must use `link:../../apidocs/io/vertx/json/schema/Schema.html#validateAsync-java.lang.Object-[validateAsync]` to validate your json. If you use `link:../../apidocs/io/vertx/json/schema/Schema.html#validateSync-java.lang.Object-[validateSync]` it will throw a `link:../../apidocs/io/vertx/json/schema/NoSyncValidationException.html[NoSyncValidationException]`
 
 To validate a schema in an asynchronous state:
 
@@ -137,19 +137,6 @@ after the first validation the external schema is cached and the schema will swi
 If you use `link:../../apidocs/io/vertx/json/schema/Schema.html#validateAsync-java.lang.Object-[validateAsync]` while the schema is in a synchronous state,
 the schema will validate synchronously wrapping the result in the returned `Future`, avoiding unnecessary async computations and memory usage
 ====
-
-== Apply default values
-
-You can deeply apply default values to `JsonObject` and `JsonArray`:
-
-[source,java]
-----
-schema.applyDefaultValues(jsonObject);
-// Or
-schema.applyDefaultValues(jsonArray);
-----
-
-These methods will mutate the internal state of the provided Json structures.
 
 == Adding custom formats
 
