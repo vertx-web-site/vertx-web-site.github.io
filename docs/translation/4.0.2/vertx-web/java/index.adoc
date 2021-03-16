@@ -1,0 +1,4006 @@
+= Vert.x-Web
+:toc: left
+
+Vert.x-Web是基于Vert.x的，用于构建Web应用程序的一系列构建模块。 可以将其视为一把构建现代的，可扩展的Web应用的瑞士军刀。
+
+Vert.x Core 提供了一系列相对底层的功能用于操作HTTP，对于一部分应用是足够的。
+
+Vert.x Web 基于 Vert.x Core 提供了一系列更丰富的功能，以便更容易地开发实际的 Web 应用。
+
+它继承了 Vert.x 2.x 里的 http://pmlopes.github.io/yoke/[Yoke] 的特点，灵感来自于 Node.js 的框架 http://expressjs.com/[Express] 和 Ruby 的框架 http://www.sinatrarb.com/[Sinatra] 等等。
+
+Vert.x Web 的设计是强大的，非侵入式的, 并且是完全可插拔的。您可以只使用您需要的部分。 Vert.x Web 不是一个容器。
+
+您可以使用 Vert.x Web 来构建经典的服务端 Web 应用， RESTful 应用， 实时的（服务端推送)Web 应用, 或任何您所能想到的 Web 应用类型。应用类型的选择取决于您的喜好，而不是 Vert.x Web。
+
+Vert.x-Web is a great fit for writing RESTful HTTP micro-services, but we don’t force you to write apps like that。
+Vert.x Web 非常适合编写 RESTful HTTP 微服务，** 但我们不强制 ** 您必须把应用实现成这样。
+
+Vert.x Web 的一部分关键特性有：
+
+* 路由(基于方法,路径等)
+* 基于正则表达式的路径匹配
+* 从路径中提取参数
+* 内容协商
+* 处理消息体
+* 消息体的长度限制
+* Multipart 表单
+* Multipart 文件上传
+* 子路由
+* 支持本地会话和集群会话
+* 支持 CORS(跨域资源共享)
+* 错误页面处理器
+* HTTP基本/摘要认证
+* 基于重定向的认证
+* 授权处理器
+* 基于 JWT 的授权
+* 用户/角色/权限授权
+* 网页图标处理器
+
+* 支持服务端模板渲染，包括以下开箱即用的模板引擎:
+** Handlebars
+** Jade
+** MVEL
+** Thymeleaf
+** Apache FreeMarker
+** Pebble
+** Rocker
+
+* 响应时间处理器
+* 静态文件服务，包括缓存逻辑以及目录监听
+* 支持请求超时
+* 支持 SockJS
+* 桥接 Event-bus
+* CSRF 跨域请求伪造
+* 虚拟主机
+
+Vert.x Web 的大部分特性是使用Handler实现的， 而且您随时可以实现您自己的处理器。我们预计随着时间的推移会有更多的处理器被实现。
+
+我们会在本手册里讨论所有上述的特性。
+
+[[_using_vert_x_web]]
+== 使用 Vert.x Web
+
+在使用 Vert.x Web 之前，需要为您的构建工具在描述文件中添加  _dependencies_ 依赖项：
+
+* Maven (在您的 `pom.xml` 文件中):
+
+[source,xml,subs="+attributes"]
+----
+<dependency>
+ <groupId>io.vertx</groupId>
+ <artifactId>vertx-web</artifactId>
+ <version>4.0.2</version>
+</dependency>
+----
+
+* Gradle (在您的 `build.gradle` 文件中)：
+
+[source,groovy,subs="+attributes"]
+----
+dependencies {
+ compile 'io.vertx:vertx-web:4.0.2'
+}
+----
+
+[[_development_mode]]
+=== 开发模式
+
+Vert.x Web 默认使用生产模式。
+您可以通过设置 `dev` 值到下面的其中一个来切换开发模式：
+
+* `VERTXWEB_ENVIRONMENT` 环境变量，或
+* `vertxweb.environment` 系统属性
+
+在开发模式：
+
+* 模板引擎缓存被禁用
+* `ErrorHandler` 不显示异常详细信息
+* `StaticHandler` 不处理缓存头
+* GraphQL开发工具被禁用
+
+[[_re_cap_on_vert_x_core_http_servers]]
+== 回顾 Vert.x Core 的 HTTP 服务端
+
+Vert.x Web 使用并暴露了 Vert.x Core 的 API，所以熟悉基于 Vert.x Core 编写 HTTP 服务端的基本概念是很有价值的。
+
+Vert.x core HTTP文档对此进行了详细介绍。
+
+这是一个用 Vert.x core 编写的 Hello World Web服务。暂不涉及Vert.x-Web：
+[source,java]
+----
+HttpServer server = vertx.createHttpServer();
+
+server.requestHandler(request -> {
+
+  // 所有的请求都会调用这个处理器处理
+  HttpServerResponse response = request.response();
+  response.putHeader("content-type", "text/plain");
+
+  // 写入响应并结束处理
+  response.end("Hello World!");
+});
+
+server.listen(8080);
+----
+
+我们创建了一个 HTTP 服务器实例，并设置了一个请求处理器。所有的请求都会调用这个处理器处理。
+
+当请求到达时，我们设置响应的 Content Type 为 `text/plain` ， 并写入了 `Hello World!` 然后结束了处理。
+
+之后，我们告诉服务器监听 `8080` 端口(默认的主机名是 `localhost` )。
+
+您可以执行这段代码，并打开浏览器访问 `http://localhost:8080` 来验证它是否如预期一样工作。
+
+[[_basic_vert_x_web_concepts]]
+== Vert.x Web 的基本概念
+
+高屋建瓴 (Here's the 10000 foot view)：
+
+`link:../../apidocs/io/vertx/ext/web/Router.html[路由器 Router]` 是 Vert.x Web 的核心概念之一。 它是一个维护了零或多个
+`link:../../apidocs/io/vertx/ext/web/Route.html[路由 Routes]` 的对象。
+
+一个 router 接收 HTTP 请求，并查找首个匹配该请求的route, 然后将请求传递给这个route
+
+`Route` 可以持有一个与之关联的 _handler_ 用于接收请求。 您可以通过这个处理器对请求 _做一些事情_, 然后结束响应或者把请求传递给下一个匹配的处理器。
+
+以下是一个简单的路由示例：
+
+[source,java]
+----
+HttpServer server = vertx.createHttpServer();
+
+Router router = Router.router(vertx);
+
+router.route().handler(ctx -> {
+
+  // 所有的请求都会调用这个处理器处理
+  HttpServerResponse response = ctx.response();
+  response.putHeader("content-type", "text/plain");
+
+  // 写入响应并结束处理
+  response.end("Hello World from Vert.x-Web!");
+});
+
+server.requestHandler(router).listen(8080);
+----
+
+它做了和上文使用 Vert.x Core 实现的 hello world HTTP 服务基本相同的事情，只是这一次换成了 Vert.x Web。
+
+我们像以前一样创建一个HTTP服务器，然后我们创建一个 router。当我们完成这些之后,我们创建一个简单的没有匹配条件的 rout，它能够匹配 _全部_ 到来的请求。
+
+然后，我们为该路由指定一个处理器。该处理器将处理所有到来的请求。
+
+传递给处理器的对象是 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html[RoutingContext]` - 它包含标准的 Vert.x `link:../../apidocs/io/vertx/core/http/HttpServerRequest.html[HttpServerRequest]` 和 `link:../../apidocs/io/vertx/core/http/HttpServerResponse.html[HttpServerResponse]`
+还有其他各种有用的东西，让使用Vert.x-Web变得更加简单。
+
+处理器调用的参数是一个 http://vertx.io/docs/apidocs/io/vertx/ext/web/RoutingContext.html[ `RoutingContext` ] 对象。 它不仅包含了 Vert.x 中标准的 http://vertx.io/docs/apidocs/io/vertx/core/http/HttpServerRequest.html[ `HttpServerRequest` ] 和
+http://vertx.io/docs/apidocs/io/vertx/core/http/HttpServerResponse.html[ `HttpServerResponse` ]，还包含了各种用于简化 Vert.x Web 使用的东西。
+
+每个被路由的请求， 都有一个唯一的路由上下文实例， 并将这个实例传递给该请求的所有处理器。
+
+当我们建立了处理器之后，我们设置 HTTP 服务器的请求处理器，使所有的请求都通过 `link:../../apidocs/io/vertx/core/Handler。html#handle-java.lang.Object-[handle]` 处理。
+
+这些是最基本的，下面我们来看一下更多的细节：
+
+[[_handling_requests_and_calling_the_next_handler]]
+== 处理请求并调用下一个处理器
+
+当 Vert.x Web 决定路由一个请求到匹配的route，它会调用对应处理器并将一个 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html[RoutingContext]` 实例传递给它. route可以具有不同的处理器， 您可以叠加使用 `link:../../apidocs/io/vertx/ext/web/Route。html#handler-io.vertx.core.Handler-[handler]`
+
+如果您不在处理器里结束这个响应，您需要调用 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#next--[next]` 方法让其他匹配的 route 来处理请求(如果有)。
+
+您不需要在处理器执行完毕时调用 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#next--[next]` 。 您可以在之后需要的时间点调用它：
+
+[source,java]
+----
+Route route = router.route("/some/path/");
+route.handler(ctx -> {
+
+  HttpServerResponse response = ctx.response();
+  // 开启分块响应，因为我们将在执行其他处理器时添加数据
+  // 仅当有多个处理器输出时
+  response.setChunked(true);
+
+  response.write("route1\n");
+
+  // 延迟5秒后调用下一匹配route
+  ctx.vertx().setTimer(5000, tid -> ctx.next());
+});
+
+route.handler(ctx -> {
+
+  HttpServerResponse response = ctx.response();
+  response.write("route2\n");
+
+  // 延迟5秒后调用下一匹配route
+  ctx.vertx().setTimer(5000, tid -> ctx.next());
+});
+
+route.handler(ctx -> {
+
+  HttpServerResponse response = ctx.response();
+  response.write("route3");
+
+  // 现在结束响应
+  ctx.response().end();
+});
+----
+
+在上述的例子中， `route1` 向响应里写入了数据， 5秒之后 `route2` 向响应里写入了数据，再5秒之后 `route3` 向响应里写入了数据并结束了响应。
+
+NOTE: 所有发生的这些没有线程阻塞。
+
+[[_simple_responses]]
+== 简单的响应
+
+处理器非常强大， 因为它们允许您构建非常复杂的应用程序。 为了保证简单的响应，例如直接从vert.x API返回异步响应，router 包含一个快捷的处理器：
+
+1. 响应返回JSON。
+2. 如果处理过程中发生错误，一个适当的错误会返回。
+3. 如果序列化JSON中发生错误，一个适当的错误会返回。
+
+[source,java]
+----
+router
+  .get("/some/path")
+  // 这个处理器将保证这个响应会被序列化成json
+  // content type被设置成 "application/json"
+  .respond(
+    ctx -> Future.succeededFuture(new JsonObject().put("hello", "world")));
+
+router
+  .get("/some/path")
+  // 这个处理器将保证这个Pojo会被序列化成json
+  // content type被设置成 "application/json"
+  .respond(
+    ctx -> Future.succeededFuture(new Pojo()));
+----
+
+不过， 如果提供的函数支持调用 `write` 或 `end` ， 您还可以将其用于非JSON响应。
+
+[source,java]
+----
+router
+  .get("/some/path")
+  .respond(
+    ctx -> ctx
+      .response()
+        .putHeader("Content-Type", "text/plain")
+        .end("hello world!"));
+
+router
+  .get("/some/path")
+  // 在这种情况下，处理器确保连接被终止
+  .respond(
+    ctx -> ctx
+      .response()
+        .setChunked(true)
+        .write("Write some text..."));
+----
+
+[[_using_blocking_handlers]]
+== 使用阻塞式处理器
+
+某些时候您可能需要在处理器里执行一些需要阻塞 Event Loop 的操作，比如调用某个传统的阻塞式 API 或者执行密集计算。
+
+您不能在普通的处理器里执行这些操作， 因此我们提供了将route设置成阻塞式处理器的功能。
+
+阻塞式处理器和普通处理器很像， 区别是 Vert.x 会使用 Worker Pool 中的线程而不是 Event Loop 线程来处理请求。
+您可以使用 `link:../../apidocs/io/vertx/ext/web/Route.html#blockingHandler-io.vertx.core.Handler-[blockingHandler]`
+方法来建立阻塞式处理器。 以下是例子：
+
+[source,java]
+----
+router.route().blockingHandler(ctx -> {
+
+  // 执行某些同步的耗时操作
+  service.doSomethingThatBlocks();
+
+  // 调用下一个处理器
+  ctx.next();
+
+});
+----
+
+默认情况下，在同一个 Context (例如同一个 Verticle 实例) 上执行的所有阻塞式处理器是顺序的， 也就意味着只有一个处理器执行完了才会继续执行下一个。 如果您不关心执行的顺序，并且不介意阻塞式处理器以并行的方式执行， 您可以在使用 `link:../../apidocs/io/vertx/ext/web/Route.html#blockingHandler-io.vertx.core.Handler-boolean-[blockingHandler]` 时，设置阻塞式处理器的 `ordered` 为 false。
+
+NOTE: 如果您需要在一个阻塞处理器中处理一个 multipart 类型的表单数据，您需要首先使用一个非阻塞的处理器来调用 `setExpectMultipart(true)` 。以下是例子：
+[source,java]
+----
+router.post("/some/endpoint").handler(ctx -> {
+  ctx.request().setExpectMultipart(true);
+  ctx.next();
+}).blockingHandler(ctx -> {
+  // ... 执行某些阻塞操作
+});
+----
+
+[[_routing_by_exact_path]]
+== 基于精确路径的路由
+
+可以将 `Route` 设置为根据需要所匹配的 URI。在这种情况下它只会匹配路径一致的请求。
+
+在下面这个例子中，处理器会被路径为 `/some/path/` 的请求调用。我们会忽略结尾的 `/` ， 所以路径 `/some/path` 或者 `/some/path//` 的请求也是匹配的
+[source,java]
+----
+Route route = router.route().path("/some/path/");
+
+route.handler(ctx -> {
+  // 这个处理器会被以下路径的请求调用：
+
+  // `/some/path/`
+  // `/some/path//`
+  //
+  // 但不包括:
+  // `/some/path` 路径末尾的斜线会被严格限制
+  // `/some/path/subdir`
+});
+
+// 路径结尾没有斜线的不会被严格限制
+// 这意味着结尾的斜线是可选的
+// 无论怎样都会匹配
+Route route2 = router.route().path("/some/path");
+
+route2.handler(ctx -> {
+  // 这个处理器会被以下路径的请求调用：
+
+  // `/some/path`
+  // `/some/path/`
+  // `/some/path//`
+  //
+  // 但不包括:
+  // `/some/path/subdir`
+});
+----
+
+[[_routing_by_paths_that_begin_with_something]]
+== 基于路径前缀的路由
+
+您经常需要为所有以某些路径开始的请求设置 `Route` 。 您可以使用正则表达式来实现， 但更简单的方式是在声明 `Route` 的路径时使用一个 `*` 作为结尾。
+
+在下面的例子中处理器会匹配所有 URI 以 `/some/path` 开头的请求。
+
+例如 `/some/path/foo.html` 和 `/some/path/otherdir/blah.css` 都会匹配。
+[source,java]
+----
+Route route = router.route().path("/some/path/*");
+
+route.handler(ctx -> {
+  // 这个处理器处理会被所有以 `/some/path/` 开头的请求调用， 例如：
+
+  // `/some/path/`
+  // `/some/path/subdir`
+  // `/some/path/subdir/blah.html`
+  //
+  // 但不包括:
+  // `/some/path` 这个路径被限制因为以斜线结尾
+  // `/some/bath`
+});
+----
+
+也可以在创建 `Route` 的时候指定任意的路径：
+[source,java]
+----
+Route route = router.route("/some/path/*");
+
+route.handler(ctx -> {
+  // 这个处理器的调用规则和上面的例子一样
+});
+----
+
+[[_capturing_path_parameters]]
+== 捕捉路径参数
+
+可以通过占位符声明路径参数并在处理请求时通过 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#pathParam-java.lang.String-[pathParam]` 。 方法获取
+
+以下是一个例子
+
+[source,java]
+----
+router
+  .route(HttpMethod.POST, "/catalogue/products/:productType/:productID/")
+  .handler(ctx -> {
+
+    String productType = ctx.pathParam("productType");
+    String productID = ctx.pathParam("productID");
+
+    // 执行某些操作...
+  });
+----
+
+占位符由 `:` 和参数名构成. 参数名由字母， 数字和下划线构成。
+
+在上面的例子中， 如果一个 POST 请求的路径为  `/catalogue/products/tools/drill123/` ， 那么会匹配这个 `Route` ， 并且会接收参数 `productType` 的值为 `tools` ，参数 `productID` 的值为 `drill123` 。
+
+NOTE: 您也可以将 * 捕获为路径参数 * 。
+
+[[_routing_with_regular_expressions]]
+== 基于正则表达式的路由
+
+同样也可用正则表达式匹配路由的 URI 路径。
+
+[source,java]
+----
+Route route = router.route().pathRegex(".*foo");
+
+route.handler(ctx -> {
+
+  // 以下路径的请求都会调用这个处理器：
+
+  // /some/path/foo
+  // /foo
+  // /foo/bar/wibble/foo
+  // /bar/foo
+
+  // 但不包括：
+  // /bar/wibble
+});
+----
+
+或者在创建 route 时指定正则表达式：
+
+[source,java]
+----
+Route route = router.routeWithRegex(".*foo");
+
+route.handler(ctx -> {
+
+  // 这个路由器的调用规则和上面的例子一样
+
+});
+----
+
+
+[[_capturing_path_parameters_with_regular_expressions]]
+== 通过正则表达式捕捉路径参数
+
+您也可以通过正则表达式声明捕捉路径参数，以下是例子：
+
+[source,java]
+----
+Route route = router.routeWithRegex(".*foo");
+
+// 这个正则表达式可以匹配路径类似于：
+// `/foo/bar` 的请求
+// `foo` 可以通过参数 param0 获取，`bar` 可以通过参数 param1 获取
+route.pathRegex("\\/([^\\/]+)\\/([^\\/]+)").handler(ctx -> {
+
+  String productType = ctx.pathParam("param0");
+  String productID = ctx.pathParam("param1");
+
+  // 执行某些操作……
+});
+----
+
+在上述的例子中，如果一个请求的路径为 `/tools/drill123/`，那么会匹配这个 `route`，
+并且会接收到参数 `productType` 的值为 `tools`，参数 `productID` 的值为 `drill123`。
+
+捕捉（译者注：这里指的是捕捉参数这一行为）在正则表达式中用捕捉组表示（即用圆括号括住捕捉）
+
+[[_using_named_capture_groups]]
+== 使用命名的捕捉组
+
+使用序号参数名在某些场景下可能会比较麻烦。
+亦可在正则表达式路径中使用命名的捕捉组。
+
+[source,java]
+----
+router
+  .routeWithRegex("\\/(?<productType>[^\\/]+)\\/(?<productID>[^\\/]+)")
+  .handler(ctx -> {
+
+    String productType = ctx.pathParam("productType");
+    String productID = ctx.pathParam("productID");
+
+    // 执行某些操作……
+  });
+----
+
+在上述的例子中，命名捕捉组将路径参数映射到同名的捕捉组中。
+
+此外，您仍可以使用普通捕捉组访问组参数（例如：`params0, params1...`）
+
+[[_routing_by_http_method]]
+== 基于 HTTP 方法的路由
+
+Route 默认会匹配所有的 HTTP 方法。
+
+如果您只想让 route 匹配特定的 HTTP 方法，那么您可以使用 `link:../../apidocs/io/vertx/ext/web/Route.html#method-io.vertx.core.http.HttpMethod-[method]`
+
+[source,java]
+----
+Route route = router.route().method(HttpMethod.POST);
+
+route.handler(ctx -> {
+
+  // 所有的 POST 请求都会调用这个处理器
+
+});
+----
+
+或者您可以在创建 Route 时和路径一起指定：
+
+[source,java]
+----
+Route route = router.route(HttpMethod.POST, "/some/path/");
+
+route.handler(ctx -> {
+  // 所有路径为 `/some/path/`
+  // 的 POST 请求都会调用这个处理器
+});
+----
+
+如果您想让 Route 指定 HTTP 方法，您也可以使用对应的 `link:../../apidocs/io/vertx/ext/web/Router.html#get--[get]`，
+`link:../../apidocs/io/vertx/ext/web/Router.html#post--[post]` 以及 `link:../../apidocs/io/vertx/ext/web/Router.html#put--[put]` 等方法。
+例如：
+
+[source,java]
+----
+router.get().handler(ctx -> {
+
+  // 所有 GET 请求都会调用这个处理器
+
+});
+
+router.get("/some/path/").handler(ctx -> {
+
+  // 所有路径以 `/some/path/` 开始的
+  // GET 请求都会调用这个处理器
+
+});
+
+router.getWithRegex(".*foo").handler(ctx -> {
+
+  // 所有路径以 `foo` 结尾的
+  // GET 请求都会调用这个处理器
+
+});
+----
+
+如果您想要让 route 匹配不止一个 HTTP 方法，
+您可多次调用 `link:../../apidocs/io/vertx/ext/web/Route.html#method-io.vertx.core.http.HttpMethod-[method]` 方法：
+
+[source,java]
+----
+Route route = router.route().method(HttpMethod.POST).method(HttpMethod.PUT);
+
+route.handler(ctx -> {
+
+  // 所有 GET 或 POST 请求都会调用这个处理器
+
+});
+----
+
+如果您的应用程序需要自定义 HTTP 动词，例如，在一个 `基于Web的分布式编写和版本控制（WebDAV）` 服务器中，
+您可这样自定义动词：
+
+[source,java]
+----
+Route route = router.route()
+  .method(HttpMethod.valueOf("MKCOL"))
+  .handler(ctx -> {
+    // 所有 MKCOL 请求都会调用这个处理器
+  });
+----
+
+NOTE: 请务必留意，像 rerouting 等特性不接受自定义 http 方法，
+这些操作在检测到自定义动词时将会使用 `OTHER` 值以替代自定义名。
+
+== Route order
+
+By default routes are matched in the order they are added to the router.
+
+When a request arrives the router will step through each route and check if it matches, if it matches then
+the handler for that route will be called.
+
+If the handler subsequently calls `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#next--[next]` the handler for the next
+matching route (if any) will be called. And so on.
+
+Here's an example to illustrate this:
+
+[source,java]
+----
+router
+  .route("/some/path/")
+  .handler(ctx -> {
+
+    HttpServerResponse response = ctx.response();
+    // enable chunked responses because we will be adding data as
+    // we execute over other handlers. This is only required once and
+    // only if several handlers do output.
+    response.setChunked(true);
+
+    response.write("route1\n");
+
+    // Now call the next matching route
+    ctx.next();
+  });
+
+router
+  .route("/some/path/")
+  .handler(ctx -> {
+
+    HttpServerResponse response = ctx.response();
+    response.write("route2\n");
+
+    // Now call the next matching route
+    ctx.next();
+  });
+
+router
+  .route("/some/path/")
+  .handler(ctx -> {
+
+    HttpServerResponse response = ctx.response();
+    response.write("route3");
+
+    // Now end the response
+    ctx.response().end();
+  });
+----
+
+In the above example the response will contain:
+
+----
+route1
+route2
+route3
+----
+
+As the routes have been called in that order for any request that starts with `/some/path`.
+
+If you want to override the default ordering for routes, you can do so using `link:../../apidocs/io/vertx/ext/web/Route.html#order-int-[order]`,
+specifying an integer value.
+
+Routes are assigned an order at creation time corresponding to the order in which they were added to the router, with
+the first route numbered `0`, the second route numbered `1`, and so on.
+
+By specifying an order for the route you can override the default ordering. Order can also be negative, e.g. if you
+want to ensure a route is evaluated before route number `0`.
+
+Let's change the ordering of route2 so it runs before route1:
+
+[source,java]
+----
+router
+  .route("/some/path/")
+  .order(1)
+  .handler(ctx -> {
+
+    HttpServerResponse response = ctx.response();
+    response.write("route1\n");
+
+    // Now call the next matching route
+    ctx.next();
+  });
+
+router
+  .route("/some/path/")
+  .order(0)
+  .handler(ctx -> {
+
+    HttpServerResponse response = ctx.response();
+    // enable chunked responses because we will be adding data as
+    // we execute over other handlers. This is only required once and
+    // only if several handlers do output.
+    response.setChunked(true);
+
+    response.write("route2\n");
+
+    // Now call the next matching route
+    ctx.next();
+  });
+
+router
+  .route("/some/path/")
+  .order(2)
+  .handler(ctx -> {
+
+    HttpServerResponse response = ctx.response();
+    response.write("route3");
+
+    // Now end the response
+    ctx.response().end();
+  });
+----
+
+then the response will now contain:
+
+----
+route2
+route1
+route3
+----
+
+If two matching routes have the same value of order, then they will be called in the order they were added.
+
+You can also specify that a route is handled last, with `link:../../apidocs/io/vertx/ext/web/Route.html#last--[last]`
+
+NOTE: Route order can be specified only before you configure an handler!
+
+== Routing based on MIME type of request
+
+You can specify that a route will match against matching request MIME types using `link:../../apidocs/io/vertx/ext/web/Route.html#consumes-java.lang.String-[consumes]`.
+
+In this case, the request will contain a `content-type` header specifying the MIME type of the request body.
+This will be matched against the value specified in `link:../../apidocs/io/vertx/ext/web/Route.html#consumes-java.lang.String-[consumes]`.
+
+Basically, `consumes` is describing which MIME types the handler can _consume_.
+
+Matching can be done on exact MIME type matches:
+
+[source,java]
+----
+router.route()
+  .consumes("text/html")
+  .handler(ctx -> {
+
+    // This handler will be called for any request with
+    // content-type header set to `text/html`
+
+  });
+----
+
+Multiple exact matches can also be specified:
+
+[source,java]
+----
+router.route()
+  .consumes("text/html")
+  .consumes("text/plain")
+  .handler(ctx -> {
+
+    // This handler will be called for any request with
+    // content-type header set to `text/html` or `text/plain`.
+
+  });
+----
+
+Matching on wildcards for the sub-type is supported:
+
+[source,java]
+----
+router.route()
+  .consumes("text/*")
+  .handler(ctx -> {
+
+    // This handler will be called for any request
+    // with top level type `text` e.g. content-type
+    // header set to `text/html` or `text/plain`
+    // will both match
+
+  });
+----
+
+And you can also match on the top level type
+
+[source,java]
+----
+router.route()
+  .consumes("*/json")
+  .handler(ctx -> {
+
+    // This handler will be called for any request with sub-type json
+    // e.g. content-type header set to `text/json` or
+    // `application/json` will both match
+
+  });
+----
+
+If you don't specify a `/` in the consumers, it will assume you meant the sub-type.
+
+== Routing based on MIME types acceptable by the client
+
+The HTTP `accept` header is used to signify which MIME types of the response are acceptable to the client.
+
+An `accept` header can have multiple MIME types separated by '`,`'.
+
+MIME types can also have a `q` value appended to them* which signifies a weighting to apply if more than one
+response MIME type is available matching the accept header. The q value is a number between 0 and 1.0.
+If omitted it defaults to 1.0.
+
+For example, the following `accept` header signifies the client will accept a MIME type of only `text/plain`:
+
+Accept: text/plain
+
+With the following the client will accept `text/plain` or `text/html` with no preference.
+
+Accept: text/plain, text/html
+
+With the following the client will accept `text/plain` or `text/html` but prefers `text/html` as it has a higher
+`q` value (the default value is q=1.0)
+
+Accept: text/plain; q=0.9, text/html
+
+If the server can provide both text/plain and text/html it should provide the text/html in this case.
+
+By using `link:../../apidocs/io/vertx/ext/web/Route.html#produces-java.lang.String-[produces]` you define which MIME type(s) the route produces, e.g. the
+following handler produces a response with MIME type `application/json`.
+
+[source,java]
+----
+router.route()
+  .produces("application/json")
+  .handler(ctx -> {
+
+    HttpServerResponse response = ctx.response();
+    response.putHeader("content-type", "application/json");
+    response.end(someJSON);
+
+  });
+----
+
+In this case the route will match with any request with an `accept` header that matches `application/json`.
+
+Here are some examples of `accept` headers that will match:
+
+Accept: application/json
+Accept: application/*
+Accept: application/json, text/html
+Accept: application/json;q=0.7, text/html;q=0.8, text/plain
+
+You can also mark your route as producing more than one MIME type. If this is the case, then you use
+`link:../../apidocs/io/vertx/ext/web/RoutingContext.html#getAcceptableContentType--[getAcceptableContentType]` to find out the actual MIME type that
+was accepted.
+
+[source,java]
+----
+router.route()
+  .produces("application/json")
+  .produces("text/html")
+  .handler(ctx -> {
+
+    HttpServerResponse response = ctx.response();
+
+    // Get the actual MIME type acceptable
+    String acceptableContentType = ctx.getAcceptableContentType();
+
+    response.putHeader("content-type", acceptableContentType);
+    response.end(whatever);
+  });
+----
+
+In the above example, if you sent a request with the following `accept` header:
+
+Accept: application/json; q=0.7, text/html
+
+Then the route would match and `acceptableContentType` would contain `text/html` as both are
+acceptable but that has a higher `q` value.
+
+== Routing based on VirtualHost
+
+You can configure that a `Route` will match against the request hostname.
+
+Request are checked against the `Host` header to a match and patterns allow the usage of `*` wildcards, as for
+example `*.vertx.io` or fully domain names as `www.vertx.io`.
+
+[source,java]
+----
+router.route().virtualHost("*.vertx.io").handler(ctx -> {
+  // do something if the request is for *.vertx.io
+});
+----
+
+== Combining routing criteria
+
+You can combine all the above routing criteria in many different ways, for example:
+
+[source,java]
+----
+router.route(HttpMethod.PUT, "myapi/orders")
+  .consumes("application/json")
+  .produces("application/json")
+  .handler(ctx -> {
+
+    // This would be match for any PUT method to paths starting
+    // with "myapi/orders" with a content-type of "application/json"
+    // and an accept header matching "application/json"
+
+  });
+----
+
+== Enabling and disabling routes
+
+You can disable a route with `link:../../apidocs/io/vertx/ext/web/Route.html#disable--[disable]`. A disabled route will be ignored when matching.
+
+You can re-enable a disabled route with `link:../../apidocs/io/vertx/ext/web/Route.html#enable--[enable]`
+
+== Forward Support
+
+Your application may be behind a proxy server, `HAProxy` for example. When working under this setup accessing the
+client connection details will not properly return the expected results. For example the client host ip address will
+be the proxy server ip address, not the client's one.
+
+In order to get the right connection information, a special header `Forward` has been standardized to include the right
+information. However this standard is not very old, so many proxies out there have been using other headers that usually
+start with the prefix: `X-Forward`. Vert.x web allows the usage and parsing of these headers but not by default.
+
+The reason why these headers are disabled by default is to prevent malicious applications to forge their origin and hide
+where they are really coming from.
+
+As previously mentioned forward is disabled by default, to enable you should use:
+
+[source,java]
+----
+router.allowForward(AllowForwardHeaders.FORWARD);
+
+// we can now allow forward header parsing
+// and in this case only the "X-Forward" headers will be considered
+router.allowForward(AllowForwardHeaders.X_FORWARD);
+
+// we can now allow forward header parsing
+// and in this case both the "Forward" header and "X-Forward" headers
+// will be considered, yet the values from "Forward" take precedence
+// this means if case of a conflict (2 headers for the same value)
+// the "Forward" value will be taken and the "X-Forward" ignored.
+router.allowForward(AllowForwardHeaders.ALL);
+----
+
+Same rule applies to explicitly disable the parsing of the headers:
+
+[source,java]
+----
+router.allowForward(AllowForwardHeaders.NONE);
+----
+
+To read more about the format of the header format, please consult:
+
+* https://tools.ietf.org/html/rfc7239#section-4
+* https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Forwarded
+
+Behind the scenes, what this feature does is changing the following values of your connection (either HTTP or WebSocket):
+
+* protocol
+* host name
+* host port
+
+== Context data
+
+You can use the context data in the `link:../../apidocs/io/vertx/ext/web/RoutingContext.html[RoutingContext]` to maintain any data that you
+want to share between handlers for the lifetime of the request.
+
+Here's an example where one handler sets some data in the context data and a subsequent handler retrieves it:
+
+You can use the `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#put-java.lang.String-java.lang.Object-[put]` to put any object, and
+`link:../../apidocs/io/vertx/ext/web/RoutingContext.html#get-java.lang.String-[get]` to retrieve any object from the context data.
+
+A request sent to path `/some/path/other` will match both routes.
+
+[source,java]
+----
+router.get("/some/path").handler(ctx -> {
+
+  ctx.put("foo", "bar");
+  ctx.next();
+
+});
+
+router.get("/some/path/other").handler(ctx -> {
+
+  String bar = ctx.get("foo");
+  // Do something with bar
+  ctx.response().end();
+
+});
+----
+
+Alternatively you can access the entire context data map with `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#data--[data]`.
+
+== Helper functions
+
+While the routing context will allow you to access the underlying request and response objects, sometimes it will be
+more productive if a few shortcuts would be present to help with common tasks. A few helpers are present in the context
+to facilitate with this task.
+
+Serve an "attachment", an attachment is a response that will trigger the browser to open the response on the OS
+application configured to handle a specific mime type. Imagine you're generating a PDF:
+
+[source,java]
+----
+ctx
+  .attachment("weekly-report.pdf")
+  .end(pdfBuffer);
+----
+
+Perform a redirect to a different page or host. One example is to redirect to an HTTPS variant of the application:
+
+[source,java]
+----
+ctx.redirect("https://securesite.com/");
+
+// there is a special handling for the target "back".
+// In this case the redirect would send the user to the
+// referrer url or "/" if there's no referrer.
+
+ctx.redirect("back");
+----
+
+Send a JSON response to the client:
+
+[source,java]
+----
+ctx.json(new JsonObject().put("hello", "vert.x"));
+// also applies to arrays
+ctx.json(new JsonArray().add("vertx").add("web"));
+// or any object that will be converted according
+// to the json encoder available at runtime.
+ctx.json(someObject);
+----
+
+Simple content type check:
+
+[source,java]
+----
+ctx.is("html"); // => true
+ctx.is("text/html"); // => true
+
+// When Content-Type is application/json
+ctx.is("application/json"); // => true
+ctx.is("html"); // => false
+----
+
+Verify if a request is "fresh" with respect to the cache headers and the current values of last modified/ etag.
+
+[source,java]
+----
+ctx.lastModified("Wed, 13 Jul 2011 18:30:00 GMT");
+// this will now be used to verify the freshness of the request
+if (ctx.isFresh()) {
+  // client cache value is fresh perhaps we
+  // can stop and return 304?
+}
+----
+
+And a few other simple self explanatory shortcuts:
+
+[source,java]
+----
+ctx.etag("W/123456789");
+
+// set the last modified value
+ctx.lastModified("Wed, 13 Jul 2011 18:30:00 GMT");
+
+// quickly end
+ctx.end();
+ctx.end("body");
+ctx.end(buffer);
+----
+
+
+== Reroute
+
+Until now all routing mechanism allow you to handle your requests in a sequential way, however there might be times
+where you will want to go back. Since the context does not expose any information about the previous or next handler,
+mostly because this information is dynamic there is a way to restart the whole routing from the start of the current
+Router.
+
+[source,java]
+----
+router.get("/some/path").handler(ctx -> {
+
+  ctx.put("foo", "bar");
+  ctx.next();
+
+});
+
+router
+  .get("/some/path/B")
+  .handler(ctx -> ctx.response().end());
+
+router
+  .get("/some/path")
+  .handler(ctx -> ctx.reroute("/some/path/B"));
+----
+
+So from the code you can see that if a request arrives at `/some/path` if first add a value to the context, then
+moves to the next handler that re routes the request to `/some/path/B` which terminates the request.
+
+You can reroute based on a new path or based on a new path and method. Note however that rerouting based on method
+might introduce security issues since for example a usually safe GET request can become a DELETE.
+
+Reroute is also allowed on the failure handler, however due to the nature of re router when called the current status
+code and failure reason are reset. In order the rerouted handler should generate the correct status code if needed,
+for example:
+
+[source,java]
+----
+router.get("/my-pretty-notfound-handler").handler(ctx -> ctx.response()
+  .setStatusCode(404)
+  .end("NOT FOUND fancy html here!!!"));
+
+router.get().failureHandler(ctx -> {
+  if (ctx.statusCode() == 404) {
+    ctx.reroute("/my-pretty-notfound-handler");
+  } else {
+    ctx.next();
+  }
+});
+----
+
+It should be clear that reroute works on `paths`, so if you need to preserve and or add state across reroutes, one
+should use the `RoutingContext` object. For example you want to reroute to a new path with a extra parameter:
+
+[source,java]
+----
+router.get("/final-target").handler(ctx -> {
+  // continue from here...
+});
+
+// (Will reroute to /final-target including the query string)
+router.get().handler(ctx -> ctx.reroute("/final-target?variable=value"));
+
+// A safer way would be to add the variable to the context
+router.get().handler(ctx -> ctx
+  .put("variable", "value")
+  .reroute("/final-target"));
+----
+
+Reroute will re-parse the query params too. Be aware that previously query params will be discarded. The method
+will also silently discard and ignore any html fragment from the path. This is to keep the semantics of reroute
+consistent between a regular request and a re route.
+
+If more information is required to be passed to the new request, it should use the context that is preserved all the
+lifetime of the HTTP transaction.
+
+
+== Sub-routers
+
+Sometimes if you have a lot of handlers it can make sense to split them up into multiple routers. This is also useful
+if you want to reuse a set of handlers in a different application, rooted at a different path root.
+
+To do this you can mount a router at a _mount point_ in another router. The router that is mounted is called a
+_sub-router_. Sub routers can mount other sub routers so you can have several levels of sub-routers if you like.
+
+Let's look at a simple example of a sub-router mounted with another router.
+
+This sub-router will maintain the set of handlers that corresponds to a simple fictional REST API. We will mount that on another
+router. The full implementation of the REST API is not shown.
+
+Here's the sub-router:
+
+[source,java]
+----
+Router restAPI = Router.router(vertx);
+
+restAPI.get("/products/:productID").handler(ctx -> {
+
+  // TODO Handle the lookup of the product....
+  ctx.response().write(productJSON);
+
+});
+
+restAPI.put("/products/:productID").handler(ctx -> {
+
+  // TODO Add a new product...
+  ctx.response().end();
+
+});
+
+restAPI.delete("/products/:productID").handler(ctx -> {
+
+  // TODO delete the product...
+  ctx.response().end();
+
+});
+----
+
+If this router was used as a top level router, then GET/PUT/DELETE requests to urls like `/products/product1234`
+would invoke the  API.
+
+However, let's say we already have a web-site as described by another router:
+
+[source,java]
+----
+Router mainRouter = Router.router(vertx);
+
+// Handle static resources
+mainRouter.route("/static/*").handler(myStaticHandler);
+
+mainRouter.route(".*\\.templ").handler(myTemplateHandler);
+----
+
+We can now mount the sub router on the main router, against a mount point, in this case `/productsAPI`
+
+[source,java]
+----
+mainRouter.mountSubRouter("/productsAPI", restAPI);
+----
+
+This means the REST API is now accessible via paths like: `/productsAPI/products/product1234`.
+
+There are a couple of rules that must be fulfilled before sub routers can be used:
+
+* The route path must end with a wild card
+* Parameters are allowed but full regex patterns not
+* Only 1 handler can be registered before or after this call (but they can on a new route object for the same path)
+* Only 1 router per path object
+
+Validation happens at the time the router is added to the http server. This means that you cannot get any validation
+error during the build time because of the dynamic nature of sub routers. They depend on the context to be validated.
+
+== Localization
+
+Vert.x Web parses the `Accept-Language` header and provides some helper methods to identify which is the preferred
+locale for a client or the sorted list of preferred locales by quality.
+
+[source,java]
+----
+Route route = router.get("/localized").handler(ctx -> {
+  // although it might seem strange by running a loop with a switch we
+  // make sure that the locale order of preference is preserved when
+  // replying in the users language.
+  for (LanguageHeader language : ctx.acceptableLanguages()) {
+    switch (language.tag()) {
+      case "en":
+        ctx.response().end("Hello!");
+        return;
+      case "fr":
+        ctx.response().end("Bonjour!");
+        return;
+      case "pt":
+        ctx.response().end("Olá!");
+        return;
+      case "es":
+        ctx.response().end("Hola!");
+        return;
+    }
+  }
+  // we do not know the user language so lets just inform that back:
+  ctx.response().end("Sorry we don't speak: " + ctx.preferredLanguage());
+});
+----
+
+The main method `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#acceptableLanguages--[acceptableLanguages]` will return the ordered list of locales the
+user understands, if you're only interested in the user prefered locale then the helper:
+`link:../../apidocs/io/vertx/ext/web/RoutingContext.html#preferredLanguage--[preferredLanguage]` will return the 1st element of the list or `null` if no
+locale was provided by the user.
+
+== Route match failures
+
+If no routes match for any particular request, Vert.x-Web will signal an error depending on match failure:
+
+* 404 If no route matches the path
+* 405 If a route matches the path but don't match the HTTP Method
+* 406 If a route matches the path and the method but It can't provide a response with a content type matching `Accept` header
+* 415 If a route matches the path and the method but It can't accept the `Content-type`
+* 400 If a route matches the path and the method but It can't accept an empty body
+
+You can manually manage those failures using `link:../../apidocs/io/vertx/ext/web/Router.html#errorHandler-int-io.vertx.core.Handler-[errorHandler]`
+
+== Error handling
+
+As well as setting handlers to handle requests you can also set handlers to handle failures in routing.
+
+Failure handlers are used with the exact same route matching criteria that you use with normal handlers.
+
+For example you can provide a failure handler that will only handle failures on certain paths, or for certain HTTP methods.
+
+This allows you to set different failure handlers for different parts of your application.
+
+Here's an example failure handler that will only be called for failure that occur when routing to GET requests
+to paths that start with `/somepath/`:
+
+[source,java]
+----
+Route route = router.get("/somepath/*");
+
+route.failureHandler(ctx -> {
+
+  // This will be called for failures that occur
+  // when routing requests to paths starting with
+  // '/somepath/'
+
+});
+----
+
+Failure routing will occur if a handler throws an exception, or if a handler calls
+`link:../../apidocs/io/vertx/ext/web/RoutingContext.html#fail-int-[fail]` specifying an HTTP status code to deliberately signal a failure.
+
+If an exception is caught from a handler this will result in a failure with status code `500` being signalled.
+
+When handling the failure, the failure handler is passed the routing context which also allows the failure or failure code
+to be retrieved so the failure handler can use that to generate a failure response.
+
+[source,java]
+----
+Route route1 = router.get("/somepath/path1/");
+
+route1.handler(ctx -> {
+
+  // Let's say this throws a RuntimeException
+  throw new RuntimeException("something happened!");
+
+});
+
+Route route2 = router.get("/somepath/path2");
+
+route2.handler(ctx -> {
+
+  // This one deliberately fails the request passing in the status code
+  // E.g. 403 - Forbidden
+  ctx.fail(403);
+
+});
+
+// Define a failure handler
+// This will get called for any failures in the above handlers
+Route route3 = router.get("/somepath/*");
+
+route3.failureHandler(failureRoutingContext -> {
+
+  int statusCode = failureRoutingContext.statusCode();
+
+  // Status code will be 500 for the RuntimeException
+  // or 403 for the other failure
+  HttpServerResponse response = failureRoutingContext.response();
+  response.setStatusCode(statusCode).end("Sorry! Not today");
+
+});
+----
+
+For the eventuality that an error occurs when running the error handler related usage of not allowed characters in
+status message header, then the original status message will be changed to the default message from the error code.
+This is a tradeoff to keep the semantics of the HTTP protocol working instead of abruptly creash and close the socket
+without properly completing the protocol.
+
+== Request body handling
+
+The `link:../../apidocs/io/vertx/ext/web/handler/BodyHandler.html[BodyHandler]` allows you to retrieve request bodies, limit body sizes and handle
+file uploads.
+
+You should make sure a body handler is on a matching route for any requests that require this functionality.
+
+The usage of this handler requires that it is installed as soon as possible in the router since it needs
+to install handlers to consume the HTTP request body and this must be done before executing any async call.
+
+[source,java]
+----
+router.route().handler(BodyHandler.create());
+----
+
+If an async call is required before, the `HttpServerRequest` should be paused and then resumed so that the request
+events are not delivered until the body handler is ready to process them.
+
+[source,java]
+----
+router.route().handler(ctx -> {
+
+  HttpServerRequest request = ctx.request();
+
+  // Pause the request
+  request.pause();
+
+  someAsyncCall(result -> {
+
+    // Resume the request
+    request.resume();
+
+    // And continue processing
+    ctx.next();
+  });
+});
+
+// This body handler will be called for all routes
+router.route().handler(BodyHandler.create());
+----
+
+NOTE: Uploads can be a source of DDoS attacks, in order to reduce the attack surface, it is recommended to
+set sensible limits on `link:../../apidocs/io/vertx/ext/web/handler/BodyHandler.html#setBodyLimit-long-[setBodyLimit]` (e.g.: 10mb for general uploads or
+100kb for JSON).
+
+=== Getting the request body
+
+If you know the request body is JSON, then you can use `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#getBodyAsJson-int-[getBodyAsJson]`,
+if you know it's a string you can use `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#getBodyAsString--[getBodyAsString]`, or to
+retrieve it as a buffer use `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#getBody--[getBody]`.
+
+=== Limiting body size
+
+To limit the size of a request body, create the body handler then use `link:../../apidocs/io/vertx/ext/web/handler/BodyHandler.html#setBodyLimit-long-[setBodyLimit]`
+to specifying the maximum body size, in bytes. This is useful to avoid running out of memory with very large bodies.
+
+If an attempt to send a body greater than the maximum size is made, an HTTP status code of 413 - `Request Entity Too Large`,
+will be sent.
+
+There is no body limit by default.
+
+=== Merging form attributes
+
+By default, the body handler will merge any form attributes into the request parameters. If you don't want this behaviour
+you can use disable it with `link:../../apidocs/io/vertx/ext/web/handler/BodyHandler.html#setMergeFormAttributes-boolean-[setMergeFormAttributes]`.
+
+=== Handling file uploads
+
+Body handler is also used to handle multi-part file uploads.
+
+If a body handler is on a matching route for the request, any file uploads will be automatically streamed to the
+uploads directory, which is `file-uploads` by default.
+
+Each file will be given an automatically generated file name, and the file uploads will be available on the routing
+context with `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#fileUploads--[fileUploads]`.
+
+Here's an example:
+
+[source,java]
+----
+router.route().handler(BodyHandler.create());
+
+router.post("/some/path/uploads").handler(ctx -> {
+
+  Set<FileUpload> uploads = ctx.fileUploads();
+  // Do something with uploads....
+
+});
+----
+
+Each file upload is described by a `link:../../apidocs/io/vertx/ext/web/FileUpload.html[FileUpload]` instance, which allows various properties
+such as the name, file-name and size to be accessed.
+
+== Handling cookies
+
+Vert.x-Web has out of the box cookies support.
+
+=== Manipulating cookies
+
+You use `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#getCookie-java.lang.String-[getCookie]` to retrieve
+a cookie by name, or use `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#cookieMap--[cookieMap]` to retrieve the entire set.
+
+To remove a cookie, use `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#removeCookie-java.lang.String-[removeCookie]`.
+
+To add a cookie use `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#addCookie-io.vertx.core.http.Cookie-[addCookie]`.
+
+The set of cookies will be written back in the response automatically when the response headers are written so the
+browser can store them.
+
+Cookies are described by instances of `link:../../apidocs/io/vertx/core/http/Cookie.html[Cookie]`. This allows you to retrieve the name,
+value, domain, path and other normal cookie properties.
+
+Here's an example of querying and adding cookies:
+
+[source,java]
+----
+Cookie someCookie = ctx.getCookie("mycookie");
+String cookieValue = someCookie.getValue();
+
+// Do something with cookie...
+
+// Add a cookie - this will get written back in the response automatically
+ctx.addCookie(Cookie.cookie("othercookie", "somevalue"));
+----
+
+== Handling sessions
+
+Vert.x-Web provides out of the box support for sessions.
+
+Sessions last between HTTP requests for the length of a browser session and give you a place where you can add
+session-scope information, such as a shopping basket.
+
+Vert.x-Web uses session cookies to identify a session. The session cookie is temporary and will be deleted by your browser
+when it's closed.
+
+We don't put the actual data of your session in the session cookie - the cookie simply uses an identifier to look-up
+the actual session on the server. The identifier is a random UUID generated using a secure random, so it should
+be effectively unguessable.
+
+Cookies are passed across the wire in HTTP requests and responses so it's always wise to make sure you are using
+HTTPS when sessions are being used. Vert.x will warn you if you attempt to use sessions over straight HTTP.
+
+To enable sessions in your application you must have a `link:../../apidocs/io/vertx/ext/web/handler/SessionHandler.html[SessionHandler]`
+on a matching route before your application logic.
+
+The session handler handles the creation of session cookies and the lookup of the session so you don't have to do
+that yourself.
+
+Sessions data is saved to a session store automatically after the response headers have been sent to the client.
+But note that, with this mechanism, there is no guarantee the data is fully persisted before the client receives the response.
+There are occasions though when this guarantee is needed.
+In this case you can force a flush.
+This will disable the automatic saving process, unless the flushing operation failed.
+This allows to control the state before completing the response like:
+
+[source,java]
+----
+ChainAuthHandler chain =
+  ChainAuthHandler.any()
+    .add(authNHandlerA)
+    .add(ChainAuthHandler.all()
+      .add(authNHandlerB)
+      .add(authNHandlerC));
+
+// secure your route
+router.route("/secure/resource").handler(chain);
+// your app
+router.route("/secure/resource").handler(ctx -> {
+  // do something...
+});
+----
+
+Vert.x Session Handler state by default uses a cookie to store session ID. Session ID is a unique string, used to
+recognize individual visitor between visits. But, if client's web browser doesn't support cookies or visitor has
+disabled cookies in web browser's settings, we can't store session id on client's machine. In this case, new session
+will be created for every request. This behavior is useless because we can't remember information for certain visitor
+between two requests. We can say that, by default, sessions can't work if browser doesn't support cookies.
+
+Vert.x Web supports sessions without cookies, known as "cookieless" sessions. As an alternative, Vert.x Web can embed
+session id inside of page URL. On this way, all page links will contain session id string. When visitor clicks on some
+of these links, it will read session id from page URL, so we don't need cookies support to have functional sessions.
+
+To enable cookieless sessions:
+
+[source,java]
+----
+router.route()
+  .handler(SessionHandler.create(store).setCookieless(true));
+----
+
+It is important to know that in this mode the session ID should be passed by the application to the end user, usually by
+rendering it on the HTML page or script. There are some important rules. The session id is identified by the following
+pattern on the path `/optional/path/prefix/'('sessionId')'/path/suffix`.
+
+As an example, given the path: `http://localhost:2677/WebSite1/(S(3abhbgwjg33aqrt3uat2kh4d))/api/` the session Id will
+be: `3abhbgwjg33aqrt3uat2kh4d`.
+
+Main security problem when working with sessions is a possibility that malicious user will find out others' session id.
+If two users share same session id, they share same session variables too and website is considering them as one
+visitor. This could be a security risk if session is used for any private or sensitive data, or to allow access to
+restricted areas of web site. When cookies are used, session id can be protected using SSL and by marking a cookie as
+secure. But, in case of cookieless session, session id is part of URL and is much more vulnerable.
+
+
+=== Session stores
+
+To create a session handler you need to have a session store instance. The session store is the object that
+holds the actual sessions for your application.
+
+The session store is responsible for holding a secure pseudo random number generator in order to guarantee secure session
+ids. This PRNG is independent of the store which means that given a session id from store A one cannot derive the
+session id of store B since they have different seeds and states.
+
+By default this PRNG uses a mixed mode, blocking for seeding, non blocking for generating. The PRNG will also reseed
+every 5 minutes with 64bits of new entropy. However this can all be configured using the system properties:
+
+* io.vertx.ext.auth.prng.algorithm e.g.: SHA1PRNG
+* io.vertx.ext.auth.prng.seed.interval e.g.: 1000 (every second)
+* io.vertx.ext.auth.prng.seed.bits e.g.: 128
+
+Most users should not need to configure these values unless if you notice that the performance of your application is
+being affected by the PRNG algorithm.
+
+Vert.x-Web comes with two session store implementations out of the box, and you can also write your own if you prefer.
+
+The implementations are expected to follow the `ServiceLoader` conventions and all stores that are available at runtime
+from the classpath will be exposed. When more than 1 implementations are available the first one that can be
+instantiated and configured with success becomes the default. If none is available, then the default depends on the mode
+Vert.x was created. If cluster mode is available the the clustered session store is the default otherwise the local
+storage is the default.
+
+==== Local session store
+
+With this store, sessions are stored locally in memory and only available in this instance.
+
+This store is appropriate if you have just a single Vert.x instance of you are using sticky sessions in your application
+and have configured your load balancer to always route HTTP requests to the same Vert.x instance.
+
+If you can't ensure your requests will all terminate on the same server then don't use this store as your
+requests might end up on a server which doesn't know about your session.
+
+Local session stores are implemented by using a shared local map, and have a reaper which clears out expired sessions.
+
+The reaper interval can be configured with a json message with the key: `reaperInterval`.
+
+Here are some examples of creating a local `link:../../apidocs/io/vertx/ext/web/sstore/SessionStore.html[SessionStore]`
+
+[source,java]
+----
+SessionStore store1 = LocalSessionStore.create(vertx);
+
+// Create a local session store specifying the local shared map name to use
+// This might be useful if you have more than one application in the same
+// Vert.x instance and want to use different maps for different applications
+SessionStore store2 = LocalSessionStore.create(
+  vertx,
+  "myapp3.sessionmap");
+
+// Create a local session store specifying the local shared map name to use and
+// setting the reaper interval for expired sessions to 10 seconds
+SessionStore store3 = LocalSessionStore.create(
+  vertx,
+  "myapp3.sessionmap",
+  10000);
+----
+
+==== Clustered session store
+
+With this store, sessions are stored in a distributed map which is accessible across the Vert.x cluster.
+
+This store is appropriate if you're _not_ using sticky sessions, i.e. your load balancer is distributing different
+requests from the same browser to different servers.
+
+Your session is accessible from any node in the cluster using this store.
+
+To you use a clustered session store you should make sure your Vert.x instance is clustered.
+
+Here are some examples of creating a clustered `link:../../apidocs/io/vertx/ext/web/sstore/SessionStore.html[SessionStore]`
+
+[source,java]
+----
+Vertx.clusteredVertx(new VertxOptions(), res -> {
+
+  Vertx vertx = res.result();
+
+  // Create a clustered session store using defaults
+  SessionStore store1 = ClusteredSessionStore.create(vertx);
+
+  // Create a clustered session store specifying the distributed map name to use
+  // This might be useful if you have more than one application in the cluster
+  // and want to use different maps for different applications
+  SessionStore store2 = ClusteredSessionStore.create(
+    vertx,
+    "myclusteredapp3.sessionmap");
+});
+----
+
+==== Other stores
+
+Other stores are also available, these stores can be used by importing the correct jar
+to the project. One example of such stores is the cookie store. This store has the advantage
+that it requires no backend or server side state, which can be useful it some situations
+**BUT** all session data will be sent back to the client in the Cookie, so if you need to store
+private information this should not be used.
+
+This store is appropriate if you're using sticky sessions, i.e. your load balancer is
+distributing different requests from the same browser to different servers.
+
+As the session is stored in the Cookie, this means sessions survive server crashes too.
+
+A second known implementation is the Redis session store. This store works just like the normal cluster store, however
+just like it's name suggests, it uses a redis backend to keep the session data centralized.
+
+These stores are available with the coordinates:
+
+* groupId: `io.vertx`
+* artifactId: `vertx-web-sstore-{cookie|redis}`
+
+
+=== Creating the session handler
+
+Once you've created a session store you can create a session handler, and add it to a route. You should make sure
+your session handler is routed to before your application handlers.
+
+Here's an example:
+
+[source,java]
+----
+Router router = Router.router(vertx);
+
+// Create a clustered session store using defaults
+SessionStore store = ClusteredSessionStore.create(vertx);
+
+SessionHandler sessionHandler = SessionHandler.create(store);
+
+// the session handler controls the cookie used for the session
+// this includes configuring, for example, the same site policy
+// like this, for strict same site policy.
+sessionHandler.setCookieSameSite(CookieSameSite.STRICT);
+
+// Make sure all requests are routed through the session handler too
+router.route().handler(sessionHandler);
+
+// Now your application handlers
+router.route("/somepath/blah/").handler(ctx -> {
+
+  Session session = ctx.session();
+  session.put("foo", "bar");
+  // etc
+
+});
+----
+
+The session handler will ensure that your session is automatically looked up (or created if no session exists)
+from the session store and set on the routing context before it gets to your application handlers.
+
+=== Using the session
+
+In your handlers you can access the session instance with `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#session--[session]`.
+
+You put data into the session with `link:../../apidocs/io/vertx/ext/web/Session.html#put-java.lang.String-java.lang.Object-[put]`,
+you get data from the session with `link:../../apidocs/io/vertx/ext/web/Session.html#get-java.lang.String-[get]`, and you remove
+data from the session with `link:../../apidocs/io/vertx/ext/web/Session.html#remove-java.lang.String-[remove]`.
+
+The keys for items in the session are always strings. The values can be any type for a local session store, and for
+a clustered session store they can be any basic type, or `link:../../apidocs/io/vertx/core/buffer/Buffer.html[Buffer]`, `link:../../apidocs/io/vertx/core/json/JsonObject.html[JsonObject]`,
+`link:../../apidocs/io/vertx/core/json/JsonArray.html[JsonArray]` or a serializable object, as the values have to serialized across the cluster.
+
+Here's an example of manipulating session data:
+
+[source,java]
+----
+router.route().handler(sessionHandler);
+
+// Now your application handlers
+router.route("/somepath/blah").handler(ctx -> {
+
+  Session session = ctx.session();
+
+  // Put some data from the session
+  session.put("foo", "bar");
+
+  // Retrieve some data from a session
+  int age = session.get("age");
+
+  // Remove some data from a session
+  JsonObject obj = session.remove("myobj");
+
+});
+----
+
+Sessions are automatically written back to the store after after responses are complete.
+
+You can manually destroy a session using `link:../../apidocs/io/vertx/ext/web/Session.html#destroy--[destroy]`. This will remove the session
+from the context and the session store. Note that if there is no session a new one will be automatically created
+for the next request from the browser that's routed through the session handler.
+
+=== Session timeout
+
+Sessions will be automatically timed out if they are not accessed for a time greater than the timeout period. When
+a session is timed out, it is removed from the store.
+
+Sessions are automatically marked as accessed when a request arrives and the session is looked up and and when the
+response is complete and the session is stored back in the store.
+
+You can also use `link:../../apidocs/io/vertx/ext/web/Session.html#setAccessed--[setAccessed]` to manually mark a session as accessed.
+
+The session timeout can be configured when creating the session handler. Default timeout is 30 minutes.
+
+== Authentication / authorization
+
+Vert.x comes with some out-of-the-box handlers for handling both authentication and authorization. In vert.x web
+the meanings for the 2 words are:
+
+* *Authentication* - Tells who the user is
+* *Authorization* - Tells what the user is allowed to do
+
+While *Authentication* is tightened to a well known protocol, e.g.:
+
+* HTTP Basic Authentication
+* HTTP Digest Authentication
+* OAuth2 Authentication
+* ...
+
+*Authorization* in vert.x is quite generic and can be used regardless of the prior. Yet it is also possible and a valid
+use case to use the same provider module for both cases.
+
+=== Creating an Authentication handler
+
+To create an auth handler you need an instance of `link:../../apidocs/io/vertx/ext/auth/authentication/AuthenticationProvider.html[AuthenticationProvider]`.
+Authentication provider is used for authentication of users. Vert.x provides several authentication provider instances
+out of the box in the vertx-auth project. For full information on auth providers and how to use and configure them
+please consult the auth documentation.
+
+Here's a simple example of creating a basic auth handler given an auth provider.
+
+[source,java]
+----
+router.route().handler(SessionHandler.create(LocalSessionStore.create(vertx)));
+
+AuthenticationHandler basicAuthHandler = BasicAuthHandler.create(authProvider);
+----
+
+=== Handling authentication in your application
+
+Let's say you want all requests to paths that start with `/private/` to be subject to authentication. To do that you
+make sure your authentication handler is before your application handlers on those paths:
+
+[source,java]
+----
+router.route().handler(SessionHandler.create(LocalSessionStore.create(vertx)));
+
+AuthenticationHandler basicAuthHandler = BasicAuthHandler.create(authProvider);
+
+// All requests to paths starting with '/private/' will be protected
+router.route("/private/*").handler(basicAuthHandler);
+
+router.route("/someotherpath").handler(ctx -> {
+
+  // This will be public access - no login required
+
+});
+
+router.route("/private/somepath").handler(ctx -> {
+
+  // This will require a login
+
+  // This will have the value true
+  boolean isAuthenticated = ctx.user() != null;
+
+});
+----
+
+If the authentication handler has successfully authenticated the user it will inject a `link:../../apidocs/io/vertx/ext/auth/User.html[User]`
+object into the `link:../../apidocs/io/vertx/ext/web/RoutingContext.html[RoutingContext]` so it's available in your handlers with:
+`link:../../apidocs/io/vertx/ext/web/RoutingContext.html#user--[user]`.
+
+If you want your User object to be stored in the session so it's available between requests so you don't have to
+authenticate on each request, then you should make sure you have a session handler before the authentication handler.
+
+Once you have your user object you can also programmatically use the methods on it to authorize the user.
+
+If you want to cause the user to be logged out you can call `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#clearUser--[clearUser]`
+on the routing context.
+
+=== HTTP Basic Authentication
+
+http://en.wikipedia.org/wiki/Basic_access_authentication[HTTP Basic Authentication] is a simple means of authentication
+that can be appropriate for simple applications.
+
+With basic authentication, credentials are sent unencrypted across the wire in HTTP headers so it's essential that you
+serve your application using HTTPS not HTTP.
+
+With basic authentication, if a user requests a resource that requires authentication, the basic auth handler will send
+back a `401` response with the header `WWW-Authenticate` set. This prompts the browser to show a log-in dialogue and
+prompt the user to enter their username and password.
+
+The request is made to the resource again, this time with the `Authorization` header set, containing the username
+and password encoded in Base64.
+
+When the basic auth handler receives this information, it calls the configured `link:../../apidocs/io/vertx/ext/auth/authentication/AuthenticationProvider.html[AuthenticationProvider]`
+with the username and password to authenticate the user. If the authentication is successful then the routing of the
+request is allowed to continue to the application handlers, otherwise a `403` response is returned to signify that
+access is denied.
+
+=== Redirect authentication handler
+
+With redirect authentication handling the user is redirected to towards a login page in the case they are trying to
+access a protected resource and they are not logged in.
+
+The user then fills in the login form and submits it. This is handled by the server which authenticates
+the user and, if authenticated redirects the user back to the original resource.
+
+To use redirect auth you configure an instance of `link:../../apidocs/io/vertx/ext/web/handler/RedirectAuthHandler.html[RedirectAuthHandler]` instead of a
+basic authentication handler.
+
+You will also need to setup handlers to serve your actual login page, and a handler to handle the actual login itself.
+To handle the login we provide a prebuilt handler `link:../../apidocs/io/vertx/ext/web/handler/FormLoginHandler.html[FormLoginHandler]` for the purpose.
+
+Here's an example of a simple app, using a redirect auth handler on the default redirect url `/loginpage`.
+
+[source,java]
+----
+router.route().handler(SessionHandler.create(LocalSessionStore.create(vertx)));
+
+// All requests to paths starting with '/private/' will be protected
+router
+  .route("/private/*")
+  .handler(RedirectAuthHandler.create(authProvider));
+
+// Handle the actual login
+// One of your pages must POST form login data
+router.post("/login").handler(FormLoginHandler.create(authProvider));
+
+// Set a static server to serve static resources, e.g. the login page
+router.route().handler(StaticHandler.create());
+
+router
+  .route("/someotherpath")
+  .handler(ctx -> {
+    // This will be public access - no login required
+  });
+
+router
+  .route("/private/somepath")
+  .handler(ctx -> {
+
+    // This will require a login
+
+    // This will have the value true
+    boolean isAuthenticated = ctx.user() != null;
+
+  });
+----
+
+=== JWT authentication
+
+With JWT authentication resources can be protected by means of permissions and users without enough rights are denied
+access. You need to add the `io.vertx:vertx-auth-jwt:4.0.2` dependency to use `JWTAuthProvider`
+
+To use this handler there are 2 steps involved:
+
+* Setup an handler to issue tokens (or rely on a 3rd party)
+* Setup the handler to filter the requests
+
+Please note that these 2 handlers should be only available on HTTPS, not doing so allows sniffing the tokens in
+transit which leads to session hijacking attacks.
+
+Here's an example on how to issue tokens:
+
+[source,java]
+----
+Router router = Router.router(vertx);
+
+JWTAuthOptions authConfig = new JWTAuthOptions()
+  .setKeyStore(new KeyStoreOptions()
+    .setType("jceks")
+    .setPath("keystore.jceks")
+    .setPassword("secret"));
+
+JWTAuth jwt = JWTAuth.create(vertx, authConfig);
+
+router.route("/login").handler(ctx -> {
+  // this is an example, authentication should be done with another provider...
+  if (
+    "paulo".equals(ctx.request().getParam("username")) &&
+      "secret".equals(ctx.request().getParam("password"))) {
+    ctx.response()
+      .end(jwt.generateToken(new JsonObject().put("sub", "paulo")));
+  } else {
+    ctx.fail(401);
+  }
+});
+----
+
+Now that your client has a token all it is required is that *for all* consequent request the HTTP header
+`Authorization` is filled with: `Bearer <token>` e.g.:
+
+[source,java]
+----
+Router router = Router.router(vertx);
+
+JWTAuthOptions authConfig = new JWTAuthOptions()
+  .setKeyStore(new KeyStoreOptions()
+    .setType("jceks")
+    .setPath("keystore.jceks")
+    .setPassword("secret"));
+
+JWTAuth authProvider = JWTAuth.create(vertx, authConfig);
+
+router.route("/protected/*").handler(JWTAuthHandler.create(authProvider));
+
+router.route("/protected/somepage").handler(ctx -> {
+  // some handle code...
+});
+----
+
+JWT allows you to add any information you like to the token itself. By doing this there is no state in the server
+which allows you to scale your applications without need for clustered session data. In order to add data to the
+token, during the creation of the token just add data to the JsonObject parameter:
+
+[source,java]
+----
+JWTAuthOptions authConfig = new JWTAuthOptions()
+  .setKeyStore(new KeyStoreOptions()
+    .setType("jceks")
+    .setPath("keystore.jceks")
+    .setPassword("secret"));
+
+JWTAuth authProvider = JWTAuth.create(vertx, authConfig);
+
+authProvider
+  .generateToken(
+    new JsonObject()
+      .put("sub", "paulo")
+      .put("someKey", "some value"),
+    new JWTOptions());
+----
+
+And the same when consuming:
+
+[source,java]
+----
+Handler<RoutingContext> handler = ctx -> {
+  String theSubject = ctx.user().principal().getString("sub");
+  String someKey = ctx.user().principal().getString("someKey");
+};
+----
+
+=== Configuring authorization
+
+Until now all examples were covering authentication. Authorization is the next logical step when dealing with user.
+While authentication was really specific to the protocol, *authorization* is independent, all information is extracted
+from the `User` object.
+
+Before this is possible there is a need to load the authorizations to this same object. In order to do this the
+`link:../../apidocs/io/vertx/ext/web/handler/AuthorizationHandler.html[AuthorizationHandler]` should be used. An authorization handler will load all known
+authorizations from a given `link:../../apidocs/io/vertx/ext/auth/authorization/AuthorizationProvider.html[AuthorizationProvider]`.
+
+[source,java]
+----
+router.route().handler(
+  // create the handler that will perform the attestation
+  AuthorizationHandler.create(
+    // what to attest
+    PermissionBasedAuthorization.create("can-do-work"))
+    // where to lookup the authorizations for the user
+    .addAuthorizationProvider(authProvider));
+----
+
+The lookup can be performed on more than 1 source, just keep adding `addAuthorizationProvider(provider)` to the handler.
+
+Here's an example of configuring an app so that different authorities are required for different parts of the
+app. Note that the meaning of the authorities is determined by the underlying auth provider that you use. E.g. some
+may support a role/permission based model but others might use another model.
+
+[source,java]
+----
+router.route("/listproducts/*").handler(
+  // create the handler that will perform the attestation
+  AuthorizationHandler.create(
+    // what to attest
+    PermissionBasedAuthorization.create("list_products"))
+    // where to lookup the authorizations for the user
+    .addAuthorizationProvider(authProvider));
+
+// Only "admin" has access to /private/settings
+router.route("/private/settings/*").handler(
+  // create the handler that will perform the attestation
+  AuthorizationHandler.create(
+    // what to attest
+    RoleBasedAuthorization.create("admin"))
+    .addAuthorizationProvider(authProvider));
+----
+
+=== Chaining multiple authentication handlers
+
+There are times when you want to support multiple authentication mechanisms in a single application. For this you can
+use the `link:../../apidocs/io/vertx/ext/web/handler/ChainAuthHandler.html[ChainAuthHandler]`. The chain auth handler will attempt to perform
+authentication on a chain of handlers.
+
+It is important to know that some handlers require specific providers, for example:
+
+* The `link:../../apidocs/io/vertx/ext/web/handler/JWTAuthHandler.html[JWTAuthHandler]` requires `link:../../apidocs/io/vertx/ext/auth/jwt/JWTAuth.html[JWTAuth]`.
+* The `link:../../apidocs/io/vertx/ext/web/handler/DigestAuthHandler.html[DigestAuthHandler]` requires `link:../../apidocs/io/vertx/ext/auth/htdigest/HtdigestAuth.html[HtdigestAuth]`.
+* The `link:../../apidocs/io/vertx/ext/web/handler/OAuth2AuthHandler.html[OAuth2AuthHandler]` requires `link:../../apidocs/io/vertx/ext/auth/oauth2/OAuth2Auth.html[OAuth2Auth]`.
+* The `link:../../apidocs/io/vertx/ext/web/handler/WebAuthnHandler.html[WebAuthnHandler]` requires `link:../../apidocs/io/vertx/ext/auth/webauthn/WebAuthn.html[WebAuthn]`.
+
+So it is not expected that the providers will be shared across all handlers. There are cases where one can share the
+provider across handlers, for example:
+
+* The `link:../../apidocs/io/vertx/ext/web/handler/BasicAuthHandler.html[BasicAuthHandler]` can take any provider.
+* The `link:../../apidocs/io/vertx/ext/web/handler/RedirectAuthHandler.html[RedirectAuthHandler]` can take any provider.
+
+So say that you want to create an application that accepts both `HTTP Basic Authentication` and `Form Redirect`. You
+would start configuring your chain as:
+
+[source,java]
+----
+ChainAuthHandler chain = ChainAuthHandler.any();
+
+// add http basic auth handler to the chain
+chain.add(BasicAuthHandler.create(provider));
+// add form redirect auth handler to the chain
+chain.add(RedirectAuthHandler.create(provider));
+
+// secure your route
+router.route("/secure/resource").handler(chain);
+// your app
+router.route("/secure/resource").handler(ctx -> {
+  // do something...
+});
+----
+
+So when a user makes a request without a `Authorization` header, this means that the chain will fail to authenticate
+with the basic auth handler and will attempt to authenticate with the redirect handler. Since the redirect handler
+always redirects you will be sent to the login form that you configured in that handler.
+
+Like the normal routing in vertx-web, auth chaning is a sequence, so if you would prefer to fallback to your browser
+asking for the user credentials using HTTP Basic authentication instead of the redirect all you need to to is reverse
+the order of appending to the chain.
+
+Now assume that you make a request where you provide the header `Authorization` with the value `Basic [token]`. In
+this case the basic auth handler will attempt to authenticate and if it is sucessful the chain will stop and
+vertx-web will continue to process your handlers. If the token is not valid, for example bad username/password, then
+the chain will continue to the following entry. In this specific case the redirect auth handler.
+
+Complex chaining is also possible, for example, building logic sequences such as: `HandlerA` OR (`HandlerB` AND `HandlerC`).
+
+[source,java]
+----
+ChainAuthHandler chain =
+  ChainAuthHandler.any()
+    .add(authNHandlerA)
+    .add(ChainAuthHandler.all()
+      .add(authNHandlerB)
+      .add(authNHandlerC));
+
+// secure your route
+router.route("/secure/resource").handler(chain);
+// your app
+router.route("/secure/resource").handler(ctx -> {
+  // do something...
+});
+----
+
+== Serving static resources
+
+Vert.x-Web comes with an out of the box handler for serving static web resources so you can write static web servers
+very easily.
+
+To serve static resources such as `.html`, `.css`, `.js` or any other static resource, you use an instance of
+`link:../../apidocs/io/vertx/ext/web/handler/StaticHandler.html[StaticHandler]`.
+
+Any requests to paths handled by the static handler will result in files being served from a directory on the file system
+or from the classpath. The default static file directory is `webroot` but this can be configured.
+
+In the following example all requests to paths starting with `/static/` will get served from the directory `webroot`:
+
+[source,java]
+----
+router.route("/static/*").handler(StaticHandler.create());
+----
+
+For example, if there was a request with path `/static/css/mystyles.css` the static serve will look for a file in the
+directory `webroot/css/mystyle.css`.
+
+It will also look for a file on the classpath called `webroot/css/mystyle.css`. This means you can package up all your
+static resources into a jar file (or fatjar) and distribute them like that.
+
+When Vert.x finds a resource on the classpath for the first time it extracts it and caches it in a temporary directory
+on disk so it doesn't have to do this each time.
+
+The handler will handle range aware requests. When a client makes a request to a static resource, the handler will
+notify that it can handle range aware request by stating the unit on the `Accept-Ranges` header. Further requests
+that contain the `Range` header with the correct unit and start and end indexes will then receive partial responses
+with the correct `Content-Range` header.
+
+=== Configuring caching
+
+By default the static handler will set cache headers to enable browsers to effectively cache files.
+
+Vert.x-Web sets the headers `cache-control`,`last-modified`, and `date`.
+
+`cache-control` is set to `max-age=86400` by default. This corresponds to one day. This can be configured with
+`link:../../apidocs/io/vertx/ext/web/handler/StaticHandler.html#setMaxAgeSeconds-long-[setMaxAgeSeconds]` if required.
+
+If a browser sends a GET or a HEAD request with an `if-modified-since` header and the resource has not been modified
+since that date, a `304` status is returned which tells the browser to use its locally cached resource.
+
+If handling of cache headers is not required, it can be disabled with `link:../../apidocs/io/vertx/ext/web/handler/StaticHandler.html#setCachingEnabled-boolean-[setCachingEnabled]`.
+
+When cache handling is enabled Vert.x-Web will cache the last modified date of resources in memory, this avoids a disk hit
+to check the actual last modified date every time.
+
+Entries in the cache have an expiry time, and after that time, the file on disk will be checked again and the cache
+entry updated.
+
+If you know that your files never change on disk, then the cache entry will effectively never expire. This is the
+default.
+
+If you know that your files might change on disk when the server is running then you can set files read only to false with
+`link:../../apidocs/io/vertx/ext/web/handler/StaticHandler.html#setFilesReadOnly-boolean-[setFilesReadOnly]`.
+
+To enable the maximum number of entries that can be cached in memory at any one time you can use
+`link:../../apidocs/io/vertx/ext/web/handler/StaticHandler.html#setMaxCacheSize-int-[setMaxCacheSize]`.
+
+To configure the expiry time of cache entries you can use `link:../../apidocs/io/vertx/ext/web/handler/StaticHandler.html#setCacheEntryTimeout-long-[setCacheEntryTimeout]`.
+
+=== Configuring the index page
+
+Any requests to the root path `/` will cause the index page to be served. By default the index page is `index.html`.
+This can be configured with `link:../../apidocs/io/vertx/ext/web/handler/StaticHandler.html#setIndexPage-java.lang.String-[setIndexPage]`.
+
+=== Changing the web root
+
+By default static resources will be served from the directory `webroot`. To configure this use
+`link:../../apidocs/io/vertx/ext/web/handler/StaticHandler.html#setWebRoot-java.lang.String-[setWebRoot]`.
+
+=== Serving hidden files
+
+By default the serve will serve hidden files (files starting with `.`).
+
+If you do not want hidden files to be served you can configure it with `link:../../apidocs/io/vertx/ext/web/handler/StaticHandler.html#setIncludeHidden-boolean-[setIncludeHidden]`.
+
+=== Directory listing
+
+The server can also perform directory listing. By default directory listing is disabled. To enabled it use
+`link:../../apidocs/io/vertx/ext/web/handler/StaticHandler.html#setDirectoryListing-boolean-[setDirectoryListing]`.
+
+When directory listing is enabled the content returned depends on the content type in the `accept` header.
+
+For `text/html` directory listing, the template used to render the directory listing page can be configured with
+`link:../../apidocs/io/vertx/ext/web/handler/StaticHandler.html#setDirectoryTemplate-java.lang.String-[setDirectoryTemplate]`.
+
+=== Disabling file caching on disk
+
+By default, Vert.x will cache files that are served from the classpath into a file on disk in a sub-directory of a
+directory called `.vertx` in the current working directory. This is mainly useful when deploying services as
+fatjars in production where serving a file from the classpath every time can be slow.
+
+In development this can cause a problem, as if you update your static content while the server is running, the
+cached file will be served not the updated file.
+
+To disable file caching you can provide your vert.x options the property `fileResolverCachingEnabled` to `false`. For
+backwards compatibility it will also default that value to the system property `vertx.disableFileCaching`. E.g. you
+could set up a run configuration in your IDE to set this when running your main class.
+
+
+== CORS handling
+
+http://en.wikipedia.org/wiki/Cross-origin_resource_sharing[Cross Origin Resource Sharing] is a safe mechanism for
+allowing resources to be requested from one domain and served from another.
+
+Vert.x-Web includes a handler `link:../../apidocs/io/vertx/ext/web/handler/CorsHandler.html[CorsHandler]` that handles the CORS protocol for you.
+
+Here's an example:
+
+[source,java]
+----
+router.route()
+  .handler(
+    CorsHandler.create("vertx\\.io")
+      .allowedMethod(HttpMethod.GET));
+
+router.route().handler(ctx -> {
+
+  // Your app handlers
+
+});
+----
+
+////
+TODO more CORS docs
+////
+
+== Multi Tenant
+
+There are cases where your application needs to handle more than just 1 tenant. In this case a helper handler is
+provided that simplifies setting up the application.
+
+In the case the tenant is identified by a HTTP header, say for example `X-Tenant`, then creating the handler is as
+simple as:
+
+[source,java]
+----
+router.route().handler(MultiTenantHandler.create("X-Tenant"));
+----
+
+You now should register what handler should be executed for the given tenant:
+
+[source,java]
+----
+MultiTenantHandler.create("X-Tenant")
+  .addTenantHandler("tenant-A", ctx -> {
+    // do something for tenant A...
+  })
+  .addTenantHandler("tenant-B", ctx -> {
+    // do something for tenant B...
+  })
+  // optionally
+  .addDefaultHandler(ctx -> {
+    // do something when no tenant matches...
+  });
+----
+
+This is useful for security situations:
+
+[source,java]
+----
+OAuth2Auth gitHubAuthProvider = GithubAuth
+  .create(vertx, "CLIENT_ID", "CLIENT_SECRET");
+
+// create a oauth2 handler on our running server
+// the second argument is the full url to the callback
+// as you entered in your provider management console.
+OAuth2AuthHandler githubOAuth2 = OAuth2AuthHandler.create(
+  vertx,
+  gitHubAuthProvider,
+  "https://myserver.com/github-callback");
+
+// setup the callback handler for receiving the GitHub callback
+githubOAuth2.setupCallback(router.route());
+
+// create an OAuth2 provider, clientID and clientSecret
+// should be requested to Google
+OAuth2Auth googleAuthProvider = OAuth2Auth.create(vertx, new OAuth2Options()
+  .setClientID("CLIENT_ID")
+  .setClientSecret("CLIENT_SECRET")
+  .setFlow(OAuth2FlowType.AUTH_CODE)
+  .setSite("https://accounts.google.com")
+  .setTokenPath("https://www.googleapis.com/oauth2/v3/token")
+  .setAuthorizationPath("/o/oauth2/auth"));
+
+// create a oauth2 handler on our domain: "http://localhost:8080"
+OAuth2AuthHandler googleOAuth2 = OAuth2AuthHandler.create(
+  vertx,
+  googleAuthProvider,
+  "https://myserver.com/google-callback");
+
+// setup the callback handler for receiving the Google callback
+googleOAuth2.setupCallback(router.route());
+
+// At this point the 2 callbacks endpoints are registered:
+
+// /github-callback -> handle github Oauth2 callbacks
+// /google-callback -> handle google Oauth2 callbacks
+
+// As the callbacks are made by the IdPs there's no header
+// to identify the source, hence the need of custom URLs
+
+// However for out Application we can control it so later
+// we can add the right handler for the right tenant
+
+router.route().handler(
+  MultiTenantHandler.create("X-Tenant")
+    // tenants using github should go this way:
+    .addTenantHandler("github", githubOAuth2)
+    // tenants using google should go this way:
+    .addTenantHandler("google", googleOAuth2)
+    // all other should be forbidden
+    .addDefaultHandler(ctx -> ctx.fail(401)));
+----
+
+The tenant id can be read at any moment from the context, for example to decide which resource to load, or which
+database to connect to:
+
+[source,java]
+----
+router.route().handler(ctx -> {
+  // the default key is "tenant" as defined in
+  // MultiTenantHandler.TENANT but this value can be
+  // modified at creation time in the factory method
+  String tenant = ctx.get(MultiTenantHandler.TENANT);
+
+  switch(tenant) {
+    case "google":
+      // do something for google users
+      break;
+    case "github":
+      // so something for github users
+      break;
+  }
+});
+----
+
+Multi tenant is a powerful handler that will allow applications to live side by side, however it provides no sandboxing
+for execution. It should not be used as isolation as wrongly written applications may leak state across tenants.
+
+[[_templates]]
+== 模板
+
+Vert.x Web 为若干流行的模板引擎提供了开箱即用的支持，通过这种方式来提供生成动态页面的能力。
+您也可以很容易地添加您自己的实现。
+
+`link:../../apidocs/io/vertx/ext/web/common/template/TemplateEngine.html[TemplateEngine]` 定义了使用模板引擎的接口。
+当渲染模板时会调用 `link:../../apidocs/io/vertx/ext/web/common/template/TemplateEngine.html#render-io.vertx.core.json.JsonObject-java.lang.String-io.vertx.core.Handler-[render]` 方法。
+
+最简单的使用模板的方式不是直接调用模板引擎，而是使用模板处理器
+`link:../../apidocs/io/vertx/ext/web/handler/TemplateHandler.html[TemplateHandler]` 。
+这个处理器会根据 HTTP 请求的路径来调用模板引擎。
+
+缺省情况下，模板处理器会在 `templates` 目录中查找模板文件。这是可以配置的。
+
+该处理器会返回渲染的结果，并默认设置 Content-Type 消息头为 `text/html` 。这也是可以配置的。
+
+您需要在创建模板处理器时提供您想要使用的模板引擎实例。
+Vert.x Web 并未嵌入模板引擎的实现，您需要配置项目来访问它们。
+Vert.x Web 提供了每一种模板引擎的配置。
+
+以下是例子：
+
+////
+这些例子并未使用传统方式的“转码”，因为用了其他项目的API
+////
+
+[source, java]
+----
+TemplateEngine engine = HandlebarsTemplateEngine.create();
+TemplateHandler handler = TemplateHandler.create(engine);
+
+// 这会将所有以 `/dynamic` 开头的 GET 请求路由到模板处理器上
+// 例如 /dynamic/graph.hbs 会查找模板 /templates/graph.hbs
+router.get("/dynamic/*").handler(handler);
+
+// 将所有以 `.hbs` 结尾的 GET 请求路由到模板处理器上
+router.getWithRegex(".+\\.hbs").handler(handler);
+----
+
+[[_mvel_template_engine]]
+=== MVEL 模版引擎
+
+您需要在项目中添加以下 _依赖_ 以使用 MVEL 模板引擎：
+`io.vertx:vertx-web-templ-mvel:4.0.2`。 并通过此方法以创建 MVEL 模板引擎实例：
+`io.vertx.ext.web.templ.mvel.MVELTemplateEngine#create(io.vertx.core.Vertx)`。
+
+在使用 MVEL 模板引擎时，如果不指定模板文件的扩展名，
+则默认会查找扩展名为 `.templ` 的文件。
+
+在 MVEL 模板中可以通过 `context` 上下文变量来访问路由上下文 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html[RoutingContext]` 对象。
+这意味着您可使用任何基于上下文里的信息来渲染模板，
+包括请求、响应、会话或者上下文数据。
+
+以下是例子：
+
+----
+The request path is @{context.request().path()}
+
+The variable 'foo' from the session is @{context.session().get('foo')}
+
+The value 'bar' from the context data is @{context.get('bar')}
+----
+
+关于如何编写 MVEL 模板，
+请参考 http://mvel.codehaus.org/MVEL+2.0+Templating+Guide[MVEL 模板文档]。
+
+[[_jade_template_engine]]
+=== Jade 模版引擎（译者注：Jade 已更名为 Pug)
+
+您需要在项目中添加以下 _依赖_ 以使用 Jade 模板引擎：
+`io.vertx:vertx-web-templ-jade:4.0.2`。 并通过此方法以创建 Jade 模板引擎实例：
+`io.vertx.ext.web.templ.jade.JadeTemplateEngine#create(io.vertx.core.Vertx)`。
+
+在使用 Jade 模板引擎时，如果不指定模板文件的扩展名，
+则默认会查找扩展名为 `.jade` 的文件。
+
+在 Jade 模板中可以通过 `context` 上下文变量来访问路由上下文 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html[RoutingContext]` 对象。
+这意味着您可使用任何基于上下文里的信息来渲染模板，
+包括请求、响应、会话或者上下文数据。
+
+以下是例子：
+
+----
+!!! 5
+html
+ head
+   title= context.get('foo') + context.request().path()
+ body
+----
+
+关于如何编写 Jade 模板，
+请参考 https://github.com/neuland/jade4j[Jade4j 文档]。
+
+[[_handlebars_template_engine]]
+=== Handlebars 模板引擎
+
+您需要在项目中添加以下 _依赖_ 以使用 Handlebars 模板引擎：
+`io.vertx:vertx-web-templ-handlebars:4.0.2`。 并通过此方法以创建 Handlebars 模板引擎实例：
+`io.vertx.ext.web.templ.handlebars.HandlebarsTemplateEngine#create(io.vertx.core.Vertx)`。
+
+在使用 Handlebars 模板引擎时，如果不指定模板文件的扩展名，
+则默认会查找扩展名为 `.hbs` 的文件。
+
+Handlebars 不允许在模板中随意地调用对象的方法，
+因此我们不能像对待其他模板引擎一样将RoutingContext传递到引擎里并让模板来识别它。
+
+替代方案是，可以使用模版中的上下文 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#data--[data]` 对象。
+
+如果您要访问某些RoutingContext里不存在的信息，
+比如请求的路径、请求参数或者会话等，您需要在模板处理器执行之前将他们添加到上下文data里，例如：
+
+[source,java]
+----
+TemplateHandler handler = TemplateHandler.create(engine);
+
+router.get("/dynamic").handler(ctx -> {
+
+  ctx.put("request_path", ctx.request().path());
+  ctx.put("session_data", ctx.session().data());
+
+  ctx.next();
+});
+
+router.get("/dynamic/").handler(handler);
+----
+
+关于如何编写 Handlebars 模板，
+请参考 https://github.com/jknack/handlebars.java[Handlebars Java 文档]。
+
+[[_thymeleaf_template_engine]]
+=== Thymeleaf 模板引擎
+
+您需要在项目中添加以下 _依赖_ 以使用 Thymeleaf 模板引擎：
+`io.vertx:vertx-web-templ-thymeleaf:4.0.2`。 并通过此方法以创建 Thymeleaf 模板引擎实例：
+`io.vertx.ext.web.templ.thymeleaf.ThymeleafTemplateEngine#create(io.vertx.core.Vertx)`。
+
+在使用 Thymeleaf 模板引擎时，如果不指定模板文件的扩展名，
+则默认会查找扩展名为 `.html` 的文件。
+
+在 Thymeleaf 模板中可以通过 `context` 上下文变量来访问路由上下文 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html[RoutingContext]` 对象。
+这意味着您可使用任何基于上下文里的信息来渲染模板，
+包括请求、响应、会话或者上下文数据。
+
+以下是例子：
+
+----
+[snip]
+<p th:text="${context.get('foo')}"></p>
+<p th:text="${context.get('bar')}"></p>
+<p th:text="${context.normalizedPath()}"></p>
+<p th:text="${context.request().params().get('param1')}"></p>
+<p th:text="${context.request().params().get('param2')}"></p>
+[snip]
+----
+
+关于如何编写 Thymeleaf 模板，
+请参考 http://www.thymeleaf.org/[Thymeleaf 文档]。
+
+[[_apache_freemarker_template_engine]]
+=== Apache FreeMarker 模版引擎
+
+您需要在项目中添加以下 _依赖_ 以使用 Apache FreeMarker ：
+`io.vertx:vertx-web-templ-freemarker:4.0.2`。 并通过此方法以创建 Apache FreeMarker 模板引擎实例：
+`io.vertx.ext.web.templ.Engine#create()`。
+
+在使用 Apache FreeMarker 模板引擎时，如果不指定模板文件的扩展名，
+则默认会查找扩展名为 `.ftl` 的文件。
+
+在 Apache FreeMarker 模板中可以通过 `context` 上下文变量来访问路由上下文 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html[RoutingContext]` 对象。
+这意味着您可使用任何基于上下文里的信息来渲染模板，
+包括请求、响应、会话或者上下文数据。
+
+以下是例子：
+
+----
+[snip]
+<p th:text="${context.foo}"></p>
+<p th:text="${context.bar}"></p>
+<p th:text="${context.normalizedPath()}"></p>
+<p th:text="${context.request().params().param1}"></p>
+<p th:text="${context.request().params().param2}"></p>
+[snip]
+----
+
+关于如何编写 Apache FreeMarker 模板，
+请参考 http://www.freemarker.org/[Apache FreeMarker 文档]。
+
+[[_pebble_template_engine]]
+=== Pebble 模版引擎
+
+您需要在项目中添加以下 _依赖_ 以使用 Pebble ：
+`io.vertx:vertx-web-templ-pebble:4.0.2`。 并通过此方法以创建 Pebble 模板引擎实例：
+`io.vertx.ext.web.templ.pebble.PebbleTemplateEngine#create(vertx)`。
+
+在使用 Pebble 模板引擎时，如果不指定模板文件的扩展名，
+则默认会查找扩展名为 `.ped` 的文件。
+
+在 Pebble 模板中可以通过 `context` 上下文变量来访问路由上下文 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html[RoutingContext]` 对象。
+这意味着您可使用任何基于上下文里的信息来渲染模板，
+包括请求、响应、会话或者上下文数据。
+
+以下是例子：
+
+----
+[snip]
+<p th:text="{{context.foo}}"></p>
+<p th:text="{{context.bar}}"></p>
+<p th:text="{{context.normalizedPath()}}"></p>
+<p th:text="{{context.request().params().param1}}"></p>
+<p th:text="{{context.request().params().param2}}"></p>
+[snip]
+----
+
+关于如何编写 Pebble 模板，
+请参考 http://www.mitchellbosecke.com/pebble/home/[Pebble 文档]。
+
+[[_rocker_template_engine]]
+=== Rocker 模版引擎
+
+您需要在项目中添加以下 _依赖_ 以使用 Rocker：`io.vertx:vertx-web-templ-rocker:4.0.2`。
+并通过此方法以创建 Rocker 模板引擎实例：`io.vertx.ext.web.templ.rocker#create()`。
+
+Rocker会将JSON上下文对象的值传递给 `render` 方法作为模版的参数。
+假定已知：
+
+----
+[snip]
+final JsonObject context = new JsonObject()
+ .put("foo", "badger")
+ .put("bar", "fox")
+ .put("context", new JsonObject().put("path", "/foo/bar"));
+
+engine.render(context, "somedir/TestRockerTemplate2", render -> {
+ // (...)
+});
+[snip]
+----
+
+那么相对应的模版文件 `somedir/TestRockerTemplate2.rocker.html` 可写作：
+
+----
+@import io.vertx.core.json.JsonObject
+@args (JsonObject context, String foo, String bar)
+Hello @foo and @bar
+Request path is @context.getString("path")
+----
+
+[[_httl_template_engine]]
+=== HTTL 模版引擎
+
+您需要在项目中添加以下 _依赖_ 以使用 HTTL ：
+`io.vertx:vertx-web-templ-httl:4.0.2`。 并通过此方法以创建 HTTL 模板引擎实例：
+`io.vertx.ext.web.templ.httl.HTTLTemplateEngine#create(io.vertx.core.Vertx)`。
+
+在使用 HTTL 模板引擎时，如果不指定模板文件的扩展名，
+则默认会查找扩展名为 `.httl` 的文件。
+
+HTTL会将JSON上下文对象的值传递给 `render` 方法作为模版的参数。
+假定已知：
+
+----
+[snip]
+TemplateEngine engine = HTTLTemplateEngine.create(vertx);
+final JsonObject context = new JsonObject()
+ .put("foo", "badger")
+ .put("bar", "fox");
+
+engine.render(context, "somedir/test-httl-template1.httl", render -> {
+ // (...)
+});
+[snip]
+----
+
+那么相对应的模版文件 `somedir/test-httl-template1.httl` 可写作：
+
+----
+<!-- #set(String foo, String bar) -->
+Hello ${foo} and ${bar}
+
+----
+
+关于如何编写 HTTL 模板，
+请参考 https://httl.github.io/en/[HTTL 文档]。
+
+[[_rythm_template_engine]]
+=== Rythm 模版引擎
+
+您需要在项目中添加以下 _依赖_ 以使用 Rythm ：
+`io.vertx:vertx-web-templ-rythm:4.0.2`。 并通过此方法以创建 Rythm 模板引擎实例：
+`io.vertx.ext.web.templ.rythm.RythmTemplateEngine#create(io.vertx.core.Vertx)`。
+
+在使用 Rythm 模板引擎时，如果不指定模板文件的扩展名，
+则默认会查找扩展名为 `.html` 的文件。
+
+Rythm会将JSON上下文对象的值传递给 `render` 方法作为模版的参数。
+假定已知：
+
+----
+[snip]
+TemplateEngine engine = RythmTemplateEngine.create(vertx);
+final JsonObject context = new JsonObject()
+ .put("foo", "badger")
+ .put("bar", "fox");
+
+engine.render(context, "somedir/test-rythm-template1.html", render -> {
+ // (...)
+});
+[snip]
+----
+
+那么相对应的模版文件 `somedir/test-rythm-template1.httl` 可写作：
+
+----
+<!-- #set(String foo, String bar) -->
+Hello @foo and @bar
+----
+
+关于如何编写 HTTL 模板，请参考 http://www.rythmengine.org/[RythmEngine 文档]。
+
+[[_caching]]
+=== 缓存
+
+许多引擎支持将编译好的模版存入缓存。该缓存存放在Vert.x的可分享的数据local map里。
+这样引擎便可在多个verticle中安全高效地使用该缓存。
+
+[[_disabling_caching]]
+==== 禁用缓存
+
+在开发时，为了让每一次请求可以读取最新的模板，您可能希望禁用模板的缓存。
+您可通过设置系统变量：`vertxweb.environment` 或环境变量
+`VERTXWEB_ENVIRONMENT` 为 `dev` 或 `development` 将其禁用。缓存默认是启用的。
+
+[[_error_handler]]
+== 错误处理器
+
+您可使用模版处理器自行渲染错误页面，
+但是Vert.x-Web同样为您提供了开箱即用且“好看的”错误处理器，可为您渲染错误页面。
+
+该处理器是 `link:../../apidocs/io/vertx/ext/web/handler/ErrorHandler.html[ErrorHandler]`。
+要使用该错误处理器，仅需要将其设置为您希望覆盖的错误路径的失败处理器即可（译者注：例如router.route("/*").failureHandler(ErrorHandler.create(vertx))）。
+
+[[_request_logger]]
+== 请求日志
+
+Vert.x-Web通过内置处理器 `link:../../apidocs/io/vertx/ext/web/handler/LoggerHandler.html[LoggerHandler]` 来记录请求日志。
+您需在挂载任何可能导致 `RoutingContext` 失败的处理器之前挂载该处理器。
+
+默认情况下，请求日志将会被记录到Vert.x logger中，亦可通过更改配置使用JUL logging, log4j 或 SLF4J记录。
+
+详见 `link:../../apidocs/io/vertx/ext/web/handler/LoggerFormat.html[LoggerFormat]`。
+
+[[_serving_favicons]]
+== 提供网页图标
+
+Vert.x-Web通过内置处理器 `link:../../apidocs/io/vertx/ext/web/handler/FaviconHandler.html[FaviconHandler]` 以提供网页图标。
+
+图标可以指定为文件系统上的某个路径，否则 Vert.x Web 默认会在 classpath 上寻找名为 `favicon.ico` 的文件。
+这意味着您可以将图标打包到包含您应用的 jar 包里。
+
+[[_timeout_handler]]
+== 超时处理器
+
+Vert.x-Web内置一个超时处理器以处理超时请求。
+
+可通过 `link:../../apidocs/io/vertx/ext/web/handler/TimeoutHandler.html[TimeoutHandler]` 配置。
+
+如果一个请求超时，则会给客户端返回一个 503 的响应。
+
+下面的例子设置了一个超时处理器。对于所有以 `/foo` 路径开头的请求，
+都会在执行时间超过 5 秒之后自动超时。
+
+[source,java]
+----
+router.route("/foo/").handler(TimeoutHandler.create(5000));
+----
+
+[[_response_time_handler]]
+== 响应时间处理器
+
+该处理器会将从接收到请求到写入响应的消息头之间的毫秒数写入到响应的 `x-response-time` 里，
+例如：
+
+x-response-time: 1456ms
+
+[[_content_type_handler]]
+== 内容类型（Content type）处理器
+
+`ResponseContentTypeHandler` 会自动设置响应的 `Content-Type` 消息头。
+假设我们要构建一个 RESTful 的 Web 应用，我们需要在所有处理器里设置消息类型：
+
+[source,java]
+----
+router
+  .get("/api/books")
+  .produces("application/json")
+  .handler(ctx -> findBooks()
+    .onSuccess(books -> ctx.response()
+      .putHeader("Content-Type", "application/json")
+      .end(toJson(books))).onFailure(ctx::fail));
+----
+
+随着 API 接口数量的增长，设置内容类型会变得很麻烦。
+可以通过在相应的 Route 上添加 `ResponseContentTypeHandler` 来避免这个问题：
+
+[source,java]
+----
+router.route("/api/*").handler(ResponseContentTypeHandler.create());
+router
+  .get("/api/books")
+  .produces("application/json")
+  .handler(ctx -> findBooks()
+    .onSuccess(books -> ctx.response()
+      .end(toJson(books))).onFailure(ctx::fail));
+----
+
+处理器会通过 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#getAcceptableContentType--[getAcceptableContentType]` 方法来选择适当的内容类型。
+因此，您可以很容易地使用同一个处理器以提供不同类型的数据：
+
+[source,java]
+----
+router.route("/api/*").handler(ResponseContentTypeHandler.create());
+
+router
+  .get("/api/books")
+  .produces("text/xml")
+  .produces("application/json")
+  .handler(ctx -> findBooks()
+    .onSuccess(books -> {
+      if (ctx.getAcceptableContentType().equals("text/xml")) {
+        ctx.response().end(toXML(books));
+      } else {
+        ctx.response().end(toJson(books));
+      }
+    })
+    .onFailure(ctx::fail));
+----
+
+== SockJS
+
+SockJS 是一个客户端的 JavaScript 库以及协议，它提供了类似 WebSocket 的接口以方便您与 SockJS 服务器创建连接，
+而无需您关心浏览器或网络是否允许真正的 WebSocket。
+
+它提供了若干不同的传输方式，
+并在运行时根据浏览器和网络的兼容性来选择使用哪种传输方式处理。
+
+然而这一切对您而言是透明的，您只需要简单地使用类似 WebSocket 的接口 _即可_。
+
+请参阅 https://github.com/sockjs/sockjs-client[ SockJS 网站]以获取更多关于SockJS的信息。
+
+[[_sockjs_handler]]
+=== SockJS 处理器
+
+Vert.x 提供了一个开箱即用的处理器 `link:../../apidocs/io/vertx/ext/web/handler/sockjs/SockJSHandler.html[SockJSHandler]`
+以便您在 Vert.x-Web 应用中使用 SockJS。
+
+您需要通过 `link:../../apidocs/io/vertx/ext/web/handler/sockjs/SockJSHandler.html#create-io.vertx.core.Vertx-[SockJSHandler.create]` 方法为每一个 SockJS 的应用创建处理器。
+您也可以在创建处理器时通过 `link:../../apidocs/io/vertx/ext/web/handler/sockjs/SockJSHandlerOptions.html[SockJSHandlerOptions]`
+对象来指定配置选项。
+
+[source,java]
+----
+Router router = Router.router(vertx);
+
+SockJSHandlerOptions options = new SockJSHandlerOptions()
+  .setHeartbeatInterval(2000);
+
+SockJSHandler sockJSHandler = SockJSHandler.create(vertx, options);
+----
+
+[[_handling_sockjs_sockets]]
+=== 处理 SockJS 套接字
+
+您可以在服务器端设置一个 SockJS 处理器，
+这个处理器会在客户端创建连接时被调用：
+
+传递给处理器的是 `link:../../apidocs/io/vertx/ext/web/handler/sockjs/SockJSSocket.html[SockJSSocket]` 对象。
+这是一个类似套接字的接口，您可以像使用 `link:../../apidocs/io/vertx/core/net/NetSocket.html[NetSocket]` 或
+`link:../../apidocs/io/vertx/core/http/WebSocket.html[WebSocket]` 那样通过它来读写数据。它实现了 `link:../../apidocs/io/vertx/core/streams/ReadStream.html[ReadStream]` 和
+`link:../../apidocs/io/vertx/core/streams/WriteStream.html[WriteStream]` 接口，因此您可以将它套用（pump）到其他读写流上。 
+若 SockJS 连接使用 `link:../../apidocs/io/vertx/ext/web/handler/sockjs/SockJSSocket.html#routingContext--[routingContext]` 加载，
+那么便可在手动管理会话（session）时访问 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html[RoutingContext]`。
+由此您可以通过 `link:../../apidocs/io/vertx/ext/web/handler/sockjs/SockJSSocket.html#webSession--[webSession]` 和
+`link:../../apidocs/io/vertx/ext/web/handler/sockjs/SockJSSocket.html#webUser--[webUser]` 管理用户和会话。
+
+下面的例子中的 SockJS 处理器直接使用了它读取到的数据进行回写：
+
+[source,java]
+----
+Router router = Router.router(vertx);
+
+SockJSHandlerOptions options = new SockJSHandlerOptions()
+  .setHeartbeatInterval(2000);
+
+SockJSHandler sockJSHandler = SockJSHandler.create(vertx, options);
+
+router.mountSubRouter("/myapp", sockJSHandler.socketHandler(sockJSSocket -> {
+
+  // 将数据回写
+  sockJSSocket.handler(sockJSSocket::write);
+
+}));
+----
+
+[[_the_client_side]]
+=== 客户端
+
+在客户端 JavaScript 环境里您需要通过 SockJS 的客户端库来建立连接。
+这是SockJS 客户端的地址 https://www.npmjs.com/package/sockjs-client[https://www.npmjs.com/package/sockjs-client]。
+
+您可直接在捆绑软件或构建工具中直接引用它。
+或者您想在 `HTML` 文档中直接使用 `CDN` 版本，那么首先需要引入 sockjs 的依赖：
+
+[source,html]
+----
+<html>
+<head>
+ <script src="https://unpkg.io/sockjs-client@1.5.0/dist/sockjs.min.js"></script>
+</head>
+<body>
+ ...
+</body>
+</html>
+----
+
+完整的使用细节可参阅 https://github.com/sockjs/sockjs-client[SockJS 网站]，
+但简而言之可像这样使用：
+
+[source,js]
+----
+var sock = new SockJS('http://mydomain.com/myapp');
+
+sock.onopen = function() {
+ console.log('open');
+};
+
+sock.onmessage = function(e) {
+ console.log('message', e.data);
+};
+
+sock.onevent = function(event, message) {
+ console.log('event: %o, message:%o', event, message);
+ return true; // 为了标记消息已被处理了
+};
+
+sock.onunhandled = function(json) {
+ console.log('this message has no address:', json);
+};
+
+sock.onclose = function() {
+ console.log('close');
+};
+
+sock.send('test');
+
+sock.close();
+----
+
+[[_configuring_the_sockjs_handler]]
+=== 配置 SockJS 处理器
+
+可使用 `link:../../apidocs/io/vertx/ext/web/handler/sockjs/SockJSHandlerOptions.html[SockJSHandlerOptions]` 为处理器配置各种选项。
+
+[[_writing_to_a_sockjs_socket_over_the_event_bus]]
+=== 通过 event bus 写入 SockJS 套接字
+
+在创建 `link:../../apidocs/io/vertx/ext/web/handler/sockjs/SockJSSocket.html[SockJSSocket]` 的时候，可为其注册一个 event bus 上的事件处理器。
+该处理器的地址就是 `link:../../apidocs/io/vertx/ext/web/handler/sockjs/SockJSSocket.html#writeHandlerID--[writeHandlerID]` 。
+
+默认情况下，不允许注册事件处理器。
+需要通过 `link:../../apidocs/io/vertx/ext/web/handler/sockjs/SockJSHandlerOptions.html[SockJSHandlerOptions]` 以启用该设置。
+
+[source,java]
+----
+Router router = Router.router(vertx);
+
+SockJSHandlerOptions options = new SockJSHandlerOptions().setRegisterWriteHandler(true);
+
+SockJSHandler sockJSHandler = SockJSHandler.create(vertx, options);
+
+router.mountSubRouter("/myapp", sockJSHandler.socketHandler(sockJSSocket -> {
+
+  // 获取 writeHandlerID 并将其存放 (例如放在本地 map 里)
+  String writeHandlerID = sockJSSocket.writeHandlerID();
+
+}));
+----
+
+NOTE: 默认情况下，处理器仅在本地注册。
+集群可通过配置 `link:../../apidocs/io/vertx/ext/web/handler/sockjs/SockJSHandlerOptions.html#setLocalWriteHandler-boolean-[setLocalWriteHandler]` 为false启用。
+
+随后将数据写入 `link:../../apidocs/io/vertx/core/buffer/Buffer.html[Buffer]` 便可发送给 SockJS 套接字。
+
+[source,java]
+----
+eventBus.send(writeHandlerID, Buffer.buffer("foo"));
+----
+
+[[_sockjs_event_bus_bridge]]
+== SockJS 桥接 Event Bus
+
+Vert.x Web 提供了一个内置的被称为事件总线桥（event bus bridge）的 SockJS 套接字处理器。
+该处理器有效地将服务器端的 Vert.x 的事件总线延伸到客户端的 JavaScript 运行环境里。
+
+这将创建一个分布式的事件总线。
+该 event bus 不仅可以在服务器端多个 Vert.x 实例中使用，还可以通过运行在浏览器里的 JavaScript 访问。
+
+由此，我们可以建立起一个连接多个浏览器和服务器群的庞大的分布式 event bus。
+浏览器只需与服务器集群建立连接，无需每次都与固定的某个服务器建立连接。
+
+这些是通过 Vert.x 提供的一个简单的客户端 JavaScript 库 `vertx-eventbus.js` 来实现的。
+它提供了一系列与服务器端的 Vert.x event-bus 极为类似的 API。
+通过这些 API 您可以发送或发布消息，或注册处理器来接收消息。
+
+该 JavaScript 库使用了 JavaScript 的 SockJS 客户端，与另外一端的 `link:../../apidocs/io/vertx/ext/web/handler/sockjs/SockJSHandler.html[SockJS 处理器]` 建立起 SockJS 连接，
+并将事件总线上的流量通过管道（tunnel）传送至该客户端。
+
+一个特殊的 SockJS 套接字处理器因此被安装到 `link:../../apidocs/io/vertx/ext/web/handler/sockjs/SockJSHandler.html[SockJS 处理器]` 上，
+而该处理器将会处理 SockJS 的数据，并将建立起与服务器端的事件总线的连接桥。
+
+启用该连接桥您只需要在
+SockJS 处理器中调用
+`link:../../apidocs/io/vertx/ext/web/handler/sockjs/SockJSHandler.html#bridge-io.vertx.ext.web.handler.sockjs.SockJSBridgeOptions-[bridge]`。
+
+[source,java]
+----
+Router router = Router.router(vertx);
+
+SockJSHandler sockJSHandler = SockJSHandler.create(vertx);
+SockJSBridgeOptions options = new SockJSBridgeOptions();
+// 将连接桥挂载到路由器上
+router.mountSubRouter("/eventbus", sockJSHandler.bridge(options));
+----
+
+在客户端的 JavaScript 中，您可以使用 http://npmjs.com/package/@vertx/eventbus-bridge-client.js[@vertx/eventbus-bridge-client.js]
+库以创建跟事件总线的连接，并以此发送和接收消息。 该库可在 http://npmjs.com/package/@vertx/eventbus-bridge-client.js[NPM] 上找到。
+您可直接在捆绑软件或构建工具中直接引用它，但同时它亦可以在 CDN 中使用
+（就像之前的 sockJS 例子）：
+
+[source,html]
+----
+<script src="https://unpkg.io/sockjs-client@1.5.0/dist/sockjs.min.js"></script>
+<script src='https://unpkg.io/@vertx/eventbus-bridge-client.js@1.0.0-1/vertx-eventbus.js'></script>
+
+<script>
+
+var eb = new EventBus('http://localhost:8080/eventbus');
+
+eb.onopen = () => {
+
+ // 设置一个处理器以接收消息
+ eb.registerHandler('some-address', (error, message) => {
+   console.log('received a message: ' + JSON.stringify(message));
+ });
+
+ // 发送消息
+ eb.send('some-address', {name: 'tim', age: 587});
+
+}
+
+</script>
+----
+
+该例子中首先创建了一个 event bus 实例
+
+[source,javascript]
+----
+var eb = new EventBus('http://localhost:8080/eventbus');
+----
+
+构造器中的参数是连接 event bus 的URI。
+因为我们建立的连接桥是以 `eventbus` 为前缀，所以我们将会成功建立连接。
+
+您在连接开启之前无法做任何事。当连接开启时 `onopen` 处理器将会被调用。
+
+连接桥支持自动重连，可设置延迟和退避选项。
+
+[source,javascript]
+----
+var eb = new EventBus('http://localhost:8080/eventbus');
+eb.enableReconnect(true);
+eb.onopen = function() {}; // 在此处设立处理器，每次建立连接或重连时候调用
+eb.onreconnect = function() {}; // 可选，仅在重连时被调用
+
+// 或者，传入一个 options 对象
+var options = {
+   vertxbus_reconnect_attempts_max: Infinity, // 重连尝试最多次数
+   vertxbus_reconnect_delay_min: 1000, // 在第一次尝试重连之前的初始延迟（单位为毫秒）
+   vertxbus_reconnect_delay_max: 5000, // 尝试重连之间的最大延迟（单位为毫秒）
+   vertxbus_reconnect_exponent: 2, // 指数退避因子
+   vertxbus_randomization_factor: 0.5 // 介于0和1之间的随机因子
+};
+
+var eb2 = new EventBus('http://localhost:8080/eventbus', options);
+eb2.enableReconnect(true);
+// 创建处理器……
+----
+
+[[_securing_the_bridge]]
+=== 守护连接桥
+
+如果您像上面的例子一样建立连接桥但未开启守护机制，此时您试图通过该桥发送消息，
+您会发现消息神秘地失踪了。发生了什么？
+
+对于大多数的应用，您恐怕不希望客户端的 JavaScript
+代码可以发送任何消息到任意服务端处理器或其他所有浏览器上。
+
+例如，您可能在事件总线上注册了一个服务，用于访问或删除数据。
+我们并不希望出现恶意的行为或有害的客户端能够利用该服务删除数据库中所有的数据！
+
+此外，我们恐怕也不希望任意一个客户端都能监听任意一个事件总线地址。
+
+为了解决这个问题，SockJs连接桥默认会拒绝所有的消息。
+您需要告诉连接桥哪些消息是可以通过的。（例外情况是，所有的回复消息都是可以通过的）。
+
+换句话说，连接桥的行为就像是配置了缺省策略为 _全部拒绝_ 策略的防火墙。
+
+为连接桥配置哪些消息可以通过是很简单的一件事。
+
+您可以通过调用连接桥时传入的
+`link:../../apidocs/io/vertx/ext/web/handler/sockjs/SockJSBridgeOptions.html[SockJSBridgeOptions]` 来配置 _匹配_ 规则以指定哪些输入和输出的流量是允许通过的。
+
+每一个匹配规则对应一个 `link:../../apidocs/io/vertx/ext/bridge/PermittedOptions.html[PermittedOptions]` 对象：
+
+`link:../../apidocs/io/vertx/ext/bridge/PermittedOptions.html#setAddress-java.lang.String-[setAddress]`:: 该配置规则精确地定义了消息可以被发送到哪些地址。
+如您需要通过精确地址来控制消息的话，使用该选项。
+`link:../../apidocs/io/vertx/ext/bridge/PermittedOptions.html#setAddressRegex-java.lang.String-[setAddressRegex]`:: 该配置规则通过正则表达式来定义消息可以被发送到哪些地址。如您需要通过正则表达式来控制消息的话，请使用这个选项。
+如果指定了 `address` ，则该选项会被忽略。
+`link:../../apidocs/io/vertx/ext/bridge/PermittedOptions.html#setMatch-io.vertx.core.json.JsonObject-[setMatch]`:: 该配置规则通过消息的结构来控制消息是否可被发送。该配置中定义的每一个字段必须在消息中存在，且值一致。
+目前仅适用于 JSON 格式的消息。
+
+对于一个 _输入_ 的消息（例如通过客户端 JavaScript 发送到服务器）
+当消息抵达时，Vert.x Web 会检查每一条输入许可。如果存在匹配规则，则消息可以通过。
+
+对于一个 _输出_ 的消息（例如通过服务器端发送给客户端 JavaScript）
+当消息发送时，Vert.x Web 会检查每一条输出许可。如果存在匹配，则消息可以通过。
+
+实际的匹配过程如下：
+
+如果指定了 `address` 字段，并且消息的目标地址与 `address` _精确_ 匹配，
+则匹配成功。
+
+如果没有指定 `address` 但指定了 `addressRegex` 字段，并且消息的目标地址匹配了 `address_re` 里的正则表达式，
+则匹配成功。
+
+如果指定了 `match` 字段，则消息的结构也必须匹配。
+消息需包含有 match 对象中的所有键值对，方能匹配成功。
+
+以下是例子：
+
+[source,java]
+----
+Router router = Router.router(vertx);
+
+SockJSHandler sockJSHandler = SockJSHandler.create(vertx);
+
+
+// 允许客户端向地址 `demo.orderMgr` 发送消息
+PermittedOptions inboundPermitted1 = new PermittedOptions()
+  .setAddress("demo.orderMgr");
+
+// 允许客户端向地址 `demo.persistor` 发送
+// 包含有 `action` 的值为 `find`、
+// `collecton` 的值为 `albums` 的消息。
+PermittedOptions inboundPermitted2 = new PermittedOptions()
+  .setAddress("demo.persistor")
+  .setMatch(new JsonObject().put("action", "find")
+    .put("collection", "albums"));
+
+// 允许 `wibble` 值为 `foo` 的消息。
+PermittedOptions inboundPermitted3 = new PermittedOptions()
+  .setMatch(new JsonObject().put("wibble", "foo"));
+
+// 让我们定义 服务端 -> 客户端 发送消息匹配规则
+
+// 允许向客户端发送地址为 `ticker.mystock` 的消息
+PermittedOptions outboundPermitted1 = new PermittedOptions()
+  .setAddress("ticker.mystock");
+
+// 允许向客户端发送地址以 `news.` 开头的消息
+//（例如 news.europe, news.usa, 等）
+PermittedOptions outboundPermitted2 = new PermittedOptions()
+  .setAddressRegex("news\\..+");
+
+// 让我们定义 客户端 -> 客户端 发送消息匹配规则
+SockJSBridgeOptions options = new SockJSBridgeOptions().
+  addInboundPermitted(inboundPermitted1).
+  addInboundPermitted(inboundPermitted1).
+  addInboundPermitted(inboundPermitted3).
+  addOutboundPermitted(outboundPermitted1).
+  addOutboundPermitted(outboundPermitted2);
+
+// 将连接桥挂载到路由器上
+router.mountSubRouter("/eventbus", sockJSHandler.bridge(options));
+----
+
+[[_requiring_authorization_for_messages]]
+=== 消息授权
+
+连接桥可使用 Vert.x Web 的授权功能以配置消息的访问权限，
+同时支持输入和输出的消息。
+
+为此，您可通过向上文所述的匹配规则中加入额外的字段
+以指定匹配需要哪些权限。
+
+通过 `link:../../apidocs/io/vertx/ext/bridge/PermittedOptions.html#setRequiredAuthority-java.lang.String-[setRequiredAuthority]`
+方法来指定对于登录用户，需要具有哪些权限才允许访问这个消息。
+
+以下是例子：
+
+[source,java]
+----
+PermittedOptions inboundPermitted = new PermittedOptions()
+  .setAddress("demo.orderService");
+
+// 仅限用户已登录并且拥有权限 `place_orders`
+inboundPermitted.setRequiredAuthority("place_orders");
+
+SockJSBridgeOptions options = new SockJSBridgeOptions()
+  .addInboundPermitted(inboundPermitted);
+----
+
+用户需要登录，并被授权才能够访问消息。
+
+因此，您需要配置一个 Vert.x 认证处理器来处理登录和授权。例如：
+
+[source,java]
+----
+Router router = Router.router(vertx);
+
+// 允许客户端向 `demo.orderService` 发送消息
+PermittedOptions inboundPermitted = new PermittedOptions()
+  .setAddress("demo.orderService");
+
+// 仅限用户已登录并且拥有权限 `place_orders`
+inboundPermitted.setRequiredAuthority("place_orders");
+
+SockJSHandler sockJSHandler = SockJSHandler.create(vertx);
+
+// 设置基础认证处理器：
+
+router.route().handler(SessionHandler.create(LocalSessionStore.create(vertx)));
+
+AuthenticationHandler basicAuthHandler = BasicAuthHandler.create(authProvider);
+
+router.route("/eventbus/*").handler(basicAuthHandler);
+
+// 将连接桥挂载到路由器上
+router.mountSubRouter(
+  "/eventbus",
+  sockJSHandler.bridge(new SockJSBridgeOptions()
+    .addInboundPermitted(inboundPermitted)));
+----
+
+=== Handling event bus bridge events
+
+If you want to be notified when an event occurs on the bridge you can provide a handler when calling
+`link:../../apidocs/io/vertx/ext/web/handler/sockjs/SockJSHandler.html#bridge-io.vertx.ext.web.handler.sockjs.SockJSBridgeOptions-io.vertx.core.Handler-[bridge]`.
+
+Whenever an event occurs on the bridge it will be passed to the handler. The event is described by an instance of
+`link:../../apidocs/io/vertx/ext/web/handler/sockjs/BridgeEvent.html[BridgeEvent]`.
+
+The event can be one of the following types:
+
+SOCKET_CREATED:: This event will occur when a new SockJS socket is created.
+SOCKET_IDLE:: This event will occur when SockJS socket is on idle for longer period of time than initially configured.
+SOCKET_PING:: This event will occur when the last ping timestamp is updated for the SockJS socket.
+SOCKET_CLOSED:: This event will occur when a SockJS socket is closed.
+SEND:: This event will occur when a message is attempted to be sent from the client to the server.
+PUBLISH:: This event will occur when a message is attempted to be published from the client to the server.
+RECEIVE:: This event will occur when a message is attempted to be delivered from the server to the client.
+REGISTER:: This event will occur when a client attempts to register a handler.
+UNREGISTER:: This event will occur when a client attempts to unregister a handler.
+
+The event enables you to retrieve the type using `link:../../apidocs/io/vertx/ext/bridge/BaseBridgeEvent.html#type--[type]` and
+inspect the raw message of the event using `link:../../apidocs/io/vertx/ext/bridge/BaseBridgeEvent.html#getRawMessage--[getRawMessage]`.
+
+The raw message is a JSON object with the following structure:
+
+----
+{
+ "type": "send"|"publish"|"receive"|"register"|"unregister",
+ "address": the event bus address being sent/published/registered/unregistered
+ "body": the body of the message
+}
+----
+
+The event is also an instance of `link:../../apidocs/io/vertx/core/Promise.html[Promise]`. When you are finished handling the event you can
+complete the promise with `true` to enable further processing.
+
+If you don't want the event to be processed you can complete the promise with `false`. This is a useful feature that
+enables you to do your own filtering on messages passing through the bridge, or perhaps apply some fine grained
+authorization or metrics.
+
+Here's an example where we reject all messages flowing through the bridge if they contain the word "Armadillos".
+
+[source,java]
+----
+Router router = Router.router(vertx);
+
+// Let through any messages sent to 'demo.orderMgr' from the client
+PermittedOptions inboundPermitted = new PermittedOptions()
+  .setAddress("demo.someService");
+
+SockJSHandler sockJSHandler = SockJSHandler.create(vertx);
+SockJSBridgeOptions options = new SockJSBridgeOptions()
+  .addInboundPermitted(inboundPermitted);
+
+// mount the bridge on the router
+router
+  .mountSubRouter("/eventbus", sockJSHandler
+    .bridge(options, be -> {
+      if (be.type() == BridgeEventType.PUBLISH ||
+        be.type() == BridgeEventType.RECEIVE) {
+
+        if (be.getRawMessage().getString("body").equals("armadillos")) {
+          // Reject it
+          be.complete(false);
+          return;
+        }
+      }
+      be.complete(true);
+    }));
+----
+
+Here's an example how to configure and handle SOCKET_IDLE bridge event type.
+Notice `setPingTimeout(5000)` which says that if ping message doesn't arrive from client within 5 seconds
+then the SOCKET_IDLE bridge event would be triggered.
+
+[source,java]
+----
+Router router = Router.router(vertx);
+
+// Initialize SockJS handler
+SockJSHandler sockJSHandler = SockJSHandler.create(vertx);
+SockJSBridgeOptions options = new SockJSBridgeOptions()
+  .addInboundPermitted(inboundPermitted)
+  .setPingTimeout(5000);
+
+// mount the bridge on the router
+router
+  .mountSubRouter("/eventbus", sockJSHandler.bridge(options, be -> {
+    if (be.type() == BridgeEventType.SOCKET_IDLE) {
+      // Do some custom handling...
+    }
+
+    be.complete(true);
+  }));
+----
+
+In client side JavaScript you use the 'vertx-eventbus.js` library to create connections to the event bus and to send and receive messages:
+
+[source,html]
+----
+<script src="https://unpkg.io/sockjs-client@1.5.0/dist/sockjs.min.js"></script>
+<script src='https://unpkg.io/@vertx/eventbus-bridge-client.js@1.0.0-1/vertx-eventbus.js'></script>
+
+<script>
+
+var eb = new EventBus('http://localhost:8080/eventbus', {"vertxbus_ping_interval": 300000}); // sends ping every 5 minutes.
+
+eb.onopen = function() {
+
+// set a handler to receive a message
+eb.registerHandler('some-address', function(error, message) {
+  console.log('received a message: ' + JSON.stringify(message));
+});
+
+// send a message
+eb.send('some-address', {name: 'tim', age: 587});
+}
+
+</script>
+----
+
+The first thing the example does is to create a instance of the event bus
+
+[source,javascript]
+----
+var eb = new EventBus('http://localhost:8080/eventbus', {"vertxbus_ping_interval": 300000});
+----
+
+The 2nd parameter to the constructor tells the sockjs library to send ping message every 5 minutes. since the server
+was configured to expect ping every 5 seconds -> `SOCKET_IDLE` would be triggered on the server.
+
+
+You can also amend the raw message, e.g. change the body. For messages that are flowing in from the client you can
+also add headers to the message, here's an example:
+
+[source,java]
+----
+Router router = Router.router(vertx);
+
+// Let through any messages sent to 'demo.orderService' from the client
+PermittedOptions inboundPermitted = new PermittedOptions()
+  .setAddress("demo.orderService");
+
+SockJSHandler sockJSHandler = SockJSHandler.create(vertx);
+SockJSBridgeOptions options = new SockJSBridgeOptions()
+  .addInboundPermitted(inboundPermitted);
+
+// mount the bridge on the router
+router.mountSubRouter(
+  "/eventbus",
+  sockJSHandler.bridge(options, be -> {
+    if (
+      be.type() == BridgeEventType.PUBLISH ||
+        be.type() == BridgeEventType.SEND) {
+
+      // Add some headers
+      JsonObject headers = new JsonObject()
+        .put("header1", "val")
+        .put("header2", "val2");
+
+      JsonObject rawMessage = be.getRawMessage();
+      rawMessage.put("headers", headers);
+      be.setRawMessage(rawMessage);
+    }
+    be.complete(true);
+  }));
+----
+
+== CSRF Cross Site Request Forgery
+
+CSRF or sometimes also known as XSRF is a technique by which an unauthorized site can gain your user's private data.
+Vert.x-Web includes a handler `link:../../apidocs/io/vertx/ext/web/handler/CSRFHandler.html[CSRFHandler]` that you can use to prevent cross site
+request forgery requests.
+
+On each get request under this handler a cookie is added to the response with a unique token. Clients are then
+expected to return this token back in a header. Since cookies are sent it is required that the cookie handler is also
+present on the router.
+
+When developing non single page applications that rely on the User-Agent to perform the `POST` action, Headers cannot
+be specified on HTML Forms. In order to solve this problem the header value will also be checked if and only if no
+header was present in the Form attributes under the same name as the header, e.g.:
+
+[source,html]
+----
+<form action="/submit" method="POST">
+<input type="hidden" name="X-XSRF-TOKEN" value="abracadabra">
+</form>
+----
+
+It is the responsibility of the user to fill in the right value for the form field. Users who prefer to use an HTML
+only solution can fill this value by fetching the the token value from the routing context under the key `X-XSRF-TOKEN`
+or the header name they have chosen during the instantiation of the `CSRFHandler` object.
+
+[source,java]
+----
+router.route().handler(CSRFHandler.create(vertx, "abracadabra"));
+router.route().handler(ctx -> {
+
+});
+----
+
+Note that this handler is session aware. If there is a session available the form parameter or header might be omited
+during the `POST` action as it will be read from the session. This also implies that tokens will only be regenerated
+on session upgrades.
+
+Note, for extra security users are advised to rotate the key that signs the tokens. This can be done online by replacing
+the handler, or by restarting the application with a new configuration. Clickjacking could still affect applications. If
+this is a critical application consider setting the header: `X-Frame-Options` as described in:
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options
+
+=== Using AJAX
+
+When accessing protected routes via ajax both the csrf token will need to be passed in the request. Typically this is
+done using a request header, as adding a request header can typically be done at a central location easily without
+payload modification.
+
+The CSRF token is obtained from the server side context under the key `X-XSRF-TOKEN` (unless you specified a different
+name). This token needs to be exposed to the client-side, typically by including it in the initial page content. One
+possibility is to store it in an HTML <meta> tag, where value can then be retrieved at the time of the request by
+JavaScript.
+
+The following can be included in your view (handlebar example below):
+
+[source,html]
+----
+<meta name="csrf-token" content="${X-XSRF-TOKEN}">
+----
+
+The following is an example of using the Fetch API to post to the /process route with the CSRF token from the <meta>
+tag on the page:
+
+[source,js]
+----
+// Read the CSRF token from the <meta> tag
+var token = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+
+// Make a request using the Fetch API
+fetch('/process', {
+ credentials: 'same-origin', // <-- includes cookies in the request
+ headers: {
+   'X-XSRF-TOKEN': token // <-- is the csrf token as a header
+ },
+ method: 'POST',
+ body: {
+   key: 'value'
+ }
+})
+----
+
+== HSTS Handler
+
+HTTP Strict Transport Security (HSTS) is a web security policy mechanism that helps to protect websites against
+man-in-the-middle attacks such as protocol downgrade attacks and cookie hijacking. It allows web servers to declare that
+web browsers (or other complying user agents) should automatically interact with it using only HTTPS connections, which
+provide Transport Layer Security (TLS/SSL), unlike the insecure HTTP used alone. HSTS is an IETF standards track
+protocol and is specified in RFC 6797.
+
+This handler will configure the correct header for your application in a single step:
+
+[source,java]
+----
+router.route().handler(HSTSHandler.create());
+----
+
+== CSP Handler
+
+Content Security Policy (CSP) is an added layer of security that helps to detect and mitigate certain types of
+attacks, including Cross Site Scripting (XSS) and data injection attacks. These attacks are used for everything from
+data theft to site defacement to distribution of malware.
+
+CSP is designed to be fully backward compatible. Browsers that don't support it still work with servers that
+implement it, and vice-versa: browsers that don't support CSP simply ignore it, functioning as usual, defaulting to
+the standard same-origin policy for web content. If the site doesn't offer the CSP header, browsers likewise use the
+standard same-origin policy.
+
+[source,java]
+----
+router.route().handler(
+  CSPHandler.create()
+    .addDirective("default-src", "*.trusted.com"));
+----
+
+== XFrame Handler
+
+The `X-Frame-Options` HTTP response header can be used to indicate whether or not a browser should be allowed to render
+a page in a `frame`, `iframe`, `embed` or `object`. Sites can use this to avoid click-jacking attacks, by ensuring that
+their content is not embedded into other sites.
+
+The added security is provided only if the user accessing the document is using a browser that supports
+`X-Frame-Options`.
+
+If you specify `DENY`, not only will attempts to load the page in a frame fail when loaded from other sites, attempts to
+do so will fail when loaded from the same site. On the other hand, if you specify `SAMEORIGIN`, you can still use the
+page in a frame as long as the site including it in a frame is the same as the one serving the page.
+
+This handler will configure the correct header for your application in a single step:
+
+[source,java]
+----
+router.route().handler(XFrameHandler.create(XFrameHandler.DENY));
+----
+
+== OAuth2AuthHandler Handler
+
+The `OAuth2AuthHandler` allows quick setup of secure routes using the OAuth2 protocol. This handler simplifies the
+authCode flow. An example of using it to protect some resource and authenticate with GitHub can be implemented as:
+
+[source,java]
+----
+OAuth2Auth authProvider = GithubAuth
+  .create(vertx, "CLIENT_ID", "CLIENT_SECRET");
+
+// create a oauth2 handler on our running server
+// the second argument is the full url to the
+// callback as you entered in your provider management console.
+OAuth2AuthHandler oauth2 = OAuth2AuthHandler
+  .create(vertx, authProvider, "https://myserver.com/callback");
+
+// setup the callback handler for receiving the GitHub callback
+oauth2.setupCallback(router.route());
+
+// protect everything under /protected
+router.route("/protected/*").handler(oauth2);
+// mount some handler under the protected zone
+router
+  .route("/protected/somepage")
+  .handler(ctx -> ctx.response().end("Welcome to the protected resource!"));
+
+// welcome page
+router
+  .get("/")
+  .handler(ctx -> ctx.response()
+    .putHeader("content-type", "text/html")
+    .end("Hello<br><a href=\"/protected/somepage\">Protected by Github</a>"));
+----
+
+The OAuth2AuthHandler will setup a proper callback OAuth2 handler so the user does not need to deal with validation
+of the authority server response. It is quite important to know that authority server responses are only valid once,
+this means that if a client issues a reload of the callback URL it will be asserted as a invalid request since the
+validation will fail.
+
+A rule of thumb is once a valid callback is executed issue a client side redirect to a protected resource. This
+redirect should also create a session cookie (or other session mechanism) so the user is not required to authenticate
+for every request.
+
+Due to the nature of OAuth2 spec there are slight changes required in order to use other OAuth2 providers but
+vertx-auth provides you with many out of the box implementations:
+
+
+* Azure Active Directory `link:../../apidocs/io/vertx/ext/auth/oauth2/providers/AzureADAuth.html[AzureADAuth]`
+* Box.com `link:../../apidocs/io/vertx/ext/auth/oauth2/providers/BoxAuth.html[BoxAuth]`
+* Dropbox `link:../../apidocs/io/vertx/ext/auth/oauth2/providers/DropboxAuth.html[DropboxAuth]`
+* Facebook `link:../../apidocs/io/vertx/ext/auth/oauth2/providers/FacebookAuth.html[FacebookAuth]`
+* Foursquare `link:../../apidocs/io/vertx/ext/auth/oauth2/providers/FoursquareAuth.html[FoursquareAuth]`
+* Github `link:../../apidocs/io/vertx/ext/auth/oauth2/providers/GithubAuth.html[GithubAuth]`
+* Google `link:../../apidocs/io/vertx/ext/auth/oauth2/providers/GoogleAuth.html[GoogleAuth]`
+* Instagram `link:../../apidocs/io/vertx/ext/auth/oauth2/providers/InstagramAuth.html[InstagramAuth]`
+* Keycloak `link:../../apidocs/io/vertx/ext/auth/oauth2/providers/KeycloakAuth.html[KeycloakAuth]`
+* LinkedIn `link:../../apidocs/io/vertx/ext/auth/oauth2/providers/LinkedInAuth.html[LinkedInAuth]`
+* Mailchimp `link:../../apidocs/io/vertx/ext/auth/oauth2/providers/MailchimpAuth.html[MailchimpAuth]`
+* Salesforce `link:../../apidocs/io/vertx/ext/auth/oauth2/providers/SalesforceAuth.html[SalesforceAuth]`
+* Shopify `link:../../apidocs/io/vertx/ext/auth/oauth2/providers/ShopifyAuth.html[ShopifyAuth]`
+* Soundcloud `link:../../apidocs/io/vertx/ext/auth/oauth2/providers/SoundcloudAuth.html[SoundcloudAuth]`
+* Stripe `link:../../apidocs/io/vertx/ext/auth/oauth2/providers/StripeAuth.html[StripeAuth]`
+* Twitter `link:../../apidocs/io/vertx/ext/auth/oauth2/providers/TwitterAuth.html[TwitterAuth]`
+
+However if you're using an unlisted provider you can still do it using the base API like this:
+
+[source,java]
+----
+OAuth2Auth authProvider = OAuth2Auth.create(vertx, new OAuth2Options()
+  .setClientID("CLIENT_ID")
+  .setClientSecret("CLIENT_SECRET")
+  .setFlow(OAuth2FlowType.AUTH_CODE)
+  .setSite("https://accounts.google.com")
+  .setTokenPath("https://www.googleapis.com/oauth2/v3/token")
+  .setAuthorizationPath("/o/oauth2/auth"));
+
+// create a oauth2 handler on our domain: "http://localhost:8080"
+OAuth2AuthHandler oauth2 = OAuth2AuthHandler
+  .create(vertx, authProvider, "http://localhost:8080");
+
+// these are the scopes
+oauth2.withScope("profile");
+
+// setup the callback handler for receiving the Google callback
+oauth2.setupCallback(router.get("/callback"));
+
+// protect everything under /protected
+router.route("/protected/*").handler(oauth2);
+// mount some handler under the protected zone
+router
+  .route("/protected/somepage")
+  .handler(ctx -> ctx.response().end("Welcome to the protected resource!"));
+
+// welcome page
+router
+  .get("/")
+  .handler(ctx -> ctx.response()
+    .putHeader("content-type", "text/html")
+    .end("Hello<br><a href=\"/protected/somepage\">Protected by Google</a>"));
+----
+
+You will need to provide all the details of your provider manually but the end result is the same.
+
+The handler will pin your application the the configured callback url. The usage is simple as providing the handler
+a route instance and all setup will be done for you. In a typical use case your provider will ask you what is the
+callback url to your application, your then enter a url like: `https://myserver.com/callback`. This is the second
+argument to the handler now you just need to set it up. To make it easier to the end user all you need to do is call
+the setupCallback method.
+
+This is how you pin your handler to the server `https://myserver.com:8447/callback`. Note that the port number is not
+mandatory for the default values, 80 for http, 443 for https.
+
+[source,java]
+----
+OAuth2AuthHandler oauth2 = OAuth2AuthHandler
+  .create(vertx, provider, "https://myserver.com:8447/callback");
+
+// now allow the handler to setup the callback url for you
+oauth2.setupCallback(router.route());
+----
+
+In the example the route object is created inline by `Router.route()` however if you want to have full control of the
+order the handler is called (for example you want it to be called as soon as possible in the chain) you can always
+create the route object before and pass it as a reference to this method.
+
+=== A real world example
+
+Up to now you have learned how to use the Oauth2 Handler however you will notice that for each request you will need
+to authenticate. This is because the handler has no state and there was no state management applied in the examples.
+
+Although having no state is recommended for API facing endpoints, for example, using JWT (we will cover those later)
+for user facing endpoinst we can keep the authentication result stored in the session. For this to work we would
+need an application like the following snippet:
+
+[source,java]
+----
+OAuth2Auth authProvider =
+  GithubAuth
+    .create(vertx, "CLIENTID", "CLIENT SECRET");
+// We need a user session handler too to make sure
+// the user is stored in the session between requests
+router.route()
+  .handler(SessionHandler.create(LocalSessionStore.create(vertx)));
+// we now protect the resource under the path "/protected"
+router.route("/protected").handler(
+  OAuth2AuthHandler.create(vertx, authProvider)
+    // we now configure the oauth2 handler, it will
+    // setup the callback handler
+    // as expected by your oauth2 provider.
+    .setupCallback(router.route("/callback"))
+    // for this resource we require that users have
+    // the authority to retrieve the user emails
+    .withScope("user:email")
+);
+// Entry point to the application, this will render
+// a custom template.
+router.get("/").handler(ctx -> ctx.response()
+  .putHeader("Content-Type", "text/html")
+  .end(
+    "<html>\n" +
+      "  <body>\n" +
+      "    <p>\n" +
+      "      Well, hello there!\n" +
+      "    </p>\n" +
+      "    <p>\n" +
+      "      We're going to the protected resource, if there is no\n" +
+      "      user in the session we will talk to the GitHub API. Ready?\n" +
+      "      <a href=\"/protected\">Click here</a> to begin!</a>\n" +
+      "    </p>\n" +
+      "    <p>\n" +
+      "      <b>If that link doesn't work</b>, remember to provide your\n" +
+      "      own <a href=\"https://github.com/settings/applications/new\">\n" +
+      "      Client ID</a>!\n" +
+      "    </p>\n" +
+      "  </body>\n" +
+      "</html>"));
+// The protected resource
+router.get("/protected").handler(ctx -> {
+  // at this moment your user object should contain the info
+  // from the Oauth2 response, since this is a protected resource
+  // as specified above in the handler config the user object is never null
+  User user = ctx.user();
+  // just dump it to the client for demo purposes
+  ctx.response().end(user.toString());
+});
+----
+
+=== Mixing OAuth2 and JWT
+
+Some providers use JWT tokens as access tokens, this is a feature of https://tools.ietf.org/html/rfc6750[RFC6750]
+and can be quite useful when one wants to mix client based authentication and API authorization. For example say that
+you have a application that provides some protected HTML documents but you also want it to be available for API's to
+consume. In this case an API cannot easily perform the redirect handshake required by OAuth2 but can use a Token
+provided before hand.
+
+This is handled automatically by the handler as long as the provider is configured to support JWTs.
+
+In real life this means that your API's can access your protected resources using the header `Authorization` with the
+value `Bearer BASE64_ACCESS_TOKEN`.
+
+=== WebAuthn
+
+Our online existence relies on an outdated and fragile idea of passwords. The password is what lies between a malicious
+user and your bank account or social media accounts. Passwords are hard to maintain; it's hard to store them on the
+server (passwords get stolen). They're hard to memorize, or not tell to others (phishing attacks).
+
+But there's a better way! A passwordless world, and it is a standard by W3C and FIDO Alliance running on your browser.
+
+WebAuthn is an API that allows servers to register and authenticate users using public-key cryptography instead of a
+password, an API that uses cryptography in a user-accessible way with the help of an authentication device, for example
+a yubikey token, or your mobile phone.
+
+The protocol requires at least the first callback to be mounted on the router:
+
+1. `/webauthn/response` the callback used to perform all the validations
+2. `/webauthn/login` the endpoint to allow users to start the login flow (optional, but without it it won't be able to login)
+3. `/webauthn/register` the endpoint to allow users to register a new identificator (optional, if the data is already stored this endpoint is not needed)
+
+An example of a protected application is:
+
+[source,java]
+----
+WebAuthn webAuthn = WebAuthn.create(
+  vertx,
+  new WebAuthnOptions()
+    .setRelyingParty(new RelyingParty().setName("Vert.x WebAuthN Demo"))
+    // What kind of authentication do you want? do you care?
+    // # security keys
+    .setAuthenticatorAttachment(AuthenticatorAttachment.CROSS_PLATFORM)
+    // # fingerprint
+    .setAuthenticatorAttachment(AuthenticatorAttachment.PLATFORM)
+    .setUserVerification(UserVerification.REQUIRED))
+  // where to load the credentials from?
+  .authenticatorFetcher(fetcher)
+  // update the state of an authenticator
+  .authenticatorUpdater(updater);
+
+// parse the BODY
+router.post()
+  .handler(BodyHandler.create());
+// add a session handler
+router.route()
+  .handler(SessionHandler
+    .create(LocalSessionStore.create(vertx)));
+
+// security handler
+WebAuthnHandler webAuthNHandler = WebAuthnHandler.create(webAuthn)
+  .setOrigin("https://192.168.178.74.xip.io:8443")
+  // required callback
+  .setupCallback(router.post("/webauthn/response"))
+  // optional register callback
+  .setupCredentialsCreateCallback(router.post("/webauthn/register"))
+  // optional login callback
+  .setupCredentialsGetCallback(router.post("/webauthn/login"));
+
+// secure the remaining routes
+router.route().handler(webAuthNHandler);
+----
+
+The application is not secure on the backend side but there is some code needed to be performed on the client side. A bit
+of boilerplate is required, take these 2 functions:
+
+[source,javascript]
+----
+/**
+* Converts PublicKeyCredential into serialised JSON
+* @param  {Object} pubKeyCred
+* @return {Object}            - JSON encoded publicKeyCredential
+*/
+var publicKeyCredentialToJSON = (pubKeyCred) => {
+ if (pubKeyCred instanceof Array) {
+   let arr = [];
+   for (let i of pubKeyCred) { arr.push(publicKeyCredentialToJSON(i)) }
+
+   return arr
+ }
+
+ if (pubKeyCred instanceof ArrayBuffer) {
+   return base64url.encode(pubKeyCred)
+ }
+
+ if (pubKeyCred instanceof Object) {
+   let obj = {};
+
+   for (let key in pubKeyCred) {
+     obj[key] = publicKeyCredentialToJSON(pubKeyCred[key])
+   }
+
+   return obj
+ }
+
+ return pubKeyCred
+};
+
+/**
+* Generate secure random buffer
+* @param  {Number} len - Length of the buffer (default 32 bytes)
+* @return {Uint8Array} - random string
+*/
+var generateRandomBuffer = (len) => {
+ len = len || 32;
+
+ let randomBuffer = new Uint8Array(len);
+ window.crypto.getRandomValues(randomBuffer);
+
+ return randomBuffer
+};
+
+/**
+* Decodes arrayBuffer required fields.
+*/
+var preformatMakeCredReq = (makeCredReq) => {
+ makeCredReq.challenge = base64url.decode(makeCredReq.challenge);
+ makeCredReq.user.id = base64url.decode(makeCredReq.user.id);
+
+ return makeCredReq
+};
+
+/**
+* Decodes arrayBuffer required fields.
+*/
+var preformatGetAssertReq = (getAssert) => {
+ getAssert.challenge = base64url.decode(getAssert.challenge);
+
+ for (let allowCred of getAssert.allowCredentials) {
+   allowCred.id = base64url.decode(allowCred.id)
+ }
+
+ return getAssert
+};
+----
+
+These functions will help you with the interaction with the server. Nothing more. Let's start by login in a user:
+
+[source,javascript]
+----
+// using the functions defined before...
+getGetAssertionChallenge({name: 'your-user-name'})
+.then((response) => {
+ // base64 must be decoded to a JavaScript Buffer
+ let publicKey = preformatGetAssertReq(response);
+ // the response is then passed to the browser
+ // to generate an assertion by interacting with your token/phone/etc...
+ return navigator.credentials.get({publicKey})
+})
+.then((response) => {
+ // convert response buffers to base64 and json
+ let getAssertionResponse = publicKeyCredentialToJSON(response);
+ // send information to server
+ return sendWebAuthnResponse(getAssertionResponse)
+})
+.then((response) => {
+ // success!
+ alert('Login success')
+})
+.catch((error) => alert(error));
+
+// utility functions
+
+let sendWebAuthnResponse = (body) => {
+ return fetch('/webauthn/response', {
+   method: 'POST',
+   credentials: 'include',
+   headers: {
+     'Content-Type': 'application/json'
+   },
+   body: JSON.stringify(body)
+ })
+   .then(response => {
+     if (!response.ok) {
+       throw new Error(`Server responded with error: ${response.statusText}`);
+     }
+     return response;
+   })
+};
+
+let getGetAssertionChallenge = (formBody) => {
+ return fetch('/webauthn/login', {
+   method: 'POST',
+   credentials: 'include',
+   headers: {
+     'Content-Type': 'application/json'
+   },
+   body: JSON.stringify(formBody)
+ })
+   .then(response => {
+     if (!response.ok) {
+       throw new Error(`Server responded with error: ${response.statusText}`);
+     }
+     return response;
+   })
+   .then((response) => response.json())
+};
+----
+
+The example above already covered 66% of the API, 2 out fo 3 endpoints where covered. The final endpoint is the user
+registration. User registration is the process of enrolling a new key into the server credential store and map to a user,
+and of course on the client side a private key was created and associated with the server but this key never left the
+hardware token or your phone security chip.
+
+To register a user and reusing most of the functions already defined above:
+
+[source,javascript]
+----
+/* Handle for register form submission */
+getMakeCredentialsChallenge({name: 'myalias', displayName: 'Paulo Lopes'})
+.then((response) => {
+ // convert challenge & id to buffer and perform register
+ let publicKey = preformatMakeCredReq(response);
+ // create a new secure key pair
+ return navigator.credentials.create({publicKey})
+})
+.then((response) => {
+ // convert response from buffer to json
+ let makeCredResponse = window.publicKeyCredentialToJSON(response);
+ // send to server to confirm the user
+ return sendWebAuthnResponse(makeCredResponse)
+})
+.then((response) => {
+ alert('Registration completed')
+})
+.catch((error) => alert(error));
+
+// utility functions
+
+let getMakeCredentialsChallenge = (formBody) => {
+ return fetch('/webauthn/register', {
+   method: 'POST',
+   credentials: 'include',
+   headers: {
+     'Content-Type': 'application/json'
+   },
+   body: JSON.stringify(formBody)
+ })
+   .then(response => {
+     if (!response.ok) {
+       throw new Error(`Server responded with error: ${response.statusText}`);
+     }
+     return response;
+   })
+   .then((response) => response.json())
+};
+----
+
+WARNING: Due to the secure nature of the API browsers will not allow you to use this API on plain text HTTP. All requests
+must go over HTTPS.
+
+WARNING: WebAuthN requires HTTPS with a working TLS certificate, you can use self signed certiticates too during
+development.
+
+=== Handling HTTP Method overriding
+
+Many companies and other services impose limitations to the REST HTTP methods they allow to the outside world. Some are lax by allowing any method, most are restricted by allowing only a small-but-decent set and some only allow GET and POST. The reasons for such restritions varies: browser or client limitations or a really strict corporate firewalls. Web services with only GET and POST does not express well the REST ideology. PUT, DELETE, OPTIONS, among others are quite useful to specify what do to to a resource. To deal with it, it was created the X-HTTP-METHOD-OVERRIDE HTTP header as a workaround.
+
+By sending a request with GET/POST and which method the request should truly process inside the X-HTTP-METHOD-OVERRIDE HTTP header, the server should recognize the header and redirect to the appropriate method.
+
+Vert.x allows one to do so, simply by:
+
+[source,java]
+----
+router.route().handler(MethodOverrideHandler.create());
+
+router.route(HttpMethod.GET, "/").handler(ctx -> {
+  // do GET stuff...
+});
+
+router.route(HttpMethod.POST, "/").handler(ctx -> {
+  // do POST stuff...
+});
+----
+
+Since it will redirect the request, it is wise to avoid firing request handlers unnecessarily, so it is better to add the MethodOverrideHandler as the first handler.
+
+Also, a word of caution: THIS MIGHT BECOME AN ATTACK VECTOR FOR ILL-INTENTIONED PEOPLE!
+
+To mitigate such a problem, the MethodOverrideHandler comes with a Safe-Downgrade Policy by default. This policy says that the method contained in X-HTTP-METHOD-OVERRIDE can override the original one if:
+
+* the overriding method is idempotent; or
+* the overriding method is safe and the method to be overrided is NOT idempotent; or
+* the method to be overrided is not safe.
+
+Although we do NOT recommend, Vert.x will not force you to anything. If it is your desire to allow any overriding, then:
+
+[source,java]
+----
+router.route().handler(MethodOverrideHandler.create(false));
+
+router.route(HttpMethod.GET, "/").handler(ctx -> {
+  // do GET stuff...
+});
+
+router.route(HttpMethod.POST, "/").handler(ctx -> {
+  // do POST stuff...
+});
+----

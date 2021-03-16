@@ -1,0 +1,72 @@
+== Using transactions
+
+=== Transactions with connections
+
+You can execute transaction using SQL `BEGIN`/`COMMIT`/`ROLLBACK`, if you do so you must use
+a `link:../../apidocs/io/vertx/sqlclient/SqlConnection.html[SqlConnection]` and manage it yourself.
+
+Or you can use the transaction API of `link:../../apidocs/io/vertx/sqlclient/SqlConnection.html[SqlConnection]`:
+
+[source,java]
+----
+pool.getConnection()
+  // Transaction must use a connection
+  .onSuccess(conn -> {
+    // Begin the transaction
+    conn.begin()
+      .compose(tx -> conn
+        // Various statements
+        .query("INSERT INTO Users (first_name,last_name) VALUES ('Julien','Viet')")
+        .execute()
+        .compose(res2 -> conn
+          .query("INSERT INTO Users (first_name,last_name) VALUES ('Andy','Guibert')")
+          .execute())
+        // Commit the transaction
+        .compose(res3 -> tx.commit()))
+      // Return the connection to the pool
+      .eventually(v -> conn.close())
+      .onSuccess(v -> System.out.println("Transaction succeeded"))
+      .onFailure(err -> System.out.println("Transaction failed: " + err.getMessage()));
+  });
+----
+
+When the database server reports the current transaction is failed (e.g the infamous _current transaction is aborted, commands ignored until
+end of transaction block_), the transaction is rollbacked and the `link:../../apidocs/io/vertx/sqlclient/Transaction.html#completion--[completion]` future
+is failed with a `link:../../apidocs/io/vertx/sqlclient/TransactionRollbackException.html[TransactionRollbackException]`:
+
+[source,java]
+----
+tx.completion()
+  .onFailure(err -> {
+    System.out.println("Transaction failed => rolled back");
+  });
+----
+
+=== Simplified transaction API
+
+When you use a pool, you can call `link:../../apidocs/io/vertx/sqlclient/Pool.html#withTransaction-java.util.function.Function-io.vertx.core.Handler-[withTransaction]` to pass it a function executed
+within a transaction.
+
+It borrows a connection from the pool, begins the transaction and calls the function with a client executing all
+operations in the scope of this transaction.
+
+The function must return a future of an arbitrary result:
+
+- when the future succeeds the client will commit the transaction
+- when the future fails the client will rollback the transaction
+
+After the transaction completes, the connection is returned to the pool and the overall result is provided.
+
+[source,java]
+----
+pool.withTransaction(client -> client
+  .query("INSERT INTO Users (first_name,last_name) VALUES ('Julien','Viet')")
+  .execute()
+  .flatMap(res -> client
+    .query("INSERT INTO Users (first_name,last_name) VALUES ('Andy','Guibert')")
+    .execute()
+    // Map to a message result
+    .map("Users inserted")))
+  .onSuccess(v -> System.out.println("Transaction succeeded"))
+  .onFailure(err -> System.out.println("Transaction failed: " + err.getMessage()));
+----
