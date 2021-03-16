@@ -18,6 +18,8 @@ Vert.x AMQP 客户端基于 Vert.x Proton 实现。如果您需要更细粒度�
 [[_using_vert_x_amqp_client]]
 == 使用 Vert.x AMQP 客户端
 
+To use the Vert.x AMQP Client, add the following dependency to the _dependencies_ section of your build
+descriptor:
 
 * Maven（在您的 `pom.xml` 文件中）：
 
@@ -138,7 +140,7 @@ connection.createReceiver("my-queue",
 
 在 completion handler 中传入的 receiver 可以作为Stream来使用。所以您可以暂停、恢复
 消息的接收。背压协议（back-pressure protocol）由
- http://docs.oasis-open.org/amqp/core/v1.0/csprd02/amqp-core-transport-v1.0-csprd02.html#doc-flow-control[AMQP credits] 实现。
+http://docs.oasis-open.org/amqp/core/v1.0/csprd02/amqp-core-transport-v1.0-csprd02.html#doc-flow-control[AMQP credits] 实现。
 
 接收到的消息是 `link:../../apidocs/io/vertx/amqp/AmqpMessage.html[AmqpMessage]` 实例。这些实例是不可变（immutable）的，
 并且支持访问大多数AMQP元数据。请查看
