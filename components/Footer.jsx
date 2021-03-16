@@ -53,6 +53,8 @@ const Footer = () => {
               <li><Link href="/blog/"><a>博客</a></Link></li>
               <li><Link href="/community/"><a>社区</a></Link></li>
               <li><Link href="/translation/"><a>翻译团队</a></Link></li>
+              <li><a href="https://github.com/eclipse-vertx/vert.x">GitHub</a></li>
+              <li><a href="https://github.com/vertx-china/vertx-web-site">翻译GitHub</a></li>
             </ul>
           </div>
           <div className="footer-nav-list">

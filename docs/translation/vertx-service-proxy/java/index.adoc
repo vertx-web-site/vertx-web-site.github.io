@@ -23,7 +23,7 @@ your build descriptor:
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-service-proxy</artifactId>
- <version>4.0.2</version>
+ <version>4.0.3</version>
 </dependency>
 ----
 
@@ -31,7 +31,7 @@ your build descriptor:
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-service-proxy:4.0.2'
+compile 'io.vertx:vertx-service-proxy:4.0.3'
 ----
 
 To *implement* service proxies, also add:
@@ -43,7 +43,7 @@ To *implement* service proxies, also add:
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-codegen</artifactId>
- <version>4.0.2</version>
+ <version>4.0.3</version>
  <scope>provided</scope>
 </dependency>
 ----
@@ -52,14 +52,14 @@ To *implement* service proxies, also add:
 
 [source,groovy,subs="+attributes"]
 ----
-compileOnly 'io.vertx:vertx-codegen:4.0.2'
+compileOnly 'io.vertx:vertx-codegen:4.0.3'
 ----
 * Gradle >= 5 (in your `build.gradle` file):
 
 [source,groovy,subs="+attributes"]
 ----
-annotationProcessor 'io.vertx:vertx-codegen:4.0.2:processor'
-annotationProcessor 'io.vertx:vertx-service-proxy:4.0.2'
+annotationProcessor 'io.vertx:vertx-codegen:4.0.3:processor'
+annotationProcessor 'io.vertx:vertx-service-proxy:4.0.3'
 ----
 
 Be aware that as the service proxy mechanism relies on code generation, so modifications to the _service interface_
@@ -287,13 +287,13 @@ Here a configuration example for Maven:
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-codegen</artifactId>
- <version>4.0.2</version>
+ <version>4.0.3</version>
  <classifier>processor</classifier>
 </dependency>
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-service-proxy</artifactId>
- <version>4.0.2</version>
+ <version>4.0.3</version>
 </dependency>
 ----
 
@@ -301,8 +301,8 @@ This feature can also be used in Gradle:
 
 [source]
 ----
-compile "io.vertx:vertx-codegen:4.0.2:processor"
-compile "io.vertx:vertx-service-proxy:4.0.2"
+compile "io.vertx:vertx-codegen:4.0.3:processor"
+compile "io.vertx:vertx-service-proxy:4.0.3"
 ----
 
 IDE provides usually support for annotation processors.

@@ -32,7 +32,7 @@
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-config</artifactId>
- <version>4.0.2</version>
+ <version>4.0.3</version>
 </dependency>
 ----
 
@@ -40,7 +40,7 @@
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-config:4.0.2'
+compile 'io.vertx:vertx-config:4.0.3'
 ----
 
 以上工作完成之后，您第一件要做的事情就是实例化 `link:../../apidocs/io/vertx/config/ConfigRetriever.html[ConfigRetriever]` ：

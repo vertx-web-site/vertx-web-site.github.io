@@ -29,7 +29,7 @@ Vert.x 集群管理器是可插拔的组件，您可以选择您想用的或最�
 [[_using_vertx_from_command_line]]
 === Vert.x 命令行模式
 
-请将 `vertx-ignite-4.0.2.jar` 放入 Vert.x 中安装路径的 `lib` 目录中。
+请将 `vertx-ignite-4.0.3.jar` 放入 Vert.x 中安装路径的 `lib` 目录中。
 
 [[_using_vertx_in_maven_or_gradle_project]]
 === 在 Maven 或 Gradle 项目中使用 Vert.x
@@ -43,7 +43,7 @@ Vert.x 集群管理器是可插拔的组件，您可以选择您想用的或最�
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-ignite</artifactId>
- <version>4.0.2</version>
+ <version>4.0.3</version>
 </dependency>
 ----
 
@@ -51,7 +51,7 @@ Vert.x 集群管理器是可插拔的组件，您可以选择您想用的或最�
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-ignite:4.0.2'
+compile 'io.vertx:vertx-ignite:4.0.3'
 ----
 
 [[_programmatically_specifying_cluster_manager]]
@@ -97,7 +97,6 @@ Ignite 集群管理器通过 `default-ignite.json` 文件配置，该文件已�
  "cacheConfiguration": [{
    "name": "__vertx.*",
    "cacheMode": "REPLICATED",
-   "readFromBackup": false,
    "atomicityMode": "ATOMIC",
    "writeSynchronizationMode": "FULL_SYNC"
  }, {
@@ -120,7 +119,6 @@ Ignite 集群管理器通过 `default-ignite.json` 文件配置，该文件已�
    },
    "trustAll": false
  },
- "includeEventTypes": ["EVT_CACHE_OBJECT_PUT", "EVT_CACHE_OBJECT_REMOVED"],
  "metricsLogFrequency": 0,
  "shutdownOnSegmentation": true
 }
@@ -178,7 +176,6 @@ compile 'org.apache.ignite:ignite-spring:${ignite.version}'
        <bean class="org.apache.ignite.configuration.CacheConfiguration">
          <property name="name" value="__vertx.*"/>
          <property name="cacheMode" value="REPLICATED"/>
-         <property name="readFromBackup" value="false"/>
          <property name="atomicityMode" value="ATOMIC"/>
          <property name="writeSynchronizationMode" value="FULL_SYNC"/>
        </bean>
@@ -195,13 +192,6 @@ compile 'org.apache.ignite:ignite-spring:${ignite.version}'
          </property>
          <property name="writeSynchronizationMode" value="FULL_SYNC"/>
        </bean>
-     </list>
-   </property>
-
-   <property name="includeEventTypes">
-     <list>
-       <util:constant static-field="org.apache.ignite.events.EventType.EVT_CACHE_OBJECT_PUT"/>
-       <util:constant static-field="org.apache.ignite.events.EventType.EVT_CACHE_OBJECT_REMOVED"/>
      </list>
    </property>
 

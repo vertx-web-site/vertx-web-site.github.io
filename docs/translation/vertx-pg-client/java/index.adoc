@@ -33,7 +33,7 @@
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-pg-client</artifactId>
- <version>4.0.2</version>
+ <version>4.0.3</version>
 </dependency>
 ----
 * Gradle（在您的 `build.gradle` 文件里）：
@@ -41,7 +41,7 @@
 [source,groovy]
 ----
 dependencies {
- compile 'io.vertx:vertx-pg-client:4.0.2'
+ compile 'io.vertx:vertx-pg-client:4.0.3'
 }
 ----
 
@@ -380,6 +380,25 @@ client
     System.out.println("Failure: " + ar.cause().getMessage());
   }
 });
+----
+
+A batch query with a `RETURNING` clause creates a `link:../../apidocs/io/vertx/sqlclient/RowSet.html[RowSet]`
+containing a single for each element of the batch:
+
+[source,java]
+----
+client
+  .preparedQuery("INSERT INTO color (color_name) VALUES ($1) RETURNING color_id")
+  .executeBatch(Arrays.asList(Tuple.of("white"), Tuple.of("red"), Tuple.of("blue")),ar -> {
+    if (ar.succeeded()) {
+      for (RowSet<Row> rows = ar.result();rows.next() != null;rows = rows.next()) {
+        Integer colorId = rows.iterator().next().getInteger("color_id");
+        System.out.println("generated key: " + colorId);
+      }
+    } else {
+      System.out.println("Failure: " + ar.cause().getMessage());
+    }
+  });
 ----
 
 include::connections.adoc[]

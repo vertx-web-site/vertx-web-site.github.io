@@ -1,7 +1,7 @@
 [[_zookeeper_configuration_store]]
 === Zookeeper配置中心
 
-Zookeeper配置中心扩展了 Vert.x Configuration Retriever 
+Zookeeper配置中心扩展了 Vert.x Configuration Retriever
 并提供了从Zookeeper服务获取配置的方法。它使用 Apache Curator 作为客户端
 
 
@@ -18,12 +18,12 @@ Zookeeper配置中心扩展了 Vert.x Configuration Retriever
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-config-zookeeper</artifactId>
- <version>4.0.2</version>
+ <version>4.0.3</version>
 </dependency>
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-config</artifactId>
- <version>4.0.2</version>
+ <version>4.0.3</version>
 </dependency>
 ----
 
@@ -31,8 +31,8 @@ Zookeeper配置中心扩展了 Vert.x Configuration Retriever
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-config:4.0.2'
-compile 'io.vertx:vertx-config-zookeeper:4.0.2'
+compile 'io.vertx:vertx-config:4.0.3'
+compile 'io.vertx:vertx-config-zookeeper:4.0.3'
 ----
 
 [[_configuring_the_store]]

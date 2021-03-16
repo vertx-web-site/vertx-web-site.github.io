@@ -36,7 +36,7 @@ Redis 有着丰富的 API，可以分成以下几组：
 <dependency>
 <groupId>io.vertx</groupId>
 <artifactId>vertx-redis-client</artifactId>
-<version>4.0.2</version>
+<version>4.0.3</version>
 </dependency>
 ----
 
@@ -44,7 +44,7 @@ Redis 有着丰富的 API，可以分成以下几组：
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-redis-client:4.0.2'
+compile 'io.vertx:vertx-redis-client:4.0.3'
 ----
 
 [[_connecting_to_redis]]
@@ -368,3 +368,16 @@ class RedisVerticle extends AbstractVerticle {
 通过弃用旧客户端，我们可以确保所有没有处理的响应都被抛弃。
 
 需要注意，重新连接将创建一个新的连接对象，因此不会每次都缓存和执行这些对象的引用。
+
+== Protocol Parser
+
+This client supports both `RESP2` and `RESP3` protocols, at the connection handshake time the client will automatically
+detect which version is supported by the server and use it.
+
+The parser internally creates an "infinite" readable buffer from all the chunks received from the server, in order to
+avoid creating too much garbage in terms of memory collection, a tunnable watermark value is configurable at JVM startup
+time. The system property `io.vertx.redis.parser.watermark` defines how much data is keept in this readable buffer
+before it gets discarded. By default this value is 512Kb. This means that each connection to the server will use at
+least this amount of memory. As the client works in pipeline mode, keeping the number of connections low provides best
+results, which means `512Kb * nconn` memory will be used. If the application will require a large number of connections,
+then reducing the watermark value to a smaller value or even disable it entirely is advisable.

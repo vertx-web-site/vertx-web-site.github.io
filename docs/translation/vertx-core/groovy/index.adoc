@@ -10,12 +10,12 @@
 <dependency>
   <groupId>io.vertx</groupId>
   <artifactId>vertx-core</artifactId>
-  <version>4.0.2</version>
+  <version>4.0.3</version>
 </dependency>
 <dependency>
   <groupId>io.vertx</groupId>
   <artifactId>vertx-lang-groovy</artifactId>
-  <version>4.0.2</version>
+  <version>4.0.3</version>
 </dependency>
 ----
 
@@ -23,8 +23,8 @@
 
 [source,groovy,subs="+attributes"]
 ----
-compile "io.vertx:vertx-core:4.0.2"
-compile "io.vertx:vertx-lang-groovy:4.0.2"
+compile "io.vertx:vertx-core:4.0.3"
+compile "io.vertx:vertx-lang-groovy:4.0.3"
 ----
 
 [[_verticles]]
@@ -139,13 +139,13 @@ import io.vertx.core.Promise
 
 void vertxStart(Promise<Void> promise) {
   println "starting"
-  vertx.deployVerticle("v.rb", { res ->
-    if (res.succeeded()) {
+  vertx.deployVerticle("v.rb"){ res ->
+    if (res) {
       promise.complete()
     } else {
       promise.fail(res.cause())
     }
-  })
+  }
 }
 
 void vertxStop(Promise<Void> future) {
@@ -153,6 +153,12 @@ void vertxStop(Promise<Void> future) {
   promise.complete()
 }
 ----
+
+NOTE: The objects of `link:../../apidocs/io/vertx/core/AsyncResult.html[AsyncResult]` or it's subclasses are
+coerced to `link:../../apidocs/java/lang/Boolean.html[Boolean]` according to (http://groovy-lang.org/semantics.html#Groovy-Truth)[Groovy-Truth],
+so that an instance of `link:../../apidocs/io/vertx/core/AsyncResult.html[AsyncResult]` or `link:../../apidocs/io/vertx/core/Future.html[Future]`
+evaluates to `true` if succeeded, or to `false` otherwise.
+That allowes to write more readable code like `res ? doSuccess() : doFail()`.
 
 当您使用类去继承 `link:../../apidocs/io/vertx/core/AbstractVerticle.html[AbstractVerticle]` ， 您需要重写
 `link:../../apidocs/io/vertx/core/AbstractVerticle.html#start-io.vertx.core.Promise-[start]` 和
