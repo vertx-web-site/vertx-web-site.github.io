@@ -1,18 +1,27 @@
 = Vertx unit
 
-Asynchronous polyglot unit testing.
+//Asynchronous polyglot unit testing.
+异步多语言单元测试。
 
-== Introduction
+//== Introduction
+== 介绍
+[[_introduction]]
 
-Vertx Unit is designed for writing asynchronous unit tests with a polyglot API and running these tests
-in the JVM. Vertx Unit Api borrows from existing test frameworks like http://junit.org[JUnit] or http://qunitjs.com[QUnit]
-and follows the Vert.x practices.
+//Vertx Unit is designed for writing asynchronous unit tests with a polyglot API and running these tests
+//in the JVM. Vertx Unit Api borrows from existing test frameworks like http://junit.org[JUnit] or http://qunitjs.com[QUnit]
+//and follows the Vert.x practices.
+Vert.x Unit 用多语言的异步API在JVM上 运行单元测试。
+Vert.x Unit 借鉴了已有的测试框架，例如 http://junit.org[JUnit] or http://qunitjs.com[QUnit]
+并同时遵循了Vert.x的做法。
 
-As a consequence Vertx Unit is the natural choice for testing Vert.x applications.
+//As a consequence Vertx Unit is the natural choice for testing Vert.x applications.
+所以 Vert.x Unit 自然就成为了测试 Vert.x 应用的选择。
 
-To use vert.x unit, add the following dependency to the _dependencies_ section of your build descriptor:
+//To use vert.x unit, add the following dependency to the _dependencies_ section of your build descriptor:
+要使用 Vert.x Unit，
+那么请添加如下依赖：
 
-* Maven (in your `pom.xml`):
+* Maven (在您的 `pom.xml` 文件):
 
 [source,xml,subs="+attributes"]
 ----
@@ -24,15 +33,17 @@ To use vert.x unit, add the following dependency to the _dependencies_ section o
 </dependency>
 ----
 
-* Gradle (in your `build.gradle` file):
+* Gradle (在您的 `build.gradle` 文件):
 
 [source,groovy,subs="+attributes"]
 ----
 testCompile ${io.vertx}:${vertx-unit}:4.0.3
 ----
 
-Vert.x unit can be used in different ways and run anywhere your code runs, it is just a matter of reporting
-the results the right way, this example shows the bare minimum test suite:
+//Vert.x unit can be used in different ways and run anywhere your code runs, it is just a matter of reporting
+//the results the right way, this example shows the bare minimum test suite:
+Vert.x Unit 能够以各种方式使用并可以在您代码中任何位置运行，它仅以正确的方式报告执行结果。
+以下示例展示了一个最简的测试用例套件。
 
 [source,java]
 ----
@@ -44,9 +55,12 @@ suite.test("my_test_case", context -> {
 suite.run();
 ----
 
-The `run` method will execute the suite and go through all the
-tests of the suite. The suite can fail or pass, this does not matter if the outer world is not aware
-of the test result.
+//The `run` method will execute the suite and go through all the
+//tests of the suite. The suite can fail or pass, this does not matter if the outer world is not aware
+//of the test result.
+`run` 方法执行了整个套件并且执行套件中所有的测试用例。
+测试用例套件可能失败也可能通过。如果外界不关心测试结果，
+那么测试用例的通过与否便不重要。
 
 [source,java]
 ----
@@ -58,7 +72,9 @@ suite.test("my_test_case", context -> {
 suite.run(new TestOptions().addReporter(new ReportOptions().setTo("console")));
 ----
 
-When executed, the test suite now reports to the console the steps of the test suite:
+//When executed, the test suite now reports to the console the steps of the test suite:
+执行之时，
+测试套件会在控制台报告每一步的结果：
 
 ----
 Begin test suite the_test_suite
@@ -67,14 +83,21 @@ Passed my_test
 End test suite the_test_suite , run: 1, Failures: 0, Errors: 0
 ----
 
-The `reporters` option configures the reporters used by the suite runner for reporting the execution
-of the tests, see the <<reporting>> section for more info.
+//The `reporters` option configures the reporters used by the suite runner for reporting the execution
+//of the tests, see the <<reporting>> section for more info.
+`reporters` 选项配置了套件执行器的reporter，用以报告测试用例执行结果，
+更多信息详见 <<reporting>> 章节
 
-== Writing a test suite
+//== Writing a test suite
+== 编写一个测试套件
+[[_writing_a_test_suite]]
 
-A test suite is a named collection of test case, a test case is a straight callback to execute. The suite can
-have lifecycle callbacks to execute _before_ and/or _after_ the test cases or the test suite that are used for
-initializing or disposing services used by the test suite.
+//A test suite is a named collection of test case, a test case is a straight callback to execute. The suite can
+//have lifecycle callbacks to execute _before_ and/or _after_ the test cases or the test suite that are used for
+//initializing or disposing services used by the test suite.
+测试套件是一系列测试用例组成的有名称的集合，测试用例则是一个直接回调。
+套件生命周期中可以设置回调函数，这些函数可以在执行测试用例前后执行，
+也可以在用作初始化/发布服务的套件前后。
 
 [source,java]
 ----
@@ -90,7 +113,8 @@ suite.test("my_test_case_3", context -> {
 });
 ----
 
-The API is fluent and therefore the test cases can be chained:
+//The API is fluent and therefore the test cases can be chained:
+流式API让测试用例可以作链式调用：
 
 [source,java]
 ----
@@ -104,16 +128,19 @@ suite.test("my_test_case_1", context -> {
 });
 ----
 
-The test cases declaration order is not guaranteed, so test cases should not rely on the execution of
-another test case to run. Such practice is considered as a bad one.
+//The test cases declaration order is not guaranteed, so test cases should not rely on the execution of
+//another test case to run. Such practice is considered as a bad one.
+测试用例的声明顺序并不保证其执行顺序，所以测试用例不可以依赖于其他测试用例来运行。
+这不是一个好的做法。
 
-Vertx Unit provides _before_ and _after_ callbacks for doing global setup or cleanup:
+//Vertx Unit provides _before_ and _after_ callbacks for doing global setup or cleanup:
+Vert.x Unit 提供了 _before_ 和 _after_ 回调来作总体的启动或清理资源操作：
 
 [source,java]
 ----
 TestSuite suite = TestSuite.create("the_test_suite");
 suite.before(context -> {
-  // Test suite setup
+  // 测试套件启动
 }).test("my_test_case_1", context -> {
   // Test 1
 }).test("my_test_case_2", context -> {
@@ -121,26 +148,34 @@ suite.before(context -> {
 }).test("my_test_case_3", context -> {
   // Test 3
 }).after(context -> {
-  // Test suite cleanup
+  // 测试套件清理资源
 });
 ----
 
-The declaration order of the method does not matter, the example declares the _before_ callback before
-the test cases and _after_ callback after the test cases but it could be anywhere, as long as it is done before
-running the test suite.
+//The declaration order of the method does not matter, the example declares the _before_ callback before
+//the test cases and _after_ callback after the test cases but it could be anywhere, as long as it is done before
+//running the test suite.
+这些方法的声明顺序并不重要，示例中在用例之前声明 _before_ ，
+在用例之后声明 _after_ ，然而，
+在运行套件之前，他们可以声明于任何位置，
 
-The _before_ callback is executed before any tests, when it fails, the test suite execution will stop and the
-failure is reported. The _after_ callback is the last callback executed by the testsuite, unless
-the _before_ callback reporter a failure.
+//The _before_ callback is executed before any tests, when it fails, the test suite execution will stop and the
+//failure is reported. The _after_ callback is the last callback executed by the testsuite, unless
+//the _before_ callback reporter a failure.
+_before_ 回调函数执行于所有测试用例之前，如果其运行失败，
+则整个测试套件将停止运行并报告失败结果。 _after_ 回调函数在整个测试套件中最后执行，
+除非 _before_ 回调函数运行失败。
 
-Likewise, Vertx Unit provides the _beforeEach_ and _afterEach_ callback that do the same but are executed
-for each test case:
+//Likewise, Vertx Unit provides the _beforeEach_ and _afterEach_ callback that do the same but are executed
+//for each test case:
+类似的，Vert.x Unit 提供了 _beforeEach_ 和 _afterEach_ 回调，
+用以在每一个测试用例前后执行：
 
 [source,java]
 ----
 TestSuite suite = TestSuite.create("the_test_suite");
 suite.beforeEach(context -> {
-  // Test case setup
+  // 测试用例启动
 }).test("my_test_case_1", context -> {
   // Test 1
 }).test("my_test_case_2", context -> {
@@ -148,22 +183,30 @@ suite.beforeEach(context -> {
 }).test("my_test_case_3", context -> {
   // Test 3
 }).afterEach(context -> {
-  // Test case cleanup
+  // 测试用例资源清理
 });
 ----
 
-The _beforeEach_ callback is executed before each test case, when it fails, the test case is not executed and the
-failure is reported. The _afterEach_ callback is the executed just after the test case callback, unless
-the _beforeEach_ callback reported a failure.
+//The _beforeEach_ callback is executed before each test case, when it fails, the test case is not executed and the
+//failure is reported. The _afterEach_ callback is the executed just after the test case callback, unless
+//the _beforeEach_ callback reported a failure.
+_beforeEach_ 回调函数执行于每一个测试用例之前，一旦其运行失败，那测试用例将不再被执行，
+并报告失败结果。 _afterEach_ 回调函数仅在测试用例之后被执行，
+除非 _beforeEach_ 函数运行失败。
 
-== Asserting
+//== Asserting
+== 断言
+[[_asserting]]
 
-Vertx Unit provides the `link:../../apidocs/io/vertx/ext/unit/TestContext.html[TestContext]` object for doing assertions in test cases. The _context_
-object provides the usual methods when dealing with assertions.
+//Vertx Unit provides the `link:../../apidocs/io/vertx/ext/unit/TestContext.html[TestContext]` object for doing assertions in test cases. The _context_
+//object provides the usual methods when dealing with assertions.
+Vert.x Unit 提供了 `link:../../apidocs/io/vertx/ext/unit/TestContext.html[TestContext]` 对象用来在测试用例中作断言操作。
+_context_ 对象提供了用于断言的常用方法。
 
 === assertEquals
 
-Assert two objects are equals, works for _basic_ types or _json_ types.
+//Assert two objects are equals, works for _basic_ types or _json_ types.
+断言两个对象相等，适用于 _基本类型_ 和 _json类型_ 。
 
 [source,java]
 ----
@@ -172,7 +215,8 @@ suite.test("my_test_case", context -> {
 });
 ----
 
-There is also an overloaded version for providing a message:
+//There is also an overloaded version for providing a message:
+有一个重载的方法用于提供测试信息：
 
 [source,java]
 ----
@@ -181,11 +225,13 @@ suite.test("my_test_case", context -> {
 });
 ----
 
-Usually each assertion provides an overloaded version.
+//Usually each assertion provides an overloaded version.
+通常地，每一个断言函数都提供了重载的版本。
 
 === assertNotEquals
 
-The counter part of _assertEquals_.
+//The counter part of _assertEquals_.
+与 _assertEquals_ 相反。
 
 [source,java]
 ----
@@ -196,7 +242,8 @@ suite.test("my_test_case", context -> {
 
 === assertNull
 
-Assert an object is null, works for _basic_ types or _json_ types.
+//Assert an object is null, works for _basic_ types or _json_ types.
+断言一个对象是null，适用于 _基本类型_ 和 _json类型_ 。
 
 [source,java]
 ----
@@ -207,7 +254,8 @@ suite.test("my_test_case", context -> {
 
 === assertNotNull
 
-The counter part of _assertNull_.
+//The counter part of _assertNull_.
+与 _assertNull_ 相反。
 
 [source,java]
 ----
@@ -218,12 +266,13 @@ suite.test("my_test_case", context -> {
 
 === assertInRange
 
-The `link:../../apidocs/io/vertx/ext/unit/TestContext.html#assertInRange-double-double-double-[assertInRange]` targets real numbers.
+//The `link:../../apidocs/io/vertx/ext/unit/TestContext.html#assertInRange-double-double-double-[assertInRange]` targets real numbers.
+`link:../../apidocs/io/vertx/ext/unit/TestContext.html#assertInRange-double-double-double-[assertInRange]` 方法作用于实数范围。
 
 ----
 suite.test("my_test_case", context -> {
 
-  // Assert that 0.1 is equals to 0.2 +/- 0.5
+  // 断言0.1 在误差范围 +/- 0.5范围内等于0.2
 
   context.assertInRange(0.1, 0.2, 0.5);
 });
@@ -231,7 +280,8 @@ suite.test("my_test_case", context -> {
 
 === assertTrue and assertFalse
 
-Asserts the value of a boolean expression.
+//Asserts the value of a boolean expression.
+对于布尔表达式的断言。
 
 [source,java]
 ----
@@ -241,46 +291,64 @@ suite.test("my_test_case", context -> {
 });
 ----
 
-=== Failing
+//=== Failing
+=== 失败
+[[_failing]]
 
-Last but not least, _test_ provides a _fail_ method that will throw an assertion error:
+//Last but not least, _test_ provides a _fail_ method that will throw an assertion error:
+最后（并非不重要），_test_ 提供了一个 _fail_ 方法用来抛出断言错误的异常：
 
 [source,java]
 ----
 suite.test("my_test_case", context -> {
   context.fail("That should never happen");
-  // Following statements won't be executed
+  // 剩下的代码不会执行。
 });
 ----
 
-The failure can either be a _string_ as seen previously or an _error_. The _error_ object depends
-on the target language, for Java or Groovy it can be any class extending _Throwable- , for
-JavaScript it is an _error_, for Ruby it is an _Exception_.
+//The failure can either be a _string_ as seen previously or an _error_. The _error_ object depends
+//on the target language, for Java or Groovy it can be any class extending _Throwable- , for
+//JavaScript it is an _error_, for Ruby it is an _Exception_.
+`失败` 对象本身既可以是 _string_ 也可以是一个 _error_。
+_error_ 对象取决于所使用的编程语言，对于 Java 或者 Groovy 而言，可以是任何 _Throwable_ 的子类，
+对于 JavaScript 则是一个 _error_ ，对于 Ruby 则是一个 _Exception_。
 
-=== Using third-party assertion framework
+//=== Using third-party assertion framework
+=== 使用第三方断言框架
+[[_using_third_party_assertion_framework]]
 
-It is also possible to use any other assertion framework, like the popular _hamcrest_ and _assertj_.
-The recommended way to go is to use `link:../../apidocs/io/vertx/ext/unit/TestContext.html#verify-io.vertx.core.Handler-[verify]`
-and perform the assertions within the supplied _Handler_. This way, asynchronous testing termination
-will be correctly handled.
+//It is also possible to use any other assertion framework, like the popular _hamcrest_ and _assertj_.
+//The recommended way to go is to use `link:../../apidocs/io/vertx/ext/unit/TestContext.html#verify-io.vertx.core.Handler-[verify]`
+//and perform the assertions within the supplied _Handler_. This way, asynchronous testing termination
+//will be correctly handled.
+您也可以用任何其他的断言框架，例如比较流行的 _hamcrest_ 和 _assertj_ 。
+我们建议您用 `link:../../apidocs/io/vertx/ext/unit/TestContext.html#verify-io.vertx.core.Handler-[verify]` ，
+使用我们提供的 _Handler_ 来进行断言。
+这样的话，我们才能正确的处理异步测试的结束动作。
 
 [source,java]
 ----
 suite.test("my_test_case", context -> context.verify(v -> {
-  // Using here Assert from junit, could be assertj, hamcrest or any other
-  // Even manually throwing an AssertionError.
+  // 这里 junit中的 Assert 对象可以是 assertj hamcrest或其他库中的Assert对象
+  // 甚至可以手动抛出 AssertionError
   Assert.assertNotNull("not null!");
   Assert.assertEquals(10, callbackCount);
 }));
 ----
 
-== Asynchronous testing
+//== Asynchronous testing
+== 异步测试
+[[_asynchronous_testing]]
 
-The previous examples supposed that test cases were terminated after their respective callbacks, this is the
-default behavior of a test case callback. Often it is desirable to terminate the test after the test case
-callback, for instance:
+//The previous examples supposed that test cases were terminated after their respective callbacks, this is the
+//default behavior of a test case callback. Often it is desirable to terminate the test after the test case
+//callback, for instance:
+前述示例的前提是，假设所有的测试用例在各自回调之后会结束，
+这是测试用例回调函数的默认行为。在测试用例回调函数之后结束测试是可取的，
+例如：
 
-.The Async object asynchronously completes the test case
+//.The Async object asynchronously completes the test case
+.Async 对象异步的完成测试用例
 [source,java]
 ----
 suite.test("my_test_case", context -> {
@@ -292,19 +360,26 @@ suite.test("my_test_case", context -> {
   // <1>
 });
 ----
-<1> The callback exits but the test case is not terminated
-<2> The event callback from the bus terminates the test
+<1> 回调函数结束，但是测试用例没结束
+<2> 总线事件的回调函数来终止测试
 
-Creating an `link:../../apidocs/io/vertx/ext/unit/Async.html[Async]` object with the `link:../../apidocs/io/vertx/ext/unit/TestContext.html#async--[async]` method marks the
-executed test case as non terminated. The test case terminates when the `link:../../apidocs/io/vertx/ext/unit/Async.html#complete--[complete]`
-method is invoked.
+//Creating an `link:../../apidocs/io/vertx/ext/unit/Async.html[Async]` object with the `link:../../apidocs/io/vertx/ext/unit/TestContext.html#async--[async]` method marks the
+//executed test case as non terminated. The test case terminates when the `link:../../apidocs/io/vertx/ext/unit/Async.html#complete--[complete]`
+//method is invoked.
+用 `link:../../apidocs/io/vertx/ext/unit/TestContext.html#async--[async]` 方法创建一个 `link:../../apidocs/io/vertx/ext/unit/Async.html[Async]` 对象表示测试用例还未结束。
+当执行 `link:../../apidocs/io/vertx/ext/unit/Async.html#complete--[complete]` 方法时，
+测试用例才算结束。
 
-NOTE: When the `complete` callback is not invoked, the test case fails after a certain timeout.
+//NOTE: When the `complete` callback is not invoked, the test case fails after a certain timeout.
+NOTE: 当 `complete` 回调函数未被执行时，测试用例会在指定超时时间之后失败。
 
-Several `Async` objects can be created during the same test case, all of them must be _completed_ to terminate
-the test.
+//Several `Async` objects can be created during the same test case, all of them must be _completed_ to terminate
+//the test.
+同一个测试用例中可以创建多个 `Async` 对象，
+必须调用所有Async对象的 _completed_ 方法来终止测试。
 
-.Several Async objects provide coordination
+//.Several Async objects provide coordination
+.多个Async对象合作
 [source,java]
 ----
 suite.test("my_test_case", context -> {
@@ -323,10 +398,13 @@ suite.test("my_test_case", context -> {
 });
 ----
 
-Async objects can also be used in _before_ or _after_ callbacks, it can be very convenient in a _before_ callback
-to implement a setup that depends on one or several asynchronous results:
+//Async objects can also be used in _before_ or _after_ callbacks, it can be very convenient in a _before_ callback
+//to implement a setup that depends on one or several asynchronous results:
+Async 对象也可以用在 _before_ 或 _after_ 回调中，
+这将很方便的在 _before_ 回调中，实现依赖于多个异步结果的启动操作：
 
-.Async starts an http server before test cases
+//.Async starts an http server before test cases
+.执行测试用例之前异步启动 http server
 [source,java]
 ----
 suite.before(context -> {
@@ -340,8 +418,10 @@ suite.before(context -> {
 });
 ----
 
-It is possible to wait until the completion of a specific `link:../../apidocs/io/vertx/ext/unit/Async.html[Async]`, similar
-to Java's count-down latch:
+//It is possible to wait until the completion of a specific `link:../../apidocs/io/vertx/ext/unit/Async.html[Async]`, similar
+//to Java's count-down latch:
+您也可以等待 `link:../../apidocs/io/vertx/ext/unit/Async.html[Async]` 直到其结束，
+类似Java的 count-down latch：
 
 .Wait for completion
 [source, java]
@@ -358,12 +438,16 @@ server.listen(8080, ar -> {
 async.awaitSuccess();
 ----
 
-WARNING: this should not be executed from the event loop!
+//WARNING: this should not be executed from the event loop!
+WARNING: 这个方法不应该从event loop上执行！
 
-Async can also be created with an initial count value, it completes when the count-down reaches
-zero using `link:../../apidocs/io/vertx/ext/unit/Async.html#countDown--[countDown]`:
+//Async can also be created with an initial count value, it completes when the count-down reaches
+//zero using `link:../../apidocs/io/vertx/ext/unit/Async.html#countDown--[countDown]`:
+Async 可以创建一个初始计数值，
+当用 `link:../../apidocs/io/vertx/ext/unit/Async.html#countDown--[countDown]` 方法将 count-down 的值减到0时：
 
-.Wait until the complete count-down reaches zero
+//.Wait until the complete count-down reaches zero
+.等待，直到count-down值为0
 [source, java]
 ----
 Async async = context.async(2);
@@ -382,15 +466,22 @@ vertx.setTimer(1000, id -> {
 async.awaitSuccess();
 ----
 
-Calling `complete()` on an async completes the async as usual, it actually sets the value to `0`.
+//Calling `complete()` on an async completes the async as usual, it actually sets the value to `0`.
+调用Async的 `complete()` 方法会像往常一样结束，实际上它将count-down值直接设置为 `0` 。
 
-== Asynchronous assertions
+//== Asynchronous assertions
+== 异步断言
+[[_asynchronous_assertions]]
 
-`link:../../apidocs/io/vertx/ext/unit/TestContext.html[TestContext]` provides useful methods that provides powerful constructs for async testing:
+//`link:../../apidocs/io/vertx/ext/unit/TestContext.html[TestContext]` provides useful methods that provides powerful constructs for async testing:
+`link:../../apidocs/io/vertx/ext/unit/TestContext.html[TestContext]` 提供了很有用的方法，这些方法提供了强大的异步测试框架：
 
-The `link:../../apidocs/io/vertx/ext/unit/TestContext.html#asyncAssertSuccess--[asyncAssertSuccess]` method returns an {@literal Handler<AsyncResult<T>>}
-instance that acts like `link:../../apidocs/io/vertx/ext/unit/Async.html[Async]`, resolving the `Async` on success and failing the test
-on failure with the failure cause.
+//The `link:../../apidocs/io/vertx/ext/unit/TestContext.html#asyncAssertSuccess--[asyncAssertSuccess]` method returns an {@literal Handler<AsyncResult<T>>}
+//instance that acts like `link:../../apidocs/io/vertx/ext/unit/Async.html[Async]`, resolving the `Async` on success and failing the test
+//on failure with the failure cause.
+`link:../../apidocs/io/vertx/ext/unit/TestContext.html#asyncAssertSuccess--[asyncAssertSuccess]` 方法返回一个类似 `link:../../apidocs/io/vertx/ext/unit/Async.html[Async]` {@literal Handler<AsyncResult<T>>} 对象，
+它在运行成功时执行 `Async` 对象，并在失败时，
+让整个测试用例失败，并返回失败原因。
 
 [source,java]
 ----
@@ -403,14 +494,17 @@ vertx.deployVerticle("my.verticle", ar -> {
   }
 });
 
-// Can be replaced by
+// 可用如下代替
 
 vertx.deployVerticle("my.verticle", context.asyncAssertSuccess());
 ----
 
-The `link:../../apidocs/io/vertx/ext/unit/TestContext.html#asyncAssertSuccess-io.vertx.core.Handler-[asyncAssertSuccess]` method returns an {@literal Handler<AsyncResult<T>>}
-instance that acts like `link:../../apidocs/io/vertx/ext/unit/Async.html[Async]`, invoking the delegating {@literal Handler<T>} on success
-and failing the test on failure with the failure cause.
+//The `link:../../apidocs/io/vertx/ext/unit/TestContext.html#asyncAssertSuccess-io.vertx.core.Handler-[asyncAssertSuccess]` method returns an {@literal Handler<AsyncResult<T>>}
+//instance that acts like `link:../../apidocs/io/vertx/ext/unit/Async.html[Async]`, invoking the delegating {@literal Handler<T>} on success
+//and failing the test on failure with the failure cause.
+`link:../../apidocs/io/vertx/ext/unit/TestContext.html#asyncAssertSuccess-io.vertx.core.Handler-[asyncAssertSuccess]` 方法返回一个类似于 `link:../../apidocs/io/vertx/ext/unit/Async.html[Async]` 的 {@literal Handler<AsyncResult<T>>} 对象，
+运行成功时它执行了代理 {@literal Handler<T>} ，
+而在运行出错时让整个测试用例失败，并返回错误原因。
 
 [source,java]
 ----
@@ -436,8 +530,10 @@ vertx.deployVerticle("my.verticle", context.asyncAssertSuccess(id -> {
 }));
 ----
 
-The async is completed when the `Handler` exits, unless new asyncs were created during the invocation, which
-can be handy to _chain_ asynchronous behaviors:
+//The async is completed when the `Handler` exits, unless new asyncs were created during the invocation, which
+//can be handy to _chain_ asynchronous behaviors:
+当 `Handler` 退出时，Async对象同时也会处于 `completed` 状态，除非Async对象在函数调用期间被创建，
+这会在 _链式_ 异步操作时提供方便：
 
 [source,java]
 ----
@@ -463,9 +559,12 @@ vertx.deployVerticle("my.verticle", context.asyncAssertSuccess(id ->
 ));
 ----
 
-The `link:../../apidocs/io/vertx/ext/unit/TestContext.html#asyncAssertFailure--[asyncAssertFailure]` method returns an {@literal Handler<AsyncResult<T>>}
-instance that acts like `link:../../apidocs/io/vertx/ext/unit/Async.html[Async]`, resolving the `Async` on failure and failing the test
-on success.
+//The `link:../../apidocs/io/vertx/ext/unit/TestContext.html#asyncAssertFailure--[asyncAssertFailure]` method returns an {@literal Handler<AsyncResult<T>>}
+//instance that acts like `link:../../apidocs/io/vertx/ext/unit/Async.html[Async]`, resolving the `Async` on failure and failing the test
+//on success.
+`link:../../apidocs/io/vertx/ext/unit/TestContext.html#asyncAssertFailure--[asyncAssertFailure]` 方法返回了一个类似 `link:../../apidocs/io/vertx/ext/unit/Async.html[Async]` 的 {@literal Handler<AsyncResult<T>>} 对象,
+它在运行失败时执行 `Async` ，
+并在成功时让测试用例失败。
 
 [source,java]
 ----
@@ -478,14 +577,19 @@ vertx.deployVerticle("my.verticle", ar -> {
   }
 });
 
-// Can be replaced by
+// 可用如下代替
 
 vertx.deployVerticle("my.verticle", context.asyncAssertFailure());
 ----
 
-The `link:../../apidocs/io/vertx/ext/unit/TestContext.html#asyncAssertFailure-io.vertx.core.Handler-[asyncAssertFailure]` method returns an {@literal Handler<AsyncResult<T>>}
-instance that acts like `link:../../apidocs/io/vertx/ext/unit/Async.html[Async]`, invoking the delegating {@literal Handler<Throwable>} on
-failure and failing the test on success.
+//The `link:../../apidocs/io/vertx/ext/unit/TestContext.html#asyncAssertFailure-io.vertx.core.Handler-[asyncAssertFailure]` method returns an {@literal Handler<AsyncResult<T>>}
+//instance that acts like `link:../../apidocs/io/vertx/ext/unit/Async.html[Async]`, invoking the delegating {@literal Handler<Throwable>} on
+//failure and failing the test on success.
+//`link:../../apidocs/io/vertx/ext/unit/TestContext.html#asyncAssertFailure-io.vertx.core.Handler-[asyncAssertFailure]`
+`link:../../apidocs/io/vertx/ext/unit/TestContext.html#asyncAssertFailure-io.vertx.core.Handler-[asyncAssertFailure]` 方法返回一个类似 `link:../../apidocs/io/vertx/ext/unit/Async.html[Async]` 的  {@literal Handler<AsyncResult<T>>} 对象，
+它在运行失败时，
+执行代理处理器 {@literal Handler<Throwable>} ，
+并在执行成功时让测试用例失败。
 
 [source,java]
 ----
@@ -499,33 +603,43 @@ vertx.deployVerticle("my.verticle", ar -> {
   }
 });
 
-// Can be replaced by
+// 可用如下代替
 
 vertx.deployVerticle("my.verticle", context.asyncAssertFailure(cause -> {
   context.assertTrue(cause instanceof IllegalArgumentException);
 }));
 ----
 
-The async is completed when the `Handler` exits, unless new asyncs were created during the invocation.
+//The async is completed when the `Handler` exits, unless new asyncs were created during the invocation.
+`Handler` 退出时，这个Async也会处于完成状态，除非在执行过程中，创建了新的Async对象
 
-== Repeating test
+//== Repeating test
+== 重复测试
+[[_repeating_test]]
 
-When a test fails randomly or not often, for instance a race condition, it is convenient to run the same
-test multiple times to increase the failure likelihood of the test.
+//When a test fails randomly or not often, for instance a race condition, it is convenient to run the same
+//test multiple times to increase the failure likelihood of the test.
+当测试随机条件或测试不经常失败时，例如在竞争条件下，
+为了增加测试失败的可能性，多次运行同一测试是个方便的方式。
 
-.Repeating a test
+//.Repeating a test
+.重复一个测试
 [source,java]
 ----
 TestSuite.create("my_suite").test("my_test", 1000, context -> {
-  // This will be executed 1000 times
+  // 这里会执行1000次
 });
 ----
 
-When declared, _beforeEach_ and _afterEach_ callbacks will be executed as many times as the test is executed.
+//When declared, _beforeEach_ and _afterEach_ callbacks will be executed as many times as the test is executed.
+如果声明了 _beforeEach_ 和 _afterEach_ 回调，那么每当测试用例执行一次，它们也会被执行一次。
 
-NOTE: test repetition are executed sequentially
+//NOTE: test repetition are executed sequentially
+NOTE: 重复的测试用例是顺序执行的
 
-== Sharing objects
+//== Sharing objects
+== 共享对象
+[[_sharing_objects]]
 
 The `link:../../apidocs/io/vertx/ext/unit/TestContext.html[TestContext]` has `get`/`put`/`remove` operations for sharing state between callbacks.
 
