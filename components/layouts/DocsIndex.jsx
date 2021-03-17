@@ -125,7 +125,7 @@ const Docs = ({ metadata, version }) => {
             <Section key={category.id} icon={category.icon} id={category.id} name={category.name}>
               {metadata.metadata.entries.filter(e => e.category === category.id).map(entry => (
                 <SectionPart key={entry.id} title={entry.name} label={entry.label}
-                    href={`/docs${versionPath}${entry.href}`}>
+                    href={(entry.href.startsWith("/") ? `/docs${versionPath}` : "") + entry.href}>
                   {entry.description}
                 </SectionPart>
               ))}
