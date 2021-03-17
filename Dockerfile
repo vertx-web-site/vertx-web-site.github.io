@@ -8,7 +8,7 @@ WORKDIR /vertx/docs
 RUN ./gradlew
 
 # Build website
-FROM node:12-slim AS build
+FROM node:14-slim AS build
 
 RUN mkdir /vertx
 COPY package.json package-lock.json /vertx/
