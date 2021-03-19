@@ -29,7 +29,7 @@ Kubernetes中的服务，在导入到Vert.x后都会创建对应的 `link:../../
 compile 'io.vertx:vertx-service-discovery-bridge-kubernetes:4.0.3'
 ----
 
-Then, when creating the service discovery, register this bridge as follows:
+然后，当创建服务发现时，按如下注册桥接器：
 
 [source, java]
 ----
