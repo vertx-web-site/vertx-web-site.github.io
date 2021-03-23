@@ -138,7 +138,7 @@ Ignite 的配置除了上述的 json 格式，也可以选用 XML 格式。
 </dependency>
 ----
 
-* Gradle （位于 `build.gradle `）：
+* Gradle （位于 `build.gradle` ）：
 
 [source,groovy,subs="+attributes"]
 ----
@@ -240,7 +240,7 @@ Vertx.clusteredVertx(options, res -> {
 
 Ignite 默认配置使用 `TcpDiscoveryMulticastIpFinder` ，因此您的网络必须保证组播可用。
 对于禁用组播的情况，应将 `TcpDiscoveryVmIpFinder` 与预先配置的IP地址列表一起使用。
-更多详细信息请参阅 Apache Ignite 文档的 
+更多详细信息请参阅 Apache Ignite 文档的
 http://apacheignite.readme.io/docs/cluster-config[集群配置] 章节。
 
 [[_trouble_shooting_clustering]]
