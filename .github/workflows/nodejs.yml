@@ -100,8 +100,8 @@ jobs:
             repo-url: git@gitee.com:vertx-china/vertx-china.git
           - step: Coding.net
             repo-url: git@e.coding.net:lippen/cn.vertx.tk.git
+    name: Deploy to ${{ matrix.step }}
     needs: build
-    name: Deploy to ${{ matrix.setup }}
     steps:
       - name: Clone current GitHub Pages repo
         run: git clone --depth 1 https://github.com/vertx-china/vertx-china.github.io.git
@@ -110,8 +110,8 @@ jobs:
         run: |
           rm -rf vertx-china.github.io/.git
           rm vertx-china.github.io/.nojekyll
-          
-      - name: Deploy
+
+      - name: Deploy to ${{ matrix.step }}
         uses: actionhub/workflows/git-deploy@v1
         with:
           ssh-key: ${{ secrets.GITEE_TOKEN }}
