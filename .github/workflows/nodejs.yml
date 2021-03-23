@@ -97,10 +97,8 @@ jobs:
       matrix:
         include:
           - step: Gitee Pages
-            ssh-key: ${{ secrets.GITEE_TOKEN }}
             repo-url: git@gitee.com:vertx-china/vertx-china.git
           - step: Coding.net
-            ssh-key: ${{ secrets.CODING_TOKEN }}
             repo-url: git@e.coding.net:lippen/cn.vertx.tk.git
     needs: build
     steps:
@@ -110,7 +108,7 @@ jobs:
       - name: Deploy to ${{ matrix.setup }}
         uses: actionhub/workflows/git-deploy@v1
         with:
-          ssh-key: ${{ matrix.ssh-key }}
+          ssh-key: ${{ secrets.GITEE_TOKEN }}
           src-dir: vertx-china.github.io
           branch: master
           repo-url: ${{ matrix.repo-url }}
