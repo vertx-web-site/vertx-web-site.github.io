@@ -89,32 +89,40 @@ jobs:
           external_repository: vertx-china/vertx-china.github.io
           publish_branch: master
           publish_dir: vertx-china.github.io
-#          cname: vertx.io
+    #          cname: vertx.io
+  deploy:
+    runs-on: ubuntu-latest
+    if: ${{ github.ref != 'refs/heads/master' }}
+    strategy:
+      matrix:
+        include:
+          - step: Gitee Pages
+            ssh-key: ${{ secrets.GITEE_TOKEN }}
+            repo-url: git@gitee.com:vertx-china/vertx-china.git
+          - step: Coding.net
+            ssh-key: ${{ secrets.CODING_TOKEN }}
+            repo-url: git@e.coding.net:lippen/cn.vertx.tk.git
+    needs: build
+    steps:
+      - name: Clone current GitHub Pages repo
+        run: git clone --depth 1 https://github.com/vertx-china/vertx-china.github.io.git
 
-      - name: Deploy to Gitee Pages
+      - name: Deploy to ${{ matrix.setup }}
         uses: actionhub/workflows/git-deploy@v1
         with:
-          ssh-key: ${{ secrets.GITEE_TOKEN }}
+          ssh-key: ${{ matrix.ssh-key }}
           src-dir: vertx-china.github.io
           branch: master
-          repo-url: git@gitee.com:vertx-china/vertx-china.git
+          repo-url: ${{ matrix.repo-url }}
           user-name: okou19900722
           user-email: 512058895@qq.com
           commit-message: publish
           force-orphan: true
 
-      - name: Deploy to Coding.net
-        uses: actionhub/workflows/git-deploy@v1
-        with:
-          ssh-key: ${{ secrets.CODING_TOKEN }}
-          src-dir: vertx-china.github.io
-          branch: master
-          repo-url: git@e.coding.net:lippen/cn.vertx.tk.git
-          user-name: okou19900722
-          user-email: 512058895@qq.com
-          commit-message: publish
-          force-orphan: true
-
+  refresh:
+    runs-on: ubuntu-latest
+    needs: deploy
+    steps:
       - name: Refresh Gitee Pages
         uses: actionhub/gitee-pages@v1
         with:
