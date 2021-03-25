@@ -547,7 +547,7 @@ const entries = [
   {
     id: "vertx-junit5",
     name: "Vert.x JUnit 5",
-    description: "Asynchronous testing with Vert.x and JUnit 5.",
+    description: "用 Vert.x 和 JUnit 5 来运行异步测试",
     category: "testing",
     href: "/vertx-junit5/java/",
     repository: "https://github.com/vert-x3/vertx-junit5",
