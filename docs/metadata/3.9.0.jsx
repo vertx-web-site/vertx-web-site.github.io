@@ -191,8 +191,8 @@ const entries = [
   },
   {
     id: "vertx-cassandra-client",
-    name: "Cassandra Client",
-    description: "Apache Cassandra client.",
+    name: "Cassandra 客户端",
+    description: "Apache Cassandra 客户端。",
     category: "databases",
     href: "/vertx-cassandra-client/java/",
     repository: "https://github.com/vert-x3/vertx-cassandra-client",
