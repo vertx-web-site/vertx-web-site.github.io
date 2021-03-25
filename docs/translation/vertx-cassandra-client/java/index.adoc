@@ -1,4 +1,3 @@
-//= Cassandra Client for Vert.x
 = Vert.x Cassandra 客户端
 
 Vert.x 客户端可以访问 http://cassandra.apache.org/[Apache Cassandra] 服务。
