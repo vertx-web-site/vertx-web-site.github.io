@@ -2,7 +2,6 @@
 
 Vert.x 客户端可以访问 http://cassandra.apache.org/[Apache Cassandra] 服务。
 
-WARNING: 这个模块有 _技术预览_ 状态，这说明API在不同版本之间会有变化。
 
 [[_getting_started]]
 == 开始
