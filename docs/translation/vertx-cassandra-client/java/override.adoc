@@ -40,7 +40,8 @@ cassandraClient.rxQueryStream("SELECT my_key FROM my_keyspace.my_table where my_
   });
 ----
 
-==== Bulk fetching
+[[_bulk_fetching]]
+==== 获取 Bulk
 
 当您的结果集数据量很少，您可以一次性获取所有结果；
 
