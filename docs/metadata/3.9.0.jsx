@@ -556,9 +556,8 @@ const entries = [
   },
   {
     id: "vertx-unit",
-    name: "Vert.x Unit",
-    description: `A unit testing tool-kit designed to work with
-      asynchronous code. Includes JUnit 4 support.`,
+    name: "Vert.x 单元测试",
+    description: `一款旨在配合异步代码使用的单元测试工具。包含有JUnit 4的支持。`,
     category: "testing",
     href: "/vertx-unit/java/",
     repository: "https://github.com/vert-x3/vertx-unit",
