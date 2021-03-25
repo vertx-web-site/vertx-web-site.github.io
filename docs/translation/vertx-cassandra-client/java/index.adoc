@@ -181,7 +181,8 @@ cassandraClient.execute("SELECT * FROM users", listCollector, ar -> {
 });
 ----
 
-==== Low level fetch
+[[_low_level_fetch]]
+==== 低级别获取
 
 相比于stream 和bulk fetch，这个API更加底层，并对负载提供了更强大控制。
 
