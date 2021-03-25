@@ -141,7 +141,8 @@ cassandraClient.queryStream("SELECT my_string_col FROM my_keyspace.my_table wher
 
 在这个示例当中，我们执行查询，并通过HTTP来流式地处理查询结果。
 
-==== Bulk fetching
+[[_bulk_fetching]]
+==== 获取 Bulk 
 
 这个API应该在您需要同时处理所有结果行的时候来使用。
 
