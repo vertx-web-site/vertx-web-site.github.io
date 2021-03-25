@@ -161,7 +161,7 @@ cassandraClient.executeWithFullFetch("SELECT * FROM my_keyspace.my_table where m
 });
 ----
 
-CAUTION: 只能在内存足以容纳整个数据块时使用 bulk fetching。
+CAUTION: 只能在内存足以容纳整个数据块时获取 bulk 。
 
 [[_collector_queries]]
 === Collector 查询
