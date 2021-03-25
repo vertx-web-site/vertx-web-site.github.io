@@ -14,7 +14,7 @@ Vert.x Unit 借鉴了已有的测试框架，例如 http://junit.org[JUnit] or h
 要使用 Vert.x Unit，
 那么请添加如下依赖：
 
-* Maven (在您的 `pom.xml` 文件):
+* Maven （在您的 `pom.xml` 文件）：
 
 [source,xml,subs="+attributes"]
 ----
@@ -26,7 +26,7 @@ Vert.x Unit 借鉴了已有的测试框架，例如 http://junit.org[JUnit] or h
 </dependency>
 ----
 
-* Gradle (在您的 `build.gradle` 文件):
+* Gradle （在您的 `build.gradle` 文件）：
 
 [source,groovy,subs="+attributes"]
 ----
