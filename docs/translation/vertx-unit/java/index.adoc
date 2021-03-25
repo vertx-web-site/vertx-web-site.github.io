@@ -2,8 +2,8 @@
 
 异步多语言单元测试。
 
-== 介绍
 [[_introduction]]
+== 介绍
 
 Vert.x Unit 用多语言的异步API在JVM上 运行单元测试。
 Vert.x Unit 借鉴了已有的测试框架，例如 http://junit.org[JUnit] or http://qunitjs.com[QUnit]
@@ -60,8 +60,7 @@ suite.test("my_test_case", context -> {
 suite.run(new TestOptions().addReporter(new ReportOptions().setTo("console")));
 ----
 
-执行之时，
-测试套件会在控制台报告每一步的结果：
+执行之时，测试套件会在控制台报告每一步的结果：
 
 ----
 Begin test suite the_test_suite
@@ -73,8 +72,8 @@ End test suite the_test_suite , run: 1, Failures: 0, Errors: 0
 `reporters` 选项配置了套件执行器的reporter，用以报告测试用例执行结果，
 更多信息详见 <<reporting>> 章节
 
-== 编写一个测试套件
 [[_writing_a_test_suite]]
+== 编写一个测试套件
 
 测试套件是一系列测试用例组成的有名称的集合，测试用例则是一个直接回调。
 套件生命周期中可以设置回调函数，这些函数可以在执行测试用例前后执行，
@@ -160,8 +159,8 @@ _beforeEach_ 回调函数执行于每一个测试用例之前，一旦其运行�
 并报告失败结果。 _afterEach_ 回调函数仅在测试用例之后被执行，
 除非 _beforeEach_ 函数运行失败。
 
-== 断言
 [[_asserting]]
+== 断言
 
 Vert.x Unit 提供了 `link:../../apidocs/io/vertx/ext/unit/TestContext.html[TestContext]` 对象用来在测试用例中作断言操作。
 _context_ 对象提供了用于断言的常用方法。
@@ -246,8 +245,8 @@ suite.test("my_test_case", context -> {
 });
 ----
 
-=== 失败
 [[_failing]]
+=== 失败
 
 最后（并非不重要），_test_ 提供了一个 _fail_ 方法用来抛出断言错误的异常：
 
@@ -263,8 +262,8 @@ suite.test("my_test_case", context -> {
 _error_ 对象取决于所使用的编程语言，对于 Java 或者 Groovy 而言，可以是任何 _Throwable_ 的子类，
 对于 JavaScript 则是一个 _error_ ，对于 Ruby 则是一个 _Exception_。
 
-=== 使用第三方断言框架
 [[_using_third_party_assertion_framework]]
+=== 使用第三方断言框架
 
 您也可以用任何其他的断言框架，例如比较流行的 _hamcrest_ 和 _assertj_ 。
 我们建议您用 `link:../../apidocs/io/vertx/ext/unit/TestContext.html#verify-io.vertx.core.Handler-[verify]` ，
@@ -725,7 +724,7 @@ TestOptions options = new TestOptions().setTimeout(10000);
 suite.run(options);
 ----
 
-[[event_loop]]
+[[_event_loop]]
 === Event loop
 
 Vert.x Unit 是一系列task的执行过程，每个task由前一个task的完成动作来触发。
@@ -760,7 +759,7 @@ Vert.x Unit 是一系列task的执行过程，每个task由前一个task的完�
 `useEventLoop` 默认为 `null` , 这说明，
 如果条件允许则使用一个event loop，当没有event loop 可用时，不使用event loop。
 
-[[reporting]]
+[[_reporting]]
 == 测试报告
 
 测试报告是测试套件中的重要部分，
@@ -847,7 +846,7 @@ EventBusCollector collector = EventBusCollector.create(
 collector.register("the-address");
 ----
 
-[[vertx_integration]]
+[[_vertx_integration]]
 == Vertx 整合
 
 默认情况下，断言和失败必须在 `link:../../apidocs/io/vertx/ext/unit/TestContext.html[TestContext]` 之内完成，另外 _断言失败_ 仅仅在Vert.x Unit的调用下才会有效。
