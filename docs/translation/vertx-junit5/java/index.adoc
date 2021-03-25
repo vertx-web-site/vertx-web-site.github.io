@@ -1,17 +1,19 @@
-= Vert.x JUnit 5 integration
+= Vert.x Junit 5 整合
 
-This module offers integration and support for writing Vert.x tests with JUnit 5.
+本模块提供了用 JUnit 5 编写Vert.x测试的相关整合以及支持。
 
-== Use it in your build
+[[_use_it_in_your_build]]
+== 在您的构建脚本中使用它
 
 * `groupId`: `io.vertx`
 * `artifactId`: `vertx-junit5`
 * `version`: (current Vert.x release or SNAPSHOT)
 
-== Why testing asynchronous code is different
+[[_why_testing_asynchronous_code_is_different]]
+== 为什么测试异步代码与平常不同
 
-Testing asynchronous operations requires more tools than what a test harness like JUnit provides.
-Let us consider a typical Vert.x creation of a HTTP server, and put it into a JUnit test:
+测试异步操作需要的工具相比于Junit提供的工具，要求更多。
+让我们考虑一个典型的例子，用Vert.x创建HTTP服务，并将它放入Junit测试：
 
 [source,java]
 ----
@@ -24,28 +26,29 @@ class ATest {
     vertx.createHttpServer()
       .requestHandler(req -> req.response().end("Ok"))
       .listen(16969, ar -> {
-        // (we can check here if the server started or not)
+        //（在此处检查服务是否已经启动）
       });
   }
 }
 ----
 
-There are issues here since `listen` does not block as it tries to start a HTTP server asynchronously.
-We cannot simply assume that the server has properly started upon a `listen` invocation return.
-Also:
+这里会有一些问题，因为HTTP服务是异步创建的， `listen` 方法并不阻塞。
+我们不能按常规方式来断定在 `listen` 方法返回之后，服务就成功启动了。
+况且：
 
-1. the callback passed to `listen` will be executed from a Vert.x event loop thread, which is different from the thread that runs the JUnit test, and
-2. right after calling `listen`, the test exits and is being considered to be passed, while the HTTP server may not even have finished starting, and
-3. since the `listen` callback executes on a different thread than the one executing the test, then any exception such as one thrown by a failed assertion cannot be capture by the JUnit runner.
+1. 传到 `listen` 的回调函数是在 Vert.x event loop 线程上运行的，而不是在执行Junit 测试的线程上运行的，此外
+2. 调用 `listen` 方法之后，单元测试就退出了，并且已经被认为执行成功，此时HTTP服务有可能并没有启动完毕，而且
+3. 因为 `listen` 中的回调函数不是运行于单元测试线程上，而是运行于另一线程，所以类似于断言失败等等任何异常都不会被Junit执行器捕获到。
 
-== A test context for asynchronous executions
+[[_a_test_context_for_asynchronous_executions]]
+== 异步执行过程的测试上下文
 
-The first contribution of this module is a `link:../../apidocs/io/vertx/junit5/VertxTestContext.html[VertxTestContext]` object that:
+对该模块有首要贡献的是 `link:../../apidocs/io/vertx/junit5/VertxTestContext.html[VertxTestContext]` 对象：
 
-1. allows waiting for operations in other threads to notify of completion, and
-2. supports assertion failures to be received to mark a test as failed.
+1. 允许等待其他线程中正在执行的操作，从而触发完成事件。
+2. 支持接收失败断言用以标记单元测试失败。
 
-Here is a very basic usage:
+一下是一个很基础的用法：
 
 [source,java]
 ----
@@ -69,16 +72,17 @@ class BTest {
   }
 }
 ----
-<1> `link:../../apidocs/io/vertx/junit5/VertxTestContext.html#succeedingThenComplete--[succeedingThenComplete]` returns an asynchronous result handler that is expected to succeed and then make the test context pass.
-<2> `link:../../apidocs/io/vertx/junit5/VertxTestContext.html#awaitCompletion-long-java.util.concurrent.TimeUnit-[awaitCompletion]` has the semantics of a `java.util.concurrent.CountDownLatch`, and returns `false` if the waiting delay expired before the test passed.
-<3> If the context captures a (potentially asynchronous) error, then after completion we must throw the failure exception to make the test fail.
+<1> `link:../../apidocs/io/vertx/junit5/VertxTestContext.html#succeedingThenComplete--[succeedingThenComplete]` 返回一个异步结果处理器，该处理器期望成功结果并使 test context 通过。
+<2> `link:../../apidocs/io/vertx/junit5/VertxTestContext.html#awaitCompletion-long-java.util.concurrent.TimeUnit-[awaitCompletion]` 具有 `java.util.concurrent.CountDownLatch` 的语义，并且，如果测试通过之前超时了，会返回 `false` 值。
+<3> 如果 context 捕获到了一个错误（潜在的异步错误），那么在测试完成之后，我们必须抛出该异常并让测试用例失败。
 
-== Use any assertion library
+[[_use_any_assertion_library]]
+== 使用其他任何断言库
 
-This module does not make any assumption on the assertion library that you should be using.
-You can use plain JUnit assertions, http://joel-costigliola.github.io/assertj/[AssertJ], etc.
+本模块并不要求您使用特定的断言库。
+您可以使用原始的JUnit断言、 http://joel-costigliola.github.io/assertj/[AssertJ] 、等等。
 
-To make assertions in asynchronous code and make sure that `link:../../apidocs/io/vertx/junit5/VertxTestContext.html[VertxTestContext]` is notified of potential failures, you need to wrap them with a call to `link:../../apidocs/io/vertx/junit5/VertxTestContext.html#verify-io.vertx.junit5.VertxTestContext.ExecutionBlock-[verify]`, `link:../../apidocs/io/vertx/junit5/VertxTestContext.html#succeeding-io.vertx.core.Handler-[succeeding]`, or `link:../../apidocs/io/vertx/junit5/VertxTestContext.html#failing-io.vertx.core.Handler-[failing]`:
+想要在异步代码当中做断言并确定 `link:../../apidocs/io/vertx/junit5/VertxTestContext.html[VertxTestContext]` 已被潜在失败所通知， 那么您需要将他们包装到 `link:../../apidocs/io/vertx/junit5/VertxTestContext.html#verify-io.vertx.junit5.VertxTestContext.ExecutionBlock-[verify]` 、 `link:../../apidocs/io/vertx/junit5/VertxTestContext.html#succeeding-io.vertx.core.Handler-[succeeding]` 或者 `link:../../apidocs/io/vertx/junit5/VertxTestContext.html#failing-io.vertx.core.Handler-[failing]` 当中：
 
 [source,java]
 ----
@@ -92,28 +96,30 @@ client.request(HttpMethod.GET, 8080, "localhost", "/")
   })));
 ----
 
-The useful methods in `link:../../apidocs/io/vertx/junit5/VertxTestContext.html[VertxTestContext]` are the following:
+`link:../../apidocs/io/vertx/junit5/VertxTestContext.html[VertxTestContext]` 中有用的方法列举如下：
 
-* `link:../../apidocs/io/vertx/junit5/VertxTestContext.html#completeNow--[completeNow]` and `link:../../apidocs/io/vertx/junit5/VertxTestContext.html#failNow-java.lang.Throwable-[failNow]` to notify of a success or failure
-* `link:../../apidocs/io/vertx/junit5/VertxTestContext.html#succeedingThenComplete--[succeedingThenComplete]` to provide `Handler<AsyncResult<T>>` handlers that expect a success and then completes the test context
-* `link:../../apidocs/io/vertx/junit5/VertxTestContext.html#failingThenComplete--[failingThenComplete]` to provide `Handler<AsyncResult<T>>` handlers that expect a failure and then completes the test context
-* `link:../../apidocs/io/vertx/junit5/VertxTestContext.html#succeeding--[succeeding]` to provide `Handler<AsyncResult<T>>` handlers that expect a success and pass the result to another callback, any exception thrown from the callback is considered as a test failure
-* `link:../../apidocs/io/vertx/junit5/VertxTestContext.html#failing--[failing]` to provide `Handler<AsyncResult<T>>` handlers that expect a failure and pass the exception to another callback, any exception thrown from the callback is considered as a test failure
-* `link:../../apidocs/io/vertx/junit5/VertxTestContext.html#verify-io.vertx.junit5.VertxTestContext.ExecutionBlock-[verify]` to perform assertions, any exception thrown from the code block is considered as a test failure.
+* `link:../../apidocs/io/vertx/junit5/VertxTestContext.html#completeNow--[completeNow]` 和 `link:../../apidocs/io/vertx/junit5/VertxTestContext.html#failNow-java.lang.Throwable-[failNow]` 用于通知成功或失败。
+* `link:../../apidocs/io/vertx/junit5/VertxTestContext.html#succeedingThenComplete--[succeedingThenComplete]` 用来提供 `Handler<AsyncResult<T>>` 处理器，该处理器期望得到成功结果并完成 test context。
+* `link:../../apidocs/io/vertx/junit5/VertxTestContext.html#failingThenComplete--[failingThenComplete]` 提供一个 `Handler<AsyncResult<T>>` 处理器，该处理器期望得到失败结果并完成 test context。
+* `link:../../apidocs/io/vertx/junit5/VertxTestContext.html#succeeding--[succeeding]` 用来提供 `Handler<AsyncResult<T>>` 处理器，该处理器期望成功结果并将该结果传到下一个回调函数中，该过程中从回调函数抛出任何异常都会被认为测试用例失败。
+* `link:../../apidocs/io/vertx/junit5/VertxTestContext.html#failing--[failing]` 用来提供 `Handler<AsyncResult<T>>` 处理器 ，该处理器期望一个失败结果，并将异常传入下一个回调函数中，该过程中从回调函数抛出任何异常都会被认为测试用例失败。
+* `link:../../apidocs/io/vertx/junit5/VertxTestContext.html#verify-io.vertx.junit5.VertxTestContext.ExecutionBlock-[verify]` 用来提供断言功能，代码块中抛出的任何异常都被认为测试用例失败。
 
-WARNING: Unlike `succeedingThenComplete` and `failingThenComplete`, calling `succeeding` and `failing` methods can only make a test fail (e.g., `succeeding` gets a failed asynchronous result).
-To make a test pass you still need to call `completeNow`, or use checkpoints as explained below.
+WARNING: 与 `succeedingThenComplete` 和 `failingThenComplete` 不同，调用 `succeeding` 或 `failing` 方法只能让测试用例失败（例如，`succeeding` 获取到了失败的异步结果）。
+如果想让测试用例通过，您仍然需要调用 `completeNow` ，或者使用下述的 checkpoints 。
 
-== Checkpoint when there are multiple success conditions
+[[_checkpoint_when_there_are_multiple_success_conditions]]
+== 有多个成功条件的Checkpoint
 
-Many tests can be marked as passed by simply calling `link:../../apidocs/io/vertx/junit5/VertxTestContext.html#completeNow--[completeNow]` at some point of the execution.
-That being said there are also many cases where the success of a test depends on different asynchronous parts to be validated.
+在一些特定的执行点调用 `link:../../apidocs/io/vertx/junit5/VertxTestContext.html#completeNow--[completeNow]` 可以轻松的将许多测试标记为通过。
+也就是说基于不同的异步结果，一个测试用例在很多种情况下都可以视为成功。
 
 You can use checkpoints to flag some execution points to be passed.
-A `link:../../apidocs/io/vertx/junit5/Checkpoint.html[Checkpoint]` can require a single flagging, or multiple flags.
-When all checkpoints have been flagged, then the corresponding `link:../../apidocs/io/vertx/junit5/VertxTestContext.html[VertxTestContext]` makes the test pass.
+您可以用 checkpoint 来将某些执行点标记为通过。
+一个 `link:../../apidocs/io/vertx/junit5/Checkpoint.html[Checkpoint]` 可以由单个标记或多个标记来控制。
+当所有的checkpoint被标记后， `link:../../apidocs/io/vertx/junit5/VertxTestContext.html[VertxTestContext]` 将使测试用例通过。
 
-Here is an example with checkpoints on the HTTP server being started, 10 HTTP requests having being responded, and 10 HTTP client requests having been made:
+以下是一个结合checkpoint启动HTTP服务、创建10个HTTP客户端请求并响应10个HTTP请求的示例：
 
 [source,java]
 ----
@@ -140,15 +146,17 @@ for (int i = 0; i < 10; i++) {
 }
 ----
 
-TIP: Checkpoints should be created only from the test case main thread, not from Vert.x asynchronous event callbacks.
+TIP: checkpoint只能在测试用例的主线程创建，不能在Vert.x异步事件回调中创建。
 
-== Integration with JUnit 5
+[[_integration_with_junit_5]]
+== 整合JUnit 5
 
-JUnit 5 provides a different model compared to the previous versions.
+Junit 5 相比于之前的版本，它提供了一个不同的模型。
 
-=== Test methods
+[[_test_methods]]
+=== 测试方法
 
-The Vert.x integration is primarily done using the `link:../../apidocs/io/vertx/junit5/VertxExtension.html[VertxExtension]` class, and using test parameter injection of `Vertx` and `VertxTestContext` instances:
+与Vert.x 的整合主要受益于 `link:../../apidocs/io/vertx/junit5/VertxExtension.html[VertxExtension]` 类，并使用注入的测试参数： `Vertx` 和 `VertxTestContext` ：
 
 [source,java]
 ----
@@ -162,9 +170,9 @@ class SomeTest {
 }
 ----
 
-NOTE: The `Vertx` instance is not clustered and has the default configuration. If you need something else then just don't use injection on that parameter and prepare a `Vertx` object by yourself.
+NOTE: `Vertx` 实例默认配置下不是集群模式。如果您需要做一些其他事情，那么请不要使用注入的 `Vertx` 参数，您需要自己提供 `Vertx` 对象。
 
-The test is automatically wrapped around the `link:../../apidocs/io/vertx/junit5/VertxTestContext.html[VertxTestContext]` instance lifecycle, so you don't need to insert `link:../../apidocs/io/vertx/junit5/VertxTestContext.html#awaitCompletion-long-java.util.concurrent.TimeUnit-[awaitCompletion]` calls yourself:
+测试用例会被自动的包装到 `link:../../apidocs/io/vertx/junit5/VertxTestContext.html[VertxTestContext]` 生命周期，所以您不需要自己注入 `link:../../apidocs/io/vertx/junit5/VertxTestContext.html#awaitCompletion-long-java.util.concurrent.TimeUnit-[awaitCompletion]` ：
 
 [source,java]
 ----
@@ -186,21 +194,21 @@ class SomeTest {
 }
 ----
 
-You can use it with standard JUnit annotations such as `@RepeatedTest` or lifecycle callbacks annotations:
+您可以结合Junit注解（例如 `@RepeatedTest` 或者其他生命周期回调注解）来使用本模块：
 
 [source,java]
 ----
 @ExtendWith(VertxExtension.class)
 class SomeTest {
 
-  // Deploy the verticle and execute the test methods when the verticle
-  // is successfully deployed
+  // 部署Verticle 并在部署成功之后
+  // 执行测试用例方法
   @BeforeEach
   void deploy_verticle(Vertx vertx, VertxTestContext testContext) {
     vertx.deployVerticle(new HttpServerVerticle(), testContext.succeedingThenComplete());
   }
 
-  // Repeat this test 3 times
+  // 重复测试3次
   @RepeatedTest(3)
   void http_server_check_response(Vertx vertx, VertxTestContext testContext) {
     HttpClient client = vertx.createHttpClient();
@@ -214,7 +222,7 @@ class SomeTest {
 }
 ----
 
-It is also possible to customize the default `link:../../apidocs/io/vertx/junit5/VertxTestContext.html[VertxTestContext]` timeout using the `link:../../apidocs/io/vertx/junit5/Timeout.html[@Timeout]` annotation either on test classes or methods:
+也可以用在测试类或者测试方法上加  `link:../../apidocs/io/vertx/junit5/Timeout.html[@Timeout]` 注解来自定义 `link:../../apidocs/io/vertx/junit5/VertxTestContext.html[VertxTestContext]` 的超时时间：
 
 [source,java]
 ----
@@ -229,14 +237,15 @@ class SomeTest {
 }
 ----
 
-=== Lifecycle methods
+[[_lifecycle_methods]]
+=== 生命周期函数
 
-JUnit 5 provides several user-defined lifecycle methods annotated with `@BeforeAll`, `@BeforeEach`, `@AfterEach` and `@AfterAll`.
+JUnit 5 提供了几个注解用于用户定义的生命周期函数，他们分别是 `@BeforeAll` ， `@BeforeEach` ， `@AfterEach` 和 `@AfterAll` 。
 
-These methods can request the injection of `Vertx` instances.
-By doing so, they are likely to perform asynchronous operations with the `Vertx` instance, so they can request the injection of a `VertxTestContext` instance to ensure that the JUnit runner waits for them to complete, and report possible errors.
+这些方法可以注入 `Vertx` 对象。
+通过这种做法，它们才可能用 `Vertx` 对象执行异步操作，所以它们也可以注入 `VertxTestContext` 对象来保证JUnit执行器等待测试方法执行完毕，并报告执行结果或错误结果。
 
-Here is an example:
+以下是一个示例：
 
 [source,java]
 ----
@@ -273,61 +282,68 @@ class LifecycleExampleTest {
 }
 ----
 
-==== Scope of `VertxTestContext` objects
+[[_scope_of_vertextestcontext_objects]]
+==== `VertxTestContext` 的作用范围
 
-Since these objects help waiting for asynchronous operations to complete, a new instance is created for any `@Test`, `@BeforeAll`, `@BeforeEach`, `@AfterEach` and `@AfterAll` method.
+因为这些对象都协助等待 _异步操作_ 执行结束，所以调用任何 `@Test` ， `@BeforeAll` ， `@BeforeEach` ， `@AfterEach` 和 `@AfterAll` 修饰的方法时都会随之创建一个新的 `VertxTestContext` 对象。
 
-==== Scope of `Vertx` objects
+[[_scope_of_vertx_objects]]
+==== `Vertx` 对象的作用范围
 
-The scope of a `Vertx` object depends on which lifecycle method in the http://junit.org/junit5/docs/current/user-guide/#extensions-execution-order[JUnit relative execution order] first required a new instance to be created.
-Generally-speaking, we respect the JUnit extension scoping rules, but here are the specifications.
+`Vertx` 对象的作用范围取决于声明周期函数在 http://junit.org/junit5/docs/current/user-guide/#extensions-execution-order[JUnit中相对执行顺序] 里第一个创建 `Vertx` 的那个方法。一般来说，我们遵循JUnit扩展作用范围规则，
+但是这里有一些规范。
 
-1. If a parent test context already had a `Vertx` instance, it is being reused in children extension test contexts.
-2. Injecting in a `@BeforeAll` method creates a new instance that is being shared for injection in all subsequent test and lifecycle methods.
-3. Injecting in a `@BeforeEach` with no parent context or previous `@BeforeAll` injection creates a new instance shared with the corresponding test and `AfterEach` method(s).
-4. When no instance exists before running a test method, an instance is created for that test (and only for that test).
+1. 如果一个父级test context已经持有一个 `Vertx` 对象， 那么该 `Vertx` 对象在子级扩展的test context中会被复用。
+2. 在 `@BeforeAll` 修饰的方法中注入的 `Vertx` 对象，会在之后所有的测试方法以及生命周期函数中注入的 `Vertx` 参数当中共享。
+3. 在 `@BeforeEach` 修饰的且没有父级context的方法注入过程中，或者在先前的 `@BeforeAll` 方法的参数注入过程中，会创建一个新的对象，并共享于相关所有的测试方法以及 `AfterEach` 方法。
+4. 当执行测试方法之前没有创建 `Vertx` 对象时，则会创建一个新的 `Vertx` 对象（仅仅作用于该方法本身）
 
-==== Closing and removal of `Vertx` objects
+[[_closing_and_removal_of_vertx_objects]]
+==== 关闭和移除 `Vertx` 对象
 
-Injected `Vertx` objects are being automatically closed and removed from their corresponding scopes.
+注入的 `Vertx` 对象会自动被关闭并被移除其作用域。
 
-For instance if a `Vertx` object is created for the scope of a test method, it is being closed after the test completes.
-Similarly, when it is being created by a `@BeforeEach` method, it is being closed after possible `@AfterEach` methods have completed.
+例如，如果在一个测试方法的范围内创建一个 `Vertx` 对象，那么在该测试方法执行完之后，这个 `Vertx` 对象会被关闭。
+相似地，当在 `@BeforeEach` 方法中创建 `Vertx` 对象时，它会在 `@AfterEach` 方法执行完之后被关闭。
 
-==== Warning on multiple methods for the same lifecycle events
+[[_warning_on_multiple_methods_for_the_same_lifecycle_events]]
+==== 同一生命周期事件下多方法的警告
 
-JUnit 5 allows multiple methods to exist for the same lifecycle events.
+JUnit 5 允许同一个生命周期事件之下存在多个方法。
 
-As an example, it is possible to define 3 `@BeforeEach` methods on the same test.
-Because of asynchronous operations it is possible that the effects of these methods happen concurrently rather than sequentially, which may lead to inconsistent states.
+例如，同一个测试可以定义3个 `@BeforeEach` 方法。
+因为是异步操作，这些方法更可能是并行执行而不是串行执行，这有可能引起不确定的结果状态。
 
-This is a problem of JUnit 5 rather than this module. In case of doubt you may always wonder why a single method can't be better than many.
+这是JUnit 5本身就存在的问题，而不属于 Vert.x JUnit5 模块范畴。如有疑问，也许您一直想知道的是，为什么单个方法不比多个方法更好。
 
-== Support for additional parameter types
+[[_support_for_additional_parameter_types]]
+== 对于其他额外参数类型的支持
 
-The Vert.x JUnit 5 extension is extensible: you can add more types through the
-`link:../../apidocs/io/vertx/junit5/VertxExtensionParameterProvider.html[VertxExtensionParameterProvider]` service provider interface.
+Vert.x Unit 5 模块是可扩展的：
+您可以通过 `link:../../apidocs/io/vertx/junit5/VertxExtensionParameterProvider.html[VertxExtensionParameterProvider]` 服务接口来添加更多的类型。
 
-If you use RxJava 2, you can inject a `io.vertx.reactivex.core.Vertx` (rather than `io.vertx.core.Vertx`) just adding the dependency `io.vertx:vertx-junit5-rx-java2`.
-The same applies for RxJava 1.x with the dependency `io.vertx:vertx-junit5-rx-java2`.
+如果您在用RxJava 2，那么您可以注入一个 `io.vertx.reactivex.core.Vertx` （而非 `io.vertx.core.Vertx` ），这仅仅需要引入 `io.vertx:vertx-junit5-rx-java2` 依赖。
+类似的，RxJava1则需要引入 `io.vertx:vertx-junit5-rx-java`
 
-On Reactiverse you can find a growing collection of extensions for `vertx-junit5` that integrates with Vert.x stack in the `reactiverse-junit5-extensions` project:
-https://github.com/reactiverse/reactiverse-junit5-extensions.
+对于响应式库，您可以找到许多 `vertx-junit5` 的扩展库，
+他们属于 `reactiverse-junit5-extensions` 项目，而且都整合了Vert.x技术栈，这些扩展库也正在进一步的发展：
 
-== Parameter ordering
+[[_parameter_ordering]]
+== 参数顺序
 
-It may be the case that a parameter type has to be placed before another parameter.
-For instance the Web Client support in the `vertx-junit5-extensions` project requires that the `Vertx` argument is before the `WebClient` argument.
-This is because the `Vertx` instance needs to exist to create the `WebClient`.
+在某些情况下，可能必须将一个参数类型放置在另一个参数之前。
+例如 Web Client 在 `vertx-junit5-extensions` 项目中会要求 `Vertx` 参数在 `WebClient` 参数之前。
+这是因为只有 `Vertx` 参数存在的时候，才可以创建 `WebClient` 。
 
-It is expected that parameter providers throw meaningful exceptions to let users know of possible ordering constraints.
+我们期望参数提供者抛出一些有意义的异常来让用户知道参数顺序的要求。
 
-In any case it is a good idea to have the `Vertx` parameter first, and the next parameters in the order of what you'd need to create them manually.
+然而，任何情况下，我们都建议： `Vertx` 作为第一个参数，并且之后的参数按照您人工创建的顺序去声明。
 
-== Parameterized tests with `@MethodSource`
+[[_parameterized_tests_with_methodsource]]
+== 用 `@MethodSource` 做参数化测试
 
-You can use parameterized tests with `@MethodSource` with vertx-junit5. Therefore you need to declare the method source parameters before the vertx test parameters in
-the method definition.
+您可以结合vertx-junit5，用 `@MethodSource` 来做参数化测试。
+因此，您需要在方法定义处的vertx测试参数之前，来声明 method source 参数。
 
 [source,java]
 ----
@@ -350,5 +366,4 @@ static class SomeTest {
 }
 ----
 
-The same holds for the other `ArgumentSources`. See the section `Formal Parameter List` in the API doc of
-https://junit.org/junit5/docs/current/api/org.junit.jupiter.params/org/junit/jupiter/params/ParameterizedTest.html[ParameterizedTest]
+这对于其他 `ArgumentSources` 同样适用。详见 https://junit.org/junit5/docs/current/api/org.junit.jupiter.params/org/junit/jupiter/params/ParameterizedTest.html[ParameterizedTest] 文档的 `Formal Parameter List` 一节。
