@@ -26,7 +26,7 @@ Vert.x Unit 借鉴了已有的测试框架，例如 http://junit.org[JUnit] or h
 </dependency>
 ----
 
-* Gradle (在您的 `build.gradle` 文件):
+* Gradle （在您的 `build.gradle` 文件）：
 
 [source,groovy,subs="+attributes"]
 ----
