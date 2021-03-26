@@ -117,7 +117,7 @@ WARNING: 与 `succeedingThenComplete` 和 `failingThenComplete` 不同，调用 
 You can use checkpoints to flag some execution points to be passed.
 您可以用 checkpoint 以标记某些执行点为通过。
 一个 `link:../../apidocs/io/vertx/junit5/Checkpoint.html[Checkpoint]` 可以由单个标记或多个标记来控制。
-当所有的checkpoint被标记后， `link:../../apidocs/io/vertx/junit5/VertxTestContext.html[VertxTestContext]` 将使测试用例通过。
+当所有的checkpoint被标记后， `link:../../apidocs/io/vertx/junit5/VertxTestContext.html[VertxTestContext]` 将通过测试用例。
 
 以下是一个结合checkpoint启动HTTP服务、创建10个HTTP客户端请求并响应10个HTTP请求的示例：
 
