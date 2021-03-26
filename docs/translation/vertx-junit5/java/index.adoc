@@ -12,7 +12,7 @@
 [[_why_testing_asynchronous_code_is_different]]
 == 为什么测试异步代码与平常不同
 
-测试异步操作需要的工具相比于Junit提供的工具，要求更多。
+测试异步操作需要比JUnit之类的测试工具更多的工具。
 让我们考虑一个典型的例子，用Vert.x创建HTTP服务，并将它放入Junit测试：
 
 [source,java]
