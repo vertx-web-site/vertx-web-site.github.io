@@ -172,7 +172,7 @@ class SomeTest {
 
 NOTE: `Vertx` 实例默认配置下并非集群模式。如果您需要做一些其他事情，那么请不要使用注入的 `Vertx` 参数，需要您自己提供 `Vertx` 对象。
 
-测试用例会被自动的包装到 `link:../../apidocs/io/vertx/junit5/VertxTestContext.html[VertxTestContext]` 生命周期，所以您不需要自己注入 `link:../../apidocs/io/vertx/junit5/VertxTestContext.html#awaitCompletion-long-java.util.concurrent.TimeUnit-[awaitCompletion]` ：
+测试用例会被自动的包装到 `link:../../apidocs/io/vertx/junit5/VertxTestContext.html[VertxTestContext]` 生命周期，所以您无需自行注入 `link:../../apidocs/io/vertx/junit5/VertxTestContext.html#awaitCompletion-long-java.util.concurrent.TimeUnit-[awaitCompletion]` ：
 
 [source,java]
 ----
