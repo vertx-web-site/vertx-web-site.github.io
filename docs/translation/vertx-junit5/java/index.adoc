@@ -115,7 +115,7 @@ WARNING: 与 `succeedingThenComplete` 和 `failingThenComplete` 不同，调用 
 也就是说基于不同的异步结果，一个测试用例在很多种情况下都可以视为成功。
 
 You can use checkpoints to flag some execution points to be passed.
-您可以用 checkpoint 来将某些执行点标记为通过。
+您可以用 checkpoint 以标记某些执行点为通过。
 一个 `link:../../apidocs/io/vertx/junit5/Checkpoint.html[Checkpoint]` 可以由单个标记或多个标记来控制。
 当所有的checkpoint被标记后， `link:../../apidocs/io/vertx/junit5/VertxTestContext.html[VertxTestContext]` 将使测试用例通过。
 
