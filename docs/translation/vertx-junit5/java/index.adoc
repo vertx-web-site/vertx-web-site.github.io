@@ -366,4 +366,4 @@ static class SomeTest {
 }
 ----
 
-这对于其他 `ArgumentSources` 同样适用。详见 https://junit.org/junit5/docs/current/api/org.junit.jupiter.params/org/junit/jupiter/params/ParameterizedTest.html[ParameterizedTest] 文档的 `Formal Parameter List` 一节。
+这同样适用于其它 `ArgumentSources` 。详见 https://junit.org/junit5/docs/current/api/org.junit.jupiter.params/org/junit/jupiter/params/ParameterizedTest.html[ParameterizedTest] 文档的 `Formal Parameter List` 一节。
