@@ -103,7 +103,7 @@ client.request(HttpMethod.GET, 8080, "localhost", "/")
 * `link:../../apidocs/io/vertx/junit5/VertxTestContext.html#failingThenComplete--[failingThenComplete]` 提供一个 `Handler<AsyncResult<T>>` 处理器，该处理器期望得到失败结果并完成 test context。
 * `link:../../apidocs/io/vertx/junit5/VertxTestContext.html#succeeding--[succeeding]` 用来提供 `Handler<AsyncResult<T>>` 处理器，该处理器期望成功结果并将该结果传到下一个回调函数中，该过程中从回调函数抛出任何异常都会被认为测试用例失败。
 * `link:../../apidocs/io/vertx/junit5/VertxTestContext.html#failing--[failing]` 用来提供 `Handler<AsyncResult<T>>` 处理器 ，该处理器期望一个失败结果，并将异常传入下一个回调函数中，该过程中从回调函数抛出任何异常都会被认为测试用例失败。
-* `link:../../apidocs/io/vertx/junit5/VertxTestContext.html#verify-io.vertx.junit5.VertxTestContext.ExecutionBlock-[verify]` 用来提供断言功能，代码块中抛出的任何异常都被认为测试用例失败。
+* `link:../../apidocs/io/vertx/junit5/VertxTestContext.html#verify-io.vertx.junit5.VertxTestContext.ExecutionBlock-[verify]` 提供断言功能，代码块中抛出的任何异常都被认为测试用例失败。
 
 WARNING: 与 `succeedingThenComplete` 和 `failingThenComplete` 不同，调用 `succeeding` 或 `failing` 方法只能让测试用例失败（例如，`succeeding` 获取到了失败的异步结果）。
 如果想让测试用例通过，您仍然需要调用 `completeNow` ，或者使用下述的 checkpoints 。
