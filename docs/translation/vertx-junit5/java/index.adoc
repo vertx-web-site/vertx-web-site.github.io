@@ -43,7 +43,7 @@ class ATest {
 [[_a_test_context_for_asynchronous_executions]]
 == 异步执行过程的测试上下文
 
-对该模块有首要贡献的是 `link:../../apidocs/io/vertx/junit5/VertxTestContext.html[VertxTestContext]` 对象：
+首先对该模块有贡献的是 `link:../../apidocs/io/vertx/junit5/VertxTestContext.html[VertxTestContext]` 对象：
 
 1. 允许等待其他线程中正在执行的操作，从而触发完成事件。
 2. 支持接收失败断言用以标记单元测试失败。
