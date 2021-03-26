@@ -343,7 +343,7 @@ Vert.x Unit 5 模块是可扩展的：
 == 用 `@MethodSource` 做参数化测试
 
 您可以结合vertx-junit5，用 `@MethodSource` 做参数化测试。
-因此，您需要在方法定义处的vertx测试参数之前，来声明 method source 参数。
+因此，您需要在方法定义的vertx测试参数之前声明 method source 参数。
 
 [source,java]
 ----
