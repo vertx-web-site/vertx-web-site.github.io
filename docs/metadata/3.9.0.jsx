@@ -328,7 +328,7 @@ const entries = [
   // authentication
   {
     id: "vertx-auth-common",
-    name: "Auth common",
+    name: "通用认证和授权",
     description: "为您的 Vert.x 应用程序量身定做，用于身份验证和授权的通用API，由多家供应商提供支持。",
     category: "authentication-and-authorization",
     href: "/vertx-auth-common/java/",
