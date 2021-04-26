@@ -827,7 +827,7 @@ gridFsClient.uploadFile("file.name", res -> {
 `metadata` : 这是一个json对象，它包含了以后的搜索中可能有用的任何元数据
 `chunkSizeBytes` : GridFS会将文件分解这个字段数值的数个数据块。（译者注：数据块类似于数据库的分区，数值太大和太小都会影响性能。具体详见官方文档: https://docs.mongodb.com/manual/core/sharding-data-partitioning/）
 
-例如： 通过文件名上传一个文件，并且携带元数据参数以及指定数据块的大小
+例如： 通过文件名上传一个文件，并且携带元数据参数以及指定数据块的大小。
 
 [source,java]
 ----
