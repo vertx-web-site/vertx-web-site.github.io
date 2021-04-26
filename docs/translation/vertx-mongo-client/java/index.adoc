@@ -84,7 +84,7 @@ MongoClient client = MongoClient.createShared(vertx, config, "MyPoolName");
 举个使用场景的例子，比如这些客户端需要与不同数据源进行交互的时候，可以使用这种方式。
 
 [[_creating_a_client_with_a_non_shared_data_pool]]
-=== 创建不共享数据源的客户端对象
+=== 创建非共享数据源的客户端对象
 
 在大部分情况下，您希望在不同客户端实例间共享一个连接池。
 但是，在有些情况下，您可能想要使用一个不给其他客户端共享连接的连接池，来创建一个客户端实例
