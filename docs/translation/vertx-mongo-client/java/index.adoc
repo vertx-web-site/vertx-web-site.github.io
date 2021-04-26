@@ -73,7 +73,7 @@ MongoClient client = MongoClient.createShared(vertx, config, "MyPoolName");
 ----
 
 如果您使用相同Vert.x实例创建了不同客户端，同时指定了相同的连接池名称，
-那么这些客户端将共享这个相同的连接池数据源
+那么这些客户端将共享这个相同的连接池数据源。
 
 同样的（与使用默认的共享数据源相同），只有第一次调用 `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#createShared-io.vertx.core.Vertx-io.vertx.core.json.JsonObject-[MongoClient.createShared]`
 才会真正的根据 您指定的config创建一个连接池
