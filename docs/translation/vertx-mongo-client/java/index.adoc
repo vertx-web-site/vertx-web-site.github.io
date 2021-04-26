@@ -523,7 +523,7 @@ mongoService.save("publishedBooks", document).compose(id -> {
 });
 ----
 
-例如：插入一个包含二进制的字段的文档并且读取这个字段：
+例如，插入一个包含二进制的字段的文档并且读取这个字段：
 
 [source,java]
 ----
