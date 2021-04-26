@@ -29,7 +29,7 @@ https://mongodb.github.io/mongo-java-driver/4.1/driver-reactive/getting-started/
 </dependency>
 ----
 
-* Gradle (在 `build.gradle` 文件中):
+* Gradle（在 `build.gradle` 文件中）：
 
 [source,groovy,subs="+attributes"]
 ----
