@@ -1,12 +1,12 @@
-== RxJava 2 API
+== RxJava 2 API 
 
-Mongo¿Í»§¶ËÌá¹©ÁËRX»¯µÄÔ­Ê¼°æ±¾API¡£
+Mongoå®¢æˆ·ç«¯æä¾›äº†RXåŒ–çš„åŸå§‹ç‰ˆæœ¬APIã€‚
 
 [[_creating_an_rxified_client]]
-=== ´´½¨Ò»¸öRX»¯µÄ¿Í»§¶Ë
+=== åˆ›å»ºä¸€ä¸ªRXåŒ–çš„å®¢æˆ·ç«¯
 
-ÒªÏë´´½¨Ò»¸öRX»¯µÄMongo¿Í»§¶Ë£¬ĞèÒªÄúÈ·±£µ¼ÈëÁË `link:../../apidocs/io/vertx/reactivex/ext/mongo/MongoClient.html[MongoClient]` Àà¡£
-´´½¨²¢»ñÈ¡Ò»¸ö¿Í»§¶ËÊµÀıµÄ·½·¨ÓĞºÜ¶à£¬ÀıÈçÏÂÃæ£º
+è¦æƒ³åˆ›å»ºä¸€ä¸ªRXåŒ–çš„Mongoå®¢æˆ·ç«¯ï¼Œéœ€è¦æ‚¨ç¡®ä¿å¯¼å…¥äº† `link:../../apidocs/io/vertx/reactivex/ext/mongo/MongoClient.html[MongoClient]` ç±»ã€‚
+åˆ›å»ºå¹¶è·å–ä¸€ä¸ªå®¢æˆ·ç«¯å®ä¾‹çš„æ–¹æ³•æœ‰å¾ˆå¤šï¼Œä¾‹å¦‚ä¸‹é¢ï¼š
 
 [source,java]
 ----
@@ -14,9 +14,9 @@ MongoClient client = MongoClient.createShared(vertx, config);
 ----
 
 [[_finding_documents_in_batches]]
-=== ÅúÁ¿²éÑ¯ÎÄµµ
+=== æ‰¹é‡æŸ¥è¯¢æ–‡æ¡£
 
-`link:../../apidocs/io/vertx/reactivex/core/streams/ReadStream.html[ReadStream]` ¿ÉÒÔ±»×ª»»³É `link:../../apidocs/io/reactivex/Flowable.html[Flowable]` ¡£Õâ¸ö¹¦ÄÜ»á·½±ãÄú´¦Àí´óĞÍÊı¾İ¼¯¡£
+`link:../../apidocs/io/vertx/reactivex/core/streams/ReadStream.html[ReadStream]` å¯ä»¥è¢«è½¬æ¢æˆ `link:../../apidocs/io/reactivex/Flowable.html[Flowable]` ã€‚è¿™ä¸ªåŠŸèƒ½ä¼šæ–¹ä¾¿æ‚¨å¤„ç†å¤§å‹æ•°æ®é›†ã€‚
 
 [source,java]
 ----
