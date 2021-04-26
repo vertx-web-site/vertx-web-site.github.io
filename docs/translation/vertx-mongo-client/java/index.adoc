@@ -65,7 +65,7 @@ MongoClient client = MongoClient.createShared(vertx, config);
 [[_specifying_a_pool_source_name]]
 === 指定 连接池方式数据源的名称
 
-您还可以像下面这样，在创建一个客户端的时候指定 连接池方式数据源的名称：
+您还可以像下面这样，在创建一个客户端的时候指定连接池方式数据源的名称：
 
 [source,java]
 ----
