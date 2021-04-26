@@ -372,7 +372,7 @@ mongoClient.findBatchWithOptions("book", query, options)
 
 要查询单个文档，您可以使用 `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#findOne-java.lang.String-io.vertx.core.json.JsonObject-io.vertx.core.json.JsonObject-io.vertx.core.Handler-[findOne]` 方法。
 
-这有点类似 `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#find-java.lang.String-io.vertx.core.json.JsonObject-io.vertx.core.Handler-[find]` 方法，但是仅仅返回 find 方法查询到的第一条数据。
+这有点类似 `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#find-java.lang.String-io.vertx.core.json.JsonObject-io.vertx.core.Handler-[find]` 方法，但是仅仅返回 find 方法查询命中的第一条数据。
 
 [[_removing_documents]]
 === 删除文档
