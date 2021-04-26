@@ -97,7 +97,7 @@ MongoClient client = MongoClient.create(vertx, config);
 ----
 
 每次调用此方法，就相当于在调用 `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#createShared-io.vertx.core.Vertx-io.vertx.core.json.JsonObject-java.lang.String-[MongoClient.createShared]` 方法时
-加上了具有唯一名称的数据源参数。
+方法时，加上了具有唯一名称的数据源参数。
 
 
 [[_using_the_api]]
