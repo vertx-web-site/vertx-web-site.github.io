@@ -13,7 +13,7 @@
 本客户端基于
 https://mongodb.github.io/mongo-java-driver/4.1/driver-reactive/getting-started/quick-start/[MongoDB ReactiveStreams Driver].
 
-[[_Using Vert.x MongoDB Client]]
+[[_using_vert_x_mongodb_client]]
 == 使用 Vert.x MongoDB Client
 
 使用此客户端，需要添加下列依赖：
@@ -37,12 +37,12 @@ compile 'io.vertx:vertx-mongo-client:4.0.3'
 ----
 
 
-[[_Creating_a_client]]
+[[_creating_a_client]]
 == 创建客户端
 
 您有以下几种方式来创建客户端：
 
-[[_Using_the_default_shared_pool]]
+[[_using_the_default_shared_pool]]
 === 使用默认的共享连接池
 
 大部分情况下，您希望不同的客户端之间共享一个连接池。
@@ -58,11 +58,11 @@ MongoClient client = MongoClient.createShared(vertx, config);
 ----
 
 只有第一次调用 `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#createShared-io.vertx.core.Vertx-io.vertx.core.json.JsonObject-[MongoClient.createShared]`
-才会真正的根据 您指定的config 创建一个连接池
+才会真正的根据 您指定的config创建一个连接池
 
 之后再调用此方法，只会返回一个新的客户端对象，但使用的是相同的数据源。因此这时 config 参数不再有作用。
 
-[[_Specifying_a_pool_source_name]]
+[[_specifying_a_pool_source_name]]
 === 指定 连接池方式数据源的名称
 
 您还可以像下面这样，在创建一个客户端的时候指定 连接池方式数据源的名称：
@@ -72,18 +72,18 @@ MongoClient client = MongoClient.createShared(vertx, config);
 MongoClient client = MongoClient.createShared(vertx, config, "MyPoolName");
 ----
 
-如果您使用相同 Vert.x 实例创建了不同客户端，同时指定了相同的连接池名称，
+如果您使用相同Vert.x实例创建了不同客户端，同时指定了相同的连接池名称，
 那么这些客户端将共享这个相同的连接池数据源
 
 同样的（与使用默认的共享数据源相同），只有第一次调用 `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#createShared-io.vertx.core.Vertx-io.vertx.core.json.JsonObject-[MongoClient.createShared]`
-才会真正的根据 您指定的config 创建一个连接池
+才会真正的根据 您指定的config创建一个连接池
 
-之后再调用此方法，只会返回一个新的客户端对象，但使用的是相同的数据源。因此这时 config 参数不再有作用。
+之后再调用此方法，只会返回一个新的客户端对象，但使用的是相同的数据源。因此这时config参数不再有作用。
 
 当您希望不同groups的客户端，使用不同的连接池时，可以使用这种方式。
 举个使用场景的例子，比如这些客户端需要与不同数据源进行交互的时候，可以使用这种方式。
 
-[[_Creating_a_client_with_a_non_shared_data_pool]]
+[[_creating_a_client_with_a_non_shared_data_pool]]
 === 创建不共享数据源的客户端对象
 
 在大部分情况下，您希望在不同客户端实例间共享一个连接池。
@@ -100,12 +100,12 @@ MongoClient client = MongoClient.create(vertx, config);
 加上了具有唯一名称的数据源参数。
 
 
-[[_Using_the_API]]
+[[_using_the_api]]
 == 使用客户端 API
 
 `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html[MongoClient]` 接口定义了操作客户端的API 方法。您可以使用 `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html[MongoClient]` 来使用调用 API 方法。
 
-[[_Saving_documents]]
+[[_saving_documents]]
 === 保存文档
 
 您可以使用 `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#save-java.lang.String-io.vertx.core.json.JsonObject-io.vertx.core.Handler-[save]` 方法来保存文档
@@ -113,7 +113,7 @@ MongoClient client = MongoClient.create(vertx, config);
 如果文档中没有 `\_id` 字段，文档会被保存。若有，将执行 upserted。
 Upserted 意思是，如果此文档不存在，就保存此文档，此文档存在就更新。
 
-如果被保存的文档没有 `\_id` 字段，回调方法中可以获得保存后生成的 `\_id` 。
+如果被保存的文档没有 `\_id` 字段，回调方法中可以获得保存后生成的 id。
 
 例如：
 
@@ -131,7 +131,7 @@ mongoClient.save("books", document, res -> {
 });
 ----
 
-下面的例子，文档已有 `\_id` ：
+下面的例子，文档已有 `\_id`：
 
 [source,java]
 ----
@@ -147,12 +147,12 @@ mongoClient.save("books", document, res -> {
 });
 ----
 
-[[_Inserting_documents]]
+[[_inserting_documents]]
 === 插入文档
 
 您可以使用 `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#insert-java.lang.String-io.vertx.core.json.JsonObject-io.vertx.core.Handler-[insert]` 方法来插入文档。
 
-如果被插入的文档没有包含 `\_id`，回调方法中可以获得保存后生成的 id 。
+如果被插入的文档没有包含 id，回调方法中可以获得保存后生成的 id。
 
 [source,java]
 ----
@@ -184,17 +184,17 @@ mongoClient.insert("books", document, res -> {
 });
 ----
 
-[[_Updating_documents]]
+[[_updating_documents]]
 === 更新文档
 
 您可以使用 `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#updateCollection-java.lang.String-io.vertx.core.json.JsonObject-io.vertx.core.json.JsonObject-io.vertx.core.Handler-[updateCollection]` 方法来更新文档。
 
 此方法可以更新集合（译者注：MongoDB 中的集合概念对应 SQL 中的数据库表）中的一个或多个文档。
-在`updateCollection` 方法中被当成参数传递的JSON对象，
-必须包含 http://docs.mongodb.org/manual/reference/operator/update-field/[Update Operators] （更新运算符），
-因为这些更新运算符决定了文档怎样更新。
+在 `updateCollection` 方法中被当成参数传递的JSON对象，
+必须包含 http://docs.mongodb.org/manual/reference/operator/update-field/[Update Operators]，
+因为由它决定更新的方式。
 
-其中作为`query` 参数的 json对象决定更新集合中的哪个文档。
+其中作为 `query` 参数的 json对象决定更新集合中的哪个文档。
 
 例如更新 books 集合中的一个文档：
 
@@ -241,7 +241,7 @@ mongoClient.updateCollectionWithOptions("books", query, update, options, res -> 
 });
 ----
 
-[[_Replacing_documents]]
+[[_replacing_documents]]
 === 替换文档
 
 您可以使用 `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#replaceDocuments-java.lang.String-io.vertx.core.json.JsonObject-io.vertx.core.json.JsonObject-io.vertx.core.Handler-[replaceDocuments]` 方法来替换文档。
@@ -267,12 +267,12 @@ mongoClient.replaceDocuments("books", query, replace, res -> {
 });
 ----
 
-[[_Bulk_operations]]
+[[_bulk_operations]]
 === 批量操作
 
-您可以使用 `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#bulkWrite-java.lang.String-java.util.List-io.vertx.core.Handler-[bulkWrite]` 来一次执行多个 新增，更新，替换，或者删除操作。
+您可以使用 `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#bulkWrite-java.lang.String-java.util.List-io.vertx.core.Handler-[bulkWrite]` 来一次执行多个新增、更新、替换或者删除的操作。
 
-在 `bulkWrite` 方法中，您可以传递 一系列 `link:../../apidocs/io/vertx/ext/mongo/BulkOperation.html[BulkOperations]`，而且每个 `BulkOperations` 运作方式 和单个操作类似。
+在 `bulkWrite` 方法中，您可以传递一系列 `link:../../apidocs/io/vertx/ext/mongo/BulkOperation.html[BulkOperations]`，而且每个 `BulkOperations` 运作方式和单个操作类似。
 您可以根据需要传递多个操作，即使这些操作都是同一类型的。
 
 如果您希望 批量操作可以按照顺序执行，那么可以使用 `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#bulkWriteWithOptions-java.lang.String-java.util.List-io.vertx.ext.mongo.BulkWriteOptions-io.vertx.core.Handler-[bulkWriteWithOptions]`
@@ -280,7 +280,7 @@ mongoClient.replaceDocuments("books", query, replace, res -> {
 更多关于有序批量写操作操作的描述，见
 https://docs.mongodb.com/manual/reference/method/db.collection.bulkWrite/#execution-of-operations[Execution of Operations]
 
-[[_Finding_documents]]
+[[_finding_documents]]
 === 查找文档
 
 您可以使用 `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#find-java.lang.String-io.vertx.core.json.JsonObject-io.vertx.core.Handler-[find]` 方法查找文档。
@@ -332,7 +332,7 @@ mongoClient.find("books", query, res -> {
 `limit`:: 指定返回的数据条数。默认值为 -1，意味着查询结果会返回所有数据。
 `skip`:: 在返回查询结果之前，指定跳过的数据数量。默认值为 0 。
 
-[[_Finding_documents_in_batches]]
+[[_finding_documents_in_batches]]
 === 批量查询文档
 
 当我们在处理大量的数据集合的时候，不建议使用
@@ -365,16 +365,16 @@ mongoClient.findBatchWithOptions("book", query, options)
   .handler(doc -> System.out.println("Found doc: " + doc.encodePrettily()));
 ----
 
-默认情况下，`batchSize`的值是20。
+默认情况下， `batchSize` 的值是20。
 
-[[_Finding_a_single_document]]
+[[_finding_a_single_document]]
 === 查询单个文档
 
 要查询单个文档，您可以使用 `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#findOne-java.lang.String-io.vertx.core.json.JsonObject-io.vertx.core.json.JsonObject-io.vertx.core.Handler-[findOne]` 方法。
 
 这有点类似 `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#find-java.lang.String-io.vertx.core.json.JsonObject-io.vertx.core.Handler-[find]` 方法，但是仅仅返回 find 方法查询到的第一条数据。
 
-[[_Removing_documents]]
+[[_removing_documents]]
 === 删除文档
 
 您可以使用 `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#removeDocuments-java.lang.String-io.vertx.core.json.JsonObject-io.vertx.core.Handler-[removeDocuments]` 方法来删除文档。
@@ -396,19 +396,19 @@ mongoClient.removeDocuments("books", query, res -> {
 });
 ----
 
-[[_Removing_a_single_documents]]
+[[_removing_a_single_documents]]
 === 删除单个文档
 
 您可以使用 `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#removeDocument-java.lang.String-io.vertx.core.json.JsonObject-io.vertx.core.Handler-[removeDocument]` 方法来删除文档。
 
 这有点类似于 `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#removeDocuments-java.lang.String-io.vertx.core.json.JsonObject-io.vertx.core.Handler-[removeDocuments]` 方法，只是 `removeDocument` 方法仅删除匹配到的第一个文档。
 
-[[_Counting_documents]]
+[[_counting_documents]]
 === 文档计数
 
 您可以使用 `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#count-java.lang.String-io.vertx.core.json.JsonObject-io.vertx.core.Handler-[count]` 方法去计算文档数量。
 
-例如计算 作者为Tolkien 的书的数量，结果包装在回调方法中。
+例如计算 作者为 Tolkien 的书的数量，结果包装在回调方法中。
 
 [source,java]
 ----
@@ -423,10 +423,10 @@ mongoClient.count("books", query, res -> {
 });
 ----
 
-[[_Managing_MongoDB_collections]]
+[[_managing_mongodb_collections]]
 === 管理 MongoDB 集合
 
-MongoDB的所有文档数据都存储在集合中。
+MongoDB 的所有文档数据都存储在集合中。
 
 To get a list of all collections you can use `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#getCollections-io.vertx.core.Handler-[getCollections]`
 
@@ -469,12 +469,12 @@ mongoClient.dropCollection("mynewcollectionr", res -> {
 });
 ----
 
-[[_Running_other_MongoDB_commands]]
+[[_running_other_mongodb_commands]]
 === 执行 `MongoDB` 的其他命令
 
 您可以通过 `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#runCommand-java.lang.String-io.vertx.core.json.JsonObject-io.vertx.core.Handler-[runCommand]` 方法执行任何 `MongoDB`命令。
 
-使用这种方式，可以发挥出 MongoDB 更多优点，比如使用 MapReduce。
+使用这种方式，可以发挥出MongoDB更多优点，比如使用MapReduce。
 更多详情，请参考说明文档 http://docs.mongodb.org/manual/reference/command[Commands]。
 
 例如执行 aggregate（译者注：聚合）命令。请注意，命令的名称要做为 runCommand 方法的一个参数，
@@ -497,7 +497,7 @@ mongoClient.runCommand("aggregate", command, res -> {
 });
 ----
 
-[[_MongoDB_Extended_JSON_support]]
+[[_mongodb_extended_json_support]]
 === MongoDB的JSON扩展支持
 
 目前，MongoDB 只支持 date，oid 和 binary 类型
@@ -582,7 +582,7 @@ mongoService.save("smartPeople", document).compose(id -> {
 });
 ----
 
-[[_Getting_distinct_values]]
+[[_getting_distinct_values]]
 === 获取 distinct 后的值
 
 例如：
@@ -652,27 +652,27 @@ mongoClient.save("books", document, res -> {
 });
 ----
 
-[[_Storing_Retrieving_files_and_binary_data]]
+[[_storing_retrieving_files_and_binary_data]]
 == 存储/检索文件和二进制数据
 
-客户端可以使用MongoDB的GridFS模块来存储或检索文件和二进制数据。（译者注：GridFS是MongoDB的一个子模块，主要用于在MongoDB中存储文件，相当于MongoDB内置的一个分布式文件系统。）
+客户端可以使用 MongoDB 的 GridFS 模块来存储或检索文件和二进制数据。（译者注：GridFS是MongoDB的一个子模块，主要用于在MongoDB中存储文件，相当于MongoDB内置的一个分布式文件系统。）
 `link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html[MongoGridFsClient]` 可以用来上传文件以及数据流到GridFS，
 以及从GridFS下载文件和数据流。
 
-[[_Get_the_MongoGridFsClient_to_interact_with_GridFS]]
-=== 获取一个可与GridFS交互的`MongoGridFsClient`。
+[[_get_the_mongogridfsclient_to_interact_with_gridfs]]
+=== 获取一个可与GridFS交互的MongoGridFsClient。
 
-通过调用`link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#createGridFsBucketService-java.lang.String-io.vertx.core.Handler-[createGridFsBucketService]`方法，
-并且给方法提供一个bucket名称，可创建一个`link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html[MongoGridFsClient]`客户端。
-在GridFS中，bucket名称最终是一个集合，该集合包含对所有存储对象的引用。
+通过调用 `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#createGridFsBucketService-java.lang.String-io.vertx.core.Handler-[createGridFsBucketService]` 方法，
+并且给方法提供一个 bucket 名称，可创建一个 `link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html[MongoGridFsClient]`客户端。
+在 GridFS 中，bucket 名称最终是一个集合，该集合包含对所有存储对象的引用。
 您可以通过提供一个唯一的名称将对象隔离到不同的bucket中。
 
 它具有以下字段：
 
-`bucketName` : 要创建的bucket的名称
+`bucketName` : 要创建的 bucket 的名称
 
 例如：使用自定义的bucket名称，
-获取`link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html[MongoGridFsClient]`。
+获取 `link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html[MongoGridFsClient]` 。
 
 [source,java]
 ----
@@ -686,10 +686,10 @@ mongoClient.createGridFsBucketService("bakeke", res -> {
 });
 ----
 
-GridFS使用 "fs" 作为默认的bucket名称。如果您想要获取默认的bucket，而不是自定义一个，
-那么请调用`link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#createDefaultGridFsBucketService-io.vertx.core.Handler-[createDefaultGridFsBucketService]`方法。
+GridFS使用 "fs" 作为默认的 bucket 名称。如果您想要获取默认的bucket，而不是自定义一个，
+那么请调用 `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#createDefaultGridFsBucketService-io.vertx.core.Handler-[createDefaultGridFsBucketService]` 方法。
 
-例如：使用默认bucket名称，获取link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html[MongoGridFsClient]`。
+例如：使用默认bucket名称，获取 `link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html[MongoGridFsClient]`。
 
 [source,java]
 ----
@@ -703,10 +703,10 @@ mongoClient.createDefaultGridFsBucketService( res -> {
 });
 ----
 
-[[_Drop_an_entire_file_bucket_from_GridFS]]
+[[_drop_an_entire_file_bucket_from_gridfs]]
 === 从GridFS中，删除整个文件bucket。
 
-整个文件bucket及其所有内容都可以使用`link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html#drop-io.vertx.core.Handler-[drop]`来进行删除。
+整个文件bucket及其所有内容都可以使用 `link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html#drop-io.vertx.core.Handler-[drop]` 来进行删除。
 该方法可以删除创建`MongoGridFsClient`时指定的bucket。
 
 例如：删除一个文件bucket。
@@ -722,11 +722,11 @@ gridFsClient.drop(res -> {
 });
 ----
 
-[[_Find_all_file_IDs_in_a_GridFS_bucket]]
+[[_find_all_file_ids_in_a_gridfs_bucket]]
 === 在一个GridFS的bucket中，查询所有文件ID。
 
-调用`link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html#findAllIds-io.vertx.core.Handler-[findAllIds]`方法，可以查询到在bucket中的所有文件ID。
-可以凭借文件ID,通过使用`link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html#downloadFileByID-java.lang.String-java.lang.String-io.vertx.core.Handler-[downloadFileByID]`方法，来下载文件。
+调用 `link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html#findAllIds-io.vertx.core.Handler-[findAllIds]` 方法，可以查询到在bucket中的所有文件ID。
+可以凭借文件ID,通过使用 `link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html#downloadFileByID-java.lang.String-java.lang.String-io.vertx.core.Handler-[downloadFileByID]` 方法，来下载文件。
 
 例如：检索文件ID列表。
 
@@ -741,10 +741,10 @@ gridFsClient.findAllIds(res -> {
 });
 ----
 
-[[_Find_file_IDs_in_a_GridFS_bucket_matching_a_query]]
+[[_find_file_ids_in_a_gridfs_bucket_matching_a_query]]
 === 在一个与查询匹配的GridFS bucket中，查询文件ID。
 
-可以指定查询以匹配GridFS `bucket`中的文件。调用`link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html#findIds-io.vertx.core.json.JsonObject-io.vertx.core.Handler-[findIds]` 方法
+可以指定查询以匹配GridFS `bucket` 中的文件。调用 `link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html#findIds-io.vertx.core.json.JsonObject-io.vertx.core.Handler-[findIds]` 方法
 可以返回与查询匹配的文件ID列表。
 
 它具有以下字段：
@@ -769,11 +769,11 @@ gridFsClient.findIds(query, res -> {
 });
 ----
 
-[[_Delete_file_IDs_in_GridFS_based_its_ID]]
+[[_delete_file_ids_in_gridfs_based_its_id]]
 === 在GridFS中，根据文件的ID来删除文件。
 
-通过提供文件ID参数，来调用`link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html#delete-java.lang.String-io.vertx.core.Handler-[delete]`方法，可以删除以前存储在GridFS中的文件。
-可以通过使用`link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html#findIds-io.vertx.core.json.JsonObject-io.vertx.core.Handler-[findIds]`方法，来检索文件ID。
+通过提供文件ID参数，来调用 `link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html#delete-java.lang.String-io.vertx.core.Handler-[delete]` 方法，可以删除以前存储在GridFS中的文件。
+可以通过使用 `link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html#findIds-io.vertx.core.json.JsonObject-io.vertx.core.Handler-[findIds]` 方法，来检索文件ID。
 
 它具有以下字段：
 `id` : 当文件存储到GridFS时，ID会自动生成。
@@ -793,10 +793,10 @@ gridFsClient.delete(id, (AsyncResult<Void> res) -> {
 });
 ----
 
-[[_Upload_a_file_in_GridFS]]
+[[_upload_a_file_in_gridfs]]
 === 在GridFS中上传文件
 
-通过`link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html#uploadFile-java.lang.String-io.vertx.core.Handler-[uploadFile]`方法，文件可以使用文件名称进行存储。
+通过 `link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html#uploadFile-java.lang.String-io.vertx.core.Handler-[uploadFile]` 方法，文件可以使用文件名称进行存储。
 当文件存储成功时，GridFS会返回自动生成的文件ID。这个ID可以被用来之后检索文件。
 
 它具有以下字段：
@@ -815,11 +815,11 @@ gridFsClient.uploadFile("file.name", res -> {
 });
 ----
 
-[[_Upload_a_file_in_GridFS_with_options]]
-=== 上传文件时携带参数。
+[[_upload_a_file_in_gridfs_with_options]]
+=== 上传文件时携带配置参数。
 
-使用`link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html#uploadFileWithOptions-java.lang.String-io.vertx.ext.mongo.GridFsUploadOptions-io.vertx.core.Handler-[uploadFileWithOptions]`passing in an instance of `link:../../apidocs/io/vertx/ext/mongo/GridFsUploadOptions.html[GridFsUploadOptions]`方法，
-并传入一个`link:../../apidocs/io/vertx/ext/mongo/GridFsUploadOptions.html[GridFsUploadOptions]`的实例，文件可以在存储时，携带额外到的参数。
+使用 `link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html#uploadFileWithOptions-java.lang.String-io.vertx.ext.mongo.GridFsUploadOptions-io.vertx.core.Handler-[uploadFileWithOptions]` 方法，
+并传入一个 `link:../../apidocs/io/vertx/ext/mongo/GridFsUploadOptions.html[GridFsUploadOptions]`的实例，文件可以在存储时，携带额外的配置参数。
 当文件存储成功时，GridFS会返回文件ID。
 
 它具有以下字段：
@@ -848,11 +848,11 @@ gridFsClient.uploadFileWithOptions("file.name", options, res -> {
 });
 ----
 
-[[_Download_a_file_previously_stored_in_GridFS]]
+[[_download_a_file_previously_stored_in_gridfs]]
 === 下载存储在GridFS中的文件
 
-通过调用`link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html#downloadFile-java.lang.String-io.vertx.core.Handler-[downloadFile]`方法，可以凭借文件原始名称来下载文件。
-下载完成后，将返回下载的文件长度，该数值是`Long`类型。
+通过调用 `link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html#downloadFile-java.lang.String-io.vertx.core.Handler-[downloadFile]` 方法，可以凭借文件的原始名称来下载文件。
+下载完成后，将返回下载的文件长度，该数值是 `Long` 类型。
 
 它具有以下字段：
 
@@ -872,10 +872,10 @@ gridFsClient.downloadFile("file.name", res -> {
 });
 ----
 
-[[_Download_a_file_previously_stored_in_GridFS_given_its_ID]]
-=== 使用文件ID下载存储在GridFS中的文件
+[[_download_a_file_previously_stored_in_gridfs_given_its_id]]
+=== 使用文件ID来下载存储在GridFS中的文件
 
-通过调用`link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html#downloadFileByID-java.lang.String-java.lang.String-io.vertx.core.Handler-[downloadFileByID]`方法，可以凭借文件ID来下载文件。
+通过调用 `link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html#downloadFileByID-java.lang.String-java.lang.String-io.vertx.core.Handler-[downloadFileByID]` 方法，可以凭借文件ID来下载文件。
 下载完成后，将返回下载的文件长度，该数值是`Long`类型。
 
 它具有以下字段：
@@ -898,11 +898,11 @@ gridFsClient.downloadFileByID(id, filename, res -> {
 });
 ----
 
-[[_Download_a_file_from_GridFS_to_a_new_name]]
+[[_download_a_file_from_gridfs_to_a_new_name]]
 === 从GridFS下载文件，并且重新命名文件名称
 
-解析文件时可以使用文件的原始名称，下载文件时，
-通过调用 `link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html#downloadFileAs-java.lang.String-java.lang.String-io.vertx.core.Handler-[downloadFileAs]`方法，可以重命名文件。
+在解析文件的时候，可以使用文件的原始名称。而在下载文件时，
+您可以通过调用 `link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html#downloadFileAs-java.lang.String-java.lang.String-io.vertx.core.Handler-[downloadFileAs]` 方法，来重命名文件。
 下载完成后，将返回下载的文件长度，该数值是`Long`类型。
 
 它具有以下字段：
@@ -922,10 +922,10 @@ gridFsClient.downloadFileAs("file.name", "new_file.name", res -> {
 });
 ----
 
-[[_Upload_a_Stream_to_GridFS]]
+[[_upload_a_stream_to_gridfs]]
 === 将数据流上传到GridFS
 
-使用`link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html#uploadByFileName-io.vertx.core.streams.ReadStream-java.lang.String-io.vertx.core.Handler-[uploadByFileName]`方法，您可以将数据流上传到GridFS。
+使用 `link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html#uploadByFileName-io.vertx.core.streams.ReadStream-java.lang.String-io.vertx.core.Handler-[uploadByFileName]` 方法，您可以将数据流上传到GridFS。
 当数据流上传成功后，将返回GridFS生成的文件ID。
 
 它具有以下字段：
@@ -942,25 +942,25 @@ gridFsStreamClient.uploadByFileName(asyncFile, "kanaloa", stringAsyncResult -> {
 });
 ----
 
-[[_Upload_a_Stream_to_GridFS_with_Options]]
-=== 上传数据流时携带参数
+[[_upload_a_stream_to_gridfs_with_options]]
+=== 上传数据流时携带配置参数
 
 使用 `link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html#uploadByFileNameWithOptions-io.vertx.core.streams.ReadStream-java.lang.String-io.vertx.ext.mongo.GridFsUploadOptions-io.vertx.core.Handler-[uploadByFileNameWithOptions]` 方法，
-并传入`link:../../apidocs/io/vertx/ext/mongo/GridFsUploadOptions.html[GridFsUploadOptions]`实例，可以将数据流上传到GridFS。
+并传入 `link:../../apidocs/io/vertx/ext/mongo/GridFsUploadOptions.html[GridFsUploadOptions]` 实例，您可以将数据流上传到GridFS。
 当数据流上传成功后，将返回GridFS生成的文件ID。
 
 它具有以下字段：
 
 `stream` : 将要被上传的 `link:../../apidocs/io/vertx/core/streams/ReadStream.html[ReadStream]`
 `fileName` : 将被存储的数据流的名称
-`options' : 上传时携带的参数
+`options' : 上传时携带的配置参数
 
 `link:../../apidocs/io/vertx/ext/mongo/GridFsUploadOptions.html[GridFsUploadOptions]` 具有以下字段:
 
 `metadata` : 这是一个json对象，它包含了以后的搜索中可能有用的任何元数据
-`chunkSizeBytes` : GridFS会将文件分解这个字段数值的数个数据块。（译者注：数据块类似于数据库的分区，数值太大和太小都会影响性能。具体详见官方文档: https://docs.mongodb.com/manual/core/sharding-data-partitioning/）
+`chunkSizeBytes` : GridFS会将文件分解这个字段数值的数个数据块。（译者注：数据块类似于数据库的分区，数值太大和太小都会影响性能。具体详见mongodb官方文档: https://docs.mongodb.com/manual/core/sharding-data-partitioning/）
 
-例如： 携带参数将一个文件流上传到GridFS。
+例如： 携带配置参数将一个文件流上传到GridFS。
 
 [source,java]
 ----
@@ -972,11 +972,11 @@ gridFsStreamClient.uploadByFileNameWithOptions(asyncFile, "kanaloa", options, st
 });
 ----
 
-[[_Download_a_Stream_from_GridFS_using_File_Name]]
-=== 使用文件名称从GridFS中下载Stream
+[[_download_a_stream_from_gridfs_using_file_name]]
+=== 使用文件名称从GridFS中下载数据流
 
-使用`link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html#downloadByFileName-io.vertx.core.streams.WriteStream-java.lang.String-io.vertx.core.Handler-[downloadByFileName]`方法，您可以使用文件名称从GridFS中下载数据流。
-下载完成后，将返回下载的数据流长度，该数值是`Long`类型。
+使用 `link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html#downloadByFileName-io.vertx.core.streams.WriteStream-java.lang.String-io.vertx.core.Handler-[downloadByFileName]` 方法，您可以使用文件名称从GridFS中下载数据流。
+下载完成后，将返回下载的数据流长度，该数值是 `Long` 类型。
 
 它具有以下字段：
 
@@ -992,11 +992,11 @@ gridFsStreamClient.downloadByFileName(asyncFile, "kamapuaa.fil", longAsyncResult
 });
 ----
 
-[[_Download_a_Stream_with_Options_from_GridFS_using_File_Name]]
-=== 使用文件名称并携带参数，从GridFS中下载Stream
+[[_download_a_stream_with_options_from_gridfs_using_file_name]]
+=== 使用文件名称并携带配置参数，从GridFS中下载数据流
 
 使用 `link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html#downloadByFileNameWithOptions-io.vertx.core.streams.WriteStream-java.lang.String-io.vertx.ext.mongo.GridFsDownloadOptions-io.vertx.core.Handler-[downloadByFileNameWithOptions]` 方法，
-并传入`link:../../apidocs/io/vertx/ext/mongo/GridFsDownloadOptions.html[GridFsDownloadOptions]`实例，您可以使用文件名称并携带参数，从GridFS中下载数据流。
+并传入 `link:../../apidocs/io/vertx/ext/mongo/GridFsDownloadOptions.html[GridFsDownloadOptions]` 实例，您可以使用文件名称并携带配置参数，从GridFS中下载数据流。
 下载完成后，将返回下载的数据流长度，该数值是`Long`类型。
 
 它具有以下字段：
@@ -1009,7 +1009,7 @@ DownloadOptions 具有以下字段:
 
 `revision` : 要下载文件的版本（译者注：版本字段仅显示文件更改的频率。值为0，代表未经过修改的原始存储的文件）
 
-例如：携带参数下载文件流。
+例如：携带配置参数下载文件流。
 
 [source,java]
 ----
@@ -1020,8 +1020,8 @@ gridFsStreamClient.downloadByFileNameWithOptions(asyncFile, "kamapuaa.fil", opti
 });
 ----
 
-[[_Download_a_Stream_from_GridFS_using_ID]]
-=== 使用ID下载Stream
+[[_download_a_stream_from_gridfs_using_id]]
+=== 使用ID下载数据流
 
 通过调用 `link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html#downloadById-io.vertx.core.streams.WriteStream-java.lang.String-io.vertx.core.Handler-[downloadById]`方法，您可以使用GridFS生成的ID来下载数据流。
 下载完成后，将返回下载的数据流长度，该数值是`Long`类型。
@@ -1041,7 +1041,7 @@ gridFsStreamClient.downloadById(asyncFile, id, longAsyncResult -> {
 });
 ----
 
-[[_Configuring_the_client]]
+[[_configuring_the_client]]
 == 客户端参数配置
 
 Vert.x MongoDB 客户端把配置参数放在 JSON 对象中。
