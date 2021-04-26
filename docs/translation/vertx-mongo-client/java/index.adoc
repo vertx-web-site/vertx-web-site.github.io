@@ -18,7 +18,7 @@ https://mongodb.github.io/mongo-java-driver/4.1/driver-reactive/getting-started/
 
 使用此客户端，需要添加下列依赖：
 
-* Maven (在 `pom.xml` 文件中):
+* Maven（在 `pom.xml` 文件中）：
 
 [source,xml,subs="+attributes"]
 ----
