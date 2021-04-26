@@ -1,24 +1,24 @@
 = Vert.x MongoDB Client
 
-ÄúµÄ Vert.x Ó¦ÓÃ¿ÉÒÔÊ¹ÓÃ Vert.x MongoDB Client£¨ÒÔÏÂ¼ò³Æ¿Í»§¶Ë£©À´Óë MongoDB ½øÐÐ½»»¥£¬
-°üÀ¨±£´æ£¬»ñÈ¡£¬ËÑË÷ºÍÉ¾³ýÎÄµµ¡£MongoDB ÊÇÔÚ Vert.x Ó¦ÓÃ½øÐÐÊý¾Ý³Ö¾Ã»¯Ê±µÄ×î¼ÑÑ¡Ôñ£¬
-ÒòÎª MongoDB ÌìÉú¾ÍÊÇ´¦Àí JSON£¨BSON£©¸ñÊ½µÄÎÄµµÊý¾Ý¿â¡£
+æ‚¨çš„ Vert.x åº”ç”¨å¯ä»¥ä½¿ç”¨ Vert.x MongoDB Clientï¼ˆä»¥ä¸‹ç®€ç§°å®¢æˆ·ç«¯ï¼‰æ¥ä¸Ž MongoDB è¿›è¡Œäº¤äº’ï¼Œ
+åŒ…æ‹¬ä¿å­˜ï¼ŒèŽ·å–ï¼Œæœç´¢å’Œåˆ é™¤æ–‡æ¡£ã€‚MongoDB æ˜¯åœ¨ Vert.x åº”ç”¨è¿›è¡Œæ•°æ®æŒä¹…åŒ–æ—¶çš„æœ€ä½³é€‰æ‹©ï¼Œ
+å› ä¸º MongoDB å¤©ç”Ÿå°±æ˜¯å¤„ç† JSONï¼ˆBSONï¼‰æ ¼å¼çš„æ–‡æ¡£æ•°æ®åº“ã€‚
 
-*ÌØµã*
+*ç‰¹ç‚¹*
 
-* ÍêÈ«·Ç×èÈû
-* Ö§³Ö×Ô¶¨Òå±à½âÂëÆ÷£¬´Ó¶øÊµÏÖ Vert.x JSON ¿ìËÙÐòÁÐ»¯ºÍ·´ÐòÁÐ»¯
-* Ö§³Ö MongoDB Java Çý¶¯´ó²¿·ÖÅäÖÃÏî
+* å®Œå…¨éžé˜»å¡ž
+* æ”¯æŒè‡ªå®šä¹‰ç¼–è§£ç å™¨ï¼Œä»Žè€Œå®žçŽ° Vert.x JSON å¿«é€Ÿåºåˆ—åŒ–å’Œååºåˆ—åŒ–
+* æ”¯æŒ MongoDB Java é©±åŠ¨å¤§éƒ¨åˆ†é…ç½®é¡¹
 
-±¾¿Í»§¶Ë»ùÓÚ
+æœ¬å®¢æˆ·ç«¯åŸºäºŽ
 https://mongodb.github.io/mongo-java-driver/4.1/driver-reactive/getting-started/quick-start/[MongoDB ReactiveStreams Driver].
 
 [[_using_vert_x_mongodb_client]]
-== Ê¹ÓÃ Vert.x MongoDB Client
+== ä½¿ç”¨ Vert.x MongoDB Client
 
-Ê¹ÓÃ´Ë¿Í»§¶Ë£¬ÐèÒªÌí¼ÓÏÂÁÐÒÀÀµ£º
+ä½¿ç”¨æ­¤å®¢æˆ·ç«¯ï¼Œéœ€è¦æ·»åŠ ä¸‹åˆ—ä¾èµ–ï¼š
 
-* Maven (ÔÚ `pom.xml` ÎÄ¼þÖÐ):
+* Maven (åœ¨ `pom.xml` æ–‡ä»¶ä¸­):
 
 [source,xml,subs="+attributes"]
 ----
@@ -29,7 +29,7 @@ https://mongodb.github.io/mongo-java-driver/4.1/driver-reactive/getting-started/
 </dependency>
 ----
 
-* Gradle (ÔÚ `build.gradle` ÎÄ¼þÖÐ):
+* Gradle (åœ¨ `build.gradle` æ–‡ä»¶ä¸­):
 
 [source,groovy,subs="+attributes"]
 ----
@@ -38,84 +38,84 @@ compile 'io.vertx:vertx-mongo-client:4.0.3'
 
 
 [[_creating_a_client]]
-== ´´½¨¿Í»§¶Ë
+== åˆ›å»ºå®¢æˆ·ç«¯
 
-ÄúÓÐÒÔÏÂ¼¸ÖÖ·½Ê½À´´´½¨¿Í»§¶Ë£º
+æ‚¨æœ‰ä»¥ä¸‹å‡ ç§æ–¹å¼æ¥åˆ›å»ºå®¢æˆ·ç«¯ï¼š
 
 [[_using_the_default_shared_pool]]
-=== Ê¹ÓÃÄ¬ÈÏµÄ¹²ÏíÁ¬½Ó³Ø
+=== ä½¿ç”¨é»˜è®¤çš„å…±äº«è¿žæŽ¥æ± 
 
-´ó²¿·ÖÇé¿öÏÂ£¬ÄúÏ£Íû²»Í¬µÄ¿Í»§¶ËÖ®¼ä¹²ÏíÒ»¸öÁ¬½Ó³Ø¡£
+å¤§éƒ¨åˆ†æƒ…å†µä¸‹ï¼Œæ‚¨å¸Œæœ›ä¸åŒçš„å®¢æˆ·ç«¯ä¹‹é—´å…±äº«ä¸€ä¸ªè¿žæŽ¥æ± ã€‚
 
-ÀýÈç£ºÎÒÃÇÍ¨¹ý²¿Êð¶à¸överticleÊµÀýÀ´À©Õ¹ÄãµÄ³ÌÐòµÄÊ±ºò£¬ÎÒÃÇ»áÏ£ÍûÃ¿¸överticleÊµÀý¶¼¹²ÓÃÍ¬Ò»¸öÁ¬½Ó³Ø£¬
-¶ø²»ÊÇ¶à¸överticleÊµÀýÊ¹ÓÃ¶à¸öÁ¬½Ó³Ø¡£
+ä¾‹å¦‚ï¼šæˆ‘ä»¬é€šè¿‡éƒ¨ç½²å¤šä¸ªverticleå®žä¾‹æ¥æ‰©å±•ä½ çš„ç¨‹åºçš„æ—¶å€™ï¼Œæˆ‘ä»¬ä¼šå¸Œæœ›æ¯ä¸ªverticleå®žä¾‹éƒ½å…±ç”¨åŒä¸€ä¸ªè¿žæŽ¥æ± ï¼Œ
+è€Œä¸æ˜¯å¤šä¸ªverticleå®žä¾‹ä½¿ç”¨å¤šä¸ªè¿žæŽ¥æ± ã€‚
 
-ÒªÏëÓÃ×î¼òµ¥µÄ·½·¨È¥Ê¹ÓÃ¹²ÏíÁ¬½Ó³Ø£¬ÎÒÃÇ¿ÉÒÔÕâÃ´×ö£º
+è¦æƒ³ç”¨æœ€ç®€å•çš„æ–¹æ³•åŽ»ä½¿ç”¨å…±äº«è¿žæŽ¥æ± ï¼Œæˆ‘ä»¬å¯ä»¥è¿™ä¹ˆåšï¼š
 
 [source,java]
 ----
 MongoClient client = MongoClient.createShared(vertx, config);
 ----
 
-Ö»ÓÐµÚÒ»´Îµ÷ÓÃ `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#createShared-io.vertx.core.Vertx-io.vertx.core.json.JsonObject-[MongoClient.createShared]`
-²Å»áÕæÕýµÄ¸ù¾Ý ÄúÖ¸¶¨µÄconfig´´½¨Ò»¸öÁ¬½Ó³Ø
+åªæœ‰ç¬¬ä¸€æ¬¡è°ƒç”¨ `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#createShared-io.vertx.core.Vertx-io.vertx.core.json.JsonObject-[MongoClient.createShared]`
+æ‰ä¼šçœŸæ­£çš„æ ¹æ® æ‚¨æŒ‡å®šçš„configåˆ›å»ºä¸€ä¸ªè¿žæŽ¥æ± 
 
-Ö®ºóÔÙµ÷ÓÃ´Ë·½·¨£¬Ö»»á·µ»ØÒ»¸öÐÂµÄ¿Í»§¶Ë¶ÔÏó£¬µ«Ê¹ÓÃµÄÊÇÏàÍ¬µÄÊý¾ÝÔ´¡£Òò´ËÕâÊ± config ²ÎÊý²»ÔÙÓÐ×÷ÓÃ¡£
+ä¹‹åŽå†è°ƒç”¨æ­¤æ–¹æ³•ï¼Œåªä¼šè¿”å›žä¸€ä¸ªæ–°çš„å®¢æˆ·ç«¯å¯¹è±¡ï¼Œä½†ä½¿ç”¨çš„æ˜¯ç›¸åŒçš„æ•°æ®æºã€‚å› æ­¤è¿™æ—¶ config å‚æ•°ä¸å†æœ‰ä½œç”¨ã€‚
 
 [[_specifying_a_pool_source_name]]
-=== Ö¸¶¨ Á¬½Ó³Ø·½Ê½Êý¾ÝÔ´µÄÃû³Æ
+=== æŒ‡å®š è¿žæŽ¥æ± æ–¹å¼æ•°æ®æºçš„åç§°
 
-Äú»¹¿ÉÒÔÏñÏÂÃæÕâÑù£¬ÔÚ´´½¨Ò»¸ö¿Í»§¶ËµÄÊ±ºòÖ¸¶¨ Á¬½Ó³Ø·½Ê½Êý¾ÝÔ´µÄÃû³Æ£º
+æ‚¨è¿˜å¯ä»¥åƒä¸‹é¢è¿™æ ·ï¼Œåœ¨åˆ›å»ºä¸€ä¸ªå®¢æˆ·ç«¯çš„æ—¶å€™æŒ‡å®š è¿žæŽ¥æ± æ–¹å¼æ•°æ®æºçš„åç§°ï¼š
 
 [source,java]
 ----
 MongoClient client = MongoClient.createShared(vertx, config, "MyPoolName");
 ----
 
-Èç¹ûÄúÊ¹ÓÃÏàÍ¬Vert.xÊµÀý´´½¨ÁË²»Í¬¿Í»§¶Ë£¬Í¬Ê±Ö¸¶¨ÁËÏàÍ¬µÄÁ¬½Ó³ØÃû³Æ£¬
-ÄÇÃ´ÕâÐ©¿Í»§¶Ë½«¹²ÏíÕâ¸öÏàÍ¬µÄÁ¬½Ó³ØÊý¾ÝÔ´
+å¦‚æžœæ‚¨ä½¿ç”¨ç›¸åŒVert.xå®žä¾‹åˆ›å»ºäº†ä¸åŒå®¢æˆ·ç«¯ï¼ŒåŒæ—¶æŒ‡å®šäº†ç›¸åŒçš„è¿žæŽ¥æ± åç§°ï¼Œ
+é‚£ä¹ˆè¿™äº›å®¢æˆ·ç«¯å°†å…±äº«è¿™ä¸ªç›¸åŒçš„è¿žæŽ¥æ± æ•°æ®æº
 
-Í¬ÑùµÄ£¨ÓëÊ¹ÓÃÄ¬ÈÏµÄ¹²ÏíÊý¾ÝÔ´ÏàÍ¬£©£¬Ö»ÓÐµÚÒ»´Îµ÷ÓÃ `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#createShared-io.vertx.core.Vertx-io.vertx.core.json.JsonObject-[MongoClient.createShared]`
-²Å»áÕæÕýµÄ¸ù¾Ý ÄúÖ¸¶¨µÄconfig´´½¨Ò»¸öÁ¬½Ó³Ø
+åŒæ ·çš„ï¼ˆä¸Žä½¿ç”¨é»˜è®¤çš„å…±äº«æ•°æ®æºç›¸åŒï¼‰ï¼Œåªæœ‰ç¬¬ä¸€æ¬¡è°ƒç”¨ `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#createShared-io.vertx.core.Vertx-io.vertx.core.json.JsonObject-[MongoClient.createShared]`
+æ‰ä¼šçœŸæ­£çš„æ ¹æ® æ‚¨æŒ‡å®šçš„configåˆ›å»ºä¸€ä¸ªè¿žæŽ¥æ± 
 
-Ö®ºóÔÙµ÷ÓÃ´Ë·½·¨£¬Ö»»á·µ»ØÒ»¸öÐÂµÄ¿Í»§¶Ë¶ÔÏó£¬µ«Ê¹ÓÃµÄÊÇÏàÍ¬µÄÊý¾ÝÔ´¡£Òò´ËÕâÊ±config²ÎÊý²»ÔÙÓÐ×÷ÓÃ¡£
+ä¹‹åŽå†è°ƒç”¨æ­¤æ–¹æ³•ï¼Œåªä¼šè¿”å›žä¸€ä¸ªæ–°çš„å®¢æˆ·ç«¯å¯¹è±¡ï¼Œä½†ä½¿ç”¨çš„æ˜¯ç›¸åŒçš„æ•°æ®æºã€‚å› æ­¤è¿™æ—¶configå‚æ•°ä¸å†æœ‰ä½œç”¨ã€‚
 
-µ±ÄúÏ£Íû²»Í¬groupsµÄ¿Í»§¶Ë£¬Ê¹ÓÃ²»Í¬µÄÁ¬½Ó³ØÊ±£¬¿ÉÒÔÊ¹ÓÃÕâÖÖ·½Ê½¡£
-¾Ù¸öÊ¹ÓÃ³¡¾°µÄÀý×Ó£¬±ÈÈçÕâÐ©¿Í»§¶ËÐèÒªÓë²»Í¬Êý¾ÝÔ´½øÐÐ½»»¥µÄÊ±ºò£¬¿ÉÒÔÊ¹ÓÃÕâÖÖ·½Ê½¡£
+å½“æ‚¨å¸Œæœ›ä¸åŒgroupsçš„å®¢æˆ·ç«¯ï¼Œä½¿ç”¨ä¸åŒçš„è¿žæŽ¥æ± æ—¶ï¼Œå¯ä»¥ä½¿ç”¨è¿™ç§æ–¹å¼ã€‚
+ä¸¾ä¸ªä½¿ç”¨åœºæ™¯çš„ä¾‹å­ï¼Œæ¯”å¦‚è¿™äº›å®¢æˆ·ç«¯éœ€è¦ä¸Žä¸åŒæ•°æ®æºè¿›è¡Œäº¤äº’çš„æ—¶å€™ï¼Œå¯ä»¥ä½¿ç”¨è¿™ç§æ–¹å¼ã€‚
 
 [[_creating_a_client_with_a_non_shared_data_pool]]
-=== ´´½¨²»¹²ÏíÊý¾ÝÔ´µÄ¿Í»§¶Ë¶ÔÏó
+=== åˆ›å»ºä¸å…±äº«æ•°æ®æºçš„å®¢æˆ·ç«¯å¯¹è±¡
 
-ÔÚ´ó²¿·ÖÇé¿öÏÂ£¬ÄúÏ£ÍûÔÚ²»Í¬¿Í»§¶ËÊµÀý¼ä¹²ÏíÒ»¸öÁ¬½Ó³Ø¡£
-µ«ÊÇ£¬ÔÚÓÐÐ©Çé¿öÏÂ£¬Äú¿ÉÄÜÏëÒªÊ¹ÓÃÒ»¸ö²»¸øÆäËû¿Í»§¶Ë¹²ÏíÁ¬½ÓµÄÁ¬½Ó³Ø£¬À´´´½¨Ò»¸ö¿Í»§¶ËÊµÀý
+åœ¨å¤§éƒ¨åˆ†æƒ…å†µä¸‹ï¼Œæ‚¨å¸Œæœ›åœ¨ä¸åŒå®¢æˆ·ç«¯å®žä¾‹é—´å…±äº«ä¸€ä¸ªè¿žæŽ¥æ± ã€‚
+ä½†æ˜¯ï¼Œåœ¨æœ‰äº›æƒ…å†µä¸‹ï¼Œæ‚¨å¯èƒ½æƒ³è¦ä½¿ç”¨ä¸€ä¸ªä¸ç»™å…¶ä»–å®¢æˆ·ç«¯å…±äº«è¿žæŽ¥çš„è¿žæŽ¥æ± ï¼Œæ¥åˆ›å»ºä¸€ä¸ªå®¢æˆ·ç«¯å®žä¾‹
 
-ÕâÊ±£¬Äú¿ÉÒÔÊ¹ÓÃ `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#create-io.vertx.core.Vertx-io.vertx.core.json.JsonObject-[MongoClient.create]`¡£
+è¿™æ—¶ï¼Œæ‚¨å¯ä»¥ä½¿ç”¨ `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#create-io.vertx.core.Vertx-io.vertx.core.json.JsonObject-[MongoClient.create]`ã€‚
 
 [source,java]
 ----
 MongoClient client = MongoClient.create(vertx, config);
 ----
 
-Ã¿´Îµ÷ÓÃ´Ë·½·¨£¬¾ÍÏàµ±ÓÚÔÚµ÷ÓÃ `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#createShared-io.vertx.core.Vertx-io.vertx.core.json.JsonObject-java.lang.String-[MongoClient.createShared]` ·½·¨Ê±
-¼ÓÉÏÁË¾ßÓÐÎ¨Ò»Ãû³ÆµÄÊý¾ÝÔ´²ÎÊý¡£
+æ¯æ¬¡è°ƒç”¨æ­¤æ–¹æ³•ï¼Œå°±ç›¸å½“äºŽåœ¨è°ƒç”¨ `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#createShared-io.vertx.core.Vertx-io.vertx.core.json.JsonObject-java.lang.String-[MongoClient.createShared]` æ–¹æ³•æ—¶
+åŠ ä¸Šäº†å…·æœ‰å”¯ä¸€åç§°çš„æ•°æ®æºå‚æ•°ã€‚
 
 
 [[_using_the_api]]
-== Ê¹ÓÃ¿Í»§¶Ë API
+== ä½¿ç”¨å®¢æˆ·ç«¯ API
 
-`link:../../apidocs/io/vertx/ext/mongo/MongoClient.html[MongoClient]` ½Ó¿Ú¶¨ÒåÁË²Ù×÷¿Í»§¶ËµÄAPI ·½·¨¡£Äú¿ÉÒÔÊ¹ÓÃ `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html[MongoClient]` À´Ê¹ÓÃµ÷ÓÃ API ·½·¨¡£
+`link:../../apidocs/io/vertx/ext/mongo/MongoClient.html[MongoClient]` æŽ¥å£å®šä¹‰äº†æ“ä½œå®¢æˆ·ç«¯çš„API æ–¹æ³•ã€‚æ‚¨å¯ä»¥ä½¿ç”¨ `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html[MongoClient]` æ¥ä½¿ç”¨è°ƒç”¨ API æ–¹æ³•ã€‚
 
 [[_saving_documents]]
-=== ±£´æÎÄµµ
+=== ä¿å­˜æ–‡æ¡£
 
-Äú¿ÉÒÔÊ¹ÓÃ `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#save-java.lang.String-io.vertx.core.json.JsonObject-io.vertx.core.Handler-[save]` ·½·¨À´±£´æÎÄµµ
+æ‚¨å¯ä»¥ä½¿ç”¨ `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#save-java.lang.String-io.vertx.core.json.JsonObject-io.vertx.core.Handler-[save]` æ–¹æ³•æ¥ä¿å­˜æ–‡æ¡£
 
-Èç¹ûÎÄµµÖÐÃ»ÓÐ `\_id` ×Ö¶Î£¬ÎÄµµ»á±»±£´æ¡£ÈôÓÐ£¬½«Ö´ÐÐ upserted¡£
-Upserted ÒâË¼ÊÇ£¬Èç¹û´ËÎÄµµ²»´æÔÚ£¬¾Í±£´æ´ËÎÄµµ£¬´ËÎÄµµ´æÔÚ¾Í¸üÐÂ¡£
+å¦‚æžœæ–‡æ¡£ä¸­æ²¡æœ‰ `\_id` å­—æ®µï¼Œæ–‡æ¡£ä¼šè¢«ä¿å­˜ã€‚è‹¥æœ‰ï¼Œå°†æ‰§è¡Œ upsertedã€‚
+Upserted æ„æ€æ˜¯ï¼Œå¦‚æžœæ­¤æ–‡æ¡£ä¸å­˜åœ¨ï¼Œå°±ä¿å­˜æ­¤æ–‡æ¡£ï¼Œæ­¤æ–‡æ¡£å­˜åœ¨å°±æ›´æ–°ã€‚
 
-Èç¹û±»±£´æµÄÎÄµµÃ»ÓÐ `\_id` ×Ö¶Î£¬»Øµ÷·½·¨ÖÐ¿ÉÒÔ»ñµÃ±£´æºóÉú³ÉµÄ id¡£
+å¦‚æžœè¢«ä¿å­˜çš„æ–‡æ¡£æ²¡æœ‰ `\_id` å­—æ®µï¼Œå›žè°ƒæ–¹æ³•ä¸­å¯ä»¥èŽ·å¾—ä¿å­˜åŽç”Ÿæˆçš„ idã€‚
 
-ÀýÈç£º
+ä¾‹å¦‚ï¼š
 
 [source,java]
 ----
@@ -131,7 +131,7 @@ mongoClient.save("books", document, res -> {
 });
 ----
 
-ÏÂÃæµÄÀý×Ó£¬ÎÄµµÒÑÓÐ `\_id`£º
+ä¸‹é¢çš„ä¾‹å­ï¼Œæ–‡æ¡£å·²æœ‰ `\_id`ï¼š
 
 [source,java]
 ----
@@ -148,11 +148,11 @@ mongoClient.save("books", document, res -> {
 ----
 
 [[_inserting_documents]]
-=== ²åÈëÎÄµµ
+=== æ’å…¥æ–‡æ¡£
 
-Äú¿ÉÒÔÊ¹ÓÃ `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#insert-java.lang.String-io.vertx.core.json.JsonObject-io.vertx.core.Handler-[insert]` ·½·¨À´²åÈëÎÄµµ¡£
+æ‚¨å¯ä»¥ä½¿ç”¨ `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#insert-java.lang.String-io.vertx.core.json.JsonObject-io.vertx.core.Handler-[insert]` æ–¹æ³•æ¥æ’å…¥æ–‡æ¡£ã€‚
 
-Èç¹û±»²åÈëµÄÎÄµµÃ»ÓÐ°üº¬ id£¬»Øµ÷·½·¨ÖÐ¿ÉÒÔ»ñµÃ±£´æºóÉú³ÉµÄ id¡£
+å¦‚æžœè¢«æ’å…¥çš„æ–‡æ¡£æ²¡æœ‰åŒ…å« idï¼Œå›žè°ƒæ–¹æ³•ä¸­å¯ä»¥èŽ·å¾—ä¿å­˜åŽç”Ÿæˆçš„ idã€‚
 
 [source,java]
 ----
@@ -168,7 +168,7 @@ mongoClient.insert("books", document, res -> {
 });
 ----
 
-Èç¹û±»²åÈëµÄÎÄµµ°üº¬ id£¬µ«ÊÇ´Ë id ´ú±íµÄÎÄµµÒÑ¾­´æÔÚ£¬²åÈë¾Í»áÊ§°Ü£º
+å¦‚æžœè¢«æ’å…¥çš„æ–‡æ¡£åŒ…å« idï¼Œä½†æ˜¯æ­¤ id ä»£è¡¨çš„æ–‡æ¡£å·²ç»å­˜åœ¨ï¼Œæ’å…¥å°±ä¼šå¤±è´¥ï¼š
 
 [source,java]
 ----
@@ -185,18 +185,18 @@ mongoClient.insert("books", document, res -> {
 ----
 
 [[_updating_documents]]
-=== ¸üÐÂÎÄµµ
+=== æ›´æ–°æ–‡æ¡£
 
-Äú¿ÉÒÔÊ¹ÓÃ `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#updateCollection-java.lang.String-io.vertx.core.json.JsonObject-io.vertx.core.json.JsonObject-io.vertx.core.Handler-[updateCollection]` ·½·¨À´¸üÐÂÎÄµµ¡£
+æ‚¨å¯ä»¥ä½¿ç”¨ `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#updateCollection-java.lang.String-io.vertx.core.json.JsonObject-io.vertx.core.json.JsonObject-io.vertx.core.Handler-[updateCollection]` æ–¹æ³•æ¥æ›´æ–°æ–‡æ¡£ã€‚
 
-´Ë·½·¨¿ÉÒÔ¸üÐÂ¼¯ºÏ£¨ÒëÕß×¢£ºMongoDB ÖÐµÄ¼¯ºÏ¸ÅÄî¶ÔÓ¦ SQL ÖÐµÄÊý¾Ý¿â±í£©ÖÐµÄÒ»¸ö»ò¶à¸öÎÄµµ¡£
-ÔÚ `updateCollection` ·½·¨ÖÐ±»µ±³É²ÎÊý´«µÝµÄJSON¶ÔÏó£¬
-±ØÐë°üº¬ http://docs.mongodb.org/manual/reference/operator/update-field/[Update Operators]£¬
-ÒòÎªÓÉËü¾ö¶¨¸üÐÂµÄ·½Ê½¡£
+æ­¤æ–¹æ³•å¯ä»¥æ›´æ–°é›†åˆï¼ˆè¯‘è€…æ³¨ï¼šMongoDB ä¸­çš„é›†åˆæ¦‚å¿µå¯¹åº” SQL ä¸­çš„æ•°æ®åº“è¡¨ï¼‰ä¸­çš„ä¸€ä¸ªæˆ–å¤šä¸ªæ–‡æ¡£ã€‚
+åœ¨ `updateCollection` æ–¹æ³•ä¸­è¢«å½“æˆå‚æ•°ä¼ é€’çš„JSONå¯¹è±¡ï¼Œ
+å¿…é¡»åŒ…å« http://docs.mongodb.org/manual/reference/operator/update-field/[Update Operators]ï¼Œ
+å› ä¸ºç”±å®ƒå†³å®šæ›´æ–°çš„æ–¹å¼ã€‚
 
-ÆäÖÐ×÷Îª `query` ²ÎÊýµÄ json¶ÔÏó¾ö¶¨¸üÐÂ¼¯ºÏÖÐµÄÄÄ¸öÎÄµµ¡£
+å…¶ä¸­ä½œä¸º `query` å‚æ•°çš„ jsonå¯¹è±¡å†³å®šæ›´æ–°é›†åˆä¸­çš„å“ªä¸ªæ–‡æ¡£ã€‚
 
-ÀýÈç¸üÐÂ books ¼¯ºÏÖÐµÄÒ»¸öÎÄµµ£º
+ä¾‹å¦‚æ›´æ–° books é›†åˆä¸­çš„ä¸€ä¸ªæ–‡æ¡£ï¼š
 
 [source,java]
 ----
@@ -214,19 +214,19 @@ mongoClient.updateCollection("books", query, update, res -> {
 });
 ----
 
-Èç¹ûÄúÏ£Íû¸üÐÂ²Ù×÷ÊÇ upsert£¨upsert ÒâË¼ÊÇ£¬Èç¹û´ËÎÄµµ²»´æÔÚ£¬¾Í±£´æ´ËÎÄµµ£»´ËÎÄµµ´æÔÚ¾Í¸üÐÂ£©»òÕß ÊÇ¸üÐÂ¶à¸öÎÄµµ£¬
-ÄÇÃ´¾ÍÊ¹ÓÃ `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#updateCollectionWithOptions-java.lang.String-io.vertx.core.json.JsonObject-io.vertx.core.json.JsonObject-io.vertx.ext.mongo.UpdateOptions-io.vertx.core.Handler-[updateCollectionWithOptions]`
-·½·¨£¬´«µÝÒ»¸ö `link:../../apidocs/io/vertx/ext/mongo/UpdateOptions.html[UpdateOptions]` µÄÊµÀý£¬È¥¶¨ÖÆ»¯ÄúµÄ¸üÐÂ²Ù×÷¡£
+å¦‚æžœæ‚¨å¸Œæœ›æ›´æ–°æ“ä½œæ˜¯ upsertï¼ˆupsert æ„æ€æ˜¯ï¼Œå¦‚æžœæ­¤æ–‡æ¡£ä¸å­˜åœ¨ï¼Œå°±ä¿å­˜æ­¤æ–‡æ¡£ï¼›æ­¤æ–‡æ¡£å­˜åœ¨å°±æ›´æ–°ï¼‰æˆ–è€… æ˜¯æ›´æ–°å¤šä¸ªæ–‡æ¡£ï¼Œ
+é‚£ä¹ˆå°±ä½¿ç”¨ `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#updateCollectionWithOptions-java.lang.String-io.vertx.core.json.JsonObject-io.vertx.core.json.JsonObject-io.vertx.ext.mongo.UpdateOptions-io.vertx.core.Handler-[updateCollectionWithOptions]`
+æ–¹æ³•ï¼Œä¼ é€’ä¸€ä¸ª `link:../../apidocs/io/vertx/ext/mongo/UpdateOptions.html[UpdateOptions]` çš„å®žä¾‹ï¼ŒåŽ»å®šåˆ¶åŒ–æ‚¨çš„æ›´æ–°æ“ä½œã€‚
 
-²ÎÊý `UpdateOptions` ÓÐÒÔÏÂÑ¡Ïî£º
+å‚æ•° `UpdateOptions` æœ‰ä»¥ä¸‹é€‰é¡¹ï¼š
 
-`multi`:: ÈôÉèÖÃÎª true£¬Ôò¿ÉÒÔ¸üÐÂ¶à¸öÎÄµµ
-`upsert`:: ÈôÉèÖÃÎª true£¬Ôò¿ÉÒÔÔÚÃ»ÓÐ²éÑ¯µ½Òª¸üÐÂµÄÎÄµµÊ±£¬ÐÂÔö¸ÃÎÄµµ
-`writeConcern`:: Ð´²Ù×÷µÄ¿É¿¿ÐÔ£¨ÒëÕß×¢£ºÔ´ÂëÖÐÊÇÓÃ writeOption Ã¶¾ÙÀàÐÍÀ´´ú±íµÄ£©
+`multi`:: è‹¥è®¾ç½®ä¸º trueï¼Œåˆ™å¯ä»¥æ›´æ–°å¤šä¸ªæ–‡æ¡£
+`upsert`:: è‹¥è®¾ç½®ä¸º trueï¼Œåˆ™å¯ä»¥åœ¨æ²¡æœ‰æŸ¥è¯¢åˆ°è¦æ›´æ–°çš„æ–‡æ¡£æ—¶ï¼Œæ–°å¢žè¯¥æ–‡æ¡£
+`writeConcern`:: å†™æ“ä½œçš„å¯é æ€§ï¼ˆè¯‘è€…æ³¨ï¼šæºç ä¸­æ˜¯ç”¨ writeOption æžšä¸¾ç±»åž‹æ¥ä»£è¡¨çš„ï¼‰
 
 [source,java]
 ----
-  //ÒëÕß×¢£ºMongoDB Ä¬ÈÏÐ´²Ù×÷¼¶±ðÊÇ WriteOption.ACKNOWLEDGED
+  //è¯‘è€…æ³¨ï¼šMongoDB é»˜è®¤å†™æ“ä½œçº§åˆ«æ˜¯ WriteOption.ACKNOWLEDGED
 JsonObject query = new JsonObject().put("title", "The Hobbit");
   // Set the author field
 JsonObject update = new JsonObject().put("$set", new JsonObject()
@@ -242,14 +242,14 @@ mongoClient.updateCollectionWithOptions("books", query, update, options, res -> 
 ----
 
 [[_replacing_documents]]
-=== Ìæ»»ÎÄµµ
+=== æ›¿æ¢æ–‡æ¡£
 
-Äú¿ÉÒÔÊ¹ÓÃ `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#replaceDocuments-java.lang.String-io.vertx.core.json.JsonObject-io.vertx.core.json.JsonObject-io.vertx.core.Handler-[replaceDocuments]` ·½·¨À´Ìæ»»ÎÄµµ¡£
+æ‚¨å¯ä»¥ä½¿ç”¨ `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#replaceDocuments-java.lang.String-io.vertx.core.json.JsonObject-io.vertx.core.json.JsonObject-io.vertx.core.Handler-[replaceDocuments]` æ–¹æ³•æ¥æ›¿æ¢æ–‡æ¡£ã€‚
 
-Ìæ»»²Ù×÷ºÍ¸üÐÂ²Ù×÷ÏàËÆ£¬µ«Ìæ»»²»ÐèÒªÈÎºÎ²Ù×÷·û¡£
-ÒòÎªËüÊÇÓÃÄúÌá¹©µÄÎÄµµÈ¥Ìæ»»Õû¸öÎÄµµ
+æ›¿æ¢æ“ä½œå’Œæ›´æ–°æ“ä½œç›¸ä¼¼ï¼Œä½†æ›¿æ¢ä¸éœ€è¦ä»»ä½•æ“ä½œç¬¦ã€‚
+å› ä¸ºå®ƒæ˜¯ç”¨æ‚¨æä¾›çš„æ–‡æ¡£åŽ»æ›¿æ¢æ•´ä¸ªæ–‡æ¡£
 
-ÀýÈçÌæ»» books ¼¯ºÏÖÐµÄÒ»¸öÎÄµµ£º
+ä¾‹å¦‚æ›¿æ¢ books é›†åˆä¸­çš„ä¸€ä¸ªæ–‡æ¡£ï¼š
 
 [source,java]
 ----
@@ -268,26 +268,26 @@ mongoClient.replaceDocuments("books", query, replace, res -> {
 ----
 
 [[_bulk_operations]]
-=== ÅúÁ¿²Ù×÷
+=== æ‰¹é‡æ“ä½œ
 
-Äú¿ÉÒÔÊ¹ÓÃ `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#bulkWrite-java.lang.String-java.util.List-io.vertx.core.Handler-[bulkWrite]` À´Ò»´ÎÖ´ÐÐ¶à¸öÐÂÔö¡¢¸üÐÂ¡¢Ìæ»»»òÕßÉ¾³ýµÄ²Ù×÷¡£
+æ‚¨å¯ä»¥ä½¿ç”¨ `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#bulkWrite-java.lang.String-java.util.List-io.vertx.core.Handler-[bulkWrite]` æ¥ä¸€æ¬¡æ‰§è¡Œå¤šä¸ªæ–°å¢žã€æ›´æ–°ã€æ›¿æ¢æˆ–è€…åˆ é™¤çš„æ“ä½œã€‚
 
-ÔÚ `bulkWrite` ·½·¨ÖÐ£¬Äú¿ÉÒÔ´«µÝÒ»ÏµÁÐ `link:../../apidocs/io/vertx/ext/mongo/BulkOperation.html[BulkOperations]`£¬¶øÇÒÃ¿¸ö `BulkOperations` ÔË×÷·½Ê½ºÍµ¥¸ö²Ù×÷ÀàËÆ¡£
-Äú¿ÉÒÔ¸ù¾ÝÐèÒª´«µÝ¶à¸ö²Ù×÷£¬¼´Ê¹ÕâÐ©²Ù×÷¶¼ÊÇÍ¬Ò»ÀàÐÍµÄ¡£
+åœ¨ `bulkWrite` æ–¹æ³•ä¸­ï¼Œæ‚¨å¯ä»¥ä¼ é€’ä¸€ç³»åˆ— `link:../../apidocs/io/vertx/ext/mongo/BulkOperation.html[BulkOperations]`ï¼Œè€Œä¸”æ¯ä¸ª `BulkOperations` è¿ä½œæ–¹å¼å’Œå•ä¸ªæ“ä½œç±»ä¼¼ã€‚
+æ‚¨å¯ä»¥æ ¹æ®éœ€è¦ä¼ é€’å¤šä¸ªæ“ä½œï¼Œå³ä½¿è¿™äº›æ“ä½œéƒ½æ˜¯åŒä¸€ç±»åž‹çš„ã€‚
 
-Èç¹ûÄúÏ£Íû ÅúÁ¿²Ù×÷¿ÉÒÔ°´ÕÕË³ÐòÖ´ÐÐ£¬ÄÇÃ´¿ÉÒÔÊ¹ÓÃ `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#bulkWriteWithOptions-java.lang.String-java.util.List-io.vertx.ext.mongo.BulkWriteOptions-io.vertx.core.Handler-[bulkWriteWithOptions]`
-½«×Ô¶¨ÒåµÄÅäÖÃÐ´ÈëÆäÖÐ£¬È»ºó´«µÝÒ»¸ö `link:../../apidocs/io/vertx/ext/mongo/BulkWriteOptions.html[BulkWriteOptions]` µÄÊµÀý¡£
-¸ü¶à¹ØÓÚÓÐÐòÅúÁ¿Ð´²Ù×÷²Ù×÷µÄÃèÊö£¬¼û
+å¦‚æžœæ‚¨å¸Œæœ› æ‰¹é‡æ“ä½œå¯ä»¥æŒ‰ç…§é¡ºåºæ‰§è¡Œï¼Œé‚£ä¹ˆå¯ä»¥ä½¿ç”¨ `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#bulkWriteWithOptions-java.lang.String-java.util.List-io.vertx.ext.mongo.BulkWriteOptions-io.vertx.core.Handler-[bulkWriteWithOptions]`
+å°†è‡ªå®šä¹‰çš„é…ç½®å†™å…¥å…¶ä¸­ï¼Œç„¶åŽä¼ é€’ä¸€ä¸ª `link:../../apidocs/io/vertx/ext/mongo/BulkWriteOptions.html[BulkWriteOptions]` çš„å®žä¾‹ã€‚
+æ›´å¤šå…³äºŽæœ‰åºæ‰¹é‡å†™æ“ä½œçš„æè¿°ï¼Œè§
 https://docs.mongodb.com/manual/reference/method/db.collection.bulkWrite/#execution-of-operations[Execution of Operations]
 
 [[_finding_documents]]
-=== ²éÕÒÎÄµµ
+=== æŸ¥æ‰¾æ–‡æ¡£
 
-Äú¿ÉÒÔÊ¹ÓÃ `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#find-java.lang.String-io.vertx.core.json.JsonObject-io.vertx.core.Handler-[find]` ·½·¨²éÕÒÎÄµµ¡£
+æ‚¨å¯ä»¥ä½¿ç”¨ `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#find-java.lang.String-io.vertx.core.json.JsonObject-io.vertx.core.Handler-[find]` æ–¹æ³•æŸ¥æ‰¾æ–‡æ¡£ã€‚
 
-ÆäÖÐ `query` ²ÎÊýÓÃÀ´Æ¥Åä¼¯ºÏÖÐµÄÎÄµµ¡£
+å…¶ä¸­ `query` å‚æ•°ç”¨æ¥åŒ¹é…é›†åˆä¸­çš„æ–‡æ¡£ã€‚
 
-ÀýÈçÆ¥ÅäËùÓÐÎÄµµ£º
+ä¾‹å¦‚åŒ¹é…æ‰€æœ‰æ–‡æ¡£ï¼š
 
 [source,java]
 ----
@@ -303,7 +303,7 @@ mongoClient.find("books", query, res -> {
 });
 ----
 
-ÓÖÀýÈçÆ¥Åä books ¼¯ºÏÖÐÄ³Ò»¸ö×÷ÕßµÄËùÓÐÎÄµµ£º
+åˆä¾‹å¦‚åŒ¹é… books é›†åˆä¸­æŸä¸€ä¸ªä½œè€…çš„æ‰€æœ‰æ–‡æ¡£ï¼š
 
 [source,java]
 ----
@@ -320,25 +320,25 @@ mongoClient.find("books", query, res -> {
 });
 ----
 
-²éÑ¯µÄ½á¹û°ü×°³ÉÁË JSON ¶ÔÏóµÄ List ¼¯ºÏ¡£
+æŸ¥è¯¢çš„ç»“æžœåŒ…è£…æˆäº† JSON å¯¹è±¡çš„ List é›†åˆã€‚
 
-Èç¹ûÄúÏ£ÍûÔÚ²éÑ¯ÖÐÖ¸¶¨Ò»Ð©ÄÚÈÝ£¬±ÈÈçÖ¸¶¨·µ»ØµÄ×Ö¶Î£¬»òÕßÖ¸¶¨·µ»Ø¶àÉÙÌõÊý¾Ý£¬¿ÉÒÔÊ¹ÓÃ `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#findWithOptions-java.lang.String-io.vertx.core.json.JsonObject-io.vertx.ext.mongo.FindOptions-io.vertx.core.Handler-[findWithOptions]` ·½·¨£¬
-ÔÚ²ÎÊý `link:../../apidocs/io/vertx/ext/mongo/FindOptions.html[FindOptions]` ÖÐÖ¸¶¨ÕâÐ©²éÑ¯ÒªÇó¡£
+å¦‚æžœæ‚¨å¸Œæœ›åœ¨æŸ¥è¯¢ä¸­æŒ‡å®šä¸€äº›å†…å®¹ï¼Œæ¯”å¦‚æŒ‡å®šè¿”å›žçš„å­—æ®µï¼Œæˆ–è€…æŒ‡å®šè¿”å›žå¤šå°‘æ¡æ•°æ®ï¼Œå¯ä»¥ä½¿ç”¨ `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#findWithOptions-java.lang.String-io.vertx.core.json.JsonObject-io.vertx.ext.mongo.FindOptions-io.vertx.core.Handler-[findWithOptions]` æ–¹æ³•ï¼Œ
+åœ¨å‚æ•° `link:../../apidocs/io/vertx/ext/mongo/FindOptions.html[FindOptions]` ä¸­æŒ‡å®šè¿™äº›æŸ¥è¯¢è¦æ±‚ã€‚
 
-`FindOptions` ÖÐ¿ÉÒÔÉèÖÃÒÔÏÂ²ÎÊý£º
+`FindOptions` ä¸­å¯ä»¥è®¾ç½®ä»¥ä¸‹å‚æ•°ï¼š
 
-`fields`:: ·µ»ØµÄ×Ö¶Î¡£Ä¬ÈÏÎª `null`£¬ÒâÎ¶×Å²éÑ¯½á¹û»á·µ»ØËùÓÐ×Ö¶Î¡£
-`sort`:: Ö¸¶¨ÅÅÐò×Ö¶Î¡£Ä¬ÈÏÎª null¡£
-`limit`:: Ö¸¶¨·µ»ØµÄÊý¾ÝÌõÊý¡£Ä¬ÈÏÖµÎª -1£¬ÒâÎ¶×Å²éÑ¯½á¹û»á·µ»ØËùÓÐÊý¾Ý¡£
-`skip`:: ÔÚ·µ»Ø²éÑ¯½á¹ûÖ®Ç°£¬Ö¸¶¨Ìø¹ýµÄÊý¾ÝÊýÁ¿¡£Ä¬ÈÏÖµÎª 0 ¡£
+`fields`:: è¿”å›žçš„å­—æ®µã€‚é»˜è®¤ä¸º `null`ï¼Œæ„å‘³ç€æŸ¥è¯¢ç»“æžœä¼šè¿”å›žæ‰€æœ‰å­—æ®µã€‚
+`sort`:: æŒ‡å®šæŽ’åºå­—æ®µã€‚é»˜è®¤ä¸º nullã€‚
+`limit`:: æŒ‡å®šè¿”å›žçš„æ•°æ®æ¡æ•°ã€‚é»˜è®¤å€¼ä¸º -1ï¼Œæ„å‘³ç€æŸ¥è¯¢ç»“æžœä¼šè¿”å›žæ‰€æœ‰æ•°æ®ã€‚
+`skip`:: åœ¨è¿”å›žæŸ¥è¯¢ç»“æžœä¹‹å‰ï¼ŒæŒ‡å®šè·³è¿‡çš„æ•°æ®æ•°é‡ã€‚é»˜è®¤å€¼ä¸º 0 ã€‚
 
 [[_finding_documents_in_batches]]
-=== ÅúÁ¿²éÑ¯ÎÄµµ
+=== æ‰¹é‡æŸ¥è¯¢æ–‡æ¡£
 
-µ±ÎÒÃÇÔÚ´¦Àí´óÁ¿µÄÊý¾Ý¼¯ºÏµÄÊ±ºò£¬²»½¨ÒéÊ¹ÓÃ
-`link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#find-java.lang.String-io.vertx.core.json.JsonObject-io.vertx.core.Handler-[find]` ·½·¨»òÕß
-`link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#findWithOptions-java.lang.String-io.vertx.core.json.JsonObject-io.vertx.ext.mongo.FindOptions-io.vertx.core.Handler-[findWithOptions]` ·½·¨¡£
-ÎªÁË±ÜÃâÏìÓ¦½á¹ûÊý¾ÝÁ¿Ì«´óµ¼ÖÂÄÚ´æÒç³ö£¬½¨ÒéÊ¹ÓÃ `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#findBatch-java.lang.String-io.vertx.core.json.JsonObject-[findBatch]` :
+å½“æˆ‘ä»¬åœ¨å¤„ç†å¤§é‡çš„æ•°æ®é›†åˆçš„æ—¶å€™ï¼Œä¸å»ºè®®ä½¿ç”¨
+`link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#find-java.lang.String-io.vertx.core.json.JsonObject-io.vertx.core.Handler-[find]` æ–¹æ³•æˆ–è€…
+`link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#findWithOptions-java.lang.String-io.vertx.core.json.JsonObject-io.vertx.ext.mongo.FindOptions-io.vertx.core.Handler-[findWithOptions]` æ–¹æ³•ã€‚
+ä¸ºäº†é¿å…å“åº”ç»“æžœæ•°æ®é‡å¤ªå¤§å¯¼è‡´å†…å­˜æº¢å‡ºï¼Œå»ºè®®ä½¿ç”¨ `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#findBatch-java.lang.String-io.vertx.core.json.JsonObject-[findBatch]` :
 
 [source,java]
 ----
@@ -350,9 +350,9 @@ mongoClient.findBatch("book", query)
   .handler(doc -> System.out.println("Found doc: " + doc.encodePrettily()));
 ----
 
-±»Æ¥Åäµ½µÄÎÄµµ»á±» `link:../../apidocs/io/vertx/core/streams/ReadStream.html[ReadStream]` ´¦ÀíÆ÷°¤¸ö·µ»Ø¡£
+è¢«åŒ¹é…åˆ°çš„æ–‡æ¡£ä¼šè¢« `link:../../apidocs/io/vertx/core/streams/ReadStream.html[ReadStream]` å¤„ç†å™¨æŒ¨ä¸ªè¿”å›žã€‚
 
-ÔÚ `link:../../apidocs/io/vertx/ext/mongo/FindOptions.html[FindOptions]` ÖÐÓÐÒ»¸ö¶îÍâµÄ²ÎÊý `batchSize`£¬Äú¿ÉÒÔÍ¨¹ýÉèÖÃÕâ¸ö²ÎÊý£¬À´ÉèÖÃ `ReadStream` ´¦ÀíÆ÷Ò»´Î¼ÓÔØµÄÎÄµµµÄÊýÁ¿¡£
+åœ¨ `link:../../apidocs/io/vertx/ext/mongo/FindOptions.html[FindOptions]` ä¸­æœ‰ä¸€ä¸ªé¢å¤–çš„å‚æ•° `batchSize`ï¼Œæ‚¨å¯ä»¥é€šè¿‡è®¾ç½®è¿™ä¸ªå‚æ•°ï¼Œæ¥è®¾ç½® `ReadStream` å¤„ç†å™¨ä¸€æ¬¡åŠ è½½çš„æ–‡æ¡£çš„æ•°é‡ã€‚
 
 [source,java]
 ----
@@ -365,23 +365,23 @@ mongoClient.findBatchWithOptions("book", query, options)
   .handler(doc -> System.out.println("Found doc: " + doc.encodePrettily()));
 ----
 
-Ä¬ÈÏÇé¿öÏÂ£¬ `batchSize` µÄÖµÊÇ20¡£
+é»˜è®¤æƒ…å†µä¸‹ï¼Œ `batchSize` çš„å€¼æ˜¯20ã€‚
 
 [[_finding_a_single_document]]
-=== ²éÑ¯µ¥¸öÎÄµµ
+=== æŸ¥è¯¢å•ä¸ªæ–‡æ¡£
 
-Òª²éÑ¯µ¥¸öÎÄµµ£¬Äú¿ÉÒÔÊ¹ÓÃ `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#findOne-java.lang.String-io.vertx.core.json.JsonObject-io.vertx.core.json.JsonObject-io.vertx.core.Handler-[findOne]` ·½·¨¡£
+è¦æŸ¥è¯¢å•ä¸ªæ–‡æ¡£ï¼Œæ‚¨å¯ä»¥ä½¿ç”¨ `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#findOne-java.lang.String-io.vertx.core.json.JsonObject-io.vertx.core.json.JsonObject-io.vertx.core.Handler-[findOne]` æ–¹æ³•ã€‚
 
-ÕâÓÐµãÀàËÆ `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#find-java.lang.String-io.vertx.core.json.JsonObject-io.vertx.core.Handler-[find]` ·½·¨£¬µ«ÊÇ½ö½ö·µ»Ø find ·½·¨²éÑ¯µ½µÄµÚÒ»ÌõÊý¾Ý¡£
+è¿™æœ‰ç‚¹ç±»ä¼¼ `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#find-java.lang.String-io.vertx.core.json.JsonObject-io.vertx.core.Handler-[find]` æ–¹æ³•ï¼Œä½†æ˜¯ä»…ä»…è¿”å›ž find æ–¹æ³•æŸ¥è¯¢åˆ°çš„ç¬¬ä¸€æ¡æ•°æ®ã€‚
 
 [[_removing_documents]]
-=== É¾³ýÎÄµµ
+=== åˆ é™¤æ–‡æ¡£
 
-Äú¿ÉÒÔÊ¹ÓÃ `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#removeDocuments-java.lang.String-io.vertx.core.json.JsonObject-io.vertx.core.Handler-[removeDocuments]` ·½·¨À´É¾³ýÎÄµµ¡£
+æ‚¨å¯ä»¥ä½¿ç”¨ `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#removeDocuments-java.lang.String-io.vertx.core.json.JsonObject-io.vertx.core.Handler-[removeDocuments]` æ–¹æ³•æ¥åˆ é™¤æ–‡æ¡£ã€‚
 
-ÆäÖÐ `query` ²ÎÊý¾ö¶¨ÁËÒªÉ¾³ý¼¯ºÏÖÐµÄÄÄÐ©ÎÄµµ¡£
+å…¶ä¸­ `query` å‚æ•°å†³å®šäº†è¦åˆ é™¤é›†åˆä¸­çš„å“ªäº›æ–‡æ¡£ã€‚
 
-ÀýÈçÉ¾³ý×÷ÕßÎª Tolkien µÄËùÓÐÎÄµµ£º
+ä¾‹å¦‚åˆ é™¤ä½œè€…ä¸º Tolkien çš„æ‰€æœ‰æ–‡æ¡£ï¼š
 
 [source,java]
 ----
@@ -397,18 +397,18 @@ mongoClient.removeDocuments("books", query, res -> {
 ----
 
 [[_removing_a_single_documents]]
-=== É¾³ýµ¥¸öÎÄµµ
+=== åˆ é™¤å•ä¸ªæ–‡æ¡£
 
-Äú¿ÉÒÔÊ¹ÓÃ `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#removeDocument-java.lang.String-io.vertx.core.json.JsonObject-io.vertx.core.Handler-[removeDocument]` ·½·¨À´É¾³ýÎÄµµ¡£
+æ‚¨å¯ä»¥ä½¿ç”¨ `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#removeDocument-java.lang.String-io.vertx.core.json.JsonObject-io.vertx.core.Handler-[removeDocument]` æ–¹æ³•æ¥åˆ é™¤æ–‡æ¡£ã€‚
 
-ÕâÓÐµãÀàËÆÓÚ `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#removeDocuments-java.lang.String-io.vertx.core.json.JsonObject-io.vertx.core.Handler-[removeDocuments]` ·½·¨£¬Ö»ÊÇ `removeDocument` ·½·¨½öÉ¾³ýÆ¥Åäµ½µÄµÚÒ»¸öÎÄµµ¡£
+è¿™æœ‰ç‚¹ç±»ä¼¼äºŽ `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#removeDocuments-java.lang.String-io.vertx.core.json.JsonObject-io.vertx.core.Handler-[removeDocuments]` æ–¹æ³•ï¼Œåªæ˜¯ `removeDocument` æ–¹æ³•ä»…åˆ é™¤åŒ¹é…åˆ°çš„ç¬¬ä¸€ä¸ªæ–‡æ¡£ã€‚
 
 [[_counting_documents]]
-=== ÎÄµµ¼ÆÊý
+=== æ–‡æ¡£è®¡æ•°
 
-Äú¿ÉÒÔÊ¹ÓÃ `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#count-java.lang.String-io.vertx.core.json.JsonObject-io.vertx.core.Handler-[count]` ·½·¨È¥¼ÆËãÎÄµµÊýÁ¿¡£
+æ‚¨å¯ä»¥ä½¿ç”¨ `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#count-java.lang.String-io.vertx.core.json.JsonObject-io.vertx.core.Handler-[count]` æ–¹æ³•åŽ»è®¡ç®—æ–‡æ¡£æ•°é‡ã€‚
 
-ÀýÈç¼ÆËã ×÷ÕßÎª Tolkien µÄÊéµÄÊýÁ¿£¬½á¹û°ü×°ÔÚ»Øµ÷·½·¨ÖÐ¡£
+ä¾‹å¦‚è®¡ç®— ä½œè€…ä¸º Tolkien çš„ä¹¦çš„æ•°é‡ï¼Œç»“æžœåŒ…è£…åœ¨å›žè°ƒæ–¹æ³•ä¸­ã€‚
 
 [source,java]
 ----
@@ -424,9 +424,9 @@ mongoClient.count("books", query, res -> {
 ----
 
 [[_managing_mongodb_collections]]
-=== ¹ÜÀí MongoDB ¼¯ºÏ
+=== ç®¡ç† MongoDB é›†åˆ
 
-MongoDB µÄËùÓÐÎÄµµÊý¾Ý¶¼´æ´¢ÔÚ¼¯ºÏÖÐ¡£
+MongoDB çš„æ‰€æœ‰æ–‡æ¡£æ•°æ®éƒ½å­˜å‚¨åœ¨é›†åˆä¸­ã€‚
 
 To get a list of all collections you can use `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#getCollections-io.vertx.core.Handler-[getCollections]`
 
@@ -441,7 +441,7 @@ mongoClient.getCollections(res -> {
 });
 ----
 
-Äú¿ÉÒÔÊ¹ÓÃ `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#createCollection-java.lang.String-io.vertx.core.Handler-[createCollection]` ·½·¨À´´´½¨Ò»¸öÐÂµÄ¼¯ºÏ¡£
+æ‚¨å¯ä»¥ä½¿ç”¨ `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#createCollection-java.lang.String-io.vertx.core.Handler-[createCollection]` æ–¹æ³•æ¥åˆ›å»ºä¸€ä¸ªæ–°çš„é›†åˆã€‚
 
 [source,java]
 ----
@@ -454,9 +454,9 @@ mongoClient.createCollection("mynewcollectionr", res -> {
 });
 ----
 
-Äú¿ÉÒÔÊ¹ÓÃ `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#dropCollection-java.lang.String-io.vertx.core.Handler-[dropCollection]` ·½·¨À´É¾³ýÒ»¸ö¼¯ºÏ¡£
+æ‚¨å¯ä»¥ä½¿ç”¨ `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#dropCollection-java.lang.String-io.vertx.core.Handler-[dropCollection]` æ–¹æ³•æ¥åˆ é™¤ä¸€ä¸ªé›†åˆã€‚
 
-Çë×¢Òâ£ºÉ¾³ýÒ»¸ö¼¯ºÏ½«»áÉ¾³ý¼¯ºÏÖÐËùÓÐµÄÎÄµµ£¡
+è¯·æ³¨æ„ï¼šåˆ é™¤ä¸€ä¸ªé›†åˆå°†ä¼šåˆ é™¤é›†åˆä¸­æ‰€æœ‰çš„æ–‡æ¡£ï¼
 
 [source,java]
 ----
@@ -470,17 +470,17 @@ mongoClient.dropCollection("mynewcollectionr", res -> {
 ----
 
 [[_running_other_mongodb_commands]]
-=== Ö´ÐÐ `MongoDB` µÄÆäËûÃüÁî
+=== æ‰§è¡Œ `MongoDB` çš„å…¶ä»–å‘½ä»¤
 
-Äú¿ÉÒÔÍ¨¹ý `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#runCommand-java.lang.String-io.vertx.core.json.JsonObject-io.vertx.core.Handler-[runCommand]` ·½·¨Ö´ÐÐÈÎºÎ `MongoDB`ÃüÁî¡£
+æ‚¨å¯ä»¥é€šè¿‡ `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#runCommand-java.lang.String-io.vertx.core.json.JsonObject-io.vertx.core.Handler-[runCommand]` æ–¹æ³•æ‰§è¡Œä»»ä½• `MongoDB`å‘½ä»¤ã€‚
 
-Ê¹ÓÃÕâÖÖ·½Ê½£¬¿ÉÒÔ·¢»Ó³öMongoDB¸ü¶àÓÅµã£¬±ÈÈçÊ¹ÓÃMapReduce¡£
-¸ü¶àÏêÇé£¬Çë²Î¿¼ËµÃ÷ÎÄµµ http://docs.mongodb.org/manual/reference/command[Commands]¡£
+ä½¿ç”¨è¿™ç§æ–¹å¼ï¼Œå¯ä»¥å‘æŒ¥å‡ºMongoDBæ›´å¤šä¼˜ç‚¹ï¼Œæ¯”å¦‚ä½¿ç”¨MapReduceã€‚
+æ›´å¤šè¯¦æƒ…ï¼Œè¯·å‚è€ƒè¯´æ˜Žæ–‡æ¡£ http://docs.mongodb.org/manual/reference/command[Commands]ã€‚
 
-ÀýÈçÖ´ÐÐ aggregate£¨ÒëÕß×¢£º¾ÛºÏ£©ÃüÁî¡£Çë×¢Òâ£¬ÃüÁîµÄÃû³ÆÒª×öÎª runCommand ·½·¨µÄÒ»¸ö²ÎÊý£¬
-²¢ÇÒÍ¬Ê±Ò²±ØÐë°üº¬ÔÚ°ü×°ÃüÁîµÄ JSON ²ÎÊýÖÐ¡£ÕâÃ´×öÊÇÒòÎª JSON ²»ÊÇÓÐÐòµÄ£¬µ« BSON È´ÊÇ£¬
-¶øÇÒ MongoDB ÆÚÍû BSON ²ÎÊýµÄµÚÒ»¸ö¼üÖµ¶ÔÊÇÃüÁîµÄÃû³Æ¡£ËùÒÔ£¬ÎªÁËÃ÷È· JSON ÖÐµÄÄÄ¸ö¼üÖµ¶ÔÊÇÃüÁîÃû³Æ£¬
-ÎÒÃÇÒ²¾Í±ØÐë°ÑÃüÁîÃû³Æµ¥¶ÀÉèÖÃÎªÒ»¸ö²ÎÊý£º
+ä¾‹å¦‚æ‰§è¡Œ aggregateï¼ˆè¯‘è€…æ³¨ï¼šèšåˆï¼‰å‘½ä»¤ã€‚è¯·æ³¨æ„ï¼Œå‘½ä»¤çš„åç§°è¦åšä¸º runCommand æ–¹æ³•çš„ä¸€ä¸ªå‚æ•°ï¼Œ
+å¹¶ä¸”åŒæ—¶ä¹Ÿå¿…é¡»åŒ…å«åœ¨åŒ…è£…å‘½ä»¤çš„ JSON å‚æ•°ä¸­ã€‚è¿™ä¹ˆåšæ˜¯å› ä¸º JSON ä¸æ˜¯æœ‰åºçš„ï¼Œä½† BSON å´æ˜¯ï¼Œ
+è€Œä¸” MongoDB æœŸæœ› BSON å‚æ•°çš„ç¬¬ä¸€ä¸ªé”®å€¼å¯¹æ˜¯å‘½ä»¤çš„åç§°ã€‚æ‰€ä»¥ï¼Œä¸ºäº†æ˜Žç¡® JSON ä¸­çš„å“ªä¸ªé”®å€¼å¯¹æ˜¯å‘½ä»¤åç§°ï¼Œ
+æˆ‘ä»¬ä¹Ÿå°±å¿…é¡»æŠŠå‘½ä»¤åç§°å•ç‹¬è®¾ç½®ä¸ºä¸€ä¸ªå‚æ•°ï¼š
 
 [source,java]
 ----
@@ -498,12 +498,12 @@ mongoClient.runCommand("aggregate", command, res -> {
 ----
 
 [[_mongodb_extended_json_support]]
-=== MongoDBµÄJSONÀ©Õ¹Ö§³Ö
+=== MongoDBçš„JSONæ‰©å±•æ”¯æŒ
 
-Ä¿Ç°£¬MongoDB Ö»Ö§³Ö date£¬oid ºÍ binary ÀàÐÍ
-£¨Çë²Î¿¼£ºhttp://docs.mongodb.org/manual/reference/mongodb-extended-json[MongoDB Extended JSON] £©
+ç›®å‰ï¼ŒMongoDB åªæ”¯æŒ dateï¼Œoid å’Œ binary ç±»åž‹
+ï¼ˆè¯·å‚è€ƒï¼šhttp://docs.mongodb.org/manual/reference/mongodb-extended-json[MongoDB Extended JSON] ï¼‰
 
-ÀýÈç²åÈëº¬ÓÐ date ÀàÐÍ×Ö¶ÎµÄÎÄµµ£º
+ä¾‹å¦‚æ’å…¥å«æœ‰ date ç±»åž‹å­—æ®µçš„æ–‡æ¡£ï¼š
 
 [source,java]
 ----
@@ -523,7 +523,7 @@ mongoService.save("publishedBooks", document).compose(id -> {
 });
 ----
 
-ÀýÈç£º²åÈëÒ»¸ö°üº¬¶þ½øÖÆµÄ×Ö¶ÎµÄÎÄµµ²¢ÇÒ¶ÁÈ¡Õâ¸ö×Ö¶Î£º
+ä¾‹å¦‚ï¼šæ’å…¥ä¸€ä¸ªåŒ…å«äºŒè¿›åˆ¶çš„å­—æ®µçš„æ–‡æ¡£å¹¶ä¸”è¯»å–è¿™ä¸ªå­—æ®µï¼š
 
 [source,java]
 ----
@@ -543,7 +543,7 @@ mongoService.save("smartPeople", document).compose(id -> {
 });
 ----
 
-ÀýÈç±£´æÒ»¸ö base 64 ±àÂëµÄ×Ö·û´®£¬½«Õâ¸ö×Ö·û´®×÷Îª binary ×Ö¶Î²åÈë¡£²¢ÇÒ¶ÁÈ¡Õâ¸ö×Ö¶Î£º
+ä¾‹å¦‚ä¿å­˜ä¸€ä¸ª base 64 ç¼–ç çš„å­—ç¬¦ä¸²ï¼Œå°†è¿™ä¸ªå­—ç¬¦ä¸²ä½œä¸º binary å­—æ®µæ’å…¥ã€‚å¹¶ä¸”è¯»å–è¿™ä¸ªå­—æ®µï¼š
 
 [source,java]
 ----
@@ -562,7 +562,7 @@ mongoService.save("smartPeople", document).compose(id -> {
   }
 });
 ----
-ÀýÈç²åÈëÒ»¸ö object ID ²¢ÇÒ¶ÁÈ¡Ëü£º
+ä¾‹å¦‚æ’å…¥ä¸€ä¸ª object ID å¹¶ä¸”è¯»å–å®ƒï¼š
 
 [source,java]
 ----
@@ -583,9 +583,9 @@ mongoService.save("smartPeople", document).compose(id -> {
 ----
 
 [[_getting_distinct_values]]
-=== »ñÈ¡ distinct ºóµÄÖµ
+=== èŽ·å– distinct åŽçš„å€¼
 
-ÀýÈç£º
+ä¾‹å¦‚ï¼š
 
 [source,java]
 ----
@@ -601,7 +601,7 @@ mongoClient.save("books", document).compose(v -> {
   }
 });
 ----
-ÀýÈç£ºÔÚÅúÁ¿Ä£Ê½ÏÂ£¬ »ñÈ¡ distinct ºóµÄÖµ£º
+ä¾‹å¦‚ï¼šåœ¨æ‰¹é‡æ¨¡å¼ä¸‹ï¼Œ èŽ·å– distinct åŽçš„å€¼ï¼š
 
 [source,java]
 ----
@@ -616,7 +616,7 @@ mongoClient.save("books", document, res -> {
   }
 });
 ----
-* ÀýÈç²éÑ¯ distinct ºóµÄÖµ
+* ä¾‹å¦‚æŸ¥è¯¢ distinct åŽçš„å€¼
 
 [source,java]
 ----
@@ -634,7 +634,7 @@ mongoClient.save("books", document).compose(v -> {
   }
 });
 ----
-ÀýÈç£ºÔÚÅúÁ¿²éÑ¯Ä£Ê½ÏÂ£¬»ñÈ¡ distinct ºóµÄÖµ¡£
+ä¾‹å¦‚ï¼šåœ¨æ‰¹é‡æŸ¥è¯¢æ¨¡å¼ä¸‹ï¼ŒèŽ·å– distinct åŽçš„å€¼ã€‚
 
 [source,java]
 ----
@@ -653,26 +653,26 @@ mongoClient.save("books", document, res -> {
 ----
 
 [[_storing_retrieving_files_and_binary_data]]
-== ´æ´¢/¼ìË÷ÎÄ¼þºÍ¶þ½øÖÆÊý¾Ý
+== å­˜å‚¨/æ£€ç´¢æ–‡ä»¶å’ŒäºŒè¿›åˆ¶æ•°æ®
 
-¿Í»§¶Ë¿ÉÒÔÊ¹ÓÃ MongoDB µÄ GridFS Ä£¿éÀ´´æ´¢»ò¼ìË÷ÎÄ¼þºÍ¶þ½øÖÆÊý¾Ý¡££¨ÒëÕß×¢£ºGridFSÊÇMongoDBµÄÒ»¸ö×ÓÄ£¿é£¬Ö÷ÒªÓÃÓÚÔÚMongoDBÖÐ´æ´¢ÎÄ¼þ£¬Ïàµ±ÓÚMongoDBÄÚÖÃµÄÒ»¸ö·Ö²¼Ê½ÎÄ¼þÏµÍ³¡££©
-`link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html[MongoGridFsClient]` ¿ÉÒÔÓÃÀ´ÉÏ´«ÎÄ¼þÒÔ¼°Êý¾ÝÁ÷µ½GridFS£¬
-ÒÔ¼°´ÓGridFSÏÂÔØÎÄ¼þºÍÊý¾ÝÁ÷¡£
+å®¢æˆ·ç«¯å¯ä»¥ä½¿ç”¨ MongoDB çš„ GridFS æ¨¡å—æ¥å­˜å‚¨æˆ–æ£€ç´¢æ–‡ä»¶å’ŒäºŒè¿›åˆ¶æ•°æ®ã€‚ï¼ˆè¯‘è€…æ³¨ï¼šGridFSæ˜¯MongoDBçš„ä¸€ä¸ªå­æ¨¡å—ï¼Œä¸»è¦ç”¨äºŽåœ¨MongoDBä¸­å­˜å‚¨æ–‡ä»¶ï¼Œç›¸å½“äºŽMongoDBå†…ç½®çš„ä¸€ä¸ªåˆ†å¸ƒå¼æ–‡ä»¶ç³»ç»Ÿã€‚ï¼‰
+`link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html[MongoGridFsClient]` å¯ä»¥ç”¨æ¥ä¸Šä¼ æ–‡ä»¶ä»¥åŠæ•°æ®æµåˆ°GridFSï¼Œ
+ä»¥åŠä»ŽGridFSä¸‹è½½æ–‡ä»¶å’Œæ•°æ®æµã€‚
 
 [[_get_the_mongogridfsclient_to_interact_with_gridfs]]
-=== »ñÈ¡Ò»¸ö¿ÉÓëGridFS½»»¥µÄMongoGridFsClient¡£
+=== èŽ·å–ä¸€ä¸ªå¯ä¸ŽGridFSäº¤äº’çš„MongoGridFsClientã€‚
 
-Í¨¹ýµ÷ÓÃ `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#createGridFsBucketService-java.lang.String-io.vertx.core.Handler-[createGridFsBucketService]` ·½·¨£¬
-²¢ÇÒ¸ø·½·¨Ìá¹©Ò»¸ö bucket Ãû³Æ£¬¿É´´½¨Ò»¸ö `link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html[MongoGridFsClient]`¿Í»§¶Ë¡£
-ÔÚ GridFS ÖÐ£¬bucket Ãû³Æ×îÖÕÊÇÒ»¸ö¼¯ºÏ£¬¸Ã¼¯ºÏ°üº¬¶ÔËùÓÐ´æ´¢¶ÔÏóµÄÒýÓÃ¡£
-Äú¿ÉÒÔÍ¨¹ýÌá¹©Ò»¸öÎ¨Ò»µÄÃû³Æ½«¶ÔÏó¸ôÀëµ½²»Í¬µÄbucketÖÐ¡£
+é€šè¿‡è°ƒç”¨ `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#createGridFsBucketService-java.lang.String-io.vertx.core.Handler-[createGridFsBucketService]` æ–¹æ³•ï¼Œ
+å¹¶ä¸”ç»™æ–¹æ³•æä¾›ä¸€ä¸ª bucket åç§°ï¼Œå¯åˆ›å»ºä¸€ä¸ª `link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html[MongoGridFsClient]`å®¢æˆ·ç«¯ã€‚
+åœ¨ GridFS ä¸­ï¼Œbucket åç§°æœ€ç»ˆæ˜¯ä¸€ä¸ªé›†åˆï¼Œè¯¥é›†åˆåŒ…å«å¯¹æ‰€æœ‰å­˜å‚¨å¯¹è±¡çš„å¼•ç”¨ã€‚
+æ‚¨å¯ä»¥é€šè¿‡æä¾›ä¸€ä¸ªå”¯ä¸€çš„åç§°å°†å¯¹è±¡éš”ç¦»åˆ°ä¸åŒçš„bucketä¸­ã€‚
 
-Ëü¾ßÓÐÒÔÏÂ×Ö¶Î£º
+å®ƒå…·æœ‰ä»¥ä¸‹å­—æ®µï¼š
 
-`bucketName` : Òª´´½¨µÄ bucket µÄÃû³Æ
+`bucketName` : è¦åˆ›å»ºçš„ bucket çš„åç§°
 
-ÀýÈç£ºÊ¹ÓÃ×Ô¶¨ÒåµÄbucketÃû³Æ£¬
-»ñÈ¡ `link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html[MongoGridFsClient]` ¡£
+ä¾‹å¦‚ï¼šä½¿ç”¨è‡ªå®šä¹‰çš„bucketåç§°ï¼Œ
+èŽ·å– `link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html[MongoGridFsClient]` ã€‚
 
 [source,java]
 ----
@@ -686,10 +686,10 @@ mongoClient.createGridFsBucketService("bakeke", res -> {
 });
 ----
 
-GridFSÊ¹ÓÃ "fs" ×÷ÎªÄ¬ÈÏµÄ bucket Ãû³Æ¡£Èç¹ûÄúÏëÒª»ñÈ¡Ä¬ÈÏµÄbucket£¬¶ø²»ÊÇ×Ô¶¨ÒåÒ»¸ö£¬
-ÄÇÃ´Çëµ÷ÓÃ `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#createDefaultGridFsBucketService-io.vertx.core.Handler-[createDefaultGridFsBucketService]` ·½·¨¡£
+GridFSä½¿ç”¨ "fs" ä½œä¸ºé»˜è®¤çš„ bucket åç§°ã€‚å¦‚æžœæ‚¨æƒ³è¦èŽ·å–é»˜è®¤çš„bucketï¼Œè€Œä¸æ˜¯è‡ªå®šä¹‰ä¸€ä¸ªï¼Œ
+é‚£ä¹ˆè¯·è°ƒç”¨ `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#createDefaultGridFsBucketService-io.vertx.core.Handler-[createDefaultGridFsBucketService]` æ–¹æ³•ã€‚
 
-ÀýÈç£ºÊ¹ÓÃÄ¬ÈÏbucketÃû³Æ£¬»ñÈ¡ `link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html[MongoGridFsClient]`¡£
+ä¾‹å¦‚ï¼šä½¿ç”¨é»˜è®¤bucketåç§°ï¼ŒèŽ·å– `link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html[MongoGridFsClient]`ã€‚
 
 [source,java]
 ----
@@ -704,12 +704,12 @@ mongoClient.createDefaultGridFsBucketService( res -> {
 ----
 
 [[_drop_an_entire_file_bucket_from_gridfs]]
-=== ´ÓGridFSÖÐ£¬É¾³ýÕû¸öÎÄ¼þbucket¡£
+=== ä»ŽGridFSä¸­ï¼Œåˆ é™¤æ•´ä¸ªæ–‡ä»¶bucketã€‚
 
-Õû¸öÎÄ¼þbucket¼°ÆäËùÓÐÄÚÈÝ¶¼¿ÉÒÔÊ¹ÓÃ `link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html#drop-io.vertx.core.Handler-[drop]` À´½øÐÐÉ¾³ý¡£
-¸Ã·½·¨¿ÉÒÔÉ¾³ý´´½¨`MongoGridFsClient`Ê±Ö¸¶¨µÄbucket¡£
+æ•´ä¸ªæ–‡ä»¶bucketåŠå…¶æ‰€æœ‰å†…å®¹éƒ½å¯ä»¥ä½¿ç”¨ `link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html#drop-io.vertx.core.Handler-[drop]` æ¥è¿›è¡Œåˆ é™¤ã€‚
+è¯¥æ–¹æ³•å¯ä»¥åˆ é™¤åˆ›å»º`MongoGridFsClient`æ—¶æŒ‡å®šçš„bucketã€‚
 
-ÀýÈç£ºÉ¾³ýÒ»¸öÎÄ¼þbucket¡£
+ä¾‹å¦‚ï¼šåˆ é™¤ä¸€ä¸ªæ–‡ä»¶bucketã€‚
 
 [source,java]
 ----
@@ -723,12 +723,12 @@ gridFsClient.drop(res -> {
 ----
 
 [[_find_all_file_ids_in_a_gridfs_bucket]]
-=== ÔÚÒ»¸öGridFSµÄbucketÖÐ£¬²éÑ¯ËùÓÐÎÄ¼þID¡£
+=== åœ¨ä¸€ä¸ªGridFSçš„bucketä¸­ï¼ŒæŸ¥è¯¢æ‰€æœ‰æ–‡ä»¶IDã€‚
 
-µ÷ÓÃ `link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html#findAllIds-io.vertx.core.Handler-[findAllIds]` ·½·¨£¬¿ÉÒÔ²éÑ¯µ½ÔÚbucketÖÐµÄËùÓÐÎÄ¼þID¡£
-¿ÉÒÔÆ¾½èÎÄ¼þID,Í¨¹ýÊ¹ÓÃ `link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html#downloadFileByID-java.lang.String-java.lang.String-io.vertx.core.Handler-[downloadFileByID]` ·½·¨£¬À´ÏÂÔØÎÄ¼þ¡£
+è°ƒç”¨ `link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html#findAllIds-io.vertx.core.Handler-[findAllIds]` æ–¹æ³•ï¼Œå¯ä»¥æŸ¥è¯¢åˆ°åœ¨bucketä¸­çš„æ‰€æœ‰æ–‡ä»¶IDã€‚
+å¯ä»¥å‡­å€Ÿæ–‡ä»¶ID,é€šè¿‡ä½¿ç”¨ `link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html#downloadFileByID-java.lang.String-java.lang.String-io.vertx.core.Handler-[downloadFileByID]` æ–¹æ³•ï¼Œæ¥ä¸‹è½½æ–‡ä»¶ã€‚
 
-ÀýÈç£º¼ìË÷ÎÄ¼þIDÁÐ±í¡£
+ä¾‹å¦‚ï¼šæ£€ç´¢æ–‡ä»¶IDåˆ—è¡¨ã€‚
 
 [source,java]
 ----
@@ -742,20 +742,20 @@ gridFsClient.findAllIds(res -> {
 ----
 
 [[_find_file_ids_in_a_gridfs_bucket_matching_a_query]]
-=== ÔÚÒ»¸öÓë²éÑ¯Æ¥ÅäµÄGridFS bucketÖÐ£¬²éÑ¯ÎÄ¼þID¡£
+=== åœ¨ä¸€ä¸ªä¸ŽæŸ¥è¯¢åŒ¹é…çš„GridFS bucketä¸­ï¼ŒæŸ¥è¯¢æ–‡ä»¶IDã€‚
 
-¿ÉÒÔÖ¸¶¨²éÑ¯ÒÔÆ¥ÅäGridFS `bucket` ÖÐµÄÎÄ¼þ¡£µ÷ÓÃ `link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html#findIds-io.vertx.core.json.JsonObject-io.vertx.core.Handler-[findIds]` ·½·¨
-¿ÉÒÔ·µ»ØÓë²éÑ¯Æ¥ÅäµÄÎÄ¼þIDÁÐ±í¡£
+å¯ä»¥æŒ‡å®šæŸ¥è¯¢ä»¥åŒ¹é…GridFS `bucket` ä¸­çš„æ–‡ä»¶ã€‚è°ƒç”¨ `link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html#findIds-io.vertx.core.json.JsonObject-io.vertx.core.Handler-[findIds]` æ–¹æ³•
+å¯ä»¥è¿”å›žä¸ŽæŸ¥è¯¢åŒ¹é…çš„æ–‡ä»¶IDåˆ—è¡¨ã€‚
 
-Ëü¾ßÓÐÒÔÏÂ×Ö¶Î£º
+å®ƒå…·æœ‰ä»¥ä¸‹å­—æ®µï¼š
 
-`query` : ÕâÊÇÒ»¸ö¿ÉÒÔÊ¹ÓÃ±ê×¼MongoDB²éÑ¯ÔËËã·ûÀ´Æ¥ÅäÈÎºÎÎÄ¼þÔªÊý¾ÝµÄjson¶ÔÏó¡£
-¸Ãjson¶ÔÏóÎª¿Õ£¬»áÆ¥ÅäËùÓÐÎÄµµ¡£Äú¿ÉÒÔ°´ÕÕGridFSÊÖ²áÖÐËùÊöÄÚÈÝ£¬À´²éÑ¯GridFSÎÄ¼þ¼¯ºÏµÄÊôÐÔ¡£
+`query` : è¿™æ˜¯ä¸€ä¸ªå¯ä»¥ä½¿ç”¨æ ‡å‡†MongoDBæŸ¥è¯¢è¿ç®—ç¬¦æ¥åŒ¹é…ä»»ä½•æ–‡ä»¶å…ƒæ•°æ®çš„jsonå¯¹è±¡ã€‚
+è¯¥jsonå¯¹è±¡ä¸ºç©ºï¼Œä¼šåŒ¹é…æ‰€æœ‰æ–‡æ¡£ã€‚æ‚¨å¯ä»¥æŒ‰ç…§GridFSæ‰‹å†Œä¸­æ‰€è¿°å†…å®¹ï¼Œæ¥æŸ¥è¯¢GridFSæ–‡ä»¶é›†åˆçš„å±žæ€§ã€‚
 https://docs.mongodb.com/manual/core/gridfs/#the-files-collection
 
-Äú¿ÉÒÔµ÷ÓÃ `link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html#downloadFileByID-java.lang.String-java.lang.String-io.vertx.core.Handler-[downloadFileByID]` ·½·¨£¬Í¨¹ýIDÀ´ÏÂÔØÎÄ¼þ¡£
+æ‚¨å¯ä»¥è°ƒç”¨ `link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html#downloadFileByID-java.lang.String-java.lang.String-io.vertx.core.Handler-[downloadFileByID]` æ–¹æ³•ï¼Œé€šè¿‡IDæ¥ä¸‹è½½æ–‡ä»¶ã€‚
 
-ÀýÈç£º»ùÓÚÔªÊý¾Ý²éÑ¯À´¼ìË÷ÎÄ¼þIDÁÐ±í
+ä¾‹å¦‚ï¼šåŸºäºŽå…ƒæ•°æ®æŸ¥è¯¢æ¥æ£€ç´¢æ–‡ä»¶IDåˆ—è¡¨
 
 [source,java]
 ----
@@ -770,15 +770,15 @@ gridFsClient.findIds(query, res -> {
 ----
 
 [[_delete_file_ids_in_gridfs_based_its_id]]
-=== ÔÚGridFSÖÐ£¬¸ù¾ÝÎÄ¼þµÄIDÀ´É¾³ýÎÄ¼þ¡£
+=== åœ¨GridFSä¸­ï¼Œæ ¹æ®æ–‡ä»¶çš„IDæ¥åˆ é™¤æ–‡ä»¶ã€‚
 
-Í¨¹ýÌá¹©ÎÄ¼þID²ÎÊý£¬À´µ÷ÓÃ `link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html#delete-java.lang.String-io.vertx.core.Handler-[delete]` ·½·¨£¬¿ÉÒÔÉ¾³ýÒÔÇ°´æ´¢ÔÚGridFSÖÐµÄÎÄ¼þ¡£
-¿ÉÒÔÍ¨¹ýÊ¹ÓÃ `link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html#findIds-io.vertx.core.json.JsonObject-io.vertx.core.Handler-[findIds]` ·½·¨£¬À´¼ìË÷ÎÄ¼þID¡£
+é€šè¿‡æä¾›æ–‡ä»¶IDå‚æ•°ï¼Œæ¥è°ƒç”¨ `link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html#delete-java.lang.String-io.vertx.core.Handler-[delete]` æ–¹æ³•ï¼Œå¯ä»¥åˆ é™¤ä»¥å‰å­˜å‚¨åœ¨GridFSä¸­çš„æ–‡ä»¶ã€‚
+å¯ä»¥é€šè¿‡ä½¿ç”¨ `link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html#findIds-io.vertx.core.json.JsonObject-io.vertx.core.Handler-[findIds]` æ–¹æ³•ï¼Œæ¥æ£€ç´¢æ–‡ä»¶IDã€‚
 
-Ëü¾ßÓÐÒÔÏÂ×Ö¶Î£º
-`id` : µ±ÎÄ¼þ´æ´¢µ½GridFSÊ±£¬ID»á×Ô¶¯Éú³É¡£
+å®ƒå…·æœ‰ä»¥ä¸‹å­—æ®µï¼š
+`id` : å½“æ–‡ä»¶å­˜å‚¨åˆ°GridFSæ—¶ï¼ŒIDä¼šè‡ªåŠ¨ç”Ÿæˆã€‚
 
-ÀýÈç£ºÍ¨¹ýIDÀ´É¾³ýÎÄ¼þ
+ä¾‹å¦‚ï¼šé€šè¿‡IDæ¥åˆ é™¤æ–‡ä»¶
 
 [source,java]
 ----
@@ -794,14 +794,14 @@ gridFsClient.delete(id, (AsyncResult<Void> res) -> {
 ----
 
 [[_upload_a_file_in_gridfs]]
-=== ÔÚGridFSÖÐÉÏ´«ÎÄ¼þ
+=== åœ¨GridFSä¸­ä¸Šä¼ æ–‡ä»¶
 
-Í¨¹ý `link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html#uploadFile-java.lang.String-io.vertx.core.Handler-[uploadFile]` ·½·¨£¬ÎÄ¼þ¿ÉÒÔÊ¹ÓÃÎÄ¼þÃû³Æ½øÐÐ´æ´¢¡£
-µ±ÎÄ¼þ´æ´¢³É¹¦Ê±£¬GridFS»á·µ»Ø×Ô¶¯Éú³ÉµÄÎÄ¼þID¡£Õâ¸öID¿ÉÒÔ±»ÓÃÀ´Ö®ºó¼ìË÷ÎÄ¼þ¡£
+é€šè¿‡ `link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html#uploadFile-java.lang.String-io.vertx.core.Handler-[uploadFile]` æ–¹æ³•ï¼Œæ–‡ä»¶å¯ä»¥ä½¿ç”¨æ–‡ä»¶åç§°è¿›è¡Œå­˜å‚¨ã€‚
+å½“æ–‡ä»¶å­˜å‚¨æˆåŠŸæ—¶ï¼ŒGridFSä¼šè¿”å›žè‡ªåŠ¨ç”Ÿæˆçš„æ–‡ä»¶IDã€‚è¿™ä¸ªIDå¯ä»¥è¢«ç”¨æ¥ä¹‹åŽæ£€ç´¢æ–‡ä»¶ã€‚
 
-Ëü¾ßÓÐÒÔÏÂ×Ö¶Î£º
+å®ƒå…·æœ‰ä»¥ä¸‹å­—æ®µï¼š
 
-`fileName` :  ÕâÊÇ±»´æ´¢ÎÄ¼þµÄÃû³Æ¡£
+`fileName` :  è¿™æ˜¯è¢«å­˜å‚¨æ–‡ä»¶çš„åç§°ã€‚
 
 [source,java]
 ----
@@ -816,18 +816,18 @@ gridFsClient.uploadFile("file.name", res -> {
 ----
 
 [[_upload_a_file_in_gridfs_with_options]]
-=== ÉÏ´«ÎÄ¼þÊ±Ð¯´øÅäÖÃ²ÎÊý¡£
+=== ä¸Šä¼ æ–‡ä»¶æ—¶æºå¸¦é…ç½®å‚æ•°ã€‚
 
-Ê¹ÓÃ `link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html#uploadFileWithOptions-java.lang.String-io.vertx.ext.mongo.GridFsUploadOptions-io.vertx.core.Handler-[uploadFileWithOptions]` ·½·¨£¬
-²¢´«ÈëÒ»¸ö `link:../../apidocs/io/vertx/ext/mongo/GridFsUploadOptions.html[GridFsUploadOptions]`µÄÊµÀý£¬ÎÄ¼þ¿ÉÒÔÔÚ´æ´¢Ê±£¬Ð¯´ø¶îÍâµÄÅäÖÃ²ÎÊý¡£
-µ±ÎÄ¼þ´æ´¢³É¹¦Ê±£¬GridFS»á·µ»ØÎÄ¼þID¡£
+ä½¿ç”¨ `link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html#uploadFileWithOptions-java.lang.String-io.vertx.ext.mongo.GridFsUploadOptions-io.vertx.core.Handler-[uploadFileWithOptions]` æ–¹æ³•ï¼Œ
+å¹¶ä¼ å…¥ä¸€ä¸ª `link:../../apidocs/io/vertx/ext/mongo/GridFsUploadOptions.html[GridFsUploadOptions]`çš„å®žä¾‹ï¼Œæ–‡ä»¶å¯ä»¥åœ¨å­˜å‚¨æ—¶ï¼Œæºå¸¦é¢å¤–çš„é…ç½®å‚æ•°ã€‚
+å½“æ–‡ä»¶å­˜å‚¨æˆåŠŸæ—¶ï¼ŒGridFSä¼šè¿”å›žæ–‡ä»¶IDã€‚
 
-Ëü¾ßÓÐÒÔÏÂ×Ö¶Î£º
+å®ƒå…·æœ‰ä»¥ä¸‹å­—æ®µï¼š
 
-`metadata` : ÕâÊÇÒ»¸öjson¶ÔÏó£¬Ëü°üº¬ÁËÒÔºóµÄËÑË÷ÖÐ¿ÉÄÜÓÐÓÃµÄÈÎºÎÔªÊý¾Ý
-`chunkSizeBytes` : GridFS»á½«ÎÄ¼þ·Ö½âÕâ¸ö×Ö¶ÎÊýÖµµÄÊý¸öÊý¾Ý¿é¡££¨ÒëÕß×¢£ºÊý¾Ý¿éÀàËÆÓÚÊý¾Ý¿âµÄ·ÖÇø£¬ÊýÖµÌ«´óºÍÌ«Ð¡¶¼»áÓ°ÏìÐÔÄÜ¡£¾ßÌåÏê¼û¹Ù·½ÎÄµµ: https://docs.mongodb.com/manual/core/sharding-data-partitioning/£©
+`metadata` : è¿™æ˜¯ä¸€ä¸ªjsonå¯¹è±¡ï¼Œå®ƒåŒ…å«äº†ä»¥åŽçš„æœç´¢ä¸­å¯èƒ½æœ‰ç”¨çš„ä»»ä½•å…ƒæ•°æ®
+`chunkSizeBytes` : GridFSä¼šå°†æ–‡ä»¶åˆ†è§£è¿™ä¸ªå­—æ®µæ•°å€¼çš„æ•°ä¸ªæ•°æ®å—ã€‚ï¼ˆè¯‘è€…æ³¨ï¼šæ•°æ®å—ç±»ä¼¼äºŽæ•°æ®åº“çš„åˆ†åŒºï¼Œæ•°å€¼å¤ªå¤§å’Œå¤ªå°éƒ½ä¼šå½±å“æ€§èƒ½ã€‚å…·ä½“è¯¦è§å®˜æ–¹æ–‡æ¡£: https://docs.mongodb.com/manual/core/sharding-data-partitioning/ï¼‰
 
-ÀýÈç£º Í¨¹ýÎÄ¼þÃûÉÏ´«Ò»¸öÎÄ¼þ£¬²¢ÇÒÐ¯´øÔªÊý¾Ý²ÎÊýÒÔ¼°Ö¸¶¨Êý¾Ý¿éµÄ´óÐ¡
+ä¾‹å¦‚ï¼š é€šè¿‡æ–‡ä»¶åä¸Šä¼ ä¸€ä¸ªæ–‡ä»¶ï¼Œå¹¶ä¸”æºå¸¦å…ƒæ•°æ®å‚æ•°ä»¥åŠæŒ‡å®šæ•°æ®å—çš„å¤§å°
 
 [source,java]
 ----
@@ -849,16 +849,16 @@ gridFsClient.uploadFileWithOptions("file.name", options, res -> {
 ----
 
 [[_download_a_file_previously_stored_in_gridfs]]
-=== ÏÂÔØ´æ´¢ÔÚGridFSÖÐµÄÎÄ¼þ
+=== ä¸‹è½½å­˜å‚¨åœ¨GridFSä¸­çš„æ–‡ä»¶
 
-Í¨¹ýµ÷ÓÃ `link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html#downloadFile-java.lang.String-io.vertx.core.Handler-[downloadFile]` ·½·¨£¬¿ÉÒÔÆ¾½èÎÄ¼þµÄÔ­Ê¼Ãû³ÆÀ´ÏÂÔØÎÄ¼þ¡£
-ÏÂÔØÍê³Éºó£¬½«·µ»ØÏÂÔØµÄÎÄ¼þ³¤¶È£¬¸ÃÊýÖµÊÇ `Long` ÀàÐÍ¡£
+é€šè¿‡è°ƒç”¨ `link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html#downloadFile-java.lang.String-io.vertx.core.Handler-[downloadFile]` æ–¹æ³•ï¼Œå¯ä»¥å‡­å€Ÿæ–‡ä»¶çš„åŽŸå§‹åç§°æ¥ä¸‹è½½æ–‡ä»¶ã€‚
+ä¸‹è½½å®ŒæˆåŽï¼Œå°†è¿”å›žä¸‹è½½çš„æ–‡ä»¶é•¿åº¦ï¼Œè¯¥æ•°å€¼æ˜¯ `Long` ç±»åž‹ã€‚
 
-Ëü¾ßÓÐÒÔÏÂ×Ö¶Î£º
+å®ƒå…·æœ‰ä»¥ä¸‹å­—æ®µï¼š
 
-`fileName`:: ÎÄ¼þÔÚ´æ´¢Ê±Ê¹ÓÃµÄÎÄ¼þÃû³Æ
+`fileName`:: æ–‡ä»¶åœ¨å­˜å‚¨æ—¶ä½¿ç”¨çš„æ–‡ä»¶åç§°
 
-ÀýÈç£ºÆ¾½èÎÄ¼þÃû³ÆÏÂÔØ´æ´¢ÔÚGridFSÖÐµÄÎÄ¼þ¡£
+ä¾‹å¦‚ï¼šå‡­å€Ÿæ–‡ä»¶åç§°ä¸‹è½½å­˜å‚¨åœ¨GridFSä¸­çš„æ–‡ä»¶ã€‚
 
 [source,java]
 ----
@@ -873,16 +873,16 @@ gridFsClient.downloadFile("file.name", res -> {
 ----
 
 [[_download_a_file_previously_stored_in_gridfs_given_its_id]]
-=== Ê¹ÓÃÎÄ¼þIDÀ´ÏÂÔØ´æ´¢ÔÚGridFSÖÐµÄÎÄ¼þ
+=== ä½¿ç”¨æ–‡ä»¶IDæ¥ä¸‹è½½å­˜å‚¨åœ¨GridFSä¸­çš„æ–‡ä»¶
 
-Í¨¹ýµ÷ÓÃ `link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html#downloadFileByID-java.lang.String-java.lang.String-io.vertx.core.Handler-[downloadFileByID]` ·½·¨£¬¿ÉÒÔÆ¾½èÎÄ¼þIDÀ´ÏÂÔØÎÄ¼þ¡£
-ÏÂÔØÍê³Éºó£¬½«·µ»ØÏÂÔØµÄÎÄ¼þ³¤¶È£¬¸ÃÊýÖµÊÇ`Long`ÀàÐÍ¡£
+é€šè¿‡è°ƒç”¨ `link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html#downloadFileByID-java.lang.String-java.lang.String-io.vertx.core.Handler-[downloadFileByID]` æ–¹æ³•ï¼Œå¯ä»¥å‡­å€Ÿæ–‡ä»¶IDæ¥ä¸‹è½½æ–‡ä»¶ã€‚
+ä¸‹è½½å®ŒæˆåŽï¼Œå°†è¿”å›žä¸‹è½½çš„æ–‡ä»¶é•¿åº¦ï¼Œè¯¥æ•°å€¼æ˜¯`Long`ç±»åž‹ã€‚
 
-Ëü¾ßÓÐÒÔÏÂ×Ö¶Î£º
+å®ƒå…·æœ‰ä»¥ä¸‹å­—æ®µï¼š
 
-`id` : ÎÄ¼þÔÚ´æ´¢ºóÉú³ÉµÄÎÄ¼þID
+`id` : æ–‡ä»¶åœ¨å­˜å‚¨åŽç”Ÿæˆçš„æ–‡ä»¶ID
 
-ÀýÈç£ºÆ¾½èÎÄ¼þIDÏÂÔØ´æ´¢ÔÚGridFSÖÐµÄÎÄ¼þ¡£
+ä¾‹å¦‚ï¼šå‡­å€Ÿæ–‡ä»¶IDä¸‹è½½å­˜å‚¨åœ¨GridFSä¸­çš„æ–‡ä»¶ã€‚
 
 [source,java]
 ----
@@ -899,16 +899,16 @@ gridFsClient.downloadFileByID(id, filename, res -> {
 ----
 
 [[_download_a_file_from_gridfs_to_a_new_name]]
-=== ´ÓGridFSÏÂÔØÎÄ¼þ£¬²¢ÇÒÖØÐÂÃüÃûÎÄ¼þÃû³Æ
+=== ä»ŽGridFSä¸‹è½½æ–‡ä»¶ï¼Œå¹¶ä¸”é‡æ–°å‘½åæ–‡ä»¶åç§°
 
-ÔÚ½âÎöÎÄ¼þµÄÊ±ºò£¬¿ÉÒÔÊ¹ÓÃÎÄ¼þµÄÔ­Ê¼Ãû³Æ¡£¶øÔÚÏÂÔØÎÄ¼þÊ±£¬
-Äú¿ÉÒÔÍ¨¹ýµ÷ÓÃ `link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html#downloadFileAs-java.lang.String-java.lang.String-io.vertx.core.Handler-[downloadFileAs]` ·½·¨£¬À´ÖØÃüÃûÎÄ¼þ¡£
-ÏÂÔØÍê³Éºó£¬½«·µ»ØÏÂÔØµÄÎÄ¼þ³¤¶È£¬¸ÃÊýÖµÊÇ`Long`ÀàÐÍ¡£
+åœ¨è§£æžæ–‡ä»¶çš„æ—¶å€™ï¼Œå¯ä»¥ä½¿ç”¨æ–‡ä»¶çš„åŽŸå§‹åç§°ã€‚è€Œåœ¨ä¸‹è½½æ–‡ä»¶æ—¶ï¼Œ
+æ‚¨å¯ä»¥é€šè¿‡è°ƒç”¨ `link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html#downloadFileAs-java.lang.String-java.lang.String-io.vertx.core.Handler-[downloadFileAs]` æ–¹æ³•ï¼Œæ¥é‡å‘½åæ–‡ä»¶ã€‚
+ä¸‹è½½å®ŒæˆåŽï¼Œå°†è¿”å›žä¸‹è½½çš„æ–‡ä»¶é•¿åº¦ï¼Œè¯¥æ•°å€¼æ˜¯`Long`ç±»åž‹ã€‚
 
-Ëü¾ßÓÐÒÔÏÂ×Ö¶Î£º
+å®ƒå…·æœ‰ä»¥ä¸‹å­—æ®µï¼š
 
-`fileName` : ÎÄ¼þÖ®Ç°´æ´¢µÄ¾ÉÃû³Æ
-`newFileName` : ÎÄ¼þ½«±»±£´æµÄÐÂÃû³Æ
+`fileName` : æ–‡ä»¶ä¹‹å‰å­˜å‚¨çš„æ—§åç§°
+`newFileName` : æ–‡ä»¶å°†è¢«ä¿å­˜çš„æ–°åç§°
 
 [source,java]
 ----
@@ -923,17 +923,17 @@ gridFsClient.downloadFileAs("file.name", "new_file.name", res -> {
 ----
 
 [[_upload_a_stream_to_gridfs]]
-=== ½«Êý¾ÝÁ÷ÉÏ´«µ½GridFS
+=== å°†æ•°æ®æµä¸Šä¼ åˆ°GridFS
 
-Ê¹ÓÃ `link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html#uploadByFileName-io.vertx.core.streams.ReadStream-java.lang.String-io.vertx.core.Handler-[uploadByFileName]` ·½·¨£¬Äú¿ÉÒÔ½«Êý¾ÝÁ÷ÉÏ´«µ½GridFS¡£
-µ±Êý¾ÝÁ÷ÉÏ´«³É¹¦ºó£¬½«·µ»ØGridFSÉú³ÉµÄÎÄ¼þID¡£
+ä½¿ç”¨ `link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html#uploadByFileName-io.vertx.core.streams.ReadStream-java.lang.String-io.vertx.core.Handler-[uploadByFileName]` æ–¹æ³•ï¼Œæ‚¨å¯ä»¥å°†æ•°æ®æµä¸Šä¼ åˆ°GridFSã€‚
+å½“æ•°æ®æµä¸Šä¼ æˆåŠŸåŽï¼Œå°†è¿”å›žGridFSç”Ÿæˆçš„æ–‡ä»¶IDã€‚
 
-Ëü¾ßÓÐÒÔÏÂ×Ö¶Î£º
+å®ƒå…·æœ‰ä»¥ä¸‹å­—æ®µï¼š
 
-`stream` : ½«Òª±»ÉÏ´«µÄ `link:../../apidocs/io/vertx/core/streams/ReadStream.html[ReadStream]`
-`fileName` : ½«±»´æ´¢µÄÊý¾ÝÁ÷µÄÃû³Æ
+`stream` : å°†è¦è¢«ä¸Šä¼ çš„ `link:../../apidocs/io/vertx/core/streams/ReadStream.html[ReadStream]`
+`fileName` : å°†è¢«å­˜å‚¨çš„æ•°æ®æµçš„åç§°
 
-ÀýÈç£º ÉÏ´«ÎÄ¼þÊý¾ÝÁ÷µ½GridFS¡£
+ä¾‹å¦‚ï¼š ä¸Šä¼ æ–‡ä»¶æ•°æ®æµåˆ°GridFSã€‚
 
 [source,java]
 ----
@@ -943,24 +943,24 @@ gridFsStreamClient.uploadByFileName(asyncFile, "kanaloa", stringAsyncResult -> {
 ----
 
 [[_upload_a_stream_to_gridfs_with_options]]
-=== ÉÏ´«Êý¾ÝÁ÷Ê±Ð¯´øÅäÖÃ²ÎÊý
+=== ä¸Šä¼ æ•°æ®æµæ—¶æºå¸¦é…ç½®å‚æ•°
 
-Ê¹ÓÃ `link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html#uploadByFileNameWithOptions-io.vertx.core.streams.ReadStream-java.lang.String-io.vertx.ext.mongo.GridFsUploadOptions-io.vertx.core.Handler-[uploadByFileNameWithOptions]` ·½·¨£¬
-²¢´«Èë `link:../../apidocs/io/vertx/ext/mongo/GridFsUploadOptions.html[GridFsUploadOptions]` ÊµÀý£¬Äú¿ÉÒÔ½«Êý¾ÝÁ÷ÉÏ´«µ½GridFS¡£
-µ±Êý¾ÝÁ÷ÉÏ´«³É¹¦ºó£¬½«·µ»ØGridFSÉú³ÉµÄÎÄ¼þID¡£
+ä½¿ç”¨ `link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html#uploadByFileNameWithOptions-io.vertx.core.streams.ReadStream-java.lang.String-io.vertx.ext.mongo.GridFsUploadOptions-io.vertx.core.Handler-[uploadByFileNameWithOptions]` æ–¹æ³•ï¼Œ
+å¹¶ä¼ å…¥ `link:../../apidocs/io/vertx/ext/mongo/GridFsUploadOptions.html[GridFsUploadOptions]` å®žä¾‹ï¼Œæ‚¨å¯ä»¥å°†æ•°æ®æµä¸Šä¼ åˆ°GridFSã€‚
+å½“æ•°æ®æµä¸Šä¼ æˆåŠŸåŽï¼Œå°†è¿”å›žGridFSç”Ÿæˆçš„æ–‡ä»¶IDã€‚
 
-Ëü¾ßÓÐÒÔÏÂ×Ö¶Î£º
+å®ƒå…·æœ‰ä»¥ä¸‹å­—æ®µï¼š
 
-`stream` : ½«Òª±»ÉÏ´«µÄ `link:../../apidocs/io/vertx/core/streams/ReadStream.html[ReadStream]`
-`fileName` : ½«±»´æ´¢µÄÊý¾ÝÁ÷µÄÃû³Æ
-`options' : ÉÏ´«Ê±Ð¯´øµÄÅäÖÃ²ÎÊý
+`stream` : å°†è¦è¢«ä¸Šä¼ çš„ `link:../../apidocs/io/vertx/core/streams/ReadStream.html[ReadStream]`
+`fileName` : å°†è¢«å­˜å‚¨çš„æ•°æ®æµçš„åç§°
+`options' : ä¸Šä¼ æ—¶æºå¸¦çš„é…ç½®å‚æ•°
 
-`link:../../apidocs/io/vertx/ext/mongo/GridFsUploadOptions.html[GridFsUploadOptions]` ¾ßÓÐÒÔÏÂ×Ö¶Î:
+`link:../../apidocs/io/vertx/ext/mongo/GridFsUploadOptions.html[GridFsUploadOptions]` å…·æœ‰ä»¥ä¸‹å­—æ®µ:
 
-`metadata` : ÕâÊÇÒ»¸öjson¶ÔÏó£¬Ëü°üº¬ÁËÒÔºóµÄËÑË÷ÖÐ¿ÉÄÜÓÐÓÃµÄÈÎºÎÔªÊý¾Ý
-`chunkSizeBytes` : GridFS»á½«ÎÄ¼þ·Ö½âÕâ¸ö×Ö¶ÎÊýÖµµÄÊý¸öÊý¾Ý¿é¡££¨ÒëÕß×¢£ºÊý¾Ý¿éÀàËÆÓÚÊý¾Ý¿âµÄ·ÖÇø£¬ÊýÖµÌ«´óºÍÌ«Ð¡¶¼»áÓ°ÏìÐÔÄÜ¡£¾ßÌåÏê¼ûmongodb¹Ù·½ÎÄµµ: https://docs.mongodb.com/manual/core/sharding-data-partitioning/£©
+`metadata` : è¿™æ˜¯ä¸€ä¸ªjsonå¯¹è±¡ï¼Œå®ƒåŒ…å«äº†ä»¥åŽçš„æœç´¢ä¸­å¯èƒ½æœ‰ç”¨çš„ä»»ä½•å…ƒæ•°æ®
+`chunkSizeBytes` : GridFSä¼šå°†æ–‡ä»¶åˆ†è§£è¿™ä¸ªå­—æ®µæ•°å€¼çš„æ•°ä¸ªæ•°æ®å—ã€‚ï¼ˆè¯‘è€…æ³¨ï¼šæ•°æ®å—ç±»ä¼¼äºŽæ•°æ®åº“çš„åˆ†åŒºï¼Œæ•°å€¼å¤ªå¤§å’Œå¤ªå°éƒ½ä¼šå½±å“æ€§èƒ½ã€‚å…·ä½“è¯¦è§mongodbå®˜æ–¹æ–‡æ¡£: https://docs.mongodb.com/manual/core/sharding-data-partitioning/ï¼‰
 
-ÀýÈç£º Ð¯´øÅäÖÃ²ÎÊý½«Ò»¸öÎÄ¼þÁ÷ÉÏ´«µ½GridFS¡£
+ä¾‹å¦‚ï¼š æºå¸¦é…ç½®å‚æ•°å°†ä¸€ä¸ªæ–‡ä»¶æµä¸Šä¼ åˆ°GridFSã€‚
 
 [source,java]
 ----
@@ -973,17 +973,17 @@ gridFsStreamClient.uploadByFileNameWithOptions(asyncFile, "kanaloa", options, st
 ----
 
 [[_download_a_stream_from_gridfs_using_file_name]]
-=== Ê¹ÓÃÎÄ¼þÃû³Æ´ÓGridFSÖÐÏÂÔØÊý¾ÝÁ÷
+=== ä½¿ç”¨æ–‡ä»¶åç§°ä»ŽGridFSä¸­ä¸‹è½½æ•°æ®æµ
 
-Ê¹ÓÃ `link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html#downloadByFileName-io.vertx.core.streams.WriteStream-java.lang.String-io.vertx.core.Handler-[downloadByFileName]` ·½·¨£¬Äú¿ÉÒÔÊ¹ÓÃÎÄ¼þÃû³Æ´ÓGridFSÖÐÏÂÔØÊý¾ÝÁ÷¡£
-ÏÂÔØÍê³Éºó£¬½«·µ»ØÏÂÔØµÄÊý¾ÝÁ÷³¤¶È£¬¸ÃÊýÖµÊÇ `Long` ÀàÐÍ¡£
+ä½¿ç”¨ `link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html#downloadByFileName-io.vertx.core.streams.WriteStream-java.lang.String-io.vertx.core.Handler-[downloadByFileName]` æ–¹æ³•ï¼Œæ‚¨å¯ä»¥ä½¿ç”¨æ–‡ä»¶åç§°ä»ŽGridFSä¸­ä¸‹è½½æ•°æ®æµã€‚
+ä¸‹è½½å®ŒæˆåŽï¼Œå°†è¿”å›žä¸‹è½½çš„æ•°æ®æµé•¿åº¦ï¼Œè¯¥æ•°å€¼æ˜¯ `Long` ç±»åž‹ã€‚
 
-Ëü¾ßÓÐÒÔÏÂ×Ö¶Î£º
+å®ƒå…·æœ‰ä»¥ä¸‹å­—æ®µï¼š
 
-`stream` : ½«Òª±»ÏÂÔØµÄ `link:../../apidocs/io/vertx/core/streams/WriteStream.html[WriteStream]`
-`fileName` : ½«±»ÏÂÔØµÄÊý¾ÝÁ÷µÄÃû³Æ¡£
+`stream` : å°†è¦è¢«ä¸‹è½½çš„ `link:../../apidocs/io/vertx/core/streams/WriteStream.html[WriteStream]`
+`fileName` : å°†è¢«ä¸‹è½½çš„æ•°æ®æµçš„åç§°ã€‚
 
-ÀýÈç£º ÏÂÔØÎÄ¼þÁ÷¡£
+ä¾‹å¦‚ï¼š ä¸‹è½½æ–‡ä»¶æµã€‚
 
 [source,java]
 ----
@@ -993,23 +993,23 @@ gridFsStreamClient.downloadByFileName(asyncFile, "kamapuaa.fil", longAsyncResult
 ----
 
 [[_download_a_stream_with_options_from_gridfs_using_file_name]]
-=== Ê¹ÓÃÎÄ¼þÃû³Æ²¢Ð¯´øÅäÖÃ²ÎÊý£¬´ÓGridFSÖÐÏÂÔØÊý¾ÝÁ÷
+=== ä½¿ç”¨æ–‡ä»¶åç§°å¹¶æºå¸¦é…ç½®å‚æ•°ï¼Œä»ŽGridFSä¸­ä¸‹è½½æ•°æ®æµ
 
-Ê¹ÓÃ `link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html#downloadByFileNameWithOptions-io.vertx.core.streams.WriteStream-java.lang.String-io.vertx.ext.mongo.GridFsDownloadOptions-io.vertx.core.Handler-[downloadByFileNameWithOptions]` ·½·¨£¬
-²¢´«Èë `link:../../apidocs/io/vertx/ext/mongo/GridFsDownloadOptions.html[GridFsDownloadOptions]` ÊµÀý£¬Äú¿ÉÒÔÊ¹ÓÃÎÄ¼þÃû³Æ²¢Ð¯´øÅäÖÃ²ÎÊý£¬´ÓGridFSÖÐÏÂÔØÊý¾ÝÁ÷¡£
-ÏÂÔØÍê³Éºó£¬½«·µ»ØÏÂÔØµÄÊý¾ÝÁ÷³¤¶È£¬¸ÃÊýÖµÊÇ`Long`ÀàÐÍ¡£
+ä½¿ç”¨ `link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html#downloadByFileNameWithOptions-io.vertx.core.streams.WriteStream-java.lang.String-io.vertx.ext.mongo.GridFsDownloadOptions-io.vertx.core.Handler-[downloadByFileNameWithOptions]` æ–¹æ³•ï¼Œ
+å¹¶ä¼ å…¥ `link:../../apidocs/io/vertx/ext/mongo/GridFsDownloadOptions.html[GridFsDownloadOptions]` å®žä¾‹ï¼Œæ‚¨å¯ä»¥ä½¿ç”¨æ–‡ä»¶åç§°å¹¶æºå¸¦é…ç½®å‚æ•°ï¼Œä»ŽGridFSä¸­ä¸‹è½½æ•°æ®æµã€‚
+ä¸‹è½½å®ŒæˆåŽï¼Œå°†è¿”å›žä¸‹è½½çš„æ•°æ®æµé•¿åº¦ï¼Œè¯¥æ•°å€¼æ˜¯`Long`ç±»åž‹ã€‚
 
-Ëü¾ßÓÐÒÔÏÂ×Ö¶Î£º
+å®ƒå…·æœ‰ä»¥ä¸‹å­—æ®µï¼š
 
-`stream` : ½«±»ÏÂÔØµÄ`link:../../apidocs/io/vertx/core/streams/WriteStream.html[WriteStream]`
-`fileName` : ½«±»ÏÂÔØµÄÊý¾ÝÁ÷Ãû³Æ
-`options` : `link:../../apidocs/io/vertx/ext/mongo/GridFsDownloadOptions.html[GridFsDownloadOptions]`ÊµÀý
+`stream` : å°†è¢«ä¸‹è½½çš„`link:../../apidocs/io/vertx/core/streams/WriteStream.html[WriteStream]`
+`fileName` : å°†è¢«ä¸‹è½½çš„æ•°æ®æµåç§°
+`options` : `link:../../apidocs/io/vertx/ext/mongo/GridFsDownloadOptions.html[GridFsDownloadOptions]`å®žä¾‹
 
-DownloadOptions ¾ßÓÐÒÔÏÂ×Ö¶Î:
+DownloadOptions å…·æœ‰ä»¥ä¸‹å­—æ®µ:
 
-`revision` : ÒªÏÂÔØÎÄ¼þµÄ°æ±¾£¨ÒëÕß×¢£º°æ±¾×Ö¶Î½öÏÔÊ¾ÎÄ¼þ¸ü¸ÄµÄÆµÂÊ¡£ÖµÎª0£¬´ú±íÎ´¾­¹ýÐÞ¸ÄµÄÔ­Ê¼´æ´¢µÄÎÄ¼þ£©
+`revision` : è¦ä¸‹è½½æ–‡ä»¶çš„ç‰ˆæœ¬ï¼ˆè¯‘è€…æ³¨ï¼šç‰ˆæœ¬å­—æ®µä»…æ˜¾ç¤ºæ–‡ä»¶æ›´æ”¹çš„é¢‘çŽ‡ã€‚å€¼ä¸º0ï¼Œä»£è¡¨æœªç»è¿‡ä¿®æ”¹çš„åŽŸå§‹å­˜å‚¨çš„æ–‡ä»¶ï¼‰
 
-ÀýÈç£ºÐ¯´øÅäÖÃ²ÎÊýÏÂÔØÎÄ¼þÁ÷¡£
+ä¾‹å¦‚ï¼šæºå¸¦é…ç½®å‚æ•°ä¸‹è½½æ–‡ä»¶æµã€‚
 
 [source,java]
 ----
@@ -1021,17 +1021,17 @@ gridFsStreamClient.downloadByFileNameWithOptions(asyncFile, "kamapuaa.fil", opti
 ----
 
 [[_download_a_stream_from_gridfs_using_id]]
-=== Ê¹ÓÃIDÏÂÔØÊý¾ÝÁ÷
+=== ä½¿ç”¨IDä¸‹è½½æ•°æ®æµ
 
-Í¨¹ýµ÷ÓÃ `link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html#downloadById-io.vertx.core.streams.WriteStream-java.lang.String-io.vertx.core.Handler-[downloadById]`·½·¨£¬Äú¿ÉÒÔÊ¹ÓÃGridFSÉú³ÉµÄIDÀ´ÏÂÔØÊý¾ÝÁ÷¡£
-ÏÂÔØÍê³Éºó£¬½«·µ»ØÏÂÔØµÄÊý¾ÝÁ÷³¤¶È£¬¸ÃÊýÖµÊÇ`Long`ÀàÐÍ¡£
+é€šè¿‡è°ƒç”¨ `link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html#downloadById-io.vertx.core.streams.WriteStream-java.lang.String-io.vertx.core.Handler-[downloadById]`æ–¹æ³•ï¼Œæ‚¨å¯ä»¥ä½¿ç”¨GridFSç”Ÿæˆçš„IDæ¥ä¸‹è½½æ•°æ®æµã€‚
+ä¸‹è½½å®ŒæˆåŽï¼Œå°†è¿”å›žä¸‹è½½çš„æ•°æ®æµé•¿åº¦ï¼Œè¯¥æ•°å€¼æ˜¯`Long`ç±»åž‹ã€‚
 
-Ëü¾ßÓÐÒÔÏÂ×Ö¶Î£º
+å®ƒå…·æœ‰ä»¥ä¸‹å­—æ®µï¼š
 
-`stream` : ½«ÒªÏÂÔØµÄ `link:../../apidocs/io/vertx/core/streams/WriteStream.html[WriteStream]`
-`id` : GridFSÉú³ÉµÄid
+`stream` : å°†è¦ä¸‹è½½çš„ `link:../../apidocs/io/vertx/core/streams/WriteStream.html[WriteStream]`
+`id` : GridFSç”Ÿæˆçš„id
 
-ÀýÈç£ºÊ¹ÓÃ¶ÔÏóµÄIDÏÂÔØÎÄ¼þÁ÷
+ä¾‹å¦‚ï¼šä½¿ç”¨å¯¹è±¡çš„IDä¸‹è½½æ–‡ä»¶æµ
 
 [source,java]
 ----
@@ -1042,29 +1042,29 @@ gridFsStreamClient.downloadById(asyncFile, id, longAsyncResult -> {
 ----
 
 [[_configuring_the_client]]
-== ¿Í»§¶Ë²ÎÊýÅäÖÃ
+== å®¢æˆ·ç«¯å‚æ•°é…ç½®
 
-Vert.x MongoDB ¿Í»§¶Ë°ÑÅäÖÃ²ÎÊý·ÅÔÚ JSON ¶ÔÏóÖÐ¡£
+Vert.x MongoDB å®¢æˆ·ç«¯æŠŠé…ç½®å‚æ•°æ”¾åœ¨ JSON å¯¹è±¡ä¸­ã€‚
 
-¿Í»§¶ËÖ§³ÖÒÔÏÂÕâÐ©²ÎÊý£º
+å®¢æˆ·ç«¯æ”¯æŒä»¥ä¸‹è¿™äº›å‚æ•°ï¼š
 
 
-`db_name`:: mongoDB ÊµÀýµÄÊý¾Ý¿âÃû³Æ¡£Ä¬ÈÏÊÇ `default_db`
-`useObjectId`:: ´Ë²ÎÊýÓÃÀ´Ö§³Ö ObjectId µÄ³Ö¾Ã»¯ºÍ¼ìË÷¡£Èç¹ûÉèÖÃÎª true £¬
-½«»áÔÚ¼¯ºÏµÄÎÄµµÖÐ£¬ÒÔ 16 ½øÖÆµÄ×Ö·û´®À´±£´æ MongoDB µÄ ObjectId ÀàÐÍµÄ×Ö¶Î¡£¶øÇÒÔÚÉèÖÃÎª true ºó£¬¿ÉÒÔÈÃÎÄµµ»ùÓÚ´´½¨Ê±¼äÅÅÐò£¨ÒëÕß×¢£ºÇ°4¸ö×Ö½ÚÓÃÀ´´æ´¢´´½¨µÄÊ±µÄÊ±¼ä´Á£¬¾«È·µ½Ãë£©¡£
-ÄúÒ²¿ÉÒÔÍ¨¹ýÊ¹ÓÃ ObjectId::getDate() ·½·¨£¬´ÓÕâ¸ö 16½øÖÆµÄ×Ö·û´®ÖÐ»ñÈ¡´´½¨Ê±¼ä¡£ÈôÄúÑ¡ÔñÆäËûÀàÐÍ×÷Îª _id £¬ÔòÉèÖÃ´Ë²ÎÊýÎª false ¡£
-Èç¹ûÄú±£´æµÄÎÄµµÖÐ£¬Ã»ÓÐÉèÖÃ _id ×Ö¶ÎµÄÖµ£¬½«»áÄ¬ÈÏµÄÉú³É 16½øÖÆµÄ×Ö·û´®×÷Îª _id ¡£
-´Ë²ÎÊýÄ¬ÈÏÎª false ¡£
+`db_name`:: mongoDB å®žä¾‹çš„æ•°æ®åº“åç§°ã€‚é»˜è®¤æ˜¯ `default_db`
+`useObjectId`:: æ­¤å‚æ•°ç”¨æ¥æ”¯æŒ ObjectId çš„æŒä¹…åŒ–å’Œæ£€ç´¢ã€‚å¦‚æžœè®¾ç½®ä¸º true ï¼Œ
+å°†ä¼šåœ¨é›†åˆçš„æ–‡æ¡£ä¸­ï¼Œä»¥ 16 è¿›åˆ¶çš„å­—ç¬¦ä¸²æ¥ä¿å­˜ MongoDB çš„ ObjectId ç±»åž‹çš„å­—æ®µã€‚è€Œä¸”åœ¨è®¾ç½®ä¸º true åŽï¼Œå¯ä»¥è®©æ–‡æ¡£åŸºäºŽåˆ›å»ºæ—¶é—´æŽ’åºï¼ˆè¯‘è€…æ³¨ï¼šå‰4ä¸ªå­—èŠ‚ç”¨æ¥å­˜å‚¨åˆ›å»ºçš„æ—¶çš„æ—¶é—´æˆ³ï¼Œç²¾ç¡®åˆ°ç§’ï¼‰ã€‚
+æ‚¨ä¹Ÿå¯ä»¥é€šè¿‡ä½¿ç”¨ ObjectId::getDate() æ–¹æ³•ï¼Œä»Žè¿™ä¸ª 16è¿›åˆ¶çš„å­—ç¬¦ä¸²ä¸­èŽ·å–åˆ›å»ºæ—¶é—´ã€‚è‹¥æ‚¨é€‰æ‹©å…¶ä»–ç±»åž‹ä½œä¸º _id ï¼Œåˆ™è®¾ç½®æ­¤å‚æ•°ä¸º false ã€‚
+å¦‚æžœæ‚¨ä¿å­˜çš„æ–‡æ¡£ä¸­ï¼Œæ²¡æœ‰è®¾ç½® _id å­—æ®µçš„å€¼ï¼Œå°†ä¼šé»˜è®¤çš„ç”Ÿæˆ 16è¿›åˆ¶çš„å­—ç¬¦ä¸²ä½œä¸º _id ã€‚
+æ­¤å‚æ•°é»˜è®¤ä¸º false ã€‚
 
-´Ë¿Í»§¶Ë³¢ÊÔ×ÅÖ§³ÖÇý¶¯ËùÖ§³ÖµÄ´ó¶àÊý²ÎÊýÅäÖÃ¡£
-ÓÐÁ½ÖÖÅäÖÃ·½Ê½£¬Ò»ÖÖÊÇÁ¬½Ó×Ö·û´®£¬ÁíÒ»ÖÖÊÇÇý¶¯ÅäÖÃÑ¡Ïî¡£
+æ­¤å®¢æˆ·ç«¯å°è¯•ç€æ”¯æŒé©±åŠ¨æ‰€æ”¯æŒçš„å¤§å¤šæ•°å‚æ•°é…ç½®ã€‚
+æœ‰ä¸¤ç§é…ç½®æ–¹å¼ï¼Œä¸€ç§æ˜¯è¿žæŽ¥å­—ç¬¦ä¸²ï¼Œå¦ä¸€ç§æ˜¯é©±åŠ¨é…ç½®é€‰é¡¹ã€‚
 
-Çë×¢Òâ£ºÈç¹ûÊ¹ÓÃÁË×Ö·û´®Á¬½ÓµÄ·½Ê½£¬´Ë¿Í»§¶Ë½«»áºöÂÔËùÓÐÅäÖÃÑ¡Ïî¡£
+è¯·æ³¨æ„ï¼šå¦‚æžœä½¿ç”¨äº†å­—ç¬¦ä¸²è¿žæŽ¥çš„æ–¹å¼ï¼Œæ­¤å®¢æˆ·ç«¯å°†ä¼šå¿½ç•¥æ‰€æœ‰é…ç½®é€‰é¡¹ã€‚
 
-`connection_string`:: Á¬½Ó×Ö·û´®£¬Ö¸µÄÊÇ´´½¨¿Í»§¶ËµÄ×Ö·û´®£¬ÀýÈç£º `mongodb://localhost:27017` ¡£
-ÓÐ¹ØÁ¬½Ó×Ö·û´®¸ñÊ½µÄ¸ü¶àÐÅÏ¢£¬Çë²Î¿¼Çý¶¯³ÌÐòÎÄµµ¡£
+`connection_string`:: è¿žæŽ¥å­—ç¬¦ä¸²ï¼ŒæŒ‡çš„æ˜¯åˆ›å»ºå®¢æˆ·ç«¯çš„å­—ç¬¦ä¸²ï¼Œä¾‹å¦‚ï¼š `mongodb://localhost:27017` ã€‚
+æœ‰å…³è¿žæŽ¥å­—ç¬¦ä¸²æ ¼å¼çš„æ›´å¤šä¿¡æ¯ï¼Œè¯·å‚è€ƒé©±åŠ¨ç¨‹åºæ–‡æ¡£ã€‚
 
-*Çý¶¯ÅäÖÃµÄ¾ßÌåÑ¡Ïî*
+*é©±åŠ¨é…ç½®çš„å…·ä½“é€‰é¡¹*
 
 [source,js]
 ----
@@ -1125,43 +1125,43 @@ Vert.x MongoDB ¿Í»§¶Ë°ÑÅäÖÃ²ÎÊý·ÅÔÚ JSON ¶ÔÏóÖÐ¡£
 }
 ----
 
-*Çý¶¯²ÎÊýËµÃ÷*
+*é©±åŠ¨å‚æ•°è¯´æ˜Ž*
 
-`host`:: mongoDB ÊµÀýÔËÐÐµÄµØÖ·¡£Ä¬ÈÏÊÇ `127.0.0.1`¡£ Èç¹ûÉèÖÃÁË `hosts` ²ÎÊý£¬¾Í»áºöÂÔ `host` ²ÎÊý
-`port`:: mongoDB ÊµÀý¼àÌýµÄ¶Ë¿Ú¡£Ä¬ÈÏÊÇ `127.0.0.1`¡£ Èç¹ûÉèÖÃÁË `hosts` ²ÎÊý£¬¾Í»áºöÂÔ `host` ²ÎÊý
-`hosts`:: ±íÊ¾Ö§³Ö MongoDB ¼¯Èº£¨·ÖÆ¬£¯¸´ÖÆ£©µÄÒ»×éµØÖ·ºÍ¶Ë¿Ú
-`host`:: ¼¯ÈºÖÐÄ³¸öÔËÐÐÊµÀýµÄµØÖ·
-`port`:: ¼¯ÈºÖÐÄ³¸öÔËÐÐÊµÀý¼àÌýµÄ¶Ë¿Ú
-`replicaSet`:: Ä³¸ö mongoDB ÊµÀý×÷Îª¸±±¾¼¯µÄÃû³Æ
-`serverSelectionTimeoutMS`:: Çý¶¯Ñ¡Ôñ·þÎñÆ÷µÄ×î´óÊ±¼ä£¬µ¥Î»ºÁÃë
-`maxPoolSize`:: Á¬½Ó³Ø×î´óÁ¬½ÓÊý¡£Ä¬ÈÏÎª `100`
-`minPoolSize`:: Á¬½Ó³Ø×îÐ¡Á¬½ÓÊý¡£Ä¬ÈÏÎª `0`
-`maxIdleTimeMS`:: Á¬½Ó³ØµÄÁ¬½Ó×î´ó¿ÕÏÐÊ±¼ä¡£Ä¬ÈÏÎª `0`£¬±íÊ¾Ò»Ö±´æÔÚ
-`maxLifeTimeMS`:: Á¬½Ó³ØµÄÁ¬½Ó×î´ó´æ»îÊ±¼ä¡£Ä¬ÈÏÎª `0`£¬±íÊ¾ÓÀÔ¶´æ»î
-`waitQueueTimeoutMS`:: Ïß³ÌµÈ´ý×÷ÎªÁ¬½ÓµÄ×î³¤µÈ´ýÊ±¼ä¡£Ä¬ÈÏÎª `120000`£¨2·ÖÖÓ£©
-`maintenanceFrequencyMS`:: Î¬»¤ÈÎÎñ½øÐÐÑ­»·¼ì²éÁ¬½ÓµÄÊ±¼ä¼ä¸ô£¨ÒëÕß×¢£ºÎ¬»¤ÈÎÎñ»á¶¨Ê±¼ì²éÁ¬½ÓµÄ×´Ì¬£¬Ö±µ½Á¬½Ó³ØÊ£ÏÂ×îÐ¡Á¬½ÓÊý£©¡£Ä¬ÈÏÎª `0`
-`maintenanceInitialDelayMS`:: Á¬½Ó³ØÆô¶¯ºó£¬Î¬»¤ÈÎÎñµÚÒ»´ÎÆô¶¯µÄÊ±¼ä¡£Ä¬ÈÏÎª `0`
-`username`:: ÊÚÈ¨µÄÓÃ»§Ãû¡£Ä¬ÈÏÎª `null`£¨ÒâÎ¶×Å²»ÐèÒªÊÚÈ¨£©
-`password`:: ÊÚÈ¨µÄÃÜÂë
-`authSource`:: ÓëÊÚÈ¨ÓÃ»§¹ØÁªµÄÊý¾Ý¿âÃû³Æ¡£Ä¬ÈÏÖµÎª `db_name`
-`authMechanism`:: ËùÊ¹ÓÃµÄÊÚÈ¨ÈÏÖ¤»úÖÆ¡£Çë²Î¿¼ [Authentication](http://docs.mongodb.org/manual/core/authentication/ À´»ñÈ¡¸ü¶àÐÅÏ¢¡£
-`gssapiServiceName`:: µ±Ê¹ÓÃ`GSSAPI`µÄÊÚÈ¨»úÖÆÊ±£¬ËùÊ¹ÓÃµÄ Kerberos ·þÎñÃû¡£
-`connectTimeoutMS`:: ´ò¿ªÁ¬½Ó³¬Ê±µÄÊ±¼ä£¬µ¥Î»ºÁÃë¡£Ä¬ÈÏÎª`10000`£¨10 Ãë£©
-`socketTimeoutMS`:: ÔÚ socket ÉÏ½ÓÊÕ»òÕß·¢ËÍ³¬Ê±µÄÊ±¼ä¡£Ä¬ÈÏÎª`0`£¬ÒâÎ¶×ÅÓÀÔ¶²»³¬Ê±£¨ÒëÕß×¢£ºÕâÊÇ¿Í»§¶ËµÄ³¬Ê±Ê±¼ä¡£Èç¹ûÒ»¸ö insert ´ïµ½ÁË socketTimeoutMS£¬ ½«ÎÞ·¨µÃÖª·þÎñÆ÷ÊÇ·ñÒÑÐ´Èë£©¡£
-`sendBufferSize`:: ÉèÖÃ socket ·¢ËÍ»º³åÇø´óÐ¡£¨SO_SNDBUF£©¡£Ä¬ÈÏÎª`0`£¬Õâ½«Ê¹ÓÃ²Ù×÷ÏµÍ³Ä¬ÈÏ´óÐ¡¡£
-`receiveBufferSize`:: ÉèÖÃ socket ½ÓÊÕ»º³åÇø´óÐ¡£¨SO_RCVBUF£©¡£Ä¬ÈÏÎª`0`£¬Õâ½«Ê¹ÓÃ²Ù×÷ÏµÍ³Ä¬ÈÏ´óÐ¡¡£
-`heartbeatFrequencyMS`:: ¼¯Èº¼àÊÓÆ÷·ÃÎÊÃ¿¸ö¼¯Èº·þÎñÆ÷µÄÆµÂÊ¡£Ä¬ÈÏÎª`5000`£¨5s£©
-`minHeartbeatFrequencyMS`:: ×îÐ¡ÐÄÌøÆµÂÊ¡£Ä¬ÈÏÎª`1000`£¨1s£©
-`ssl`:: ÔÚmongo¿Í»§¶Ë ºÍ mongoÖ®¼ä£¬ÆôÓÃssl
-`sslInvalidHostNameAllowed`:: ½ÓÊÜ·þÎñÆ÷Ö¤ÊéÖÐÎ´°üº¬µÄÖ÷»úÃû£¨ÒëÕß×¢£ºµ±ÄãÆôÓÃsslÊ±£¬Õâ¸öÅäÖÃÓÃÀ´ÉèÖÃÊÇ·ñ¹Ø±ÕÓòÃû¼ì²é¡£true ÎªÔÊÐí£¬¼´¹Ø±ÕÓòÃû¼ì²é£©¡£
-`trustAll`:: µ±ÆôÓÃsslÊ±£¬ÐÅÈÎËùÓÐÖ¤Êé¡£*¾¯¸æ* - ¿ªÆôÕâ¸öÅäÖÃ½«»áÈÃÄúÃæÁÙÒ»Ð©Ç±ÔÚµÄ°²È«ÎÊÌâ£¬ÀýÈçMITM¹¥»÷¡£
-`keyPath`:: ÉèÖÃ¿Í»§¶ËË½Ô¿µÄÂ·¾¶¡£¿Í»§¶ËË½Ô¿ÊÇÓÃÓÚÔÚÓëmongo½¨Á¢SSLÁ¬½ÓÊ±£¬¶Ô·þÎñÆ÷½øÐÐÉí·ÝÑéÖ¤¡£
-`certPath`:: ÉèÖÃ¿Í»§¶ËÖ¤ÊéµÄÂ·¾¶¡£¿Í»§¶ËÖ¤ÊéÊÇÓÃÀ´ÔÚÓëmongo½¨Á¢SSLÁ¬½ÓÊ±£¬¶Ô·þÎñÆ÷½øÐÐÉí·ÝÑéÖ¤¡£
-`caPath`:: ÉèÖÃCAÖ¤ÊéµÄÂ·¾¶¡£CAÖ¤ÊéÊÇÓÃÓÚÔÚÓëmongo½¨Á¢SSLÁ¬½ÓÊ±£¬µ±×öÒ»¸öÐÅÈÎÔ´¡£
+`host`:: mongoDB å®žä¾‹è¿è¡Œçš„åœ°å€ã€‚é»˜è®¤æ˜¯ `127.0.0.1`ã€‚ å¦‚æžœè®¾ç½®äº† `hosts` å‚æ•°ï¼Œå°±ä¼šå¿½ç•¥ `host` å‚æ•°
+`port`:: mongoDB å®žä¾‹ç›‘å¬çš„ç«¯å£ã€‚é»˜è®¤æ˜¯ `127.0.0.1`ã€‚ å¦‚æžœè®¾ç½®äº† `hosts` å‚æ•°ï¼Œå°±ä¼šå¿½ç•¥ `host` å‚æ•°
+`hosts`:: è¡¨ç¤ºæ”¯æŒ MongoDB é›†ç¾¤ï¼ˆåˆ†ç‰‡ï¼å¤åˆ¶ï¼‰çš„ä¸€ç»„åœ°å€å’Œç«¯å£
+`host`:: é›†ç¾¤ä¸­æŸä¸ªè¿è¡Œå®žä¾‹çš„åœ°å€
+`port`:: é›†ç¾¤ä¸­æŸä¸ªè¿è¡Œå®žä¾‹ç›‘å¬çš„ç«¯å£
+`replicaSet`:: æŸä¸ª mongoDB å®žä¾‹ä½œä¸ºå‰¯æœ¬é›†çš„åç§°
+`serverSelectionTimeoutMS`:: é©±åŠ¨é€‰æ‹©æœåŠ¡å™¨çš„æœ€å¤§æ—¶é—´ï¼Œå•ä½æ¯«ç§’
+`maxPoolSize`:: è¿žæŽ¥æ± æœ€å¤§è¿žæŽ¥æ•°ã€‚é»˜è®¤ä¸º `100`
+`minPoolSize`:: è¿žæŽ¥æ± æœ€å°è¿žæŽ¥æ•°ã€‚é»˜è®¤ä¸º `0`
+`maxIdleTimeMS`:: è¿žæŽ¥æ± çš„è¿žæŽ¥æœ€å¤§ç©ºé—²æ—¶é—´ã€‚é»˜è®¤ä¸º `0`ï¼Œè¡¨ç¤ºä¸€ç›´å­˜åœ¨
+`maxLifeTimeMS`:: è¿žæŽ¥æ± çš„è¿žæŽ¥æœ€å¤§å­˜æ´»æ—¶é—´ã€‚é»˜è®¤ä¸º `0`ï¼Œè¡¨ç¤ºæ°¸è¿œå­˜æ´»
+`waitQueueTimeoutMS`:: çº¿ç¨‹ç­‰å¾…ä½œä¸ºè¿žæŽ¥çš„æœ€é•¿ç­‰å¾…æ—¶é—´ã€‚é»˜è®¤ä¸º `120000`ï¼ˆ2åˆ†é’Ÿï¼‰
+`maintenanceFrequencyMS`:: ç»´æŠ¤ä»»åŠ¡è¿›è¡Œå¾ªçŽ¯æ£€æŸ¥è¿žæŽ¥çš„æ—¶é—´é—´éš”ï¼ˆè¯‘è€…æ³¨ï¼šç»´æŠ¤ä»»åŠ¡ä¼šå®šæ—¶æ£€æŸ¥è¿žæŽ¥çš„çŠ¶æ€ï¼Œç›´åˆ°è¿žæŽ¥æ± å‰©ä¸‹æœ€å°è¿žæŽ¥æ•°ï¼‰ã€‚é»˜è®¤ä¸º `0`
+`maintenanceInitialDelayMS`:: è¿žæŽ¥æ± å¯åŠ¨åŽï¼Œç»´æŠ¤ä»»åŠ¡ç¬¬ä¸€æ¬¡å¯åŠ¨çš„æ—¶é—´ã€‚é»˜è®¤ä¸º `0`
+`username`:: æŽˆæƒçš„ç”¨æˆ·åã€‚é»˜è®¤ä¸º `null`ï¼ˆæ„å‘³ç€ä¸éœ€è¦æŽˆæƒï¼‰
+`password`:: æŽˆæƒçš„å¯†ç 
+`authSource`:: ä¸ŽæŽˆæƒç”¨æˆ·å…³è”çš„æ•°æ®åº“åç§°ã€‚é»˜è®¤å€¼ä¸º `db_name`
+`authMechanism`:: æ‰€ä½¿ç”¨çš„æŽˆæƒè®¤è¯æœºåˆ¶ã€‚è¯·å‚è€ƒ [Authentication](http://docs.mongodb.org/manual/core/authentication/ æ¥èŽ·å–æ›´å¤šä¿¡æ¯ã€‚
+`gssapiServiceName`:: å½“ä½¿ç”¨`GSSAPI`çš„æŽˆæƒæœºåˆ¶æ—¶ï¼Œæ‰€ä½¿ç”¨çš„ Kerberos æœåŠ¡åã€‚
+`connectTimeoutMS`:: æ‰“å¼€è¿žæŽ¥è¶…æ—¶çš„æ—¶é—´ï¼Œå•ä½æ¯«ç§’ã€‚é»˜è®¤ä¸º`10000`ï¼ˆ10 ç§’ï¼‰
+`socketTimeoutMS`:: åœ¨ socket ä¸ŠæŽ¥æ”¶æˆ–è€…å‘é€è¶…æ—¶çš„æ—¶é—´ã€‚é»˜è®¤ä¸º`0`ï¼Œæ„å‘³ç€æ°¸è¿œä¸è¶…æ—¶ï¼ˆè¯‘è€…æ³¨ï¼šè¿™æ˜¯å®¢æˆ·ç«¯çš„è¶…æ—¶æ—¶é—´ã€‚å¦‚æžœä¸€ä¸ª insert è¾¾åˆ°äº† socketTimeoutMSï¼Œ å°†æ— æ³•å¾—çŸ¥æœåŠ¡å™¨æ˜¯å¦å·²å†™å…¥ï¼‰ã€‚
+`sendBufferSize`:: è®¾ç½® socket å‘é€ç¼“å†²åŒºå¤§å°ï¼ˆSO_SNDBUFï¼‰ã€‚é»˜è®¤ä¸º`0`ï¼Œè¿™å°†ä½¿ç”¨æ“ä½œç³»ç»Ÿé»˜è®¤å¤§å°ã€‚
+`receiveBufferSize`:: è®¾ç½® socket æŽ¥æ”¶ç¼“å†²åŒºå¤§å°ï¼ˆSO_RCVBUFï¼‰ã€‚é»˜è®¤ä¸º`0`ï¼Œè¿™å°†ä½¿ç”¨æ“ä½œç³»ç»Ÿé»˜è®¤å¤§å°ã€‚
+`heartbeatFrequencyMS`:: é›†ç¾¤ç›‘è§†å™¨è®¿é—®æ¯ä¸ªé›†ç¾¤æœåŠ¡å™¨çš„é¢‘çŽ‡ã€‚é»˜è®¤ä¸º`5000`ï¼ˆ5sï¼‰
+`minHeartbeatFrequencyMS`:: æœ€å°å¿ƒè·³é¢‘çŽ‡ã€‚é»˜è®¤ä¸º`1000`ï¼ˆ1sï¼‰
+`ssl`:: åœ¨mongoå®¢æˆ·ç«¯ å’Œ mongoä¹‹é—´ï¼Œå¯ç”¨ssl
+`sslInvalidHostNameAllowed`:: æŽ¥å—æœåŠ¡å™¨è¯ä¹¦ä¸­æœªåŒ…å«çš„ä¸»æœºåï¼ˆè¯‘è€…æ³¨ï¼šå½“ä½ å¯ç”¨sslæ—¶ï¼Œè¿™ä¸ªé…ç½®ç”¨æ¥è®¾ç½®æ˜¯å¦å…³é—­åŸŸåæ£€æŸ¥ã€‚true ä¸ºå…è®¸ï¼Œå³å…³é—­åŸŸåæ£€æŸ¥ï¼‰ã€‚
+`trustAll`:: å½“å¯ç”¨sslæ—¶ï¼Œä¿¡ä»»æ‰€æœ‰è¯ä¹¦ã€‚*è­¦å‘Š* - å¼€å¯è¿™ä¸ªé…ç½®å°†ä¼šè®©æ‚¨é¢ä¸´ä¸€äº›æ½œåœ¨çš„å®‰å…¨é—®é¢˜ï¼Œä¾‹å¦‚MITMæ”»å‡»ã€‚
+`keyPath`:: è®¾ç½®å®¢æˆ·ç«¯ç§é’¥çš„è·¯å¾„ã€‚å®¢æˆ·ç«¯ç§é’¥æ˜¯ç”¨äºŽåœ¨ä¸Žmongoå»ºç«‹SSLè¿žæŽ¥æ—¶ï¼Œå¯¹æœåŠ¡å™¨è¿›è¡Œèº«ä»½éªŒè¯ã€‚
+`certPath`:: è®¾ç½®å®¢æˆ·ç«¯è¯ä¹¦çš„è·¯å¾„ã€‚å®¢æˆ·ç«¯è¯ä¹¦æ˜¯ç”¨æ¥åœ¨ä¸Žmongoå»ºç«‹SSLè¿žæŽ¥æ—¶ï¼Œå¯¹æœåŠ¡å™¨è¿›è¡Œèº«ä»½éªŒè¯ã€‚
+`caPath`:: è®¾ç½®CAè¯ä¹¦çš„è·¯å¾„ã€‚CAè¯ä¹¦æ˜¯ç”¨äºŽåœ¨ä¸Žmongoå»ºç«‹SSLè¿žæŽ¥æ—¶ï¼Œå½“åšä¸€ä¸ªä¿¡ä»»æºã€‚
 
 
-Çë×¢Òâ£ºÉÏÃæÌáµ½µÄ¸÷Àà²ÎÊýµÄÄ¬ÈÏÖµ£¬¶¼ÊÇ MongoDB Java Çý¶¯µÄÄ¬ÈÏÖµ¡£
-Çë²Î¿¼Çý¶¯ÎÄµµÀ´»ñÈ¡×îÐÂÐÅÏ¢¡£
+è¯·æ³¨æ„ï¼šä¸Šé¢æåˆ°çš„å„ç±»å‚æ•°çš„é»˜è®¤å€¼ï¼Œéƒ½æ˜¯ MongoDB Java é©±åŠ¨çš„é»˜è®¤å€¼ã€‚
+è¯·å‚è€ƒé©±åŠ¨æ–‡æ¡£æ¥èŽ·å–æœ€æ–°ä¿¡æ¯ã€‚
 
 ifeval::["java" == "java"]
 include::override/rxjava2.adoc[]
