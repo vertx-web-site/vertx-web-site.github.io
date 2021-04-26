@@ -403,7 +403,7 @@ route.handler(ctx -> {
 
 可以通过占位符声明路径参数并在处理请求时通过 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#pathParam-java.lang.String-[pathParam]` 。 方法获取
 
-以下是一个例子
+以下是例子
 
 [source,java]
 ----
@@ -418,30 +418,30 @@ router
   });
 ----
 
-占位符由 `:` 和参数名构成. 参数名由字母，
-数字和下划线构成。In certain cases this is a bit limited, so users may switch to an extended name rule
-which includes 2 extra characters `-` and `$`. The extended param rule is enabled as a system property:
+占位符由 `:` 和参数名构成. 参数名由字母，数字和下划线构成。
+在某些情况下，这会受到一定限制，因而用户可以切换至包括2个额外字符“-”和“ $”的扩展名称规则。
+扩展参数规则可用如下系统属性启用：
 
 ----
 -Dio.vertx.web.route.param.extended-pattern=true
 ----
 
-在上面的例子中， 如果一个 POST 请求的路径为  `/catalogue/products/tools/drill123/` ， 那么会匹配这个 `Route` ， 并且会接收参数 `productType` 的值为 `tools` ，参数 `productID` 的值为 `drill123` 。
+在上述例子中， 如果一个 POST 请求的路径为  `/catalogue/products/tools/drill123/` ， 那么会匹配这个 `Route` ， 并且会接收参数 `productType` 的值为 `tools` ，参数 `productID` 的值为 `drill123` 。
 
-A parameter is not required to be a path segment. For example path parameters like the following ones are valid too:
+参数并不一定是路径段。例如，以下路径参数同样有效：
 
 [source,java]
 ----
 router
   .route(HttpMethod.GET, "/flights/:from-:to")
   .handler(ctx -> {
-    // when handling requests to /flights/AMS-SFO will set:
+    // 在处理发送至/flights/AMS-SFO的请求时，将会设置：
     String from = ctx.pathParam("from"); // AMS
     String to = ctx.pathParam("to"); // SFO
-    // remember that this will not work as expected is the parameter
-    // naming pattern in use is the "extended" one. That is because in
-    // that case "-" is considered to be part of the variable name and
-    // not a separator.
+    // 记住一点，如果不切换至参数命名的 “extend/扩展” 模式的话，
+    // 这将不会起作用。
+    // 因为在那种情况下，“-” 符号并不被认为是分隔符，
+    // 而是参数名的一部分。
   });
 ----
 
