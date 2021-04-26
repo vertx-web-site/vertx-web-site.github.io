@@ -503,7 +503,7 @@ mongoClient.runCommand("aggregate", command, res -> {
 目前，MongoDB 只支持 `date` ， `oid` 和 `binary` 类型
 （请参考：http://docs.mongodb.org/manual/reference/mongodb-extended-json[MongoDB Extended JSON] ）
 
-例如插入含有 date 类型字段的文档：
+例如插入含有 `date` 类型字段的文档：
 
 [source,java]
 ----
