@@ -247,7 +247,7 @@ mongoClient.updateCollectionWithOptions("books", query, update, options, res -> 
 您可以使用 `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#replaceDocuments-java.lang.String-io.vertx.core.json.JsonObject-io.vertx.core.json.JsonObject-io.vertx.core.Handler-[replaceDocuments]` 方法来替换文档。
 
 替换操作和更新操作相似，但替换不需要任何操作符。
-因为它是用您提供的文档去替换整个文档
+因为它是用您提供的文档去替换整个文档。
 
 例如替换 books 集合中的一个文档：
 
