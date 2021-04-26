@@ -108,7 +108,7 @@ MongoClient client = MongoClient.create(vertx, config);
 [[_saving_documents]]
 === 保存文档
 
-您可以使用 `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#save-java.lang.String-io.vertx.core.json.JsonObject-io.vertx.core.Handler-[save]` 方法来保存文档
+您可以使用 `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#save-java.lang.String-io.vertx.core.json.JsonObject-io.vertx.core.Handler-[save]` 方法以保存文档。
 
 如果文档中没有 `\_id` 字段，文档会被保存。若有，将执行 upserted。
 Upserted 意思是，如果此文档不存在，就保存此文档，此文档存在就更新。
