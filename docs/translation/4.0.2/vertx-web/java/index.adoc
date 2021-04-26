@@ -587,17 +587,17 @@ Route route = router.route()
 NOTE: 请务必留意，像 rerouting 等特性不接受自定义 http 方法，
 这些操作在检测到自定义动词时将会使用 `OTHER` 值以替代自定义名。
 
-== Route order
+== 路由顺序
 
-By default routes are matched in the order they are added to the router.
+默认情况下Route按照其加入到Router的顺序进行匹配
 
-When a request arrives the router will step through each route and check if it matches, if it matches then
-the handler for that route will be called.
+路由器会逐级检查每条Route否匹配
+如果匹配的话，该Route的handler将被调用。
 
-If the handler subsequently calls `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#next--[next]` the handler for the next
-matching route (if any) will be called. And so on.
+如果这个handler接下来会调用`link:../../apidocs/io/vertx/ext/web/RoutingContext.html#next--[next]`方法
+则下一个匹配的路由(如果有的话)的handler将被调用。等等。
 
-Here's an example to illustrate this:
+这里有一个例子来说明
 
 [source,java]
 ----
@@ -606,14 +606,14 @@ router
   .handler(ctx -> {
 
     HttpServerResponse response = ctx.response();
-    // enable chunked responses because we will be adding data as
-    // we execute over other handlers. This is only required once and
-    // only if several handlers do output.
+    //启动response的分块响应功能，
+    //因为我们将在多个handler中将添加数据
+    //只需要一次，并且只在多个处理程序进行输出时才需要。
     response.setChunked(true);
 
     response.write("route1\n");
 
-    // Now call the next matching route
+    //现在我们将调用下一个匹配的Route
     ctx.next();
   });
 
@@ -624,7 +624,7 @@ router
     HttpServerResponse response = ctx.response();
     response.write("route2\n");
 
-    // Now call the next matching route
+    //现在我们将调用下一个匹配的Route
     ctx.next();
   });
 
@@ -635,12 +635,12 @@ router
     HttpServerResponse response = ctx.response();
     response.write("route3");
 
-    // Now end the response
+    // 现在我们结束响应
     ctx.response().end();
   });
 ----
 
-In the above example the response will contain:
+在上面的例子里面，响应将包含这些内容
 
 ----
 route1
@@ -648,18 +648,19 @@ route2
 route3
 ----
 
-As the routes have been called in that order for any request that starts with `/some/path`.
+对于任何以' /some/path '开头的请求，路由都是按照这个顺序被调用的
 
-If you want to override the default ordering for routes, you can do so using `link:../../apidocs/io/vertx/ext/web/Route.html#order-int-[order]`,
-specifying an integer value.
+如果你想要覆盖默认的Route顺序
+你可以使用`link:../../apidocs/io/vertx/ext/web/Route.html#order-int-[order]`
+指定一个整数类型的值
 
-Routes are assigned an order at creation time corresponding to the order in which they were added to the router, with
-the first route numbered `0`, the second route numbered `1`, and so on.
+Route在创建时被分配的顺序与它们被添加到Router的顺序相对应
+第一个Route编号为`0`，第二个Route编号为`1`，以此类推。
 
-By specifying an order for the route you can override the default ordering. Order can also be negative, e.g. if you
-want to ensure a route is evaluated before route number `0`.
+通过给Route指定order你可以覆盖默认值，order可以为负值，举个例子
+如果想要确保一个Route在order为`0`的Route之前执行则可以这样做
 
-Let's change the ordering of route2 so it runs before route1:
+让我们更改route2的order值让他在route1之前执行
 
 [source,java]
 ----
@@ -671,7 +672,7 @@ router
     HttpServerResponse response = ctx.response();
     response.write("route1\n");
 
-    // Now call the next matching route
+    // 现在调用下一个匹配的Route
     ctx.next();
   });
 
@@ -681,9 +682,9 @@ router
   .handler(ctx -> {
 
     HttpServerResponse response = ctx.response();
-    // enable chunked responses because we will be adding data as
-    // we execute over other handlers. This is only required once and
-    // only if several handlers do output.
+     //启动response的分块响应功能，
+    //因为我们将在多个handler中将添加数据
+    //只需要一次，并且只在多个处理程序进行输出时才需要。
     response.setChunked(true);
 
     response.write("route2\n");
@@ -705,7 +706,7 @@ router
   });
 ----
 
-then the response will now contain:
+然后响应将包含以下内容
 
 ----
 route2
@@ -713,22 +714,22 @@ route1
 route3
 ----
 
-If two matching routes have the same value of order, then they will be called in the order they were added.
+如果两个匹配的Route都具有相同的order值，则按照他们添加的属性被调用
 
-You can also specify that a route is handled last, with `link:../../apidocs/io/vertx/ext/web/Route.html#last--[last]`
+你也可以指定一个路由最后调用，参考`link:../../apidocs/io/vertx/ext/web/Route.html#last--[last]`
 
-NOTE: Route order can be specified only before you configure an handler!
+NOTE: 只能在配置handler之前指定路由顺序！
 
-== Routing based on MIME type of request
+== 基于请求MIME类型的路由
 
-You can specify that a route will match against matching request MIME types using `link:../../apidocs/io/vertx/ext/web/Route.html#consumes-java.lang.String-[consumes]`.
+通过使用`link:../../apidocs/io/vertx/ext/web/Route.html#consumes-java.lang.String-[consumes]`，你可以指定route将与的哪种请求MIME类型相匹配
 
-In this case, the request will contain a `content-type` header specifying the MIME type of the request body.
-This will be matched against the value specified in `link:../../apidocs/io/vertx/ext/web/Route.html#consumes-java.lang.String-[consumes]`.
+在这种情况下，请求将包含一个`content-type`请求头，指定请求体的MIME类型
+这将匹配`link:../../apidocs/io/vertx/ext/web/Route.html#consumes-java.lang.String-[consumes]`指定的值
 
-Basically, `consumes` is describing which MIME types the handler can _consume_.
+基本上，`consumes`用于描述这个handler将可以 _处理_ 哪些MIME类型
 
-Matching can be done on exact MIME type matches:
+匹配可以在精确的MIME类型匹配上进行:
 
 [source,java]
 ----
@@ -736,13 +737,13 @@ router.route()
   .consumes("text/html")
   .handler(ctx -> {
 
-    // This handler will be called for any request with
-    // content-type header set to `text/html`
+    //这个handler将会被
+    //content-type 请求头设置为`text/html`的任意请求调用
 
   });
 ----
 
-Multiple exact matches can also be specified:
+也可以指定多个精确的匹配
 
 [source,java]
 ----
@@ -751,13 +752,13 @@ router.route()
   .consumes("text/plain")
   .handler(ctx -> {
 
-    // This handler will be called for any request with
-    // content-type header set to `text/html` or `text/plain`.
+    // 这个handler将会被
+    // content-type 请求头设置为`text/html`或者`text/plain`的任意请求调用
 
   });
 ----
 
-Matching on wildcards for the sub-type is supported:
+支持子类型通配符的匹配
 
 [source,java]
 ----
@@ -765,15 +766,15 @@ router.route()
   .consumes("text/*")
   .handler(ctx -> {
 
-    // This handler will be called for any request
-    // with top level type `text` e.g. content-type
-    // header set to `text/html` or `text/plain`
-    // will both match
+    //这个handler将会被
+    //顶级类型为`text` 例如
+    //content-type被设置为`text/html` 或者 `text/plain`的任意请求
+    //匹配
 
   });
 ----
 
-And you can also match on the top level type
+而且你也可以匹配顶级类型
 
 [source,java]
 ----
@@ -781,42 +782,42 @@ router.route()
   .consumes("*/json")
   .handler(ctx -> {
 
-    // This handler will be called for any request with sub-type json
-    // e.g. content-type header set to `text/json` or
-    // `application/json` will both match
+    //这个handler将会被子类型为json的任意请求调用
+    //例如content-type请求头设置为`text/json`或者
+    // `application/json` 都会匹配
 
   });
 ----
 
-If you don't specify a `/` in the consumers, it will assume you meant the sub-type.
+如果你没有在consumer中指定一个`/`，它会假定你指的是子类型
 
-== Routing based on MIME types acceptable by the client
+== 基于客户端可接收的MIME类型的路由
 
-The HTTP `accept` header is used to signify which MIME types of the response are acceptable to the client.
+HTTP `accept` 请求头用于表示客户端可以接受响应的MIME类型
 
-An `accept` header can have multiple MIME types separated by '`,`'.
+一个 `accept` 请求头可以包含多个MIME类型，其之间用 '`,`' 分割
 
-MIME types can also have a `q` value appended to them* which signifies a weighting to apply if more than one
-response MIME type is available matching the accept header. The q value is a number between 0 and 1.0.
-If omitted it defaults to 1.0.
+MIME类型还可以附加一个 `q` 值*，这表示如果有多个响应MIME类型与接受请求头匹配，则指定一个权重
+q值是0到1.0之间的数字。
+如果省略，则默认为1.0。
 
-For example, the following `accept` header signifies the client will accept a MIME type of only `text/plain`:
+举个例子，下面的 `accept` 请求头则指定客户端将只能接收 `text/plain` 的MIME类型数据
 
 Accept: text/plain
 
-With the following the client will accept `text/plain` or `text/html` with no preference.
+客户端将接受 `text/plain` 或 `text/html` ，没有优先级
 
 Accept: text/plain, text/html
 
-With the following the client will accept `text/plain` or `text/html` but prefers `text/html` as it has a higher
-`q` value (the default value is q=1.0)
+客户端将接受 `text/plain` 或 `text/html` ，但更喜欢 `text/html` ，因为它有一个更高的
+`q` 值(默认q=1.0)
 
 Accept: text/plain; q=0.9, text/html
 
-If the server can provide both text/plain and text/html it should provide the text/html in this case.
+如果服务端可以同时提供 text/plain 和 text/html，在这个例子里面它应当提供 text/html
 
-By using `link:../../apidocs/io/vertx/ext/web/Route.html#produces-java.lang.String-[produces]` you define which MIME type(s) the route produces, e.g. the
-following handler produces a response with MIME type `application/json`.
+通过使用 `link:../../apidocs/io/vertx/ext/web/Route.html#produces-java.lang.String-[produces]` 你可以决定Route可以产生那个(哪些) MIME 类型 例如
+下面这个handler会产生一个MIME类型为 `application/json` 的响应
 
 [source,java]
 ----
@@ -832,17 +833,18 @@ router.route()
 ----
 
 In this case the route will match with any request with an `accept` header that matches `application/json`.
+在这种情况下，Route将匹配带有 `accept` 请求头且匹配 `application/json` 的任何请求。
 
-Here are some examples of `accept` headers that will match:
+这有一些 `accept` 请求头将如何匹配的例子
 
 Accept: application/json
 Accept: application/*
 Accept: application/json, text/html
 Accept: application/json;q=0.7, text/html;q=0.8, text/plain
 
-You can also mark your route as producing more than one MIME type. If this is the case, then you use
-`link:../../apidocs/io/vertx/ext/web/RoutingContext.html#getAcceptableContentType--[getAcceptableContentType]` to find out the actual MIME type that
-was accepted.
+您还可以将您的路由标记为生成多个MIME类型。如果是这样，那么使用
+`link:../../apidocs/io/vertx/ext/web/RoutingContext.html#getAcceptableContentType--[getAcceptableContentType]`
+找出实际被接收的MIME类型
 
 [source,java]
 ----
@@ -853,7 +855,7 @@ router.route()
 
     HttpServerResponse response = ctx.response();
 
-    // Get the actual MIME type acceptable
+    // 获取真正可接受的MIME类型
     String acceptableContentType = ctx.getAcceptableContentType();
 
     response.putHeader("content-type", acceptableContentType);
@@ -861,30 +863,33 @@ router.route()
   });
 ----
 
-In the above example, if you sent a request with the following `accept` header:
+在上面的例子中，如果你发送了一个带有以下 `accept` 请求头的请求:
 
 Accept: application/json; q=0.7, text/html
 
-Then the route would match and `acceptableContentType` would contain `text/html` as both are
-acceptable but that has a higher `q` value.
+然后路由将匹配，`acceptableContentType` 将包含' text/html '
 
-== Routing based on VirtualHost
+两个都是可以接受的但是它有更高的 `q` 值
 
-You can configure that a `Route` will match against the request hostname.
+== 基于VirtualHost的路由
+
+您可以配置一个 `Route` 将与请求主机名匹配
 
 Request are checked against the `Host` header to a match and patterns allow the usage of `*` wildcards, as for
 example `*.vertx.io` or fully domain names as `www.vertx.io`.
+请求会根据 `Host` 请求头进行匹配检查，这种模式允许使用 `*` 通配符
+ 举个例子 `*.vertx.io` 或完全域名为 `www.vertx.io` 。
 
 [source,java]
 ----
 router.route().virtualHost("*.vertx.io").handler(ctx -> {
-  // do something if the request is for *.vertx.io
+  //如果请求符合 *.vertx.io 则做一些事情
 });
 ----
 
-== Combining routing criteria
+== 组合多个路由条件
 
-You can combine all the above routing criteria in many different ways, for example:
+你可以用不同方式组合上面所有的路由条件，举个例子：
 
 [source,java]
 ----
@@ -893,51 +898,51 @@ router.route(HttpMethod.PUT, "myapi/orders")
   .produces("application/json")
   .handler(ctx -> {
 
-    // This would be match for any PUT method to paths starting
-    // with "myapi/orders" with a content-type of "application/json"
-    // and an accept header matching "application/json"
+   //这个将匹配PUT方法，请求路径以"myapi/orders"开头
+   //且 content-type为"application/json"和 accept请求头为"application/json"
+   //的任意请求
 
   });
 ----
 
-== Enabling and disabling routes
+== 启用或者关闭Route
 
-You can disable a route with `link:../../apidocs/io/vertx/ext/web/Route.html#disable--[disable]`. A disabled route will be ignored when matching.
+你可以通过 `link:../../apidocs/io/vertx/ext/web/Route.html#disable--[disable]` 关闭一个Route。一个被关闭的Route将会在匹配过程中被忽略
 
-You can re-enable a disabled route with `link:../../apidocs/io/vertx/ext/web/Route.html#enable--[enable]`
+你可以通过使用 `link:../../apidocs/io/vertx/ext/web/Route.html#enable--[enable]` 重新启用一个被关闭的Route
 
-== Forward Support
+== 对Forward的支持
 
-Your application may be behind a proxy server, `HAProxy` for example. When working under this setup accessing the
-client connection details will not properly return the expected results. For example the client host ip address will
-be the proxy server ip address, not the client's one.
+你的应用可能位于一个代理服务器之后,比如 `HAProxy`。在此设置下工作时，获取客户端连接细节将不能正确返回预期结果
+举个例子，
+客户端的主机ip地址可能是代理服务器的ip地址，而不是实际客户端的ip地址
 
-In order to get the right connection information, a special header `Forward` has been standardized to include the right
-information. However this standard is not very old, so many proxies out there have been using other headers that usually
-start with the prefix: `X-Forward`. Vert.x web allows the usage and parsing of these headers but not by default.
+为了获取正确的连接信息，一个特殊的请求头 `Forward` 已经被标准化，以包括正确的
+信息。虽然这个标准不是很老，但是很多代理已经使用其他请求头，通常
+以前缀 `X-Forward` 开头。Vert.x web允许使用和解析这些请求头信息，但不是默认的。
 
-The reason why these headers are disabled by default is to prevent malicious applications to forge their origin and hide
-where they are really coming from.
+这些请求头在默认情况下禁用的原因是为了防止恶意应用程序伪造它们的来源
+和隐藏他们真正的来源。
 
-As previously mentioned forward is disabled by default, to enable you should use:
+如前所述，默认情况下forward是禁用的，要启用，你应该使用:
 
 [source,java]
 ----
 router.allowForward(AllowForwardHeaders.FORWARD);
 
-// we can now allow forward header parsing
-// and in this case only the "X-Forward" headers will be considered
+// 你现在可以允许解析forward请求头了
+// 在这种情况下，只会考虑"X-Forward"请求头
 router.allowForward(AllowForwardHeaders.X_FORWARD);
 
-// we can now allow forward header parsing
-// and in this case both the "Forward" header and "X-Forward" headers
-// will be considered, yet the values from "Forward" take precedence
-// this means if case of a conflict (2 headers for the same value)
-// the "Forward" value will be taken and the "X-Forward" ignored.
+//我们现在可以允许forward请求头解析
+//在这个例子中是"Forward"请求头和"X-Forward"请求头
+//将被考虑，但是来自"Forward"的值优先
+//这意味着如果发生冲突(2个请求头的值相同)
+//接收"Forward"值，忽略"X-Forward"。
 router.allowForward(AllowForwardHeaders.ALL);
 ----
 
-Same rule applies to explicitly disable the parsing of the headers:
+同样的规则也适用于显式禁用请求头的解析:
 
 [source,java]
 ----
@@ -945,27 +950,28 @@ router.allowForward(AllowForwardHeaders.NONE);
 ----
 
 To read more about the format of the header format, please consult:
+要阅读更多关于请求头格式的格式，请查看
 
 * https://tools.ietf.org/html/rfc7239#section-4
 * https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Forwarded
 
-Behind the scenes, what this feature does is changing the following values of your connection (either HTTP or WebSocket):
+在幕后，这个特性所做的是改变你的连接(HTTP或WebSocket)的以下值:
 
 * protocol
 * host name
 * host port
 
-== Context data
+== 上下文数据
 
-You can use the context data in the `link:../../apidocs/io/vertx/ext/web/RoutingContext.html[RoutingContext]` to maintain any data that you
-want to share between handlers for the lifetime of the request.
+你可以使用 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html[RoutingContext]` 保存任何
+在请求生命周期内你想在多个handler之间共享的数据
 
-Here's an example where one handler sets some data in the context data and a subsequent handler retrieves it:
+下面是一个例子，其中一个handler在上下文数据中设置一些数据，然后一个后续的处理程序获取它:
 
-You can use the `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#put-java.lang.String-java.lang.Object-[put]` to put any object, and
-`link:../../apidocs/io/vertx/ext/web/RoutingContext.html#get-java.lang.String-[get]` to retrieve any object from the context data.
+你可以使用 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#put-java.lang.String-java.lang.Object-[put]` 添加任何对象
+然后使用 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#get-java.lang.String-[get]` 获取任何来自于上下文的对象
 
-A request sent to path `/some/path/other` will match both routes.
+一个发送到 `/some/path/other` 的请求将匹配这两个Route
 
 [source,java]
 ----
@@ -979,22 +985,22 @@ router.get("/some/path").handler(ctx -> {
 router.get("/some/path/other").handler(ctx -> {
 
   String bar = ctx.get("foo");
-  // Do something with bar
+  // 用bar对象做一些事情
   ctx.response().end();
 
 });
 ----
 
-Alternatively you can access the entire context data map with `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#data--[data]`.
+你也可以使用 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#data--[data]` 获取全部的上下文数据map
 
-== Helper functions
+== 帮手函数
 
-While the routing context will allow you to access the underlying request and response objects, sometimes it will be
-more productive if a few shortcuts would be present to help with common tasks. A few helpers are present in the context
-to facilitate with this task.
+虽然路由上下文将允许您获取基础请求和响应对象，但有时如果有一些捷径可以帮助你完成常见的任务，你的工作效率会更高。
+有几个帮手才能在与上下文中
+可以便于完成这项任务。
 
-Serve an "attachment", an attachment is a response that will trigger the browser to open the response on the OS
-application configured to handle a specific mime type. Imagine you're generating a PDF:
+提供一个"附件"，附件是一个响应，它将触发浏览器打开配置为处理特定mime类型的操作系统应用程序
+假设你正在生成一个PDF文件:
 
 [source,java]
 ----
@@ -1003,77 +1009,76 @@ ctx
   .end(pdfBuffer);
 ----
 
-Perform a redirect to a different page or host. One example is to redirect to an HTTPS variant of the application:
+执行重定向到另一个页面或主机。一个例子是重定向到应用程序的HTTPS变体:
 
 [source,java]
 ----
 ctx.redirect("https://securesite.com/");
 
-// there is a special handling for the target "back".
-// In this case the redirect would send the user to the
-// referrer url or "/" if there's no referrer.
-
+//对于目标为”back"有一个特殊的处理。
+//在这种情况下，重定向会将用户发送到
+//referrer url或 "/"如果没有referrer。
 ctx.redirect("back");
 ----
 
-Send a JSON response to the client:
+向客户端发送一个JSON响应
 
 [source,java]
 ----
 ctx.json(new JsonObject().put("hello", "vert.x"));
-// also applies to arrays
+// 也可以用于数组
 ctx.json(new JsonArray().add("vertx").add("web"));
-// or any object that will be converted according
-// to the json encoder available at runtime.
+//或者任意对象
+//其将根据运行时的json编码器进行转化
 ctx.json(someObject);
 ----
 
-Simple content type check:
+简单的content-type验证
 
 [source,java]
 ----
 ctx.is("html"); // => true
 ctx.is("text/html"); // => true
 
-// When Content-Type is application/json
+//当content-type为application/json时
 ctx.is("application/json"); // => true
 ctx.is("html"); // => false
 ----
 
-Verify if a request is "fresh" with respect to the cache headers and the current values of last modified/ etag.
+验证有关缓存头和last modified/etag的当前值的请求是否"新鲜"
 
 [source,java]
 ----
 ctx.lastModified("Wed, 13 Jul 2011 18:30:00 GMT");
-// this will now be used to verify the freshness of the request
+// 现在将使用它来验证请求的新鲜度
 if (ctx.isFresh()) {
-  // client cache value is fresh perhaps we
-  // can stop and return 304?
+  //客户端缓存值是新鲜的，
+ //也许我们可以停止并返回304？
 }
 ----
 
-And a few other simple self explanatory shortcuts:
+和其他一些简单的无需解释的快捷方式
 
 [source,java]
 ----
 ctx.etag("W/123456789");
 
-// set the last modified value
+// 设置last modified 的值
 ctx.lastModified("Wed, 13 Jul 2011 18:30:00 GMT");
 
-// quickly end
+// 便捷结束响应
 ctx.end();
 ctx.end("body");
 ctx.end(buffer);
 ----
 
 
-== Reroute
+== 重路由
 
-Until now all routing mechanism allow you to handle your requests in a sequential way, however there might be times
-where you will want to go back. Since the context does not expose any information about the previous or next handler,
-mostly because this information is dynamic there is a way to restart the whole routing from the start of the current
-Router.
+到目前为止，所有路由机制都允许您以顺序的方式处理请求，
+但是有时您可能希望后退。由于上下文没有公开有关上一个或下一个handler的任何信息，
+主要是因为此信息是动态的，
+因此有一种方法可以从当前路由器的开头重新启动整个路由。
 
 [source,java]
 ----
@@ -1093,15 +1098,14 @@ router
   .handler(ctx -> ctx.reroute("/some/path/B"));
 ----
 
-So from the code you can see that if a request arrives at `/some/path` if first add a value to the context, then
-moves to the next handler that re routes the request to `/some/path/B` which terminates the request.
+因此，从代码中您可以看到，如果请求首先到达 `/some/path` 且最先向上下文中添加一个值，
+然后移至下一个handler，该处理程序将请求重新路由至 `/some/path/B”，从而终止请求。
 
-You can reroute based on a new path or based on a new path and method. Note however that rerouting based on method
-might introduce security issues since for example a usually safe GET request can become a DELETE.
+您可以基于新路径或基于新路径和方法重新路由。
+但是请注意，基于方法的重新路由可能会引入安全性问题，因为例如通常安全的GET请求可能会变为DELETE。
 
-Reroute is also allowed on the failure handler, however due to the nature of re router when called the current status
-code and failure reason are reset. In order the rerouted handler should generate the correct status code if needed,
-for example:
+失败处理程序上也允许重新路由，但是由于重新路由的性质，当被调用时，当前状态代码和失败原因将会重置
+为了在需要时重新路由的处理程序应生成正确的状态代码，例如：
 
 [source,java]
 ----
@@ -1118,46 +1122,46 @@ router.get().failureHandler(ctx -> {
 });
 ----
 
-It should be clear that reroute works on `paths`, so if you need to preserve and or add state across reroutes, one
-should use the `RoutingContext` object. For example you want to reroute to a new path with a extra parameter:
+应当清楚的是，重新路由可以在 `路径` 上使用，因此，如果您需要在重新路由之间保留和/或添加状态，则应使用 `RoutingContext` 对象。
+例如，您想使用额外的参数重新路由到新路径：
 
 [source,java]
 ----
 router.get("/final-target").handler(ctx -> {
-  // continue from here...
+  // 在这里做一些事情
 });
 
-// (Will reroute to /final-target including the query string)
+// 将会带着查询字符串重定向到 /final-target
 router.get().handler(ctx -> ctx.reroute("/final-target?variable=value"));
 
-// A safer way would be to add the variable to the context
+// 一个更安全的方法是将变量添加至上下文中
 router.get().handler(ctx -> ctx
   .put("variable", "value")
   .reroute("/final-target"));
 ----
 
-Reroute will re-parse the query params too. Be aware that previously query params will be discarded. The method
-will also silently discard and ignore any html fragment from the path. This is to keep the semantics of reroute
-consistent between a regular request and a re route.
+重新路由也会重新解析查询参数。请注意，先前的查询参数将被丢弃。
+该方法还将静默丢弃并忽略路径中的任何html片段。
+这是为了使重新路由的语义在常规请求和重新路由之间保持一致。
 
-If more information is required to be passed to the new request, it should use the context that is preserved all the
-lifetime of the HTTP transaction.
+如果需要将更多信息传递给新请求，
+则应使用在HTTP事务的整个生命周期中保留的上下文。
 
 
-== Sub-routers
+== 子路由器
 
-Sometimes if you have a lot of handlers it can make sense to split them up into multiple routers. This is also useful
-if you want to reuse a set of handlers in a different application, rooted at a different path root.
+有时，如果您有很多handler，则可以将它们拆分为多个Router。
+如果要在以不同路径根为根的不同应用程序中重用一组处handler，这也很有用。
 
-To do this you can mount a router at a _mount point_ in another router. The router that is mounted is called a
-_sub-router_. Sub routers can mount other sub routers so you can have several levels of sub-routers if you like.
+为此，您可以将Router挂载在另一个Router _挂载点_ 上。安装的Router称为 _子路由器_。
+子路由器可以挂载其他子路由器，因此您可以根据需要拥有多个级别的子路由器。
 
-Let's look at a simple example of a sub-router mounted with another router.
+让我们看一个简单的子路由挂载在其他路由上面的例子
 
-This sub-router will maintain the set of handlers that corresponds to a simple fictional REST API. We will mount that on another
-router. The full implementation of the REST API is not shown.
+该子路由器将维护简单的虚构REST API对应的handler。我们将其挂载在另一个路由器上。
+未显示REST API的完整实现。
 
-Here's the sub-router:
+这是一个子路由器
 
 [source,java]
 ----
@@ -1165,71 +1169,71 @@ Router restAPI = Router.router(vertx);
 
 restAPI.get("/products/:productID").handler(ctx -> {
 
-  // TODO Handle the lookup of the product....
+  //TODO 处理产品查找
   ctx.response().write(productJSON);
 
 });
 
 restAPI.put("/products/:productID").handler(ctx -> {
 
-  // TODO Add a new product...
+  //TODO 添加一个新产品
   ctx.response().end();
 
 });
 
 restAPI.delete("/products/:productID").handler(ctx -> {
 
-  // TODO delete the product...
+  // TODO 删除一个产品
   ctx.response().end();
 
 });
 ----
 
-If this router was used as a top level router, then GET/PUT/DELETE requests to urls like `/products/product1234`
-would invoke the  API.
+如果将此路由器用作顶级路由器，
+则对诸如 `/products/product1234` 之类的url的GET/PUT/DELETE请求将调用该API。
 
-However, let's say we already have a web-site as described by another router:
+但是，假设我们已经有另一个路由器描述的网站：
 
 [source,java]
 ----
 Router mainRouter = Router.router(vertx);
 
-// Handle static resources
+// 处理静态资源
 mainRouter.route("/static/*").handler(myStaticHandler);
 
 mainRouter.route(".*\\.templ").handler(myTemplateHandler);
 ----
 
-We can now mount the sub router on the main router, against a mount point, in this case `/productsAPI`
+现在，我们可以将子路由器挂载在主路由器上，安装点在本例中为 `/productsAPI`。
 
 [source,java]
 ----
 mainRouter.mountSubRouter("/productsAPI", restAPI);
 ----
 
-This means the REST API is now accessible via paths like: `/productsAPI/products/product1234`.
+这意味着现在可以通过以下路径访问REST API：`/productsAPI/products/product1234`。
 
-There are a couple of rules that must be fulfilled before sub routers can be used:
+在使用子路由器之前，必须满足一些规则
 
-* The route path must end with a wild card
-* Parameters are allowed but full regex patterns not
-* Only 1 handler can be registered before or after this call (but they can on a new route object for the same path)
-* Only 1 router per path object
+* 路由路径必须以通配符结尾。
+* 允许使用参数，但不能使用完整的正则表达式模式。
+* 在此调用之前或之后，只能注册1个处理程序（但它们可以在同一路径的新路由对象上注册
+* 每个路径对象仅1个路由器
 
-Validation happens at the time the router is added to the http server. This means that you cannot get any validation
-error during the build time because of the dynamic nature of sub routers. They depend on the context to be validated.
+验证是在将路由器添加到http服务器时进行的。这意味着由于子路由器的动态特性，在构建期间无法获得任何验证错误。
+它们取决于要验证的上下文。
 
-== Localization
+== 本地化
 
-Vert.x Web parses the `Accept-Language` header and provides some helper methods to identify which is the preferred
-locale for a client or the sorted list of preferred locales by quality.
+Vert.x Web解析 `Accept-Language` 请求头，
+并提供一些帮助方法来确定哪个是客户端的首选语言环境或按质量排序的首选语言环境列表。
 
 [source,java]
 ----
 Route route = router.get("/localized").handler(ctx -> {
-  // although it might seem strange by running a loop with a switch we
-  // make sure that the locale order of preference is preserved when
-  // replying in the users language.
+  //尽管通过switch运行循环可能看起来很奇怪，
+  // 但我们可以确保在使用用户语言进行响应时，
+ //保留了语言环境的优先顺序。
   for (LanguageHeader language : ctx.acceptableLanguages()) {
     switch (language.tag()) {
       case "en":
@@ -1246,40 +1250,39 @@ Route route = router.get("/localized").handler(ctx -> {
         return;
     }
   }
-  // we do not know the user language so lets just inform that back:
+  // 我们不知道用户使用的语言，因此请告知
   ctx.response().end("Sorry we don't speak: " + ctx.preferredLanguage());
 });
 ----
 
-The main method `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#acceptableLanguages--[acceptableLanguages]` will return the ordered list of locales the
-user understands, if you're only interested in the user prefered locale then the helper:
-`link:../../apidocs/io/vertx/ext/web/RoutingContext.html#preferredLanguage--[preferredLanguage]` will return the 1st element of the list or `null` if no
-locale was provided by the user.
+主要方法 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#acceptableLanguages--[acceptableLanguages]` 将返回用户理解的语言环境的有序列表，
+如果您只对用户偏爱的语言环境感兴趣，则使用这个帮手方法 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#preferredLanguage--[preferredLanguage]` 其将返回列表的第1个元素，
+如果用户未提供语言环境，则返回"null"。
 
-== Route match failures
+== 路由匹配失败
 
-If no routes match for any particular request, Vert.x-Web will signal an error depending on match failure:
+如果没有路由符合任何特定请求，则Vert.x-Web将根据匹配失败发出错误消息
 
-* 404 If no route matches the path
-* 405 If a route matches the path but don't match the HTTP Method
-* 406 If a route matches the path and the method but It can't provide a response with a content type matching `Accept` header
-* 415 If a route matches the path and the method but It can't accept the `Content-type`
-* 400 If a route matches the path and the method but It can't accept an empty body
+* 404 如果路径不能匹配
+* 405 如果路径匹配但是请求方法不匹配
+* 406 如果路径匹配,请求方法匹配但是它无法提供内容类型与 `Accept` 请求头匹配的响应
+* 415 如果路径匹配,请求方法匹配但是它不能接受 `Content-type`
+* 400 如果路径匹配,请求方法匹配但是它接收空方法体
 
-You can manually manage those failures using `link:../../apidocs/io/vertx/ext/web/Router.html#errorHandler-int-io.vertx.core.Handler-[errorHandler]`
+您可以使用 `link:../../apidocs/io/vertx/ext/web/Router.html#errorHandler-int-io.vertx.core.Handler-[errorHandler]` 手动管理这些错误。
 
-== Error handling
+== 错误处理
 
-As well as setting handlers to handle requests you can also set handlers to handle failures in routing.
+除了设置处理程序以处理请求之外，您还可以设置处理程序以处理路由过程中的错误
 
-Failure handlers are used with the exact same route matching criteria that you use with normal handlers.
+Failure handler使用与普通处理程序完全相同的路由匹配条件
 
-For example you can provide a failure handler that will only handle failures on certain paths, or for certain HTTP methods.
+例如，您可以提供一个错误处理器，该处理程序仅处理某些路径或某些HTTP方法上的错误。
 
-This allows you to set different failure handlers for different parts of your application.
+这使您可以为应用程序的不同部分设置不同的错误处理器。
 
-Here's an example failure handler that will only be called for failure that occur when routing to GET requests
-to paths that start with `/somepath/`:
+这是一个示例错误处理器，仅在将GET请求路由到以 `/somepath/` 开头的路径时发生的失败时
+才会调用该错误处理器：
 
 [source,java]
 ----
@@ -1287,20 +1290,20 @@ Route route = router.get("/somepath/*");
 
 route.failureHandler(ctx -> {
 
-  // This will be called for failures that occur
-  // when routing requests to paths starting with
-  // '/somepath/'
+  //以 '/somepath/'
+// 开头的路径时发生的错误时
+  //这个将会被调用
 
 });
 ----
 
-Failure routing will occur if a handler throws an exception, or if a handler calls
-`link:../../apidocs/io/vertx/ext/web/RoutingContext.html#fail-int-[fail]` specifying an HTTP status code to deliberately signal a failure.
+如果handler引发异常，或者如果handler调用 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#fail-int-[fail]` 并指定HTTP状态代码来故意发出失败信号，
+则会触发错误处理路由。
 
-If an exception is caught from a handler this will result in a failure with status code `500` being signalled.
+如果从handler中捕获到异常，则将导致失败，并发出状态代码 `500`。
 
-When handling the failure, the failure handler is passed the routing context which also allows the failure or failure code
-to be retrieved so the failure handler can use that to generate a failure response.
+处理错误时，将向故障处理器传递路由上下文，该路由上下文还允许获取故障或故障代码，
+以便错误处理器可以使用它来生成失败响应。
 
 [source,java]
 ----
@@ -1308,7 +1311,7 @@ Route route1 = router.get("/somepath/path1/");
 
 route1.handler(ctx -> {
 
-  // Let's say this throws a RuntimeException
+  //让我们抛出一个RuntimeException
   throw new RuntimeException("something happened!");
 
 });
@@ -1317,50 +1320,50 @@ Route route2 = router.get("/somepath/path2");
 
 route2.handler(ctx -> {
 
-  // This one deliberately fails the request passing in the status code
-  // E.g. 403 - Forbidden
+  // 这是一个故意使请求传递状态码的错误
+  // 比如 403-访问被拒绝
   ctx.fail(403);
 
 });
 
-// Define a failure handler
-// This will get called for any failures in the above handlers
+//定义一个错误处理器
+//它将会被上面handler里面发生的任何异常触发
 Route route3 = router.get("/somepath/*");
 
 route3.failureHandler(failureRoutingContext -> {
 
   int statusCode = failureRoutingContext.statusCode();
 
-  // Status code will be 500 for the RuntimeException
-  // or 403 for the other failure
+  // RuntimeException的状态码将为500
+  // 或403，表示其他失败
   HttpServerResponse response = failureRoutingContext.response();
   response.setStatusCode(statusCode).end("Sorry! Not today");
 
 });
 ----
 
-For the eventuality that an error occurs when running the error handler related usage of not allowed characters in
-status message header, then the original status message will be changed to the default message from the error code.
-This is a tradeoff to keep the semantics of the HTTP protocol working instead of abruptly creash and close the socket
-without properly completing the protocol.
+如果在运行与状态消息头中不允许字符的使用相关的错误处理器时发生错误，
+那么原始状态消息将从错误代码更改为默认消息。
+这是保持HTTP协议语义正常工作的一种折衷，
+而不是在没有正确完成协议的情况下突然崩溃并关闭套接字。
 
-== Request body handling
+== 请求体处理
 
-The `link:../../apidocs/io/vertx/ext/web/handler/BodyHandler.html[BodyHandler]` allows you to retrieve request bodies, limit body sizes and handle
-file uploads.
+`link:../../apidocs/io/vertx/ext/web/handler/BodyHandler.html[BodyHandler]` 允许你获取请求体
+限制请求体大小和处理文件上传
 
-You should make sure a body handler is on a matching route for any requests that require this functionality.
+你应该确保对于任何需要此功能的请求，请求体处理器都在匹配的路由上
 
-The usage of this handler requires that it is installed as soon as possible in the router since it needs
-to install handlers to consume the HTTP request body and this must be done before executing any async call.
+使用此处理器需要将其尽快安装在路由器中，
+因为它需要安装处理程序以使用HTTP请求体，并且必须在执行任何异步调用之前完成此操作。
 
 [source,java]
 ----
 router.route().handler(BodyHandler.create());
 ----
 
-If an async call is required before, the `HttpServerRequest` should be paused and then resumed so that the request
-events are not delivered until the body handler is ready to process them.
+如果之前需要异步调用，则应暂停 `HttpServerRequest` 然后再恢复，
+以便在请求体处理器准备好处理它们之前，不传递请求事件。
 
 [source,java]
 ----
@@ -1368,59 +1371,59 @@ router.route().handler(ctx -> {
 
   HttpServerRequest request = ctx.request();
 
-  // Pause the request
+  // 暂停请求
   request.pause();
 
   someAsyncCall(result -> {
 
-    // Resume the request
+    // 恢复请求
     request.resume();
 
-    // And continue processing
+    // 继续处理
     ctx.next();
   });
 });
 
-// This body handler will be called for all routes
+// 这个请求体处理器将会被所有的Route调用
 router.route().handler(BodyHandler.create());
 ----
 
-NOTE: Uploads can be a source of DDoS attacks, in order to reduce the attack surface, it is recommended to
-set sensible limits on `link:../../apidocs/io/vertx/ext/web/handler/BodyHandler.html#setBodyLimit-long-[setBodyLimit]` (e.g.: 10mb for general uploads or
-100kb for JSON).
+NOTE: 上传可能是DDoS攻击的来源，为了减少攻击面，建议
+设置合适的 `link:../../apidocs/io/vertx/ext/web/handler/BodyHandler.html#setBodyLimit-long-[setBodyLimit]` (例如 10MB的上传限制 或者
+100KB的json大小限制).
 
-=== Getting the request body
+=== 获取请求体
 
-If you know the request body is JSON, then you can use `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#getBodyAsJson-int-[getBodyAsJson]`,
-if you know it's a string you can use `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#getBodyAsString--[getBodyAsString]`, or to
-retrieve it as a buffer use `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#getBody--[getBody]`.
+如果你知道请求体是个JSON，然后你可以使用 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#getBodyAsJson-int-[getBodyAsJson]`
+如果你知道他是个字符串，你可以使用 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#getBodyAsString--[getBodyAsString]`，
+或者使用 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#getBody--[getBody]`  获取buffer
 
-=== Limiting body size
+=== 限制请求体大小
 
-To limit the size of a request body, create the body handler then use `link:../../apidocs/io/vertx/ext/web/handler/BodyHandler.html#setBodyLimit-long-[setBodyLimit]`
-to specifying the maximum body size, in bytes. This is useful to avoid running out of memory with very large bodies.
+为了限制请求体大小，创建请求体处理器然后使用 `link:../../apidocs/io/vertx/ext/web/handler/BodyHandler.html#setBodyLimit-long-[setBodyLimit]` 指定最大请求体大小
+这对于防止过大请求体导致耗尽内存很有用
 
-If an attempt to send a body greater than the maximum size is made, an HTTP status code of 413 - `Request Entity Too Large`,
-will be sent.
+如果尝试发送大于最大大小的正文，
+则会发送HTTP状态代码413- `Request Entity Too Large`。
 
-There is no body limit by default.
+默认情况下没有最大请求体大小限制
 
-=== Merging form attributes
+=== 合并表单属性
 
-By default, the body handler will merge any form attributes into the request parameters. If you don't want this behaviour
-you can use disable it with `link:../../apidocs/io/vertx/ext/web/handler/BodyHandler.html#setMergeFormAttributes-boolean-[setMergeFormAttributes]`.
+默认情况下，请求体处理器会将所有表单属性合并到请求参数中
+如果你不想这样做，你可以通过 `link:../../apidocs/io/vertx/ext/web/handler/BodyHandler.html#setMergeFormAttributes-boolean-[setMergeFormAttributes]` 关闭这个功能
 
-=== Handling file uploads
+=== 处理文件上传
 
-Body handler is also used to handle multi-part file uploads.
+请求体处理器还用于处理多部分文件的上传。
 
-If a body handler is on a matching route for the request, any file uploads will be automatically streamed to the
-uploads directory, which is `file-uploads` by default.
+如果请求体处理器处于与请求匹配的路由上，
+则任何文件上传将自动流式传输到uploads目录，默认情况下为 `file-uploads`。
 
-Each file will be given an automatically generated file name, and the file uploads will be available on the routing
-context with `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#fileUploads--[fileUploads]`.
+每一个文件都会自动生成一个文件名，而且文件上传将通过 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#fileUploads--[fileUploads]`
+在路由上下文中可用
 
-Here's an example:
+这是一个例子:
 
 [source,java]
 ----
@@ -1434,38 +1437,38 @@ router.post("/some/path/uploads").handler(ctx -> {
 });
 ----
 
-Each file upload is described by a `link:../../apidocs/io/vertx/ext/web/FileUpload.html[FileUpload]` instance, which allows various properties
-such as the name, file-name and size to be accessed.
+每个文件上传均由一个 `link:../../apidocs/io/vertx/ext/web/FileUpload.html[FileUpload]` 实例描述，
+该实例允许访问各种属性，例如名称，文件名和大小。
 
-== Handling cookies
+== 处理cookie
 
-Vert.x-Web has out of the box cookies support.
+Vert.x-Web 有开箱即用的cookie支持
 
-=== Manipulating cookies
+=== 操作 cookies
 
-You use `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#getCookie-java.lang.String-[getCookie]` to retrieve
-a cookie by name, or use `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#cookieMap--[cookieMap]` to retrieve the entire set.
+你可以使用 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#getCookie-java.lang.String-[getCookie]` 按名获取一个cookie
+或者使用 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#cookieMap--[cookieMap]` 获取整个set集合
 
-To remove a cookie, use `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#removeCookie-java.lang.String-[removeCookie]`.
+使用 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#removeCookie-java.lang.String-[removeCookie]` 移除一个cookie
 
-To add a cookie use `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#addCookie-io.vertx.core.http.Cookie-[addCookie]`.
+使用 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#addCookie-io.vertx.core.http.Cookie-[addCookie]`，添加一个cookie
 
-The set of cookies will be written back in the response automatically when the response headers are written so the
-browser can store them.
+当写入响应头后，
+这组Cookie会自动写回到响应中，以便浏览器可以存储它们。
 
-Cookies are described by instances of `link:../../apidocs/io/vertx/core/http/Cookie.html[Cookie]`. This allows you to retrieve the name,
-value, domain, path and other normal cookie properties.
+cookie被 `link:../../apidocs/io/vertx/core/http/Cookie.html[Cookie]` 实例所描述。
+它允许你获取名称，值，域，路径和其他cookie属性
 
-Here's an example of querying and adding cookies:
+这是一个查询并添加cookie的例子
 
 [source,java]
 ----
 Cookie someCookie = ctx.getCookie("mycookie");
 String cookieValue = someCookie.getValue();
 
-// Do something with cookie...
+// 使用cookie做一些事情
 
-// Add a cookie - this will get written back in the response automatically
+// 添加一个cookie——他将自动写回到响应中
 ctx.addCookie(Cookie.cookie("othercookie", "somevalue"));
 ----
 
