@@ -428,7 +428,7 @@ mongoClient.count("books", query, res -> {
 
 MongoDB 的所有文档数据都存储在集合中。
 
-To get a list of all collections you can use `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#getCollections-io.vertx.core.Handler-[getCollections]`
+您可以用 `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#getCollections-io.vertx.core.Handler-[getCollections]` 来获取所有集合的列表
 
 [source,java]
 ----
