@@ -87,7 +87,7 @@ MongoClient client = MongoClient.createShared(vertx, config, "MyPoolName");
 === 创建非共享数据源的客户端对象
 
 在大部分情况下，您希望在不同客户端实例间共享一个连接池。
-但是，在有些情况下，您可能想要使用一个不给其他客户端共享连接的连接池，来创建一个客户端实例
+但是，在有些情况下，您可能想要使用一个不与其它客户端共享连接的连接池，以创建一个客户端实例。
 
 此时您可使用 `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#create-io.vertx.core.Vertx-io.vertx.core.json.JsonObject-[MongoClient.create]`。
 
