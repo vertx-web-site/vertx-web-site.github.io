@@ -40,7 +40,7 @@ compile 'io.vertx:vertx-mongo-client:4.0.3'
 [[_creating_a_client]]
 == 创建客户端
 
-您有以下几种方式来创建客户端：
+您可用以下几种方式创建客户端：
 
 [[_using_the_default_shared_pool]]
 === 使用默认的共享连接池
