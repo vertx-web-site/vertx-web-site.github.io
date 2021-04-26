@@ -89,7 +89,7 @@ MongoClient client = MongoClient.createShared(vertx, config, "MyPoolName");
 在大部分情况下，您希望在不同客户端实例间共享一个连接池。
 但是，在有些情况下，您可能想要使用一个不给其他客户端共享连接的连接池，来创建一个客户端实例
 
-这时，您可以使用 `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#create-io.vertx.core.Vertx-io.vertx.core.json.JsonObject-[MongoClient.create]`。
+此时您可使用 `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#create-io.vertx.core.Vertx-io.vertx.core.json.JsonObject-[MongoClient.create]`。
 
 [source,java]
 ----
