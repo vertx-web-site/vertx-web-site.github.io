@@ -778,7 +778,7 @@ gridFsClient.findIds(query, res -> {
 它具有以下字段：
 `id` : 当文件存储到GridFS时，ID会自动生成。
 
-例如：通过ID来删除文件
+例如：通过ID删除文件。
 
 [source,java]
 ----
