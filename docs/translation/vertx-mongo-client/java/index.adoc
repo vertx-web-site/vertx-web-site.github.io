@@ -663,7 +663,7 @@ mongoClient.save("books", document, res -> {
 === 获取一个可与GridFS交互的MongoGridFsClient。
 
 通过调用 `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#createGridFsBucketService-java.lang.String-io.vertx.core.Handler-[createGridFsBucketService]` 方法，
-并且给方法提供一个 bucket 名称，可创建一个 `link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html[MongoGridFsClient]`客户端。
+并且给方法提供一个 bucket 名称，可创建一个 `link:../../apidocs/io/vertx/ext/mongo/MongoGridFsClient.html[MongoGridFsClient]` 客户端。
 在 GridFS 中，bucket 名称最终是一个集合，该集合包含对所有存储对象的引用。
 您可以通过提供一个唯一的名称将对象隔离到不同的bucket中。
 
