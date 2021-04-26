@@ -500,7 +500,7 @@ mongoClient.runCommand("aggregate", command, res -> {
 [[_mongodb_extended_json_support]]
 === MongoDB的JSON扩展支持
 
-目前，MongoDB 只支持 date，oid 和 binary 类型
+目前，MongoDB 只支持 `date` ， `oid` 和 `binary` 类型
 （请参考：http://docs.mongodb.org/manual/reference/mongodb-extended-json[MongoDB Extended JSON] ）
 
 例如插入含有 date 类型字段的文档：
