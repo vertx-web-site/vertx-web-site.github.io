@@ -58,7 +58,7 @@ MongoClient client = MongoClient.createShared(vertx, config);
 ----
 
 只有第一次调用 `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html#createShared-io.vertx.core.Vertx-io.vertx.core.json.JsonObject-[MongoClient.createShared]`
-才会真正的根据 您指定的config创建一个连接池
+才会真正的根据您指定的 config 配置创建连接池。
 
 之后再调用此方法，只会返回一个新的客户端对象，但使用的是相同的数据源。因此这时 config 参数不再有作用。
 
