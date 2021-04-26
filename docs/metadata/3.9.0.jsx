@@ -171,8 +171,8 @@ const entries = [
   },
   {
     id: "vertx-mongo-client",
-    name: "MongoDB Client",
-    description: "MongoDB client.",
+    name: "MongoDB 客户端",
+    description: "MongoDB 客户端",
     category: "databases",
     href: "/vertx-mongo-client/java/",
     repository: "https://github.com/vert-x3/vertx-mongo-client",
