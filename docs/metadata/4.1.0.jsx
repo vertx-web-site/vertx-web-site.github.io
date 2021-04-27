@@ -16,4 +16,18 @@ insert(docs, "vertx-opentracing",
     }
 )
 
+insert(docs, "vertx-sql-client-templates",
+    {
+        id: "vertx-mssql-client",
+        name: "MSSQL Client",
+        description: "The Reactive MSSQL client.",
+        category: "databases",
+        href: "/vertx-mssql-client/java/",
+        repository: "https://github.com/eclipse-vertx/vertx-sql-client",
+        edit: "https://github.com/eclipse-vertx/vertx-sql-client/tree/master/vertx-mssql-client/src/main/asciidoc",
+        examples: "https://github.com/vert-x3/vertx-examples/tree/3.x/reactive-sql-client-examples",
+        label: "Technical Preview"
+      }
+)
+
 export default docs
