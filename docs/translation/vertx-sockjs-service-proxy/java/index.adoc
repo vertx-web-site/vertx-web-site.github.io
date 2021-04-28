@@ -7,7 +7,7 @@
 而Vert.x SockJS服务代理生成的客户端就可以在浏览器或Node.js应用中使用。
 这些客户端依赖SockJS桥来将Vert.x事件总线中的事件传出/传入SockJS。
 
-[[_using_vert.x_sockjs_service_proxy]]
+[[_using_vert_x_sockjs_service_proxy]]
 == 使用Vert.x SockJS 服务代理
 
 要使用Vert.x SockJS 服务代理，需要添加如下依赖
@@ -40,7 +40,7 @@ compile 'io.vertx:vertx-service-proxy:${vertx.version}'
 
 在更进一步之前，我们建议您去查阅 http://vertx.io/docs/vertx-service-proxy/java[服务代理文档].
 
-[[_consuming_your_service_from_a_browser_or_from_node.js]]
+[[_consuming_your_service_from_a_browser_or_from_node_js]]
 == 在浏览器或者Node.js应用中调用你的服务
 
 上一节展示了如何在Java中创建服务代理。然而，您可以使用基于SockJS的代理直接在浏览器或node.js应用中调用服务。
