@@ -572,7 +572,7 @@ route.handler(ctx -> {
 });
 ----
 
-如果您的应用程序需要自定义 HTTP 动词，例如，在一个 `基于Web的分布式编写和版本控制（WebDAV）` 服务器中，
+如果您的应用程序需要自定义 HTTP 动词，例如，在一个 `WebDAV` 服务器中，
 您可这样自定义动词：
 
 [source,java]
@@ -594,7 +594,7 @@ NOTE: 请务必留意，像 rerouting 等特性不接受自定义 http 方法，
 路由器会逐级检查每条Route否匹配
 如果匹配的话，该Route的handler将被调用。
 
-如果这个handler接下来会调用`link:../../apidocs/io/vertx/ext/web/RoutingContext.html#next--[next]`方法
+如果这个handler接下来会调用 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#next--[next]` 方法
 则下一个匹配的路由(如果有的话)的handler将被调用。等等。
 
 这里有一个例子来说明
@@ -651,14 +651,14 @@ route3
 对于任何以' /some/path '开头的请求，路由都是按照这个顺序被调用的
 
 如果你想要覆盖默认的Route顺序
-你可以使用`link:../../apidocs/io/vertx/ext/web/Route.html#order-int-[order]`
+你可以使用 `link:../../apidocs/io/vertx/ext/web/Route.html#order-int-[order]`
 指定一个整数类型的值
 
 Route在创建时被分配的顺序与它们被添加到Router的顺序相对应
-第一个Route编号为`0`，第二个Route编号为`1`，以此类推。
+第一个Route编号为 `0`，第二个Route编号为 `1`，以此类推。
 
 通过给Route指定order你可以覆盖默认值，order可以为负值，举个例子
-如果想要确保一个Route在order为`0`的Route之前执行则可以这样做
+如果想要确保一个Route在order为 `0` 的Route之前执行则可以这样做
 
 让我们更改route2的order值让他在route1之前执行
 
@@ -716,18 +716,18 @@ route3
 
 如果两个匹配的Route都具有相同的order值，则按照他们添加的属性被调用
 
-你也可以指定一个路由最后调用，参考`link:../../apidocs/io/vertx/ext/web/Route.html#last--[last]`
+你也可以指定一个路由最后调用，参考 `link:../../apidocs/io/vertx/ext/web/Route.html#last--[last]`
 
 NOTE: 只能在配置handler之前指定路由顺序！
 
 == 基于请求MIME类型的路由
 
-通过使用`link:../../apidocs/io/vertx/ext/web/Route.html#consumes-java.lang.String-[consumes]`，你可以指定route将与的哪种请求MIME类型相匹配
+通过使用 `link:../../apidocs/io/vertx/ext/web/Route.html#consumes-java.lang.String-[consumes]`，你可以指定route将与的哪种请求MIME类型相匹配
 
-在这种情况下，请求将包含一个`content-type`请求头，指定请求体的MIME类型
-这将匹配`link:../../apidocs/io/vertx/ext/web/Route.html#consumes-java.lang.String-[consumes]`指定的值
+在这种情况下，请求将包含一个 `content-type` 请求头，指定请求体的MIME类型
+这将匹配 `link:../../apidocs/io/vertx/ext/web/Route.html#consumes-java.lang.String-[consumes]` 指定的值
 
-基本上，`consumes`用于描述这个handler将可以 _处理_ 哪些MIME类型
+基本上，`consumes` 用于描述这个handler将可以 _处理_ 哪些MIME类型
 
 匹配可以在精确的MIME类型匹配上进行:
 
@@ -789,7 +789,7 @@ router.route()
   });
 ----
 
-如果你没有在consumer中指定一个`/`，它会假定你指的是子类型
+如果你没有在consumer中指定一个 `/` ，它会假定你指的是子类型
 
 == 基于客户端可接收的MIME类型的路由
 
@@ -797,20 +797,19 @@ HTTP `accept` 请求头用于表示客户端可以接受响应的MIME类型
 
 一个 `accept` 请求头可以包含多个MIME类型，其之间用 '`,`' 分割
 
-MIME类型还可以附加一个 `q` 值*，这表示如果有多个响应MIME类型与接受请求头匹配，则指定一个权重
+MIME类型还可以附加一个 `q` 值，这表示如果有多个响应MIME类型与接受请求头匹配，则指定一个权重
 q值是0到1.0之间的数字。
 如果省略，则默认为1.0。
 
-举个例子，下面的 `accept` 请求头则指定客户端将只能接收 `text/plain` 的MIME类型数据
+举个例子，下面的 `accept` 请求头则指定客户端将只能接收 `text/plain` 的MIME类型数据：
 
 Accept: text/plain
 
-客户端将接受 `text/plain` 或 `text/html` ，没有优先级
+客户端将接受 `text/plain` 或 `text/html` ，没有优先级：
 
 Accept: text/plain, text/html
 
-客户端将接受 `text/plain` 或 `text/html` ，但更喜欢 `text/html` ，因为它有一个更高的
-`q` 值(默认q=1.0)
+客户端将接受 `text/plain` 或 `text/html` ，但更喜欢 `text/html` ，因为它有一个更高的`q` 值(默认q=1.0)：
 
 Accept: text/plain; q=0.9, text/html
 
@@ -875,15 +874,13 @@ Accept: application/json; q=0.7, text/html
 
 您可以配置一个 `Route` 将与请求主机名匹配
 
-Request are checked against the `Host` header to a match and patterns allow the usage of `*` wildcards, as for
-example `*.vertx.io` or fully domain names as `www.vertx.io`.
 请求会根据 `Host` 请求头进行匹配检查，这种模式允许使用 `*` 通配符
  举个例子 `*.vertx.io` 或完全域名为 `www.vertx.io` 。
 
 [source,java]
 ----
 router.route().virtualHost("*.vertx.io").handler(ctx -> {
-  //如果请求符合 *.vertx.io 则做一些事情
+  //如果请求符合 *.vertx.io，则做一些事情
 });
 ----
 
@@ -996,10 +993,9 @@ router.get("/some/path/other").handler(ctx -> {
 == 帮手函数
 
 虽然路由上下文将允许您获取基础请求和响应对象，但有时如果有一些捷径可以帮助你完成常见的任务，你的工作效率会更高。
-有几个帮手才能在与上下文中
-可以便于完成这项任务。
+有几个帮手存在于上下文中可以便于完成这项任务。
 
-提供一个"附件"，附件是一个响应，它将触发浏览器打开配置为处理特定mime类型的操作系统应用程序
+提供一个"附件"，附件是一种响应，它将触发浏览器打开配置为处理特定MIME类型的操作系统应用程序。
 假设你正在生成一个PDF文件:
 
 [source,java]
@@ -1028,7 +1024,7 @@ ctx.redirect("back");
 ctx.json(new JsonObject().put("hello", "vert.x"));
 // 也可以用于数组
 ctx.json(new JsonArray().add("vertx").add("web"));
-//或者任意对象
+//或者用于任意对象
 //其将根据运行时的json编码器进行转化
 ctx.json(someObject);
 ----
@@ -1073,7 +1069,7 @@ ctx.end(buffer);
 ----
 
 
-== 重路由
+== 重新路由
 
 到目前为止，所有路由机制都允许您以顺序的方式处理请求，
 但是有时您可能希望后退。由于上下文没有公开有关上一个或下一个handler的任何信息，
@@ -1122,7 +1118,7 @@ router.get().failureHandler(ctx -> {
 });
 ----
 
-应当清楚的是，重新路由可以在 `路径` 上使用，因此，如果您需要在重新路由之间保留和/或添加状态，则应使用 `RoutingContext` 对象。
+应当清楚的是，重新路由可以在 `路径` 上使用，因此，如果您需要在重新路由之间保留或添加状态，则应使用 `RoutingContext` 对象。
 例如，您想使用额外的参数重新路由到新路径：
 
 [source,java]
@@ -1151,7 +1147,7 @@ router.get().handler(ctx -> ctx
 == 子路由器
 
 有时，如果您有很多handler，则可以将它们拆分为多个Router。
-如果要在以不同路径根为根的不同应用程序中重用一组处handler，这也很有用。
+如果要在不同路径根的不同应用程序中重用一组handler，这也很有用。
 
 为此，您可以将Router挂载在另一个Router _挂载点_ 上。安装的Router称为 _子路由器_。
 子路由器可以挂载其他子路由器，因此您可以根据需要拥有多个级别的子路由器。
@@ -1159,7 +1155,7 @@ router.get().handler(ctx -> ctx
 让我们看一个简单的子路由挂载在其他路由上面的例子
 
 该子路由器将维护简单的虚构REST API对应的handler。我们将其挂载在另一个路由器上。
-未显示REST API的完整实现。
+其未显示REST API的完整实现。
 
 这是一个子路由器
 
@@ -1349,10 +1345,10 @@ route3.failureHandler(failureRoutingContext -> {
 
 == 请求体处理
 
-`link:../../apidocs/io/vertx/ext/web/handler/BodyHandler.html[BodyHandler]` 允许你获取请求体
+`link:../../apidocs/io/vertx/ext/web/handler/BodyHandler.html[BodyHandler]` 允许你获取请求体，
 限制请求体大小和处理文件上传
 
-你应该确保对于任何需要此功能的请求，请求体处理器都在匹配的路由上
+你应该确保对于任何需要此功能的请求，请求体处理器都应在匹配的路由上
 
 使用此处理器需要将其尽快安装在路由器中，
 因为它需要安装处理程序以使用HTTP请求体，并且必须在执行任何异步调用之前完成此操作。
@@ -1394,7 +1390,7 @@ NOTE: 上传可能是DDoS攻击的来源，为了减少攻击面，建议
 
 === 获取请求体
 
-如果你知道请求体是个JSON，然后你可以使用 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#getBodyAsJson-int-[getBodyAsJson]`
+如果你知道请求体是个JSON，然后你可以使用 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#getBodyAsJson-int-[getBodyAsJson]` ，
 如果你知道他是个字符串，你可以使用 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#getBodyAsString--[getBodyAsString]`，
 或者使用 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#getBody--[getBody]`  获取buffer
 
@@ -1403,7 +1399,7 @@ NOTE: 上传可能是DDoS攻击的来源，为了减少攻击面，建议
 为了限制请求体大小，创建请求体处理器然后使用 `link:../../apidocs/io/vertx/ext/web/handler/BodyHandler.html#setBodyLimit-long-[setBodyLimit]` 指定最大请求体大小
 这对于防止过大请求体导致耗尽内存很有用
 
-如果尝试发送大于最大大小的正文，
+如果尝试发送大于最大大小的请求体，
 则会发送HTTP状态代码413- `Request Entity Too Large`。
 
 默认情况下没有最大请求体大小限制
@@ -1432,7 +1428,7 @@ router.route().handler(BodyHandler.create());
 router.post("/some/path/uploads").handler(ctx -> {
 
   Set<FileUpload> uploads = ctx.fileUploads();
-  // Do something with uploads....
+  // 使用uploads做一些事情
 
 });
 ----
@@ -1468,39 +1464,38 @@ String cookieValue = someCookie.getValue();
 
 // 使用cookie做一些事情
 
-// 添加一个cookie——他将自动写回到响应中
+// 添加一个cookie——它将自动写回到响应中
 ctx.addCookie(Cookie.cookie("othercookie", "somevalue"));
 ----
 
-== Handling sessions
+== 处理session
 
-Vert.x-Web provides out of the box support for sessions.
+Vert.x-Web提供了开箱即用的session支持
 
-Sessions last between HTTP requests for the length of a browser session and give you a place where you can add
-session-scope information, such as a shopping basket.
+session存活在在浏览器会话周期的HTTP请求之间，
+它给予了你一个可以储存seession作用域信息的地方，比如购物车
 
-Vert.x-Web uses session cookies to identify a session. The session cookie is temporary and will be deleted by your browser
-when it's closed.
+Vert.x-Web 使用session cookie来识别session
+这个session cookie是临时的，而且当其关闭的时候你的浏览器会将其删除
 
-We don't put the actual data of your session in the session cookie - the cookie simply uses an identifier to look-up
-the actual session on the server. The identifier is a random UUID generated using a secure random, so it should
-be effectively unguessable.
+我们并不会将你session中的真实数据放到session cookie中——这个cookie只是简单的使用标记符在服务器上寻找真实的session
+这个标记符是一个使用安全随机数生成的随机UUID
+所以它应该实际上是不可被推测出来的
 
-Cookies are passed across the wire in HTTP requests and responses so it's always wise to make sure you are using
-HTTPS when sessions are being used. Vert.x will warn you if you attempt to use sessions over straight HTTP.
+cookie在HTTP请求和响应中通过网络传递，因此确保在使用会话时使用HTTPS始终是明智的。
+如果您尝试通过直接HTTP使用会话，则Vert.x会警告您。
 
-To enable sessions in your application you must have a `link:../../apidocs/io/vertx/ext/web/handler/SessionHandler.html[SessionHandler]`
-on a matching route before your application logic.
+为了启用在你的应用程序中session，
+你必须在应用程序逻辑之前的匹配路由上具有一个 `link:../../apidocs/io/vertx/ext/web/handler/SessionHandler.html[SessionHandler]`
 
-The session handler handles the creation of session cookies and the lookup of the session so you don't have to do
-that yourself.
+这个session处理器会处理session cookie的生成和寻找对应session
+所以你无需自己去做这些事情
 
-Sessions data is saved to a session store automatically after the response headers have been sent to the client.
-But note that, with this mechanism, there is no guarantee the data is fully persisted before the client receives the response.
-There are occasions though when this guarantee is needed.
-In this case you can force a flush.
-This will disable the automatic saving process, unless the flushing operation failed.
-This allows to control the state before completing the response like:
+在响应头发回给客户端之后，session中的数据会自动地保存在session储存器中
+但是请注意,因为这个机制，它并不保证这个数据在客户端收到相应之前完全保留
+在这例子中你可以强制刷新一下
+除非刷新操作失败，否则这将禁用自动保存过程。
+这样可以在完成响应之前控制状态，例如：
 
 [source,java]
 ----
@@ -1511,25 +1506,25 @@ ChainAuthHandler chain =
       .add(authNHandlerB)
       .add(authNHandlerC));
 
-// secure your route
+// 保护你的路由
 router.route("/secure/resource").handler(chain);
-// your app
+// 你的应用
 router.route("/secure/resource").handler(ctx -> {
   // do something...
 });
 ----
 
-Vert.x Session Handler state by default uses a cookie to store session ID. Session ID is a unique string, used to
-recognize individual visitor between visits. But, if client's web browser doesn't support cookies or visitor has
-disabled cookies in web browser's settings, we can't store session id on client's machine. In this case, new session
-will be created for every request. This behavior is useless because we can't remember information for certain visitor
-between two requests. We can say that, by default, sessions can't work if browser doesn't support cookies.
+默认情况下，Vert.x session处理器的状态使用cookie存储session ID。session ID是一个唯一的字符串，用于识别两次访问之间的单个访问者 。
+但是，如果客户端的网络浏览器不支持cookie或访问者已在网络浏览器的设置中禁用了cookie，则我们无法在客户端的计算机上存储session ID。
+在这种情况下，将为每个请求创建新的会话。
+这种行为是无用的，因为我们无法记住两个请求之间特定访问者的信息。
+我们可以说，默认情况下，如果浏览器不支持cookie，则session将无法工作。
 
-Vert.x Web supports sessions without cookies, known as "cookieless" sessions. As an alternative, Vert.x Web can embed
-session id inside of page URL. On this way, all page links will contain session id string. When visitor clicks on some
-of these links, it will read session id from page URL, so we don't need cookies support to have functional sessions.
+Vert.x Web支持不使用cookie的session，称为"无cookie"session。
+作为替代，Vert.x Web可以将session ID嵌入页面URL内。这样，所有页面链接都将包含session ID字符串。
+当访问者单击其中的某些链接时，它将从页面URL读取session ID，因此我们不需要cookie支持即可进行功能性session。
 
-To enable cookieless sessions:
+启动无cookies session
 
 [source,java]
 ----
@@ -1537,94 +1532,92 @@ router.route()
   .handler(SessionHandler.create(store).setCookieless(true));
 ----
 
-It is important to know that in this mode the session ID should be passed by the application to the end user, usually by
-rendering it on the HTML page or script. There are some important rules. The session id is identified by the following
-pattern on the path `/optional/path/prefix/'('sessionId')'/path/suffix`.
+知道在这种情况下session ID会被应用传递给最终的用户这一点非常重要，通常来讲通过把他渲染到 HTML 页面或者脚本上
+有一些非常重要的规则，session ID 会由 `/optional/path/prefix'('sessionId')'/path/suffix` 上的以下模式标识。
 
-As an example, given the path: `http://localhost:2677/WebSite1/(S(3abhbgwjg33aqrt3uat2kh4d))/api/` the session Id will
-be: `3abhbgwjg33aqrt3uat2kh4d`.
+举个例子，给出一个路径 `http://localhost:2677/WebSite1/(S(3abhbgwjg33aqrt3uat2kh4d))/api/` ,
+session ID在这种情况下，是 `3abhbgwjg33aqrt3uat2kh4d`
 
-Main security problem when working with sessions is a possibility that malicious user will find out others' session id.
-If two users share same session id, they share same session variables too and website is considering them as one
-visitor. This could be a security risk if session is used for any private or sensitive data, or to allow access to
-restricted areas of web site. When cookies are used, session id can be protected using SSL and by marking a cookie as
-secure. But, in case of cookieless session, session id is part of URL and is much more vulnerable.
+如果两个用户共享一个相同的session ID，他们也将共享同样的session变量，而且网站会将其认为是同一个访问者
+如果session被用于储存私密或者敏感的数据将是一个安全危机，或允许访问网站的受限区域
+当cookie被使用时，session ID可以通过SSL和标记cookie为secure进行保护。
+但是在无cookie session的情况下，session id是URL的一部分，而且这非常容易受到损害
 
+=== session储存
 
-=== Session stores
+创建一个session处理器，你需要一个session储存器实例。
+这个session储存器是一个可以为你的应用储存实际session的对象
 
-To create a session handler you need to have a session store instance. The session store is the object that
-holds the actual sessions for your application.
+session存储器负责保存安全的伪随机数生成器，以保证安全的session ID。
+此PRNG独立于储存器，这意味着从储存器A获得的会话ID不能获取储存器B的会话ID，
+因为它们具有不同的种子和状态。
 
-The session store is responsible for holding a secure pseudo random number generator in order to guarantee secure session
-ids. This PRNG is independent of the store which means that given a session id from store A one cannot derive the
-session id of store B since they have different seeds and states.
+通常情况下，PRNG使用混合模式，生成种子的时候会阻塞，生成时并不阻塞
+PRNG也将每5分钟重新设置64位新的熵。而且这也可以通过系统属性进行设置
 
-By default this PRNG uses a mixed mode, blocking for seeding, non blocking for generating. The PRNG will also reseed
-every 5 minutes with 64bits of new entropy. However this can all be configured using the system properties:
+* io.vertx.ext.auth.prng.algorithm 比如: SHA1PRNG
+* io.vertx.ext.auth.prng.seed.interval 比如: 1000 (every second)
+* io.vertx.ext.auth.prng.seed.bits 比如: 128
 
-* io.vertx.ext.auth.prng.algorithm e.g.: SHA1PRNG
-* io.vertx.ext.auth.prng.seed.interval e.g.: 1000 (every second)
-* io.vertx.ext.auth.prng.seed.bits e.g.: 128
+除非您注意到PRNG算法会影响应用程序的性能，
+否则大多数用户都不需要配置这些值。
 
-Most users should not need to configure these values unless if you notice that the performance of your application is
-being affected by the PRNG algorithm.
+Vert.x-Web具有两个开箱即用的sesion存储实现，如果您愿意，也可以编写自己的会话存储
 
-Vert.x-Web comes with two session store implementations out of the box, and you can also write your own if you prefer.
+这些实现应遵循 `ServiceLoader` 约定，
+所有从类路径下运行时可以用的储存都将被暴露出来
+当有多个实现可用时，第一个可以实例化并成功配置的实现将成为默认设置。
+如果没有可用的，则默认值取决于创建Vert.x的模式。
+如果集群模式可用，则默认配置为为集群储存，否则为本地存储。
 
-The implementations are expected to follow the `ServiceLoader` conventions and all stores that are available at runtime
-from the classpath will be exposed. When more than 1 implementations are available the first one that can be
-instantiated and configured with success becomes the default. If none is available, then the default depends on the mode
-Vert.x was created. If cluster mode is available the the clustered session store is the default otherwise the local
-storage is the default.
+==== 本地session储存
 
-==== Local session store
+通过这个储存器，session可以在内存中本地化储存，而且只在这个实例中可用
 
-With this store, sessions are stored locally in memory and only available in this instance.
+如果只有一个Vert.x实例正在应用程序中使用粘性session，
+并且已将负载均衡器配置为始终将HTTP请求路由到同一Vert.x实例，则此存储是合适的。
 
-This store is appropriate if you have just a single Vert.x instance of you are using sticky sessions in your application
-and have configured your load balancer to always route HTTP requests to the same Vert.x instance.
+如果你不能确保所有请求都将在同一服务器上终止，请不要使用此存储
+因为你的请求可能会在不知道对应session的服务器上结束。
 
-If you can't ensure your requests will all terminate on the same server then don't use this store as your
-requests might end up on a server which doesn't know about your session.
+本地session储存器通过shared local map实现，而且会由回收器清理过期的session
 
-Local session stores are implemented by using a shared local map, and have a reaper which clears out expired sessions.
+回收间隔将可以用json信息进行设置，它所对应的key值为 `reaperInterval` .
 
-The reaper interval can be configured with a json message with the key: `reaperInterval`.
-
-Here are some examples of creating a local `link:../../apidocs/io/vertx/ext/web/sstore/SessionStore.html[SessionStore]`
+下面是一个创建本地 `link:../../apidocs/io/vertx/ext/web/sstore/SessionStore.html[session储存器]` 的例子
 
 [source,java]
 ----
 SessionStore store1 = LocalSessionStore.create(vertx);
 
-// Create a local session store specifying the local shared map name to use
-// This might be useful if you have more than one application in the same
-// Vert.x instance and want to use different maps for different applications
+// 创建一个指定local shared map名的本地session储存
+// 如果你有多个应用在同一个Vert.x 实例中而且你想使用为不同的应用不同的map，
+// 这将非常有用
 SessionStore store2 = LocalSessionStore.create(
   vertx,
   "myapp3.sessionmap");
 
-// Create a local session store specifying the local shared map name to use and
-// setting the reaper interval for expired sessions to 10 seconds
+// 创建一个本地session储存器，
+// 其制定了local shared map名和设置了10s的清理周期用于清理过期session
 SessionStore store3 = LocalSessionStore.create(
   vertx,
   "myapp3.sessionmap",
   10000);
 ----
 
-==== Clustered session store
+==== 集群session储存器
 
-With this store, sessions are stored in a distributed map which is accessible across the Vert.x cluster.
+通过这个储存器，session可以储存在分布式map中，其可以跨Vert.x集群使用
 
-This store is appropriate if you're _not_ using sticky sessions, i.e. your load balancer is distributing different
-requests from the same browser to different servers.
+如果您 _不_ 使用粘性会话，即您的负载均衡器将来自同一浏览器的不同请求分发到不同的服务器
+，则此存储是合适的。
 
-Your session is accessible from any node in the cluster using this store.
+你的session在集群的任意一个节点只要通过这个储存器都是可用的
 
-To you use a clustered session store you should make sure your Vert.x instance is clustered.
+使用集群session储存器，你需要保证你的Vert.x实例是集群的
 
-Here are some examples of creating a clustered `link:../../apidocs/io/vertx/ext/web/sstore/SessionStore.html[SessionStore]`
+`link:../../apidocs/io/vertx/ext/web/sstore/SessionStore.html[SessionStore]`
+这有一些创建集群 `link:../../apidocs/io/vertx/ext/web/sstore/SessionStore.html[sessionstore]` 的例子
 
 [source,java]
 ----
@@ -1632,290 +1625,279 @@ Vertx.clusteredVertx(new VertxOptions(), res -> {
 
   Vertx vertx = res.result();
 
-  // Create a clustered session store using defaults
+  // 使用默认配置创建集群session储存
   SessionStore store1 = ClusteredSessionStore.create(vertx);
 
-  // Create a clustered session store specifying the distributed map name to use
-  // This might be useful if you have more than one application in the cluster
-  // and want to use different maps for different applications
+  // 指分布式map的名字创建集群session存储器
+  // 如果你有多个应用在同一个集群中而且你想使用为不同的应用不同的map，
+  // 这将非常有用
   SessionStore store2 = ClusteredSessionStore.create(
     vertx,
     "myclusteredapp3.sessionmap");
 });
 ----
 
-==== Other stores
+==== 其他储存方式
 
-Other stores are also available, these stores can be used by importing the correct jar
-to the project. One example of such stores is the cookie store. This store has the advantage
-that it requires no backend or server side state, which can be useful it some situations
-**BUT** all session data will be sent back to the client in the Cookie, so if you need to store
-private information this should not be used.
+其他储存方式也是可行的,这些储存可通过导入正确的jar包到你的项目里面使用。
+一个这种储存的例子就是cookie储存器。
+此存储的优点是不需要后端或服务器端状态，这在某些情况下很有用，
+**但是**所有会话数据都将通过Cookie发送回客户端，因此，如果您需要存储私有信息，则不应使用。
 
-This store is appropriate if you're using sticky sessions, i.e. your load balancer is
-distributing different requests from the same browser to different servers.
+如果您使用粘性会话，则此存储是合适的，
+即您的负载均衡器将来自同一浏览器的不同请求分发到不同的服务器。
 
-As the session is stored in the Cookie, this means sessions survive server crashes too.
+由于会话存储在Cookie中，因此会话也可以在服务器崩溃后幸免
 
-A second known implementation is the Redis session store. This store works just like the normal cluster store, however
-just like it's name suggests, it uses a redis backend to keep the session data centralized.
+第二个已知的实现是Redis session储存器。
+该储存器的工作方式与普通集群存储区相同，但是，顾名思义，它使用redis作为后端将会话数据集中化。
 
-These stores are available with the coordinates:
+这些储存器可在这些坐标上可用
 
 * groupId: `io.vertx`
 * artifactId: `vertx-web-sstore-{cookie|redis}`
 
 
-=== Creating the session handler
+=== 创建session处理器
 
-Once you've created a session store you can create a session handler, and add it to a route. You should make sure
-your session handler is routed to before your application handlers.
+一旦你创建好session储存器，你就可以开始创建session处理器了，并且把他添加到Route中。
+你应该确保将会话处理程序路由到应用程序处理程序之前。
 
-Here's an example:
+这里有个例子
 
 [source,java]
 ----
 Router router = Router.router(vertx);
 
-// Create a clustered session store using defaults
+//使用默认配置创建一个集群session储存器
 SessionStore store = ClusteredSessionStore.create(vertx);
 
 SessionHandler sessionHandler = SessionHandler.create(store);
 
-// the session handler controls the cookie used for the session
-// this includes configuring, for example, the same site policy
-// like this, for strict same site policy.
+// session处理器控制用于session的cookie
+// 举个例子，它可以包含同站策略（译者注：即samesite policy）的配置
+// 比如这个，使用严格模式的同站策略
 sessionHandler.setCookieSameSite(CookieSameSite.STRICT);
 
-// Make sure all requests are routed through the session handler too
+// 确保所有请求都可以路由经过这个session处理器
 router.route().handler(sessionHandler);
 
-// Now your application handlers
+// 现在你的应用程序可以开始处理了
 router.route("/somepath/blah/").handler(ctx -> {
 
   Session session = ctx.session();
   session.put("foo", "bar");
-  // etc
+  // 等等
 
 });
 ----
 
-The session handler will ensure that your session is automatically looked up (or created if no session exists)
-from the session store and set on the routing context before it gets to your application handlers.
+session处理器会确保你的session会从session储存器中被自动地找出来(或者当session不存在时创建一个)，
+然后在到达你的应用程序处理器之前将其放置在路由上下文中
 
-=== Using the session
+=== 使用session
 
-In your handlers you can access the session instance with `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#session--[session]`.
+在你的处理器中你可以通过 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#session--[session]` 获取到session实例
 
-You put data into the session with `link:../../apidocs/io/vertx/ext/web/Session.html#put-java.lang.String-java.lang.Object-[put]`,
-you get data from the session with `link:../../apidocs/io/vertx/ext/web/Session.html#get-java.lang.String-[get]`, and you remove
-data from the session with `link:../../apidocs/io/vertx/ext/web/Session.html#remove-java.lang.String-[remove]`.
+你可以通过 `link:../../apidocs/io/vertx/ext/web/Session.html#put-java.lang.String-java.lang.Object-[put]`
+将数据放到session中
 
-The keys for items in the session are always strings. The values can be any type for a local session store, and for
-a clustered session store they can be any basic type, or `link:../../apidocs/io/vertx/core/buffer/Buffer.html[Buffer]`, `link:../../apidocs/io/vertx/core/json/JsonObject.html[JsonObject]`,
-`link:../../apidocs/io/vertx/core/json/JsonArray.html[JsonArray]` or a serializable object, as the values have to serialized across the cluster.
+你可以通过 `link:../../apidocs/io/vertx/ext/web/Session.html#get-java.lang.String-[get]` 从session中获取数据
+同时你也可以通过 `link:../../apidocs/io/vertx/ext/web/Session.html#remove-java.lang.String-[remove]` 从session移除数据
 
-Here's an example of manipulating session data:
+session中对象的键往往是字符串类型。
+对于本地session储存器其值可以是任何类型，对于集群session储存器中它可以是任何基础类型或 `link:../../apidocs/io/vertx/core/buffer/Buffer.html[Buffer]`, `link:../../apidocs/io/vertx/core/json/JsonObject.html[JsonObject]`,
+ `link:../../apidocs/io/vertx/core/json/JsonArray.html[JsonArray]` 或者一个可序列化的对象，因为这些值必须在整个集群中序列化。
+
+这是一个操作session中数据的例子
 
 [source,java]
 ----
 router.route().handler(sessionHandler);
 
-// Now your application handlers
+//现在是你的程序在处理
 router.route("/somepath/blah").handler(ctx -> {
 
   Session session = ctx.session();
 
-  // Put some data from the session
+  // 放置一些数据到session中
   session.put("foo", "bar");
 
-  // Retrieve some data from a session
+  // 从session获取数据
   int age = session.get("age");
 
-  // Remove some data from a session
+  // 从session中移除数据
   JsonObject obj = session.remove("myobj");
 
 });
 ----
 
-Sessions are automatically written back to the store after after responses are complete.
+在响应完成之后seession会被自动写回到储存器中
 
-You can manually destroy a session using `link:../../apidocs/io/vertx/ext/web/Session.html#destroy--[destroy]`. This will remove the session
-from the context and the session store. Note that if there is no session a new one will be automatically created
-for the next request from the browser that's routed through the session handler.
+你通过 `link:../../apidocs/io/vertx/ext/web/Session.html#destroy--[destroy]` 手动销毁session
+它会将session从上下文和session储存器中移除
+请注意，如果没有session，则将为通过session处理器的下一个来自浏览器的请求自动创建一个新会话。
 
-=== Session timeout
+=== session超时
 
-Sessions will be automatically timed out if they are not accessed for a time greater than the timeout period. When
-a session is timed out, it is removed from the store.
+如果session的未访问时间超过超时时间，则session将自动超时。
+当一个session超时时，它将会被从储存中移除
 
-Sessions are automatically marked as accessed when a request arrives and the session is looked up and and when the
-response is complete and the session is stored back in the store.
+当请求到达，session被查找以及当响应完成且会话被存储回存储器中时，
+session将被自动标记为已访问。
 
-You can also use `link:../../apidocs/io/vertx/ext/web/Session.html#setAccessed--[setAccessed]` to manually mark a session as accessed.
+你也可以使用 `link:../../apidocs/io/vertx/ext/web/Session.html#setAccessed--[setAccessed]` 手动为session打上已访问标记
 
-The session timeout can be configured when creating the session handler. Default timeout is 30 minutes.
+当创建session处理器时可以设置session的超时时间，其默认值为30分钟
 
-== Authentication / authorization
+== 认证/授权
 
-Vert.x comes with some out-of-the-box handlers for handling both authentication and authorization. In vert.x web
-the meanings for the 2 words are:
+Verx.x带有一些现成的处理器，用于处理身份验证和授权
+在Vert.x web中，这两个词的含义是：
 
-* *Authentication* - Tells who the user is
-* *Authorization* - Tells what the user is allowed to do
+* *身份认证* - 表明用户是谁
+* *授权* - 表明用户可以做什么
 
-While *Authentication* is tightened to a well known protocol, e.g.:
+而 *身份认证* 是严格到一个众所周知的协议，比如
 
 * HTTP Basic Authentication
 * HTTP Digest Authentication
 * OAuth2 Authentication
 * ...
 
-*Authorization* in vert.x is quite generic and can be used regardless of the prior. Yet it is also possible and a valid
-use case to use the same provider module for both cases.
+*授权* 在vert.x中是相当通用的，无论优先级如何都可以使用
+然而，在这两种情况下使用相同的提供者模块也是可能的，也是有效的用例。
 
-=== Creating an Authentication handler
+=== 创建一个身份认证处理器
 
-To create an auth handler you need an instance of `link:../../apidocs/io/vertx/ext/auth/authentication/AuthenticationProvider.html[AuthenticationProvider]`.
-Authentication provider is used for authentication of users. Vert.x provides several authentication provider instances
-out of the box in the vertx-auth project. For full information on auth providers and how to use and configure them
-please consult the auth documentation.
+创建一个验证处理器你需要一个 `link:../../apidocs/io/vertx/ext/auth/authentication/AuthenticationProvider.html[AuthenticationProvider]` 的实例
+身份认证提供者被用于认证用户身份。Vert.x在vertx-auth项目里面提供了几个开箱即用的身份认证提供者实例
+有关身份认证提供者以及如何使用和配置它们的完整信息，请查阅身份认证文档。
 
-Here's a simple example of creating a basic auth handler given an auth provider.
-
-[source,java]
-----
-router.route().handler(SessionHandler.create(LocalSessionStore.create(vertx)));
-
-AuthenticationHandler basicAuthHandler = BasicAuthHandler.create(authProvider);
-----
-
-=== Handling authentication in your application
-
-Let's say you want all requests to paths that start with `/private/` to be subject to authentication. To do that you
-make sure your authentication handler is before your application handlers on those paths:
+这里有一些关于创建提供身份认证的basic auth处理器的例子
 
 [source,java]
 ----
 router.route().handler(SessionHandler.create(LocalSessionStore.create(vertx)));
 
 AuthenticationHandler basicAuthHandler = BasicAuthHandler.create(authProvider);
+----
 
-// All requests to paths starting with '/private/' will be protected
+=== 在你的程序中处理身份认证
+
+假设你希望对以 `/private/` 开头的路径的所有请求都经过身份认证。
+为此，请确保在这些路径上，身份认证处理程序位于应用程序处理程序之前：
+
+[source,java]
+----
+router.route().handler(SessionHandler.create(LocalSessionStore.create(vertx)));
+
+AuthenticationHandler basicAuthHandler = BasicAuthHandler.create(authProvider);
+
+// 所有以'/private/'路径开头的请求都会被保护
 router.route("/private/*").handler(basicAuthHandler);
 
 router.route("/someotherpath").handler(ctx -> {
 
-  // This will be public access - no login required
+  // 这里是公开访问的地方 —— 不需要登录
 
 });
 
 router.route("/private/somepath").handler(ctx -> {
 
-  // This will require a login
+  // 这里需要登录
 
-  // This will have the value true
+  // 这里的值为true
   boolean isAuthenticated = ctx.user() != null;
 
 });
 ----
 
-If the authentication handler has successfully authenticated the user it will inject a `link:../../apidocs/io/vertx/ext/auth/User.html[User]`
-object into the `link:../../apidocs/io/vertx/ext/web/RoutingContext.html[RoutingContext]` so it's available in your handlers with:
-`link:../../apidocs/io/vertx/ext/web/RoutingContext.html#user--[user]`.
+如果身份认证处理器成功认证了用户，它将注入一个 `link:../../apidocs/io/vertx/ext/auth/User.html[User]` 对象到  `link:../../apidocs/io/vertx/ext/web/RoutingContext.html[RoutingContext]` 中
+因此它可以在你的处理器中通过 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#user--[user]` 获取到
 
-If you want your User object to be stored in the session so it's available between requests so you don't have to
-authenticate on each request, then you should make sure you have a session handler before the authentication handler.
+如果希望将User对象存储在session中，以便在请求之间可用，因此不必在每个请求上进行身份验证，
+则应确保在身份认证处理器之前具有session处理器。
 
-Once you have your user object you can also programmatically use the methods on it to authorize the user.
+一旦你拥有了你的user对象，你还可以以编程方式使用其上的方法来授权用户
 
-If you want to cause the user to be logged out you can call `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#clearUser--[clearUser]`
-on the routing context.
+如果你想要注销一个用户你可以调用 在路由上下文中 调用 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#clearUser--[clearUser]`
 
 === HTTP Basic Authentication
 
-http://en.wikipedia.org/wiki/Basic_access_authentication[HTTP Basic Authentication] is a simple means of authentication
-that can be appropriate for simple applications.
+http://en.wikipedia.org/wiki/Basic_access_authentication[HTTP Basic Authentication] 是一种适用于简单应用程序的简单身份认证方法。
 
-With basic authentication, credentials are sent unencrypted across the wire in HTTP headers so it's essential that you
-serve your application using HTTPS not HTTP.
+使用basic authentication时，凭据将以非加密方式通过HTTP标头通过网络发送，
+因此，必须使用HTTPS而不是HTTP为应用程序提供服务。
 
-With basic authentication, if a user requests a resource that requires authentication, the basic auth handler will send
-back a `401` response with the header `WWW-Authenticate` set. This prompts the browser to show a log-in dialogue and
-prompt the user to enter their username and password.
+使用basic authentication时，如果用户请求需要身份认证的资源，则basic auth处理器将发送带有标头 `WWW-Authenticate` 的 `401` 响应。
+这会提示浏览器显示登录对话框，并提示用户输入用户名和密码。
 
-The request is made to the resource again, this time with the `Authorization` header set, containing the username
-and password encoded in Base64.
+用户会再次向资源发出请求，这次设置了 `Authorization` 标头，其中包含以Base64编码的用户名和密码。
 
-When the basic auth handler receives this information, it calls the configured `link:../../apidocs/io/vertx/ext/auth/authentication/AuthenticationProvider.html[AuthenticationProvider]`
-with the username and password to authenticate the user. If the authentication is successful then the routing of the
-request is allowed to continue to the application handlers, otherwise a `403` response is returned to signify that
-access is denied.
+当basic auth处理器收到这个信息时，它会用用户名和密码调用配置好的 `link:../../apidocs/io/vertx/ext/auth/authentication/AuthenticationProvider.html[AuthenticationProvider]` 来认证用户。
+如果身份认证成功，则允许请求路由继续到应用程序处理器，否则返回 `403` 响应以表示拒绝访问。
 
-=== Redirect authentication handler
 
-With redirect authentication handling the user is redirected to towards a login page in the case they are trying to
-access a protected resource and they are not logged in.
+=== 重定向身份认证
 
-The user then fills in the login form and submits it. This is handled by the server which authenticates
-the user and, if authenticated redirects the user back to the original resource.
+使用重定向身份认证处理的情况下，如果用户尝试访问受保护的资源并且未登录，则将用户重定向到登录页面
 
-To use redirect auth you configure an instance of `link:../../apidocs/io/vertx/ext/web/handler/RedirectAuthHandler.html[RedirectAuthHandler]` instead of a
-basic authentication handler.
+然后，用户填写登录表单并提交。
+这由服务器进行处理，服务器对用户进行身份认证，如果通过身份认证，则将用户重定向回原始资源。
 
-You will also need to setup handlers to serve your actual login page, and a handler to handle the actual login itself.
-To handle the login we provide a prebuilt handler `link:../../apidocs/io/vertx/ext/web/handler/FormLoginHandler.html[FormLoginHandler]` for the purpose.
+要使用重定向身份验证，您可以配置 `link:../../apidocs/io/vertx/ext/web/handler/RedirectAuthHandler.html[RedirectAuthHandler]` 实例，而不是basic authentication处理器。
 
-Here's an example of a simple app, using a redirect auth handler on the default redirect url `/loginpage`.
+您还需要设置处理器以处理于您的实际登录页面，以及一个处理器来处理实际登录本身。
+为了处理登录，我们为此提供了一个预先构建的处理程序 `link:../../apidocs/io/vertx/ext/web/handler/FormLoginHandler.html[FormLoginHandler]`
+
+这里有一个简单app的例子，在默认重定向url `/loginpage` 上使用重定向认证处理器
 
 [source,java]
 ----
 router.route().handler(SessionHandler.create(LocalSessionStore.create(vertx)));
 
-// All requests to paths starting with '/private/' will be protected
+// 所有以'/private/'路径开头的请求都会被保护
 router
   .route("/private/*")
   .handler(RedirectAuthHandler.create(authProvider));
 
-// Handle the actual login
-// One of your pages must POST form login data
+// 处理实际的登录请求
+// 你其中一个页面必须要POST表单登陆数据
 router.post("/login").handler(FormLoginHandler.create(authProvider));
 
-// Set a static server to serve static resources, e.g. the login page
+// 设置静态服务器处理静态资源
 router.route().handler(StaticHandler.create());
 
 router
   .route("/someotherpath")
   .handler(ctx -> {
-    // This will be public access - no login required
+    //  这里是公开访问的地方 —— 不需要登录
   });
 
 router
   .route("/private/somepath")
   .handler(ctx -> {
 
-    // This will require a login
-
-    // This will have the value true
+    // 这里需要登录
+    // 这里的值是true
     boolean isAuthenticated = ctx.user() != null;
 
   });
 ----
 
-=== JWT authentication
+=== JWT 认证
 
-With JWT authentication resources can be protected by means of permissions and users without enough rights are denied
-access. You need to add the `io.vertx:vertx-auth-jwt:4.0.2` dependency to use `JWTAuthProvider`
+使用JWT身份认证可以通过权限保护资源，并且拒绝没有足够权限的用户访问。您需要添加 `io.vertx：vertx-auth-jwt：4.0.2` 依赖项才能使用 `JWTAuthProvider`。
 
-To use this handler there are 2 steps involved:
+使用这个处理器需要包含两步
 
-* Setup an handler to issue tokens (or rely on a 3rd party)
-* Setup the handler to filter the requests
+* 设置处理器以发放token（或依赖第三方）
+* 设置处理器过滤请求
 
-Please note that these 2 handlers should be only available on HTTPS, not doing so allows sniffing the tokens in
-transit which leads to session hijacking attacks.
+请注意，这两个处理器仅应在HTTPS上可用，如果不这样做，会导致允许嗅探正在传输的token，从而导致会话劫持攻击。
 
-Here's an example on how to issue tokens:
+这是一个如何发放token的例子
 
 [source,java]
 ----
@@ -1930,7 +1912,7 @@ JWTAuthOptions authConfig = new JWTAuthOptions()
 JWTAuth jwt = JWTAuth.create(vertx, authConfig);
 
 router.route("/login").handler(ctx -> {
-  // this is an example, authentication should be done with another provider...
+ //这是个例子，身份认证应当使用其他的提供者
   if (
     "paulo".equals(ctx.request().getParam("username")) &&
       "secret".equals(ctx.request().getParam("password"))) {
@@ -1942,8 +1924,7 @@ router.route("/login").handler(ctx -> {
 });
 ----
 
-Now that your client has a token all it is required is that *for all* consequent request the HTTP header
-`Authorization` is filled with: `Bearer <token>` e.g.:
+现在您的客户端拥有token，那么对于 *所有* 后续请求，HTTP标头 `Authorization` 都填充有：`Bearer <token>`，例如：
 
 [source,java]
 ----
@@ -1960,13 +1941,13 @@ JWTAuth authProvider = JWTAuth.create(vertx, authConfig);
 router.route("/protected/*").handler(JWTAuthHandler.create(authProvider));
 
 router.route("/protected/somepage").handler(ctx -> {
-  // some handle code...
+  // 一些处理器代码
 });
 ----
 
-JWT allows you to add any information you like to the token itself. By doing this there is no state in the server
-which allows you to scale your applications without need for clustered session data. In order to add data to the
-token, during the creation of the token just add data to the JsonObject parameter:
+JWT允许您将所需的任何信息添加到token本身。
+这样一来，服务器中就不存在状态，这样就可以允许您扩展应用程序而无需集群的会话数据。
+为了将数据添加到token，在token创建期间，只需将数据添加到JsonObject参数即可：
 
 [source,java]
 ----
@@ -1986,7 +1967,7 @@ authProvider
     new JWTOptions());
 ----
 
-And the same when consuming:
+和消费时一样：
 
 [source,java]
 ----
@@ -1996,105 +1977,102 @@ Handler<RoutingContext> handler = ctx -> {
 };
 ----
 
-=== Configuring authorization
+=== 配置授权
 
-Until now all examples were covering authentication. Authorization is the next logical step when dealing with user.
-While authentication was really specific to the protocol, *authorization* is independent, all information is extracted
-from the `User` object.
+到目前为止，所有示例都涉及身份认证。与用户打交道时，授权是下一个合乎逻辑的步骤。
+虽然身份认证确实是特定于协议的，但授权是独立的，所有信息均从 `User` 对象中提取。
 
-Before this is possible there is a need to load the authorizations to this same object. In order to do this the
-`link:../../apidocs/io/vertx/ext/web/handler/AuthorizationHandler.html[AuthorizationHandler]` should be used. An authorization handler will load all known
-authorizations from a given `link:../../apidocs/io/vertx/ext/auth/authorization/AuthorizationProvider.html[AuthorizationProvider]`.
+在此之前，需要将授权加载到该同一对象。
+为了做到这一点，应该使用 `link:../../apidocs/io/vertx/ext/web/handler/AuthorizationHandler.html[AuthorizationHandler]`。
+授权处理器将从给定的 `link:../../apidocs/io/vertx/ext/auth/authorization/AuthorizationProvider.html[AuthorizationProvider]`. 中
+加载所有已知的授权
+
 
 [source,java]
 ----
 router.route().handler(
-  // create the handler that will perform the attestation
+  // 创建将执行认证的处理器
   AuthorizationHandler.create(
-    // what to attest
+    // 认证什么
     PermissionBasedAuthorization.create("can-do-work"))
-    // where to lookup the authorizations for the user
+    // 在哪里查找用户的授权
     .addAuthorizationProvider(authProvider));
 ----
 
-The lookup can be performed on more than 1 source, just keep adding `addAuthorizationProvider(provider)` to the handler.
+可以在1个以上的源上执行查找，只需继续向处理程序中添加 `addAuthorizationProvider（provider` 即可。
 
-Here's an example of configuring an app so that different authorities are required for different parts of the
-app. Note that the meaning of the authorities is determined by the underlying auth provider that you use. E.g. some
-may support a role/permission based model but others might use another model.
+这是一个配置应用程序的示例，因为该应用程序的不同部分需要不同的权限。
+请注意，权限的含义由你使用的底层身份验证处理器确定。
+例如。一些可能支持基于角色权限的模型，但是其他可能使用其他模型。
 
 [source,java]
 ----
 router.route("/listproducts/*").handler(
-  // create the handler that will perform the attestation
+  // 创建将执行认证的处理器
   AuthorizationHandler.create(
-    // what to attest
+    // 认证什么
     PermissionBasedAuthorization.create("list_products"))
-    // where to lookup the authorizations for the user
+    // 在哪里查找用户的授权
     .addAuthorizationProvider(authProvider));
 
-// Only "admin" has access to /private/settings
+// 只有 "admin"可以访问 /private/settings
 router.route("/private/settings/*").handler(
-  // create the handler that will perform the attestation
+  // 创建将执行认证的处理器
   AuthorizationHandler.create(
-    // what to attest
+    // 认证什么
     RoleBasedAuthorization.create("admin"))
     .addAuthorizationProvider(authProvider));
 ----
 
-=== Chaining multiple authentication handlers
+=== 链接多个身份验证处理器
 
-There are times when you want to support multiple authentication mechanisms in a single application. For this you can
-use the `link:../../apidocs/io/vertx/ext/web/handler/ChainAuthHandler.html[ChainAuthHandler]`. The chain auth handler will attempt to perform
-authentication on a chain of handlers.
+有时您想在单个应用程序中支持多种身份认证机制。
+为此，您可以使用 `link:../../apidocs/io/vertx/ext/web/handler/ChainAuthHandler.html[ChainAuthHandler]` 。链式身份认证处理器将尝试对一系列处理程序执行身份认证。
 
-It is important to know that some handlers require specific providers, for example:
+重要的是要知道某些处理器需要特定的提供者，例如：
 
-* The `link:../../apidocs/io/vertx/ext/web/handler/JWTAuthHandler.html[JWTAuthHandler]` requires `link:../../apidocs/io/vertx/ext/auth/jwt/JWTAuth.html[JWTAuth]`.
-* The `link:../../apidocs/io/vertx/ext/web/handler/DigestAuthHandler.html[DigestAuthHandler]` requires `link:../../apidocs/io/vertx/ext/auth/htdigest/HtdigestAuth.html[HtdigestAuth]`.
-* The `link:../../apidocs/io/vertx/ext/web/handler/OAuth2AuthHandler.html[OAuth2AuthHandler]` requires `link:../../apidocs/io/vertx/ext/auth/oauth2/OAuth2Auth.html[OAuth2Auth]`.
-* The `link:../../apidocs/io/vertx/ext/web/handler/WebAuthnHandler.html[WebAuthnHandler]` requires `link:../../apidocs/io/vertx/ext/auth/webauthn/WebAuthn.html[WebAuthn]`.
+* The `link:../../apidocs/io/vertx/ext/web/handler/JWTAuthHandler.html[JWTAuthHandler]` 需要 `link:../../apidocs/io/vertx/ext/auth/jwt/JWTAuth.html[JWTAuth]`.
+* The `link:../../apidocs/io/vertx/ext/web/handler/DigestAuthHandler.html[DigestAuthHandler]` 需要 `link:../../apidocs/io/vertx/ext/auth/htdigest/HtdigestAuth.html[HtdigestAuth]`.
+* The `link:../../apidocs/io/vertx/ext/web/handler/OAuth2AuthHandler.html[OAuth2AuthHandler]` 需要 `link:../../apidocs/io/vertx/ext/auth/oauth2/OAuth2Auth.html[OAuth2Auth]`.
+* The `link:../../apidocs/io/vertx/ext/web/handler/WebAuthnHandler.html[WebAuthnHandler]` 需要 `link:../../apidocs/io/vertx/ext/auth/webauthn/WebAuthn.html[WebAuthn]`.
 
-So it is not expected that the providers will be shared across all handlers. There are cases where one can share the
-provider across handlers, for example:
+因此，不希望在所有处理程序之间共享提供者。
+在某些情况下，可以跨处理程序共享提供者，例如：
 
-* The `link:../../apidocs/io/vertx/ext/web/handler/BasicAuthHandler.html[BasicAuthHandler]` can take any provider.
-* The `link:../../apidocs/io/vertx/ext/web/handler/RedirectAuthHandler.html[RedirectAuthHandler]` can take any provider.
+* The `link:../../apidocs/io/vertx/ext/web/handler/BasicAuthHandler.html[BasicAuthHandler]` 可以接受任何提供者.
+* The `link:../../apidocs/io/vertx/ext/web/handler/RedirectAuthHandler.html[RedirectAuthHandler]` 可以接受任何提供者.
 
-So say that you want to create an application that accepts both `HTTP Basic Authentication` and `Form Redirect`. You
-would start configuring your chain as:
+假设您要创建一个接受 `HTTP Basic Authentication` 和 `Form Redirect` 的应用程序。您将链配置为：
 
 [source,java]
 ----
 ChainAuthHandler chain = ChainAuthHandler.any();
 
-// add http basic auth handler to the chain
+// 将http basic认证处理器添加到链中
 chain.add(BasicAuthHandler.create(provider));
-// add form redirect auth handler to the chain
+// 将表单重定向认证处理器添加到链中
 chain.add(RedirectAuthHandler.create(provider));
 
-// secure your route
+// 保护你的路由
 router.route("/secure/resource").handler(chain);
-// your app
+// 你的app
 router.route("/secure/resource").handler(ctx -> {
-  // do something...
+  // 做一些事情
 });
 ----
 
-So when a user makes a request without a `Authorization` header, this means that the chain will fail to authenticate
-with the basic auth handler and will attempt to authenticate with the redirect handler. Since the redirect handler
-always redirects you will be sent to the login form that you configured in that handler.
+因此，当用户发出没有 `Authorization` 标头的请求时，这意味着该链将无法使用basic auth处理器进行身份验证，并将尝试使用重定向处理器进行身份证。
+由于重定向处理器始终会将你重定向到发送你在处理器中配置的发送登录表单那里
 
-Like the normal routing in vertx-web, auth chaning is a sequence, so if you would prefer to fallback to your browser
-asking for the user credentials using HTTP Basic authentication instead of the redirect all you need to to is reverse
-the order of appending to the chain.
+就像vertx-web中的常规路由一样，身份认证链是一个序列。
+因此，如果你希望回退到浏览器中，使用HTTP Basic身份认证而不是重定向来询问用户凭据，那么您所需要做的就是反转加入到链的顺序
 
-Now assume that you make a request where you provide the header `Authorization` with the value `Basic [token]`. In
-this case the basic auth handler will attempt to authenticate and if it is sucessful the chain will stop and
-vertx-web will continue to process your handlers. If the token is not valid, for example bad username/password, then
-the chain will continue to the following entry. In this specific case the redirect auth handler.
+现在假设你在请求中向请求头 `Authorization` 提供了值 `Basic [token]`。
+在这种情况下，basic auth处理器将尝试进行身份认证，如果成功，链将停止，并且vertx-web将继续处理您的处理程序。
+如果token无效，例如用户名密码错误，则链将继续至下面的节点。
+在此特定情况就是重定向身份验证处理程序。
 
-Complex chaining is also possible, for example, building logic sequences such as: `HandlerA` OR (`HandlerB` AND `HandlerC`).
+复杂的链也是可行的，举个例子，创建一个逻辑序列比如：`HandlerA` 或 (`HandlerB` 和 `HandlerC`)
 
 [source,java]
 ----
@@ -2105,125 +2083,107 @@ ChainAuthHandler chain =
       .add(authNHandlerB)
       .add(authNHandlerC));
 
-// secure your route
+// 保护你的代码
 router.route("/secure/resource").handler(chain);
-// your app
+// 你的app
 router.route("/secure/resource").handler(ctx -> {
-  // do something...
+  // 做一些事情
 });
 ----
 
-== Serving static resources
+== 处理静态资源
 
-Vert.x-Web comes with an out of the box handler for serving static web resources so you can write static web servers
-very easily.
+Vert.x-Web带有开箱即用的处理器，用于处理静态Web资源，因此您可以非常轻松地编写静态Web服务器。
 
-To serve static resources such as `.html`, `.css`, `.js` or any other static resource, you use an instance of
-`link:../../apidocs/io/vertx/ext/web/handler/StaticHandler.html[StaticHandler]`.
+你需要一个 `link:../../apidocs/io/vertx/ext/web/handler/StaticHandler.html[StaticHandler]` 实例处理静态资源，比如 `.html`,
+`.css`, `.js` 或者其他任意静态资源。
 
-Any requests to paths handled by the static handler will result in files being served from a directory on the file system
-or from the classpath. The default static file directory is `webroot` but this can be configured.
+对静态处理器处理的路径的任何请求都由文件系统上的目录或类路径提供文件。
+默认静态文件目录为 `webroot`，但可以配置。
 
-In the following example all requests to paths starting with `/static/` will get served from the directory `webroot`:
+在下面的示例中，所有对以 `/static/` 开头的路径的请求都将从目录 `webroot` 得到响应：
 
 [source,java]
 ----
 router.route("/static/*").handler(StaticHandler.create());
 ----
 
-For example, if there was a request with path `/static/css/mystyles.css` the static serve will look for a file in the
-directory `webroot/css/mystyle.css`.
+例如，如果请求路径为 `static/css/mystyles.css`，则静态服务将在目录 `webroot/css/mystyle.css` 中查找文件。
 
-It will also look for a file on the classpath called `webroot/css/mystyle.css`. This means you can package up all your
-static resources into a jar file (or fatjar) and distribute them like that.
+它还会在类路径中寻找一个名为 `webroot/css/mystyle.css` 的文件。这意味着您可以将所有静态资源打包到一个jar文件（或fatjar）中，
+然后像这样分发它们。
 
-When Vert.x finds a resource on the classpath for the first time it extracts it and caches it in a temporary directory
-on disk so it doesn't have to do this each time.
+当Vert.x首次在类路径中找到资源时，它将提取该资源并将其缓存在磁盘上的临时目录中，因此不必每次都这样做。
 
-The handler will handle range aware requests. When a client makes a request to a static resource, the handler will
-notify that it can handle range aware request by stating the unit on the `Accept-Ranges` header. Further requests
-that contain the `Range` header with the correct unit and start and end indexes will then receive partial responses
-with the correct `Content-Range` header.
+处理器会处理范围感知的请求。当客户端向静态资源发出请求时，处理程序将通过在 `Accept-Ranges` 标头上声明该单元来通知其可以处理范围感知的请求。
+包含带有正确单位以及起始索引和结束索引的 `Range` 标头的进一步请求将收到带有正确 `Content-Range` 标头的部分响应。
 
-=== Configuring caching
+=== 配置缓存
 
-By default the static handler will set cache headers to enable browsers to effectively cache files.
+默认情况下，静态处理程序将设置缓存头，以使浏览器能够有效地缓存文件。
 
-Vert.x-Web sets the headers `cache-control`,`last-modified`, and `date`.
+Vert.x-Web 设置 `cache-control`,`last-modified`, 和 `date` 头
 
-`cache-control` is set to `max-age=86400` by default. This corresponds to one day. This can be configured with
-`link:../../apidocs/io/vertx/ext/web/handler/StaticHandler.html#setMaxAgeSeconds-long-[setMaxAgeSeconds]` if required.
+`cache-control` 默认情况下被设置为 `max-age=86400`。这相当于一天
+如果你需要，这也可以通过 `link:../../apidocs/io/vertx/ext/web/handler/StaticHandler.html#setMaxAgeSeconds-long-[setMaxAgeSeconds]` 配置
 
-If a browser sends a GET or a HEAD request with an `if-modified-since` header and the resource has not been modified
-since that date, a `304` status is returned which tells the browser to use its locally cached resource.
+如果浏览器发送带有 `if-modified-since` 标头的GET或HEAD请求，并且自该日期以来资源没有被修改，则返回 `304` 状态码，指示浏览器使用其本地缓存的资源。
 
-If handling of cache headers is not required, it can be disabled with `link:../../apidocs/io/vertx/ext/web/handler/StaticHandler.html#setCachingEnabled-boolean-[setCachingEnabled]`.
+如果不需要处理缓存头，则可以使用 `link:../../apidocs/io/vertx/ext/web/handler/StaticHandler.html#setCachingEnabled-boolean-[setCachingEnabled]` 将其禁用。
 
-When cache handling is enabled Vert.x-Web will cache the last modified date of resources in memory, this avoids a disk hit
-to check the actual last modified date every time.
+启用缓存处理后，Vert.x-Web将在内存中缓存资源的上次修改日期，这样可以避免每次访问磁盘时都要检查实际的上次修改日期。
 
-Entries in the cache have an expiry time, and after that time, the file on disk will be checked again and the cache
-entry updated.
+缓存中的条目有一个到期时间，在此时间之后，将再次检查磁盘上的文件并更新缓存中的条目
 
-If you know that your files never change on disk, then the cache entry will effectively never expire. This is the
-default.
+如果您知道文件永远不会在磁盘上更改，那么缓存条目将永远不会过期。这是默认值。
 
-If you know that your files might change on disk when the server is running then you can set files read only to false with
-`link:../../apidocs/io/vertx/ext/web/handler/StaticHandler.html#setFilesReadOnly-boolean-[setFilesReadOnly]`.
+如果您知道文件在服务器运行时可能会在磁盘上更改，则可以通过 `link:../../apidocs/io/vertx/ext/web/handler/StaticHandler.html#setFilesReadOnly-boolean-[setFilesReadOnly]` 设置文件只读属性为false。
 
-To enable the maximum number of entries that can be cached in memory at any one time you can use
-`link:../../apidocs/io/vertx/ext/web/handler/StaticHandler.html#setMaxCacheSize-int-[setMaxCacheSize]`.
+要启用一次可以在内存中缓存的最大条目数，可以使用 `link:../../apidocs/io/vertx/ext/web/handler/StaticHandler.html#setMaxCacheSize-int-[setMaxCacheSize]`.
 
-To configure the expiry time of cache entries you can use `link:../../apidocs/io/vertx/ext/web/handler/StaticHandler.html#setCacheEntryTimeout-long-[setCacheEntryTimeout]`.
+可以通过 `link:../../apidocs/io/vertx/ext/web/handler/StaticHandler.html#setCacheEntryTimeout-long-[setCacheEntryTimeout]` 配置缓存项的过期时间
 
-=== Configuring the index page
+=== 配置主页
 
-Any requests to the root path `/` will cause the index page to be served. By default the index page is `index.html`.
-This can be configured with `link:../../apidocs/io/vertx/ext/web/handler/StaticHandler.html#setIndexPage-java.lang.String-[setIndexPage]`.
+对根路径 `/` 的任何请求都将导致主页得到处理。默认情况下主页是 `index.html`
+它可以通过 `link:../../apidocs/io/vertx/ext/web/handler/StaticHandler.html#setIndexPage-java.lang.String-[setIndexPage]`.配置
 
-=== Changing the web root
+=== 更改web root
 
-By default static resources will be served from the directory `webroot`. To configure this use
-`link:../../apidocs/io/vertx/ext/web/handler/StaticHandler.html#setWebRoot-java.lang.String-[setWebRoot]`.
+默认情况下，静态资源将从目录 `webroot` 提供。可以通过 `link:../../apidocs/io/vertx/ext/web/handler/StaticHandler.html#setWebRoot-java.lang.String-[setWebRoot]` 进行配置这个
 
-=== Serving hidden files
+=== 处理隐藏文件
 
-By default the serve will serve hidden files (files starting with `.`).
+默认情况下，服务器将提供隐藏文件（以 `.` 开头的文件）。
 
-If you do not want hidden files to be served you can configure it with `link:../../apidocs/io/vertx/ext/web/handler/StaticHandler.html#setIncludeHidden-boolean-[setIncludeHidden]`.
+如果您不希望提供隐藏文件，则可以使用以下命令对其进行配置 `link:../../apidocs/io/vertx/ext/web/handler/StaticHandler.html#setIncludeHidden-boolean-[setIncludeHidden]`
 
-=== Directory listing
+=== 目录列表
 
-The server can also perform directory listing. By default directory listing is disabled. To enabled it use
-`link:../../apidocs/io/vertx/ext/web/handler/StaticHandler.html#setDirectoryListing-boolean-[setDirectoryListing]`.
+服务器还可以执行目录列表。默认情况下，目录列表处于禁用状态，可以使用 `link:../../apidocs/io/vertx/ext/web/handler/StaticHandler.html#setDirectoryListing-boolean-[setDirectoryListing]` 启用他
 
-When directory listing is enabled the content returned depends on the content type in the `accept` header.
+当目录列表被启用时，返回的内容取决于 `accept` 标头中的内容类型。
 
-For `text/html` directory listing, the template used to render the directory listing page can be configured with
-`link:../../apidocs/io/vertx/ext/web/handler/StaticHandler.html#setDirectoryTemplate-java.lang.String-[setDirectoryTemplate]`.
+对于 `text/html` 目录列表，可以使用 `link:../../apidocs/io/vertx/ext/web/handler/StaticHandler.html#setDirectoryTemplate-java.lang.String-[setDirectoryTemplate]` 配置用于呈现目录列表页面的模板
 
-=== Disabling file caching on disk
+=== 关闭在磁盘上的文件缓存
 
-By default, Vert.x will cache files that are served from the classpath into a file on disk in a sub-directory of a
-directory called `.vertx` in the current working directory. This is mainly useful when deploying services as
-fatjars in production where serving a file from the classpath every time can be slow.
+默认情况下，Vert.x将把从类路径提供的文件缓存到当前工作目录中名为 `.vertx` 的目录的子目录中的磁盘上的文件中。
+当在生产环境中将服务部署为Fatjar时，这尤其有用，因为每次生产时从类路径提供文件的速度都会很慢。
 
-In development this can cause a problem, as if you update your static content while the server is running, the
-cached file will be served not the updated file.
+在开发中，这可能会引起问题，就像在服务器运行时更新静态内容一样，只会提供缓存的文件而不是实际更新的文件
 
-To disable file caching you can provide your vert.x options the property `fileResolverCachingEnabled` to `false`. For
-backwards compatibility it will also default that value to the system property `vertx.disableFileCaching`. E.g. you
-could set up a run configuration in your IDE to set this when running your main class.
+要禁用文件缓存，您可以将vert.x选项的属性 `fileResolverCachingEnabled` 设置为false。
+为了向后兼容，该值还将默认为系统属性 `vertx.disableFileCaching` 的值。
+例如。您可以在IDE中设置运行配置，以便在运行主类时进行设置。
 
+== 跨域处理
 
-== CORS handling
+http://en.wikipedia.org/wiki/Cross-origin_resource_sharing[Cross Origin Resource Sharing]是一种安全的机制，用于允许从一个域请求资源并从另一个域提供资源。
 
-http://en.wikipedia.org/wiki/Cross-origin_resource_sharing[Cross Origin Resource Sharing] is a safe mechanism for
-allowing resources to be requested from one domain and served from another.
+Vert.x-Web包含一个 `link:../../apidocs/io/vertx/ext/web/handler/CorsHandler.html[CorsHandler]` ，用于帮你处理CORS协议
 
-Vert.x-Web includes a handler `link:../../apidocs/io/vertx/ext/web/handler/CorsHandler.html[CorsHandler]` that handles the CORS protocol for you.
-
-Here's an example:
+这是一个例子
 
 [source,java]
 ----
@@ -2234,7 +2194,7 @@ router.route()
 
 router.route().handler(ctx -> {
 
-  // Your app handlers
+  // 你的app处理器
 
 });
 ----
@@ -2243,56 +2203,55 @@ router.route().handler(ctx -> {
 TODO more CORS docs
 ////
 
-== Multi Tenant
+== 多租户
 
-There are cases where your application needs to handle more than just 1 tenant. In this case a helper handler is
-provided that simplifies setting up the application.
+在某些情况下，您的应用程序需要处理的不仅仅是一个租户。
+在这种情况下，将提供一个助手处理器，以简化应用程序的设置。
 
-In the case the tenant is identified by a HTTP header, say for example `X-Tenant`, then creating the handler is as
-simple as:
+如果租户是通过HTTP标头（例如 `X-Tenant` ）标识的，则创建处理程序非常简单：
 
 [source,java]
 ----
 router.route().handler(MultiTenantHandler.create("X-Tenant"));
 ----
 
-You now should register what handler should be executed for the given tenant:
+现在，您应该注册为给定租户执行的处理器：
 
 [source,java]
 ----
 MultiTenantHandler.create("X-Tenant")
   .addTenantHandler("tenant-A", ctx -> {
-    // do something for tenant A...
+    // 为租户A做一些事情
   })
   .addTenantHandler("tenant-B", ctx -> {
-    // do something for tenant B...
+    // 为租户B做一些事情
   })
   // optionally
   .addDefaultHandler(ctx -> {
-    // do something when no tenant matches...
+    // 当没有租户匹配时，做一些事情
   });
 ----
 
-This is useful for security situations:
+这对于安全情况很有用：
 
 [source,java]
 ----
 OAuth2Auth gitHubAuthProvider = GithubAuth
   .create(vertx, "CLIENT_ID", "CLIENT_SECRET");
 
-// create a oauth2 handler on our running server
-// the second argument is the full url to the callback
-// as you entered in your provider management console.
+// 在我们运行的服务器上创建一个oauth2处理器
+// 第二个参数是回调的完整网址
+// 和你在提供者管理平台输入的一致
 OAuth2AuthHandler githubOAuth2 = OAuth2AuthHandler.create(
   vertx,
   gitHubAuthProvider,
   "https://myserver.com/github-callback");
 
-// setup the callback handler for receiving the GitHub callback
+// 设置回调处理程序以接收GitHub回调
 githubOAuth2.setupCallback(router.route());
 
-// create an OAuth2 provider, clientID and clientSecret
-// should be requested to Google
+// 创建一个OAuth2提供者，ClintID和ClientSecret
+// 应该向Google请求
 OAuth2Auth googleAuthProvider = OAuth2Auth.create(vertx, new OAuth2Options()
   .setClientID("CLIENT_ID")
   .setClientSecret("CLIENT_SECRET")
@@ -2301,60 +2260,59 @@ OAuth2Auth googleAuthProvider = OAuth2Auth.create(vertx, new OAuth2Options()
   .setTokenPath("https://www.googleapis.com/oauth2/v3/token")
   .setAuthorizationPath("/o/oauth2/auth"));
 
-// create a oauth2 handler on our domain: "http://localhost:8080"
+// 在我们的"http://localhost:8080"域上创建oauth2处理器
 OAuth2AuthHandler googleOAuth2 = OAuth2AuthHandler.create(
   vertx,
   googleAuthProvider,
   "https://myserver.com/google-callback");
 
-// setup the callback handler for receiving the Google callback
+// 设置回调处理程序以接收Google回调
 googleOAuth2.setupCallback(router.route());
 
-// At this point the 2 callbacks endpoints are registered:
+// 此时，两个回调端点已注册：
 
-// /github-callback -> handle github Oauth2 callbacks
-// /google-callback -> handle google Oauth2 callbacks
+// /github-callback -> 处理 github Oauth2 回调
+// /google-callback -> 处理 google Oauth2 回调
 
-// As the callbacks are made by the IdPs there's no header
-// to identify the source, hence the need of custom URLs
+//由于回调是由IdP进行的，因此没有标头来标识源，
+// 因此需要自定义URL
 
-// However for out Application we can control it so later
-// we can add the right handler for the right tenant
+//但是对于我们的应用程序，我们可以对其进行控制，
+// 因此稍后我们可以为合适的租户添加合适的处理程序
 
 router.route().handler(
   MultiTenantHandler.create("X-Tenant")
-    // tenants using github should go this way:
+    // 使用github的租户走这个方法
     .addTenantHandler("github", githubOAuth2)
-    // tenants using google should go this way:
+    // 使用google的租户走这个方法
     .addTenantHandler("google", googleOAuth2)
-    // all other should be forbidden
+    // 其余的都会被禁止
     .addDefaultHandler(ctx -> ctx.fail(401)));
 ----
 
-The tenant id can be read at any moment from the context, for example to decide which resource to load, or which
-database to connect to:
+可以随时从上下文中读取租户ID，例如，确定要加载的资源或要连接的数据库：
 
 [source,java]
 ----
 router.route().handler(ctx -> {
-  // the default key is "tenant" as defined in
-  // MultiTenantHandler.TENANT but this value can be
-  // modified at creation time in the factory method
+  //默认键是 "tenant"，
+  //其是在MultiTenantHandler.TENANT中定义的，
+  // 但此值可以在创建时在工厂方法中进行修改
   String tenant = ctx.get(MultiTenantHandler.TENANT);
 
   switch(tenant) {
     case "google":
-      // do something for google users
+      // 为google用户做一些事情
       break;
     case "github":
-      // so something for github users
+      // 为github用户做一些事情
       break;
   }
 });
 ----
 
-Multi tenant is a powerful handler that will allow applications to live side by side, however it provides no sandboxing
-for execution. It should not be used as isolation as wrongly written applications may leak state across tenants.
+多租户是一个功能强大的处理器，将允许应用程序并排运行，但是它不提供沙箱执行。
+不应将其用作隔离，因为错误编写的应用程序可能会在租户之间泄漏状态。
 
 [[_templates]]
 == 模板
@@ -3210,53 +3168,51 @@ router.mountSubRouter(
     .addInboundPermitted(inboundPermitted)));
 ----
 
-=== Handling event bus bridge events
+=== 处理事件总线桥事件
 
-If you want to be notified when an event occurs on the bridge you can provide a handler when calling
-`link:../../apidocs/io/vertx/ext/web/handler/sockjs/SockJSHandler.html#bridge-io.vertx.ext.web.handler.sockjs.SockJSBridgeOptions-io.vertx.core.Handler-[bridge]`.
+如果您希望在桥时上发生事件时收到通知，可以提供一个处理器在调用 `link:../../apidocs/io/vertx/ext/web/handler/sockjs/SockJSHandler.html#bridge-io.vertx.ext.web.handler.sockjs.SockJSBridgeOptions-io.vertx.core.Handler-[bridge]` 时调用
 
-Whenever an event occurs on the bridge it will be passed to the handler. The event is described by an instance of
-`link:../../apidocs/io/vertx/ext/web/handler/sockjs/BridgeEvent.html[BridgeEvent]`.
+每当桥上发生事件时，它将被传递给处理程序。这个事件通过一个 `link:../../apidocs/io/vertx/ext/web/handler/sockjs/BridgeEvent.html[BridgeEvent]` 实例进行描述
 
-The event can be one of the following types:
+事件可以是下面的类型中的一种
 
-SOCKET_CREATED:: This event will occur when a new SockJS socket is created.
-SOCKET_IDLE:: This event will occur when SockJS socket is on idle for longer period of time than initially configured.
-SOCKET_PING:: This event will occur when the last ping timestamp is updated for the SockJS socket.
-SOCKET_CLOSED:: This event will occur when a SockJS socket is closed.
-SEND:: This event will occur when a message is attempted to be sent from the client to the server.
-PUBLISH:: This event will occur when a message is attempted to be published from the client to the server.
-RECEIVE:: This event will occur when a message is attempted to be delivered from the server to the client.
-REGISTER:: This event will occur when a client attempts to register a handler.
-UNREGISTER:: This event will occur when a client attempts to unregister a handler.
+SOCKET_CREATED:: 创建新的SockJS套接字时，将发生此事件
+SOCKET_IDLE:: 当SockJS套接字闲置的时间比最初配置的时间长时，将发生此事件.
+SOCKET_PING:: 当为SockJS套接字更新最后的ping时间戳时，将发生此事件。.
+SOCKET_CLOSED:: 关闭SockJS套接字时，将发生此事件.
+SEND:: 尝试将消息从客户端发送到服务器时，将发生此事件.
+PUBLISH:: 尝试将消息从客户端发布到服务器时，将发生此事件.
+RECEIVE:: 尝试将消息从服务器传递到客户端时，将发生此事件.
+REGISTER:: 当客户端尝试注册处理程序时，将发生此事件.
+UNREGISTER:: 当客户端尝试注销处理程序时，将发生此事件.
 
-The event enables you to retrieve the type using `link:../../apidocs/io/vertx/ext/bridge/BaseBridgeEvent.html#type--[type]` and
-inspect the raw message of the event using `link:../../apidocs/io/vertx/ext/bridge/BaseBridgeEvent.html#getRawMessage--[getRawMessage]`.
+event可以通过 `link:../../apidocs/io/vertx/ext/bridge/BaseBridgeEvent.html#type--[type]` 让你获取到类型
+而且
+通过 `link:../../apidocs/io/vertx/ext/bridge/BaseBridgeEvent.html#getRawMessage--[getRawMessage]` 检查事件的原始消息
 
-The raw message is a JSON object with the following structure:
+原始消息是具有以下结构的JSON对象：
 
 ----
 {
  "type": "send"|"publish"|"receive"|"register"|"unregister",
- "address": the event bus address being sent/published/registered/unregistered
- "body": the body of the message
+ "address": 发送/发布/注册/注销的信息总线地址
+ "body": 消息体
 }
 ----
 
-The event is also an instance of `link:../../apidocs/io/vertx/core/Promise.html[Promise]`. When you are finished handling the event you can
-complete the promise with `true` to enable further processing.
+事件也是 `link:../../apidocs/io/vertx/core/Promise.html[Promise]` 的一个实例
+处理完事件后，您可以使用 `true` 来完成promise，以启用进一步的处理。
 
-If you don't want the event to be processed you can complete the promise with `false`. This is a useful feature that
-enables you to do your own filtering on messages passing through the bridge, or perhaps apply some fine grained
-authorization or metrics.
+如果您不希望处理该事件，则可以使用 `false` 来完成promise。你可以自己过滤桥上面传递的信息，这是一个很有用的特性，
+或者应用一些细粒度的授权或指标。
 
-Here's an example where we reject all messages flowing through the bridge if they contain the word "Armadillos".
+这是一个示例，其中我们拒绝所有流经桥的消息（如果其中包含单词"Armadillos"）。
 
 [source,java]
 ----
 Router router = Router.router(vertx);
 
-// Let through any messages sent to 'demo.orderMgr' from the client
+// 让从客户端发送到 "demo.orderMgr"的任何消息通过
 PermittedOptions inboundPermitted = new PermittedOptions()
   .setAddress("demo.someService");
 
@@ -3264,7 +3220,7 @@ SockJSHandler sockJSHandler = SockJSHandler.create(vertx);
 SockJSBridgeOptions options = new SockJSBridgeOptions()
   .addInboundPermitted(inboundPermitted);
 
-// mount the bridge on the router
+// 将桥挂载到路由上
 router
   .mountSubRouter("/eventbus", sockJSHandler
     .bridge(options, be -> {
@@ -3281,32 +3237,31 @@ router
     }));
 ----
 
-Here's an example how to configure and handle SOCKET_IDLE bridge event type.
-Notice `setPingTimeout(5000)` which says that if ping message doesn't arrive from client within 5 seconds
-then the SOCKET_IDLE bridge event would be triggered.
+这是如何配置和处理SOCKET_IDLE桥事件类型的示例。
+注意 `setPingTimeout(5000)`，它代表如果ping消息在5秒钟内没有从客户端到达，则将触发SOCKET_IDLE桥事件。
 
 [source,java]
 ----
 Router router = Router.router(vertx);
 
-// Initialize SockJS handler
+// 初始化SockJS处理器
 SockJSHandler sockJSHandler = SockJSHandler.create(vertx);
 SockJSBridgeOptions options = new SockJSBridgeOptions()
   .addInboundPermitted(inboundPermitted)
   .setPingTimeout(5000);
 
-// mount the bridge on the router
+// 挂载桥到路由上
 router
   .mountSubRouter("/eventbus", sockJSHandler.bridge(options, be -> {
     if (be.type() == BridgeEventType.SOCKET_IDLE) {
-      // Do some custom handling...
+      // 做一些自定义处理
     }
 
     be.complete(true);
   }));
 ----
 
-In client side JavaScript you use the 'vertx-eventbus.js` library to create connections to the event bus and to send and receive messages:
+在客户端JavaScript中，你可以使用 `vertx-eventbus.js` 库创建与事件总线的连接并发送和接收消息：
 
 [source,html]
 ----
@@ -3319,37 +3274,35 @@ var eb = new EventBus('http://localhost:8080/eventbus', {"vertxbus_ping_interval
 
 eb.onopen = function() {
 
-// set a handler to receive a message
+// 设置接收消息的处理器
 eb.registerHandler('some-address', function(error, message) {
   console.log('received a message: ' + JSON.stringify(message));
 });
 
-// send a message
+// 发送信息
 eb.send('some-address', {name: 'tim', age: 587});
 }
 
 </script>
 ----
 
-The first thing the example does is to create a instance of the event bus
+该示例所做的第一件事是创建事件总线的实例
 
 [source,javascript]
 ----
 var eb = new EventBus('http://localhost:8080/eventbus', {"vertxbus_ping_interval": 300000});
 ----
 
-The 2nd parameter to the constructor tells the sockjs library to send ping message every 5 minutes. since the server
-was configured to expect ping every 5 seconds -> `SOCKET_IDLE` would be triggered on the server.
+构造函数的第二个参数告诉sockjs库每5分钟发送一次ping消息。由于服务器已配置为每5秒执行一次ping操作，因此会在服务器上触发 `SOCKET_IDLE`
 
-
-You can also amend the raw message, e.g. change the body. For messages that are flowing in from the client you can
-also add headers to the message, here's an example:
+您还可以修改原始消息，例如改变请求体。
+对于从客户端传入的消息，您还可以在消息中添加头，下面是一个示例：
 
 [source,java]
 ----
 Router router = Router.router(vertx);
 
-// Let through any messages sent to 'demo.orderService' from the client
+// 让从客户端发送到 'demo.orderService' 的任何消息通过
 PermittedOptions inboundPermitted = new PermittedOptions()
   .setAddress("demo.orderService");
 
@@ -3357,7 +3310,7 @@ SockJSHandler sockJSHandler = SockJSHandler.create(vertx);
 SockJSBridgeOptions options = new SockJSBridgeOptions()
   .addInboundPermitted(inboundPermitted);
 
-// mount the bridge on the router
+// 将桥挂载到路由上
 router.mountSubRouter(
   "/eventbus",
   sockJSHandler.bridge(options, be -> {
@@ -3365,7 +3318,7 @@ router.mountSubRouter(
       be.type() == BridgeEventType.PUBLISH ||
         be.type() == BridgeEventType.SEND) {
 
-      // Add some headers
+      // 添加一些头
       JsonObject headers = new JsonObject()
         .put("header1", "val")
         .put("header2", "val2");
@@ -3378,19 +3331,18 @@ router.mountSubRouter(
   }));
 ----
 
-== CSRF Cross Site Request Forgery
+== CSRF跨站请求伪造
 
-CSRF or sometimes also known as XSRF is a technique by which an unauthorized site can gain your user's private data.
-Vert.x-Web includes a handler `link:../../apidocs/io/vertx/ext/web/handler/CSRFHandler.html[CSRFHandler]` that you can use to prevent cross site
-request forgery requests.
+CSRF或有时也称为XSRF是一种技术，未经授权的站点可以通过该技术获取用户的私人数据
+Vert.x-Web包含了一个 `link:../../apidocs/io/vertx/ext/web/handler/CSRFHandler.html[CSRFHandler]`，
+你可以使用它防止跨站伪造请求
 
-On each get request under this handler a cookie is added to the response with a unique token. Clients are then
-expected to return this token back in a header. Since cookies are sent it is required that the cookie handler is also
-present on the router.
+在此处理程序的每个get请求上，都会使用唯一token将cookie添加到响应中。
+然后，希望客户端在标头中返回此token。
+由于发送了cookie，因此要求cookie处理程序也存在于路由上。
 
-When developing non single page applications that rely on the User-Agent to perform the `POST` action, Headers cannot
-be specified on HTML Forms. In order to solve this problem the header value will also be checked if and only if no
-header was present in the Form attributes under the same name as the header, e.g.:
+在开发依赖于User-Agent来执行 `POST` 操作的非单页应用程序时，无法在HTML表单上指定标头。
+为了解决此问题，还将并且仅当在表单属性中不存在与标头同名的标头时，才检查标头值，例如：
 
 [source,html]
 ----
@@ -3399,9 +3351,8 @@ header was present in the Form attributes under the same name as the header, e.g
 </form>
 ----
 
-It is the responsibility of the user to fill in the right value for the form field. Users who prefer to use an HTML
-only solution can fill this value by fetching the the token value from the routing context under the key `X-XSRF-TOKEN`
-or the header name they have chosen during the instantiation of the `CSRFHandler` object.
+用户有责任为表单字段填写正确的值。
+倾向于使用仅HTML解决方案的用户可以通过从路由上下文中获取键为 `X-XSRF-TOKEN` 或在实例化 `CSRFHandler` 对象时选择的标头名称下来填充此值。
 
 [source,java]
 ----
@@ -3411,46 +3362,43 @@ router.route().handler(ctx -> {
 });
 ----
 
-Note that this handler is session aware. If there is a session available the form parameter or header might be omited
-during the `POST` action as it will be read from the session. This also implies that tokens will only be regenerated
-on session upgrades.
+请注意，此处理程序是session感知的。
+如果有可用的session，则在 `POST` 操作期间可能会省略表单参数或头，因为将从会话中读取该参数或头。
+这也意味着token将仅在session升级时重新生成。
 
-Note, for extra security users are advised to rotate the key that signs the tokens. This can be done online by replacing
-the handler, or by restarting the application with a new configuration. Clickjacking could still affect applications. If
-this is a critical application consider setting the header: `X-Frame-Options` as described in:
-https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options
+请注意，为提高安全性，建议用户旋转对token进行签名的密钥 。
+可以通过替换处理器或使用新配置重新启动应用程序来在线完成此操作。
+点击劫持仍然可能影响应用程序。 如果这是关键应用程序，请考虑设置标头 `X-Frame-Options` ，如以下描述中所述：
+ https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options
 
-=== Using AJAX
+=== 使用 AJAX
 
-When accessing protected routes via ajax both the csrf token will need to be passed in the request. Typically this is
-done using a request header, as adding a request header can typically be done at a central location easily without
-payload modification.
+当通过ajax访问受保护的路由时，两个csrf token都需要在请求中传递。
+通常这是使用请求标头完成的，因为添加请求标头通常可以轻松地在中心位置完成，而无需修改有效负载。
 
-The CSRF token is obtained from the server side context under the key `X-XSRF-TOKEN` (unless you specified a different
-name). This token needs to be exposed to the client-side, typically by including it in the initial page content. One
-possibility is to store it in an HTML <meta> tag, where value can then be retrieved at the time of the request by
-JavaScript.
+CSRF token是从服务器端上下文中的键 `X-XSRF-TOKEN` 下获得的（除非您指定其他名称）。
+通常需要通过将令牌包含在初始页面内容中来将此token公开给客户端。
+一种可能性是将其存储在HTML <meta>标记中，然后在其中可以通过JavaScript在请求时检索值。
 
-The following can be included in your view (handlebar example below):
+您的视图中可以包含以下内容（下面的示例）：
 
 [source,html]
 ----
 <meta name="csrf-token" content="${X-XSRF-TOKEN}">
 ----
 
-The following is an example of using the Fetch API to post to the /process route with the CSRF token from the <meta>
-tag on the page:
+以下是使用Fetch API将页面<meta>标记中的CSRF token通过POST请求/process路由的例子
 
 [source,js]
 ----
-// Read the CSRF token from the <meta> tag
+// 获取<meta>标签中的CSRF token
 var token = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
 
-// Make a request using the Fetch API
+// 使用Fetch API发送请求
 fetch('/process', {
- credentials: 'same-origin', // <-- includes cookies in the request
+ credentials: 'same-origin', // <-- 在请求中包含cookie
  headers: {
-   'X-XSRF-TOKEN': token // <-- is the csrf token as a header
+   'X-XSRF-TOKEN': token // <-- 将CSRF token放到header中
  },
  method: 'POST',
  body: {
@@ -3459,31 +3407,27 @@ fetch('/process', {
 })
 ----
 
-== HSTS Handler
+== HSTS处理器
 
-HTTP Strict Transport Security (HSTS) is a web security policy mechanism that helps to protect websites against
-man-in-the-middle attacks such as protocol downgrade attacks and cookie hijacking. It allows web servers to declare that
-web browsers (or other complying user agents) should automatically interact with it using only HTTPS connections, which
-provide Transport Layer Security (TLS/SSL), unlike the insecure HTTP used alone. HSTS is an IETF standards track
-protocol and is specified in RFC 6797.
+HTTP严格传输安全性（HSTS）是一种Web安全策略机制，可帮助保护网站免受中间人攻击，例如协议降级攻击和cookie劫持。
+它允许Web服务器声明Web浏览器（或其他符合要求的用户代理）应仅使用提供传输层安全性（TLS/SSL）的HTTPS连接自动与其进行交互，这与单独使用不安全的HTTP不同。
+HSTS是IETF标准的跟踪协议，在RFC 6797中进行了确定。
 
-This handler will configure the correct header for your application in a single step:
+该处理器只需一步即可为您的应用程序配置正确的标头
 
 [source,java]
 ----
 router.route().handler(HSTSHandler.create());
 ----
 
-== CSP Handler
+== CSP处理器
 
-Content Security Policy (CSP) is an added layer of security that helps to detect and mitigate certain types of
-attacks, including Cross Site Scripting (XSS) and data injection attacks. These attacks are used for everything from
-data theft to site defacement to distribution of malware.
+内容安全策略（CSP）是安全性的附加层，有助于检测和缓解某些类型的攻击，包括跨站点脚本（XSS）和数据注入攻击。
+这些攻击可用于从数据盗窃，站点攻击到恶意软件分发的各种方面
 
-CSP is designed to be fully backward compatible. Browsers that don't support it still work with servers that
-implement it, and vice-versa: browsers that don't support CSP simply ignore it, functioning as usual, defaulting to
-the standard same-origin policy for web content. If the site doesn't offer the CSP header, browsers likewise use the
-standard same-origin policy.
+CSP设计为完全向后兼容。
+不支持它的浏览器仍然可以与实现它的服务器一起使用，反之亦然：
+不支持CSP的浏览器只是忽略它，照常运行，默认为Web内容的标准同源策略。如果该站点不提供CSP标头，则浏览器同样会使用标准的同源策略。
 
 [source,java]
 ----
@@ -3492,53 +3436,50 @@ router.route().handler(
     .addDirective("default-src", "*.trusted.com"));
 ----
 
-== XFrame Handler
+== XFrame处理器
 
-The `X-Frame-Options` HTTP response header can be used to indicate whether or not a browser should be allowed to render
-a page in a `frame`, `iframe`, `embed` or `object`. Sites can use this to avoid click-jacking attacks, by ensuring that
-their content is not embedded into other sites.
+`X-Frame-Options` HTTP响应标头可用于指示是否应允许浏览器在 `frame`，`iframe`，`embed` 或 `object` 中呈现页面。
+网站可以通过确保其内容未嵌入其他网站来避免点击劫持攻击。
 
-The added security is provided only if the user accessing the document is using a browser that supports
-`X-Frame-Options`.
+仅当访问文档的用户使用支持 `X-Frame-Options` 的浏览器时，才提供附加的安全性。
 
-If you specify `DENY`, not only will attempts to load the page in a frame fail when loaded from other sites, attempts to
-do so will fail when loaded from the same site. On the other hand, if you specify `SAMEORIGIN`, you can still use the
-page in a frame as long as the site including it in a frame is the same as the one serving the page.
+如果指定 `DENY`，则从其他站点加载时，不仅在fram中加载页面失败，而且从同一站点加载时，也会失败。
+另一方面，如果您指定 `SAMEORIGIN` ，则只要frame中包含该页面的站点与提供该页面的站点相同，您仍可以在frame中使用该页面。
 
-This handler will configure the correct header for your application in a single step:
+此处理器将一步为您的应用程序配置正确的标头
 
 [source,java]
 ----
 router.route().handler(XFrameHandler.create(XFrameHandler.DENY));
 ----
 
-== OAuth2AuthHandler Handler
+== OAuth2Auth处理器
 
-The `OAuth2AuthHandler` allows quick setup of secure routes using the OAuth2 protocol. This handler simplifies the
-authCode flow. An example of using it to protect some resource and authenticate with GitHub can be implemented as:
+`OAuth2AuthHandler` 允许使用OAuth2协议快速设置安全路由。该处理器简化了authCode流。
+一个使用它来保护某些资源并通过GitHub进行身份验证的示例是这样的：
 
 [source,java]
 ----
 OAuth2Auth authProvider = GithubAuth
   .create(vertx, "CLIENT_ID", "CLIENT_SECRET");
 
-// create a oauth2 handler on our running server
-// the second argument is the full url to the
-// callback as you entered in your provider management console.
+// 在你运行的服务器上创建oauth2处理器
+// the second argument is the full url to the 第二个参数是一个完全的url
+//  这个url用于回调，和你在提供者管理控制台输入的一致
 OAuth2AuthHandler oauth2 = OAuth2AuthHandler
   .create(vertx, authProvider, "https://myserver.com/callback");
 
-// setup the callback handler for receiving the GitHub callback
+// 为接收GitHb回调设置回调处理器
 oauth2.setupCallback(router.route());
 
-// protect everything under /protected
+// 保护 /protected 下的一切资源
 router.route("/protected/*").handler(oauth2);
 // mount some handler under the protected zone
 router
   .route("/protected/somepage")
   .handler(ctx -> ctx.response().end("Welcome to the protected resource!"));
 
-// welcome page
+// 欢迎页面
 router
   .get("/")
   .handler(ctx -> ctx.response()
@@ -3546,18 +3487,15 @@ router
     .end("Hello<br><a href=\"/protected/somepage\">Protected by Github</a>"));
 ----
 
-The OAuth2AuthHandler will setup a proper callback OAuth2 handler so the user does not need to deal with validation
-of the authority server response. It is quite important to know that authority server responses are only valid once,
-this means that if a client issues a reload of the callback URL it will be asserted as a invalid request since the
-validation will fail.
 
-A rule of thumb is once a valid callback is executed issue a client side redirect to a protected resource. This
-redirect should also create a session cookie (or other session mechanism) so the user is not required to authenticate
-for every request.
+OAuth2AuthHandler将设置适当的回调OAuth2处理器，因此用户不需要处理授权服务器响应的验证 。
+知道授权服务器响应仅有效一次非常重要，这意味着如果客户端发出重新加载回调URL的请求，则它将被断言为无效请求，因为验证将失效
 
-Due to the nature of OAuth2 spec there are slight changes required in order to use other OAuth2 providers but
-vertx-auth provides you with many out of the box implementations:
+一条经验法则是，一旦执行了有效的回调，就将客户端重定向到受保护的资源
+此重定向还应该创建一个session cookie（或其他session机制），因此不需要用户为每个请求进行身份验证。
 
+由于OAuth2规范的性质，使用其他OAuth2提供者需要进行一些细微的更改
+但是vertx-auth为您提供了许多现成的实现：
 
 * Azure Active Directory `link:../../apidocs/io/vertx/ext/auth/oauth2/providers/AzureADAuth.html[AzureADAuth]`
 * Box.com `link:../../apidocs/io/vertx/ext/auth/oauth2/providers/BoxAuth.html[BoxAuth]`
@@ -3576,7 +3514,7 @@ vertx-auth provides you with many out of the box implementations:
 * Stripe `link:../../apidocs/io/vertx/ext/auth/oauth2/providers/StripeAuth.html[StripeAuth]`
 * Twitter `link:../../apidocs/io/vertx/ext/auth/oauth2/providers/TwitterAuth.html[TwitterAuth]`
 
-However if you're using an unlisted provider you can still do it using the base API like this:
+但是，如果您使用的是未列出的提供者，则仍然可以使用基本API来做到这一点，如下所示：
 
 [source,java]
 ----
@@ -3588,24 +3526,24 @@ OAuth2Auth authProvider = OAuth2Auth.create(vertx, new OAuth2Options()
   .setTokenPath("https://www.googleapis.com/oauth2/v3/token")
   .setAuthorizationPath("/o/oauth2/auth"));
 
-// create a oauth2 handler on our domain: "http://localhost:8080"
+// 在我们的"http://localhost:8080"域上创建oauth2处理器
 OAuth2AuthHandler oauth2 = OAuth2AuthHandler
   .create(vertx, authProvider, "http://localhost:8080");
 
-// these are the scopes
+// 这是它的范围
 oauth2.withScope("profile");
 
-// setup the callback handler for receiving the Google callback
+// 为Google回调设置回调处理器
 oauth2.setupCallback(router.get("/callback"));
 
-// protect everything under /protected
+// 保护 /protected 下的一切资源
 router.route("/protected/*").handler(oauth2);
-// mount some handler under the protected zone
+// 在受保护的区域挂载一些处理器
 router
   .route("/protected/somepage")
   .handler(ctx -> ctx.response().end("Welcome to the protected resource!"));
 
-// welcome page
+// 欢迎页
 router
   .get("/")
   .handler(ctx -> ctx.response()
@@ -3613,61 +3551,60 @@ router
     .end("Hello<br><a href=\"/protected/somepage\">Protected by Google</a>"));
 ----
 
-You will need to provide all the details of your provider manually but the end result is the same.
+你将需要手动提供提供商的所有详细信息，但最终结果是相同的。
 
-The handler will pin your application the the configured callback url. The usage is simple as providing the handler
-a route instance and all setup will be done for you. In a typical use case your provider will ask you what is the
-callback url to your application, your then enter a url like: `https://myserver.com/callback`. This is the second
-argument to the handler now you just need to set it up. To make it easier to the end user all you need to do is call
-the setupCallback method.
+处理器会将您的应用程序固定为配置的回调URL。
+用法很简单，只需为处理程序提供一个路由实例，所有设置便会为您完成。
+在典型的用例中，您的提供者将询问您应用程序的回调URL是什么，然后您输入一个URL，例如：`https://myserver.comcallback`。
+这是处理程序的第二个参数，现在您只需要设置它即可 。
+为了使最终用户更轻松，您所需要做的就是调用setupCallback方法。
 
-This is how you pin your handler to the server `https://myserver.com:8447/callback`. Note that the port number is not
-mandatory for the default values, 80 for http, 443 for https.
+这是将处理器固定到服务器 `https//myserver.com:8447/callback` 的方式。
+请注意，端口号并不是强制为默认值，http的默认端口号是80，https的默认端口号是443。
 
 [source,java]
 ----
 OAuth2AuthHandler oauth2 = OAuth2AuthHandler
   .create(vertx, provider, "https://myserver.com:8447/callback");
 
-// now allow the handler to setup the callback url for you
+// 现在允许处理器为你设置回调url
 oauth2.setupCallback(router.route());
 ----
 
-In the example the route object is created inline by `Router.route()` however if you want to have full control of the
-order the handler is called (for example you want it to be called as soon as possible in the chain) you can always
-create the route object before and pass it as a reference to this method.
+在该示例中，路由对象是由 `Router.route()` 内联创建的，
+但是，如果您想完全控制处理程序的调用顺序（例如，希望在链中尽快调用它），则可以可以始终在此之前创建Route对象，并将其的引用传递给这个方法
 
-=== A real world example
+=== 一个真实世界的例子
 
-Up to now you have learned how to use the Oauth2 Handler however you will notice that for each request you will need
-to authenticate. This is because the handler has no state and there was no state management applied in the examples.
+到目前为止，您已经学习了如何使用Oauth2处理器，但是您会注意到，对于每个请求，您都需要进行身份验证。
+这是因为处理器没有状态，并且在示例中没有应用状态管理。
 
-Although having no state is recommended for API facing endpoints, for example, using JWT (we will cover those later)
-for user facing endpoinst we can keep the authentication result stored in the session. For this to work we would
-need an application like the following snippet:
+尽管建议对面向API的端点不使用任何状态，
+例如，对于面向用户的端点使用JWT（我们将在后面介绍），我们可以将身份验证结果存储在session中。
+为此，我们需要一个类似于以下代码段的应用程序：
 
 [source,java]
 ----
 OAuth2Auth authProvider =
   GithubAuth
     .create(vertx, "CLIENTID", "CLIENT SECRET");
-// We need a user session handler too to make sure
-// the user is stored in the session between requests
+// 我们也需要一个用户session处理器
+// 其用来确保用户数据可以在请求之间储存在session中
 router.route()
   .handler(SessionHandler.create(LocalSessionStore.create(vertx)));
-// we now protect the resource under the path "/protected"
+// 我们现在保护 "/protected" 下的一切资源
 router.route("/protected").handler(
   OAuth2AuthHandler.create(vertx, authProvider)
-    // we now configure the oauth2 handler, it will
-    // setup the callback handler
-    // as expected by your oauth2 provider.
+    // 我们现在配置oauth2处理器
+    // 设置回调处理器
+    // 回调处理器必须符合oauth2提供者的规范
     .setupCallback(router.route("/callback"))
-    // for this resource we require that users have
-    // the authority to retrieve the user emails
+    // 对于这个资源，
+    // 我们要求用户具有查看用户电子邮件的权限
     .withScope("user:email")
 );
-// Entry point to the application, this will render
-// a custom template.
+// 应用程序的入口点
+// 其会渲染一个自定义的模板
 router.get("/").handler(ctx -> ctx.response()
   .putHeader("Content-Type", "text/html")
   .end(
@@ -3688,49 +3625,47 @@ router.get("/").handler(ctx -> ctx.response()
       "    </p>\n" +
       "  </body>\n" +
       "</html>"));
-// The protected resource
+// 受保护的资源
 router.get("/protected").handler(ctx -> {
-  // at this moment your user object should contain the info
-  // from the Oauth2 response, since this is a protected resource
-  // as specified above in the handler config the user object is never null
+  // 此时，您的user对象应包含从Oauth2响应中的信息
+  // 因为这是受保护的资源
+  // 如上面在处理程序配置中指定的，用户对象永远不会为null
   User user = ctx.user();
-  // just dump it to the client for demo purposes
+  // 只是将其转储到客户端以进行演示
   ctx.response().end(user.toString());
 });
 ----
 
-=== Mixing OAuth2 and JWT
+=== 将OAuth2和JWT混合使用
 
-Some providers use JWT tokens as access tokens, this is a feature of https://tools.ietf.org/html/rfc6750[RFC6750]
-and can be quite useful when one wants to mix client based authentication and API authorization. For example say that
-you have a application that provides some protected HTML documents but you also want it to be available for API's to
-consume. In this case an API cannot easily perform the redirect handshake required by OAuth2 but can use a Token
-provided before hand.
+一些提供者将JWT token用作访问token，这是
+https://tools.ietf.org/html/rfc6750[RFC6750]的功能，
+当要混合基于客户端的身份验证和API授权时，此功能非常有用。
+例如，假如你有一个提供一些受保护的HTML文档的应用程序，但您还希望它可供API使用。
+在这种情况下，API无法轻松执行OAuth2所需的重定向握手，但可以使用事先提供的token。
 
-This is handled automatically by the handler as long as the provider is configured to support JWTs.
+只要提供者被配置为支持JWT，这个处理器就会自动处理此问题。
 
-In real life this means that your API's can access your protected resources using the header `Authorization` with the
-value `Bearer BASE64_ACCESS_TOKEN`.
+在现实生活中，这意味着您的API可以使用标头 `Authorization` ,其值为 `Bearer BASE64 ACCESS_TOKEN`,来访问受保护的资源。
 
 === WebAuthn
 
-Our online existence relies on an outdated and fragile idea of passwords. The password is what lies between a malicious
-user and your bank account or social media accounts. Passwords are hard to maintain; it's hard to store them on the
-server (passwords get stolen). They're hard to memorize, or not tell to others (phishing attacks).
+我们的网络信息存在依赖于过时而且脆弱的密码概念的问题。
+密码是介于恶意用户和您的银行帐户或社交媒体帐户之间的东西。
+密码很难维护。很难将它们存储在服务器上（密码被盗）。他们很难记住，或者不告诉别人（网络钓鱼攻击）。
 
-But there's a better way! A passwordless world, and it is a standard by W3C and FIDO Alliance running on your browser.
+但是现在有一个更好的方法！一个无需密码的世界，它是浏览器上运行的W3C和FIDO Alliance的标准
 
-WebAuthn is an API that allows servers to register and authenticate users using public-key cryptography instead of a
-password, an API that uses cryptography in a user-accessible way with the help of an authentication device, for example
-a yubikey token, or your mobile phone.
+WebAuthn是一种API，它允许服务器使用公钥加密（而不是密码）来注册和验证用户 ，
+这种API使用用户可访问的方法借助身份认证设备，比如yubikey token或者你的手机，进行加密
 
-The protocol requires at least the first callback to be mounted on the router:
+该协议至少要求将第一个回调挂载在路由上：
 
-1. `/webauthn/response` the callback used to perform all the validations
-2. `/webauthn/login` the endpoint to allow users to start the login flow (optional, but without it it won't be able to login)
-3. `/webauthn/register` the endpoint to allow users to register a new identificator (optional, if the data is already stored this endpoint is not needed)
+1. `/webauthn/response` 用于执行所有验证的回调
+2. `/webauthn/login` 允许用户启动登录流程的端点（可选，但如果没有它，它将无法登录）
+3. `/webauthn/register` 允许用户注册新的身份标识的端点（可选，如果数据已经存储，则不需要该端点）
 
-An example of a protected application is:
+这是一个受保护的应用程序的示例
 
 [source,java]
 ----
@@ -3738,48 +3673,48 @@ WebAuthn webAuthn = WebAuthn.create(
   vertx,
   new WebAuthnOptions()
     .setRelyingParty(new RelyingParty().setName("Vert.x WebAuthN Demo"))
-    // What kind of authentication do you want? do you care?
-    // # security keys
+    // 哪种认证类型是你想要的，是你关心的？
+    // # 密钥
     .setAuthenticatorAttachment(AuthenticatorAttachment.CROSS_PLATFORM)
-    // # fingerprint
+    // # 指纹
     .setAuthenticatorAttachment(AuthenticatorAttachment.PLATFORM)
     .setUserVerification(UserVerification.REQUIRED))
-  // where to load the credentials from?
+  // 从哪里加载证书？
   .authenticatorFetcher(fetcher)
-  // update the state of an authenticator
+  // 更新认证状态
   .authenticatorUpdater(updater);
 
-// parse the BODY
+// 解析请求体
 router.post()
   .handler(BodyHandler.create());
-// add a session handler
+// 添加session处理器
 router.route()
   .handler(SessionHandler
     .create(LocalSessionStore.create(vertx)));
 
-// security handler
+// 安全处理器
 WebAuthnHandler webAuthNHandler = WebAuthnHandler.create(webAuthn)
   .setOrigin("https://192.168.178.74.xip.io:8443")
-  // required callback
+  // 需要回调
   .setupCallback(router.post("/webauthn/response"))
-  // optional register callback
+  // 可选的注册回调
   .setupCredentialsCreateCallback(router.post("/webauthn/register"))
-  // optional login callback
+  // 可选的登录回调
   .setupCredentialsGetCallback(router.post("/webauthn/login"));
 
-// secure the remaining routes
+// 保护其余的Route
 router.route().handler(webAuthNHandler);
 ----
 
-The application is not secure on the backend side but there is some code needed to be performed on the client side. A bit
-of boilerplate is required, take these 2 functions:
+该应用程序在后端不安全，但是需要在客户端执行一些代码 。
+需要一些具有以下两个功能的样板
 
 [source,javascript]
 ----
 /**
-* Converts PublicKeyCredential into serialised JSON
-* @param  {Object} pubKeyCred
-* @return {Object}            - JSON encoded publicKeyCredential
+* 将公钥证书转化为可序列化的JSON
+* @param  {Object} 公钥证书
+* @return {Object}            - 编码为JSON的公钥证书
 */
 var publicKeyCredentialToJSON = (pubKeyCred) => {
  if (pubKeyCred instanceof Array) {
@@ -3807,9 +3742,9 @@ var publicKeyCredentialToJSON = (pubKeyCred) => {
 };
 
 /**
-* Generate secure random buffer
-* @param  {Number} len - Length of the buffer (default 32 bytes)
-* @return {Uint8Array} - random string
+* 生成安全随机数的Buffer
+* @param  {Number} len - buffer的长度（默认为32byte）
+* @return {Uint8Array} - 随机字符串
 */
 var generateRandomBuffer = (len) => {
  len = len || 32;
@@ -3821,7 +3756,7 @@ var generateRandomBuffer = (len) => {
 };
 
 /**
-* Decodes arrayBuffer required fields.
+* 解码arrayBuffer必填字段
 */
 var preformatMakeCredReq = (makeCredReq) => {
  makeCredReq.challenge = base64url.decode(makeCredReq.challenge);
@@ -3831,7 +3766,7 @@ var preformatMakeCredReq = (makeCredReq) => {
 };
 
 /**
-* Decodes arrayBuffer required fields.
+* 解码arrayBuffer必填字段
 */
 var preformatGetAssertReq = (getAssert) => {
  getAssert.challenge = base64url.decode(getAssert.challenge);
@@ -3844,32 +3779,32 @@ var preformatGetAssertReq = (getAssert) => {
 };
 ----
 
-These functions will help you with the interaction with the server. Nothing more. Let's start by login in a user:
+这些功能将帮助您与服务器进行交互。话不多说。让我们从登录用户开始：
 
 [source,javascript]
 ----
-// using the functions defined before...
+// 使用之前定义的函数
 getGetAssertionChallenge({name: 'your-user-name'})
 .then((response) => {
- // base64 must be decoded to a JavaScript Buffer
+ // base64必须解码为JavaScript Buffer
  let publicKey = preformatGetAssertReq(response);
- // the response is then passed to the browser
- // to generate an assertion by interacting with your token/phone/etc...
+ // 这个响应之后会传给浏览器
+ // 用于通过于你的token/手机等互动产生断言
  return navigator.credentials.get({publicKey})
 })
 .then((response) => {
- // convert response buffers to base64 and json
+ // 将响应的buffer转为base64和json
  let getAssertionResponse = publicKeyCredentialToJSON(response);
- // send information to server
+ // 向服务器传送数据
  return sendWebAuthnResponse(getAssertionResponse)
 })
 .then((response) => {
- // success!
+ // 成功
  alert('Login success')
 })
 .catch((error) => alert(error));
 
-// utility functions
+// 工具函数
 
 let sendWebAuthnResponse = (body) => {
  return fetch('/webauthn/response', {
@@ -3907,27 +3842,26 @@ let getGetAssertionChallenge = (formBody) => {
 };
 ----
 
-The example above already covered 66% of the API, 2 out fo 3 endpoints where covered. The final endpoint is the user
-registration. User registration is the process of enrolling a new key into the server credential store and map to a user,
-and of course on the client side a private key was created and associated with the server but this key never left the
-hardware token or your phone security chip.
+上面的示例已经涵盖了66％的API，涵盖了3个端点中的2个。
+最后的端点是用户注册。用户注册是将新密钥注册到服务器凭证存储中并映射到用户的过程，当然，在客户端上创建了私钥并将其与服务器相关联，
+但是此密钥从未离开硬件令牌或手机安全芯片。
 
-To register a user and reusing most of the functions already defined above:
+要注册用户并重用上面已经定义的大多数功能，请执行以下操作：
 
 [source,javascript]
 ----
-/* Handle for register form submission */
+/* 处理注册表 */
 getMakeCredentialsChallenge({name: 'myalias', displayName: 'Paulo Lopes'})
 .then((response) => {
- // convert challenge & id to buffer and perform register
+ // 将询问和id转为buffer并执行注册
  let publicKey = preformatMakeCredReq(response);
- // create a new secure key pair
+ //  创建一个新的密钥对
  return navigator.credentials.create({publicKey})
 })
 .then((response) => {
- // convert response from buffer to json
+ // 将响应从buffer转为json
  let makeCredResponse = window.publicKeyCredentialToJSON(response);
- // send to server to confirm the user
+ //  传送给服务器以辨认用户身份
  return sendWebAuthnResponse(makeCredResponse)
 })
 .then((response) => {
@@ -3935,7 +3869,7 @@ getMakeCredentialsChallenge({name: 'myalias', displayName: 'Paulo Lopes'})
 })
 .catch((error) => alert(error));
 
-// utility functions
+// 工具函数
 
 let getMakeCredentialsChallenge = (formBody) => {
  return fetch('/webauthn/register', {
@@ -3956,54 +3890,59 @@ let getMakeCredentialsChallenge = (formBody) => {
 };
 ----
 
-WARNING: Due to the secure nature of the API browsers will not allow you to use this API on plain text HTTP. All requests
-must go over HTTPS.
+WARNING: 由于API的安全性，浏览器将不允许您在纯文本HTTP上使用此API。
+所有请求都必须通过HTTPS。
 
-WARNING: WebAuthN requires HTTPS with a working TLS certificate, you can use self signed certiticates too during
-development.
+WARNING: WebAuthN需要具有有效TLS证书的HTTPS，
+您也可以在开发过程中使用自签名证书。
 
-=== Handling HTTP Method overriding
+=== 处理HTTP请求方法覆盖
 
-Many companies and other services impose limitations to the REST HTTP methods they allow to the outside world. Some are lax by allowing any method, most are restricted by allowing only a small-but-decent set and some only allow GET and POST. The reasons for such restritions varies: browser or client limitations or a really strict corporate firewalls. Web services with only GET and POST does not express well the REST ideology. PUT, DELETE, OPTIONS, among others are quite useful to specify what do to to a resource. To deal with it, it was created the X-HTTP-METHOD-OVERRIDE HTTP header as a workaround.
+许多公司和其他服务都限制了它们允许外部使用的REST HTTP方法。
+有些不太严密的可以允许使用任意的方法，大多数仅允许一个很小但不错的集合，有些则只允许GET和POST。
+造成这种限制的原因各不相同：浏览器或客户端限制或非常严格的公司防火墙。仅具有GET和POST的Web服务不能很好地表达REST的思想。
+PUT，DELETE，OPTIONS等对于指定对资源执行的操作非常有用。为了解决这个问题，它创建了X-HTTP-METHOD-OVERRIDE HTTP标头作为解决方法。
 
-By sending a request with GET/POST and which method the request should truly process inside the X-HTTP-METHOD-OVERRIDE HTTP header, the server should recognize the header and redirect to the appropriate method.
+通过使用GET/POST发送请求以及该请求应在X-HTTP-METHOD-OVERRIDE HTTP标头内设置真正的请求方法，服务器应识别该标头并重定向到适当的方法
 
-Vert.x allows one to do so, simply by:
+Vert.x允许这样做，只需：
 
 [source,java]
 ----
 router.route().handler(MethodOverrideHandler.create());
 
 router.route(HttpMethod.GET, "/").handler(ctx -> {
-  // do GET stuff...
+  // 做GET的操作
 });
 
 router.route(HttpMethod.POST, "/").handler(ctx -> {
-  // do POST stuff...
+  // 做POST操作
 });
 ----
 
-Since it will redirect the request, it is wise to avoid firing request handlers unnecessarily, so it is better to add the MethodOverrideHandler as the first handler.
+由于它将重定向请求，因此明智的做法是避免不必要地触发请求处理器，
+因此最好将MethodOverrideHandler添加为第一个处理器。
 
-Also, a word of caution: THIS MIGHT BECOME AN ATTACK VECTOR FOR ILL-INTENTIONED PEOPLE!
+另外，请注意：这可能会成为不怀好意的人的攻击对象！
 
-To mitigate such a problem, the MethodOverrideHandler comes with a Safe-Downgrade Policy by default. This policy says that the method contained in X-HTTP-METHOD-OVERRIDE can override the original one if:
+为了缓解这种问题，默认情况下，MethodOverrideHandler附带了一个安全降级策略。
+这项策略规定，在以下情况下，X-HTTP-METHOD-OVERRIDE中包含的方法可以覆盖原始方法：
 
-* the overriding method is idempotent; or
-* the overriding method is safe and the method to be overrided is NOT idempotent; or
-* the method to be overrided is not safe.
+* 覆盖方法是幂等的; 或者
+* 覆盖方法是安全的，并且要覆盖的方法不是幂等的; 或者
+* 被覆盖的方法不安全.
 
-Although we do NOT recommend, Vert.x will not force you to anything. If it is your desire to allow any overriding, then:
+尽管我们不建议这样做，但Vert.x不会强迫您采取任何措施。如果您希望允许任何覆盖，则：
 
 [source,java]
 ----
 router.route().handler(MethodOverrideHandler.create(false));
 
 router.route(HttpMethod.GET, "/").handler(ctx -> {
-  // do GET stuff...
+  // 做GET操作
 });
 
 router.route(HttpMethod.POST, "/").handler(ctx -> {
-  // do POST stuff...
+  // 做POST操作
 });
 ----
