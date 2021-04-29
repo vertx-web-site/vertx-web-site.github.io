@@ -43,7 +43,7 @@ AuthenticationProvider authenticationProvider =
 
 我们假设开箱即用的配置对于鉴权与授权做出了某种查询，
 如果您想在不同的数据库schema之下来查询，那么您可以用 `link:../../apidocs/io/vertx/ext/auth/sqlclient/SqlAuthenticationOptions.html#setAuthenticationQuery-java.lang.String-[setAuthenticationQuery]`,
-`link:../../apidocs/io/vertx/ext/auth/sqlclient/SqlAuthorizationOptions.html#setPermissionsQuery-java.lang.String-[setPermissionsQuery]` and
+`link:../../apidocs/io/vertx/ext/auth/sqlclient/SqlAuthorizationOptions.html#setPermissionsQuery-java.lang.String-[setPermissionsQuery]` 和
 `link:../../apidocs/io/vertx/ext/auth/sqlclient/SqlAuthorizationOptions.html#setRolesQuery-java.lang.String-[setRolesQuery]` 操作做出变化。
 
 基本的数据存储的定义应如下：
