@@ -422,6 +422,22 @@ router
 
 在上面的例子中， 如果一个 POST 请求的路径为  `/catalogue/products/tools/drill123/` ， 那么会匹配这个 `Route` ， 并且会接收参数 `productType` 的值为 `tools` ，参数 `productID` 的值为 `drill123` 。
 
+参数并不一定是路径段。例如，以下路径参数同样有效：
+
+[source,java]
+----
+router
+  .route(HttpMethod.GET, "/flights/:from-:to")
+  .handler(ctx -> {
+    // 在处理发送至/flights/AMS-SFO的请求时，将会设置：
+    String from = ctx.pathParam("from"); // AMS
+    String to = ctx.pathParam("to"); // SFO
+    // 记住一点，如果不切换至参数命名的 “extend/扩展” 模式，
+    // 这将不会起作用。
+    // 因为在那种情况下，“-” 符号并不被认为是分隔符，
+    // 而是参数名的一部分。
+});
+----
 NOTE: 您也可以将 * 捕获为路径参数 * 。
 
 [[_routing_with_regular_expressions]]
