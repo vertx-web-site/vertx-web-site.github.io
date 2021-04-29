@@ -39,7 +39,7 @@ AuthenticationProvider authenticationProvider =
   SqlAuthentication.create(sqlClient, options);
 ----
 
-一旦您获取到了自己的 SqlAuthentication 对象，您就可以用它来做鉴权和授权（就像 `link:../../apidocs/io/vertx/ext/auth/authentication/AuthenticationProvider.html[AuthenticationProvider]` 一样）。
+一旦您获取到了自己的 SqlAuthentication 对象，您就可以用它来做鉴权和授权（犹如任意一个 `link:../../apidocs/io/vertx/ext/auth/authentication/AuthenticationProvider.html[AuthenticationProvider]` 一样）。
 
 我们假设开箱即用的配置对于鉴权与授权做出了某种查询，
 如果您想在不同的数据库schema之下来查询，那么您可以用 `link:../../apidocs/io/vertx/ext/auth/sqlclient/SqlAuthenticationOptions.html#setAuthenticationQuery-java.lang.String-[setAuthenticationQuery]`,
