@@ -412,6 +412,12 @@ router
 ----
 
 占位符由 `:` 和参数名构成. 参数名由字母， 数字和下划线构成。
+在某些情况下，这会受到一定限制，因而用户可以切换至包括2个额外字符“-”和“ $”的扩展名称规则。
+扩展参数规则可用如下系统属性启用：
+
+----
+-Dio.vertx.web.route.param.extended-pattern=true
+----
 
 在上面的例子中， 如果一个 POST 请求的路径为  `/catalogue/products/tools/drill123/` ， 那么会匹配这个 `Route` ， 并且会接收参数 `productType` 的值为 `tools` ，参数 `productID` 的值为 `drill123` 。
 
