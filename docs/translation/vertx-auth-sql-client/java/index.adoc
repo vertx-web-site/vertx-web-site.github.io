@@ -46,7 +46,7 @@ AuthenticationProvider authenticationProvider =
 `link:../../apidocs/io/vertx/ext/auth/sqlclient/SqlAuthorizationOptions.html#setPermissionsQuery-java.lang.String-[setPermissionsQuery]` 和
 `link:../../apidocs/io/vertx/ext/auth/sqlclient/SqlAuthorizationOptions.html#setRolesQuery-java.lang.String-[setRolesQuery]` 操作做出变化。
 
-基本的数据存储的定义应如下：
+基本的数据存储的定义看上去应该类似：
 
 [source,sql]
 ----
