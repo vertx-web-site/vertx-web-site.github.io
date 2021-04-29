@@ -68,7 +68,7 @@ Vert.x Web 的大部分特性是使用Handler实现的， 而且您随时可以�
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-web</artifactId>
- <version>4.0.2</version>
+ <version>4.0.3</version>
 </dependency>
 ----
 
