@@ -44,7 +44,6 @@ Vert.x Web 的一部分关键特性有：
 ** Apache FreeMarker
 ** Pebble
 ** Rocker
-
 * 响应时间处理器
 * 静态文件服务，包括缓存逻辑以及目录监听
 * 支持请求超时
