@@ -180,7 +180,7 @@ authProvider.authenticate(authInfo)
   });
 ----
 
-[[_authorisation___permission_role_model]]
+[[_authorisation_permission_role_model]]
 == 授权：权限-角色 模型
 
 Vert.x auth 自身不对任何权限（一些晦涩的字符串）的模型进行授权，
