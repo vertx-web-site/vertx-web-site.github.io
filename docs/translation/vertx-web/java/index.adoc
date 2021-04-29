@@ -1242,7 +1242,7 @@ mainRouter.route("/static/*").handler(myStaticHandler);
 mainRouter.route(".*\\.templ").handler(myTemplateHandler);
 ----
 
-现在，我们可以将子路由器挂载在主路由器上，安装点在本例中为 `/productsAPI`。
+现在，我们可以将子路由器挂载在主路由器上，挂载点在本例中为 `/productsAPI`。
 
 [source,java]
 ----
@@ -1254,8 +1254,8 @@ mainRouter.mountSubRouter("/productsAPI", restAPI);
 在使用子路由器之前，必须满足一些规则
 
 * 路由路径必须以通配符结尾。
-* 允许使用参数，但不能使用完整的正则表达式模式。
-* 在此调用之前或之后，只能注册1个处理程序（但它们可以在同一路径的新路由对象上注册
+* 允许使用参数，但不能完全的使用正则表达式模式。
+* 在此调用之前或之后，只能注册1个处理程序（但它们可以在同一路径的新路由对象上注册）
 * 每个路径对象仅1个路由器
 
 验证是在将路由器添加到http服务器时进行的。这意味着由于子路由器的动态特性，在构建期间无法获得任何验证错误。
@@ -1304,11 +1304,11 @@ Route route = router.get("/localized").handler(ctx -> {
 
 如果没有路由符合任何特定请求，则Vert.x-Web将根据匹配失败发出错误消息
 
-* 404 如果路径不能匹配
-* 405 如果路径匹配但是请求方法不匹配
-* 406 如果路径匹配,请求方法匹配但是它无法提供内容类型与 `Accept` 请求头匹配的响应
-* 415 如果路径匹配,请求方法匹配但是它不能接受 `Content-type`
-* 400 如果路径匹配,请求方法匹配但是它接收空方法体
+* 404 没有匹配的路径
+* 405 路径匹配但是请求方法不匹配
+* 406 路径匹配，请求方法匹配但是它无法提供内容类型与 `Accept` 请求头匹配的响应
+* 415 路径匹配，请求方法匹配但是它不能接受 `Content-type`
+* 400 路径匹配，请求方法匹配但是它接收空方法体
 
 您可以使用 `link:../../apidocs/io/vertx/ext/web/Router.html#errorHandler-int-io.vertx.core.Handler-[errorHandler]` 手动管理这些错误。
 
@@ -1317,7 +1317,7 @@ Route route = router.get("/localized").handler(ctx -> {
 
 除了设置处理程序以处理请求之外，您还可以设置处理程序以处理路由过程中的错误
 
-Failure handler使用与普通处理程序完全相同的路由匹配条件
+Failure 处理器与普通处理器（handler）有完全相同的路由匹配条件
 
 例如，您可以提供一个错误处理器，该处理程序仅处理某些路径或某些HTTP方法上的错误。
 
@@ -1384,7 +1384,7 @@ route3.failureHandler(failureRoutingContext -> {
 });
 ----
 
-如果在运行与状态消息头中不允许字符的使用相关的错误处理器时发生错误，
+如果在错误处理器执行时在状态消息头中出现非法字符，则发生错误，
 那么原始状态消息将从错误代码更改为默认消息。
 这是保持HTTP协议语义正常工作的一种折衷，
 而不是在没有正确完成协议的情况下突然崩溃并关闭套接字。
@@ -1539,7 +1539,7 @@ Vert.x-Web 使用session cookie来识别session
 cookie在HTTP请求和响应中通过网络传递，因此确保在使用会话时使用HTTPS始终是明智的。
 如果您尝试通过直接HTTP使用会话，则Vert.x会警告您。
 
-为了启用在您的应用程序中session，
+为了启用您应用程序中session，
 您必须在应用程序逻辑之前的匹配路由上具有一个 `link:../../apidocs/io/vertx/ext/web/handler/SessionHandler.html[SessionHandler]`
 
 这个session处理器会处理session cookie的生成和寻找对应session
@@ -1598,7 +1598,7 @@ session ID在这种情况下，是 `3abhbgwjg33aqrt3uat2kh4d`
 他们也将共享同样的session变量，而且网站会将其认为是同一个访问者
 如果session被用于储存私密或者敏感的数据将是一个安全危机，或允许访问网站的受限区域
 当cookie被使用时，session ID可以通过SSL和标记cookie为secure进行保护。
-但是在无cookie session的情况下，session id是URL的一部分，而且这非常容易受到损害
+但是在无cookie session的情况下，session id是URL的一部分，而且这非常容易受到攻击
 
 
 [[_session_stores]]
@@ -1611,7 +1611,7 @@ session存储器负责保存安全的伪随机数生成器，以保证安全的s
 此PRNG独立于储存器，这意味着从储存器A获得的会话ID不能获取储存器B的会话ID，
 因为它们具有不同的种子和状态。
 
-通常情况下，PRNG使用混合模式，生成种子的时候会阻塞，生成时并不阻塞
+默认情况下，PRNG使用混合模式，生成种子的时候会阻塞，生成时并不阻塞
 PRNG也将每5分钟重新设置64位新的熵。而且这也可以通过系统属性进行设置
 
 * io.vertx.ext.auth.prng.algorithm 比如: SHA1PRNG
@@ -1638,7 +1638,7 @@ Vert.x-Web具有两个开箱即用的sesion存储实现，如果您愿意，也�
 并且已将负载均衡器配置为始终将HTTP请求路由到同一Vert.x实例，则此存储是合适的。
 
 如果您不能确保所有请求都将在同一服务器上终止，请不要使用此存储
-因为您的请求可能会在不知道对应session的服务器上结束。
+因为服务器可能会在不知道对应session的情况下，终结您的请求
 
 本地session储存器通过shared local map实现，而且会由回收器清理过期的session
 
@@ -1703,7 +1703,7 @@ Vertx.clusteredVertx(new VertxOptions(), res -> {
 其他储存方式也是可行的,这些储存可通过导入正确的jar包到您的项目里面使用。
 一个这种储存的例子就是cookie储存器。
 此存储的优点是不需要后端或服务器端状态，这在某些情况下很有用，
-**但是**所有会话数据都将通过Cookie发送回客户端， 因此，
+**但是** 所有会话数据都将通过Cookie发送回客户端， 因此，
 如果您需要存储私有信息，则不应使用。
 
 如果您使用粘性会话，则此存储是合适的，
@@ -2078,7 +2078,7 @@ router.route().handler(
     .addAuthorizationProvider(authProvider));
 ----
 
-可以在1个以上的源上执行查找，只需继续向处理程序中添加 `addAuthorizationProvider（provider` 即可。
+可以在1个以上的源上执行查找，只需继续向处理程序中添加 `addAuthorizationProvider(provider)` 即可。
 
 这是一个配置应用程序的示例，因为该应用程序的不同部分需要不同的权限。
 请注意，权限的含义由您使用的底层身份验证处理器确定。
@@ -2130,9 +2130,9 @@ router.route("/private/settings/*").handler(
 ----
 ChainAuthHandler chain = ChainAuthHandler.any();
 
-// 将http basic认证处理器添加到链中
+// 将http basic认证处理器添加到处理器链路中
 chain.add(BasicAuthHandler.create(provider));
-// 将表单重定向认证处理器添加到链中
+// 将表单重定向认证处理器添加到处理器链路中
 chain.add(RedirectAuthHandler.create(provider));
 
 // 保护您的路由
