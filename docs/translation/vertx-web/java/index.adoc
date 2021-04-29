@@ -77,7 +77,7 @@ Vert.x Web 的大部分特性是使用Handler实现的， 而且您随时可以�
 [source,groovy,subs="+attributes"]
 ----
 dependencies {
- compile 'io.vertx:vertx-web:4.0.2'
+ compile 'io.vertx:vertx-web:4.0.3'
 }
 ----
 
