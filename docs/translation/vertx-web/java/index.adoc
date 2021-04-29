@@ -856,7 +856,6 @@ router.route()
   });
 ----
 
-In this case the route will match with any request with an `accept` header that matches `application/json`.
 在这种情况下，Route将匹配带有 `accept` 请求头且匹配 `application/json` 的任何请求。
 
 这有一些 `accept` 请求头将如何匹配的例子
