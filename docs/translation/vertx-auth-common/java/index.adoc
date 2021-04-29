@@ -1,5 +1,5 @@
 [[_common_authentication_and_authorization]]
-= 通用认证和授权
+= 通用认证（鉴权）和授权
 
 该Vert.x组件提供了用于身份验证和授权的接口，
 这些接口可以从Vert.x应用程序中使用，并且可以由其他提供程序支持。
@@ -29,7 +29,7 @@ compile 'io.vertx:vertx-auth-common:4.0.3'
 [[_basic_concepts]]
 == 基本概念
 
-_(Authentication)认证_ 是指验证用户的身份。
+_(Authentication)鉴权_ 是指验证用户的身份。
 
 _(Authorization)授权_ 是指验证用户是否有权执行特定任务。
 
@@ -62,7 +62,7 @@ _(Authorization)授权_ 是指验证用户是否有权执行特定任务。
 请查阅该身份验证提供程序的文档。
 
 [[_authentication]]
-== 认证（Authentication）
+== 鉴权/身份认证（Authentication）
 
 要对用户进行身份认证，请使用 `link:../../apidocs/io/vertx/ext/auth/authentication/AuthenticationProvider.html#authenticate-io.vertx.core.json.JsonObject-io.vertx.core.Handler-[authenticate]`.
 
