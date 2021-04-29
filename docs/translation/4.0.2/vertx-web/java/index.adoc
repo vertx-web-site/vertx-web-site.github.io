@@ -652,8 +652,7 @@ route3
 对于任何以' /some/path '开头的请求，路由都是按照这个顺序被调用的
 
 如果你想要覆盖默认的Route顺序
-你可以使用 `link:../../apidocs/io/vertx/ext/web/Route.html#order-int-[order]`
-指定一个整数类型的值
+你可以使用 `link:../../apidocs/io/vertx/ext/web/Route.html#order-int-[order]` 指定一个整数类型的值
 
 Route在创建时被分配的顺序与它们被添加到Router的顺序相对应
 第一个Route编号为 `0`，第二个Route编号为 `1`，以此类推。
@@ -721,6 +720,7 @@ route3
 
 NOTE: 只能在配置handler之前指定路由顺序！
 
+[[_routing_based_on_mime_type_of_request]]
 == 基于请求MIME类型的路由
 
 通过使用 `link:../../apidocs/io/vertx/ext/web/Route.html#consumes-java.lang.String-[consumes]`，你可以指定route将与的哪种请求MIME类型相匹配
@@ -792,6 +792,7 @@ router.route()
 
 如果你没有在consumer中指定一个 `/` ，它会假定你指的是子类型
 
+[[_routing_based_on_mime_types_acceptable_by_the_client]]
 == 基于客户端可接收的MIME类型的路由
 
 HTTP `accept` 请求头用于表示客户端可以接受响应的MIME类型
@@ -868,9 +869,9 @@ router.route()
 Accept: application/json; q=0.7, text/html
 
 然后路由将匹配，`acceptableContentType` 将包含' text/html '
-
 两个都是可以接受的但是它有更高的 `q` 值
 
+[[_routing_based_on_virtualhost]]
 == 基于VirtualHost的路由
 
 您可以配置一个 `Route` 将与请求主机名匹配
@@ -885,6 +886,7 @@ router.route().virtualHost("*.vertx.io").handler(ctx -> {
 });
 ----
 
+[[_combining_routing_criteria]]
 == 组合多个路由条件
 
 你可以用不同方式组合上面所有的路由条件，举个例子：
@@ -903,12 +905,14 @@ router.route(HttpMethod.PUT, "myapi/orders")
   });
 ----
 
+[[_enabling_and_disabling_routes]]
 == 启用或者关闭Route
 
 你可以通过 `link:../../apidocs/io/vertx/ext/web/Route.html#disable--[disable]` 关闭一个Route。一个被关闭的Route将会在匹配过程中被忽略
 
 你可以通过使用 `link:../../apidocs/io/vertx/ext/web/Route.html#enable--[enable]` 重新启用一个被关闭的Route
 
+[[_forward_support]]
 == 对Forward的支持
 
 你的应用可能位于一个代理服务器之后,比如 `HAProxy`。在此设置下工作时，获取客户端连接细节将不能正确返回预期结果
@@ -959,6 +963,7 @@ To read more about the format of the header format, please consult:
 * host name
 * host port
 
+[[_context_data]]
 == 上下文数据
 
 你可以使用 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html[RoutingContext]` 保存任何
@@ -991,6 +996,7 @@ router.get("/some/path/other").handler(ctx -> {
 
 你也可以使用 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#data--[data]` 获取全部的上下文数据map
 
+[[_helper_functions]]
 == 帮手函数
 
 虽然路由上下文将允许您获取基础请求和响应对象，但有时如果有一些捷径可以帮助你完成常见的任务，你的工作效率会更高。
@@ -1015,6 +1021,7 @@ ctx.redirect("https://securesite.com/");
 //对于目标为”back"有一个特殊的处理。
 //在这种情况下，重定向会将用户发送到
 //referrer url或 "/"如果没有referrer。
+
 ctx.redirect("back");
 ----
 
@@ -1070,6 +1077,7 @@ ctx.end(buffer);
 ----
 
 
+[[_reroute]]
 == 重新路由
 
 到目前为止，所有路由机制都允许您以顺序的方式处理请求，
@@ -1145,6 +1153,7 @@ router.get().handler(ctx -> ctx
 则应使用在HTTP事务的整个生命周期中保留的上下文。
 
 
+[[_sub_routers]]
 == 子路由器
 
 有时，如果您有很多handler，则可以将它们拆分为多个Router。
@@ -1220,6 +1229,7 @@ mainRouter.mountSubRouter("/productsAPI", restAPI);
 验证是在将路由器添加到http服务器时进行的。这意味着由于子路由器的动态特性，在构建期间无法获得任何验证错误。
 它们取决于要验证的上下文。
 
+[[_localization]]
 == 本地化
 
 Vert.x Web解析 `Accept-Language` 请求头，
@@ -1256,6 +1266,7 @@ Route route = router.get("/localized").handler(ctx -> {
 如果您只对用户偏爱的语言环境感兴趣，则使用这个帮手方法 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#preferredLanguage--[preferredLanguage]` 其将返回列表的第1个元素，
 如果用户未提供语言环境，则返回"null"。
 
+[[_route_match_failures]]
 == 路由匹配失败
 
 如果没有路由符合任何特定请求，则Vert.x-Web将根据匹配失败发出错误消息
@@ -1344,6 +1355,7 @@ route3.failureHandler(failureRoutingContext -> {
 这是保持HTTP协议语义正常工作的一种折衷，
 而不是在没有正确完成协议的情况下突然崩溃并关闭套接字。
 
+[[_request_body_handling]]
 == 请求体处理
 
 `link:../../apidocs/io/vertx/ext/web/handler/BodyHandler.html[BodyHandler]` 允许你获取请求体，
@@ -1389,12 +1401,14 @@ NOTE: 上传可能是DDoS攻击的来源，为了减少攻击面，建议
 设置合适的 `link:../../apidocs/io/vertx/ext/web/handler/BodyHandler.html#setBodyLimit-long-[setBodyLimit]` (例如 10MB的上传限制 或者
 100KB的json大小限制).
 
+[[_getting_the_request_body]]
 === 获取请求体
 
 如果你知道请求体是个JSON，然后你可以使用 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#getBodyAsJson-int-[getBodyAsJson]` ，
 如果你知道他是个字符串，你可以使用 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#getBodyAsString--[getBodyAsString]`，
 或者使用 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#getBody--[getBody]`  获取buffer
 
+[[_limiting_body_size]]
 === 限制请求体大小
 
 为了限制请求体大小，创建请求体处理器然后使用 `link:../../apidocs/io/vertx/ext/web/handler/BodyHandler.html#setBodyLimit-long-[setBodyLimit]` 指定最大请求体大小
@@ -1405,11 +1419,13 @@ NOTE: 上传可能是DDoS攻击的来源，为了减少攻击面，建议
 
 默认情况下没有最大请求体大小限制
 
+[[_merging_form_attributes]]
 === 合并表单属性
 
 默认情况下，请求体处理器会将所有表单属性合并到请求参数中
 如果你不想这样做，你可以通过 `link:../../apidocs/io/vertx/ext/web/handler/BodyHandler.html#setMergeFormAttributes-boolean-[setMergeFormAttributes]` 关闭这个功能
 
+[[_handling_file_uploads]]
 === 处理文件上传
 
 请求体处理器还用于处理多部分文件的上传。
@@ -1441,6 +1457,7 @@ router.post("/some/path/uploads").handler(ctx -> {
 
 Vert.x-Web 有开箱即用的cookie支持
 
+[[_handling_cookies]]
 === 操作 cookies
 
 你可以使用 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#getCookie-java.lang.String-[getCookie]` 按名获取一个cookie
@@ -1469,6 +1486,7 @@ String cookieValue = someCookie.getValue();
 ctx.addCookie(Cookie.cookie("othercookie", "somevalue"));
 ----
 
+[[_handling_sessions]]
 == 处理session
 
 Vert.x-Web提供了开箱即用的session支持
@@ -1544,6 +1562,7 @@ session ID在这种情况下，是 `3abhbgwjg33aqrt3uat2kh4d`
 当cookie被使用时，session ID可以通过SSL和标记cookie为secure进行保护。
 但是在无cookie session的情况下，session id是URL的一部分，而且这非常容易受到损害
 
+[[_session_stores]]
 === session储存
 
 创建一个session处理器，你需要一个session储存器实例。
@@ -1571,6 +1590,7 @@ Vert.x-Web具有两个开箱即用的sesion存储实现，如果您愿意，也�
 如果没有可用的，则默认值取决于创建Vert.x的模式。
 如果集群模式可用，则默认配置为为集群储存，否则为本地存储。
 
+[[_local_session_store]]
 ==== 本地session储存
 
 通过这个储存器，session可以在内存中本地化储存，而且只在这个实例中可用
@@ -1606,6 +1626,7 @@ SessionStore store3 = LocalSessionStore.create(
   10000);
 ----
 
+[[_clustered_session_store]]
 ==== 集群session储存器
 
 通过这个储存器，session可以储存在分布式map中，其可以跨Vert.x集群使用
@@ -1638,6 +1659,7 @@ Vertx.clusteredVertx(new VertxOptions(), res -> {
 });
 ----
 
+[[_other_stores]]
 ==== 其他储存方式
 
 其他储存方式也是可行的,这些储存可通过导入正确的jar包到你的项目里面使用。
@@ -1659,6 +1681,7 @@ Vertx.clusteredVertx(new VertxOptions(), res -> {
 * artifactId: `vertx-web-sstore-{cookie|redis}`
 
 
+[[_creating_the_session_handler]]
 === 创建session处理器
 
 一旦你创建好session储存器，你就可以开始创建session处理器了，并且把他添加到Route中。
@@ -1696,7 +1719,8 @@ router.route("/somepath/blah/").handler(ctx -> {
 session处理器会确保你的session会从session储存器中被自动地找出来(或者当session不存在时创建一个)，
 然后在到达你的应用程序处理器之前将其放置在路由上下文中
 
-=== 使用session
+[[_using_the_session]]
+=== 使用 session
 
 在你的处理器中你可以通过 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#session--[session]` 获取到session实例
 
@@ -1739,7 +1763,8 @@ router.route("/somepath/blah").handler(ctx -> {
 它会将session从上下文和session储存器中移除
 请注意，如果没有session，则将为通过session处理器的下一个来自浏览器的请求自动创建一个新会话。
 
-=== session超时
+[[_session_timeout]]
+=== session 超时
 
 如果session的未访问时间超过超时时间，则session将自动超时。
 当一个session超时时，它将会被从储存中移除
@@ -1769,6 +1794,7 @@ Verx.x带有一些现成的处理器，用于处理身份验证和授权
 *授权* 在vert.x中是相当通用的，无论优先级如何都可以使用
 然而，在这两种情况下使用相同的提供者模块也是可能的，也是有效的用例。
 
+[[_creating_an_authentication_handler]]
 === 创建一个身份认证处理器
 
 创建一个验证处理器你需要一个 `link:../../apidocs/io/vertx/ext/auth/authentication/AuthenticationProvider.html[AuthenticationProvider]` 的实例
@@ -1784,6 +1810,7 @@ router.route().handler(SessionHandler.create(LocalSessionStore.create(vertx)));
 AuthenticationHandler basicAuthHandler = BasicAuthHandler.create(authProvider);
 ----
 
+[[_handling_authentication_in_your_application]]
 === 在你的程序中处理身份认证
 
 假设你希望对以 `/private/` 开头的路径的所有请求都经过身份认证。
@@ -1831,15 +1858,21 @@ http://en.wikipedia.org/wiki/Basic_access_authentication[HTTP Basic Authenticati
 使用basic authentication时，凭据将以非加密方式通过HTTP标头通过网络发送，
 因此，必须使用HTTPS而不是HTTP为应用程序提供服务。
 
-使用basic authentication时，如果用户请求需要身份认证的资源，则basic auth处理器将发送带有标头 `WWW-Authenticate` 的 `401` 响应。
-这会提示浏览器显示登录对话框，并提示用户输入用户名和密码。
+使用basic authentication时，如果用户请求需要身份认证的资源，
+则basic auth处理器将发送带有标头 `WWW-Authenticate` 的 `401` 响应。
+这会提示浏览器显示登录对话框，
+并提示用户输入用户名和密码。
 
-用户会再次向资源发出请求，这次设置了 `Authorization` 标头，其中包含以Base64编码的用户名和密码。
+用户会再次向资源发出请求，这次设置了 `Authorization` 标头，
+其中包含以Base64编码的用户名和密码。
 
-当basic auth处理器收到这个信息时，它会用用户名和密码调用配置好的 `link:../../apidocs/io/vertx/ext/auth/authentication/AuthenticationProvider.html[AuthenticationProvider]` 来认证用户。
-如果身份认证成功，则允许请求路由继续到应用程序处理器，否则返回 `403` 响应以表示拒绝访问。
+当basic auth处理器收到该信息后，
+它会使用配置好用户名和密码的 `link:../../apidocs/io/vertx/ext/auth/authentication/AuthenticationProvider.html[AuthenticationProvider]` 以认证用户。
+如果身份认证成功，则允许请求路由继续到应用程序处理器，
+否则返回 `403` 响应拒绝访问。
 
 
+[[_redirect_authentication_handler]]
 === 重定向身份认证
 
 使用重定向身份认证处理的情况下，如果用户尝试访问受保护的资源并且未登录，则将用户重定向到登录页面
@@ -1887,6 +1920,7 @@ router
   });
 ----
 
+[[_jwt_authentication]]
 === JWT 认证
 
 使用JWT身份认证可以通过权限保护资源，并且拒绝没有足够权限的用户访问。您需要添加 `io.vertx：vertx-auth-jwt：4.0.2` 依赖项才能使用 `JWTAuthProvider`。
@@ -1978,6 +2012,7 @@ Handler<RoutingContext> handler = ctx -> {
 };
 ----
 
+[[_configuring_authorization]]
 === 配置授权
 
 到目前为止，所有示例都涉及身份认证。与用户打交道时，授权是下一个合乎逻辑的步骤。
@@ -2092,6 +2127,7 @@ router.route("/secure/resource").handler(ctx -> {
 });
 ----
 
+[[_serving_static_resources]]
 == 处理静态资源
 
 Vert.x-Web带有开箱即用的处理器，用于处理静态Web资源，因此您可以非常轻松地编写静态Web服务器。
@@ -2119,6 +2155,7 @@ router.route("/static/*").handler(StaticHandler.create());
 处理器会处理范围感知的请求。当客户端向静态资源发出请求时，处理程序将通过在 `Accept-Ranges` 标头上声明该单元来通知其可以处理范围感知的请求。
 包含带有正确单位以及起始索引和结束索引的 `Range` 标头的进一步请求将收到带有正确 `Content-Range` 标头的部分响应。
 
+[[_configuring_caching]]
 === 配置缓存
 
 默认情况下，静态处理程序将设置缓存头，以使浏览器能够有效地缓存文件。
@@ -2144,21 +2181,25 @@ Vert.x-Web 设置 `cache-control`,`last-modified`, 和 `date` 头
 
 可以通过 `link:../../apidocs/io/vertx/ext/web/handler/StaticHandler.html#setCacheEntryTimeout-long-[setCacheEntryTimeout]` 配置缓存项的过期时间
 
+[[_configuring_the_index_page]]
 === 配置主页
 
 对根路径 `/` 的任何请求都将导致主页得到处理。默认情况下主页是 `index.html`
 它可以通过 `link:../../apidocs/io/vertx/ext/web/handler/StaticHandler.html#setIndexPage-java.lang.String-[setIndexPage]`.配置
 
+[[_changing_the_web_root]]
 === 更改web root
 
 默认情况下，静态资源将从目录 `webroot` 提供。可以通过 `link:../../apidocs/io/vertx/ext/web/handler/StaticHandler.html#setWebRoot-java.lang.String-[setWebRoot]` 进行配置这个
 
+[[_serving_hidden_files]]
 === 处理隐藏文件
 
 默认情况下，服务器将提供隐藏文件（以 `.` 开头的文件）。
 
 如果您不希望提供隐藏文件，则可以使用以下命令对其进行配置 `link:../../apidocs/io/vertx/ext/web/handler/StaticHandler.html#setIncludeHidden-boolean-[setIncludeHidden]`
 
+[[_directory_listing]]
 === 目录列表
 
 服务器还可以执行目录列表。默认情况下，目录列表处于禁用状态，可以使用 `link:../../apidocs/io/vertx/ext/web/handler/StaticHandler.html#setDirectoryListing-boolean-[setDirectoryListing]` 启用他
@@ -2167,6 +2208,7 @@ Vert.x-Web 设置 `cache-control`,`last-modified`, 和 `date` 头
 
 对于 `text/html` 目录列表，可以使用 `link:../../apidocs/io/vertx/ext/web/handler/StaticHandler.html#setDirectoryTemplate-java.lang.String-[setDirectoryTemplate]` 配置用于呈现目录列表页面的模板
 
+[[_disabling_file_caching_on_disk]]
 === 关闭在磁盘上的文件缓存
 
 默认情况下，Vert.x将把从类路径提供的文件缓存到当前工作目录中名为 `.vertx` 的目录的子目录中的磁盘上的文件中。
@@ -2178,6 +2220,7 @@ Vert.x-Web 设置 `cache-control`,`last-modified`, 和 `date` 头
 为了向后兼容，该值还将默认为系统属性 `vertx.disableFileCaching` 的值。
 例如。您可以在IDE中设置运行配置，以便在运行主类时进行设置。
 
+[[_cors_handling]]
 == 跨域处理
 
 http://en.wikipedia.org/wiki/Cross-origin_resource_sharing[Cross Origin Resource Sharing]是一种安全的机制，用于允许从一个域请求资源并从另一个域提供资源。
@@ -2204,6 +2247,7 @@ router.route().handler(ctx -> {
 TODO more CORS docs
 ////
 
+[[_multi_tenant]]
 == 多租户
 
 在某些情况下，您的应用程序需要处理的不仅仅是一个租户。
@@ -3169,6 +3213,7 @@ router.mountSubRouter(
     .addInboundPermitted(inboundPermitted)));
 ----
 
+[[_handling_event_bus_bridge_events]]
 === 处理事件总线桥事件
 
 如果您希望在桥时上发生事件时收到通知，可以提供一个处理器在调用 `link:../../apidocs/io/vertx/ext/web/handler/sockjs/SockJSHandler.html#bridge-io.vertx.ext.web.handler.sockjs.SockJSBridgeOptions-io.vertx.core.Handler-[bridge]` 时调用
@@ -3332,6 +3377,7 @@ router.mountSubRouter(
   }));
 ----
 
+[[_csrf_cross_site_request_forgery]]
 == CSRF跨站请求伪造
 
 CSRF或有时也称为XSRF是一种技术，未经授权的站点可以通过该技术获取用户的私人数据
@@ -3372,6 +3418,7 @@ router.route().handler(ctx -> {
 点击劫持仍然可能影响应用程序。 如果这是关键应用程序，请考虑设置标头 `X-Frame-Options` ，如以下描述中所述：
  https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options
 
+[[_using_ajax]]
 === 使用 AJAX
 
 当通过ajax访问受保护的路由时，两个csrf token都需要在请求中传递。
@@ -3408,7 +3455,8 @@ fetch('/process', {
 })
 ----
 
-== HSTS处理器
+[[_hsts_handler]]
+== HSTS 处理器
 
 HTTP严格传输安全性（HSTS）是一种Web安全策略机制，可帮助保护网站免受中间人攻击，例如协议降级攻击和cookie劫持。
 它允许Web服务器声明Web浏览器（或其他符合要求的用户代理）应仅使用提供传输层安全性（TLS/SSL）的HTTPS连接自动与其进行交互，这与单独使用不安全的HTTP不同。
@@ -3421,6 +3469,7 @@ HSTS是IETF标准的跟踪协议，在RFC 6797中进行了确定。
 router.route().handler(HSTSHandler.create());
 ----
 
+[[_csp_handler]]
 == CSP处理器
 
 内容安全策略（CSP）是安全性的附加层，有助于检测和缓解某些类型的攻击，包括跨站点脚本（XSS）和数据注入攻击。
@@ -3437,6 +3486,7 @@ router.route().handler(
     .addDirective("default-src", "*.trusted.com"));
 ----
 
+[[_xframe_handler]]
 == XFrame处理器
 
 `X-Frame-Options` HTTP响应标头可用于指示是否应允许浏览器在 `frame`，`iframe`，`embed` 或 `object` 中呈现页面。
@@ -3575,6 +3625,7 @@ oauth2.setupCallback(router.route());
 在该示例中，路由对象是由 `Router.route()` 内联创建的，
 但是，如果您想完全控制处理程序的调用顺序（例如，希望在链中尽快调用它），则可以可以始终在此之前创建Route对象，并将其的引用传递给这个方法
 
+[[_a_real_world_example]]
 === 一个真实世界的例子
 
 到目前为止，您已经学习了如何使用Oauth2处理器，但是您会注意到，对于每个请求，您都需要进行身份验证。
@@ -3637,6 +3688,7 @@ router.get("/protected").handler(ctx -> {
 });
 ----
 
+[[_mixing_oauth2_and_jwt]]
 === 将OAuth2和JWT混合使用
 
 一些提供者将JWT token用作访问token，这是
@@ -3897,6 +3949,7 @@ WARNING: 由于API的安全性，浏览器将不允许您在纯文本HTTP上使�
 WARNING: WebAuthN需要具有有效TLS证书的HTTPS，
 您也可以在开发过程中使用自签名证书。
 
+[[_handling_http_method_overriding]]
 === 处理HTTP请求方法覆盖
 
 许多公司和其他服务都限制了它们允许外部使用的REST HTTP方法。
