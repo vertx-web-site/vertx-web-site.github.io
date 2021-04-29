@@ -3921,10 +3921,7 @@ WARNING: WebAuthN需要具有有效TLS证书的HTTPS，
 
 === 处理HTTP请求方法覆盖
 
-许多公司和其他服务都限制了它们允许外部使用的REST HTTP方法。
-有些不太严密的可以允许使用任意的方法，大多数仅允许一个很小但不错的集合，有些则只允许GET和POST。
-造成这种限制的原因各不相同：浏览器或客户端限制或非常严格的公司防火墙。仅具有GET和POST的Web服务不能很好地表达REST的思想。
-PUT，DELETE，OPTIONS等对于指定对资源执行的操作非常有用。为了解决这个问题，它创建了X-HTTP-METHOD-OVERRIDE HTTP标头作为解决方法。
+许多公司和其他服务都限制了它们允许外部使用的REST HTTP方法。有些不太严密的可以允许使用任意的方法，大多数仅允许一个很小但不错的集合，有些则只允许GET和POST。造成这种限制的原因各不相同：浏览器或客户端限制或非常严格的公司防火墙。仅具有GET和POST的Web服务不能很好地表达REST的思想。PUT，DELETE，OPTIONS等对于指定对资源执行的操作非常有用。为了解决这个问题，它创建了X-HTTP-METHOD-OVERRIDE HTTP标头作为解决方法。
 
 通过使用GET/POST发送请求以及该请求应在X-HTTP-METHOD-OVERRIDE HTTP标头内设置真正的请求方法，服务器应识别该标头并重定向到适当的方法
 
@@ -3935,11 +3932,11 @@ Vert.x允许这样做，只需：
 router.route().handler(MethodOverrideHandler.create());
 
 router.route(HttpMethod.GET, "/").handler(ctx -> {
-  // 做GET的操作
+  // 做 GET 相关操作……
 });
 
 router.route(HttpMethod.POST, "/").handler(ctx -> {
-  // 做POST操作
+  // 做 POST 相关操作……
 });
 ----
 
@@ -3962,10 +3959,10 @@ router.route(HttpMethod.POST, "/").handler(ctx -> {
 router.route().handler(MethodOverrideHandler.create(false));
 
 router.route(HttpMethod.GET, "/").handler(ctx -> {
-  // 做GET操作
+  // 做 GET 相关操作……
 });
 
 router.route(HttpMethod.POST, "/").handler(ctx -> {
-  // 做POST操作
+  // 做 POST 相关操作……
 });
 ----
