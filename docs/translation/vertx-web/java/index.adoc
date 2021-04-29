@@ -372,7 +372,11 @@ route.handler(ctx -> {
   // `/some/path/subdir/blah.html`
   //
   // 但同时：
-  // `/some/path` 这个路径被限制因为以斜线结尾
+  // `/some/path` 最终的斜杆总是可选的并配有通配符，
+  // 以保持与许多客户端库的兼容性。
+  // 但 **不包括**：
+  // `/some/patha`
+  // `/some/patha/`
   // `/some/bath`
 });
 ----
