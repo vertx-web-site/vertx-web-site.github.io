@@ -377,7 +377,7 @@ route.handler(ctx -> {
   // 但 **不包括**：
   // `/some/patha`
   // `/some/patha/`
-  // `/some/bath`
+  // 等等……
 });
 ----
 
