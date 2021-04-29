@@ -891,7 +891,6 @@ router.route()
 Accept: application/json; q=0.7, text/html
 
 然后路由将匹配，`acceptableContentType` 将包含' text/html '
-
 两个都是可以接受的但是它有更高的 `q` 值
 
 == 基于VirtualHost的路由
