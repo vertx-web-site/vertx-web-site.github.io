@@ -172,7 +172,7 @@ const entries = [
   {
     id: "vertx-mongo-client",
     name: "MongoDB 客户端",
-    description: "MongoDB 客户端",
+    description: "MongoDB 客户端。",
     category: "databases",
     href: "/vertx-mongo-client/java/",
     repository: "https://github.com/vert-x3/vertx-mongo-client",
@@ -557,7 +557,7 @@ const entries = [
   {
     id: "vertx-unit",
     name: "Vert.x 单元测试",
-    description: `一款旨在配合异步代码使用的单元测试工具。包含有JUnit 4的支持。`,
+    description: "一款旨在配合异步代码使用的单元测试工具。包含有JUnit 4的支持。",
     category: "testing",
     href: "/vertx-unit/java/",
     repository: "https://github.com/vert-x3/vertx-unit",
@@ -626,8 +626,8 @@ const entries = [
   },
   {
     id: "vertx-sockjs-service-proxy",
-    name: "SockJS Service Proxies",
-    description: "Allow event bus services to be called from JavaScript (web browser or Node.js).",
+    name: "SockJS 服务代理",
+    description: "允许从JavaScript（Web浏览器或Node.js）中调用事件总线服务。",
     category: "services",
     href: "/vertx-sockjs-service-proxy/java/",
     repository: "https://github.com/vert-x3/vertx-sockjs-service-proxy",

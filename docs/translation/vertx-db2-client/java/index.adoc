@@ -1,4 +1,4 @@
-= Reactive DB2 Client
+= Reactive DB2 客户端
 :PREPARED_PARAMS: `?`​
 
 The Reactive DB2 Client is a client for DB2 with a straightforward API focusing on
