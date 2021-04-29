@@ -611,6 +611,7 @@ Route route = router.route()
 NOTE: 请务必留意，像 rerouting 等特性不接受自定义 http 方法，
 这些操作在检测到自定义动词时将会使用 `OTHER` 值以替代自定义名。
 
+[[_route_order]]
 == 路由顺序
 
 默认情况下Route按照其加入到Router的顺序进行匹配
