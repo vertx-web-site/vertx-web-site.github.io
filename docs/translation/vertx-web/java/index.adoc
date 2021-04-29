@@ -371,7 +371,7 @@ route.handler(ctx -> {
   // `/some/path/subdir`
   // `/some/path/subdir/blah.html`
   //
-  // 但不包括:
+  // 但同时：
   // `/some/path` 这个路径被限制因为以斜线结尾
   // `/some/bath`
 });
