@@ -13,7 +13,6 @@ Vert.x Web 的设计是强大的，非侵入式的, 并且是完全可插拔的�
 
 您可以使用 Vert.x Web 来构建经典的服务端 Web 应用， RESTful 应用， 实时的（服务端推送)Web 应用, 或任何您所能想到的 Web 应用类型。应用类型的选择取决于您的喜好，而不是 Vert.x Web。
 
-Vert.x-Web is a great fit for writing RESTful HTTP micro-services, but we don’t force you to write apps like that。
 Vert.x Web 非常适合编写 RESTful HTTP 微服务，** 但我们不强制 ** 您必须把应用实现成这样。
 
 Vert.x Web 的一部分关键特性有：
