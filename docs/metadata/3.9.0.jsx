@@ -94,7 +94,7 @@ const entries = [
   {
     id: "vertx-web",
     name: "Vert.x Web",
-    description: `一款用于编写复杂的现代Web应用以及和HTTP微服务的工具包。`,
+    description: "一款用于编写复杂的现代Web应用以及和HTTP微服务的工具包。",
     category: "web",
     href: "/vertx-web/java/",
     repository: "https://github.com/vert-x3/vertx-web",
