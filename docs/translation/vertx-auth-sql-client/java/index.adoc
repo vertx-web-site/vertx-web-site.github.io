@@ -43,7 +43,7 @@ AuthenticationProvider authenticationProvider =
 
 我们假设开箱即用的配置对于鉴权与授权做出了某种查询，
 如果您想在不同的数据库schema之下来查询，那么您可以用 `link:../../apidocs/io/vertx/ext/auth/sqlclient/SqlAuthenticationOptions.html#setAuthenticationQuery-java.lang.String-[setAuthenticationQuery]`,
-`link:../../apidocs/io/vertx/ext/auth/sqlclient/SqlAuthorizationOptions.html#setPermissionsQuery-java.lang.String-[setPermissionsQuery]` and
+`link:../../apidocs/io/vertx/ext/auth/sqlclient/SqlAuthorizationOptions.html#setPermissionsQuery-java.lang.String-[setPermissionsQuery]` 和
 `link:../../apidocs/io/vertx/ext/auth/sqlclient/SqlAuthorizationOptions.html#setRolesQuery-java.lang.String-[setRolesQuery]` 操作做出变化。
 
 基本的数据存储的定义应如下：
@@ -124,7 +124,6 @@ GDPR 定义如下的功能：
 这里提示一下，您应该有一个布尔类型的字段来标识个人信息是否访问受限，以此来遵循处理数据时的法律限制：例如，向邮件列表中的邮箱批量发送邮件，
 当某个邮箱用户的限制标识为true时，便不允许向他发送邮件。
 
-
 删除数据的权利并不代表您必须清除您应用中所有的数据，
 例如：在银行当中，这个权利不能用来清除贷款和债务信息。您可以保留应用中的数据，但是必须清除个人数据。
 对于 Vert.x Auth SQL 场景，您应该删除您的表，
@@ -181,7 +180,7 @@ authProvider.authenticate(authInfo)
   });
 ----
 
-[[_authorisation___permission_role_model]]
+[[_authorisation_permission_role_model]]
 == 授权：权限-角色 模型
 
 Vert.x auth 自身不对任何权限（一些晦涩的字符串）的模型进行授权，
