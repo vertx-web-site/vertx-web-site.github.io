@@ -2060,6 +2060,7 @@ router.route("/private/settings/*").handler(
     .addAuthorizationProvider(authProvider));
 ----
 
+[[_chaining_multiple_authentication_handlers]]
 === 链接多个身份验证处理器
 
 有时您想在单个应用程序中支持多种身份认证机制。
