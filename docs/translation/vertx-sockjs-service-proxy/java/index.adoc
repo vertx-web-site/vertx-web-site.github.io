@@ -36,7 +36,7 @@ compile 'io.vertx:vertx-sockjs-service-proxy:4.0.3'
 compile 'io.vertx:vertx-service-proxy:${vertx.version}'
 ----
 
-请注意！由于服务代理机制依赖于代码生成，所以对服务接口进行修改后需要先重新编译源码让代码生成器重新生成代理类代码。
+请注意！由于服务代理机制依赖于代码生成，所以对 _服务接口_ 进行修改后需要先重新编译源码让代码生成器重新生成代理类代码。
 
 在更进一步之前，我们建议您去查阅 http://vertx.io/docs/vertx-service-proxy/java[服务代理文档].
 
