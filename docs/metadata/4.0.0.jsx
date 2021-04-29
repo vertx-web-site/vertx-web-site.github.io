@@ -148,9 +148,8 @@ insert(docs, "vertx-auth-mongo",
   },
   {
     id: "vertx-auth-sql-client",
-    name: "SQL Client Auth",
-    description: `Authentication and authorization support based on the Vert.x
-      SQL client and a relational database.`,
+    name: "SQL 客户端身份验证",
+    description: `基于Vert.x SQL客户端和关系型数据库的身份验证和授权支持。`,
     category: "authentication-and-authorization",
     href: "/vertx-auth-sql-client/java/",
     repository: "https://github.com/vert-x3/vertx-auth/tree/master/vertx-auth-sql-client",
