@@ -363,8 +363,8 @@ const entries = [
   },
   {
     id: "vertx-auth-mongo",
-    name: "MongoDB Auth",
-    description: "Authentication and authorization support based on MongoDB.",
+    name: "MongoDB 鉴权与授权",
+    description: "基于 MongoDB 的身份验证和授权支持。",
     category: "authentication-and-authorization",
     href: "/vertx-auth-mongo/java/",
     repository: "https://github.com/vert-x3/vertx-auth/tree/master/vertx-auth-mongo",
