@@ -17,7 +17,7 @@ Vert.X中提供了一个 `link:../../apidocs/io/vertx/ext/auth/authentication/Au
 </dependency>
 ----
 
-* Gradle (在 `build.gradle` 文件中):
+* Gradle （在 `build.gradle` 文件中）：
 
 [source,groovy,subs="+attributes"]
 ----
