@@ -1,22 +1,5 @@
 = Mongo Auth Provider
 
-* 引用：[http://vertx.io/docs/vertx-auth-mongo/java/](http://vertx.io/docs/vertx-auth-mongo/java/)
-
-
-_基本术语_
-
-* __Authentication__：认证
-* __Authorisation__：授权
-* __Authority__：权限
-* __Permission__：许可
-* __Role__：角色
-* __User__：用户
-* __Token__：令牌
-* __Principal__：凭证
-* __Handler__：处理器
-* __Collection__：集合，MongoDB专用（概念稍同Database的Table）
-* __Document__：文档，MongoDB专用（概念稍同Database中Row）
-
 Vert.X中提供了一个 `link:../../apidocs/io/vertx/ext/auth/authentication/AuthenticationProvider.html[AuthenticationProvider]` 的实现，
 它可以让你使用MongoClient针对MongoDb数据库执行认证和授权。
 
@@ -97,7 +80,7 @@ GDPR（译者注：一般数据保护条例）是欧盟普通法中的一项法�
 * Personal Data（个人数据） - 任何指向一个已识别或可识别的自然人（即数据主体）相关的的数据
 * Data Processing（数据处理） - 对于个人信息（即个人数据）的任何操作（手动或自动）
 * Controller（控制者） - 请求和使用数据的实体（例如：公司）
-* Processors（处理者） - 代表Controller处理数据的任何实体（例如：云服务供应商）。
+* Processors（处理者） - 代表控制者处理数据的任何实体（例如：云服务供应商）。
 
 GDPR 定义如下的功能：
 
