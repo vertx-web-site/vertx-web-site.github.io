@@ -53,7 +53,7 @@ MongoDB的特性是先查询username字段中的值是否已经存在，然后�
 基于这个原因您需要添加上边的唯一索引，
 使用了这个索引过后你的代码会尝试先插入一行数据，如果出现了重复记录则会失败。
 
-根据你自己的需要，你同样可以使用下边的方法改变MongoDB中使用的默认集合（Collection）和列（Column）名称等信息：
+根据您自身需要，您同样可以使用下边的方法改变 MongoDB 中使用的默认集合（Collection）和列（Column）名称等信息：
 
 `link:../../apidocs/io/vertx/ext/auth/mongo/MongoAuthenticationOptions.html#setCollectionName-java.lang.String-[setCollectionName]`
 `link:../../apidocs/io/vertx/ext/auth/mongo/MongoAuthenticationOptions.html#setUsernameField-java.lang.String-[setUsernameField]`
