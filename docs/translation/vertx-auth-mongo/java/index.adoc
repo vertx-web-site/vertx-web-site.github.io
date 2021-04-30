@@ -60,7 +60,7 @@ MongoDB的特性是先查询username字段中的值是否已经存在，然后�
 `link:../../apidocs/io/vertx/ext/auth/mongo/MongoAuthenticationOptions.html#setPasswordField-java.lang.String-[setPasswordField]`
 
 
-Vert.X默认实现中的密码通过 `link:../../apidocs/io/vertx/ext/auth/HashingStrategy.html[HashingStrategy]` 在数据库中加密后进行存储。(在该Hash算法中已存储了salt值)
+Vert.X默认实现中的密码通过 `link:../../apidocs/io/vertx/ext/auth/HashingStrategy.html[HashingStrategy]` 在数据库中加密后进行存储。(salt值存储在该Hash结果中)
 
 如果你想要重写上述行为，则你可以调用 `link:../../apidocs/io/vertx/ext/auth/mongo/MongoAuth.html#setHashStrategy-io.vertx.ext.auth.mongo.HashStrategy-[setHashStrategy]`
 方法设置新的Hash策略，并且提供变更过的Hash策略及配置信息。
