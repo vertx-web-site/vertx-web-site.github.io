@@ -24,7 +24,7 @@ Vert.X中提供了一个 `link:../../apidocs/io/vertx/ext/auth/authentication/Au
 compile 'io.vertx:vertx-auth-mongo:4.0.3'
 ----
 
-如果要创建一个客户端实例，你首先需要一个 `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html[MongoClient]` 的实例，
+如果要创建一个客户端实例，您首先需要一个 `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html[MongoClient]` 的实例，
 要知道如何创建这个实例可按照文档中的内容实施。
 
 一旦你创建了一个 `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html[MongoClient]` 实例后，就可以按照下边的代码创建 `link:../../apidocs/io/vertx/ext/auth/mongo/MongoAuth.html[MongoAuth]` 实例：
