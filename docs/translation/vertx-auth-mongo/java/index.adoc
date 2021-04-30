@@ -134,7 +134,7 @@ authProvider.authenticate(authInfo)
 [[_authorisation_permission_role_model]]
 == 授权：Permission/Role模型
 
-尽管Vert.X自身并不要求使用特定的许可模型（它本身只是使用了不透明的字符串），
+尽管 Vert.X 自身并不要求使用特定的许可模型（它本身只是使用了不透明的字符串），
 但 MongoDB 认证中的实现使用了比较熟悉的：用户/角色/许可模型，这样在应用里您可以使用一个或者多个角色，
 而一个角色也可以拥有一个或者多个许可。
 
