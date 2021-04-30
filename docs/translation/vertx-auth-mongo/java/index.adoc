@@ -127,7 +127,7 @@ authProvider.authenticate(authInfo)
     // Failed!
   });
 ----
-如果想要替换上边的 `username` 和 `password` 两个默认字段名，你可以使用下边两个方法：
+如果想要替换上边的 `username` 和 `password` 两个默认字段名，您可使用以下两种方法：
 `link:../../apidocs/io/vertx/ext/auth/mongo/MongoAuthenticationOptions.html#getUsernameCredentialField--[getUsernameCredentialField]` 和
 `link:../../apidocs/io/vertx/ext/auth/mongo/MongoAuthenticationOptions.html#getPasswordCredentialField--[getPasswordCredentialField]`
 
