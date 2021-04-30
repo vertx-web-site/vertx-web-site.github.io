@@ -37,7 +37,7 @@ MongoAuthentication authenticationProvider =
   MongoAuthentication.create(client, options);
 ----
 
-创建好上边的实例过后，你就可以使用任何 `link:../../apidocs/io/vertx/ext/auth/authentication/AuthenticationProvider.html[AuthenticationProvider]` 针对MongoDB执行认证和授权功能了。
+创建好上边的实例过后，您就可以使用任何 `link:../../apidocs/io/vertx/ext/auth/authentication/AuthenticationProvider.html[AuthenticationProvider]` 针对MongoDB执行认证和授权功能了。
 
 Vert.X的默认标准配置（Out Of the Box）中包含了"user"集合（Collection），
 用户名字段使用"username"进行存储和读取。
