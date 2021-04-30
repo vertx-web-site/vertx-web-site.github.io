@@ -1,7 +1,7 @@
 = Mongo Auth Provider
 
 Vert.X中提供了一个 `link:../../apidocs/io/vertx/ext/auth/authentication/AuthenticationProvider.html[AuthenticationProvider]` 的实现，
-它可以让你使用MongoClient针对MongoDb数据库执行认证和授权。
+它可以让您使用 MongoClient 针对 MongoDb 数据库执行认证和授权。
 
 若要在自己的项目中使用它，
 需要在构建描述信息的_dependencies_节点中添加如下信息：
