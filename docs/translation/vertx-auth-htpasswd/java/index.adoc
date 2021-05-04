@@ -4,7 +4,7 @@ Vert.x提供了 `link:../../apidocs/io/vertx/ext/auth/authentication/Authenticat
 的文件格式来执行身份验证。提供程序加载后，将不会监视文件的更新。
 如果您需要动态的用户管理，使用动态提供程序（如jdbc或mongo提供程序）会更加的方便。
 
-要使用.htpasswd Auth组件，
+要使用此项目，
 在构建描述文件的 _dependencies_ 部分添加以下依赖项：
 
 * Maven (在 `pom.xml` 文件中)：
