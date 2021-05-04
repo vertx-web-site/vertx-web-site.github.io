@@ -36,7 +36,7 @@ HtdigestAuth authProvider = HtdigestAuth.create(vertx, ".htdigest");
 
 获得HtdigestAuth实例后， 您可以像使用任何的 `link:../../apidocs/io/vertx/ext/auth/authentication/AuthenticationProvider.html[AuthenticationProvider]` 实例一样，使用它进行身份验证。
 
-开箱即用的配置是取决于在项目的根目录中使用了.htdigest文件。
+缺省配置默认 .htdigest 文件存在于项目的根目录中。
 
 [[_authentication]]
 == 鉴权/身份认证
