@@ -67,6 +67,7 @@ authProvider.authenticate(authInfo)
   });
 ----
 
-== Authorization
+[[_authorization]]
+== 授权
 
 Apache htpasswd文件是一个纯粹的身份认证机制，并非是授权。这意味着权限检查将始终默认为false。
