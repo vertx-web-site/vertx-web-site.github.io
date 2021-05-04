@@ -74,4 +74,4 @@ authProvider.authenticate(authInfo)
 在现代Web浏览器中通常也不会出现这种情况。
 
 验证用户的特定权限时总是返回false，
-由于htdigest文件是一个纯粹身份验证机制，并非是授权。
+因为 htdigest 文件是一个纯粹身份验证机制，并非是授权。
