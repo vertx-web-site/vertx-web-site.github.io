@@ -42,7 +42,7 @@ HtdigestAuth authProvider = HtdigestAuth.create(vertx, ".htdigest");
 == 鉴权/身份认证
 
 使用此实现进行身份验证时，假定摘要授权标头是被解析为JSON对象，
-那么我们将为其验证身份信息：
+从现在开始，我们将其称为身份验证信息：
 
 [source,java]
 ----
