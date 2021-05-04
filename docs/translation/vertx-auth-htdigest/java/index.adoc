@@ -5,7 +5,7 @@ Vert.x提供了 `link:../../apidocs/io/vertx/ext/auth/authentication/Authenticat
 如果您需要动态的用户管理，使用动态提供程序（如jdbc或mongo提供程序）会更加的方便。
 
 要使用该项目，
-在构建描述文件的 _dependencies_ 部分添加以下依赖项：
+需在构建描述文件的 _dependencies_ 部分添加以下依赖项：
 
 * Maven (在 `pom.xml` 文件中)：
 
