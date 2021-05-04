@@ -46,7 +46,8 @@ HtpasswdAuth authProvider = HtpasswdAuth
 
 除htpasswd文件本身之外，该实现是无状态的。
 
-== Authentication
+[[_authentication]]
+== 鉴权/身份认证
 
 使用此实现进行身份验证时，假定用户名和密码是被解析为JSON对象，
 那么我们将为其验证身份信息：
