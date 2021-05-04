@@ -48,7 +48,7 @@ HtpasswdAuth authProvider = HtpasswdAuth
 除htpasswd文件本身之外，该实现是无状态的。
 
 [[_authentication]]
-== 鉴权/身份认证
+== 鉴权/身份验证
 
 使用此实现进行身份验证时，假定用户名和密码是被解析为JSON对象，
 那么我们将为其验证身份信息：
@@ -71,4 +71,4 @@ authProvider.authenticate(authInfo)
 [[_authorization]]
 == 授权
 
-Apache htpasswd文件是一个纯粹的身份认证机制，并非是授权。这意味着权限检查将始终默认为false。
+Apache htpasswd文件是一个纯粹的身份验证机制，并非是授权。这意味着权限检查将始终默认为false。
