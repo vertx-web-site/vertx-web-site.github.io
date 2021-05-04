@@ -28,6 +28,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-build-
 
+      - run: rm -rf node_modules
+
       - name: Get basePath from branch
         id: basePath
         run: |
