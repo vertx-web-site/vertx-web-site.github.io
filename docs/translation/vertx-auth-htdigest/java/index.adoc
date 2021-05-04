@@ -1,4 +1,4 @@
-= .htdigest Auth Provider
+= .htdigest 鉴权与授权的提供程序（.htdigest鉴授权提供者）
 
 Vert.x提供了 `link:../../apidocs/io/vertx/ext/auth/authentication/AuthenticationProvider.html[AuthenticationProvider]` 的实现类，
 它 `.digest` 使用了的文件格式来执行身份验证。提供程序加载后,将不会监视文件的更新。
