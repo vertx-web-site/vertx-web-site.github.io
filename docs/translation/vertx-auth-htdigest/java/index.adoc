@@ -25,7 +25,7 @@ Vert.x提供了 `link:../../apidocs/io/vertx/ext/auth/authentication/Authenticat
 compile 'io.vertx:vertx-auth-htdigest:4.0.3'
 ----
 
-要创建一个实例，您首先需要一份.htdigest文件。htpasswd文件可以使用apache htdigest工具生成。
+要创建一个实例，您首先需要一份.htdigest文件。该文件可使用apache htdigest工具生成。
 
 当您已拥有一个Vertx实例，那么您可以按如下所示来创建 `link:../../apidocs/io/vertx/ext/auth/htdigest/HtdigestAuth.html[HtdigestAuth]` 实例：
 
