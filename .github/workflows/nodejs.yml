@@ -44,7 +44,7 @@ jobs:
         env:
           REF: ${{ github.ref }}
 
-      - run: npm install
+      - run: npm ci
       - run: npm run update-docs
       - run: npm run build
         env:
