@@ -38,7 +38,8 @@ HtdigestAuth authProvider = HtdigestAuth.create(vertx, ".htdigest");
 
 开箱即用的配置是取决于在项目的根目录中使用了.htdigest文件。
 
-== Authentication
+[[_authentication]]
+== 鉴权/身份认证
 
 使用此实现进行身份验证时，假定摘要授权标头是被解析为JSON对象，
 那么我们将为其验证身份信息：
