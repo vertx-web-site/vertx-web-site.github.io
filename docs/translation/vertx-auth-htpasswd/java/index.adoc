@@ -39,7 +39,8 @@ HtpasswdAuth authProvider = HtpasswdAuth
 
 开箱即用的配置是取决于在项目的根目录中使用了htpasswd文件。
 
-== Provider internal behavior
+[[_provider_internal_behavior]]
+== 提供程序的内部行为
 
 提供程序将在启动时加载指定的htpasswd文件，并且不会监视文件的修改。
 如果需要动态加载, 您需要重新启动程序。
