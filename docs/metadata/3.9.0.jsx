@@ -381,8 +381,8 @@ const entries = [
   },
   {
     id: "vertx-auth-htdigest",
-    name: ".htdigest Auth",
-    description: <>Authentication and authorization support based on <code>.htdigest</code> files.</>,
+    name: ".htdigest 鉴权与授权",
+    description: <>基于<code>.htdigest</code>文件的鉴权与授权支持。</>,
     category: "authentication-and-authorization",
     href: "/vertx-auth-htdigest/java/",
     repository: "https://github.com/vert-x3/vertx-auth/tree/master/vertx-auth-htdigest",
