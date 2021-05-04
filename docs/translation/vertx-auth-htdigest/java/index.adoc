@@ -39,7 +39,7 @@ HtdigestAuth authProvider = HtdigestAuth.create(vertx, ".htdigest");
 缺省配置默认 .htdigest 文件存在于项目的根目录中。
 
 [[_authentication]]
-== 鉴权/身份认证
+== 鉴权/身份验证
 
 使用此实现进行身份验证时，假定 digest 授权头是可解析的JSON对象，
 从现在开始，我们将其称为身份验证信息：
