@@ -53,12 +53,13 @@ router.post("/graphql").handler(GraphQLHandler.create(graphQL));
 
 IMPORTANT: `link:../../apidocs/io/vertx/ext/web/handler/graphql/GraphQLHandler.html[GraphQLHandler]` 需要 `link:../../apidocs/io/vertx/ext/web/handler/BodyHandler.html[BodyHandler]` 以读取 `POST` 请求内容。
 
-==== Query batching
+[[_query_batching]]
+==== 查询批处理
 
-Query batching consists in posting an array instead of a single object to the GraphQL endpoint.
+查询批处理将数组而非单个对象通过 post 方法发送到 GraphQL 端点（endpoint）。
 
-Vert.x Web GraphQL can handle such requests but by default the feature is disabled.
-To enable it, create the `link:../../apidocs/io/vertx/ext/web/handler/graphql/GraphQLHandler.html[GraphQLHandler]` with options:
+Vert.x Web GraphQL 可以处理此类请求但该特性默认是被禁用的。
+如要启用，需创建带参数的 `link:../../apidocs/io/vertx/ext/web/handler/graphql/GraphQLHandler.html[GraphQLHandler]` ：
 
 [source,java]
 ----
