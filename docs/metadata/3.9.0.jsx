@@ -372,8 +372,8 @@ const entries = [
   },
   {
     id: "vertx-auth-oauth2",
-    name: "Oauth2 Auth",
-    description: "OAuth2 (and to some extent OpenID Connect) implementation.",
+    name: "Oauth2 鉴权与授权",
+    description: "OAuth2（以及一定程度上 OpenID 连接）实现。",
     category: "authentication-and-authorization",
     href: "/vertx-auth-oauth2/java/",
     repository: "https://github.com/vert-x3/vertx-auth/tree/master/vertx-auth-oauth2",
