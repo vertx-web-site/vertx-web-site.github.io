@@ -51,7 +51,7 @@ GraphQL graphQL = setupGraphQLJava();
 router.post("/graphql").handler(GraphQLHandler.create(graphQL));
 ----
 
-IMPORTANT: `link:../../apidocs/io/vertx/ext/web/handler/graphql/GraphQLHandler.html[GraphQLHandler]` 需要`link:../../apidocs/io/vertx/ext/web/handler/BodyHandler.html[BodyHandler]` 以读取 `POST` 请求内容。
+IMPORTANT: `link:../../apidocs/io/vertx/ext/web/handler/graphql/GraphQLHandler.html[GraphQLHandler]` 需要 `link:../../apidocs/io/vertx/ext/web/handler/BodyHandler.html[BodyHandler]` 以读取 `POST` 请求内容。
 
 ==== Query batching
 
