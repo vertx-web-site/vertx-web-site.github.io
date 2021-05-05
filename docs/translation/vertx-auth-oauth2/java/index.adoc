@@ -9,7 +9,7 @@ Vert.x OAuth2 组件包括一个开箱即用的 OAuth2 (以及一定程度的 Op
 ----
 <dependency>
  <groupId>io.vertx</groupId>
- <artifactId>vertx-auth-OAuth2 </artifactId>
+ <artifactId>vertx-auth-oauth2 </artifactId>
  <version>4.0.3</version>
 </dependency>
 ----
