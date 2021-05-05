@@ -560,6 +560,7 @@ if (
 
 为了使用这个规范来断言 AuthZ ，可以使用 auth-jwt 模块中提供的 `link:../../apidocs/io/vertx/ext/auth/authorization/AuthorizationProvider.html[AuthorizationProvider]`。
 
+[[_token_management]]
 == 令牌管理(Token Management)
 
 [[_check_if_it_is_expired]]
