@@ -517,6 +517,7 @@ OAuth2 是一个 AuthN 协议，但是 OpenID Connect 将 JWTs 添加到了令�
 2. 如果角色是 `realm` 那么会在对应的 `realm_access` 列表中进行查询。
 3. 如果提供了角色，则在角色名下的 `resource_access` 列表中进行查询。
 
+[[_check_for_a_specific_authorities]]
 ==== 检查特定的授权
 
 这里有一个例子，指导你如何在用户进行 OAuth2 握手加载后执行授权，例如你想看看用户是否可以在当前应用程序中进行 `print` :
