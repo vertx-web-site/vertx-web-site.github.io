@@ -314,6 +314,7 @@ IBMCloudAuth.discover(
 ----
 
 
+[[_user_object]]
 == 用户对象(User object)
 
 当一个令牌(token)过期时，我们需要对其进行更新。对于这种需求，OAuth2 提供了包含一些常用方法的 AccessToken 类用于刷新访问令牌。
