@@ -71,9 +71,9 @@ GraphQLHandler handler = GraphQLHandler.create(graphQL, options);
 
 === GraphiQL IDE
 
-As you are building your application, testing your GraphQL queries in https://github.com/graphql/graphiql[GraphiQL] can be handy.
+在构建应用程序时，可以在 https://github.com/graphql/graphiql[GraphiQL] 中很方便地测试您的 GraphQL 查询。
 
-To do so, create a route for GraphiQL resources and a `link:../../apidocs/io/vertx/ext/web/handler/graphql/GraphiQLHandler.html[GraphiQLHandler]` for them:
+为此，您需要为 GraphiQL 资源创建一个路由（route）及相应的处理器 `link:../../apidocs/io/vertx/ext/web/handler/graphql/GraphiQLHandler.html[GraphiQLHandler]`
 
 [source,java]
 ----
@@ -83,16 +83,16 @@ GraphiQLHandlerOptions options = new GraphiQLHandlerOptions()
 router.route("/graphiql/*").handler(GraphiQLHandler.create(options));
 ----
 
-Then browse to http://localhost:8080/graphiql/.
+随后浏览以下地址 http://localhost:8080/graphiql/。
 
-NOTE: The GraphiQL user interface is disabled by default for security reasons.
-This is why you must configure the `link:../../apidocs/io/vertx/ext/web/handler/graphql/GraphiQLHandlerOptions.html[GraphiQLHandlerOptions]` to enable it.
+NOTE: 出于安全原因，默认情况下GraphiQL用户界面是禁用的。
+这就是为什么必需配置 `link:../../apidocs/io/vertx/ext/web/handler/graphql/GraphiQLHandlerOptions.html[GraphiQLHandlerOptions]` 以启用它的原因。
 
-TIP: GraphiQL is enabled automatically when Vert.x Web runs in development mode.
-To switch the development mode on, use the `VERTXWEB_ENVIRONMENT` environment variable or `vertxweb.environment` system property and set it to `dev`.
-In this case, create the `link:../../apidocs/io/vertx/ext/web/handler/graphql/GraphiQLHandler.html[GraphiQLHandler]` without changing the `enabled` property.
+TIP: 当Vert.x Web在开发模式下运行时，将自动启用GraphiQL。
+要打开开发模式，请使用 `VERTXWEB_ENVIRONMENT` 环境变量或 `vertxweb.environment` 系统属性并将其设置为 `dev`。
+在这种情况下，创建 `link:../../apidocs/io/vertx/ext/web/handler/graphql/GraphiQLHandler.html[GraphiQLHandler]` 时，`options` 无需设置为 `enabled` 属性。
 
-If your application is protected by authentication, you can customize the headers sent by GraphiQL dynamically:
+如果您的应用程序受身份验证保护，则可以动态自定义 GraphiQL 发送的标头（headers）：
 
 [source,java]
 ----
@@ -104,7 +104,7 @@ graphiQLHandler.graphiQLRequestHeaders(rc -> {
 router.route("/graphiql/*").handler(graphiQLHandler);
 ----
 
-Please refer to the `link:../../apidocs/io/vertx/ext/web/handler/graphql/GraphiQLHandlerOptions.html[GraphiQLHandlerOptions]` documentation for further details.
+请参考 `link:../../apidocs/io/vertx/ext/web/handler/graphql/GraphiQLHandlerOptions.html[GraphiQLHandlerOptions]` 文档以获取更多详细信息。
 
 === Apollo WebSocketLink
 
