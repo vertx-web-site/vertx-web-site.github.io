@@ -18,7 +18,7 @@ Vert.x OAuth2 组件包括一个开箱即用的 OAuth2 (以及一定程度的 Op
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-auth-OAuth2 :4.0.3'
+compile 'io.vertx:vertx-auth-oauth2 :4.0.3'
 ----
 
 OAuth2 允许用户 (user) 向第三方应用程序授予访问所需资源的权限，同时让用户可以在任何时候开启或者禁用这些访问。
