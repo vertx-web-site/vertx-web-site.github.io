@@ -656,7 +656,7 @@ boolean isExpired = user.expired();
 
 但是，有时候服务器更改密钥，而这个服务提供者不知情。例如用于缓解泄漏或过期证书。在这种情况下，服务器将开始发出与 `https://openid.net/specs/openid-connect-core-1_0.html#rotatesigkeys` 描述中不同的令牌。
 
-为了避免DDoS攻击，Vert.x OAuth2 会通知你缺少一个未知的密钥:
+为了避免DDoS攻击，Vert.x OAuth2 会通知您缺少一个未知的密钥:
 
 [source,java]
 ----
