@@ -56,7 +56,8 @@ Vert.x OAuth2 支持以下模式：
 
 更多细节请参照 `http://tools.ietf.org/html/draft-ietf-oauth-v2-31#section-4.4[ OAuth2 specification, section 4.4]`.
 
-== JWT (on behalf of) 模式
+[[_jwt_on_behalf_of_flow]]
+== JWT (代表/on behalf of) 模式
 
 客户端可以使用 JWTs (也称为"on-behalf-of") 请求访问令牌。
 
