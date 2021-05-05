@@ -216,7 +216,7 @@ oauth2.authenticate(tokenConfig)
 
 == OpenID Connect Discovery
 
-Vert.x OAuth2 对 OpenID Discovery 服务器的支持有限。使用 OIDC Discovery 可以把你的 auth 模块的配置简化为一行代码，例如，可以考虑使用 Google 设置你的 auth :
+Vert.x OAuth2 对 OpenID Discovery 发现服务器的支持有限。使用 OIDC Discovery 可以把您的 auth 模块的配置简化为一行代码，例如，可以考虑使用 Google 设置你的 auth :
 
 [source,java]
 ----
