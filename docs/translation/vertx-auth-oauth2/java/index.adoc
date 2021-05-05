@@ -31,6 +31,7 @@ Vert.x OAuth2 支持以下模式：
 
 同样的代码可以用于 OpenID Connect (https://openid.net/connect) 服务器，并且支持 `http://openid.net/specs/openid-connect-discovery-1_0.html` 中的发现协议规范。
 
+[[_authorization_code_flow]]
 == 授权码模式 (Authorization Code Flow)
 
 此授权类型可以用于获取访问令牌和刷新访问令牌，并针对可信任的客户端做了优化。作为一个基于重定向(redirection)功能的授权模式，客户端必须能够与资源所有者(resource owner)的用户代理(user-agent，通常是web浏览器)进行交互，并且能够接受来自授权服务器的传入请求(通过重定向)。
