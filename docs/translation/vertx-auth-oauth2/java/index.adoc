@@ -1,6 +1,6 @@
 = OAuth2 鉴权与授权提供程序
 
-Vert.x OAuth2 组件包括一个开箱即用的 OAuth2 (以及一定程度的 OpenID Connect ) 依赖实现。如果需要使用本项目，请在您使用的依赖管理工具中添加相关配置：
+Vert.x OAuth2 组件包括一个开箱即用的 OAuth2 (以及一定程度的 OpenID Connect) 依赖实现。如果需要使用本项目，请在您使用的依赖管理工具中添加相关配置：
 
 * Maven（在您的 `pom.xml` 文件中）：
 
@@ -8,7 +8,7 @@ Vert.x OAuth2 组件包括一个开箱即用的 OAuth2 (以及一定程度的 Op
 ----
 <dependency>
  <groupId>io.vertx</groupId>
- <artifactId>vertx-auth-OAuth2</artifactId>
+ <artifactId>vertx-auth-oauth2</artifactId>
  <version>4.0.3</version>
 </dependency>
 ----
@@ -17,7 +17,7 @@ Vert.x OAuth2 组件包括一个开箱即用的 OAuth2 (以及一定程度的 Op
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-auth-OAuth2:4.0.3'
+compile 'io.vertx:vertx-auth-oauth2:4.0.3'
 ----
 
 OAuth2 允许用户 (user) 向第三方应用程序授予访问所需资源的权限，同时让用户可以在任何时候开启或者禁用这些访问。
