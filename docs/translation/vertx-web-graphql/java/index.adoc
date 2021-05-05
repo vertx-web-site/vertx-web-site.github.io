@@ -1,16 +1,15 @@
 = Vert.x Web GraphQL
 
-Vert.x Web GraphQL extends Vert.x Web with the https://www.graphql-java.com[GraphQL-Java] library so that you can build a GraphQL server.
+Vert.x Web GraphQL 用 https://www.graphql-java.com[GraphQL-Java] 库扩展了 Vert.x Web 以便您创建一个 GraphQL 的服务器。
 
-TIP: This is the reference documentation for Vert.x Web GraphQL.
-It is highly recommended to get familiar with the GraphQL-Java API first.
-You may start by reading the https://www.graphql-java.com/documentation/v16/[GraphQL-Java documentation].
+TIP: 这是一个 Vert.x Web GraphQL 的参考文档。
+强烈建议您先熟悉一下 GraphQL-Java API。
+您可以从此处开始阅读 https://www.graphql-java.com/documentation/v16/[GraphQL-Java documentation]。
 
-WARNING: This module has _Tech Preview_ status, this means the API can change between versions.
+[[_getting_started]]
+== 由此开始
 
-== Getting started
-
-To use this module, add the following to the _dependencies_ section of your Maven POM file:
+若要使用该模块，请添加在您的 Maven POM 文件的 _dependencies_ 部分中中添加以下依赖：
 
 [source,xml,subs="+attributes"]
 ----
@@ -21,7 +20,7 @@ To use this module, add the following to the _dependencies_ section of your Mave
 </dependency>
 ----
 
-Or, if you use Gradle:
+或您使用的是Gradle：
 
 [source,groovy,subs="+attributes"]
 ----
