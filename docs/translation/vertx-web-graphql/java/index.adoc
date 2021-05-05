@@ -139,11 +139,12 @@ router.route("/graphql").handler(ApolloWSHandler.create(graphQL));
 router.route("/graphql").handler(GraphQLHandler.create(graphQL));
 ----
 
-Here you can find how to configure the Apollo SubscriptionClient: https://github.com/apollographql/subscriptions-transport-ws
+您可在此处找到配置 Apollo 订阅客户端（SubscriptionClient）的方法：https://github.com/apollographql/subscriptions-transport-ws
 
-IMPORTANT: A subscription `DataFetcher` has to return a `org.reactivestreams.Publisher` instance.
+IMPORTANT: 一个 `DataFetcher` 订阅必需返回一个 `org.reactivestreams.Publisher` 实例。
 
-== Fetching data
+[[_fetching_data]]
+== 获取数据
 
 The GraphQL-Java API is very well suited for the asynchronous world: the asynchronous execution strategy is the default for queries (serial asynchronous for mutations).
 
