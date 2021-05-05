@@ -643,6 +643,7 @@ user.logout(res -> {
 });
 ----
 
+[[_key_management]]
 == 密匙管理(Key Management)
 
 当服务提供者配置 `jwks` 路径的时候，无论是手动还是使用发现机制，都存在必须旋转(be rotated)密钥的事件。因此，服务提供者实现了 OpenID Connect 核心规范推荐的两种方式。
