@@ -351,6 +351,7 @@ oauth2.revoke(user, "access_token")
   });
 ----
 
+[[_example_configuration_for_common_oauth2_providers]]
 == 通用 OAuth2 程序的配置示例
 
 为了方便起见，我们提供了几个辅助工具帮助你进行配置。目前我们提供:
