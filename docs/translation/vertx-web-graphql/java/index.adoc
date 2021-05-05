@@ -89,8 +89,8 @@ NOTE: 出于安全原因，默认情况下GraphiQL用户界面是禁用的。
 这就是为什么必需配置 `link:../../apidocs/io/vertx/ext/web/handler/graphql/GraphiQLHandlerOptions.html[GraphiQLHandlerOptions]` 以启用它的原因。
 
 TIP: 当Vert.x Web在开发模式下运行时，将自动启用GraphiQL。
-要打开开发模式，请使用 `VERTXWEB_ENVIRONMENT` 环境变量或 `vertxweb.environment` 系统属性并将其设置为 `dev`。
-在这种情况下，创建 `link:../../apidocs/io/vertx/ext/web/handler/graphql/GraphiQLHandler.html[GraphiQLHandler]` 时，`options` 无需设置为 `enabled` 属性。
+要打开开发模式，请使用 `VERTXWEB_ENVIRONMENT` 环境变量或 `vertxweb.environment` 系统属性并将其设置为 `dev` 。
+在这种情况下，创建 `link:../../apidocs/io/vertx/ext/web/handler/graphql/GraphiQLHandler.html[GraphiQLHandler]` 时， `options` 无需设置为 `enabled` 属性。
 
 如果您的应用程序受身份验证保护，则可以动态自定义 GraphiQL 发送的标头（headers）：
 
@@ -108,8 +108,8 @@ router.route("/graphiql/*").handler(graphiQLHandler);
 
 === Apollo WebSocketLink
 
-You can use an https://www.apollographql.com/docs/link/links/ws/[Apollo WebSocketLink] which connects over a websocket.
-This is specially useful if you want to add subscriptions to your GraphQL schema, but you can also use the websocket for queries and mutations.
+您可以使用 https://www.apollographql.com/docs/link/links/ws/[Apollo WebSocketLink] 连接 websocket。
+如果要订阅 GraphQL schema，这将特别有效，但您亦可以使用 websocket 查询和变异。
 
 [source,java]
 ----
