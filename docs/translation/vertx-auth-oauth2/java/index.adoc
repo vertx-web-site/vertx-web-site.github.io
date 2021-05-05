@@ -187,6 +187,7 @@ oauth2.authenticate(tokenConfig)
   });
 ----
 
+[[_client_credentials_flow_2]]
 === 客户端凭证模式
 
 当客户端访问受其控制的受保护资源时，此模式适用。
