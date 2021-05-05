@@ -118,7 +118,7 @@ GraphQL graphQL = setupGraphQLJava();
 router.route("/graphql").handler(ApolloWSHandler.create(graphQL));
 ----
 
-IMPORTANT: To support the `graphql-ws` websocket subprotocol, it has to be added to the server configuration:
+IMPORTANT: 想要支持 `graphql-ws` websocket 子协议，必需在服务器配置中添加：
 
 [source,java]
 ----
@@ -129,7 +129,7 @@ vertx.createHttpServer(httpServerOptions)
   .listen(8080);
 ----
 
-NOTE: If you want to support a WebSocketLink and a HttpLink in the same path, you can add the ApolloWSHandler in first place and then the GraphQLHandler.
+NOTE: 如果要在同一路径中支持 WebSocketLink 和 HttpLink ，您可先添加 ApolloWSHandler ，然后再添加 GraphQLHandler 。
 
 [source,java]
 ----
