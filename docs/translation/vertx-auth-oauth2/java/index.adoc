@@ -65,7 +65,8 @@ Vert.x OAuth2 支持以下模式：
 
 Vert.x OAuth2 支持 RFC7523 扩展，允许服务器之间基于 JWT 进行授权。
 
-== Getting Started
+[[_getting_started]]
+== 由此开始
 
 下面是一个怎么使用 Vert.x OAuth2 和 GitHub 认证的示例实现：
 
