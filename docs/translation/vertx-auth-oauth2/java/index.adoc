@@ -500,7 +500,8 @@ OAuth2 是一个 AuthN 协议，但是 OpenID Connect 将 JWTs 添加到了令�
 * Keycloak
 * MicroProfile JWT 1.1 spec (来自 auth-jwt 模块)
 
-=== Keycloak JWT
+[[_keycloak_jwt]]
+=== 钥匙斗篷（Keycloak） JWT
 
 考虑到 Keycloak 确实提供了JWT访问令牌，所以我们可以在两个不同的层次进行授权:
 
