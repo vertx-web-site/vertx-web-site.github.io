@@ -1,4 +1,5 @@
 = OAuth2 auth provider
+OAuth2 鉴权与授权提供程序
 
 Vert.x OAuth2 组件包括一个开箱即用的 OAuth2 (以及一定程度的 OpenID Connect ) 依赖实现。如果需要使用本项目，请在你使用的依赖管理工具中添加相关配置：
 
