@@ -9,7 +9,7 @@ TIP: 这是一个 Vert.x Web GraphQL 的参考文档。
 [[_getting_started]]
 == 由此开始
 
-若要使用该模块，请添加在您的 Maven POM 文件的 _dependencies_ 部分中中添加以下依赖：
+若要使用该模块，请在您的 Maven POM 文件的 _dependencies_ 部分中添加以下依赖：
 
 [source,xml,subs="+attributes"]
 ----
@@ -27,11 +27,12 @@ TIP: 这是一个 Vert.x Web GraphQL 的参考文档。
 compile 'io.vertx:vertx-web-graphql:4.0.3'
 ----
 
-== Handlers setup
+[[_getting_started]]
+== 设置处理器
 
 === HTTP
 
-Create a Vert.x Web `link:../../apidocs/io/vertx/ext/web/Route.html[Route]` and a `link:../../apidocs/io/vertx/ext/web/handler/graphql/GraphQLHandler.html[GraphQLHandler]` for it:
+为此您需要创建 Vert.x Web `link:../../apidocs/io/vertx/ext/web/Route.html[Route]` 以及 `link:../../apidocs/io/vertx/ext/web/handler/graphql/GraphQLHandler.html[GraphQLHandler]` ：
 
 [source,java]
 ----
@@ -40,8 +41,8 @@ GraphQL graphQL = setupGraphQLJava();
 router.route("/graphql").handler(GraphQLHandler.create(graphQL));
 ----
 
-The handler serves both `GET` and `POST` requests.
-However, you can restrict the service to one type of HTTP method:
+该处理器可处理 `GET` 以及 `POST` 请求。
+然而，您可限制处理器仅处理其中一种 HTTP 方法：
 
 [source,java]
 ----
@@ -50,7 +51,7 @@ GraphQL graphQL = setupGraphQLJava();
 router.post("/graphql").handler(GraphQLHandler.create(graphQL));
 ----
 
-IMPORTANT: The `link:../../apidocs/io/vertx/ext/web/handler/graphql/GraphQLHandler.html[GraphQLHandler]` requires a `link:../../apidocs/io/vertx/ext/web/handler/BodyHandler.html[BodyHandler]` to read `POST` requests content.
+IMPORTANT: `link:../../apidocs/io/vertx/ext/web/handler/graphql/GraphQLHandler.html[GraphQLHandler]` 需要`link:../../apidocs/io/vertx/ext/web/handler/BodyHandler.html[BodyHandler]` 以读取 `POST` 请求内容。
 
 ==== Query batching
 
