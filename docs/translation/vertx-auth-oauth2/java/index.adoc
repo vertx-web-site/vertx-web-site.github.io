@@ -38,6 +38,7 @@ Vert.x OAuth2 支持以下模式：
 
 更多细节请参照 `http://tools.ietf.org/html/draft-ietf-oauth-v2-31#section-4.1[ OAuth2 specification, section 4.1]`.
 
+[[_password_credentials_flow]]
 == 密码凭证模式 (Password Credentials Flow)
 
 此授权类型适用于资源所有者与客户端存在信任关系的场景，例如设备操作系统或者具备高权限的应用程序。授权服务器在启用这种授权类型必须十分谨慎，应当只有在其他模式不可行的情况下才允许使用。
