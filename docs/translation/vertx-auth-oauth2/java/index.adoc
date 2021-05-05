@@ -47,6 +47,7 @@ Vert.x OAuth2 支持以下模式：
 
 更多细节请参照 `http://tools.ietf.org/html/draft-ietf-oauth-v2-31#section-4.3[ OAuth2 specification, section 4.3]`.
 
+[[_client_credentials_flow]]
 == 客户端凭证模式 (Client Credentials Flow)
 
 当客户端请求受控制的受保护资源或者授权服务器所认同的其他资源所有者时(这种方法不在该规范的范围内)，可以仅使用其客户端凭证(或其它被支持的认证方式)请求访问令牌，
