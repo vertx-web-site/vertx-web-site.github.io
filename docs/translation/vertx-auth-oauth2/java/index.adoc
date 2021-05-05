@@ -552,7 +552,8 @@ if (
 }
 ----
 
-=== MicroProfile JWT 1.1 spec
+[[_microprofile_jwt_1_1_spec]]
+=== 微型档案 JWT 1.1 规格说明
 
 另一种规范形式是 MP-JWT 1.1。该规范在名为 `groups` 的属性下声明了JSON字符串数组用来定义令牌拥有的权限组。
 
