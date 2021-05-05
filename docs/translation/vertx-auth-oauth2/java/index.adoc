@@ -450,7 +450,8 @@ OpenIDConnectAuth.discover(
 
 因为你可以在任何地方部署 Keycloak 服务器，所以只需将 `server:port` 替换为正确的值，并将 `your_realm` 值替换为你的应用程序路径。
 
-=== Google Server to Server
+[[_google_server_to_server]]
+=== Google 服务器对服务器
 
 Vert.x OAuth2 还支持 Server to Server 或 RFC7523 扩展。这是伴随 Google 账户的一个特性。
 
