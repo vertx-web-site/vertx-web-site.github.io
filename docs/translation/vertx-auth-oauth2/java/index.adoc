@@ -14,7 +14,7 @@ Vert.x OAuth2 组件包括一个开箱即用的 OAuth2 (以及一定程度的 Op
 </dependency>
 ----
 
-* Gradle (在 `build.gradle` 文件中):
+* Gradle（在您的 `build.gradle` 文件中）：
 
 [source,groovy,subs="+attributes"]
 ----
