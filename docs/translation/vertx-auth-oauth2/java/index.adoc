@@ -1,6 +1,6 @@
 = OAuth2 auth provider
 
-Vertx-OAuth2 组件包括一个开箱即用的 OAuth2 (以及一定程度的 OpenID Connect ) 依赖实现。如果需要使用本项目，请在你使用的依赖管理工具中添加相关配置：
+Vert.x OAuth2 组件包括一个开箱即用的 OAuth2 (以及一定程度的 OpenID Connect ) 依赖实现。如果需要使用本项目，请在你使用的依赖管理工具中添加相关配置：
 
 * Maven (在 `pom.xml` 文件中):
 
@@ -8,7 +8,7 @@ Vertx-OAuth2 组件包括一个开箱即用的 OAuth2 (以及一定程度的 Ope
 ----
 <dependency>
  <groupId>io.vertx</groupId>
- <artifactId>vertx-auth- OAuth2 </artifactId>
+ <artifactId>vertx-auth-OAuth2 </artifactId>
  <version>4.0.3</version>
 </dependency>
 ----
@@ -17,12 +17,12 @@ Vertx-OAuth2 组件包括一个开箱即用的 OAuth2 (以及一定程度的 Ope
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-auth- OAuth2 :4.0.3'
+compile 'io.vertx:vertx-auth-OAuth2 :4.0.3'
 ----
 
 OAuth2 允许用户 (user) 向第三方应用程序授予访问所需资源的权限，同时让用户可以在任何时候开启或者禁用这些访问。
 
-Vertx-OAuth2 支持以下模式：
+Vert.x OAuth2 支持以下模式：
 
 * 授权码模式 (Authorization Code Flow) ：用于那些可以存储持久化信息的服务端应用。
 * 密码凭证模式 (Password Credentials Flow) ：当之前的模式不可行或者项目已在开发过程中。
@@ -58,11 +58,11 @@ Vertx-OAuth2 支持以下模式：
 
 == 拓展
 
-Vertx-OAuth2 支持 RFC7523 扩展，允许服务器之间基于 JWT 进行授权。
+Vert.x OAuth2 支持 RFC7523 扩展，允许服务器之间基于 JWT 进行授权。
 
 == Getting Started
 
-下面是一个怎么使用 Vertx-OAuth2 和 GitHub 认证的示例实现：
+下面是一个怎么使用 Vert.x OAuth2 和 GitHub 认证的示例实现：
 
 [source,java]
 ----
@@ -207,7 +207,7 @@ oauth2.authenticate(tokenConfig)
 
 == OpenID Connect Discovery
 
-Vertx-OAuth2 对 OpenID Discovery 服务器的支持有限。使用 OIDC Discovery 可以把你的 auth 模块的配置简化为一行代码，例如，可以考虑使用 Google 设置你的 auth :
+Vert.x OAuth2 对 OpenID Discovery 服务器的支持有限。使用 OIDC Discovery 可以把你的 auth 模块的配置简化为一行代码，例如，可以考虑使用 Google 设置你的 auth :
 
 [source,java]
 ----
@@ -369,7 +369,7 @@ oauth2.revoke(user, "access_token")
 
 === JBoss Keycloak 
 
-当使用 Keycloak 时， Vertx-OAuth2 应该知道如何解析访问令牌并从中提取授权。这些信息很有价值，因为它允许在API级别进行授权，例如：
+当使用 Keycloak 时， Vert.x OAuth2 应该知道如何解析访问令牌并从中提取授权。这些信息很有价值，因为它允许在API级别进行授权，例如：
 
 [source,java]
 ----
@@ -438,11 +438,11 @@ OpenIDConnectAuth.discover(
 
 === Google Server to Server
 
-Vertx-OAuth2 还支持 Server to Server 或 RFC7523 扩展。这是伴随 Google 账户的一个特性。
+Vert.x OAuth2 还支持 Server to Server 或 RFC7523 扩展。这是伴随 Google 账户的一个特性。
 
 == 令牌自检(Token Introspection)
 
-令牌可以进行自检，以便断言自身依然有效。虽然这是RFC7662出现的目的，但实现它的项目并不多。取而代之的是一些被称为 `TokenInfo` 端点的变体。 Vertx-OAuth2 同时接受这两种形式作为配置。目前已知可以与 `Google` 和 ` Keycloak ` 一起协作。
+令牌可以进行自检，以便断言自身依然有效。虽然这是RFC7662出现的目的，但实现它的项目并不多。取而代之的是一些被称为 `TokenInfo` 端点的变体。 Vert.x OAuth2 同时接受这两种形式作为配置。目前已知可以与 `Google` 和 ` Keycloak ` 一起协作。
 
 令牌自检假定自身是不透明的，因此需要在部署程序的服务器上对它们进行验证。每次验证都需要一次到服务器上的完整往返。自检可以在 OAuth2 服务级别或用户级别执行：
 
@@ -642,7 +642,7 @@ boolean isExpired = user.expired();
 
 但是，有时候服务器更改密钥，而这个服务提供者不知情。例如用于缓解泄漏或过期证书。在这种情况下，服务器将开始发出与 `https://openid.net/specs/openid-connect-core-1_0.html#rotatesigkeys` 描述中不同的令牌。
 
-为了避免DDoS攻击，Vertx-OAuth2 会通知你缺少一个未知的密钥:
+为了避免DDoS攻击，Vert.x OAuth2 会通知你缺少一个未知的密钥:
 
 [source,java]
 ----
