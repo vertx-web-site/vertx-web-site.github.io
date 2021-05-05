@@ -454,6 +454,7 @@ OpenIDConnectAuth.discover(
 
 Vert.x OAuth2 还支持 Server to Server 或 RFC7523 扩展。这是伴随 Google 账户的一个特性。
 
+[[_token_introspection]]
 == 令牌自检(Token Introspection)
 
 令牌可以进行自检，以便断言自身依然有效。虽然这是RFC7662出现的目的，但实现它的项目并不多。取而代之的是一些被称为 `TokenInfo` 端点的变体。 Vert.x OAuth2 同时接受这两种形式作为配置。目前已知可以与 `Google` 和 ` Keycloak ` 一起协作。
