@@ -1,6 +1,6 @@
-=  OAuth2  auth provider
+= OAuth2 auth provider
 
-Vertx- OAuth2  组件包括一个开箱即用的  OAuth2  (以及一定程度的  OpenID Connect  ) 依赖实现。如果需要使用本项目，请在你使用的依赖管理工具中添加相关配置：
+Vertx-OAuth2 组件包括一个开箱即用的 OAuth2 (以及一定程度的 OpenID Connect ) 依赖实现。如果需要使用本项目，请在你使用的依赖管理工具中添加相关配置：
 
 * Maven (在 `pom.xml` 文件中):
 
@@ -22,27 +22,27 @@ compile 'io.vertx:vertx-auth- OAuth2 :4.0.3'
 
 OAuth2 允许用户 (user) 向第三方应用程序授予访问所需资源的权限，同时让用户可以在任何时候开启或者禁用这些访问。
 
-Vertx- OAuth2  支持以下模式：
+Vertx-OAuth2 支持以下模式：
 
 * 授权码模式 (Authorization Code Flow) ：用于那些可以存储持久化信息的服务端应用。
 * 密码凭证模式 (Password Credentials Flow) ：当之前的模式不可行或者项目已在开发过程中。
 * 客户端凭证模式 (Client Credentials Flow) ：客户端可以仅通过客户端凭证请求一个访问令牌(access token)。
 
-同样的代码可以用于  OpenID Connect  (https://openid.net/connect) 服务器，并且支持 `http://openid.net/specs/openid-connect-discovery-1_0.html` 中的发现协议规范。
+同样的代码可以用于 OpenID Connect (https://openid.net/connect) 服务器，并且支持 `http://openid.net/specs/openid-connect-discovery-1_0.html` 中的发现协议规范。
 
 == 授权码模式 (Authorization Code Flow)
 
 此授权类型可以用于获取访问令牌和刷新访问令牌，并针对可信任的客户端做了优化。作为一个基于重定向(redirection)功能的授权模式，客户端必须能够与资源所有者(resource owner)的用户代理(user-agent，通常是web浏览器)进行交互，并且能够接受来自授权服务器的传入请求(通过重定向)。
 
-更多细节请参照 `http://tools.ietf.org/html/draft-ietf-oauth-v2-31#section-4.1[ OAuth2  specification, section 4.1]`.
+更多细节请参照 `http://tools.ietf.org/html/draft-ietf-oauth-v2-31#section-4.1[ OAuth2 specification, section 4.1]`.
 
 == 密码凭证模式 (Password Credentials Flow)
 
 此授权类型适用于资源所有者与客户端存在信任关系的场景，例如设备操作系统或者具备高权限的应用程序。授权服务器在启用这种授权类型必须十分谨慎，应当只有在其他模式不可行的情况下才允许使用。
 
-此授权类型适用于能够获得资源所有者凭证(用户名和密码，通常使用交互式表单)的客户端。它还可以通过将保存的凭证转为访问令牌，使用直接身份验证方案(如 `HTTP Basic/Digest` 身份验证)将现有客户端迁移到  OAuth。
+此授权类型适用于能够获得资源所有者凭证(用户名和密码，通常使用交互式表单)的客户端。它还可以通过将保存的凭证转为访问令牌，使用直接身份验证方案(如 `HTTP Basic/Digest` 身份验证)将现有客户端迁移到 OAuth。
 
-更多细节请参照 `http://tools.ietf.org/html/draft-ietf-oauth-v2-31#section-4.3[ OAuth2  specification, section 4.3]`.
+更多细节请参照 `http://tools.ietf.org/html/draft-ietf-oauth-v2-31#section-4.3[ OAuth2 specification, section 4.3]`.
 
 == 客户端凭证模式 (Client Credentials Flow)
 
@@ -50,24 +50,24 @@ Vertx- OAuth2  支持以下模式：
 
 此授权类型必须只用于那些可以充分信任的客户端。
 
-更多细节请参照 `http://tools.ietf.org/html/draft-ietf-oauth-v2-31#section-4.4[ OAuth2  specification, section 4.4]`.
+更多细节请参照 `http://tools.ietf.org/html/draft-ietf-oauth-v2-31#section-4.4[ OAuth2 specification, section 4.4]`.
 
 == JWT (on behalf of) 模式
 
-客户端可以使用JWTs (也称为"on-behalf-of") 请求访问令牌。
+客户端可以使用 JWTs (也称为"on-behalf-of") 请求访问令牌。
 
 == 拓展
 
-Vertx- OAuth2  支持 RFC7523 扩展，允许服务器之间基于 JWT 进行授权。
+Vertx-OAuth2 支持 RFC7523 扩展，允许服务器之间基于 JWT 进行授权。
 
 == Getting Started
 
-下面是一个怎么使用 Vertx- OAuth2  和 GitHub 认证的示例实现：
+下面是一个怎么使用 Vertx-OAuth2 和 GitHub 认证的示例实现：
 
 [source,java]
 ----
- OAuth2 Auth  OAuth2  =  OAuth2 Auth.create(vertx, new  OAuth2 Options()
-  .setFlow( OAuth2 FlowType.AUTH_CODE)
+OAuth2Auth oauth2 = OAuth2Auth.create(vertx, new OAuth2Options()
+  .setFlow(OAuth2FlowType.AUTH_CODE)
   .setClientID("YOUR_CLIENT_ID")
   .setClientSecret("YOUR_CLIENT_SECRET")
   .setSite("https://github.com/login")
@@ -76,10 +76,10 @@ Vertx- OAuth2  支持 RFC7523 扩展，允许服务器之间基于 JWT 进行授
 );
 
 // when there is a need to access a protected resource
-// or call a protected method, call the  AuthZ  url for
+// or call a protected method, call the authZ url for
 // a challenge
 
-String authorization_uri =  OAuth2 .authorizeURL(new JsonObject()
+String authorization_uri = oauth2.authorizeURL(new JsonObject()
   .put("redirect_uri", "http://localhost:8080/callback")
   .put("scope", "notifications")
   .put("state", "3(#0/!~"));
@@ -92,7 +92,7 @@ String authorization_uri =  OAuth2 .authorizeURL(new JsonObject()
 // the code is provided as a url parameter by github callback call
 String code = "xxxxxxxxxxxxxxxxxxxxxxxx";
 
- OAuth2 .authenticate(
+oauth2.authenticate(
   new JsonObject()
     .put("code", code)
     .put("redirect_uri", "http://localhost:8080/callback"))
@@ -106,22 +106,22 @@ String code = "xxxxxxxxxxxxxxxxxxxxxxxx";
 
 === 授权码模式
 
-授权码模式分为两部分。首先你的应用程序向用户请求访问其数据的权限，如果用户批准  OAuth2  服务器则向客户端发送一个授权码。第二部分中，客户端将授权码和客户端机密(client secret)通过 POST 方式发送到授权服务器以获取访问令牌。
+授权码模式分为两部分。首先你的应用程序向用户请求访问其数据的权限，如果用户批准 OAuth2 服务器则向客户端发送一个授权码。第二部分中，客户端将授权码和客户端机密(client secret)通过 POST 方式发送到授权服务器以获取访问令牌。
 
 [source,java]
 ----
- OAuth2 Options credentials = new  OAuth2 Options()
-  .setFlow( OAuth2 FlowType.AUTH_CODE)
+OAuth2Options credentials = new OAuth2Options()
+  .setFlow(OAuth2FlowType.AUTH_CODE)
   .setClientID("<client-id>")
   .setClientSecret("<client-secret>")
   .setSite("https://api.oauth.com");
 
 
-// Initialize the  OAuth2  Library
- OAuth2 Auth  OAuth2  =  OAuth2 Auth.create(vertx, credentials);
+// Initialize the OAuth2 Library
+OAuth2Auth oauth2 = OAuth2Auth.create(vertx, credentials);
 
-// Authorization  OAuth2  URI
-String authorization_uri =  OAuth2 .authorizeURL(new JsonObject()
+// Authorization oauth2 URI
+String authorization_uri = oauth2.authorizeURL(new JsonObject()
   .put("redirect_uri", "http://localhost:8080/callback")
   .put("scope", "<scope>")
   .put("state", "<state>"));
@@ -137,7 +137,7 @@ JsonObject tokenConfig = new JsonObject()
 
 // Callbacks
 // Save the access token
- OAuth2 .authenticate(tokenConfig)
+oauth2.authenticate(tokenConfig)
   .onSuccess(user -> {
     // Get the access token object
     // (the authorization code is given from the previous step).
@@ -153,16 +153,16 @@ JsonObject tokenConfig = new JsonObject()
 
 [source,java]
 ----
- OAuth2 Auth  OAuth2  =  OAuth2 Auth.create(
+OAuth2Auth oauth2 = OAuth2Auth.create(
   vertx,
-  new  OAuth2 Options()
-    .setFlow( OAuth2 FlowType.PASSWORD));
+  new OAuth2Options()
+    .setFlow(OAuth2FlowType.PASSWORD));
 
 JsonObject tokenConfig = new JsonObject()
   .put("username", "username")
   .put("password", "password");
 
- OAuth2 .authenticate(tokenConfig)
+oauth2.authenticate(tokenConfig)
   .onSuccess(user -> {
     // Get the access token object
     // (the authorization code is given from the previous step).
@@ -184,19 +184,19 @@ JsonObject tokenConfig = new JsonObject()
 
 [source,java]
 ----
- OAuth2 Options credentials = new  OAuth2 Options()
-  .setFlow( OAuth2 FlowType.CLIENT)
+OAuth2Options credentials = new OAuth2Options()
+  .setFlow(OAuth2FlowType.CLIENT)
   .setClientID("<client-id>")
   .setClientSecret("<client-secret>")
   .setSite("https://api.oauth.com");
 
 
-// Initialize the  OAuth2  Library
- OAuth2 Auth  OAuth2  =  OAuth2 Auth.create(vertx, credentials);
+// Initialize the OAuth2 Library
+OAuth2Auth oauth2 = OAuth2Auth.create(vertx, credentials);
 
 JsonObject tokenConfig = new JsonObject();
 
- OAuth2 .authenticate(tokenConfig)
+oauth2.authenticate(tokenConfig)
   .onSuccess(user -> {
     // Success
   })
@@ -205,19 +205,19 @@ JsonObject tokenConfig = new JsonObject();
   });
 ----
 
-==  OpenID Connect  Discovery
+== OpenID Connect Discovery
 
-Vertx- OAuth2  对 OpenID Discovery 服务器的支持有限。使用 OIDC Discovery 可以把你的 auth 模块的配置简化为一行代码，例如，可以考虑使用 Google 设置你的 auth :
+Vertx-OAuth2 对 OpenID Discovery 服务器的支持有限。使用 OIDC Discovery 可以把你的 auth 模块的配置简化为一行代码，例如，可以考虑使用 Google 设置你的 auth :
 
 [source,java]
 ----
 OpenIDConnectAuth.discover(
   vertx,
-  new  OAuth2 Options()
+  new OAuth2Options()
     .setClientID("clientId")
     .setClientSecret("clientSecret")
     .setSite("https://accounts.google.com"))
-  .onSuccess( OAuth2  -> {
+  .onSuccess(oauth2 -> {
     // the setup call succeeded.
     // at this moment your auth is ready to use and
     // google signature keys are loaded so tokens can be decoded and verified.
@@ -234,9 +234,9 @@ OpenIDConnectAuth.discover(
 3. 如果存在 JWK URL ，则从服务器加载密钥并添加到 auth 密钥链中。
 4. 对 auth 模块进行配置并返回给用户。
 
-以下是几个知名的 OpenID Connect  Discovery服务提供方:
+以下是几个知名的 OpenID Connect Discovery服务提供方:
 
-*  Keycloak : `http://Keycloakhost:Keycloakport/auth/realms/{realm}`
+* Keycloak : `http://Keycloakhost:Keycloakport/auth/realms/{realm}`
 * Google: `https://accounts.google.com`
 * SalesForce: `https://login.salesforce.com`
 * Microsoft: `https://login.windows.net/common`
@@ -249,57 +249,57 @@ OpenIDConnectAuth.discover(
 
 [source,java]
 ----
- Keycloak Auth.discover(
+KeycloakAuth.discover(
   vertx,
-  new  OAuth2 Options()
+  new OAuth2Options()
     .setClientID("clientId")
     .setClientSecret("clientSecret")
-    .setSite("http:// Keycloak host: Keycloak port/auth/realms/{realm}")
+    .setSite("http://keycloakhost:keycloakport/auth/realms/{realm}")
     .setTenant("your-realm"))
-  .onSuccess( OAuth2  -> {
+  .onSuccess(oauth2 -> {
     // ...
   });
 
 // Google example
 GoogleAuth.discover(
   vertx,
-  new  OAuth2 Options()
+  new OAuth2Options()
     .setClientID("clientId")
     .setClientSecret("clientSecret"))
-  .onSuccess( OAuth2  -> {
+  .onSuccess(oauth2 -> {
     // ...
   });
 
 // Salesforce example
 SalesforceAuth.discover(
   vertx,
-  new  OAuth2 Options()
+  new OAuth2Options()
     .setClientID("clientId")
     .setClientSecret("clientSecret"))
-  .onSuccess( OAuth2  -> {
+  .onSuccess(oauth2 -> {
     // ...
   });
 
 // Azure AD example
 AzureADAuth.discover(
   vertx,
-  new  OAuth2 Options()
+  new OAuth2Options()
     .setClientID("clientId")
     .setClientSecret("clientSecret")
     .setTenant("your-app-guid"))
-  .onSuccess( OAuth2  -> {
+  .onSuccess(oauth2 -> {
     // ...
   });
 
 // IBM Cloud example
 IBMCloudAuth.discover(
   vertx,
-  new  OAuth2 Options()
+  new OAuth2Options()
     .setClientID("clientId")
     .setClientSecret("clientSecret")
     .setSite("https://<region-id>.appid.cloud.ibm.com/oauth/v4/{tenant}")
     .setTenant("your-tenant-id"))
-  .onSuccess( OAuth2  -> {
+  .onSuccess(oauth2 -> {
     // ...
   });
 ----
@@ -313,7 +313,7 @@ IBMCloudAuth.discover(
 ----
 if (user.expired()) {
   // Callbacks
-   OAuth2 .refresh(user)
+  oauth2.refresh(user)
     .onSuccess(refreshedUser -> {
       // the refreshed user is now available
     })
@@ -327,12 +327,12 @@ if (user.expired()) {
 
 [source,java]
 ----
- OAuth2 .revoke(user, "access_token")
+oauth2.revoke(user, "access_token")
   .onSuccess(v -> {
     // Session ended. But the refresh_token is still valid.
 
     // Revoke the refresh_token
-     OAuth2 .revoke(user, "refresh_token")
+    oauth2.revoke(user, "refresh_token")
       .onSuccess(v2 -> {
         System.out.println("token revoked.");
       });
@@ -367,13 +367,13 @@ if (user.expired()) {
 * Stripe `link:../../apidocs/io/vertx/ext/auth/oauth2/providers/StripeAuth.html[StripeAuth]`
 * Twitter `link:../../apidocs/io/vertx/ext/auth/oauth2/providers/TwitterAuth.html[TwitterAuth]`
 
-=== JBoss  Keycloak 
+=== JBoss Keycloak 
 
-当使用 Keycloak 时，Vertx- OAuth2 应该知道如何解析访问令牌并从中提取授权。这些信息很有价值，因为它允许在API级别进行授权，例如：
+当使用 Keycloak 时， Vertx-OAuth2 应该知道如何解析访问令牌并从中提取授权。这些信息很有价值，因为它允许在API级别进行授权，例如：
 
 [source,java]
 ----
-JsonObject  Keycloak Json = new JsonObject()
+JsonObject keycloakJson = new JsonObject()
   .put("realm", "master")
   .put("realm-public-key", "MIIBIjANBgkqhk...wIDAQAB")
   .put("auth-server-url", "http://localhost:9000/auth")
@@ -382,20 +382,20 @@ JsonObject  Keycloak Json = new JsonObject()
   .put("credentials", new JsonObject()
     .put("secret", "2fbf5e18-b923-4a83-9657-b4ebd5317f60"));
 
-// Initialize the  OAuth2  Library
- OAuth2 Auth  OAuth2  =  Keycloak Auth
-  .create(vertx,  OAuth2 FlowType.PASSWORD,  Keycloak Json);
+// Initialize the OAuth2 Library
+OAuth2Auth oauth2 = KeycloakAuth
+  .create(vertx, OAuth2FlowType.PASSWORD, keycloakJson);
 
 // first get a token (authenticate)
- OAuth2 .authenticate(
+oauth2.authenticate(
   new JsonObject()
     .put("username", "user")
     .put("password", "secret"))
   .onSuccess(user -> {
     // now check for permissions
-    AuthorizationProvider  AuthZ  =  Keycloak Authorization.create();
+    AuthorizationProvider authz = KeycloakAuthorization.create();
 
-     AuthZ .getAuthorizations(user)
+    authz.getAuthorizations(user)
       .onSuccess(v -> {
         if (
           RoleBasedAuthorization.create("manage-account")
@@ -424,11 +424,11 @@ String username = user.principal().getString("preferred_username");
 ----
 OpenIDConnectAuth.discover(
   vertx,
-  new  OAuth2 Options()
+  new OAuth2Options()
     .setClientID("clientId")
     .setTenant("your_realm")
     .setSite("http://server:port/auth/realms/{tenant}"))
-  .onSuccess( OAuth2  -> {
+  .onSuccess(oauth2 -> {
     // the setup call succeeded.
     // at this moment your auth is ready to use
   });
@@ -438,23 +438,23 @@ OpenIDConnectAuth.discover(
 
 === Google Server to Server
 
-Vertx- OAuth2 还支持 Server to Server 或 RFC7523 扩展。这是伴随 Google 账户的一个特性。
+Vertx-OAuth2 还支持 Server to Server 或 RFC7523 扩展。这是伴随 Google 账户的一个特性。
 
 == 令牌自检(Token Introspection)
 
-令牌可以进行自检，以便断言自身依然有效。虽然这是RFC7662出现的目的，但实现它的项目并不多。取而代之的是一些被称为 `TokenInfo` 端点的变体。Vertx- OAuth2 同时接受这两种形式作为配置。目前已知可以与 `Google` 和 ` Keycloak ` 一起协作。
+令牌可以进行自检，以便断言自身依然有效。虽然这是RFC7662出现的目的，但实现它的项目并不多。取而代之的是一些被称为 `TokenInfo` 端点的变体。 Vertx-OAuth2 同时接受这两种形式作为配置。目前已知可以与 `Google` 和 ` Keycloak ` 一起协作。
 
 令牌自检假定自身是不透明的，因此需要在部署程序的服务器上对它们进行验证。每次验证都需要一次到服务器上的完整往返。自检可以在 OAuth2 服务级别或用户级别执行：
 
 [source,java]
 ----
- OAuth2 .authenticate(new JsonObject().put("access_token", "opaque string"))
+oauth2.authenticate(new JsonObject().put("access_token", "opaque string"))
   .onSuccess(theUser -> {
     // token is valid!
   });
 
 // User level
- OAuth2 .authenticate(user.principal())
+oauth2.authenticate(user.principal())
   .onSuccess(authenticatedUser -> {
     // Token is valid!
   });
@@ -466,7 +466,7 @@ Vertx- OAuth2 还支持 Server to Server 或 RFC7523 扩展。这是伴随 Googl
 
 [source,java]
 ----
- OAuth2 .authenticate(new JsonObject().put("access_token", "jwt-token"))
+oauth2.authenticate(new JsonObject().put("access_token", "jwt-token"))
   .onSuccess(theUser -> {
     // token is valid!
   });
@@ -483,7 +483,7 @@ OAuth2 是一个 AuthN 协议，但是 OpenID Connect 将 JWTs 添加到了令�
 * Keycloak
 * MicroProfile JWT 1.1 spec (来自 auth-jwt 模块)
 
-===  Keycloak  JWT
+=== Keycloak JWT
 
 考虑到 Keycloak 确实提供了JWT访问令牌，所以我们可以在两个不同的层次进行授权:
 
@@ -558,7 +558,7 @@ boolean isExpired = user.expired();
 
 [source,java]
 ----
- OAuth2 .refresh(user)
+oauth2.refresh(user)
   .onSuccess(refreshedUser -> {
     // the refresh call succeeded
   })
@@ -576,7 +576,7 @@ boolean isExpired = user.expired();
 
 [source,java]
 ----
- OAuth2 .revoke(user, "access_token")
+oauth2.revoke(user, "access_token")
   .onSuccess(v -> {
     // the revoke call succeeded
   })
@@ -599,7 +599,7 @@ boolean isExpired = user.expired();
 
 [source,java]
 ----
- OAuth2 .authenticate(user.principal())
+oauth2.authenticate(user.principal())
   .onSuccess(validUser -> {
     // the introspection call succeeded
   })
@@ -614,8 +614,7 @@ boolean isExpired = user.expired();
 
 === 注销(Logging out)
 
-注销不是 OAuth2 的特性，但它存在于 OpenID Connect 中，而且大多数服务提供方都支持某种形式的注销。如果配置足够进行调用，那么 Vert-OAuth2  的操作会覆盖整个区域。对于用户来说，这很简单:
-
+注销不是 OAuth2 的特性，但它存在于 OpenID Connect 中，而且大多数服务提供方都支持某种形式的注销。如果配置足够进行调用，那么 Vert-OAuth2 的操作会覆盖整个区域。对于用户来说这很简单:
 
 [source,java]
 ----
@@ -643,11 +642,11 @@ boolean isExpired = user.expired();
 
 但是，有时候服务器更改密钥，而这个服务提供者不知情。例如用于缓解泄漏或过期证书。在这种情况下，服务器将开始发出与 `https://openid.net/specs/openid-connect-core-1_0.html#rotatesigkeys` 描述中不同的令牌。
 
-为了避免DDoS攻击，Vertx- OAuth2 会通知你缺少一个未知的密钥:
+为了避免DDoS攻击，Vertx-OAuth2 会通知你缺少一个未知的密钥:
 
 [source,java]
 ----
- OAuth2 .refresh(user)
+oauth2.refresh(user)
   .onSuccess(refreshedUser -> {
     // the refresh call succeeded
   })
