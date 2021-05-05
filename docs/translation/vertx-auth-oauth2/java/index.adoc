@@ -61,6 +61,7 @@ Vert.x OAuth2 支持以下模式：
 
 客户端可以使用 JWTs (也称为"on-behalf-of") 请求访问令牌。
 
+[[_extensions]]
 == 拓展
 
 Vert.x OAuth2 支持 RFC7523 扩展，允许服务器之间基于 JWT 进行授权。
