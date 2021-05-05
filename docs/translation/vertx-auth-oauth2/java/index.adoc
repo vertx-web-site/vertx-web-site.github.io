@@ -1,6 +1,4 @@
-= OAuth2 auth provider
-
-OAuth2 鉴权与授权提供程序
+= OAuth2 鉴权与授权提供程序
 
 Vert.x OAuth2 组件包括一个开箱即用的 OAuth2 (以及一定程度的 OpenID Connect ) 依赖实现。如果需要使用本项目，请在您使用的依赖管理工具中添加相关配置：
 
@@ -60,7 +58,7 @@ Vert.x OAuth2 支持以下模式：
 [[_jwt_on_behalf_of_flow]]
 == JWT (代表/on behalf of) 模式
 
-客户端可以使用 JWTs (也称为"on-behalf-of") 请求访问令牌。
+客户端可以使用 JWTs 请求访问令牌。
 
 [[_extensions]]
 == 拓展
@@ -217,9 +215,9 @@ oauth2.authenticate(tokenConfig)
 ----
 
 [[_openid_connect_discovery]]
-== OpenID 连接发现
+== OpenID Connect 发现(Discovery)
 
-Vert.x OAuth2 对 OpenID Discovery 服务器的支持有限。使用 OIDC Discovery 可以把您的 auth 模块的配置简化为一行代码，例如，可以考虑使用 Google 设置您的 auth :
+Vert.x OAuth2 对 OpenID 发现服务器的支持有限。使用 OIDC Discovery 可以把您的 auth 模块的配置简化为一行代码，例如，可以考虑使用 Google 设置您的 auth :
 
 [source,java]
 ----
@@ -433,7 +431,7 @@ JsonObject idToken = user.attributes().getJsonObject("idToken");
 String username = user.principal().getString("preferred_username");
 ----
 
-请记住 Keycloak 实现了 OpenID Connect ，所以您可以使用它的 Discovery URL 来配置:
+请记住 Keycloak 实现了 OpenID Connect ，所以您可以使用它的发现地址(discovery url)来配置:
 
 [source,java]
 ----
@@ -492,7 +490,7 @@ oauth2.authenticate(new JsonObject().put("access_token", "jwt-token"))
 
 截止到目前为止，我们已经讨论了很多认证模式，尽管实现它们是依赖方的事情(这也意味着真正的认证过程发生在应用端之外)，但您可以通过这些实现处理很多事情。例如在服务提供方支持JSON WEB令牌的时候，您就可以进行授权。如果您的服务提供方是 OpenID Connect 服务提供者或者他们确实支持 `access_token` 作为JWTs，那么这将是个很常见的功能。
 
-类似的服务提供方是 Keycloak ，它实现了一个 OpenID Connect 。在这种情况下，您可以用非常简单的方式进行授权。
+类似的服务提供方是 Keycloak ，它实现了一个 OpenID Connect。在这种情况下，您可以用非常简单的方式进行授权。
 
 [[_role_based_access_control]]
 == 基于角色(role)的访问控制
