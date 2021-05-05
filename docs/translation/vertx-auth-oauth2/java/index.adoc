@@ -626,6 +626,7 @@ oauth2.authenticate(user.principal())
 
 非常重要的一点是，即使调用 `expired()` 返回了 `true` ，`introspect` 的响应仍然可能是错误的。这是因为在此期间， OAuth2 可能已经收到了一个撤销令牌或者注销的请求。
 
+[[_logging_out]]
 === 注销(Logging out)
 
 注销不是 OAuth2 的特性，但它存在于 OpenID Connect 中，而且大多数服务提供方都支持某种形式的注销。如果配置足够进行调用，那么 Vert-OAuth2 的操作会覆盖整个区域。对于用户来说这很简单:
