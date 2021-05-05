@@ -493,6 +493,7 @@ oauth2.authenticate(new JsonObject().put("access_token", "jwt-token"))
 
 类似的服务提供方是 Keycloak ，它实现了一个 OpenID Connect 。在这种情况下，你可以用非常简单的方式进行授权。
 
+[[_role_based_access_control]]
 == 基于角色(role)的访问控制
 
 OAuth2 是一个 AuthN 协议，但是 OpenID Connect 将 JWTs 添加到了令牌格式中，这意味着 AuthZ 可以在令牌级别进行编码。目前已知的 JWT AuthZ 格式有两种:
