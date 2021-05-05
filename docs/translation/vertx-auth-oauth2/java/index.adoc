@@ -380,7 +380,8 @@ oauth2.revoke(user, "access_token")
 * Stripe `link:../../apidocs/io/vertx/ext/auth/oauth2/providers/StripeAuth.html[StripeAuth]`
 * Twitter `link:../../apidocs/io/vertx/ext/auth/oauth2/providers/TwitterAuth.html[TwitterAuth]`
 
-=== JBoss Keycloak 
+[[_jboss_keycloak]]
+=== JBoss 钥匙斗篷 
 
 当使用钥匙斗篷 Keycloak 时， Vert.x OAuth2 应该知道如何解析访问令牌并从中提取授权。这些信息很有价值，因为它允许在API级别进行授权，例如：
 
