@@ -146,9 +146,9 @@ IMPORTANT: 一个 `DataFetcher` 订阅必需返回一个 `org.reactivestreams.Pu
 [[_fetching_data]]
 == 获取数据
 
-GraphQL-Java API 非常适合异步上下文：查询操作默认策略便是异步执行（对于变更，则是串行异步）。
+GraphQL-Java API 非常适合异步环境：查询操作默认策略便是异步执行（对于变更，则是串行异步）。
 
-To https://vertx.io/docs/vertx-core/java/#golden_rule[avoid blocking the event loop], all you have to do is implement https://www.graphql-java.com/documentation/v16/data-fetching/[data fetchers] that return a `CompletionStage` instead of the result directly.
+为https://vertx.io/docs/vertx-core/java/#golden_rule[避免阻塞 eventloop] ，您需要做的只是实现一个 https://www.graphql-java.com/documentation/v16/data-fetching/[data fetchers] 并返回 `CompletionStage` 而不是直接返回结果。
 
 [source,java]
 ----
