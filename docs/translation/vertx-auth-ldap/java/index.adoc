@@ -31,6 +31,7 @@ compile 'io.vertx:vertx-auth-ldap:4.0.3'
 
 要使用 Ldap 认证器的实例, 请使用 `link:../../apidocs/io/vertx/ext/auth/ldap/LdapAuthentication.html#create-io.vertx.core.Vertx-io.vertx.ext.auth.ldap.LdapAuthenticationOptions-[LdapAuthentication.create]` 具体如下:
 
+[[_configuration]]
 == 配置
 
 类 `link:../../apidocs/io/vertx/ext/auth/ldap/LdapAuthenticationOptions.html[LdapAuthenticationOptions]` 用来配置 Ldap 认证器:
