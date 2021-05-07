@@ -843,7 +843,8 @@ Accept: text/plain
 
 Accept: text/plain, text/html
 
-客户端将接受 `text/plain` 或 `text/html` ，但因为 `text/html` 有一个更高的`q` 值(默认q=1.0)，所以客户端会优先接收 `text/html` ，：
+客户端将接受 `text/plain` 或 `text/html` ，但因为 `text/html` 有一个更高的
+`q` 值(默认q=1.0)，所以客户端会优先接收 `text/html` ：
 
 Accept: text/plain; q=0.9, text/html
 
@@ -2144,8 +2145,7 @@ router.route("/secure/resource").handler(ctx -> {
 ----
 
 因此，当用户发出没有 `Authorization` 标头的请求时，
-这意味着该链将无法使用basic auth处理器进行身份验证，
-并将尝试使用重定向处理器进行身份证。
+这意味着该链将无法使用basic auth处理器进行身份验证，并将尝试使用重定向处理器进行身份证。
 由于重定向处理器始终会将您重定向到发送您在处理器中配置的发送登录表单那里
 
 就像vertx-web中的常规路由一样，身份认证链是一个序列。
