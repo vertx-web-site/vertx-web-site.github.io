@@ -49,4 +49,4 @@ referral 文档: http://java.sun.com/products/jndi/tutorial/ldap/referral/jndi.h
 [[_notes]]
 == 备注
 
-要注意的是：当你使用这个认证器, 就意味着 `username` 和 `password` 字段会出现在身份认证信息中。
+要注意的是：当您使用这个认证器，就意味着 `username` 和 `password` 字段会出现在身份认证信息中。
