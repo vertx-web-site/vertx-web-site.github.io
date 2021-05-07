@@ -1,12 +1,13 @@
 = LDAP Auth provider
 
-This is an auth provider implementation that authenticates via LDAP.
+这是通过LDAP方式实现的一个认证器。
 
-== Getting started
+[[_getting_started]]
+== 开始
 
-To use this project, add the following dependency to the _dependencies_ section of your build descriptor:
+若要在自己的项目中使用它，需要在构建描述信息的 _dependencies_ 节点中添加以下信息:
 
-* Maven (in your `pom.xml`):
+*Maven （在 `pom.xml` 文件中）:
 
 [source,xml,subs="+attributes"]
 ----
@@ -17,7 +18,7 @@ To use this project, add the following dependency to the _dependencies_ section 
 </dependency>
 ----
 
-* Gradle (in your `build.gradle` file):
+* Gradle （在 `build.gradle` 文件中）:
 
 [source,groovy,subs="+attributes"]
 ----
@@ -25,25 +26,28 @@ compile 'io.vertx:vertx-auth-ldap:4.0.3'
 ----
 
 
-== Instantiation
+[[_instantiation]]
+== 实例化
 
-To create an instance of the Ldap auth provider, use `link:../../apidocs/io/vertx/ext/auth/ldap/LdapAuthentication.html#create-io.vertx.core.Vertx-io.vertx.ext.auth.ldap.LdapAuthenticationOptions-[LdapAuthentication.create]` as follows:
+要使用 Ldap 认证器的实例, 请使用 `link:../../apidocs/io/vertx/ext/auth/ldap/LdapAuthentication.html#create-io.vertx.core.Vertx-io.vertx.ext.auth.ldap.LdapAuthenticationOptions-[LdapAuthentication.create]` 具体如下:
 
-== Configuration
+[[_configuration]]
+== 配置
 
-The class `link:../../apidocs/io/vertx/ext/auth/ldap/LdapAuthenticationOptions.html[LdapAuthenticationOptions]` is used to configure the Ldap authentication provider:
+类 `link:../../apidocs/io/vertx/ext/auth/ldap/LdapAuthenticationOptions.html[LdapAuthenticationOptions]` 用来配置 Ldap 认证器:
 
-`authenticationQuery`:: this query is used when looking up a user with a particular id. An example is `uid={0},ou=users,dc=foo,dc=com` - the element `{0}` is substituted with the user id to create the
-actual lookup. This setting is mandatory.
+`authenticationQuery`:: 此查询用于查找具有特定id的用户。例如 `uid={0},ou=users,dc=foo,dc=com` - 用实际的用户 id 替换 `{0}` 来进行查找。
+ 这个设置是必须的。
 
-`url`:: the url to the LDAP server. The url must start with `ldap://` and a port must be specified.
-An example is `ldap://myldapserver.mycompany.com:10389`
+`url`:: LDAP 服务器地址 url 。 这个 url 必须用 `ldap://` 开头并且必须制定端口。
+例如 `ldap://myldapserver.mycompany.com:10389`
 
-`authenticationMechanism`:: Sets the type of LDAP authentication mechanism to use when connecting to the LDAP server.
+`authenticationMechanism`:: 设置连接LDAP服务器时使用的身份验证机制的类型。
 
-`referral`:: Sets the LDAP referral behavior when creating a connection.  Defaults to `follow`.  See the Sun/Oracle LDAP
-referral documentation for more: http://java.sun.com/products/jndi/tutorial/ldap/referral/jndi.html
+`referral`:: 设置创建连接时的 LDAP referral 行为。 默认是 `follow` 。更多信息请查看 Sun/Oracle LDAP
+referral 文档: http://java.sun.com/products/jndi/tutorial/ldap/referral/jndi.html
 
-== Notes
+[[_notes]]
+== 备注
 
-Note that when authenticating using this implementation, it assumes `username` and `password` fields are present in the authentication info
+要注意的是：当您使用这个认证器，就意味着 `username` 和 `password` 字段会出现在身份认证信息中。
