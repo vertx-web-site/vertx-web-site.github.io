@@ -46,6 +46,7 @@ compile 'io.vertx:vertx-auth-ldap:4.0.3'
 `referral`:: 设置创建连接时的 LDAP referral 行为。  默认是 `follow`.  更多信息请查看 Sun/Oracle LDAP
 referral 文档: http://java.sun.com/products/jndi/tutorial/ldap/referral/jndi.html
 
+[[_notes]]
 == 备注
 
 要注意的是：当你使用这个认证器, 就意味着 `username` 和 `password` 字段会出现在身份认证信息中。
