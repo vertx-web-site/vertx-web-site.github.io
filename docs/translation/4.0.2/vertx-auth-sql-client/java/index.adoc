@@ -162,7 +162,7 @@ sqlClient
 ----
 
 [[_authentication]]
-== 鉴权/身份认证
+== 鉴权/身份验证
 
 使用此实现进行身份验证时，
 假定身份验证信息中存在 `用户名（username）` 和 `密码（password）` 字段：
