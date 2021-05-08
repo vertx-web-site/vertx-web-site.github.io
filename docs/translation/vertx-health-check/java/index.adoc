@@ -1,18 +1,18 @@
-= Vert.x Health Checks
+= Vert.x 健康检查
 
-This component provides a simple way to expose health checks. Health checks are used to express the current state
-of the application in very simple terms: _UP_ or _DOWN_. The health checks can be used individually, or in
-combination to Vert.x Web or the event bus.
+该组件提供了一个简单的检视健康状况的途径。
+健康检查组件使用非常简单的措辞来表达应用程序的当前状况： _UP_ 以及 _DOWN_ 。
+健康检查组件可以单独使用，也可以和 Vert.x Web 或者 event bus 联合使用。
 
-This component provides a Vert.x Web handler on which you
-can register procedure testing the health of the application. The handler computes the final state and returns the
-result as JSON.
+该组件提供一个 Vert.x Web handler 让您可以注册一些规程
+用于测试应用程序的健康状况。
+该 handler 计算出最终状态并以 JSON 方式返回结果。
 
-== Using Vert.x Health Checks
+== 如何使用 Vert.x 健康检查
 
-Notice that you generally need Vert.x Web to use this component. In addition add the following dependency:
+请注意，一般情况下您需要 Vert.x Web 模块来使用该组件。启用该组件只需要添加以下依赖：
 
-* Maven (in your `pom.xml`):
+* Maven （在您的 `pom.xml` 文件中）：
 
 [source,xml,subs="+attributes"]
 ----
@@ -23,16 +23,16 @@ Notice that you generally need Vert.x Web to use this component. In addition add
 </dependency>
 ----
 
-* Gradle (in your `build.gradle` file):
+* Gradle （在您的 `build.gradle` 文件中）：
 
 [source,groovy,subs="+attributes"]
 ----
 compile 'io.vertx:vertx-health-check:4.0.3'
 ----
 
-=== Creating the health check object.
+=== 创建健康检查对象。
 
-The central object is `link:../../apidocs/io/vertx/ext/healthchecks/HealthChecks.html[HealthChecks]`. You can create a new instance using:
+最主要的对象是 `link:../../apidocs/io/vertx/ext/healthchecks/HealthChecks.html[HealthChecks]` 。 您可以通过以下方式创建该对象的实例：
 
 [source, java]
 ----
@@ -42,22 +42,22 @@ hc.register(
   "my-procedure",
   promise -> promise.complete(Status.OK()));
 
-// Register with a timeout. The check fails if it does not complete in time.
-// The timeout is given in ms.
+// 注册时指定超时时间参数。如果未能在超时时间之内完成，则视为失败。
+// timeout 参数的单位是毫秒。
 hc.register(
   "my-procedure",
   2000,
   promise -> promise.complete(Status.OK()));
 ----
 
-Once you have created this object you can register and unregister procedures. See more about this below.
+一旦您创建了这个对象，您就可以注册或者注销规程。在后面的章节中会给出更多详情。
 
-=== Registering the Vert.x Web handler
+=== 注册 Vert.x Web handler
 
-To create the Vert.x Web handler managing your health check you can either:
+您可以通过以下方式创建用于健康检查的 Vert.x Web handler ：
 
-* using an existing instance of `link:../../apidocs/io/vertx/ext/healthchecks/HealthChecks.html[HealthChecks]`
-* let the handler create one instance for you.
+* 使用已有的 `link:../../apidocs/io/vertx/ext/healthchecks/HealthChecks.html[HealthChecks]` 对象实例
+* 让 handler 为您创建一个对象实例。
 
 [source, java]
 ----
@@ -67,73 +67,73 @@ HealthCheckHandler healthCheckHandler2 = HealthCheckHandler
   .createWithHealthChecks(HealthChecks.create(vertx));
 
 Router router = Router.router(vertx);
-// Populate the router with routes...
-// Register the health check handler
+// 向 router 添加路由
+// 注册健康检查 handler
 router.get("/health*").handler(healthCheckHandler1);
-// Or
+// 或者
 router.get("/ping*").handler(healthCheckHandler2);
 ----
 
-Procedure registration can be directly made on the `link:../../apidocs/io/vertx/ext/healthchecks/HealthCheckHandler.html[HealthCheckHandler]`
-instance. Alternatively, if you have created the `link:../../apidocs/io/vertx/ext/healthchecks/HealthChecks.html[HealthChecks]` instance
-beforehand, you can register the procedure on this object directly. Registrations and unregistrations can be done at
-anytime, even after the route registration:
+可以直接在 `link:../../apidocs/io/vertx/ext/healthchecks/HealthCheckHandler.html[HealthCheckHandler]` 对象实例中注册规程。
+此外，如果您已经预先创建了 `link:../../apidocs/io/vertx/ext/healthchecks/HealthChecks.html[HealthChecks]` 对象的实例，
+您可以直接在该对象中注册规程。
+在任何时刻都可以进行规程的注册和注销，即使在路由注册完成之后也可以：
 
 [source, java]
 ----
 HealthCheckHandler healthCheckHandler = HealthCheckHandler.create(vertx);
 
-// Register procedures
-// It can be done after the route registration, or even at runtime
+// 注册规程
+// 在路由注册完成之后，甚至是运行时，也可以完成该操作
 healthCheckHandler.register("my-procedure-name", promise -> {
-  // Do the check ....
-  // Upon success do
+  // 进行检查 ....
+  // 成功时执行
   promise.complete(Status.OK());
-  // In case of failure do:
+  // 如果发生失败则执行：
   promise.complete(Status.KO());
 });
 
-// Register another procedure with a timeout (2s). If the procedure does not complete in
-// the given time, the check fails.
+// 注册另一个指定了超时时间（2秒）的规程。 如果该规程未能在
+// 指定的超时时间内完成，则判断为失败。
 healthCheckHandler.register(
   "my-procedure-name-with-timeout",
   2000,
   promise -> {
-    // Do the check ....
-    // Upon success do
+    // 进行检查 ....
+    // 成功时执行
     promise.complete(Status.OK());
-    // In case of failure do:
+    // 如果发生失败则执行：
     promise.complete(Status.KO());
   });
 
 router.get("/health").handler(healthCheckHandler);
 ----
 
-== Procedures
+== 规程
 
-A procedure is a function checking some aspect of the system to deduce the current health. It reports a
-`link:../../apidocs/io/vertx/ext/healthchecks/Status.html[Status]` indicating whether or not the test has passed or failed. This function
-must not block and report to the given `link:../../apidocs/io/vertx/core/Promise.html[Promise]` whether or not it succeed.
+此处的规程是指一个检查系统某个切面的函数，用于推断当前的健康状况。
+它报告一个 `link:../../apidocs/io/vertx/ext/healthchecks/Status.html[Status]` 对象用以指示该测试通过还是失败。
+该函数将检查结果报告给它所对应的 `link:../../apidocs/io/vertx/core/Promise.html[Promise]` ，并且请注意该函数不可以阻塞这个 `link:../../apidocs/io/vertx/core/Promise.html[Promise]` 。
 
-When you register a procedure, you give a name, and the function (handler) executing the check.
+当您注册了一个规程，您需要对其命名，并且要指定一个函数（handler）来执行该项检查。
 
-Rules deducing the status are the following
+推断健康状况的规则如下：
 
-* if the promise is mark as failed, the check is considered as _KO_
-* if the promise is completed successfully but without a `link:../../apidocs/io/vertx/ext/healthchecks/Status.html[Status]`, the check
-is considered as _OK_.
-* if the promise is completed successfully with a `link:../../apidocs/io/vertx/ext/healthchecks/Status.html[Status]` marked as _OK_,
-the check is considered as _OK_.
-* if the promise is completed successfully with a `link:../../apidocs/io/vertx/ext/healthchecks/Status.html[Status]` marked as _KO_,
-the check is considered as _KO_.
+* 如果对应的 promise 被标记为失败，则检查结果认定为 _KO_
+* 如果对应的 promise 成功完成但是没有包含一个 `link:../../apidocs/io/vertx/ext/healthchecks/Status.html[Status]` 对象，
+检查结果认定为 _OK_。
+* 如果对应的 promise 成功完成且包含一个标记为 _OK_ 的 `link:../../apidocs/io/vertx/ext/healthchecks/Status.html[Status]` 对象，
+检查结果认定为 _OK_。
+* 如果对应的 promise 成功完成且包含一个标记为 _KO_ 的 `link:../../apidocs/io/vertx/ext/healthchecks/Status.html[Status]` 对象，
+检查结果认定为 _KO_。
 
-`link:../../apidocs/io/vertx/ext/healthchecks/Status.html[Status]` can also provide additional data:
+`link:../../apidocs/io/vertx/ext/healthchecks/Status.html[Status]` 对象可以提供额外的数据：
 
 [source, java]
 ----
 HealthCheckHandler healthCheckHandler = HealthCheckHandler.create(vertx);
 
-// Status can provide addition data provided as JSON
+// Status 对象能以 JSON 形式提供额外的数据
 healthCheckHandler.register("my-procedure-name", promise -> {
   promise.complete(Status.OK(new JsonObject().put("available-memory", "2mb")));
 });
@@ -145,16 +145,16 @@ healthCheckHandler.register("my-second-procedure-name", promise -> {
 router.get("/health").handler(healthCheckHandler);
 ----
 
-Procedures can be organised by groups. The procedure name indicates the group. The procedures are organized as a
-tree and the structure is mapped to HTTP urls (see below).
+规程可以进行分组管理。 规程的名称里可以指定分组信息。 分组的规程按照树形结构进行组织，
+并且树形结构被映射到 HTTP url 之上（如下所示）。
 
 [source, java]
 ----
 HealthCheckHandler healthCheckHandler = HealthCheckHandler.create(vertx);
 
-// Register procedures
-// Procedure can be grouped. The group is deduced using a name with "/".
-// Groups can contains other group
+// 注册规程
+// 规程可以进行分组，以规程名称中的 “/” 字符来判断组别
+// 一个分组中也可以包含另一个分组
 healthCheckHandler.register(
   "a-group/my-procedure-name",
   promise -> {
@@ -169,21 +169,21 @@ healthCheckHandler.register(
 router.get("/health").handler(healthCheckHandler);
 ----
 
-== HTTP responses and JSON Output
+== HTTP 响应和 JSON 输出
 
-When using the Vert.x web handler, the overall health check is retrieved using a HTTP GET or POST (depending on
-the route you registered) on the route given when exposing the
-`link:../../apidocs/io/vertx/ext/healthchecks/HealthCheckHandler.html[HealthCheckHandler]`.
+当使用 Vert.x web handler 时，总体健康检查信息通过对外公开的 
+`link:../../apidocs/io/vertx/ext/healthchecks/HealthCheckHandler.html[HealthCheckHandler]` 的路由路径，
+以 HTTP 的 GET 或者 POST 请求（取决于您注册该路由的方式）来获取
 
-If no procedure are registered, the response is `204 - NO CONTENT`, indicating that the system is _UP_ but no
-procedures has been executed. The response does not contain a payload.
+如果没有注册任何规程， 则响应信息为 `204 - NO CONTENT` ， 表明系统状态为 _UP_ 但是没有执行任何规程。
+此时响应信息不包含任何有效数据。
 
-If there is at least one procedure registered, this procedure is executed and the outcome status is computed. The
-response would use the following status code:
+如果注册了至少一个规程，该规程将被执行并计算出结果。
+响应码包括下列几种：
 
-* `200` : Everything is fine
-* `503` : At least one procedure has reported a non-healthy state
-* `500` : One procedure has thrown an error or has not reported a status in time
+* `200` : 一切正常
+* `503` : 至少有一个规程报告了不健康状态
+* `500` : 某个规程抛出了错误，或者未能及时报告状态
 
 The content is a JSON document indicating the overall result (`outcome`). It's either `UP` or `DOWN`. A `checks`
 array is also given indicating the result of the different executed procedures. If the procedure has reported
