@@ -58,7 +58,7 @@ Vert.x 从类路径中获取 `VerticleFactory` 的实现，因此您必须保证
 </dependency>
 ----
 
-* Gradle (在您的 `build.gradle` 文件中):
+* Gradle （在您的 `build.gradle` 文件中）：
 
 [source,groovy,subs="+attributes"]
 ----
