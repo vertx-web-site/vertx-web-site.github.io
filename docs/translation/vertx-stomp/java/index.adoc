@@ -10,12 +10,12 @@ use the STOMP client with other servers. The server and the client supports the 
 STOMP protocol (see https://stomp.github.io/stomp-specification-1.2.html). The STOMP server can also be used as a
 bridge with the vert.x event bus, or directly with web sockets (using StompJS).
 
-== Using vertx-stomp
+== 使用 vertx-stomp
 
-To use the Vert.x Stomp server and client, add the following dependency to the _dependencies_ section of your build
-descriptor:
+为了使用 Vert.x Stomp 服务端和客户端, 需要将以下依赖项添加到你的项目构建描述文件
+的 _依赖配置_ 中:
 
-* Maven (in your `pom.xml`):
+* Maven (在您的 `pom.xml`):
 
 [source,xml,subs="+attributes"]
 ----
@@ -26,18 +26,18 @@ descriptor:
 </dependency>
 ----
 
-* Gradle (in your `build.gradle` file):
+* Gradle (在您的 `build.gradle` 文件中):
 
 [source,groovy,subs="+attributes"]
 ----
 compile 'io.vertx:vertx-stomp:4.0.3'
 ----
 
-== STOMP server
+== STOMP 服务器
 
-=== Creating a STOMP server
+=== 创建 STOMP 服务器
 
-The simplest way to create an STOMP server, using all default options is as follows:
+以下是使用默认的配置去创建 STOMP 服务器的最简单的方法:
 
 [source,java]
 ----
@@ -48,8 +48,8 @@ Future<StompServer> server = StompServer.create(vertx)
 
 This creates a STOMP server listening on `localhost:61613` that is compliant with the STOMP specification.
 
-You can configure the port and host in the `link:../../apidocs/io/vertx/ext/stomp/StompServer.html#listen-int-java.lang.String-[listen]`
-method:
+你可以使用 `link:../../apidocs/io/vertx/ext/stomp/StompServer.html#listen-int-java.lang.String-[listen]` 方法
+去配置服务器监听的主机地址和端口:
 
 [source,java]
 ----
@@ -58,8 +58,8 @@ Future<StompServer> server = StompServer.create(vertx)
     .listen(1234, "0.0.0.0");
 ----
 
-If you pass `-1` as port, the TCP server would not be started. This is useful when using the websocket
-bridge. To be notified when the server is ready, use a handler as follows:
+如果你设置端口号为 `-1` , TCP 服务器将无法启动。 如果你使用到了 Websocket 桥接
+这回很有用。 使用以下方式设置回调，以便在服务器就绪时收到通知:
 
 [source,java]
 ----
@@ -74,9 +74,9 @@ StompServer server = StompServer.create(vertx)
     });
 ----
 
-The handler receive a reference on the `link:../../apidocs/io/vertx/ext/stomp/StompServer.html[StompServer]`.
+该回调接收一个类型是 `link:../../apidocs/io/vertx/ext/stomp/StompServer.html[StompServer]` 的引用参数。
 
-You can also configure the host and port in `link:../../apidocs/io/vertx/ext/stomp/StompServerOptions.html[StompServerOptions]`:
+你也可以使用 `link:../../apidocs/io/vertx/ext/stomp/StompServerOptions.html[StompServerOptions]` 配置服务器监听的主机地址和端口:
 
 [source,java]
 ----
@@ -85,9 +85,9 @@ Future<StompServer> server = StompServer.create(vertx, new StompServerOptions().
     .listen();
 ----
 
-=== Closing a STOMP server
+=== 关闭 STOMP 服务器
 
-STOMP servers are closed as follows:
+使用如下方式关闭 STOMP 服务器:
 
 [source,java]
 ----
@@ -100,14 +100,14 @@ server.close(ar -> {
 });
 ----
 
-=== Configuration
+=== 配置
 
-The `link:../../apidocs/io/vertx/ext/stomp/StompServerOptions.html[StompServerOptions]` let you configure some aspects of the STOMP server.
+使用 `link:../../apidocs/io/vertx/ext/stomp/StompServerOptions.html[StompServerOptions]` 配置 STOMP 服务器的参数
 
-First, the STOMP server is based on a
-`link:../../apidocs/io/vertx/core/net/NetServer.html[NetServer]`, so you can configure the underlying `link:../../apidocs/io/vertx/core/net/NetServer.html[NetServer]` from
-the `link:../../apidocs/io/vertx/ext/stomp/StompServerOptions.html[StompServerOptions]`. Alternatively you can also pass the
-`link:../../apidocs/io/vertx/core/net/NetServer.html[NetServer]` you want to use:
+首先，STOMP 服务器是基于
+`link:../../apidocs/io/vertx/core/net/NetServer.html[NetServer]` 的， 因此你可以在  `link:../../apidocs/io/vertx/ext/stomp/StompServerOptions.html[StompServerOptions]` 中配置
+底层使用的 `link:../../apidocs/io/vertx/core/net/NetServer.html[NetServer]`。或者你可以将
+你想要使用的 `link:../../apidocs/io/vertx/core/net/NetServer.html[NetServer]` 实例作为参数传入:
 
 [source,java]
 ----
@@ -116,21 +116,21 @@ Future<StompServer> server = StompServer.create(vertx, netServer)
     .listen();
 ----
 
-The `link:../../apidocs/io/vertx/ext/stomp/StompServerOptions.html[StompServerOptions]` let you configure:
+该配置类 `link:../../apidocs/io/vertx/ext/stomp/StompServerOptions.html[StompServerOptions]` 可以让你设置以下选项：
 
-* the host and port of the STOMP server - defaults to `0.0.0.0:61613`.
-* whether or not the STOMP server is secured - defaults to `false`
-* the max STOMP frame body - default to 10 Mb
-* the maximum number of headers accepted in a STOMP frame - defaults to 1000
-* the max length of a header line in a STOMP frame - defaults to 10240
-* the STOMP heartbeat time - default to `1000, 1000`
-* the supported STOMP protocol versions (1.0, 1.1 and 1.2 by default)
-* the maximum number of frame allowed in a transaction (defaults to 1000)
-* the size of the transaction chunk - defaults to 1000 (see
+* STOMP 服务器默认监听的主机地址和端口 - 默认为 `0.0.0.0:61613`.
+* STOMP 服务器是否使用安全验证 - 默认为 `false`
+* STOMP 协议消息体的最大尺寸限制 - 默认为 10 Mb
+* STOMP 协议消息体的最大首部限制 - 默认为 1000
+* STOMP 协议消息体中首部行长度的最大限制 - 默认为 10240
+* STOMP 协议的心跳时间 - 默认为 `1000, 1000`
+* 支持的 STOMP 协议版本 (默认为 1.0, 1.1 和 1.2)
+* STOMP 协议中事务所支持的最大帧数量 (默认为 1000)
+* 分块传输的最大尺寸 - 默认为 1000 (参见
 `link:../../apidocs/io/vertx/ext/stomp/StompServerOptions.html#setTransactionChunkSize-int-[setTransactionChunkSize]`)
-* the maximum number of subscriptions a client can handle - defaults to 1000
+* 一个客户端可以使用的最大订阅数量 - 默认为 1000
 
-The STOMP heartbeat is configured using a JSON object as follows:
+如下所示，使用 JsonObject 配置 STOMP 协议的心跳：
 
 [source,java]
 ----
@@ -140,8 +140,8 @@ Future<StompServer> server = StompServer.create(vertx, new StompServerOptions().
     .listen();
 ----
 
-Enabling security requires an additional `link:../../apidocs/io/vertx/ext/auth/authentication/AuthenticationProvider.html[AuthenticationProvider]` handling the
-authentication requests:
+要使用安全认证功能，需要提供 `link:../../apidocs/io/vertx/ext/auth/authentication/AuthenticationProvider.html[AuthenticationProvider]` 以处理
+认证请求：
 
 [source,java]
 ----
@@ -150,23 +150,23 @@ Future<StompServer> server = StompServer.create(vertx, new StompServerOptions().
     .listen();
 ----
 
-More information about `link:../../apidocs/io/vertx/ext/auth/authentication/AuthenticationProvider.html[AuthenticationProvider]` is available
-http://vertx.io/docs/#authentication_and_authorisation[here].
+更多关于 `link:../../apidocs/io/vertx/ext/auth/authentication/AuthenticationProvider.html[AuthenticationProvider]` 的信息请参考
+http://vertx.io/docs/#authentication_and_authorisation[此文档].
 
-If a frame exceeds one of the size limits, the frame is rejected and the client receives an `ERROR` frame. As the
-specification requires, the client connection is closed immediately after having sent the error. The same behavior
-happens with the other thresholds.
+如果一个帧的大小超过了限制, 那么它会被拒绝接收，并且客户端会收到一个 `ERROR` 帧。 按照协议
+要求，在发送这种错误数据后，客户端需要立即关闭。 如果发送的数据不符合其他
+阈值的要求，客户端也需要立即关闭。
 
-=== Subscriptions
+=== 订阅
 
-The default STOMP server handles subscription destination as opaque Strings. So it does not promote a structure
-and it not hierarchic. By default the STOMP server follow a _topic_ semantic (so messages are dispatched to all
-subscribers).
+默认的 STOMP 服务器将订阅作为普通的字符串处理。 因此它不能对订阅主题进行解析
+和分级。 默认的 STOMP 服务器遵循 _topic_ 语义。(因此消息会被分发给所有
+对应的订阅客户端)。
 
-=== Type of destinations
+=== 消息目的地类型
 
-By default, the STOMP server manages _destinations_ as topics. So messages are dispatched to all subscribers. You
-can configure the server to use queues, or mix both types:
+默认情况下， STOMP 服务器将消息发送的 _目的地_ 作为主题处理。 因此消息会被发送给所有的订阅者。 你可以
+配置 STOMP 服务器将消息发送的目的地作为队列处理, 或两种模式都支持：
 
 [source,java]
 ----
@@ -182,10 +182,10 @@ Future<StompServer> server = StompServer.create(vertx)
     .listen();
 ----
 
-In the last example, all destination starting with `/queue` are queues while others are topics. The destination is
-created when the first subscription on this destination is received.
+在上一个例子中， 所有以 `/queue` 开头的目的地均被作为队列处理，而其他的目的地被当作主题类型。 目的地是在 STOMP 服务器
+第一次接收到对应的订阅消息时被创建的。
 
-A server can decide to reject the destination creation by returning `null`:
+STOMP 服务器通过返回 `null` 以拒绝目的地的创建：
 
 [source,java]
 ----
@@ -203,27 +203,27 @@ Future<StompServer> server = StompServer.create(vertx)
     .listen();
 ----
 
-In this case, the subscriber received an `ERROR` frame.
+在这种情况下， 订阅客户端会收到一个 `ERROR` 帧。
 
-Queues dispatches messages using a round-robin strategies.
+队列类型的目的地使用轮询调度策略向订阅者分发消息
 
-=== Providing your own type of destination
+=== 提供你自定义的目的地类型
 
-On purpose the STOMP server does not implement any advanced feature. IF you need more advanced dispatching policy,
-you can implement your own type of destination by providing a `link:../../apidocs/io/vertx/ext/stomp/DestinationFactory.html[DestinationFactory]`
-returning your own `link:../../apidocs/io/vertx/ext/stomp/Destination.html[Destination]` object.
+Vert.x 提供的 STOMP 有意没有实现任何高级特性。 如果你需要更加高级的消息分发策略，
+可以提供自定义的 `link:../../apidocs/io/vertx/ext/stomp/DestinationFactory.html[DestinationFactory]` 实现
+以返回你自己的 `link:../../apidocs/io/vertx/ext/stomp/Destination.html[Destination]` 类型实例。
 
-=== Acknowledgment
+=== 确认消息
 
-By default, the STOMP server does nothing when a message is not acknowledged. You can customize this by
-providing your own `link:../../apidocs/io/vertx/ext/stomp/Destination.html[Destination]` implementation.
+默认情况下， STOMP 服务器如果没有收到一个消息的确认消息不会做任何处理。 你可以通过提供你自定义的
+ `link:../../apidocs/io/vertx/ext/stomp/Destination.html[Destination]` 以实现对确认消息的处理
 
-The custom destination should call the
+自定义的 destination 应该实现
 
 `link:../../apidocs/io/vertx/ext/stomp/StompServerHandler.html#onAck-io.vertx.ext.stomp.StompServerConnection-io.vertx.ext.stomp.Frame-java.util.List-[onAck]`
-and
+和
 `link:../../apidocs/io/vertx/ext/stomp/StompServerHandler.html#onNack-io.vertx.ext.stomp.StompServerConnection-io.vertx.ext.stomp.Frame-java.util.List-[onNack]`
-method in order to let the `link:../../apidocs/io/vertx/ext/stomp/StompServerHandler.html[StompServerHandler]` customizes the behavior:
+方法以供 `link:../../apidocs/io/vertx/ext/stomp/StompServerHandler.html[StompServerHandler]` 实现特定的动作：
 
 [source,java]
 ----
@@ -240,32 +240,32 @@ Future<StompServer> server = StompServer.create(vertx)
     .listen();
 ----
 
-=== Customizing the STOMP server
+=== 配置 STOMP 服务器
 
-In addition to the handlers seen above, you can configure almost all aspects of the STOMP server, such as the
-actions made when specific frames are received, the `ping` to sent to the client (to implement the heartbeat).
-Here are some examples:
+除了上文所述的回调, 你还可以配置 STOMP 服务器的几乎所有配置, 例如收到
+指定消息类型的响应动作, 发送给客户端的 `ping` 消息 (为了实现心跳)。
+以下是示例
 
 [source,java]
 ----
 Future<StompServer> server = StompServer.create(vertx)
     .handler(StompServerHandler.create(vertx)
             .closeHandler(connection -> {
-              // client connection closed
+              // 客户端关闭的回调
             })
             .beginHandler(frame -> {
-              // transaction starts
+              // 开始传输事务的回调
             })
             .commitHandler(frame -> {
-                  // transaction committed
+                  // 传输事务完成的回调
                 }
             )
         //...
     ).listen();
 ----
 
-Be aware that changing the default behavior may break the compliance with the STOMP specification. So, please look
-at the default implementations.
+注意改变默认的动作实现可能会导致对 STOMP 协议标准的破坏。 所以请参考
+默认的实现。
 
 == STOMP client
 
