@@ -1,4 +1,4 @@
-# Vert.x 服务工厂
+= Vert.x 服务工厂
 
 Vert.x 服务工厂是 VerticleFactory 的一种实现，
 它基于服务id/名称来部署 verticle 。
@@ -12,7 +12,8 @@ Vert.x 服务工厂是 VerticleFactory 的一种实现，
 它的好处是把服务使用者和已部署的 verticle 进行了解耦，
 并且允许该服务提供缺省的部署选项和配置。
 
-## 服务标识
+[[_service_identifier]]
+== 服务标识
 
 服务名称就是一个简单的字符串 —— 您可以使用任何内容个字符串，
 但是有一个良好的约定是使用倒着写的域名（就像 Java 的包名那样），
@@ -21,7 +22,8 @@ Vert.x 服务工厂是 VerticleFactory 的一种实现，
 * 良好的取名方式： `com.mycompany.services.clever-db-service`, `org.widgets.widget-processor`
 * 糟糕的取名方式（尽管这样起名仍然是合法的）： `accounting-service`， `foo`
 
-## 使用说明
+[[_usage]]
+== 使用说明
 
 一旦以 `service:` 前缀来部署服务，就意味着选择了服务 verticle 工厂。
 Verticle 可以用编程方式进行部署，例如：
@@ -38,7 +40,8 @@ vertx.deployVerticle("service:com.mycompany.clever-db-service", options);
 vertx run service:com.mycompany-clever-db-service
 ----
 
-## 如何启用 vert.x 服务工厂
+[[_making_it_available]]
+== 如何启用 vert.x 服务工厂
 
 Vert.x 从类路径中获取 `VerticleFactory` 的实现，因此您必须保证类路径中已有 vertx-service-factory 相关的jar包，
 并且在此之前您首先需要在您的应用的类路径中加入 verticle 工厂的 Maven 依赖。
@@ -70,7 +73,8 @@ compile 'io.vertx:vertx-service-factory:4.0.3'
 vertx.registerVerticleFactory(new ServiceVerticleFactory());
 ----
 
-## 服务描述文件
+[[_service_descriptor]]
+== 服务描述文件
 
 当您部署一个服务的时候，服务工厂会首先在类路径中寻找一个描述文件。
 该描述文件的文件名为服务名加上 `.json` 文件后缀名。
