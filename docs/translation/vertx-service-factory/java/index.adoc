@@ -1,50 +1,50 @@
-# Vert.x Service Factory
+# Vert.x 服务工厂
 
-The vert.x service factory is an implementation of VerticleFactory which deploys a verticle given a service (id)
-name. Notice that this factory is not directly related to
-http://vertx.io/docs/vertx-service-proxy/java[vert.x service proxies], but is about facilities to deploy
-individual components.
+Vert.x 服务工厂是 VerticleFactory 的一种实现，
+它基于服务id/名称来部署 verticle 。
+请注意，该工厂并不涉及 http://vertx.io/docs/vertx-service-proxy/java[vert.x service proxies] ，
+而是用于部署单独组件的一种设施。
 
-The service name is used to lookup a JSON descriptor file which determines the actual verticle that is to be deployed,
-and can also contain deployment options for the verticle such as whether it should be run as a worker, and default
-config for the service.
+服务名称的作用是在某个 JSON 描述文件中查找并确认所需要部署的 verticle ，
+同时也可以包含部署选项，例如该 verticle 是否以 worker verticle 模式运行，
+该服务的缺省配置，等等。
 
-It is useful as it decouples the service user from the actual verticle that is deployed and it allows the service
-to provide default deployment options and configuration.
+它的好处是把服务使用者和已部署的 verticle 进行了解耦，
+并且允许该服务提供缺省的部署选项和配置。
 
-## Service identifier
+## 服务标识
 
-The service name is simply a string - you can use anything you want, but it's a good convention to use a reverse
-domain name (rather like a Java package name) so not to clash with other similar named services that might be on your
-classpath. E.g:
+服务名称就是一个简单的字符串 —— 您可以使用任何内容个字符串，
+但是有一个良好的约定是使用倒着写的域名（就像 Java 的包名那样），
+这样可以避免和您的类路径中或许已存在的类似的服务名发生冲突。服务名称示例：
 
-* Good names: `com.mycompany.services.clever-db-service`, `org.widgets.widget-processor`
-* Poor names (but they are still valid): `accounting-service`, `foo`
+* 良好的取名方式： `com.mycompany.services.clever-db-service`, `org.widgets.widget-processor`
+* 糟糕的取名方式（尽管这样起名仍然是合法的）： `accounting-service`， `foo`
 
-## Usage
+## 使用说明
 
-When deploying the service use the prefix `service:`, this selects the service verticle factory.
-The verticle can be deployed programmatically e.g.:
+一旦以 `service:` 前缀来部署服务，就意味着选择了服务 verticle 工厂。
+Verticle 可以用编程方式进行部署，例如：
 
 [source,java]
 ----
 vertx.deployVerticle("service:com.mycompany.clever-db-service", options);
 ----
 
-Or can be deployed on the command line with:
+或者也可以通过命令行方式部署：
 
 [source]
 ----
 vertx run service:com.mycompany-clever-db-service
 ----
 
-## Making it available
+## 如何启用 vert.x 服务工厂
 
-Vert.x picks up `VerticleFactory` implementations from the classpath, so you just need to make sure the
-vertx-service-factory jar file on the classpath. First you need to add the Maven verticle factory to your application's
-classpath. If you are using a fat jar, you can use the following dependencies:
+Vert.x 从类路径中获取 `VerticleFactory` 的实现，因此您必须保证类路径中已有 vertx-service-factory 相关的jar包，
+并且在此之前您首先需要在您的应用的类路径中加入 verticle 工厂的 Maven 依赖。
+如果您使用的是 fat jar， 您可以加入以下依赖：
 
-* Maven (in your `pom.xml`):
+* Maven (在您的 `pom.xml` 文件中):
 
 [source,xml,subs="+attributes"]
 ----
@@ -55,31 +55,31 @@ classpath. If you are using a fat jar, you can use the following dependencies:
 </dependency>
 ----
 
-* Gradle (in your `build.gradle` file):
+* Gradle (在您的 `build.gradle` 文件中):
 
 [source,groovy,subs="+attributes"]
 ----
 compile 'io.vertx:vertx-service-factory:4.0.3'
 ----
 
-You can also register a `VerticleFactory` instances programmatically on your `vertx` instance using the
-`link:../../apidocs/io/vertx/core/Vertx.html#registerVerticleFactory-io.vertx.core.spi.VerticleFactory-[registerVerticleFactory]` method:
+您也可以通过编程方式使用 `link:../../apidocs/io/vertx/core/Vertx.html#registerVerticleFactory-io.vertx.core.spi.VerticleFactory-[registerVerticleFactory]` 
+方法在您的 `vertx` 实例中注册 `VerticleFactory` 的实例：
 
 [source,java]
 ----
 vertx.registerVerticleFactory(new ServiceVerticleFactory());
 ----
 
-## Service descriptor
+## 服务描述文件
 
-When you ask to deploy a service, the service factory first looks for a descriptor file on the classpath.
-The descriptor file name is given by the service name concatenated with the `.json` file extension.
+当您部署一个服务的时候，服务工厂会首先在类路径中寻找一个描述文件。
+该描述文件的文件名为服务名加上 `.json` 文件后缀名。
 
-E.g. for a service name of `com.mycompany.clever-db-service` it would like for a descriptor file called
-`com.mycompany.clever-db-service.json` on the classpath.
+例如一个服务名叫做 `com.mycompany.clever-db-service` ，则类路径中对应的描述文件名就是 
+`com.mycompany.clever-db-service.json` 。
 
-The descriptor file is simply a text file which must contain a valid JSON object. At minimum the JSON must provide
-a `main` field which determines the actual verticle that will be deployed, e.g:
+描述文件是一个简单的文本文件，并且文件内容必须包含一个合法的 JSON 对象。
+该 JSON 对象中至少要包含一个 `main` 属性用来确定哪个 verticle 将被部署，例如：
 
 [source]
 ----
@@ -88,7 +88,7 @@ a `main` field which determines the actual verticle that will be deployed, e.g:
 }
 ----
 
-or
+或者
 
 [source]
 ----
@@ -97,8 +97,8 @@ or
 }
 ----
 
-or you could even redirect to a different verticle factory e.g. the Maven verticle factory to dynamically load the
-service from Maven at run-time:
+或者您甚至可以重定向到另一个不同的 verticle 工厂，例如重定向到 Maven verticle 工厂
+用以在运行时从 Maven 中动态加载一个服务：
 
 [source]
 ----
@@ -107,7 +107,7 @@ service from Maven at run-time:
 }
 ----
 
-The JSON can also provide an `options` field which maps exactly to a `link:../../apidocs/io/vertx/core/DeploymentOptions.html[DeploymentOptions]` object.
+该 JSON 对象也可以包含一个 `options` 属性用以映射一个 `link:../../apidocs/io/vertx/core/DeploymentOptions.html[DeploymentOptions]` 对象。
 
 [source]
 ----
@@ -123,8 +123,8 @@ The JSON can also provide an `options` field which maps exactly to a `link:../..
 }
 ----
 
-When deploying a service from a service descriptor, any fields that are specified in the descriptor, such as `worker`,
-`isolationGroup`, etc cannot be overridden by any deployment options passed in at deployment time.
+当使用服务描述文件来部署一个服务时，描述文件中的 JOSN 对象属性，诸如 `worker`， `isolationGroup` 等等，
+在部署时将不会被传入的部署选项所覆盖。
 
-The exception is `config`. Any configuration passed in at deploy time will override any corresponding fields in any
-config present in the descriptor file.
+此处有个例外是 `config` 属性，
+在部署时所传入的选项将会取代描述文件中对应的属性值。
