@@ -1,5 +1,7 @@
-import { Box, CheckCircle, Database, Feather, Globe, Grid, Inbox, Key,
-  PhoneCall, Search, Send, Share2, Terminal } from "react-feather"
+import {
+  Box, CheckCircle, Database, Feather, Globe, Grid, Inbox, Key,
+  PhoneCall, Search, Send, Share2, Terminal
+} from "react-feather"
 
 const categories = [
   {
@@ -403,7 +405,7 @@ const entries = [
   {
     id: "vertx-stomp",
     name: "STOMP",
-    description: "A client and server implementation of the STOMP protocol.",
+    description: "一款支持 STOMP 协议的客户端和服务端实现",
     category: "messaging",
     href: "/vertx-stomp/java/",
     repository: "https://github.com/vert-x3/vertx-stomp",
