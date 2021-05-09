@@ -2,9 +2,9 @@
 
 该组件提供了一个简单的检视健康状况的途径。
 健康检查组件使用非常简单的措辞来表达应用程序的当前状况： _UP_ 以及 _DOWN_ 。
-健康检查组件可以单独使用，也可以和 Vert.x Web 或者 event bus 联合使用。
+健康检查组件可以单独使用，也可以和 Vert.x Web 或者事件总线联合使用。
 
-该组件提供一个 Vert.x Web handler 让您可以注册一些规程
+该组件提供一个 Vert.x Web handler 让您可以注册一些（检测）例程
 用于测试应用程序的健康状况。
 该 handler 计算出最终状态并以 JSON 方式返回结果。
 
@@ -50,7 +50,7 @@ hc.register(
   promise -> promise.complete(Status.OK()));
 ----
 
-一旦您创建了这个对象，您就可以注册或者注销规程。在后面的章节中会给出更多详情。
+一旦您创建了这个对象，您就可以注册或者注销例程。在后面的章节中会给出更多详情。
 
 === 注册 Vert.x Web handler
 
@@ -74,16 +74,16 @@ router.get("/health*").handler(healthCheckHandler1);
 router.get("/ping*").handler(healthCheckHandler2);
 ----
 
-可以直接在 `link:../../apidocs/io/vertx/ext/healthchecks/HealthCheckHandler.html[HealthCheckHandler]` 对象实例中注册规程。
+可以直接在 `link:../../apidocs/io/vertx/ext/healthchecks/HealthCheckHandler.html[HealthCheckHandler]` 对象实例中注册例程。
 此外，如果您已经预先创建了 `link:../../apidocs/io/vertx/ext/healthchecks/HealthChecks.html[HealthChecks]` 对象的实例，
-您可以直接在该对象中注册规程。
-在任何时刻都可以进行规程的注册和注销，即使在路由注册完成之后也可以：
+您可以直接在该对象中注册例程。
+在任何时刻都可以进行例程的注册和注销，即使在路由注册完成之后也可以：
 
 [source, java]
 ----
 HealthCheckHandler healthCheckHandler = HealthCheckHandler.create(vertx);
 
-// 注册规程
+// 注册例程
 // 在路由注册完成之后，甚至是运行时，也可以完成该操作
 healthCheckHandler.register("my-procedure-name", promise -> {
   // 进行检查 ....
@@ -93,7 +93,7 @@ healthCheckHandler.register("my-procedure-name", promise -> {
   promise.complete(Status.KO());
 });
 
-// 注册另一个指定了超时时间（2秒）的规程。 如果该规程未能在
+// 注册另一个指定了超时时间（2秒）的例程。 如果该例程未能在
 // 指定的超时时间内完成，则视为故障。
 healthCheckHandler.register(
   "my-procedure-name-with-timeout",
@@ -109,13 +109,13 @@ healthCheckHandler.register(
 router.get("/health").handler(healthCheckHandler);
 ----
 
-== 规程
+== 例程
 
-此处的规程是指一个检查系统某个切面的函数，用于推断当前的健康状况。
+此处的例程是指一个检查系统某个切面的函数，用于推断当前的健康状况。
 它报告一个 `link:../../apidocs/io/vertx/ext/healthchecks/Status.html[Status]` 对象用以指示该测试通过还是发生故障。
 该函数将检查结果报告给它所对应的 `link:../../apidocs/io/vertx/core/Promise.html[Promise]` ，并且请注意该函数不可以阻塞这个 `link:../../apidocs/io/vertx/core/Promise.html[Promise]` 。
 
-当您注册了一个规程，您需要对其命名，并且要指定一个函数（handler）来执行该项检查。
+当您注册了一个例程，您需要对其命名，并且要指定一个函数（handler）来执行该项检查。
 
 推断健康状况的规则如下：
 
@@ -145,15 +145,15 @@ healthCheckHandler.register("my-second-procedure-name", promise -> {
 router.get("/health").handler(healthCheckHandler);
 ----
 
-规程可以进行分组管理。 规程的名称里可以指定分组信息。 分组的规程按照树形结构进行组织，
+例程可以进行分组管理。 例程的名称里可以指定分组信息。 分组的例程按照树形结构进行组织，
 并且树形结构被映射到 HTTP url 之上（如下所示）。
 
 [source, java]
 ----
 HealthCheckHandler healthCheckHandler = HealthCheckHandler.create(vertx);
 
-// 注册规程
-// 规程可以进行分组，以规程名称中的 “/” 字符来判断组别
+// 注册例程
+// 例程可以进行分组，以例程名称中的 “/” 字符来判断组别
 // 一个分组中也可以包含另一个分组
 healthCheckHandler.register(
   "a-group/my-procedure-name",
@@ -175,19 +175,19 @@ router.get("/health").handler(healthCheckHandler);
 `link:../../apidocs/io/vertx/ext/healthchecks/HealthCheckHandler.html[HealthCheckHandler]` 的路由路径，
 以 HTTP 的 GET 或者 POST 请求（取决于您注册该路由的方式）来获取
 
-如果没有注册任何规程， 则响应信息为 `204 - NO CONTENT` ， 表明系统状态为 _UP_ 但是没有执行任何规程。
+如果没有注册任何例程， 则响应信息为 `204 - NO CONTENT` ， 表明系统状态为 _UP_ 但是没有执行任何例程。
 此时响应信息不包含任何有效数据。
 
-如果注册了至少一个规程，该规程将被执行并计算出结果。
+如果注册了至少一个例程，该例程将被执行并计算出结果。
 响应码包括下列几种：
 
 * `200` : 一切正常
-* `503` : 至少有一个规程报告了不健康状态
-* `500` : 某个规程抛出了错误，或者未能及时报告状态
+* `503` : 至少有一个例程报告了不健康状态
+* `500` : 某个例程抛出了错误，或者未能及时报告状态
 
 响应的内容是一个 JSON 文档，体现的是总体结果（`outcome`）。总体结果要么是 `UP` 要么是 `DOWN` 。
-此外还给出了一个 `checks` 数组用以显示每个执行过的规程的结果。
-如果某个规程报告了额外的数据，这些数据也会一并给出：
+此外还给出了一个 `checks` 数组用以显示每个执行过的例程的结果。
+如果某个例程报告了额外的数据，这些数据也会一并给出：
 
 [source]
 ----
@@ -232,10 +232,10 @@ router.get("/health").handler(healthCheckHandler);
 }
 ----
 
-如果一个规程抛出了错误，或者报告了故障（异常），该 JSON 文档会在 `data` 字段下给出 `cause` 字段。
-如果某个规程未能及时上报结果，则结果将显示为 `Timeout` （超时）。
+如果一个例程抛出了错误，或者报告了故障（异常），该 JSON 文档会在 `data` 字段下给出 `cause` 字段。
+如果某个例程未能及时上报结果，则结果将显示为 `Timeout` （超时）。
 
-== 规程示例
+== 例程示例
 
 此章节提供一些通用的健康检查示例
 
@@ -256,9 +256,9 @@ handler.register("database",
   }));
 ----
 
-=== Service availability
+=== 服务可用性
 
-This check reports whether or not a service (here a HTTP endpoint) is available in the service discovery:
+该项检测用于报告某个服务（此处是指一个HTTP endpoint）在服务发现中是否可用：
 
 [source, java]
 ----
@@ -275,11 +275,11 @@ handler.register("my-service",
       }));
 ----
 
-=== Event bus
+=== 事件总线
 
-This check reports whether a consumer is ready on the event bus. The protocol, in this example, is a simple
-ping/pong, but it can be more sophisticated. This check can be used to check whether or not a verticle is ready
-if it's listening on a specific event address.
+该项检测用于报告某个事件总线上的某个消费者是否已经准备就绪。
+在这个例子中，是一个简单的 ping/pong 应答协议，您也可以换成别的更为复杂的场景。
+该项检测可以用于检查某个 verticle 是否已经准备就绪并且已在监听某个事件总线地址。
 
 [source, java]
 ----
@@ -294,23 +294,23 @@ handler.register("receiver",
       }));
 ----
 
-== Authentication
+== 身份认证
 
-When using the Vert.x web handler, you can pass a `link:../../apidocs/io/vertx/ext/auth/authentication/AuthenticationProvider.html[AuthenticationProvider]` use to authenticate the
-request. Check <a href="http://vertx.io/docs/#authentication_and_authorisation">Vert.x Auth</a> for more details
-about available authentication providers.
+当使用 Vert.x web handler 时，
+您可以传入一个 `link:../../apidocs/io/vertx/ext/auth/authentication/AuthenticationProvider.html[AuthenticationProvider]` 对象用来对请求进行身份认证。
+详情请查阅 `link:http://vertx.io/docs/#authentication_and_authorisation[Vert.x Auth]` 。
 
-The Vert.x Web handler creates a JSON object containing:
+Vert.x Web handler 创建一个 JSON 对象包含以下内容：
 
-* the request headers
-* the request params
-* the form param if any
-* the content as JSON if any and if the request set the content type to `application/json`.
+* 请求头
+* 请求参数
+* 表单参数（如果存在）
+* JOSN 格式的内容（如果存在，并且请求的 content type 是 `application/json` ）
 
-The resulting object is passed to the auth provider to authenticate the request. If the authentication failed, it
-returns a `403 - FORBIDDEN` response.
+上述对象会被传入身份认证方式提供者来对请求进行身份认证。
+如果认证失败，则会返回 `403 - FORBIDDEN` 响应。
 
-== Exposing health checks on the event bus
+== 在事件总线上公开健康检查入口
 
 While exposing the health checks using HTTP with the Vert.x web handler is convenient, it can be useful
 to expose the data differently. This section gives an example to expose the data on the event bus:
