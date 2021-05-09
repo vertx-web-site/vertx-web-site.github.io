@@ -42,7 +42,7 @@ hc.register(
   "my-procedure",
   promise -> promise.complete(Status.OK()));
 
-// 注册时指定超时时间参数。如果未能在超时时间之内完成，则视为失败。
+// 注册时指定超时时间参数。如果未能在超时时间之内完成，则视为故障。
 // timeout 参数的单位是毫秒。
 hc.register(
   "my-procedure",
@@ -89,12 +89,12 @@ healthCheckHandler.register("my-procedure-name", promise -> {
   // 进行检查 ....
   // 成功时执行
   promise.complete(Status.OK());
-  // 如果发生失败则执行：
+  // 如果发生故障则执行：
   promise.complete(Status.KO());
 });
 
 // 注册另一个指定了超时时间（2秒）的规程。 如果该规程未能在
-// 指定的超时时间内完成，则判断为失败。
+// 指定的超时时间内完成，则视为故障。
 healthCheckHandler.register(
   "my-procedure-name-with-timeout",
   2000,
@@ -102,7 +102,7 @@ healthCheckHandler.register(
     // 进行检查 ....
     // 成功时执行
     promise.complete(Status.OK());
-    // 如果发生失败则执行：
+    // 如果发生故障则执行：
     promise.complete(Status.KO());
   });
 
@@ -112,14 +112,14 @@ router.get("/health").handler(healthCheckHandler);
 == 规程
 
 此处的规程是指一个检查系统某个切面的函数，用于推断当前的健康状况。
-它报告一个 `link:../../apidocs/io/vertx/ext/healthchecks/Status.html[Status]` 对象用以指示该测试通过还是失败。
+它报告一个 `link:../../apidocs/io/vertx/ext/healthchecks/Status.html[Status]` 对象用以指示该测试通过还是发生故障。
 该函数将检查结果报告给它所对应的 `link:../../apidocs/io/vertx/core/Promise.html[Promise]` ，并且请注意该函数不可以阻塞这个 `link:../../apidocs/io/vertx/core/Promise.html[Promise]` 。
 
 当您注册了一个规程，您需要对其命名，并且要指定一个函数（handler）来执行该项检查。
 
 推断健康状况的规则如下：
 
-* 如果对应的 promise 被标记为失败，则检查结果认定为 _KO_
+* 如果对应的 promise 被标记为故障，则检查结果认定为 _KO_
 * 如果对应的 promise 成功完成但是没有包含一个 `link:../../apidocs/io/vertx/ext/healthchecks/Status.html[Status]` 对象，
 检查结果认定为 _OK_。
 * 如果对应的 promise 成功完成且包含一个标记为 _OK_ 的 `link:../../apidocs/io/vertx/ext/healthchecks/Status.html[Status]` 对象，
@@ -185,9 +185,9 @@ router.get("/health").handler(healthCheckHandler);
 * `503` : 至少有一个规程报告了不健康状态
 * `500` : 某个规程抛出了错误，或者未能及时报告状态
 
-The content is a JSON document indicating the overall result (`outcome`). It's either `UP` or `DOWN`. A `checks`
-array is also given indicating the result of the different executed procedures. If the procedure has reported
-additional data, the data is also given:
+响应的内容是一个 JSON 文档，体现的是总体结果（`outcome`）。总体结果要么是 `UP` 要么是 `DOWN` 。
+此外还给出了一个 `checks` 数组用以显示每个执行过的规程的结果。
+如果某个规程报告了额外的数据，这些数据也会一并给出：
 
 [source]
 ----
@@ -209,7 +209,7 @@ additional data, the data is also given:
 }
 ----
 
-In case of groups/ hierarchy, the `checks` array depicts this structure:
+如果采用了分组/层级结构，则 `checks` 数组通过以下结构进行描述：
 
 [source]
 ----
@@ -232,16 +232,16 @@ In case of groups/ hierarchy, the `checks` array depicts this structure:
 }
 ----
 
-If a procedure throws an error, reports a failure (exception), the JSON document provides the `cause` in the
-`data` section. If a procedure does not report back before a timeout, the indicated cause is `Timeout`.
+如果一个规程抛出了错误，或者报告了故障（异常），该 JSON 文档会在 `data` 字段下给出 `cause` 字段。
+如果某个规程未能及时上报结果，则结果将显示为 `Timeout` （超时）。
 
-== Examples of procedures
+== 规程示例
 
-This section provides example of common health checks.
+此章节提供一些通用的健康检查示例
 
 === SQL client
 
-This check reports whether a connection to the database can be established:
+该例子用以报告一个数据库连接是否成功建立：
 
 [source, java]
 ----
