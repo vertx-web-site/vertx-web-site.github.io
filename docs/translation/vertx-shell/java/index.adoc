@@ -21,7 +21,7 @@ shell服务可以直接以命令行的方式启动，也可以通过 Vert.x 发�
 .启动一个基于 Telnet 的 shell 服务
 [source,subs="+attributes"]
 ----
-vertx run -conf '{"telnetOptions":{"port":5000}}' maven:io.vertx:vertx-shell:4.0.2
+vertx run -conf '{"telnetOptions":{"port":5000}}' maven:io.vertx:vertx-shell:4.0.3
 ----
 
 或者
