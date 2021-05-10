@@ -10,6 +10,7 @@ Vertx-Stomp 提供了 STOMP 客户端和服务端的实现。 您可以使用其
 版本  (参见 https://stomp.github.io/stomp-specification-1.2.html)。 该 STOMP 服务端也可以用于跟
 Vert.x 的事件总线桥接, 或者直接与 websocket 客户端建立连接 (使用 StompJS)
 
+[[_using_vertx_stomp]]
 == 使用 vertx-stomp
 
 为了使用 Vert.x Stomp 服务端和客户端, 需要将以下依赖项添加到您的项目构建描述文件
@@ -33,8 +34,10 @@ Vert.x 的事件总线桥接, 或者直接与 websocket 客户端建立连接 (�
 compile 'io.vertx:vertx-stomp:4.0.3'
 ----
 
+[[_stomp_server]]
 == STOMP 服务器
 
+[[_creating_a_stomp_server]]
 === 创建 STOMP 服务器
 
 以下是使用默认配置去创建 STOMP 服务器的最简单的方法:
@@ -85,6 +88,7 @@ Future<StompServer> server = StompServer.create(vertx, new StompServerOptions().
     .listen();
 ----
 
+[[_closing_a_stomp_server]]
 === 关闭 STOMP 服务器
 
 使用如下方式关闭 STOMP 服务器:
@@ -100,7 +104,8 @@ server.close(ar -> {
 });
 ----
 
-=== 配置
+[[_configuration]]
+=== 配置服务端
 
 使用 `link:../../apidocs/io/vertx/ext/stomp/StompServerOptions.html[StompServerOptions]` 配置 STOMP 服务器的多项参数
 
@@ -156,12 +161,14 @@ http://vertx.io/docs/#authentication_and_authorisation[此文档].
 要求，在发送这种错误消息后，客户端的连接需要立即关闭。 如果发送的消息不符合其他
 要求的限制，客户端也需要立即关闭。
 
+[[_subscriptions]]
 === 订阅
 
 默认的 STOMP 服务器将订阅的目的地点作为普通的字符串处理。 因此它不会对其进行解析
 和分级。 默认的 STOMP 服务器使用 _topic_ 模式处理订阅 (因此消息会被分发给所有
 对应的订阅客户端)
 
+[[_type_of_destinations]]
 === 消息目的地点类型
 
 默认情况下， STOMP 服务器将消息发送的 _目的地点_ 作为 topic 处理。 因此消息会被发送给所有的订阅者。 您可以
@@ -206,12 +213,14 @@ Future<StompServer> server = StompServer.create(vertx)
 
 queue 类型的目的地点使用轮询调度策略向订阅者分发消息
 
+[[_providing_your_own_type_of_destination]]
 === 提供您自定义的目的地类型
 
 Vert.x 提供的 STOMP 有意没有实现任何高级特性。 如果您需要更高级的消息分发策略，
 可以提供自定义的 `link:../../apidocs/io/vertx/ext/stomp/DestinationFactory.html[DestinationFactory]` 实现
 以返回您自定义的 `link:../../apidocs/io/vertx/ext/stomp/Destination.html[Destination]` 实例。
 
+[[_acknowledgment]]
 === 确认消息
 
 默认情况下， STOMP 服务器如果没有收到一个消息的确认消息不会做任何处理。 您可以通过提供您自定义的
@@ -239,7 +248,8 @@ Future<StompServer> server = StompServer.create(vertx)
     .listen();
 ----
 
-=== 自定义 STOMP 服务器
+[[_customizing_the_stomp_server]]
+=== 自定义 STOMP 服务器配置
 
 除了上文所述的回调, 您还可以配置 STOMP 服务器的几乎所有配置, 例如收到
 指定消息类型的响应动作, 发送给客户端的 `ping` 消息 (为了实现
@@ -266,10 +276,12 @@ Future<StompServer> server = StompServer.create(vertx)
 注意，改变默认的实现可能会导致对 STOMP 标准的破坏。 所以请参考
 默认的实现。
 
+[[_stomp_client]]
 == STOMP 客户端
 
 STOMP 客户端可以连接到 STOMP 服务器并且接受和发送数据。
 
+[[_creating_a_stomp_client]]
 === 创建 STOMP 客户端
 
 通过以下方式使用默认配置创建 `link:../../apidocs/io/vertx/ext/stomp/StompClient.html[StompClient]` 实例：
@@ -336,6 +348,7 @@ StompClient
       "Failed to connect to the STOMP server: " + err.toString()));
 ----
 
+[[_closing_a_stomp_client]]
 === 关闭 STOMP 客户端
 
 您可以关闭 STOMP 客户端:
@@ -377,6 +390,7 @@ StompClient
 如果您使用了心跳并且 STOMP 客户端在配置的心跳时间内没有检测到服务端的活动， 连接
 会自动关闭
 
+[[_handling_errors]]
 === 错误处理
 
 对于 `link:../../apidocs/io/vertx/ext/stomp/StompClientConnection.html[StompClientConnection]` 的实例, 您可以注册一个错误处理器用于接收
@@ -424,7 +438,8 @@ StompClient.create(vertx)
       "Failed to connect to the STOMP server: " + err.toString()));
 ----
 
-=== 配置
+[[_configuration_2]]
+=== 配置客户端
 
 您可以通过在创建 `link:../../apidocs/io/vertx/ext/stomp/StompClient.html[StompClient]` 时传入
 `link:../../apidocs/io/vertx/ext/stomp/StompClientOptions.html[StompClientOptions]` 以自定义多项配置。 由于
@@ -457,6 +472,7 @@ StompClient.create(vertx)
 * 在 `CONNECT` 消息中 `host` 首部是否被忽略  (默认关闭)
 * 心跳时间配置 (默认为 1000, 1000)
 
+[[_subscribing_to_destinations]]
 === 订阅
 
 为了订阅消息的目的地点，使用
@@ -495,6 +511,7 @@ StompClient.create(vertx)
       "Failed to connect to the STOMP server: " + err.toString()));
 ----
 
+[[_sending_messages]]
 === 发送消息
 
 为了发送消息，使用:
@@ -518,6 +535,7 @@ StompClient.create(vertx)
 在 Java 和 Groovy 语言中， 您可以使用 `link:../../apidocs/io/vertx/ext/stomp/utils/Headers.html[Headers]` 类用于简化首部的创建
 
 
+[[_acknowledgements]]
 === 确认消息
 
 STOMP 客户端可以发送 `ACK` 和 `NACK` 消息：
@@ -538,6 +556,7 @@ StompClient.create(vertx)
       "Failed to connect to the STOMP server: " + err.toString()));
 ----
 
+[[_transactions]]
 === 事务
 
 STOMP 客户端也可以创建事务。 `ACK`, `NACK` 和 `SEND` 消息只有在事务被提交时才会
@@ -563,6 +582,7 @@ StompClient.create(vertx)
       "Failed to connect to the STOMP server: " + err.toString()));
 ----
 
+[[_receipt]]
 === 确认消息
 
 每次发送指令可以设置一个 _确认_ 处理器, 该处理器会在服务端确认处理完消息后被调用：
@@ -582,6 +602,7 @@ StompClient.create(vertx)
       "Failed to connect to the STOMP server: " + err.toString()));
 ----
 
+[[_using_the_stomp_server_as_a_bridge_to_the_vert_x_event_bus]]
 == 使用 STOMP 服务器桥接 Vert.x 事件总线
 
 STOMP 服务器可以桥接 Vert.x 的事件总线。 这种桥接是双向的，这意味着 STOMP 消息
@@ -637,6 +658,7 @@ Future<StompServer> server = StompServer.create(vertx)
     .listen();
 ----
 
+[[_using_the_stomp_server_with_web_sockets]]
 == 使用基于 websocket 的 STOMP 服务器
 
 如果您想使用一个 Javascript 客户端 (在 node.js 或浏览器中) 直接连接 STOMP 服务器, 您可以使用
@@ -688,6 +710,7 @@ var subscription = client.subscribe("foo", callback);
 });
 ----
 
+[[_registering_received_and_writing_frame_handlers]]
 == 注册接收消息处理器和写入消息处理器
 
 STOMP 客户端， 客户端连接和服务端都支持注册一个接收
