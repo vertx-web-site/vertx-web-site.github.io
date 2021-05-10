@@ -34,7 +34,7 @@ keytool -genkey -keyalg RSA -keystore ssh.jks -keysize 2048 -validity 1095 -dnam
 # 创建授权配置文件
 echo user.admin=password > auth.properties
 # 启动 shell
-vertx run -conf '{"sshOptions":{"port":4000,"keyPairOptions":{"path":"ssh.jks","password":"secret"},"authOptions":{"provider":"shiro","config":{"properties_path":"file:auth.properties"}}}}' maven:io.vertx:vertx-shell:4.0.2
+vertx run -conf '{"sshOptions":{"port":4000,"keyPairOptions":{"path":"ssh.jks","password":"secret"},"authOptions":{"provider":"shiro","config":{"properties_path":"file:auth.properties"}}}}' maven:io.vertx:vertx-shell:4.0.3
 ----
 
 或者
