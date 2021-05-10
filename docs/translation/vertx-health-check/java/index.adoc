@@ -67,7 +67,7 @@ HealthCheckHandler healthCheckHandler2 = HealthCheckHandler
   .createWithHealthChecks(HealthChecks.create(vertx));
 
 Router router = Router.router(vertx);
-// 向 router 添加路由
+// 向 router 添加路由规则
 // 注册健康检查 handler
 router.get("/health*").handler(healthCheckHandler1);
 // 或者
@@ -77,7 +77,7 @@ router.get("/ping*").handler(healthCheckHandler2);
 可以直接在 `link:../../apidocs/io/vertx/ext/healthchecks/HealthCheckHandler.html[HealthCheckHandler]` 对象实例中注册例程。
 此外，如果您已经预先创建了 `link:../../apidocs/io/vertx/ext/healthchecks/HealthChecks.html[HealthChecks]` 对象的实例，
 您可以直接在该对象中注册例程。
-在任何时刻都可以进行例程的注册和注销，即使在路由注册完成之后也可以：
+在任何时刻都可以进行例程的注册和注销，即使在路由规则注册完成之后也可以：
 
 [source, java]
 ----
@@ -171,9 +171,9 @@ router.get("/health").handler(healthCheckHandler);
 
 == HTTP 响应和 JSON 输出
 
-当使用 Vert.x web handler 时，总体健康检查信息通过对外公开的 
-`link:../../apidocs/io/vertx/ext/healthchecks/HealthCheckHandler.html[HealthCheckHandler]` 的路由路径，
-以 HTTP 的 GET 或者 POST 请求（取决于您注册该路由的方式）来获取
+启用 Vert.x web handler 之后，可以通过对外开放的 
+`link:../../apidocs/io/vertx/ext/healthchecks/HealthCheckHandler.html[HealthCheckHandler]` 所对应的路由规则
+以 HTTP GET 或者 POST （取决于您注册的路由规则）的方式获取总体健康检查信息。
 
 如果没有注册任何例程， 则响应信息为 `204 - NO CONTENT` ， 表明系统状态为 _UP_ 但是没有执行任何例程。
 此时响应信息不包含任何有效数据。
@@ -310,10 +310,10 @@ Vert.x Web handler 创建一个 JSON 对象包含以下内容：
 上述对象会被传入身份认证方式提供者来对请求进行身份认证。
 如果认证失败，则会返回 `403 - FORBIDDEN` 响应。
 
-== 在事件总线上公开健康检查入口
+== 在事件总线上开放健康检查功能
 
-While exposing the health checks using HTTP with the Vert.x web handler is convenient, it can be useful
-to expose the data differently. This section gives an example to expose the data on the event bus:
+利用 Vert.x web handler 通过 HTTP 方式开放健康检查功能是十分便捷的，但是通过别的方式开放这些数据可以发挥更大的作用。
+以下章节给出了如何在事件总线上开放健康检查数据的例子：
 
 [source, java]
 ----
