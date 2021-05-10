@@ -1,7 +1,7 @@
 = Vert.x Shell
 
-Vert.x Shell 是一个基于Vert.x支持不同协议的统一终端的命令行接口
-
+Vert.x Shell 是一个基于Vert.x，
+支持不同协议的统一终端的命令行接口
 
 Vert.x Shell 提供了一系列命令来与Vert.x服务进行实时交互
 
@@ -104,8 +104,8 @@ vertx.deployVerticle("maven:{maven-groupId}:{maven-artifactId}:{maven-version}",
 );
 ----
 
-NOTE: 当你的 classpath 中已经包含了Vert.x Shell ，你可以使用 `service:io.vertx.ext.shell` 来代替 `maven:io.vertx:vertx-shell:4.0.2`
-
+NOTE: 当你的 classpath 中已经包含了Vert.x Shell ，
+你可以使用 `service:io.vertx.ext.shell` 来代替 `maven:io.vertx:vertx-shell:4.0.2`
 
 [[_programmatic_service]]
 === 可编码的服务
@@ -151,8 +151,8 @@ ShellService service = ShellService.create(vertx,
 service.start();
 ----
 
-Telnet server 基于 `NetServer` 实现，其配置 `link:../../apidocs/io/vertx/ext/shell/term/TelnetTermOptions.html[TelnetTermOptions]` 继承自 Vert.x Core 模块中的 `NetServerOptions` ，
-
+Telnet server 基于 `NetServer` 实现，
+其配置 `link:../../apidocs/io/vertx/ext/shell/term/TelnetTermOptions.html[TelnetTermOptions]` 继承自 Vert.x Core 模块中的 `NetServerOptions` ，
 
 CAUTION: Telnet 不提供任何身份授权和加密机制。
 
@@ -205,8 +205,8 @@ SSH 和 HTTP 连接管理器提供了一套基于 _vertx-auth_ 的身份认证�
 == Telnet 终端配置
 
 Telnet 终端通过 `link:../../apidocs/io/vertx/ext/shell/ShellServiceOptions.html#setTelnetOptions-io.vertx.ext.shell.term.TelnetTermOptions-[setTelnetOptions] 来配置，
-`link:../../apidocs/io/vertx/ext/shell/term/TelnetTermOptions.html[TelnetTermOptions]` 继承自 `link:../../apidocs/io/vertx/core/net/NetServerOptions.html[NetServerOptions]`，所以它们具有完全相同的配置。
-
+`link:../../apidocs/io/vertx/ext/shell/term/TelnetTermOptions.html[TelnetTermOptions]` 继承自 `link:../../apidocs/io/vertx/core/net/NetServerOptions.html[NetServerOptions]`，
+所以它们具有完全相同的配置。
 
 [[_ssh_term_configuration]]
 == SSH 终端配置
@@ -344,6 +344,7 @@ vertx.deployVerticle("maven:{maven-groupId}:{maven-artifactId}:{maven-version}",
 ----
 
 .在 HTTP 上运行基于 Mongo 身份授权的 Shell 服务
+[source,java,subs="+attributes"]
 ----
 ShellService service = ShellService.create(vertx,
   new ShellServiceOptions().setHttpOptions(
@@ -403,8 +404,8 @@ service.start();
 [[_keymap_configuration]]
 == 按键映射配置
 
-shell 使用默认的按键映射配置，可以使用各种终端配置对象的 `inputrc` 属性来进行覆盖。
-
+shell 使用默认的按键映射配置，
+可以使用各种终端配置对象的 `inputrc` 属性来进行覆盖。
 
 - `link:../../apidocs/io/vertx/ext/shell/term/TelnetTermOptions.html#setIntputrc-java.lang.String-[setIntputrc]`
 - `link:../../apidocs/io/vertx/ext/shell/term/SSHTermOptions.html#setIntputrc-java.lang.String-[setIntputrc]`
@@ -740,9 +741,9 @@ command.processHandler(process -> {
 [[_end_events]]
 ==== 结束事件
 
-当正在运行或者挂起的命令进程被终止时，`link:../../apidocs/io/vertx/ext/shell/command/CommandProcess.html#endHandler-io.vertx.core.Handler-[endHandler]` 将会被调用，
+当正在运行或者挂起的命令进程被终止时，
+`link:../../apidocs/io/vertx/ext/shell/command/CommandProcess.html#endHandler-io.vertx.core.Handler-[endHandler]` 将会被调用，
 比如 shell 会话关闭或者命令 _结束_。
-
 
 [source,java]
 ----
@@ -768,8 +769,8 @@ command.processHandler(process -> {
 handler]` 与其他处理 handler一样都是非阻塞的，比如文件系统。
 
 `link:../../apidocs/io/vertx/ext/shell/cli/Completion.html#lineTokens--[lineTokens]` 返回从行起点到光标位置的 `link:../../apidocs/io/vertx/ext/shell/cli/CliToken.html[tokens]` 列表，
-如果光标位于行起点，那么这个列表可能为空。
-
+如果光标位于行起点，
+那么这个列表可能为空。
 
 `link:../../apidocs/io/vertx/ext/shell/cli/Completion.html#rawLine--[rawLine]` 返回当前完成列表从行起点到光标位置的原始格式的数据，
 即没有任何字符转义。
@@ -842,14 +843,14 @@ job.statusUpdateHandler(status -> {
 });
 ----
 
-当 shell 运行时， `link:../../apidocs/io/vertx/ext/shell/term/Pty.html[Pty]` 伪终端是与命令进行交互的主要手段：
-
+当 shell 运行时，
+`link:../../apidocs/io/vertx/ext/shell/term/Pty.html[Pty]` 伪终端是与命令进行交互的主要手段：
 
 - 使用标准的 输入/输出 来写入和读取数据
 - 调整终端的窗口大小
 
-当使用 `link:../../apidocs/io/vertx/ext/shell/system/JobController.html#close-io.vertx.core.Handler-[close]` 关闭 shell 时，它将会结束当前 shell 会话中的所有任务。
-
+当使用 `link:../../apidocs/io/vertx/ext/shell/system/JobController.html#close-io.vertx.core.Handler-[close]` 关闭 shell 时，
+它将会结束当前 shell 会话中的所有任务。
 
 [[_terminal_servers]]
 == 终端服务器
@@ -860,15 +861,15 @@ Vert.x Shell 还为那些需要写纯终端应用的开发者提供了裸终端�
 当用户连接时，这个 _处理器_ 将处理每个终端的数据。
 
 {@code Auth*Options} 可以通过 `link:../../apidocs/io/vertx/ext/shell/term/SSHTermOptions.html[SSHTermOptions]` 和 `link:../../apidocs/io/vertx/ext/shell/term/HttpTermOptions.html[HttpTermOptions]` 来设置。
-或者，在终端服务器启动之前通过 `link:../../apidocs/io/vertx/ext/shell/term/TermServer.html#authProvider-io.vertx.ext.auth.AuthProvider-[set]` 直接设置 `link:../../apidocs/io/vertx/ext/auth/AuthProvider.html[AuthProvider]`。
-
+或者，在终端服务器启动之前通过 `link:../../apidocs/io/vertx/ext/shell/term/TermServer.html#authProvider-io.vertx.ext.auth.AuthProvider-[set]` 直接设置
+`link:../../apidocs/io/vertx/ext/auth/AuthProvider.html[AuthProvider]` 。
 
 [[_ssh_term]]
 === SSH 终端
 
 终端服务器提供了 `link:../../apidocs/io/vertx/ext/shell/term/Term.html[Term]` _处理器_ 来接受传入的终端连接。
-当一个远程终端进行连接时，`link:../../apidocs/io/vertx/ext/shell/term/Term.html[Term]` 可以用来与当前连接的终端进行交互。
-
+当一个远程终端进行连接时，
+`link:../../apidocs/io/vertx/ext/shell/term/Term.html[Term]` 可以用来与当前连接的终端进行交互。
 
 [source,java]
 ----
@@ -988,8 +989,8 @@ public class CustomCommands implements CommandResolverFactory {
 }
 ----
 
-`resolver` 方法是异步的，因为在命令被执行之前，resolver 可能需要等待一些条件。
-
+`resolver` 方法是异步的，因为在命令被执行之前，
+resolver 可能需要等待一些条件。
 
 shell 服务发现使用了服务加载机制：
 
