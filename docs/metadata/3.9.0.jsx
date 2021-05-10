@@ -136,7 +136,7 @@ const entries = [
   {
     id: "vertx-web-graphql",
     name: "GraphQL",
-    description: "Implement GraphQL servers with Vert.x web.",
+    description: "使用 Vert.x Web 实现的 GraphQL 服务器。",
     category: "web",
     href: "/vertx-web-graphql/java/",
     repository: "https://github.com/vert-x3/vertx-web",
