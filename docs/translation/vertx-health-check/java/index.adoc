@@ -8,6 +8,7 @@
 用于测试应用程序的健康状况。
 该 handler 计算出最终状态并以 JSON 方式返回结果。
 
+[[_using_vert_x_health_checks]]
 == 如何使用 Vert.x 健康检查
 
 请注意，一般情况下您需要 Vert.x Web 模块来使用该组件。启用该组件只需要添加以下依赖：
@@ -30,6 +31,7 @@
 compile 'io.vertx:vertx-health-check:4.0.3'
 ----
 
+[[_creating_the_health_check_object]]
 === 创建健康检查对象。
 
 最主要的对象是 `link:../../apidocs/io/vertx/ext/healthchecks/HealthChecks.html[HealthChecks]` 。 您可以通过以下方式创建该对象的实例：
@@ -52,6 +54,7 @@ hc.register(
 
 一旦您创建了这个对象，您就可以注册或者注销例程。在后面的章节中会给出更多详情。
 
+[[_registering_the_vert_x_web_handler]]
 === 注册 Vert.x Web handler
 
 您可以通过以下方式创建用于健康检查的 Vert.x Web handler ：
@@ -109,6 +112,7 @@ healthCheckHandler.register(
 router.get("/health").handler(healthCheckHandler);
 ----
 
+[[_procedures]]
 == 例程
 
 此处的例程是指一个检查系统某个切面的函数，用于推断当前的健康状况。
@@ -169,6 +173,7 @@ healthCheckHandler.register(
 router.get("/health").handler(healthCheckHandler);
 ----
 
+[[_http_responses_and_json_output]]
 == HTTP 响应和 JSON 输出
 
 启用 Vert.x web handler 之后，可以通过对外开放的 
@@ -235,10 +240,12 @@ router.get("/health").handler(healthCheckHandler);
 如果一个例程抛出了错误，或者报告了故障（异常），该 JSON 文档会在 `data` 字段下给出 `cause` 字段。
 如果某个例程未能及时上报结果，则结果将显示为 `Timeout` （超时）。
 
+[[_examples_of_procedures]]
 == 例程示例
 
 此章节提供一些通用的健康检查示例
 
+[[_sql_client]]
 === SQL client
 
 该例子用以报告一个数据库连接是否成功建立：
@@ -256,6 +263,7 @@ handler.register("database",
   }));
 ----
 
+[[_service_availability]]
 === 服务可用性
 
 该项检测用于报告某个服务（此处是指一个HTTP endpoint）在服务发现中是否可用：
@@ -275,6 +283,7 @@ handler.register("my-service",
       }));
 ----
 
+[[_event_bus]]
 === 事件总线
 
 该项检测用于报告某个事件总线上的某个消费者是否已经准备就绪。
@@ -294,6 +303,7 @@ handler.register("receiver",
       }));
 ----
 
+[[_authentication]]
 == 身份认证
 
 当使用 Vert.x web handler 时，
@@ -310,6 +320,7 @@ Vert.x Web handler 创建一个 JSON 对象包含以下内容：
 上述对象会被传入身份认证方式提供者来对请求进行身份认证。
 如果认证失败，则会返回 `403 - FORBIDDEN` 响应。
 
+[[_exposing_health_checks_on_the_event_bus]]
 == 在事件总线上开放健康检查功能
 
 利用 Vert.x web handler 通过 HTTP 方式开放健康检查功能是十分便捷的，但是通过别的方式开放这些数据可以发挥更大的作用。
