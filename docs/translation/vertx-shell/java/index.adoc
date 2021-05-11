@@ -571,7 +571,7 @@ command.processHandler(process -> {
 
 命令不仅提供了 `link:../../apidocs/io/vertx/ext/shell/command/CommandProcess.html[process]` 与 shell 进行交互，
 还提供了继承自 `link:../../apidocs/io/vertx/ext/shell/term/Tty.html[Tty]` 的 `link:../../apidocs/io/vertx/ext/shell/command/CommandProcess.html[CommandProcess]`
-来与 terminal 进行交互。
+来与 terminal 互动。
 
 [[_terminal_usage]]
 === 终端用法
