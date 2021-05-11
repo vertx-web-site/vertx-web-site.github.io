@@ -869,7 +869,7 @@ Vert.x Shell 还为那些需要写纯终端应用的开发者提供了裸终端�
 
 终端服务器提供了 `link:../../apidocs/io/vertx/ext/shell/term/Term.html[Term]` _处理器_ 来接受传入的终端连接。
 当一个远程终端进行连接时，
-`link:../../apidocs/io/vertx/ext/shell/term/Term.html[Term]` 可以用来与当前连接的终端进行交互。
+`link:../../apidocs/io/vertx/ext/shell/term/Term.html[Term]` 可以用来与当前连接的终端互动。
 
 [source,java]
 ----
