@@ -54,7 +54,6 @@
     "rehype-slug": "^4.0.1",
     "sass": "^1.32.8",
     "sass-loader": "^10.1.1",
-    "semver": "^7.3.4",
     "serve": "^11.3.2",
     "super-react-gist": "^1.0.4",
     "unist-util-visit": "^2.0.3",
