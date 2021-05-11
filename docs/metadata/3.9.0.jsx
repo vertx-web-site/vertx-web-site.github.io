@@ -405,7 +405,7 @@ const entries = [
   {
     id: "vertx-stomp",
     name: "STOMP",
-    description: "一款支持 STOMP 协议的客户端和服务端实现",
+    description: "一款支持 STOMP 协议的客户端和服务端实现。",
     category: "messaging",
     href: "/vertx-stomp/java/",
     repository: "https://github.com/vert-x3/vertx-stomp",

@@ -2,8 +2,8 @@
 :toc: left
 
 STOMP 即简单(流)文本定向消息。 STOMP
-提供了一种可交互的消息管线，因此 STOMP 客户端可以与任意的 STOMP 消息 broker 通信，并
-基于各种不同的语言，平台与 broker 实现信息的交互和操作。 参阅 https://stomp.github.io/index.html 了解更多关于 STOMP 的信息。
+提供了一种可交互的消息管线，因此 STOMP 客户端可以与任意的 STOMP 消息中介（broker） 通信，并
+基于各种不同的语言，平台与消息中介实现信息的交互和操作。 参阅 https://stomp.github.io/index.html 了解更多关于 STOMP 的信息。
 
 Vertx-Stomp 提供了 STOMP 客户端和服务端的实现。 您可以使用其他客户端连接 Vert.x 的 STOMP 服务端，也可以
 使用 Vert.x 的 STOMP 客户端连接其他服务端实现。 Vert.x 提供的服务端和客户端都支持 STOMP 的 1.0，1.1 和 1.2
