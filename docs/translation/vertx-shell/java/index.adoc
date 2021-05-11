@@ -7,11 +7,13 @@ Vert.x Shell 提供了一系列命令来与Vert.x服务进行实时交互
 
 Vert.x Shell 可以使用任何 Vert.x 支持的语言来扩展自定义命令
 
+[[_using_vert_x_shell]]
 == 使用 Vert.x Shell
 
 Vert.x Shell 是一个Vert.x服务，既可以通过 `link:../../apidocs/io/vertx/ext/shell/ShellService.html[ShellService]` 以编码的方式启动，
 ，也可以作为一个服务来发布。
 
+[[_shell_service]]
 === Shell 服务
 
 shell服务可以直接以命令行的方式启动，也可以通过 Vert.x 发布启动
@@ -105,6 +107,7 @@ vertx.deployVerticle("maven:{maven-groupId}:{maven-artifactId}:{maven-version}",
 NOTE: 当你的 classpath 中已经包含了Vert.x Shell ，你可以使用 `service:io.vertx.ext.shell` 来代替 `maven:io.vertx:vertx-shell:4.0.2`
 
 
+[[_programmatic_service]]
 === 可编码的服务
 
 使用 `link:../../apidocs/io/vertx/ext/shell/ShellService.html[ShellService]` 来启动Vert.x Shell 实例。
@@ -167,6 +170,7 @@ ShellService service = ShellService.create(vertx,
 service.start();
 ----
 
+[[_authentication]]
 == 身份认证
 
 SSH 和 HTTP 连接管理器提供了一套基于 _vertx-auth_ 的身份认证机制，
@@ -197,18 +201,20 @@ SSH 和 HTTP 连接管理器提供了一套基于 _vertx-auth_ 的身份认证�
 }
 ----
 
+[[_telnet_term_configuration]]
 == Telnet 终端配置
 
 Telnet 终端通过 `link:../../apidocs/io/vertx/ext/shell/ShellServiceOptions.html#setTelnetOptions-io.vertx.ext.shell.term.TelnetTermOptions-[setTelnetOptions] 来配置，
 `link:../../apidocs/io/vertx/ext/shell/term/TelnetTermOptions.html[TelnetTermOptions]` 继承自 `link:../../apidocs/io/vertx/core/net/NetServerOptions.html[NetServerOptions]`，所以它们具有完全相同的配置。
 
 
+[[_ssh_term_configuration]]
 == SSH 终端配置
 
 SSH 终端通过 `link:../../apidocs/io/vertx/ext/shell/ShellServiceOptions.html#setSSHOptions-io.vertx.ext.shell.term.SSHTermOptions-[setSSHOptions]` 来配置：
 
-- `link:../../apidocs/io/vertx/ext/shell/term/SSHTermOptions.html#setPort-int-[setPort]`: port
-- `link:../../apidocs/io/vertx/ext/shell/term/SSHTermOptions.html#setHost-java.lang.String-[setHost]`: host
+- `link:../../apidocs/io/vertx/ext/shell/term/SSHTermOptions.html#setPort-int-[setPort]`: 端口
+- `link:../../apidocs/io/vertx/ext/shell/term/SSHTermOptions.html#setHost-java.lang.String-[setHost]`: 主机地址
 
 目前仅支持 username/password（用户名+密码） 这种授权认证方式，可以通过属性文件或者 LDAP 来进行配置，
 获取更多详细信息请查看 Vert.x Auth 文档：
@@ -305,6 +311,7 @@ ShellService service = ShellService.create(vertx,
 service.start();
 ----
 
+[[_http_term_configuration]]
 == HTTP 终端配置
 
 HTTP 终端通过 `link:../../apidocs/io/vertx/ext/shell/ShellServiceOptions.html#setHttpOptions-io.vertx.ext.shell.term.HttpTermOptions-[setHttpOptions]` 来配置, 这个配置
@@ -393,6 +400,7 @@ ShellService service = ShellService.create(vertx,
 service.start();
 ----
 
+[[_keymap_configuration]]
 == 按键映射配置
 
 shell 使用默认的按键映射配置，可以使用各种终端配置对象的 `inputrc` 属性来进行覆盖。
@@ -429,6 +437,7 @@ NOTE: 要想添加额外的函数，必须要实现一个`Term.d` 项目中的�
 例如，首先实现一个 https://github.com/termd/termd/blob/c1629623c8a3add4bde7778640bf8cc233a7c98f/src/examples/java/examples/readlinefunction/ReverseFunction.java[reverse function] 函数，
 然后在 `META-INF/services/io.termd.core.readline.Function` 中添加实现声明，最后 shell 会以 SPI 的方式加载该函数。
 
+[[_base_commands]]
 == 基本命令
 
 你可以使用内置命令 _help_ 来获取当前可用的命令：
@@ -465,6 +474,7 @@ NOTE: 要想添加额外的函数，必须要实现一个`Term.d` 项目中的�
 NOTE: 这个命令列表应该会在下个 Vert.x Shell 版本中得到改进，以便其他 Vert.x 项目可以对 Vert.x Shell 进行扩展，
 例如 Dropwizard Metrics。
 
+[[_extending_vert_x_shell]]
 == 扩展 Vert.x Shell
 
 在任何支持代码生成的语言 中，Vert.x Shell 都可以通过自定义命令的方式来进行扩展。
@@ -501,6 +511,7 @@ NOTE: 当在注册表中注册命令时，将在 {@literal io.vertx.core.Context
 
 `link:../../apidocs/io/vertx/ext/shell/command/CommandProcess.html[CommandProcess]` 对象可以用来与 shell 进行交互。
 
+[[_command_arguments]]
 === 命令参数
 
 `link:../../apidocs/io/vertx/ext/shell/command/CommandProcess.html#args--[args]` 方法可以返回命令参数:
@@ -561,8 +572,10 @@ command.processHandler(process -> {
 还提供了继承自 `link:../../apidocs/io/vertx/ext/shell/term/Tty.html[Tty]` 的 `link:../../apidocs/io/vertx/ext/shell/command/CommandProcess.html[CommandProcess]`
 来与 terminal 进行交互。
 
+[[_terminal_usage]]
 === 终端用法
 
+[[_terminal_io]]
 ==== 终端 I/O
 
 当终端接收到数据时，`link:../../apidocs/io/vertx/ext/shell/term/Tty.html#stdinHandler-io.vertx.core.Handler-[stdinHandler]` 注册的 _处理器_ 会被调用，
@@ -582,6 +595,7 @@ tty.stdinHandler(data -> {
 tty.write("Hello World");
 ----
 
+[[_terminal_size]]
 ==== 终端窗口大小
 
 当前的终端窗口大小可以使用 `link:../../apidocs/io/vertx/ext/shell/term/Tty.html#width--[width]` 和
@@ -592,6 +606,7 @@ tty.write("Hello World");
 tty.write("Current terminal size: (" + tty.width() + ", " + tty.height() + ")");
 ----
 
+[[_resize_event]]
 ==== 窗口尺寸调整事件
 
 当终端的窗口大小改变，`link:../../apidocs/io/vertx/ext/shell/term/Tty.html#resizehandler-io.vertx.core.Handler-[resizehandler]` 将会被调用，
@@ -605,6 +620,7 @@ tty.resizehandler(v -> {
 });
 ----
 
+[[_terminal_type]]
 ==== 终端类型
 
 终端类型被用来给远程的终端发送转义符号：
@@ -615,6 +631,7 @@ tty.resizehandler(v -> {
 System.out.println("terminal type : " + tty.type());
 ----
 
+[[_shell_session]]
 === Shell 会话
 
 shell 是一个有连接的服务，所以它需要维护与客户端之间的会话，命令可以使用这个会话来限制数据的有效范围。
@@ -634,7 +651,8 @@ command.processHandler(process -> {
 });
 ----
 
-=== 结束处理
+[[_process_termination]]
+=== 进程结束
 
 调用 `link:../../apidocs/io/vertx/ext/shell/command/CommandProcess.html#end--[end]` 方法即可结束当前的处理进程，
 它可以在处理进程中的任何时候进行调用：
@@ -653,10 +671,12 @@ command.processHandler(process -> {
 });
 ----
 
+[[_process_events]]
 === 进程事件
 
 命令可以订阅一些进程事件.
 
+[[_interrupt_event]]
 ==== 中断事件
 
 当用户在命令执行的过程中键入 _Ctrl+C_，该中断事件将会被触发，随后该进程被中断，
@@ -684,6 +704,7 @@ command.processHandler(process -> {
 如果没有注册任何中断 _处理器_， 输入 _Ctrl+C_ 不会对当前的命令进程产生丝毫影响，
 并且该事件很可能会被 shell 延期处理，就好像是在控制台换行一样。
 
+[[_suspendresume_events]]
 ==== 挂起/恢复 事件
 
 如果用户对正在运行的命令进行输入 _Ctrl+Z_ ，那么由 `link:../../apidocs/io/vertx/ext/shell/command/CommandProcess.html#suspendHandler-io.vertx.core.Handler-[suspendHandler]` 注册的 _处理器_ 即被调用，
@@ -716,6 +737,7 @@ command.processHandler(process -> {
 });
 ----
 
+[[_end_events]]
 ==== 结束事件
 
 当正在运行或者挂起的命令进程被终止时，`link:../../apidocs/io/vertx/ext/shell/command/CommandProcess.html#endHandler-io.vertx.core.Handler-[endHandler]` 将会被调用，
@@ -737,6 +759,7 @@ command.processHandler(process -> {
 
 该 _处理器_ 对于命令终止时的一些资源清理是非常有用的，比如关闭连接或者定时器等。
 
+[[_command_completion]]
 === 命令完成
 
 命令提供了完成 _处理器_ ，以便于实现上下文命令行的完成接口。
@@ -753,6 +776,7 @@ handler]` 与其他处理 handler一样都是非阻塞的，比如文件系统�
 
 通过调用 `link:../../apidocs/io/vertx/ext/shell/cli/Completion.html#complete-java.util.List-[complete]` 来结束当前的完成事件。
 
+[[_shell_server]]
 == Shell 服务端
 
 无论是以编码的方式，还是作为一个 Vert.x 服务，Shell 服务提供了便利的方式来启动一个预配置的 shell。
@@ -827,6 +851,7 @@ job.statusUpdateHandler(status -> {
 当使用 `link:../../apidocs/io/vertx/ext/shell/system/JobController.html#close-io.vertx.core.Handler-[close]` 关闭 shell 时，它将会结束当前 shell 会话中的所有任务。
 
 
+[[_terminal_servers]]
 == 终端服务器
 
 Vert.x Shell 还为那些需要写纯终端应用的开发者提供了裸终端服务器。
@@ -838,6 +863,7 @@ Vert.x Shell 还为那些需要写纯终端应用的开发者提供了裸终端�
 或者，在终端服务器启动之前通过 `link:../../apidocs/io/vertx/ext/shell/term/TermServer.html#authProvider-io.vertx.ext.auth.AuthProvider-[set]` 直接设置 `link:../../apidocs/io/vertx/ext/auth/AuthProvider.html[AuthProvider]`。
 
 
+[[_ssh_term]]
 === SSH 终端
 
 终端服务器提供了 `link:../../apidocs/io/vertx/ext/shell/term/Term.html[Term]` _处理器_ 来接受传入的终端连接。
@@ -858,6 +884,7 @@ server.listen();
 `link:../../apidocs/io/vertx/ext/shell/term/Term.html[Term]` 同时也是一个 `link:../../apidocs/io/vertx/ext/shell/term/Tty.html[Tty]`，
 本节将介绍如何使用 tty。
 
+[[_telnet_term]]
 === Telnet 终端
 
 [source,java]
@@ -871,6 +898,7 @@ server.termHandler(term -> {
 server.listen();
 ----
 
+[[_http_term]]
 === HTTP 终端
 
 使用 `link:../../apidocs/io/vertx/ext/shell/term/TermServer.html#createHttpTermServer-io.vertx.core.Vertx-[TermServer.createHttpTermServer]` 方法创建一个 HTTP终端服务器，
@@ -941,6 +969,7 @@ window.addEventListener('load', function () {
 为了满足更多定制化需求，这些资源统一集中在 Vert.x Shell 模块下面的 `io.vertx.ext.shell` 包中，
 可以直接复制和修改。
 
+[[_command_discovery]]
 == 命令发现
 
 命令发现可以用来在没有明确注册的情况下添加新的命令到 Vert.x 中。
@@ -973,6 +1002,7 @@ my.CustomCommands
 这只对 `link:../../apidocs/io/vertx/ext/shell/ShellService.html[ShellService]` 有效，
 `link:../../apidocs/io/vertx/ext/shell/ShellServer.html[ShellServer]` 并没有使用该机制。
 
+[[_command_pack]]
 == 命令包
 
 命令包是一个提供了新的 Vert.x Shell 命令的 jar 包文件。
