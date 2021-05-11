@@ -515,7 +515,7 @@ const entries = [
   {
     id: "vertx-shell",
     name: "Shell",
-    description: "Interact with your Vert.x application using a CLI interface.",
+    description: "使用 CLI 接口与Vert.x应用程序交互。",
     category: "devops",
     href: "/vertx-shell/java/",
     repository: "https://github.com/vert-x3/vertx-shell",
