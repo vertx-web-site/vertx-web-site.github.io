@@ -8,10 +8,10 @@ const Book = () => (
     <hr/>
     <div className="container">
       <div className="book-section">
-        <h3>Read about Vert.x</h3>
-        <p className="book-subtitle"><em>Vert.x in Action</em> teaches you how to build responsive,
-        resilient, and scalable JVM applications with Vert.x using
-        well-established reactive design patterns.</p>
+        <h3>Vert.x 相关书籍</h3>
+        <p className="book-subtitle"><em>Vert.x in Action</em>可以教您如何在 Vert.x
+        中使用反应式设计模式来构建响应式、弹性、可扩展的 
+        JVM 应用程序。</p>
         <div className="book-main">
           <div className="book-left">
             <a href={URL} target="_blank" rel="noopener noreferrer">
@@ -21,9 +21,8 @@ const Book = () => (
           <div className="book-right">
             <div className="quote">
               <div className="quote-content">
-                &ldquo;Fantastic introduction into Vert.x written for developers
-                looking to develop services more efficiently in terms of time
-                and resources.&rdquo;
+                &ldquo;该书精彩地介绍了 Vert.x，
+                面向希望在时间和资源上更有效地开发服务的开发者。&rdquo;
               </div>
               <div className="quote-name">
                 Andrew Buttery
@@ -31,9 +30,9 @@ const Book = () => (
             </div>
             <div className="quote">
               <div className="quote-content">
-                &ldquo;A great book to add to your personal library of books
-                that discuss the major architectural challenges of writing
-                messaging frameworks.&rdquo;
+                &ldquo;一本很优秀的书，
+                可以加入您的个人书库中。
+                该书讨论了编写消息传递框架在架构方面的主要挑战。&rdquo;
               </div>
               <div className="quote-name">
                 Earl B. Bingham
@@ -41,8 +40,8 @@ const Book = () => (
             </div>
             <div className="quote">
               <div className="quote-content">
-                &ldquo;Provides not only an excellent introduction to Vert.x,
-                but reactive programming with Java in general.&rdquo;
+                &ldquo;该书不仅精彩地介绍了 Vert.x，
+                也大体介绍了 Java 的反应式编程。&rdquo;
               </div>
               <div className="quote-name">
                 Damian Esteban
