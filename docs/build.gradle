@@ -43,7 +43,7 @@ repositories {
 dependencies {
   implementation("io.vertx:vertx-stack-docs:${versions.last()}:docs@zip") {
     transitive = false
-    changing = true
+    changing = versions.last().endsWith("-SNAPSHOT")
   }
 }
 
@@ -52,9 +52,10 @@ def versionToConfiguration(version) {
 }
 
 versions.each { configurations.create(versionToConfiguration(it)) }
-versions.each {
-  dependencies.add(versionToConfiguration(it), "io.vertx:vertx-stack-docs:$it:docs@zip") {
+versions.each { v ->
+  dependencies.add(versionToConfiguration(v), "io.vertx:vertx-stack-docs:$v:docs@zip") {
     transitive = false
+    changing = v.endsWith("-SNAPSHOT")
   }
 }
 
@@ -78,7 +79,7 @@ task extractDocs {
   dependsOn extractDocsLatest
 }
 
-versions.take(versions.size() - 1).each { version ->
+versions.take(versions.size()).each { version ->
   def conf = configurations[versionToConfiguration(version)]
   def t = tasks.create(name: "extractDocs_${version.replace('.', '_')}", type: Sync) {
     dependsOn conf

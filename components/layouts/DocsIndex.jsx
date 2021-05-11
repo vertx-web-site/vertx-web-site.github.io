@@ -4,7 +4,7 @@ import Layout from "./Page"
 import ReadMoreLink from "../ReadMoreLink"
 import ScrollLink from "../ScrollLink"
 import Label from "../Label"
-import { versions as docsVersions } from "../../docs/metadata/all"
+import { versions as docsVersions, latestRelease } from "../../docs/metadata/all"
 import { filterLatestBugfixVersions } from "../../docs/metadata/helpers"
 import Link from "next/link"
 import { Book, ExternalLink } from "react-feather"
@@ -69,8 +69,10 @@ const SectionPart = ({ title, label, href, children }) => {
 
 const Docs = ({ metadata, version }) => {
   let versionPath = ""
+  let activeVersion = latestRelease.version
   if (version !== undefined) {
     versionPath = `/${version}`
+    activeVersion = version
   }
 
   return (
@@ -99,23 +101,30 @@ const Docs = ({ metadata, version }) => {
 
             <div className="docs-index-content-heading-right">
               <span className="docs-index-api">
-                <a href={`/docs/${version ? `${version}/` : ""}apidocs`}>
+                <a href={`/docs${versionPath}/apidocs`}>
                   <Book className="feather" />API
                 </a>
               </span>
 
               <span className="docs-index-content-version">
-                <DropDown title={`v${version || docsVersions[0]}`} align="right">
-                  <DropDownItem active={version === undefined ||
-                        version === docsVersions[0]} href="/docs/">
-                    Latest (v{docsVersions[0]})
-                  </DropDownItem>
-                  {filterLatestBugfixVersions(docsVersions).slice(1).map(v => (
-                    <DropDownItem key={v} active={version === v}
-                        href={`/docs/${v}/`}>
-                      v{v}
-                    </DropDownItem>
-                  ))}
+                <DropDown title={`v${activeVersion}`} align="right">
+                  {filterLatestBugfixVersions(docsVersions).map(v => {
+                    if (latestRelease.version === v) {
+                      return (
+                        <DropDownItem key={v} active={activeVersion === v}
+                            href={"/docs/"}>
+                          Latest (v{v})
+                        </DropDownItem>
+                      )
+                    } else {
+                      return (
+                        <DropDownItem key={v} active={activeVersion === v}
+                            href={`/docs/${v}/`}>
+                          v{v}
+                        </DropDownItem>
+                      )
+                    }
+                  })}
                 </DropDown>
               </span>
             </div>
