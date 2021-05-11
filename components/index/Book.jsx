@@ -10,7 +10,7 @@ const Book = () => (
       <div className="book-section">
         <h3>Vert.x 相关书籍</h3>
         <p className="book-subtitle"><em>Vert.x in Action</em>可以教您如何在 Vert.x
-        中使用反应式设计模式来构建响应式、弹性、可扩展的 
+        中使用反应式设计模式来构建响应式、弹性、可扩展的
         JVM 应用程序。</p>
         <div className="book-main">
           <div className="book-left">
