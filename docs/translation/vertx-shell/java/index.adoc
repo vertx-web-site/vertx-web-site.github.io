@@ -510,7 +510,7 @@ registry.registerCommand(builder.build(vertx));
 NOTE: 当在注册表中注册命令时，将在 {@literal io.vertx.core.Context} 中调用命令的回调函数。
 当你想要在命令中保持状态尤其需要注意这一点。
 
-`link:../../apidocs/io/vertx/ext/shell/command/CommandProcess.html[CommandProcess]` 对象可以用来与 shell 进行交互。
+`link:../../apidocs/io/vertx/ext/shell/command/CommandProcess.html[CommandProcess]` 对象可以用于与 shell 互动。
 
 [[_command_arguments]]
 === 命令参数
