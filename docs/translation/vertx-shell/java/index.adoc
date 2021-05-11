@@ -3,7 +3,7 @@
 Vert.x Shell 是一个基于Vert.x，
 支持不同协议的统一终端的命令行接口
 
-Vert.x Shell 提供了一系列命令来与Vert.x服务进行实时交互
+Vert.x Shell 提供了一系列命令来与 Vert.x 服务进行实时互动
 
 Vert.x Shell 可以使用任何 Vert.x 支持的语言来扩展自定义命令
 
