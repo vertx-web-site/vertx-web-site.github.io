@@ -844,7 +844,7 @@ job.statusUpdateHandler(status -> {
 ----
 
 当 shell 运行时，
-`link:../../apidocs/io/vertx/ext/shell/term/Pty.html[Pty]` 伪终端是与命令进行交互的主要手段：
+`link:../../apidocs/io/vertx/ext/shell/term/Pty.html[Pty]` 伪终端是与命令互动的主要手段：
 
 - 使用标准的 输入/输出 来写入和读取数据
 - 调整终端的窗口大小
