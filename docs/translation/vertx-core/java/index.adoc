@@ -91,7 +91,7 @@ vertx.setPeriodic(1000, id -> {
 });
 ----
 
-又比如收到一个HTTP请求：
+又比如收到一个 HTTP 请求：
 
 [source,java]
 ----
