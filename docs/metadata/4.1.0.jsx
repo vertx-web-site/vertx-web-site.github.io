@@ -16,12 +16,12 @@ insert(docs, "vertx-opentracing",
     }
 )
 
-insert(docs, "vertx-http-proxy",
+insert(docs, "vertx-mail-client",
     {
         id: "vertx-http-proxy",
         name: "Vert.x Http Proxy",
         description: "A reverse proxy based on Vert.x, it aims to implement reusable reverse proxy logic to focus on higher concerns.",
-        category: "web",
+        category: "integration",
         href: "/vertx-http-proxy/java/",
         repository: "https://github.com/eclipse-vertx/vertx-http-proxy/tree/master",
         edit: "https://github.com/eclipse-vertx/vertx-http-proxy/tree/master/src/main/asciidoc",
