@@ -49,23 +49,6 @@ HttpProxy proxy = HttpProxy.reverseProxy(proxyClient).originSelector(
 
 This component is in tech preview and will get more feature over time.
 
-## RxJava 3
-
-Vert.x Rx gets RxJava 3 support!
-
-The most noticeable change is the replacement of callback methods with RxJava 3 types in the _rxified_ API:
-
-```java
-// Listen is called immediately and the asynchronous result is cached
-Single<HttpServer> listen();
-
-// Actual listen called on subscription
-Single<HttpServer> rxListen();
-```
-
-In other words RxJava 3 `listen()` method behaves like RxJava 2 `listen(Handler<AsyncResult<HttpServer>>)` with
-an RxJava type instead of a Vert.x callback type.
-
 ## Open Telemetry support
 
 Open Telemetry tracing is a new and noticeable tracing integration available in 4.1
