@@ -30,6 +30,32 @@ insert(docs, "vertx-mail-client",
     }
 )
 
+insert(docs, "vertx-sql-client-templates",
+     {
+         id: "vertx-mssql-client",
+         name: "MSSQL Client",
+         description: "The Reactive MSSQL client.",
+         category: "databases",
+         href: "/vertx-mssql-client/java/",
+         repository: "https://github.com/eclipse-vertx/vertx-sql-client",
+         edit: "https://github.com/eclipse-vertx/vertx-sql-client/tree/master/vertx-mssql-client/src/main/asciidoc",
+         label: "Technical Preview"
+       }
+ )
+
+ insert(docs, "vertx-rx-java2",
+     {
+         id: "vertx-rx-java3",
+         name: "RxJava 3",
+         description: "RxJava 3 bindings for the Vert.x APIs, modules and clients.",
+         category: "reactive",
+         href: "/vertx-rx/java3/",
+         repository: "https://github.com/vert-x3/vertx-rx",
+         edit: "https://github.com/eclipse-vertx/vertx-sql-client/tree/master/vertx-mssql-client/src/main/asciidoc",
+         label: "Technical Preview"
+       }
+)
+
 // Mark this version as a prerelease. Prereleases can be selected manually
 // from the dropdown menu on the docs page but the default entry is still
 // the latest GA release.
