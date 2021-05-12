@@ -131,7 +131,7 @@ Future<StompServer> server = StompServer.create(vertx, netServer)
 * STOMP 协议的心跳时间 - 默认为 `1000, 1000`
 * 支持的 STOMP 协议版本 (默认为 1.0, 1.1 和 1.2)
 * STOMP 协议中事务所支持的最大消息数量 (默认为 1000)
-* 分块传输的最大尺寸 - 默认为 1000 (参见`link:../../apidocs/io/vertx/ext/stomp/StompServerOptions.html#setTransactionChunkSize-int-[setTransactionChunkSize]`)
+* 分块传输的最大尺寸 - 默认为 1000 (参见 `link:../../apidocs/io/vertx/ext/stomp/StompServerOptions.html#setTransactionChunkSize-int-[setTransactionChunkSize]` )
 * 一个客户端可以使用的最大订阅数量 - 默认为 1000
 
 如下所示，使用 JsonObject 配置 STOMP 协议的心跳时间：
@@ -171,8 +171,8 @@ http://vertx.io/docs/#authentication_and_authorisation[此文档].
 [[_type_of_destinations]]
 === 消息目的地点类型
 
-默认情况下， STOMP 服务器将消息发送的 _目的地点_ 作为 topic 处理。 因此消息会被发送给所有的订阅者。 您可以
-配置 STOMP 服务器将消息发送的目的地作为 queue 处理, 或两种模式都支持：
+默认情况下， STOMP 服务器将消息发送的 _目的地点_ 作为 topic 类型处理。 因此消息会被发送给所有的订阅者。 您可以
+配置 STOMP 服务器将消息发送的目的地作为 queue 类型处理, 或两种模式都支持：
 
 [source,java]
 ----
@@ -188,7 +188,7 @@ Future<StompServer> server = StompServer.create(vertx)
     .listen();
 ----
 
-在以上代码中， 所有以 `/queue` 开头的目的地点均被作为 queue 处理，而其他的目的地点被当作 topic 类型。 目的地点是在 STOMP 服务器
+在以上代码中， 所有以 `/queue` 开头的目的地点均被作为 queue 类型处理，而其他的目的地点被当作 topic 类型。 目的地点是在 STOMP 服务器
 第一次接收到对应的订阅消息时被创建的
 
 STOMP 服务器通过返回 `null` 以拒绝目的地点的创建：
@@ -214,7 +214,7 @@ Future<StompServer> server = StompServer.create(vertx)
 queue 类型的目的地点使用轮询调度策略向订阅者分发消息
 
 [[_providing_your_own_type_of_destination]]
-=== 提供您自定义的目的地类型
+=== 提供您自定义的目的地点类型
 
 Vert.x 提供的 STOMP 有意没有实现任何高级特性。 如果您需要更高级的消息分发策略，
 可以提供自定义的 `link:../../apidocs/io/vertx/ext/stomp/DestinationFactory.html[DestinationFactory]` 实现
@@ -444,7 +444,7 @@ StompClient.create(vertx)
 您可以通过在创建 `link:../../apidocs/io/vertx/ext/stomp/StompClient.html[StompClient]` 时传入
 `link:../../apidocs/io/vertx/ext/stomp/StompClientOptions.html[StompClientOptions]` 以自定义多项配置。 由于
 STOMP 客户端底层依赖了 `link:../../apidocs/io/vertx/core/net/NetClient.html[NetClient]`， 因此您可以在 `link:../../apidocs/io/vertx/ext/stomp/StompClientOptions.html[StompClientOptions]` 中配置
-底层的 Net Client。 或者您也可以在 `link:../../apidocs/io/vertx/ext/stomp/StompClient.html#connect-io.vertx.core.net.NetClient-io.vertx.core.Handler-[connect]` 方法中
+底层的 NetClient。 或者您也可以在 `link:../../apidocs/io/vertx/ext/stomp/StompClient.html#connect-io.vertx.core.net.NetClient-io.vertx.core.Handler-[connect]` 方法中
 传入一个
 您想使用的 `link:../../apidocs/io/vertx/core/net/NetClient.html[NetClient]`：
 
@@ -668,9 +668,9 @@ http://jmesnil.net/stomp-websocket/doc/[StompJS] 。 使用 JavaScript 客户端
 
 为了配置服务器使用 StompJS, 您需要：
 
-1. 使用 websocket 桥接并且配置 websocket 需要监听的路径 (默认为 `/stomp`).
+1. 使用 websocket 桥接并且配置 websocket 需要监听的路径 (默认为 `/stomp`)
 2. 在您的应用中引入 http://jmesnil.net/stomp-websocket/doc/#download[StompJS] (您的应用可以是
-HTML 页面上的脚本, 或者一个 node 模块 (https://www.npmjs.com/package/stompjs).
+HTML 页面上的脚本, 或者一个 node 模块 (https://www.npmjs.com/package/stompjs)
 3. 连接到服务器
 
 为了完成第一步， 您首先需要创建一个 HTTP 服务器, 并且将
@@ -694,7 +694,7 @@ Future<HttpServer> http = vertx.createHttpServer(
 
 不要忘了声明要支持的子协议， 否则连接会被拒绝。
 
-以下示例代码来自  http://jmesnil.net/stomp-websocket/doc/[the StompJS documentation] ，展示了如何连接
+以下示例代码来自  http://jmesnil.net/stomp-websocket/doc/[the StompJS documentation] ，展示了 STOMP 客户端如何连接
 到服务器：
 
 [source, javascript]
