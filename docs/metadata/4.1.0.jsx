@@ -8,4 +8,7 @@ const docs = clone(oldDocs)
 // the latest GA release.
 docs.prerelease = true
 
+// force title
+docs.title = "4.1.0.Beta1"
+
 export default docs

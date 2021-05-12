@@ -4,7 +4,7 @@ import Layout from "./Page"
 import ReadMoreLink from "../ReadMoreLink"
 import ScrollLink from "../ScrollLink"
 import Label from "../Label"
-import { versions as docsVersions, latestRelease } from "../../docs/metadata/all"
+import { versions as docsVersions, metadata as docsMetadata, latestRelease } from "../../docs/metadata/all"
 import { filterLatestBugfixVersions } from "../../docs/metadata/helpers"
 import Link from "next/link"
 import { Book, ExternalLink } from "react-feather"
@@ -74,6 +74,8 @@ const Docs = ({ metadata, version }) => {
     versionPath = `/${version}`
     activeVersion = version
   }
+  let activeVersionTitle = docsMetadata.find(m => m.version === activeVersion)
+      .metadata.title || activeVersion
 
   return (
     <Layout meta={{ title: "Documentation" }}>
@@ -107,20 +109,22 @@ const Docs = ({ metadata, version }) => {
               </span>
 
               <span className="docs-index-content-version">
-                <DropDown title={`v${activeVersion}`} align="right">
+                <DropDown title={`v${activeVersionTitle}`} align="right">
                   {filterLatestBugfixVersions(docsVersions).map(v => {
+                    let md = docsMetadata.find(m => m.version === v)
+                    let title = md.metadata.title || v
                     if (latestRelease.version === v) {
                       return (
                         <DropDownItem key={v} active={activeVersion === v}
                             href={"/docs/"}>
-                          Latest (v{v})
+                          Latest (v{title})
                         </DropDownItem>
                       )
                     } else {
                       return (
                         <DropDownItem key={v} active={activeVersion === v}
                             href={`/docs/${v}/`}>
-                          v{v}
+                          v{title}
                         </DropDownItem>
                       )
                     }
