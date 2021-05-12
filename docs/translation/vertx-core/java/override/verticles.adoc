@@ -36,7 +36,7 @@ public class MyVerticle extends AbstractVerticle {
 有些时候您的 Verticle 启动会耗费一些时间，您想要在这个过程做一些事，
 并且您做的这些事并不想等到Verticle部署完成过后再发生。例如，您想在 `start` 方法中启动一个 HTTP 服务并在 `listen` 方法中处理一个异步结果。
 
-您不能在您的 `start` 方法中阻塞等待其他的 Verticle 部署完成，这样做会破坏 <<golden_rule, Golden Rule>>。
+您不能在您的 `start` 方法中阻塞等待其他的 Verticle 部署完成，这样做会破坏 <<golden_rule, 黄金法则>>。
 
 所以您要怎么做？
 
