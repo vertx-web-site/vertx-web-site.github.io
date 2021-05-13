@@ -7,7 +7,7 @@
 
 若要在自己的项目中使用它，需要在构建描述信息的 _dependencies_ 节点中添加以下信息:
 
-*Maven （在 `pom.xml` 文件中）:
+* Maven （在 `pom.xml` 文件中）:
 
 [source,xml,subs="+attributes"]
 ----
