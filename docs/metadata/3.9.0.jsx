@@ -507,8 +507,8 @@ const entries = [
   },
   {
     id: "vertx-health-check",
-    name: "Health Check",
-    description: "A simple API to expose health checks over HTTP.",
+    name: "健康检查",
+    description: "一个可通过 HTTP 检查系统健康状况的简易 API。",
     category: "devops",
     href: "/vertx-health-check/java/",
     repository: "https://github.com/vert-x3/vertx-health-check",
