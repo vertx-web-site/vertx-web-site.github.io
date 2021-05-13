@@ -18,8 +18,8 @@ Vert.x AMQP 客户端基于 Vert.x Proton 实现。如果您需要更细粒度�
 [[_using_vert_x_amqp_client]]
 == 使用 Vert.x AMQP 客户端
 
-To use the Vert.x AMQP Client, add the following dependency to the _dependencies_ section of your build
-descriptor:
+为了使用 Vert.x AMQP 客户端， 需要将以下依赖添加到您构建描述文件
+的依赖项配置中：
 
 * Maven（在您的 `pom.xml` 文件中）：
 
