@@ -92,6 +92,18 @@ async function fetchContributors(octokit, users) {
   for (let repo of repos) {
     await fetchContributor(repo)
   }
+  for (let login of Object.keys(users)) {
+    let user = users[login]
+    let contributor = contributors.find(c => c.githubId === login)
+    if (contributor === undefined) {
+      contributor = {
+        githubId: user.login,
+        avatar_url: user.avatar_url,
+        contributions: 1
+      }
+      contributors.push(contributor)
+    }
+  }
 
   console.log("Done.")
 
