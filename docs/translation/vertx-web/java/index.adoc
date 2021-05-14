@@ -179,9 +179,6 @@ server.requestHandler(router).listen(8080);
 传递给处理器的对象是 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html[RoutingContext]` - 它包含标准的 Vert.x `link:../../apidocs/io/vertx/core/http/HttpServerRequest.html[HttpServerRequest]` 和 `link:../../apidocs/io/vertx/core/http/HttpServerResponse.html[HttpServerResponse]`
 还有其他各种有用的东西，让使用Vert.x-Web变得更加简单。
 
-处理器调用的参数是一个 http://vertx.io/docs/apidocs/io/vertx/ext/web/RoutingContext.html[ `RoutingContext` ] 对象。 它不仅包含了 Vert.x 中标准的 http://vertx.io/docs/apidocs/io/vertx/core/http/HttpServerRequest.html[ `HttpServerRequest` ] 和
-http://vertx.io/docs/apidocs/io/vertx/core/http/HttpServerResponse.html[ `HttpServerResponse` ]，还包含了各种用于简化 Vert.x Web 使用的东西。
-
 每个被路由的请求， 都有一个唯一的路由上下文实例， 并将这个实例传递给该请求的所有处理器。
 
 当我们建立了处理器之后，我们设置 HTTP 服务器的请求处理器，使所有的请求都通过 `link:../../apidocs/io/vertx/core/Handler。html#handle-java.lang.Object-[handle]` 处理。
