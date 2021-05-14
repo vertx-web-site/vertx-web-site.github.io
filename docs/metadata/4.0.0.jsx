@@ -139,8 +139,8 @@ docs.entries.push({
 insert(docs, "vertx-auth-mongo",
   {
     id: "vertx-auth-webauthn",
-    name: "Webauthn Auth",
-    description: "FIDO2 WebAuthn (password-less) implementation.",
+    name: "Webauthn 授权",
+    description: "FIDO2 WebAuthn （免密） 实现.",
     category: "authentication-and-authorization",
     href: "/vertx-auth-webauthn/java/",
     repository: "https://github.com/vert-x3/vertx-auth/tree/master/vertx-auth-webauthn",
