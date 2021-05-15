@@ -2,7 +2,7 @@
 
 本组件包含一个开箱即用的
 https://github.com/herrjemand/awesome-webauthn#server-libs[符合FIDO标准] 的 WebAuthn 实现。要使用该组件，
-那么您需要在编译脚本中添加如下依赖：
+您需要在编译脚本中添加如下依赖：
 
 * Maven （在您的 `pom.xml` ）：
 
