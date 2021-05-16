@@ -20,7 +20,7 @@
 compile 'io.vertx:vertx-auth-jwt:4.0.3'
 ----
 
-JSON Web 令牌是一种简单的发送明文信息（通常是URL）的方法，
+JSON Web 令牌是一种简单的以明文（通常是URL）发送信息的方法，
 其内容可被验证为是可信的。 
 像下面的这些场景 JWT 是非常适用的：
 
@@ -505,7 +505,7 @@ JWT是个相当自由的格式，并没有强制规定，所以可以将 `permis
 ----
 JsonObject config = new JsonObject()
   .put("public-key", "BASE64-ENCODED-PUBLIC_KEY")
-  // 我们正在使用keycloak JWT
+  // 因为我们正在使用 keycloak JWT 因此我们需要
   // 在令牌中设置许可声明
   .put("permissionsClaimKey", "realm_access/roles");
 
@@ -513,13 +513,14 @@ AuthenticationProvider provider =
   JWTAuth.create(vertx, new JWTAuthOptions(config));
 ----
 
-因此，在此示例中，我们将JWT配置为使用Keycloak令牌格式。在这种情况下claims将会检查 `realm_access/roles`
+所以在此示例中，我们将 JWT 配置为使用 Keycloak 令牌格式。在这种情况下 `realm_access/roles` 路径下的 claims 会被检查 
 而不是 `permissions`。
 
 [[_validating_tokens]]
 === 校验令牌
 
-方法 `authenticate` 被调用，令牌将根据初始化期间 提供的 `JWTOptions` 进行验证。验证步骤如下:
+方法 `authenticate` 被调用时，令牌将根据初始化期间提供的 `JWTOptions` 进行
+验证。验证步骤如下:
 
 1. `ignoreExpiration` (默认关闭) 是关闭的的情况下,校验令牌的有效期 , 将检查 字段: `exp`, `iat` 和 `nbf`。 由于各端时间存在一定偏差,可以配置 `leeway`
 宽限日期，应对时间超出而失效的情况。
