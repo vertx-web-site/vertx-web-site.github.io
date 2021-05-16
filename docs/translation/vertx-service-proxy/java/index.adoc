@@ -1,4 +1,4 @@
-= Vert.x Service Proxy
+= Vert.x 服务代理
 :toc: left
 
 当您编写 Vert.x 程序的时候，您也许想将某处独立服务功能提供给其他程序使用。
