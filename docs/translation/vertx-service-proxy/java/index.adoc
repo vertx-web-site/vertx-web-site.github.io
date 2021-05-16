@@ -99,7 +99,7 @@ vertx.eventBus()
 @ProxyGen
 public interface SomeDatabaseService {
 
- // 几个工厂方法用于创建实例
+ // 几个工厂方法用于创建实例和代理
  static SomeDatabaseService create(Vertx vertx) {
    return new SomeDatabaseServiceImpl(vertx);
  }
