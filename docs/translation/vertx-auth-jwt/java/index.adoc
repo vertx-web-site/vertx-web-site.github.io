@@ -73,7 +73,7 @@ if ("paulo".equals(username) && "super_secret".equals(password)) {
     new JsonObject().put("sub", "paulo"), new JWTOptions());
 
   // 现在，对于任何对受保护资源的请求，您应该
-  // 检查他们的HTTP头中Authorization字符串:
+  // 检查他们的HTTP头中Authorization字符串：
   // Authorization: Bearer <token>
 }
 ----
