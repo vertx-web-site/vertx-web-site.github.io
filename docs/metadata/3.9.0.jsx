@@ -347,8 +347,8 @@ const entries = [
   },
   {
     id: "vertx-auth-jwt",
-    name: "JWT Auth",
-    description: "JSON web tokens (JWT) implementation.",
+    name: "JWT 鉴权与授权",
+    description: "JSON Web令牌（JWT）的实现。",
     category: "authentication-and-authorization",
     href: "/vertx-auth-jwt/java/",
     repository: "https://github.com/vert-x3/vertx-auth/tree/master/vertx-auth-jwt",
@@ -617,8 +617,8 @@ const entries = [
   },
   {
     id: "vertx-service-proxy",
-    name: "Service Proxies",
-    description: "Proxies allow remote event bus services to be called as if they were local.",
+    name: "服务代理",
+    description: "代理允许像在本地一样调用远程事件总线上的服务。",
     category: "services",
     href: "/vertx-service-proxy/java/",
     repository: "https://github.com/vert-x3/vertx-service-proxy",
