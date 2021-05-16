@@ -628,7 +628,7 @@ const entries = [
   {
     id: "vertx-sockjs-service-proxy",
     name: "SockJS 服务代理",
-    description: "允许从JavaScript（Web浏览器或Node.js）中调用事件总线服务。",
+    description: "允许从JavaScript（Web浏览器或 Node.js）中调用事件总线服务。",
     category: "services",
     href: "/vertx-sockjs-service-proxy/java/",
     repository: "https://github.com/vert-x3/vertx-sockjs-service-proxy",
