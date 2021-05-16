@@ -2,7 +2,7 @@
 
 该组件包含了一个现成的JWT实现，要使用这个项目，将下面的依赖添加到构建描述符里的 _dependencies_ 部分
 
-* Maven (在你的 `pom.xml`):
+* Maven（在您的 `pom.xml`）：
 
 [source,xml,subs="+attributes"]
 ----
