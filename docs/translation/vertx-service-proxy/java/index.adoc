@@ -109,7 +109,7 @@ public interface SomeDatabaseService {
    return new SomeDatabaseServiceVertxEBProxy(vertx, address);
  }
 
-// 服务实际的接口订单
+// 此处是实际的服务操作……
 void save(String collection, JsonObject document,
   Handler<AsyncResult<Void>> resultHandler);
 }
