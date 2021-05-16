@@ -263,7 +263,7 @@ new ServiceBinder(vertx)
 - 服务处理器类（service handler）： 一个编译时产生的 `EventBus` 处理器类，用于响应由服务代理发送的事件。
 
 产生的服务代理和处理器的命名是在类名的后面加相关的字段，例如，如果一个服务接口名为 `MyService`，
-则对应的处理器类命名为 `MyServiceProxyHandler`,对应的服务代理类命名为 MyServiceVertxEBProxy。
+则对应的处理器类命名为 `MyServiceProxyHandler`，对应的服务代理类命名为 MyServiceVertxEBProxy。
 
 此外Vert.x Core提供了一个生成器用于数据转化器，以简化服务代理中数据对象的使用。
 数据转化器要求数据对象提供一个以 `JsonObject` 为基础的构造器和`toJson()` 方法
