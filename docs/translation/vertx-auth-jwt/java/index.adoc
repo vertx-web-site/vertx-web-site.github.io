@@ -36,11 +36,11 @@ JSON Web 令牌是一种简单的发送明文信息（通常是URL）的方法�
 
 JWT主要的优点有：
 
-* 它可以让你验证令牌的真实性。
-* 它有一个JSON结构，可以包含任何你想要的变量和大量的数据。
+* 它允许您验证令牌的真实性。
+* 它有一个JSON结构，可以包含任何您所需的任意数量的数据。
 * 它是无状态的。
 
-你可以使用 `link:../../apidocs/io/vertx/ext/auth/jwt/JWTAuth.html[JWTAuth]` 来创建一个验证器的实例。 并指定一个JSON对象的配置。
+您可使用 `link:../../apidocs/io/vertx/ext/auth/jwt/JWTAuth.html[JWTAuth]` 创建一个验证器的实例。 并指定一个格式为 JSON 的配置文件。
 
 这是创建一个JWT身份验证器的示例代码：
 
@@ -72,7 +72,7 @@ if ("paulo".equals(username) && "super_secret".equals(password)) {
   String token = provider.generateToken(
     new JsonObject().put("sub", "paulo"), new JWTOptions());
 
-  // 现在，对于任何对受保护资源的请求，你应该
+  // 现在，对于任何对受保护资源的请求，您应该
   // 检查他们的HTTP头中Authorization字符串:
   // Authorization: Bearer <token>
 }
@@ -92,7 +92,7 @@ if ("paulo".equals(username) && "super_secret".equals(password)) {
 
 JWT的默认签名方法称为 `HS256`。 `HS` 默认表示为 `HMAC 加密 使用 SHA256`。
 
-这便是最简单的加载秘钥方式。你只需要将 secret 与第三方共享，举个例子
+这便是最简单的加载秘钥方式。您只需要将 secret 与第三方共享，举个例子
 假设 secret 是：`keyboard cat` 那么您可将 Auth 配置为：
 
 [source,java]
@@ -105,7 +105,7 @@ JWTAuth provider = JWTAuth.create(vertx, new JWTAuthOptions()
 String token = provider.generateToken(new JsonObject());
 ----
 
-在这种情况下secret将被设置为公钥，因为这是双方都知道的令牌，你可以配置 PubSec 密钥为对称的。
+在这种情况下secret将被设置为公钥，因为这是双方都知道的令牌，您可配置 PubSec 密钥为对称的。
 
 [[_using_rsa_keys]]
 ==== 使用 RSA 秘钥
@@ -130,13 +130,13 @@ String token = provider.generateToken(new JsonObject());
 
 |=========================================================
 
-如果您想生成一个2048位RSA密钥对, 那么你应该(请记住 **不要** 添加密码， JWT auth将无法载入秘钥文件):
+如果您想生成一个2048位RSA密钥对，那么您应该（请记住 **不要** 添加密码， JWT auth 将无法载入秘钥文件）：
 
 ----
 openssl genrsa -out private.pem 2048
 ----
 
-如果你看到类似的文件内容，那么恭喜你秘钥文件正确的生成了；
+如您看到类似的文件内容，那么恭喜您，秘钥文件正确的生成了：
 
 ----
 -----BEGIN RSA PRIVATE KEY-----
@@ -162,13 +162,13 @@ MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDE9JsJBjmYEoUM
 -----END PRIVATE KEY-----
 ----
 
-如果你只验证令牌 (你只需要 private_key.pem 文件) 但是某些时候你需要 签发令牌, 所以你需要一个公钥。在这种情况下你需要从私钥文件中提取公钥文件:
+如您只验证令牌（只需要 private_key.pem 文件）那么您需要签发令牌，故而您需要一个公钥。在这种情况下您需要从私钥文件中提取公钥文件：
 
 ----
 openssl rsa -in private.pem -outform PEM -pubout -out public.pem
 ----
 
-你会看到类似内容的文件：
+您会见到类似以下内容的文件：
 
 ----
 -----BEGIN PUBLIC KEY-----
@@ -238,13 +238,13 @@ String token = provider.generateToken(
 
 我们还支持椭圆曲线加密算法，但是在默认JDK上面使用有一定限制
 
-用法和RSA加密算法极其相似, 首先你需要创建一个公钥：
+用法和RSA加密算法极其相似，首先您需要创建一个公钥：
 
 ----
 openssl ecparam -name secp256r1 -genkey -out private.pem
 ----
 
-然后你会看到类似内容的文件了：
+然后您会看到类似以下内容的文件了：
 
 ----
 -----BEGIN EC PARAMETERS-----
@@ -328,7 +328,7 @@ String token = provider.generateToken(
 [[_the_jwt_keystore_file]]
 ==== JWT keystore 文件
 
-如果你更倾向于使用 Java Keystores 格式的秘钥文件，那么您也可如此做。
+如果您更倾向于使用 Java Keystores 格式的秘钥文件，那么您也可如此做。
 
 身份认证器需要classpath上或文件路径上加载一个秘钥库，以供
 `https://docs.oracle.com/javase/8/docs/api/javax/crypto/Mac.html[javax.crypto.Mac]`
@@ -381,7 +381,7 @@ keytool -genkeypair -keystore keystore.jceks -storetype jceks -storepass secret 
 === 读取令牌
 
 如果由第三方发布JWT令牌，而您没有私钥，
-在这种情况下你得公钥必须是PEM格式的。
+在这种情况下您的公钥必须是 PEM 格式的。
 
 [source,java]
 ----
@@ -396,7 +396,9 @@ AuthenticationProvider provider = JWTAuth.create(vertx, config);
 [[_authnauthz_with_jwt]]
 == AuthN/AuthZ 和 JWT
 
-通常情况下当你开发微服务的时候提供API服务。 这些API通常是提供给程序使用的，因此我们应该删除消费者中认证授权的部分。
+通常在开发微服务时，您希望应用程序能够使用 API ​​。 
+而这些 API 并不打算让普通人轻易看懂，
+因而我们应该删除所有对 API 进行身份验证的交互部分的内容。
 
 在这种情况下，可以使用HTTP作为使用该API的协议，并且HTTP协议已经定义了应该用于传递授权信息的标头 `Authorization` 。
 在大多数情况下令牌将以承载令牌（bearer tokens）的形式发送， 例如：`Authorization: Bearer some+base64+string`。
