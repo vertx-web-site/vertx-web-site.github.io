@@ -13,7 +13,7 @@
 
 使用Vert.x Service Proxy之前，您必须在您得项目当中添加 _依赖_ ：
 
-* Maven (在 `pom.xml` 文件中)：
+* Maven（在您的 `pom.xml` 文件中）：
 
 [source,xml,subs="+attributes"]
 ----
@@ -24,7 +24,7 @@
 </dependency>
 ----
 
-* Gradle (在 `build.gradle` file)：
+* Gradle（在您的 `build.gradle` 文件中）：
 
 [source,groovy,subs="+attributes"]
 ----
@@ -33,7 +33,7 @@ compile 'io.vertx:vertx-service-proxy:4.0.3'
 
 为了 *实现* 服务代理, 您还需要添加：
 
-* Maven (在 `pom.xml` 文件中)：
+* Maven（在您的 `pom.xml` 文件中）：
 
 [source,xml,subs="+attributes"]
 ----
@@ -45,14 +45,14 @@ compile 'io.vertx:vertx-service-proxy:4.0.3'
 </dependency>
 ----
 
-* Gradle版本小于 5 的情况(在 `build.gradle` 文件中)：
+* Gradle < 5 （在您的 `build.gradle` 文件中）：
 
 [source,groovy,subs="+attributes"]
 ----
 compileOnly 'io.vertx:vertx-codegen:4.0.3'
 ----
 
-* Gradle版本大于等于 5 (在 `build.gradle` 文件中)：
+* Gradle >= 5（在您的 `build.gradle` 文件中）：
 
 [source,groovy,subs="+attributes"]
 ----
