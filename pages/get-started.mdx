@@ -9,48 +9,48 @@ import { versions as docsVersions } from "../docs/metadata/all"
 export default Layout
 
 export const meta = {
-  title: "Get started"
+  title: "开始"
 }
 
-# Get started with Vert.x
+# 开始使用 Vert.x
 
-In this guide, you'll learn how to get started with a new Vert.x Web project.
+在本文中，您将学会如何开始编写一个新的 Vert.x Web 项目。
 
-Before starting, you need:
+在正式开始前，您需要准备：
 
-* JDK 1.8 or higher
-* A text editor or IDE
-* Maven 3 or higher
-* curl or [HTTPie](https://httpie.org/) or a browser to perform HTTP requests
+* JDK 1.8 或更高版本
+* 文本编辑器或 IDE
+* Maven 3 或更高版本
+* curl 或 [HTTPie](https://httpie.org/) ，或浏览器，用于执行 HTTP 请求
 
-## <span className="get-started-step">1</span> Bootstrap
+## <span className="get-started-step">1</span> 起步
 
-To create a new project, go to [start.vertx.io](https://start.vertx.io).
+打开 [start.vertx.io](https://start.vertx.io) 网页创建一个新项目。
 
 <a href="https://start.vertx.io" className="get-started-screenshot">
   <img src={require("../assets/get-started/starter-screenshot.png")} />
 </a>
 
-Choose the version of Vert.x you want to use, choose Java as the language, Maven as the build tool, and
-type the group id and artifact id you want. Then, add **Vert.x Web** as a dependency by typing it in the "Dependencies" text box. When you're done, hit the **Generate Project** button.
-Save the zip on your computer and unzip it in a folder of your choice.
+选择您所需的 Vert.x 版本，Language 选择 Java，Build 选择 Maven，
+然后输入您的 GroupId 和 ArtifactId。然后在 "Dependencies" 文本框输入 **Vert.x Web** 并将其选择添加为依赖。选择完成后，点击 **Generate Project** 按钮。
+将zip文件保存到您的电脑，最后解压到任意目录。
 
-The generated project contains:
+以上步骤生成的项目包括：
 
-* The Maven build descriptor `pom.xml` configured to build and run your application
-* A sample Verticle and a sample test using JUnit 5
-* An editor configuration to enforce code style
-* A Git configuration to ignore files
+* Maven 构建配置文件 `pom.xml` ，已配置如何构建、运行 Vert.x 程序
+* Verticle 示例，及对应的 JUnit5 单元测试
+* 指定了代码样式的 EditorConfig 插件配置
+* Git 的忽略文件配置（.gitignore）
 
-If you want to try it now, you can download this sample project using
-<a href={`https://start.vertx.io/starter.zip?vertxDependencies=vertx-web&vertxVersion=${docsVersions[0]}&jdkVersion=11`}>Maven</a> or using <a href={`https://start.vertx.io/starter.zip?vertxDependencies=vertx-web&buildTool=gradle&vertxVersion=${docsVersions[0]}&jdkVersion=11`}>Gradle</a>.
+您也可以从以下地址直接下载示例项目：
+<a href={`https://start.vertx.io/starter.zip?vertxDependencies=vertx-web&vertxVersion=${docsVersions[0]}&jdkVersion=11`}>Maven</a> 或 <a href={`https://start.vertx.io/starter.zip?vertxDependencies=vertx-web&buildTool=gradle&vertxVersion=${docsVersions[0]}&jdkVersion=11`}>Gradle</a>。
 
-## <span className="get-started-step">2</span> Code
+## <span className="get-started-step">2</span> 编码
 
-Open the project in the editor of your choice and navigate to `src/main/java/com/example/starter/MainVerticle.java`.
-This source file contains a sample `Verticle` (the Vert.x deployment unit) that starts an HTTP server.
-You're going to modify it to greet whoever performs requests to your server.
-Change the code as follows:
+在任意编辑器打开项目，然后打开 `src/main/java/com/example/starter/MainVerticle.java` 文件。
+源码中包含一个示例 `Verticle` （Vert.x 的最小部署单元），该 Veticle 启动一个HTTP服务。
+您需要修改这个文件，以响应所有请求。
+更改代码，如下所示：
 
 <CodeExamples>
 <CodeExample title="Java">
@@ -59,17 +59,17 @@ Change the code as follows:
 public class MainVerticle extends AbstractVerticle {
   @Override
   public void start() throws Exception {
-    // Create a Router
+    // 创建一个路由
     Router router = Router.router(vertx);
 
-    // Mount the handler for all incoming requests at every path and HTTP method
+    // 挂载 Handler，接收所有请求路径和请求方法的请求
     router.route().handler(context -> {
-      // Get the address of the request
+      // 获取请求的远程地址
       String address = context.request().connection().remoteAddress().toString();
-      // Get the query parameter "name"
+      // 获取请求参数 "name" 的取值
       MultiMap queryParams = context.queryParams();
       String name = queryParams.contains("name") ? queryParams.get("name") : "unknown";
-      // Write a json response
+      // 写json响应
       context.json(
         new JsonObject()
           .put("name", name)
@@ -78,13 +78,13 @@ public class MainVerticle extends AbstractVerticle {
       );
     });
 
-    // Create the HTTP server
+    // 创建 HTTP 服务
     vertx.createHttpServer()
-      // Handle every request using the router
+      // 使用路由处理所有请求
       .requestHandler(router)
-      // Start listening
+      // 开始监听端口
       .listen(8888)
-      // Print the port
+      // 打印监听的端口
       .onSuccess(server ->
         System.out.println(
           "HTTP server started on port " + server.actualPort()
@@ -101,17 +101,17 @@ public class MainVerticle extends AbstractVerticle {
 ```kotlin
 class MainVerticle : AbstractVerticle() {
   override fun start() {
-    // Create a Router
+    // 创建一个路由
     val router = Router.router(vertx)
 
-    // Mount the handler for all incoming requests at every path and HTTP method
+    // 挂载 Handler，接收所有请求路径和请求方法的请求
     router.route().handler { context ->
-      // Get the address of the request
+      // 获取请求的远程地址
       val address = context.request().connection().remoteAddress().toString()
-      // Get the query parameter "name"
+      // 获取请求参数 "name" 的取值
       val queryParams = context.queryParams()
       val name = queryParams.get("name") ?: "unknown"
-      // Write a json response
+      // 写json响应
       context.json(
           json {
             obj(
@@ -123,13 +123,13 @@ class MainVerticle : AbstractVerticle() {
       )
     }
 
-    // Create the HTTP server
+    // 创建 HTTP 服务
     vertx.createHttpServer()
-        // Handle every request using the router
+        // 使用路由处理所有请求
         .requestHandler(router)
-        // Start listening
+        // 开始监听端口
         .listen(8888)
-        // Print the port
+        // 打印监听的端口
         .onSuccess { server ->
           println("HTTP server started on port " + server.actualPort())
         }
@@ -145,17 +145,17 @@ class MainVerticle : AbstractVerticle() {
 class MainVerticle extends AbstractVerticle {
   @Override
   void start() {
-    // Create a Router
+    // 创建一个路由
     def router = Router.router(vertx)
 
-    // Mount the handler for all incoming requests at every path and HTTP method
+    // 挂载 Handler，接收所有请求路径和请求方法的请求
     router.route().handler { context ->
-      // Get the address of the request
+      // 获取请求的远程地址
       def address = context.request().connection().remoteAddress().toString()
-      // Get the query parameter "name"
+      // 获取请求参数 "name" 的取值
       def queryParams = context.queryParams()
       String name = queryParams.get("name") ?: "unknown"
-      // Write a json response
+      // 写json响应
       context.json(
         new JsonObject()
           .put("name", name)
@@ -164,13 +164,13 @@ class MainVerticle extends AbstractVerticle {
       )
     }
 
-    // Create the HTTP server
+    // 创建 HTTP 服务
     vertx.createHttpServer()
-      // Handle every request using the router
+      // 使用路由处理所有请求
       .requestHandler(router)
-      // Start listening
+      // 开始监听端口
       .listen(8888)
-      // Print the port
+      // 打印监听的端口
       .onSuccess { server ->
         println("HTTP server started on port " + server.actualPort())
       }
@@ -181,19 +181,19 @@ class MainVerticle extends AbstractVerticle {
 </CodeExample>
 </CodeExamples>
 
-This code creates a Vert.x Web Router (the object used to route HTTP requests to specific request handlers)
-and starts an HTTP Server on port `8888`. On each request, it returns a JSON object containing the address of the request, the query parameter `name`, and a greeting message.
+以上代码创建了一个 Vert.x Web 路由（用于将HTTP请求路由到指定的请求处理器）
+并以 `8888` 端口启动HTTP服务器。它对所有请求都返回一个JSON对象，内容包括请求的地址、 `name` 参数取值，以及欢迎信息。
 
-## <span className="get-started-step">3</span> Run
+## <span className="get-started-step">3</span> 运行
 
-To run the code, open a terminal and navigate to your project folder.
-Build the application as follows:
+运行代码需要打开终端，并进入项目的目录。
+通过以下命令构建应用：
 
 ```better-shell
 $ mvn package
 ```
 
-Then, run the application:
+然后，运行应用：
 
 ```better-shell
 $ mvn exec:java
@@ -202,7 +202,7 @@ apr 03, 2020 11:49:21 AM io.vertx.core.impl.launcher.commands.VertxIsolatedDeplo
 INFO: Succeeded in deploying verticle
 ```
 
-Now that the server is up and running, try to send a request:
+现在服务已经启动了，可以发送请求进行测试：
 
 <CodeExamples>
 <CodeExample title="HTTPie">
@@ -272,18 +272,18 @@ $ curl -v http://localhost:8888\?name\="Francesco"
 </CodeExample>
 </CodeExamples>
 
-## <span className="get-started-step">4</span> Go further
+## <span className="get-started-step">4</span> 进一步了解
 
-Now that you have had a taste of how easy and fun it is to get started with Vert.x, here are a few pointers to help guide you further along your journey:
+现在您已经体验了 Vert.x 入门的乐趣，以下的指南可以帮助您进一步了解 Vert.x ：
 
 <Cards columns={3}>
-  <Card href="/introduction-to-vertx-and-reactive/" title="Intro">
-    Read our short introduction into reactive programming with Eclipse Vert.x
+  <Card href="/introduction-to-vertx-and-reactive/" title="简介">
+    阅读关于使用 Eclipse Vert.x 进行响应式编程的简介
   </Card>
-  <Card href="/docs/" title="Documentation">
-    Deep dive through the documentation to check out all Vert.x modules
+  <Card href="/docs/" title="文档">
+    深入研究文档，了解所有 Vert.x 模块
   </Card>
   <Card href="https://how-to.vertx.io/" title="How-tos">
-    Check out the Vert.x How-tos to get pragmatic guides for specific topics
+    Vert.x How-tos：获取特定主题的实用指南
   </Card>
 </Cards>

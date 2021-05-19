@@ -3,91 +3,91 @@ import Link from "next/link"
 export default Layout
 
 export const meta = {
-  title: "Vert.x 和 Reactive简介"
+  title: "Vert.x 和响应式编程简介"
 }
 
-# Eclipse Vert.x and reactive in just a few words
+# Vert.x 和响应式编程简介
 
-Eclipse Vert.x is a tool-kit for building **reactive** applications on the JVM.
-Reactive applications are both **scalable** as workloads grow, and **resilient** when failures arise.
-A reactive application is **responsive** as it keeps latency under control by making efficient usage of system resources, and by protecting itself from errors.
+Eclipse Vert.x 是JVM上构建 **响应式** 应用的工具。
+响应式应用既可以随着工作负载的增长而 **扩展** ，又可以在出现故障时 **弹性回复** 。
+响应式应用是 **即时响应** 的，因为它能有效利用系统资源并保护自身免受错误影响，从而使延迟可控。
 
 <img src={require("../assets/introduction/microservices.svg")} alt="Microservices" />
 
-Vert.x is backed by a large ecosystem of reactive modules with just anything you need when writing modern services: a comprehensive web stack, reactive database drivers, messaging, event streams, clustering, metrics, distributed tracing and more.
+Vert.x 背靠庞大的响应式模块生态系统，具有编写现代服务所需的一切：全面的Web技术栈，响应式数据库驱动程序、消息队列、事件流、集群支持、指标监控、分布式跟踪等等。
 
-Vert.x is a tool-kit and not a framework that ships with black magic: **what you write is actually what you get to execute**, as simple as that.
+Vert.x 是工具包，而不是暗含黑魔法的框架：**所写即所得**，就这么简单。
 
-So what makes Vert.x a great option for writing your next **cloud-native** or **[twelve-factor](https://12factor.net/)** app?
+那么，是什么使 Vert.x 成为编写 **云原生** 和 **[12因素（12-Factor）](https://12factor.net/)** 应用程序的最佳选择？
 
-## In the beginning, there were threads...
+## 从前，有一些线程...
 
-The classic approach to concurrency is to use **threads**.
-Multiple threads can live within a single **process**, perform **concurrent** work, and **share** the same memory space.
+实现并发的经典方法是使用 **线程**。
+多个线程可以在同一个 **进程** 中存活，**并行** 地执行工作，并 **共享** 同一片内存空间。
 
 <img src={require("../assets/introduction/threads.svg")} alt="Threads" className="intro-img-threads" />
 
-Most application and service development frameworks are based on multi-threading.
-On the surface, the model of having **1 thread per connection** is reassuring because developers can rely on traditional **imperative style** code.
+大多数应用程序和服务开发框架都基于多线程。
+从表面上看，**每个连接对应一个线程** 的模型令人放心，因为开发人员可以使用传统的 **命令式** 代码。
 
-This is fine, especially if you forget about those silly mistakes you can make with multi-threading and memory access ...
+这一切挺好的，如果使用多线程进行内存访问时可能犯的那些愚蠢错误可以忽略的话……
 
-## Multi-threading is "simple" but limited
+## 多线程很简单，但有局限性
 
-What happens as the workload grows beyond moderate workloads?
-[(see the C10k problem)](https://en.wikipedia.org/wiki/C10k_problem)
+当工作负载超出中等水平时，会发生什么？
+[（请参阅C10k问题）](https://en.wikipedia.org/wiki/C10k_problem)
 
-The answer is simple: you start making your operating system kernel **suffer** because there is too much **context switching** work with in-flight requests.
+答案很简单：操作系统内核变得 **非常痛苦**，因为多线程处理这些请求会产生太多的 **上下文切换** 动作。
 
 <img src={require("../assets/introduction/blocking-io.svg")} alt="Blocking I/O" />
 
-Some of your threads will be **blocked** because they are waiting on I/O operations to complete, some will be **ready** to handle I/O results, and some will be in the middle of doing CPU-intensive tasks.
+一些线程正在等待I/O操作完成而被 **阻塞**，一些线程已 **准备好** 处理I/O结果，而一些线程正在执行CPU密集型操作任务。
 
-Modern kernels have very good schedulers, but you cannot expect them to deal with 50&thinsp;000 threads as easily as they would do with 5&thinsp;000. Also, threads aren't cheap: creating a thread takes a few milliseconds, and a new thread eats about 1MB of memory.
+现代内核具有非常好的调度程序，但是不能指望它们处理50&thinsp;000个线程还会像处理5&thinsp;000个线程那样轻松。同样地，创建线程的成本也不低：创建线程需要花费若干毫秒，而且新线程会消耗大约1MB的内存。
 
-## Asynchronous programming: scalability and resource efficiency
+## 异步编程：可伸缩性和资源利用率
 
-Processing more concurrent connections with less threads is possible when you use **asynchronous I/O**.
-Instead of blocking a thread when an I/O operation occurs, we move on to another task which is ready to progress, and resume the initial task later when it is ready.
+当您使用 **异步I/O** 时，可以用更少的线程处理更多的并发连接。
+当一个任务发生了I/O操作时，异步I/O不会阻塞线程，而是执行其他待处理的任务，待到I/O结果准备好后再继续执行该任务。
 
-Vert.x multiplexes concurrent workloads using **event loops**.
+Vert.x 使用 **事件循环（eventloop）** 多路复用并发处理工作负载。
 
 <img src={require("../assets/introduction/event-loop.svg")} alt="Event loop" />
 
-Code that runs on event loops should not perform blocking I/O or lengthy processing. But don't worry if you have such code: Vert.x has worker threads and APIs to process events back on an event loop.
+在事件循环上运行的代码不应执行阻塞I/O及长时间的处理逻辑。但是，如果有这样的代码，也无需担心，因为 Vert.x 具有 Worker 线程和对应API，可以在事件循环中处理这样的代码。
 
-## Pick the best asynchronous programming model for your problem domain
+## 为您的需求选择最佳的异步编程模型
 
-We know that asynchronous programming requires more efforts.
-At the core of Vert.x, we support **callbacks** and **promises/futures**, the latter being a simple and elegant model for chaining asynchronous operations.
+我们知道异步编程需要更多的努力。
+Vert.x core 支持 **回调** 和 **Promise/Future**，后者是用于链接异步操作的简单优雅的模型。
 
-Advanced reactive programming is possible with [RxJava](https://github.com/ReactiveX/RxJava), and if you prefer something closer to traditional imperative programming, then we are happy to provide you with first-class support of [Kotlin coroutines](https://kotlinlang.org/docs/reference/coroutines-overview.html).
+[RxJava](https://github.com/ReactiveX/RxJava) 可以进行高级响应式编程；如果您更喜欢传统的命令式编程，那么我们也提供了 [Kotlin协程](https://kotlinlang.org/docs/reference/coroutines-overview.html) 的头等支持。
 
 <img src={require("../assets/introduction/async.svg")} alt="Asynchronous programming" />
 
-Vert.x supports many asynchronous programming models: choose what works best for each problem you need to solve!
+Vert.x 支持许多异步编程模型，请根据您需要解决的具体问题去选择最佳的模型！ 
 
-## Don't let failures ruin responsiveness
+## 不要让失败破坏响应能力
 
-Failures happen all the time.
-A database will go down, the network will go down, or some service you depend on will become unresponsive.
+失败总会发生。
+数据库会宕机，网络会断开，或者您依赖的某些服务会无法响应。
 
 <img src={require("../assets/introduction/failures.svg")} alt="Failures" />
 
-Vert.x offers tools to keep latency under control, including a simple and efficient **circuit breaker**.
+Vert.x 提供了控制延迟的工具，包括简单有效的 **断路器**。
 
-## A rich ecosystem
+## 丰富的生态系统
 
-The _Eclipse Vert.x stack_ contains modules for building modern, end-to-end reactive services.
-From efficient reactive database clients to event streaming, messaging and web stacks, the Eclipse Vert.x project has you covered:
+_Eclipse Vert.x 技术栈_ 包含了用于构建现代应用程、端到端响应式服务的模块。
+从高效的响应式数据库客户端，到事件流、消息传递和 Web 技术栈等，Eclipse Vert.x 项目覆盖了： 
 
 <img src={require("../assets/introduction/ecosystem.svg")} alt="Ecosystem" />
 
-Can't find what you are looking for?
+找到不你想要的？
 
-* [The Reactiverse](https://reactiverse.io) is a larger community around the reactive ecosystems where you can find more client and modules.
-* The [Vert.x Awesome](https://github.com/vert-x3/vertx-awesome) repository provides links to even more interesting projects from the larger open-source community!
+* [The Reactiverse](https://reactiverse.io) 是一个围绕响应性生态系统的大型社区，您可以在其中找到更多的客户端和模块。
+* [Vert.x Awesome](https://github.com/vert-x3/vertx-awesome) 仓库，提供了更多来自大型开源社区的更有趣项目的链接！
 
-## Ready to code?
+## 准备好编写代码了吗？
 
-Follow along with our <Link href="/get-started" passHref={true}><a>getting started</a></Link> page!
+请参考 <Link href="/get-started" passHref={true}><a>开始</a></Link> 页面进行操作!
