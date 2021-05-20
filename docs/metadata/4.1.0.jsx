@@ -43,7 +43,7 @@ insert(docs, "vertx-sql-client-templates",
        }
  )
 
- insert(docs, "vertx-rx-java2",
+insert(docs, "vertx-rx-java2",
      {
          id: "vertx-rx-java3",
          name: "RxJava 3",
@@ -52,6 +52,19 @@ insert(docs, "vertx-sql-client-templates",
          href: "/vertx-rx/java3/",
          repository: "https://github.com/vert-x3/vertx-rx",
          edit: "https://github.com/vert-x3/vertx-rx/tree/master/rx-java3/src/main/asciidoc",
+         label: "Technical Preview"
+       }
+)
+
+insert(docs, "vertx-web-graphql",
+     {
+         id: "vertx-web-proxy",
+         name: "Web Proxy",
+         description: "Mounts a HTTP proxy in a web router.",
+         category: "web",
+         href: "/vertx-web-proxy/java/",
+         repository: "https://github.com/vert-x3/vertx-web",
+         edit: "https://github.com/vert-x3/vertx-web/tree/master/vertx-web-proxy/src/main/asciidoc",
          label: "Technical Preview"
        }
 )
