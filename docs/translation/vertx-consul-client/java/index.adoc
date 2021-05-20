@@ -1,13 +1,13 @@
-= Vert.x Consul Client
+= Vert.x Consul 客户端
 
-https://www.consul.io[Consul] is a tool for discovering and configuring services in your infrastructure.
-A Vert.x client allowing applications to interact with a Consul system via blocking and non-blocking HTTP API.
+https://www.consul.io[Consul] 是一个在你的应用架构中提供服务发现和配置管理的工具。
+Vert.x 的 Consul 客户端允许应用与 Consul 系统通过阻塞或非阻塞的 HTTP 接口交互。
 
-== Using Vert.x Consul Client
+== 使用 Vert.x Consul 客户端
 
-To use this project, add the following dependency to the _dependencies_ section of your build descriptor:
+为了使用该项目， 将以下依赖添加到你的构建描述文件的 _依赖配置_ 中：
 
-* Maven (in your `pom.xml`):
+* Maven (在你的 `pom.xml` 中):
 
 [source,xml,subs="+attributes"]
 ----
@@ -18,23 +18,23 @@ To use this project, add the following dependency to the _dependencies_ section 
 </dependency>
 ----
 
-* Gradle (in your `build.gradle` file):
+* Gradle (在你的 `build.gradle` 文件中):
 
 [source,groovy,subs="+attributes"]
 ----
 compile 'io.vertx:vertx-consul-client:4.0.3'
 ----
 
-== Creating a client
+== 创建客户端
 
-Just use factory method:
+只需使用工厂方法即可创建：
 
 [source,java]
 ----
 ConsulClient client = ConsulClient.create(vertx);
 ----
 
-Also the client can be configured with an options.
+Consul 客户端也可以配置选项
 
 [source,java]
 ----
@@ -44,25 +44,25 @@ ConsulClientOptions options = new ConsulClientOptions()
 ConsulClient client = ConsulClient.create(vertx, options);
 ----
 
-The following configuration is supported by the consul client:
+Consul 客户端支持以下配置：
 
-`host`:: Consul host. Defaults to `localhost`
-`port`:: Consul HTTP API port. Defaults to `8500`
-`timeout`:: Sets the amount of time (in milliseconds) after which if the request does not return any data
-within the timeout period an failure will be passed to the handler and the request will be closed.
-`aclToken`:: The ACL token. When provided, the client will use this token when making requests to the Consul
-by providing the "?token" query parameter. When not provided, the empty token, which maps to the 'anonymous'
-ACL policy, is used.
-`dc`:: The datacenter name. When provided, the client will use it when making requests to the Consul
-by providing the "?dc" query parameter. When not provided, the datacenter of the consul agent is queried.
+`host`:: Consul 的主机地址。 默认是 `localhost`
+`port`:: Consul 的 HTTP 接口地址。 默认是 `8500`
+`timeout`:: 设置超时时间 (单位为毫秒) 如果在超时时间内请求没有返回任何数据，那么
+处理器会收到一个失败的结果，请求也会被关闭
+`aclToken`:: ACL 签名。 如果设置了该参数， 客户端在请求 Consul 时会在
+查询参数中携带 "?token" 参数。 如果没有提供，那么签名为空，会使用对应的 '匿名'
+ACL 策略
+`dc`:: 数据中心名称。 如果设置了该参数， 客户端在请求 Consul 时会在
+查询参数中携带 "?dc" 参数。 如果没有提供，那么会默认查询当前的 Consul agent 的数据中心
 
-ConsulClient options extends WebClientOptions from `vertx-web-client` module,
-therefore a lot of settings are available. Please see the documentation.
+ConsulClient 的选项类继承了 `vertx-web-client` 模块的 WebClientOptions 类，
+因此还可以提供很多设置。 请参阅相关文档。
 
-== Using the API
+== 使用接口
 
-The client API is represented by `link:../../apidocs/io/vertx/ext/consul/ConsulClient.html[ConsulClient]`. The API is very similar to Consul's
-HTTP API that described in https://www.consul.io/docs/agent/http.html[Consul API docs]
+客户端接口参见 `link:../../apidocs/io/vertx/ext/consul/ConsulClient.html[ConsulClient]`。 接口的格式与 Consul 的
+HTTP 接口非常相像，Consul 的 HTTP 接口参见 https://www.consul.io/docs/agent/http.html[Consul API 文档]
 
 === Blocking queries
 
