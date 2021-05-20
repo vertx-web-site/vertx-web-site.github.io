@@ -64,14 +64,14 @@ ConsulClient 的选项类继承了 `vertx-web-client` 模块的 WebClientOptions
 客户端接口参见 `link:../../apidocs/io/vertx/ext/consul/ConsulClient.html[ConsulClient]`。 接口的格式与 Consul 的
 HTTP 接口非常相像，Consul 的 HTTP 接口参见 https://www.consul.io/docs/agent/http.html[Consul API 文档]
 
-=== Blocking queries
+=== 阻塞查询
 
-Certain endpoints support a feature called a "blocking query". A blocking query is used to wait for a potential
-change using long polling. Any endpoint that supports blocking also provide a unique identifier (index) representing
-the current state of the requested resource. The following configuration is used to perform blocking queries:
+Consul 的某些接口支持名为 "阻塞查询" 的特性。 阻塞查询基于长轮询以查询结果的潜在
+变化。 每个支持阻塞查询的接口都提供了一个唯一标识 (index)，以代表
+所请求资源的当前状态。 以下参数配置用于阻塞查询：
 
-`index`:: value indicating that the client wishes to wait for any changes subsequent to that index.
-`wait`:: parameter specifying a maximum duration for the blocking request. This is limited to 10 minutes.
+`index`:: 该值用于表示 Consul 客户端期望看到的所请求资源的 index 的变化
+`wait`:: 该值用于表示阻塞查询的最大时间。 该值最大为 10 分钟。
 
 [source,java]
 ----
@@ -80,8 +80,8 @@ BlockingQueryOptions opts = new BlockingQueryOptions()
   .setWait("1m");
 ----
 
-A critical note is that the return of a blocking request is *no guarantee* of a change.
-It is possible that the timeout was reached or that there was an idempotent write that does not affect the result of the query.
+要注意的是，阻塞查询不能 *严格保证* 所返回的数据确实是发生了变化的。
+很有可能的情况是，阻塞查询的返回只是因为超时时间到了或发生了并没有改变数据内容的写入。
 
 == Key/Value Store
 
