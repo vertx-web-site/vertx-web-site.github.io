@@ -51,7 +51,7 @@ insert(docs, "vertx-sql-client-templates",
          category: "reactive",
          href: "/vertx-rx/java3/",
          repository: "https://github.com/vert-x3/vertx-rx",
-         edit: "https://github.com/eclipse-vertx/vertx-sql-client/tree/master/vertx-mssql-client/src/main/asciidoc",
+         edit: "https://github.com/vert-x3/vertx-rx/tree/master/rx-java3/src/main/asciidoc",
          label: "Technical Preview"
        }
 )
@@ -62,6 +62,6 @@ insert(docs, "vertx-sql-client-templates",
 docs.prerelease = true
 
 // force title
-docs.title = "4.1.0.Beta1"
+docs.title = "4.1.0.CR1"
 
 export default docs
