@@ -16,7 +16,7 @@ Here is an overview of the most important features supported in Vert.x 4.1.
 
 ## Reactive Microsoft SQL Server Client
 
-The [Reactive Microsoft SQL Server Client](https://vertx.io/docs/vertx-mssql-client/java/) joins the [database clients](https://vertx.io/docs/#databases) family!
+The [Reactive Microsoft SQL Server Client](https://vertx.io/docs/4.1.0/vertx-mssql-client/java/) joins the [database clients](https://vertx.io/docs/#databases) family!
 
 In this first release, several common data types are supported, as well as prepared statements and transactions.
 
@@ -24,7 +24,7 @@ In this first release, several common data types are supported, as well as prepa
 
 It is very easy to write an HTTP proxy with Vert.x, yet there are a lot of things that [proxies must do](https://www.mnot.net/blog/2011/07/11/what_proxies_must_do).
 
-Vert.x HTTP Proxy is a new component of the stack that aims to make it easy to write proxies.
+[Vert.x HTTP Proxy](https://vertx.io/docs/4.1.0/vertx-http-proxy/java/) is a new component of the stack that aims to make it easy to write proxies.
 
 You can create a proxy as follows:
 
@@ -43,11 +43,13 @@ HttpProxy proxy = HttpProxy.reverseProxy(proxyClient).originSelector(
 );
 ```
 
+[Vert.x Web Proxy](https://vertx.io/docs/4.1.0/vertx-web-proxy/java/) integrates the proxy with Vert.x Web.
+
 This component is in tech preview and will receive more features over time.
 
 ## RxJava 3
 
-Vert.x has been supporting RxJava for many years, the RxJava 3 support has landed in 4.1
+Vert.x has been supporting RxJava for many years, the [RxJava 3 support](https://vertx.io/docs/4.1.0/vertx-rx/java3/) has landed in 4.1
 
 The rxified API works like previous versions, however regular methods are exposed with RxJava types
 instead of callbacks since Vert.x 4 async model is based on futures.
@@ -78,7 +80,7 @@ server.requestHandler(req -> {
 
 ## Open Telemetry support
 
-Open Telemetry tracing is a new and noticeable tracing integration available in 4.1.
+[Open Telemetry](https://vertx.io/docs/4.1.0/vertx-opentelemetry/java/) tracing is a new and noticeable tracing integration available in 4.1.
 
 ## Service proxy with futures
 
@@ -122,7 +124,7 @@ In addition, the internal pool is now used by the Vert.x SQL Client and Vert.x M
 
 ## Web Session Storage with Infinispan
 
-Vert.x Web [session storage](https://vertx.io/docs/vertx-web/java/#_session_stores) is pluggable.
+Vert.x Web [session storage](https://vertx.io/docs/4.1.0/vertx-web/java/#_session_stores) is pluggable.
 In this version, a new session store with [Infinispan](https://infinispan.org/) in-memory data grid is available.
 
 It is implemented on top of the Infinispan client so it can be used with either standalone or clustered Vert.x applications.
