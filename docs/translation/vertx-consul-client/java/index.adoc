@@ -254,15 +254,15 @@ consulClient.deleteValues("prefix", res -> {
 });
 ----
 
-== Services
+== 服务
 
-One of the main goals of service discovery is to provide a catalog of available services.
-To that end, the agent provides a simple service definition format to declare the availability of a service
-and to potentially associate it with a health check.
+服务发现的主要目的之一是提供可用的服务清单。
+为了实现该目标， agent 提供了一个简单的服务声明格式以便说明当前服务是否可用
+并将它与健康检查潜在地关联起来。
 
-=== Service registering
+=== 服务注册
 
-A service definition must include a `name` and may optionally provide an `id`, `tags`, `address`, `port`, and `checks`.
+服务的声明格式必须包含一个 `name` ，还可以选择设置 `id`， `tags`， `address`， `port`， 和 `checks` 等属性
 
 [source,java]
 ----
@@ -275,18 +275,18 @@ ServiceOptions opts = new ServiceOptions()
   .setPort(8048);
 ----
 
-`name`:: the name of service
-`id`:: the `id` is set to the `name` if not provided. It is required that all services have a unique ID per node,
-so if names might conflict then unique IDs should be provided.
-`tags`:: list of values that are opaque to Consul but can be used to distinguish between primary or secondary nodes,
-different versions, or any other service level labels.
-`address`:: used to specify a service-specific IP address. By default, the IP address of the agent is used,
-and this does not need to be provided.
-`port`:: used as well to make a service-oriented architecture simpler to configure; this way,
-the address and port of a service can be discovered.
-`checks`:: associated health checks
+`name`:: 服务的名称
+`id`:: 如果没有设置 `name` 则会使用 `id` 替代。 节点的每个服务都需要使用唯一的 ID，
+如果 `name` 发生了冲突，那么会使用 `id` 替换。
+`tags`:: 一组数据，对 Consul 来说没有意义，但是用于区分服务是不是主要节点或是次要节点
+不同的版本，或者服务的其他不同等级标记
+`address`:: 用于区分服务的 IP 地址。 默认情况下，使用 agent 的地址，
+不需要手动设置
+`port`:: 也是用于简要配置面向服务的结构； 这样，
+通过配置的地址和端口可以发现一个服务
+`checks`:: 关联的健康检查
 
-These options used to register service in catalog:
+这些设置用于将服务注册到清单中：
 
 [source,java]
 ----
@@ -300,9 +300,9 @@ consulClient.registerService(opts, res -> {
 });
 ----
 
-=== Service discovery
+=== 服务发现
 
-Consul client allows to obtain actual list of the nodes providing a service
+Consul 客户端可以当前可以提供服务的节点列表：
 
 [source,java]
 ----
@@ -321,8 +321,8 @@ consulClient.catalogServiceNodes("serviceName", res -> {
 });
 ----
 
-It is possible to obtain this list with the statuses of the associated health checks.
-The result can be filtered by check status.
+获取节点列表时还可以同时获取相关联的健康检查的状态。
+可以使用健康检查的状态过滤结果。
 
 [source,java]
 ----
@@ -341,7 +341,7 @@ consulClient.healthServiceNodes("serviceName", passingOnly, res -> {
 });
 ----
 
-There are additional parameters for services queries
+查询服务时还可以设置以下参数：
 
 [source,java]
 ----
@@ -351,13 +351,13 @@ ServiceQueryOptions queryOpts = new ServiceQueryOptions()
   .setBlockingOptions(new BlockingQueryOptions().setIndex(lastIndex));
 ----
 
-`tag`:: by default, all nodes matching the service are returned.
-The list can be filtered by tag using the `tag` query parameter
-`near`:: adding the optional `near` parameter with a node name will sort the node list in ascending order
-based on the estimated round trip time from that node. Passing `near`=`_agent` will use the agent's node for the sort.
-`blockingOptions`:: the blocking qyery options
+`tag`:: 默认情况下，会返回所有匹配服务的节点。
+你可以指定 `tag` 查询参数以根据服务的标签过滤返回结果
+`near`:: 添加可选的 `near` 参数为一个节点名，那么返回结果会根据
+到该节点的 rtt（round trip time，即往返时间）升序排序。 如果设置 `near`=`_agent` 那么会使用当前节点作为排序的依据。
+`blockingOptions`:: 阻塞查询参数
 
-Then the request should look like
+请求如下所示：
 
 [source,java]
 ----
@@ -371,9 +371,9 @@ consulClient.healthServiceNodesWithOptions("serviceName", passingOnly, queryOpts
 });
 ----
 
-=== Deregister service
+=== 取消注册服务
 
-Service can be deregistered by its ID:
+服务可以通过它的 ID 取消注册：
 
 [source,java]
 ----
