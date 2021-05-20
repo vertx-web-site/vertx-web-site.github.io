@@ -83,17 +83,17 @@ BlockingQueryOptions opts = new BlockingQueryOptions()
 要注意的是，阻塞查询不能 *严格保证* 所返回的数据确实是发生了变化的。
 很有可能的情况是，阻塞查询的返回只是因为超时时间到了或发生了并没有改变数据内容的写入。
 
-== Key/Value Store
+== 键值对存储
 
-The KV endpoints are used to access Consul's simple key/value store, useful for storing service configuration or other metadata.
-The following endpoints are supported:
+键值对接口用于访问 Consul 内部的简单键值对存储，这对保存服务的配置或其他元数据很有用。
+以下是可以使用的接口
 
-* To manage updates of individual keys, deletes of individual keys or key prefixes, and fetches of individual keys or key prefixes
-* To manage updates or fetches of multiple keys inside a single, atomic transaction
+* 管理单个键值对的更新，删除和获取，以及根据键的前缀匹配的同样操作
+* 管理通过单个原子性的事务操作来获取和更新键值对的操作
 
-=== Get key-value pair from store
+=== 从存储中获取键值对
 
-Consul client can return the value for certain key
+Consul 客户端可以返回一个键的值
 
 [source,java]
 ----
@@ -107,7 +107,7 @@ consulClient.getValue("key", res -> {
 });
 ----
 
-...or it can return all key-value pairs with the given prefix
+...或者返回所有匹配某一给定前缀的键的值
 
 [source,java]
 ----
@@ -123,18 +123,18 @@ consulClient.getValues("prefix", res -> {
 });
 ----
 
-The returned key-value object contains these fields (see https://www.consul.io/docs/agent/http/kv.html#single[documentation]):
+返回的键值对数据包括以下字段 (参见 https://www.consul.io/docs/agent/http/kv.html#single[文档]):
 
-`createIndex`:: the internal index value that represents when the entry was created.
-`modifyIndex`:: the last index that modified this key
-`lockIndex`:: the number of times this key has successfully been acquired in a lock
-`key`:: the key
-`flags`:: the flags attached to this entry. Clients can choose to use this however makes
-sense for their application
-`value`:: the value
-`session`:: the session that owns the lock
+`createIndex`:: 内部的创建索引，表示该键值对何时被创建的
+`modifyIndex`:: 更新索引，该键值对最后一次被修改时的索引
+`lockIndex`:: 该键被成功获取锁的次数
+`key`:: 键
+`flags`:: 该键值对的标志位。 客户端可以选择使用标识位
+来表示应用业务中的一些信息
+`value`:: 值
+`session`:: 拥有锁的会话
 
-The modify index can be used for blocking queries:
+更新索引可以用于阻塞查询：
 
 [source,java]
 ----
@@ -152,7 +152,7 @@ consulClient.getValueWithOptions("key", opts, res -> {
 });
 ----
 
-=== Put key-value pair to store
+=== 保存键值对
 
 [source,java]
 ----
@@ -166,7 +166,7 @@ consulClient.putValue("key", "value", res -> {
 });
 ----
 
-Put request with options also accepted
+保存请求也可以接受参数
 
 [source,java]
 ----
@@ -186,29 +186,29 @@ consulClient.putValueWithOptions("key", "value", opts, res -> {
 });
 ----
 
-The list of the query options that can be used with a `PUT` request:
+以下是 `PUT` 请求可以接收的参数
 
-`flags`:: This can be used to specify an unsigned value between `0` and `2^64^-1`.
-Clients can choose to use this however makes sense for their application.
-`casIndex`:: This flag is used to turn the PUT into a Check-And-Set operation. This is very useful as a building
-block for more complex synchronization primitives. If the index is `0`, Consul will only put the key if it does
-not already exist. If the index is non-zero, the key is only set if the index matches the ModifyIndex of that key.
-`acquireSession`:: This flag is used to turn the PUT into a lock acquisition operation. This is useful
-as it allows leader election to be built on top of Consul. If the lock is not held and the session is valid,
-this increments the LockIndex and sets the Session value of the key in addition to updating the key contents.
-A key does not need to exist to be acquired. If the lock is already held by the given session, then the LockIndex
-is not incremented but the key contents are updated. This lets the current lock holder update the key contents
-without having to give up the lock and reacquire it.
-`releaseSession`:: This flag is used to turn the PUT into a lock release operation. This is useful when paired
-with `acquireSession` as it allows clients to yield a lock. This will leave the LockIndex unmodified but will clear
-the associated Session of the key. The key must be held by this session to be unlocked.
+`flags`:: 可以指定一个无符号数，范围是 `0` 到 `2^64^-1` 
+客户端可以选择使用标识位来表示应用业务中的一些信息
+`casIndex`:: 该标志位用于将 PUT 操作转为一次检查设置（Check-And-Set）操作。 如果你需要构建一个
+拥有非常复杂同步原语的操作的话这回非常有用。 如果该索引值为 `0`， Consul 只会在键不存在的情况下
+设置该键值对。 如果该索引不为 0， 该键值对只会在该索引与更新索引相匹配的时候被设置。
+`acquireSession`:: 该标志位用于将 PUT 操作转为一次需要获取锁的操作。 这个参数可以让
+Consul 在顶层发生领导选举。 如果锁未被获取并且会话有效，
+那么该操作会增加锁索引（LockIndex） 并设置该键值对所属的会话以更新该键的值。
+获取锁时键不一定存在。 如果锁已经被设置的会话持有， 那么锁索引
+不会增加，但是键的内容还是会更新。 这是因为该会话当前已经拥有锁，可以直接更新键的内容，
+而不用再释放锁并重新获取
+`releaseSession`:: 该标志位用于将 PUT 操作转换为一次释放锁的操作。 跟 `acquireSession` 一起搭配
+使用的话会很有用，这样可以让客户端生成一个锁。 该操作不会修改锁索引，但会释放
+与该键相关联的会话。 前提是该键的锁正在被该会话持有。
 
-=== Transactions
+=== 事务
 
-When connected to Consul 0.7 and later, client allows to manage updates or fetches of multiple keys
-inside a single, atomic transaction. KV is the only available operation type, though other types of operations
-may be added in future versions of Consul to be mixed with key/value operations
-(see https://www.consul.io/docs/agent/http/kv.html#txn[documentation]).
+当连接到 Consul 的 0.7 或更高的版本时， 客户端可以使用单次原子性的事务操作
+来管理对多个键的更新和查询。 事务操作目前只支持键值对， 其他类型的
+事务操作可能会在以后的版本中支持。
+(参见 https://www.consul.io/docs/agent/http/kv.html#txn[文档]).
 
 [source,java]
 ----
@@ -226,9 +226,9 @@ consulClient.transaction(request, res -> {
 });
 ----
 
-=== Delete key-value pair
+=== 删除键值对
 
-At last, Consul client allows to delete key-value pair from store:
+最后， Consul 允许你从存储中删除键值对
 
 [source,java]
 ----
@@ -241,7 +241,7 @@ consulClient.deleteValue("key", res -> {
 });
 ----
 
-...or all key-value pairs with corresponding key prefix
+...或者删除所有符合该前缀的键值对
 
 [source,java]
 ----
