@@ -77,7 +77,7 @@ const NavBar = () => {
                   <a><DropDownItem>开始</DropDownItem></a>
                 </Link>
                 <a href="https://start.vertx.io/" target="_blank" rel="noreferrer">
-                  <DropDownItem>App generator <ExternalLink className="external-link-icon"
+                  <DropDownItem>应用生成器 <ExternalLink className="external-link-icon"
                     size="1em" /></DropDownItem>
                 </a>
               </DropDown>
@@ -100,7 +100,7 @@ const NavBar = () => {
                   <a><DropDownItem>联系渠道</DropDownItem></a>
                 </Link>
                 <a href="https://how-to.vertx.io/" target="_blank" rel="noreferrer">
-                  <DropDownItem>How-To’s <ExternalLink className="external-link-icon"
+                  <DropDownItem>操作指南 <ExternalLink className="external-link-icon"
                     size="1em" /></DropDownItem>
                 </a>
                 <a href="https://github.com/vert-x3/vertx-eventbus-bridge-clients" target="_blank" rel="noreferrer">
