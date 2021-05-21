@@ -386,11 +386,11 @@ consulClient.deregisterService("serviceId", res -> {
 });
 ----
 
-== Health Checks
+== 健康检查
 
-One of the primary roles of the agent is management of system-level and application-level health checks.
-A health check is considered to be application-level if it is associated with a service.
-If not associated with a service, the check monitors the health of the entire node.
+agent 的主要角色之一就是系统层面和应用层面上的健康检查管理。
+如果健康检查与服务关联，那么该健康检查被认为是应用层面上的。
+反之，则健康检查监控的是整个节点的健康状态。
 
 [source,java]
 ----
@@ -399,31 +399,31 @@ CheckOptions opts = new CheckOptions()
   .setInterval("1s");
 ----
 
-The list of check options that supported by Consul client is:
+以下是 Consul 客户端支持的健康检查选项：
 
-`id`:: the check ID
-`name`:: check name
-`script`:: local path to checking script. Also you should set checking interval
-`http`:: HTTP address to check. Also you should set checking interval
-`ttl`:: Time to Live of check
-`tcp`:: TCP address to check. Also you should set checking interval
-`interval`:: checking interval in Go's time format which is sequence of decimal numbers,
-each with optional fraction and a unit suffix, such as "300ms", "-1.5h" or "2h45m".
-Valid time units are "ns", "us" (or "µs"), "ms", "s", "m", "h"
-`notes`:: the check notes
-`serviceId`:: the service ID to associate the registered check with an existing service provided by the agent.
-`deregisterAfter`:: deregister timeout. This is optional field, which is a timeout in the same time format as Interval and TTL.
-If a check is associated with a service and has the critical state for more than this configured value,
-then its associated service (and all of its associated checks) will automatically be deregistered.
-The minimum timeout is 1 minute, and the process that reaps critical services runs every 30 seconds,
-so it may take slightly longer than the configured timeout to trigger the deregistration.
-This should generally be configured with a timeout that's much, much longer than any expected recoverable outage
-for the given service.
-`status`:: the check status to specify the initial state of the health check
+`id`:: 健康检查 ID
+`name`:: 健康检查名称
+`script`:: 健康检查脚本的路径，同时你应该设置检查的间隔
+`http`:: 健康检查的 HTTP 地址，同时你应该设置检查的间隔
+`ttl`:: 健康检查的 ttl（time to live，即生存时间）
+`tcp`:: 健康检查的 tcp 地址，同时你应该设置检查的间隔
+`interval`:: 健康检查的时间间隔，使用 Go 语言的时间格式，是一个十进制的数组字符串，
+可以携带小数和单位后缀，例如 "300ms"， "-1.5h" 或 "2h45m"
+有效的时间单位是 "ns"， "us" （或 "µs"）， "ms"， "s"， "m"， "h"
+`notes`:: 健康检查的备注
+`serviceId`:: 服务的 ID，用于将当前注册的健康检查与 agent 提供的已存在的服务相关联
+`deregisterAfter`:: 取消注册超时时间。 该设置是可选的， 它的时间格式与 Interval 和 TTL 相同。
+如果健康检查与一个服务相关联并且服务的状态处于不可用的时间超过该值，
+那么该服务 (以及所有该服务相关联的服务) 将会自动取消注册
+该值最小为 1 分钟， 并且用于解除服务的进程每 30 秒运行一次。
+因此实际运用中，Consul 可能会花费比该设置长一点的时间将服务取消注册。
+该超时时间应该配置得远大于该服务
+重启或恢复所需要得时间。
+`status`:: 健康检查的初始状态值
 
-The `Name` field is mandatory, as is one of `Script`, `HTTP`, `TCP` or `TTL`. `Script`, `TCP` and `HTTP`
-also require that `Interval` be set. If an `ID` is not provided, it is set to `Name`.
-You cannot have duplicate ID entries per agent, so it may be necessary to provide an ID.
+`Name` 字段是必须的，而 `Script`， `HTTP`， `TCP` 或 `TTL` 只需一个就可以。 `Script`， `TCP` 和 `HTTP`
+需要设置 `Interval` 选项。 如果没有提供 `ID` ， 会用 `Name` 的值替代。
+每个节点上不能有重复的 ID， 因此设置一个 ID 是很有必要的。
 
 [source,java]
 ----
