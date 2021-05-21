@@ -436,13 +436,13 @@ consulClient.registerCheck(opts, res -> {
 });
 ----
 
-== Events
+== 事件
 
-The Consul provides a mechanism to fire a custom user event to an entire datacenter.
-These events are opaque to Consul, but they can be used to build scripting infrastructure to do automated deploys,
-restart services, or perform any other orchestration action.
+Consul 提供了事件机制以便让用户触发自定义的事件给整个数据中心（datacenter）。
+这些事件对 Consul 是没有特殊意义的， 但是它们可以用于构建自动发布的脚本系统，
+重启服务，或处理其他一些编排好的动作。
 
-To send user event only its name is required
+发送用户事件时只需填写事件名称：
 
 [source,java]
 ----
@@ -456,13 +456,13 @@ consulClient.fireEvent("eventName", res -> {
 });
 ----
 
-Also additional options can be specified.
+也可以携带一些额外的参数
 
-`node`:: regular expression to filter recipients by node name
-`service`:: regular expression to filter recipients by service
-`tag`:: regular expression to filter recipients by tag
-`payload`:: an optional body of the event.
-The body contents are opaque to Consul and become the "payload" of the event
+`node`:: 一个正则表达式，用于过滤需要接收事件的节点
+`service`:: 一个正则表达式，用于过滤需要接收事件的服务
+`tag`:: 一个正则表达式，用于根据标签过滤
+`payload`:: 事件可以拥有一个消息体
+对 Consul 来说消息体的内容也是透明的，它会成为事件的内容。
 
 [source,java]
 ----
@@ -480,9 +480,9 @@ consulClient.fireEventWithOptions("eventName", opts, res -> {
 });
 ----
 
-The Consul Client supports queries for obtain the most recent events known by the agent. Events are broadcast using
-the gossip protocol, so they have no global ordering nor do they make a promise of delivery. Agents only buffer
-the most recent entries. The current buffer size is 256, but this value could change in the future.
+Consul 客户端支持查询 agent 最近收到的事件。 Consul 的事件使用
+gossip 协议广播， 因此事件之间没有顺序关系，也并不保证送达。 Agent 只会缓存
+最近的事件。 目前的缓存大小是 256， 但该值在未来也可能会发生变化。
 
 [source,java]
 ----
@@ -500,7 +500,7 @@ consulClient.listEvents(res -> {
 });
 ----
 
-The Consul Index can be used to prepare blocking requests:
+Consul 的索引也可以用于预备查询请求：
 
 [source,java]
 ----
