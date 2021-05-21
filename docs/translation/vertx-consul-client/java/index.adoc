@@ -520,12 +520,12 @@ consulClient.listEventsWithOptions(opts, res -> {
 });
 ----
 
-== Sessions
+== 会话
 
-Consul provides a session mechanism which can be used to build distributed locks.
-Sessions act as a binding layer between nodes, health checks, and key/value data.
-When a session is constructed, a node name, a list of health checks, a behavior, a TTL, and a lock-delay
-may be provided.
+Consul 提供了会话机制，可以用于构建分布式锁。
+会话表现为一个中间层，绑定了节点，健康检查和键值对存储的资源。
+当会话创建时， 需要提供节点名称，健康检查列表，一个动作，TTL，和
+一个延迟锁。
 
 [source,java]
 ----
@@ -534,21 +534,21 @@ SessionOptions opts = new SessionOptions()
   .setBehavior(SessionBehavior.RELEASE);
 ----
 
-`lockDelay`:: can be specified as a duration string using an 's' suffix for seconds. The default is '15s'.
-`name`:: can be used to provide a human-readable name for the Session.
-`node`:: must refer to a node that is already registered, if specified. By default, the agent's own node name is used.
-`checks`:: is used to provide a list of associated health checks. It is highly recommended that,
-if you override this list, you include the default `serfHealth`.
-`behavior`:: can be set to either `release` or `delete`. This controls the behavior when a session is invalidated.
-By default, this is `release`, causing any locks that are held to be released. Changing this to `delete` causes
-any locks that are held to be deleted. `delete` is useful for creating ephemeral key/value entries.
-`ttl`:: is a duration string, and like `LockDelay` it can use s as a suffix for seconds. If specified,
-it must be between 10s and 86400s currently. When provided, the session is invalidated if it is not renewed before the TTL expires.
+`lockDelay`:: 是一个表示时间的字符串，使用 's' 作为后缀，代表以秒为单位。默认的值是 '15s'
+`name`:: 用于给会话设置一个有意义的易于理解的名称
+`node`:: 如果要设置的话，必须是一个已经注册的节点。 默认情况下， 会使用当前 agent 的节点
+`checks`:: 用于提供相关联的健康检查的列表。 这里强烈建议如果你设置了该参数，
+健康检查列表中需要包含默认的 `serfHealth`
+`behavior`:: 可以被设置为 `release` 或 `delete`。 该设置控制会话到期时的行为。
+默认情况下设置为 `release`， 这样该会话占有的锁会被释放。 如果将其改为 `delete` 那么
+该会话占有的锁会被删除。如果你要创建临时的键值对存储那么使用 `delete` 会很有用
+`ttl`:: 一个时间字符串， 格式与 `LockDelay` 一样，也使用 s 作为后缀。 该设置需要
+在 10s 和 86400s 之间。 如果提供该设置，那么如果会话在 TTL 时间到期前仍没有刷新的话会失效
 
-For full info see https://www.consul.io/docs/internals/sessions.html[Consul Sessions internals]
+更多信息请参考 https://www.consul.io/docs/internals/sessions.html[Consul Sessions internals]
 
-The newly constructed session is provided with a named ID that can be used to identify it.
-This ID can be used with the KV store to acquire locks: advisory mechanisms for mutual exclusion.
+新创建的会话会拥有一个命名 ID， 可以用于区分不同的会话。
+这个 ID 可以和键值对一起使用以尝试获取锁，这个锁用通知机制实现了互斥。
 
 [source,java]
 ----
@@ -562,7 +562,7 @@ consulClient.createSessionWithOptions(opts, res -> {
 });
 ----
 
-And also to destroy it
+你也可以销毁会话
 
 [source,java]
 ----
@@ -575,7 +575,7 @@ consulClient.destroySession(sessionId, res -> {
 });
 ----
 
-Lists sessions belonging to a node
+获取属于某个节点的会话列表
 
 [source,java]
 ----
@@ -592,7 +592,7 @@ consulClient.listNodeSessions("nodeId", res -> {
 });
 ----
 
-All of the read session endpoints support blocking queries and all consistency modes.
+所有读取会话的接口支持阻塞查询和全一致模式
 
 [source,java]
 ----
