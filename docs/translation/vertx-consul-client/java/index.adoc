@@ -3,6 +3,7 @@
 https://www.consul.io[Consul] 是一个在你的应用架构中提供服务发现和配置管理的工具。
 Vert.x 的 Consul 客户端允许应用与 Consul 系统通过阻塞或非阻塞的 HTTP 接口交互。
 
+[[_using_vert_x_consul_client]]
 == 使用 Vert.x Consul 客户端
 
 为了使用该项目， 将以下依赖添加到你的构建描述文件的 _依赖配置_ 中：
@@ -25,6 +26,7 @@ Vert.x 的 Consul 客户端允许应用与 Consul 系统通过阻塞或非阻塞
 compile 'io.vertx:vertx-consul-client:4.0.3'
 ----
 
+[[_creating_a_client]]
 == 创建客户端
 
 只需使用工厂方法即可创建：
@@ -59,11 +61,13 @@ ACL 策略
 ConsulClient 的选项类继承了 `vertx-web-client` 模块的 WebClientOptions 类，
 因此还可以提供很多设置。 请参阅相关文档。
 
+[[_using_the_api]]
 == 使用接口
 
 客户端接口参见 `link:../../apidocs/io/vertx/ext/consul/ConsulClient.html[ConsulClient]`。 接口的格式与 Consul 的
 HTTP 接口非常相像，Consul 的 HTTP 接口参见 https://www.consul.io/docs/agent/http.html[Consul API 文档]
 
+[[_blocking_queries]]
 === 阻塞查询
 
 Consul 的某些接口支持名为 "阻塞查询" 的特性。 阻塞查询基于长轮询以查询结果的潜在
@@ -83,6 +87,7 @@ BlockingQueryOptions opts = new BlockingQueryOptions()
 要注意的是，阻塞查询不能 *严格保证* 所返回的数据确实是发生了变化的。
 很有可能的情况是，阻塞查询的返回只是因为超时时间到了或发生了并没有改变数据内容的写入。
 
+[[_keyvalue_store]]
 == 键值对存储
 
 键值对接口用于访问 Consul 内部的简单键值对存储，这对保存服务的配置或其他元数据很有用。
@@ -91,6 +96,7 @@ BlockingQueryOptions opts = new BlockingQueryOptions()
 * 管理单个键值对的更新，删除和获取，以及根据键的前缀匹配的同样操作
 * 管理通过单个原子性的事务操作来获取和更新键值对的操作
 
+[[_get_key_value_pair_from_store]]
 === 从存储中获取键值对
 
 Consul 客户端可以返回一个键的值
@@ -152,6 +158,7 @@ consulClient.getValueWithOptions("key", opts, res -> {
 });
 ----
 
+[[_put_key_value_pair_to_store]]
 === 保存键值对
 
 [source,java]
@@ -203,6 +210,7 @@ Consul 在顶层发生领导选举。 如果锁未被获取并且会话有效，
 使用的话会很有用，这样可以让客户端生成一个锁。 该操作不会修改锁索引，但会释放
 与该键相关联的会话。 前提是该键的锁正在被该会话持有。
 
+[[_transactions]]
 === 事务
 
 当连接到 Consul 的 0.7 或更高的版本时， 客户端可以使用单次原子性的事务操作
@@ -226,6 +234,7 @@ consulClient.transaction(request, res -> {
 });
 ----
 
+[[_delete_key_value_pair]]
 === 删除键值对
 
 最后， Consul 允许你从存储中删除键值对
@@ -254,12 +263,14 @@ consulClient.deleteValues("prefix", res -> {
 });
 ----
 
+[[_services]]
 == 服务
 
 服务发现的主要目的之一是提供可用的服务清单。
 为了实现该目标， agent 提供了一个简单的服务声明格式以便说明当前服务是否可用
 并将它与健康检查潜在地关联起来。
 
+[[_service_registering]]
 === 服务注册
 
 服务的声明格式必须包含一个 `name` ，还可以选择设置 `id`， `tags`， `address`， `port`， 和 `checks` 等属性
@@ -300,6 +311,7 @@ consulClient.registerService(opts, res -> {
 });
 ----
 
+[[_service_discovery]]
 === 服务发现
 
 Consul 客户端可以当前可以提供服务的节点列表：
@@ -371,6 +383,7 @@ consulClient.healthServiceNodesWithOptions("serviceName", passingOnly, queryOpts
 });
 ----
 
+[[_deregister_service]]
 === 取消注册服务
 
 服务可以通过它的 ID 取消注册：
@@ -386,6 +399,7 @@ consulClient.deregisterService("serviceId", res -> {
 });
 ----
 
+[[_health_checks]]
 == 健康检查
 
 agent 的主要角色之一就是系统层面和应用层面上的健康检查管理。
@@ -436,6 +450,7 @@ consulClient.registerCheck(opts, res -> {
 });
 ----
 
+[[_events]]
 == 事件
 
 Consul 提供了事件机制以便让用户触发自定义的事件给整个数据中心（datacenter）。
@@ -520,6 +535,7 @@ consulClient.listEventsWithOptions(opts, res -> {
 });
 ----
 
+[[_sessions]]
 == 会话
 
 Consul 提供了会话机制，可以用于构建分布式锁。
@@ -608,6 +624,7 @@ consulClient.listSessionsWithOptions(blockingOpts, res -> {
 });
 ----
 
+[[_nodes_in_datacenter]]
 == 数据中心下的节点
 
 [source,java]
@@ -639,6 +656,7 @@ consulClient.catalogNodesWithOptions(opts, res -> {
 });
 ----
 
+[[_prepared_queries]]
 == 预备查询（Prepared Query）
 
 以下接口用于创建，更新，销毁和执行预备查询。
@@ -731,6 +749,7 @@ consulClient.deletePreparedQuery(query, res -> {
 });
 ----
 
+[[_watches]]
 == 监视
 
 监视是一种指定一个数据(例如节点列表， 键值对数据， 健康检查)的视图的方法，
