@@ -608,7 +608,7 @@ consulClient.listSessionsWithOptions(blockingOpts, res -> {
 });
 ----
 
-== Nodes in datacenter
+== 数据中心下的节点
 
 [source,java]
 ----
@@ -622,7 +622,7 @@ consulClient.catalogNodes(res -> {
 });
 ----
 
-This endpoint supports blocking queries and sorting by distance from specified node
+该接口支持阻塞查询，并根据与指定节点的距离排序
 
 [source,java]
 ----
@@ -639,31 +639,31 @@ consulClient.catalogNodesWithOptions(opts, res -> {
 });
 ----
 
-== Prepared Queries
+== 预备查询（Prepared Query）
 
-This endpoint creates, updates, destroys, and executes prepared queries.
-Prepared queries allow you to register a complex service query and then execute it later via its ID
-or name to get a set of healthy nodes that provide a given service. This is particularly useful in combination
-with Consul's DNS Interface as it allows for much richer queries than would be possible given
-the limited entry points exposed by DNS.
+以下接口用于创建，更新，销毁和执行预备查询。
+预备查询可以让你注册一个复杂的服务查询并在之后通过该预备查询的 ID 或名字执行，
+并获取可以提供服务的健康节点的集合。 当与 Consul 的 DNS 接口一起
+使用时会很有帮助，因为这样可以使用更复杂的查询，而不是被 DNS 接口
+的查询接口要求所限制。
 
-There are many parameters to creating a prepared query.
-For full details please https://www.consul.io/api/query.html[see docs]
+创建一条阻塞查询语句有很多参数
+所有的细节请参考 https://www.consul.io/api/query.html[文档]
 
-`dc` :: Specifies the datacenter to query. This will default to the datacenter of the agent being queried. This is specified as part of the URL as a query parameter.
-`name` :: Specifies an optional friendly name that can be used to execute a query instead of using its ID.
-`session` :: Specifies the ID of an existing session. This provides a way to automatically remove a prepared query when the given session is invalidated. If not given the prepared query must be manually removed when no longer needed.
-`token` :: Specifies the ACL token to use each time the query is executed. This allows queries to be executed by clients with lesser or even no ACL Token, so this should be used with care. The token itself can only be seen by clients with a management token. If the Token field is left blank or omitted, the client's ACL Token will be used to determine if they have access to the service being queried. If the client does not supply an ACL Token, the anonymous token will be used.
-`service` :: Specifies the name of the service to query. This is required field.
-`failover` :: contains two fields, both of which are optional, and determine what happens if no healthy nodes are available in the local datacenter when the query is executed. It allows the use of nodes in other datacenters with very little configuration.
-`nearestN` :: Specifies that the query will be forwarded to up to NearestN other datacenters based on their estimated network round trip time using Network Coordinates from the WAN gossip pool. The median round trip time from the server handling the query to the servers in the remote datacenter is used to determine the priority.
-`datacenters` :: Specifies a fixed list of remote datacenters to forward the query to if there are no healthy nodes in the local datacenter. Datacenters are queried in the order given in the list. If this option is combined with NearestN, then the NearestN queries will be performed first, followed by the list given by Datacenters. A given datacenter will only be queried one time during a failover, even if it is selected by both NearestN and is listed in Datacenters.
-`onlyPassing` :: Specifies the behavior of the query's health check filtering. If this is set to false, the results will include nodes with checks in the passing as well as the warning states. If this is set to true, only nodes with checks in the passing state will be returned.
-`tags` :: Specifies a list of service tags to filter the query results. For a service to pass the tag filter it must have all of the required tags, and none of the excluded tags (prefixed with !).
-`nodeMeta` :: Specifies a list of user-defined key/value pairs that will be used for filtering the query results to nodes with the given metadata values present.
-`dnsTtl` :: Specifies the TTL duration when query results are served over DNS. If this is specified, it will take precedence over any Consul agent-specific configuration.
-`templateType` :: is the query type, which must be `name_prefix_match`. This means that the template will apply to any query lookup with a name whose prefix matches the Name field of the template. In this example, any query for geo-db will match this query. Query templates are resolved using a longest prefix match, so it's possible to have high-level templates that are overridden for specific services. Static queries are always resolved first, so they can also override templates.
-`templateRegexp` :: is an optional regular expression which is used to extract fields from the entire name, once this template is selected. In this example, the regular expression takes the first item after the "-" as the database name and everything else after as a tag. See the RE2 reference for syntax of this regular expression.
+`dc` :: 设置要查询的数据中心的名称。 默认情况下该参数为被查询的 agent 所属的数据中心。 它会作为查询参数一部分存在于 URL 中
+`name` :: 一个可选的昵称， 你可以使用该昵称而不是 ID 来指定要使用的预备查询
+`session` :: 指定一个现有会话的 ID，这样如果该会话过期后，对应的预备查询语句也会被删除，否则你需要手动删除不再使用的预备查询语句
+`token` :: 指定一个 ACL 签名，每次执行查询都会使用该签名。 预备查询在执行时可以没有 ACL 签名， 因此你需要谨慎使用。 签名本身只对管理签名的客户端可见。 如果签名没有设置或为空字符串，那么会使用客户端的 ACL 签名来决定是否有权限来查询对应服务。 如果客户端无法提供 ACL 签名， 那么会使用一个匿名签名
+`service` :: 指定要查询的服务名称，这个参数是必填的
+`failover` :: 该参数包括两个字段，都是可选的。 该参数用于指定执行查询时如果本地的数据中心没有处于健康状态下的服务时的行为。通过简单的配置你可以使用其他数据中心上的节点
+`nearestN` :: 该选项用于设置预备请求会被转发至其余最近的 NearestN 个数据中心。 使用 WAN gossip pool 中数据中心之间的网络 rtt（round trip time，即往返时间）构成的网路坐标来判断距离。 远程的数据中心上的服务器处理请求的 rtt 的中位数会作为判断权重的依据。
+`datacenters` :: 指定要转发的远程数据中心列表。 如果本地没有健康节点可用的话，会转发请求到这些数据中心上。 Consul 会按照列表中的顺序查询数据中心。 如果该选项与 NearestN 一起使用， 那么会首先依据 NearestN 设置的规则， 其次才是 Datacenters 配置的规则。 在失效转移请求的过程中一个数据中心只会使用一次， 即使它都满足 NearestN 和 Datacenters 配置的条件
+`onlyPassing` :: 指定该查询的健康检查状态的条件。 如果设置为 false， 那么即使服务处于警告状态也会返回。 如果设置为 true， 则只会返回健康检查成功的服务
+`tags` :: 设置服务标签列表， 查询结果会根据参数列表过滤。 如果设置了该参数，那么只有服务拥有列表中所有的标签才会满足条件， 并且不包含禁止标签 (前缀带有 ! 的为禁止标签)
+`nodeMeta` :: 设置一个自定义的用户键值对列表，可以用于查询节点的元数据过滤返回结果
+`dnsTtl` :: 如果查询结果是通过 DNS 服务的话，设置 TTL 的范围。 如果提供了该设置， 那么该设置相比其他设置项是最优先的
+`templateType` :: 查询类型，用于 `名称前缀匹配` 。 这意味着任何查询，如果它的名称的前缀都与该字段匹配，那么则属于该模板。在以下示例中，任何对 geo-db 的查询都与该查询相匹配。 查询模板使用最长前缀匹配，因此可以使用高级模板，这些高级模板为了一些服务被重写。 静态查询会被首先解析，因此也可以重写查询模板
+`templateRegexp` :: 一个可选的正则表达式，用于从整个名称字段中匹配提取对应的变量。 如果选择了该模板，在以下示例中正则表达式提取了 "-" 符号后的第一个变量作为数据库的名称而之后的变量均作为标签数据。 参考 RE2 文档以获取正则表达式的更多信息
 
 [source,java]
 ----
@@ -675,7 +675,7 @@ PreparedQueryDefinition def = new PreparedQueryDefinition()
   .setTemplateRegexp("^find_(.+?)_(.+?)$");
 ----
 
-If the query is successfully created, its ID will be provided
+如果预备查询被成功创建，那么会返回它的 ID
 
 [source,java]
 ----
@@ -689,7 +689,7 @@ consulClient.createPreparedQuery(def, res -> {
 });
 ----
 
-The prepared query can be executed by its id
+通过指定预备查询的 ID，可以执行该查询命令
 
 [source,java]
 ----
@@ -703,7 +703,7 @@ consulClient.executePreparedQuery(id, res -> {
 });
 ----
 
-or by query string that must match template regexp
+或者使用正则匹配来指定要执行的预备查询
 
 [source,java]
 ----
@@ -718,7 +718,7 @@ consulClient.executePreparedQuery("find_1_2", res -> {
 });
 ----
 
-Finally, `ConsulClient` allows you to modify, get or delete prepared queries
+最后， `ConsulClient` 允许你修改，获取和删除预备查询
 
 [source,java]
 ----
