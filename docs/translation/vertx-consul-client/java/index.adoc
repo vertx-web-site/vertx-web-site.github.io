@@ -731,11 +731,11 @@ consulClient.deletePreparedQuery(query, res -> {
 });
 ----
 
-== Watches
+== 监视
 
-Watches are a way of specifying a view of data (e.g. list of nodes, KV pairs, health checks)
-which is monitored for updates. When an update is detected, an `Handler` with `WatchResult` is invoked.
-As an example, you could watch the status of health checks and notify when a check is critical.
+监视是一种指定一个数据(例如节点列表， 键值对数据， 健康检查)的视图的方法，
+它会监视数据的更新。 当发现数据更新后，一个参数为 `WatchResult` 的 `Handler` 会被调用。
+以下示例中， 你可以监视健康检查的状态并当状态不正常时收到通知
 
 [source,java]
 ----
