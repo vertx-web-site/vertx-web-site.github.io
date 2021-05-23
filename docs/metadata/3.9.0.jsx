@@ -455,7 +455,7 @@ const entries = [
   {
     id: "vertx-consul-client",
     name: "Consul client",
-    description: "A client for Consul.",
+    description: "Consul 客户端。",
     category: "integration",
     href: "/vertx-consul-client/java/",
     repository: "https://github.com/vert-x3/vertx-consul-client",
