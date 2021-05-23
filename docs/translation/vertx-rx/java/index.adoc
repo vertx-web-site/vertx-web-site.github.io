@@ -1,17 +1,19 @@
 = Vert.x RxJava
 :toc: left
 
-== Vert.x API for RxJava
+[[_vert_x_api_for_rxjava]]
+== 用于 RxJava 的 Vert.x API
 
-https://github.com/ReactiveX/RxJava[RxJava] is a popular library for composing asynchronous and event based programs using
-observable sequences for the Java VM. Vert.x integrates naturally with RxJava, allowing to use
-observable wherever you can use streams or asynchronous results.
+https://github.com/ReactiveX/RxJava[RxJava] 是 JVM 上一个流行的库，用于组合异步的、使用可观察序列的、基于事件的程序。
+Vert.x 与 RxJava 集成起来很自然：
+它使得无论什么时候，只要我们能使用流和异步结果，就能使用 Observable。
 
-=== Using Vert.x API for RxJava1
+[[_using_vert_x_api_for_rxjava1]]
+=== 在 RxJava1 中使用 Vert.x API
 
-To use Vert.x API for RxJava1, add the following dependency to the _dependencies_ section of your build descriptor:
+要在 RxJava1 中使用 Vert.x API，请将以下依赖项添加到构建描述符的 _dependencies_ 部分中：
 
-* Maven (in your `pom.xml`):
+* Maven（在您的 `pom.xml`）：
 
 [source,xml,subs="+attributes"]
 ----
@@ -22,7 +24,7 @@ To use Vert.x API for RxJava1, add the following dependency to the _dependencies
 </dependency>
 ----
 
-* Gradle (in your `build.gradle` file):
+* Gradle（在您的 `build.gradle` 文件中）：
 
 [source,groovy,subs="+attributes"]
 ----
