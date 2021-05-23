@@ -1,5 +1,5 @@
 = Reactive DB2 客户端
-:PREPARED_PARAMS: `?`​
+:PREPARED_PARAMS: `?` ​
 
 响应式的DB2客户端具有直接简单的API，
 专注于可伸缩性和低开销。
@@ -316,7 +316,7 @@ include::tracing.adoc[]
 * TIMESTAMP (`java.time.LocalDateTime`)
 * BINARY (`byte[]`)
 * VARBINARY (`byte[]`)
-* ROWID (`io.vertx.db2client.impl.drda.DB2RowId` or `java.sql.RowId`) （只针对DB2 z/OS）
+* ROWID (`io.vertx.db2client.impl.drda.DB2RowId` 或 `java.sql.RowId`) （只针对DB2 z/OS）
 
 以下类型目前不支持：
 
