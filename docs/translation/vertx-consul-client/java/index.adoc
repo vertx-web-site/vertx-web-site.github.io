@@ -84,7 +84,7 @@ BlockingQueryOptions opts = new BlockingQueryOptions()
   .setWait("1m");
 ----
 
-要注意的是，阻塞查询不能 *严格保证* 所返回的数据确实是发生了变化的。
+要注意的是，阻塞查询 *不能严格保证* 所返回的数据一定是发生了变化的。
 很有可能的情况是，阻塞查询的返回只是因为超时时间到了或发生了并没有改变数据内容的写入。
 
 [[_keyvalue_store]]
