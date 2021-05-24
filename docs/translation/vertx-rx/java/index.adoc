@@ -31,11 +31,11 @@ Vert.x 与 RxJava 集成起来很自然：
 compile 'io.vertx:vertx-rx-java:4.0.3'
 ----
 
-There are two ways for using the RxJava API with Vert.x:
+要使用 Vert.x 的 RxJava API，有两种方式：
 
-- via the original Vert.x API with the `link:../../apidocs/io/vertx/rx/java/RxHelper.html[RxHelper]` helper class that provides static
-methods for converting objects between Vert.x core API and RxJava API.
-- via the _Rxified_ Vert.x API enhancing the core Vert.x API.
+- 通过原始的 Vert.x API 辅以 `link:../../apidocs/io/vertx/rx/java/RxHelper.html[RxHelper]` 类，
+该辅助类提供了用于 Vert.x Core API 和 RxJava API 之间互相转化的静态方法。
+- 通过基于 Vert.x Core API 增强的 _Rx化的_ Vert.x API。
 
 === Read stream support
 
