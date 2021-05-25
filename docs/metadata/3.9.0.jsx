@@ -454,7 +454,7 @@ const entries = [
   },
   {
     id: "vertx-consul-client",
-    name: "Consul client",
+    name: "Consul 客户端",
     description: "Consul 客户端。",
     category: "integration",
     href: "/vertx-consul-client/java/",
