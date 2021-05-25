@@ -2,16 +2,16 @@
 :toc: left
 
 当您编写 Vert.x 程序的时候，您也许想将某处独立服务功能提供给其他程序使用。
-此时便使用服务代理。 它可以让您在事件总线上发布您的 _服务_ ，任何Vert.x程序只要知道其 _地址_ 即可使用该服务。
+此时便使用服务代理。 它可以让您在事件总线上发布您的 _服务_ ，任何 Vert.x 程序只要知道其 _地址_ 即可使用该服务。
 
 一个 _服务_ 通过 Java 接口描述并遵循 _异步_ 模式。
 从本质上说，消息通过事件总线发送调用服务并获取响应。
-但为了方便使用，它会生成一个 _代理_ ，您可直接使用该代理（用代理提供的服务接口API）。
+但为了方便使用，它会生成一个 _代理_ ，您可直接使用该代理（用代理提供的服务接口 API）。
 
 [[_using_vert_x_service_proxies]]
 == 使用Vert.x服务代理
 
-使用Vert.x Service Proxy之前，您必须在您得项目当中添加 _依赖_ ：
+使用 Vert.x Service Proxy 之前，您必须在您得项目当中添加 _依赖_ ：
 
 * Maven（在您的 `pom.xml` 文件中）：
 
@@ -60,9 +60,9 @@ annotationProcessor 'io.vertx:vertx-codegen:4.0.3:processor'
 annotationProcessor 'io.vertx:vertx-service-proxy:4.0.3'
 ----
 
-注意：因为服务代理类是通过代码生成的缘故，每当您修改了 _服务接口_ 您必须重新编译编码，以重新 生成代理类。
+注意：因为服务代理类是由代码自动生成的，因此每当您修改了 _服务接口_ 您必须重新编译源码，以重新生成代理类。
 
-如果您要生成不同语言的代理类，您需要添加相应的依赖。例如，生成Groovy需要添加 `vertx-lang-groovy` 依赖
+如果您要生成不同语言的代理类，您需要添加相应的依赖。例如，生成 Groovy 语言的代理接口需要添加 `vertx-lang-groovy` 依赖
 
 [[_introduction_to_service_proxies]]
 == 服务代理简介
@@ -88,9 +88,9 @@ vertx.eventBus()
 });
 ----
 
-当创建服务的时候足够的样本代码在事件总线接收信息，路由会找到合适的方法并在总线上返回
+当创建服务的时候，会有一定数量的样本代码在事件总线接收信息，路由会找到合适的方法并在总线上返回结果
 
-使用Vert.x服务代理时,您可以使用代码生成避免编写重复的代码，从而集中精力编写服务
+使用 Vert.x 服务代理时, 您可以使用代码生成避免编写重复的代码，从而集中精力编写服务
 
 在您编写的Java接口上面打上 `@ProxyGen` 注解, 例如：
 
@@ -116,7 +116,7 @@ void save(String collection, JsonObject document,
 ----
 
 您还需要编写 `package-info.java` 文件，位置处于接口定义包中。
-这个包还需要 `@ModuleGen` 注解，以方便Vert.x代码生成器生成事件总线代理代码。
+这个包还需要 `@ModuleGen` 注解，以便 Vert.x 代码生成器生成事件总线代理代码。
 
 .package-info.java
 [source,java]
@@ -125,9 +125,9 @@ void save(String collection, JsonObject document,
 package io.vertx.example;
 ----
 
-有了这个接口，Vert.x会生成所有需要的用于在Event Bus上访问您的服务的模板代码，同时也会生成对应的 调用端代理类（client side proxy），
-这样您的服务调用端就可以使用一个相当符合习惯的API（译者注：即相同的服务接口）进行服务调用，而不是去手动地向Event Bus发送消息。
-不管您的服务实际在哪个Event Bus上（可能是在不同的机器上），调用端代理类都能正常工作。
+有了这个接口，Vert.x 会生成所有需要的用于在事件总线上访问您服务的模板代码，同时也会生成对应的调用端代理类（client side proxy），
+这样您的服务调用端就可以使用一个相当符合习惯的 API（译者注：即相同的服务接口）进行服务调用，而不是去手动地向事件总线发送消息。
+不管您的服务实际依赖于哪个事件总线上（可能是在不同的机器上），调用端代理类都能正常工作。
 
 也就是说，您可以通过以下方式进行服务调用：
 
@@ -147,7 +147,7 @@ service.save(
   });
 ----
 
-您也可以将多语言API生成功能（@VertxGen注解）与 @ProxyGen 注解相结合，用于生成其它Vert.x支持的JVM语言对应的服务代理 —— 这意味着您可以只用Java编写您的服务一次，就可以在其他语言中以一种习惯的API风格进行服务调用，而不必管服务是在本地还是在Event Bus的某处。
+您也可以将多语言 API 生成功能（@VertxGen 注解）与 @ProxyGen 注解相结合，用于生成其它 Vert.x 支持的 JVM 语言对应的服务代理 —— 这意味着您可以只用 Java 编写您的服务一次，就可以在其他语言中以一种习惯的 API 风格进行服务调用，而完全不必管服务是在本地还是在哪个事件总线上。
 想要利用多语言代码生成功能，不要忘记添加对应支持语言的依赖。
 
 [source,java]
@@ -265,15 +265,15 @@ new ServiceBinder(vertx)
 产生的服务代理和处理器的命名是在类名的后面加相关的字段，例如，如果一个服务接口名为 `MyService`，
 则对应的处理器类命名为 `MyServiceProxyHandler`，对应的服务代理类命名为 MyServiceVertxEBProxy。
 
-此外Vert.x Core提供了一个生成器用于数据转化器，以简化服务代理中数据对象的使用。
-数据转化器要求数据对象提供一个以 `JsonObject` 为基础的构造器和`toJson()` 方法
+此外 Vert.x Core 提供了一个生成器用于数据转化器，以简化服务代理中数据对象的使用。
+数据转化器要求数据对象提供一个以 `JsonObject` 为基础的构造器和 `toJson()` 方法
 
 _codegen_ 注释处理器在编译时生成这些类
 它是Java编译器的功能 所以无需 _额外步骤_, 只需正确配置您的构建参数即可：
 
 只需要在构建配置中加上 `io.vertx:vertx-service-proxy:processor` 依赖。
 
-这是一个针对Maven的配置示例：
+这是一个针对 Maven 的配置示例：
 
 [source,xml]
 ----
@@ -290,7 +290,7 @@ _codegen_ 注释处理器在编译时生成这些类
 </dependency>
 ----
 
-此功能也可以在Gradle中使用：
+此功能也可以在 Gradle 中使用：
 
 [source]
 ----
@@ -298,9 +298,9 @@ compile "io.vertx:vertx-codegen:4.0.3:processor"
 compile "io.vertx:vertx-service-proxy:4.0.3"
 ----
 
-IDE通常为注释处理器提供支持。
-代码生成 `处理器` 分类器会把服务代理注释处理器的配置自动添加到jar中 `META-INF/services` 当中
-如果您想和其与常规jar一起使用，但是需要显式声明注释处理器 , 例如在Maven中：
+IDE 通常为注释处理器提供支持。
+代码生成 `处理器` 分类器会把服务代理注释处理器的配置自动添加到 jar 包目录下的 `META-INF/services` 当中
+如果您想和其与常规 jar一起使用，但是需要显式声明注释处理器, 例如在 Maven 中：
 
 [source,xml]
 ----
@@ -318,7 +318,7 @@ IDE通常为注释处理器提供支持。
 == 公开服务
 
 当您写好服务接口以后，执行构建操作以生成代码。
-然后您需要将您的服务 `注册` 到Event Bus上：
+然后您需要将您的服务 `注册` 到事件总线上：
 
 [source,java]
 ----
@@ -400,7 +400,7 @@ static SomeDatabaseService createProxy(Vertx vertx, String address) {
 服务方法可能会通过向方法的处理器（Handler）传递一个失败状态的 Future （包含一个 `link:../../apidocs/io/vertx/serviceproxy/ServiceException.html[ServiceException]`
 实例。
 一个 `ServiceException` 包含 `int` 类型的错误码、消息,以及一个可选的
-`JsonObject` 对象用于传递额外信息。
+ `JsonObject` 对象用于传递额外信息。
 为了方便，
 `link:../../apidocs/io/vertx/serviceproxy/ServiceException.html#fail-int-java.lang.String-[ServiceException.fail]` 工厂方法来创建一个已经是失败状态并且包装着
 `ServiceException` 实例的失败 `Future` 。
@@ -430,8 +430,8 @@ private static final CONNECTION_FAILED = 43;
 }
 ----
 
-服务调用端（客户端）可以检查它接收到的失败状态的AsyncResult包含的Throwable对象是否为ServiceException实例。如果是的话，继续检查内部的特定的错误状态码。
-调用端可以通过这些信息来将业务逻辑错误与系统错误（如服务没有被注册到Event Bus上）区分开，以便确定到底发生了哪一种业务逻辑错误。下面是一个例子：
+服务调用端（客户端）可以检查它接收到的失败状态的 AsyncResult 包含的 Throwable 对象是否为 ServiceException 实例。如果是的话，继续检查内部的特定的错误状态码。
+调用端可以通过这些信息来将业务逻辑错误与系统错误（如服务没有被注册到事件总线上）区分开，以便确定到底发生了哪一种业务逻辑错误。下面是一个例子：
 
 [source,java]
 ----
@@ -463,7 +463,7 @@ public void foo(String shoeSize, Handler<AsyncResult<JsonObject>> handler) {
 }
 ----
 
-如果需要的话, 服务实现的时候也可以返回 `ServiceException` 子类, 只要向Event Bus注册了对应的默认 `MessageCodec` 就可以了。例如, 比如给定下面的 `ServiceException` 子类：
+如果需要的话, 服务实现的时候也可以返回 `ServiceException` 子类, 只要向事件总线注册了对应的默认 `MessageCodec` 就可以了。例如, 比如给定下面的 `ServiceException` 子类：
 
 [source,java]
 ----
@@ -487,13 +487,13 @@ class ShoeSizeException extends ServiceException {
 }
 ----
 
-只要向Event Bus注册了对应的 `MessageCodec` , 服务就可以直接向调用者返回自定义的异常类型：
+只要向事件总线注册了对应的 `MessageCodec` , 服务就可以直接向调用者返回自定义的异常类型：
 
 [source,java]
 ----
 public class SomeDatabaseServiceImpl implements SomeDatabaseService {
  public SomeDataBaseServiceImpl(Vertx vertx) {
-   // 注册服务，如果你是用event bus使用本地模式，这就是全部
+   // 注册服务，如果你是用事件总线使用本地模式，这就是全部
    // 因为代理端和服务端共享一个vert.x实例
  SomeDatabaseService service = SomeDatabaseService.createProxy(vertx, SERVICE_ADDRESS);
    vertx.eventBus().registerDefaultCodec(ShoeSizeException.class,
@@ -539,13 +539,13 @@ public void foo(String shoeSize, Handler<AsyncResult<JsonObject>> handler) {
 }
 ----
 
-注意在`Vertx` 集群模式下，您需要向集群中每个节点的Event Bus注册对应的自定义异常类型
+注意在 `Vertx` 集群模式下，您需要向集群中每个节点的事件总线注册对应的自定义异常类型
 的 `MessageCodec` 实例
 
 [[_restrictions_for_service_interface]]
 == 接口类型限制
 
-在服务中参数和返回值在类型上有一定的限制,因此可以方便在Event Bus中进行转化。
+在服务中参数和返回值在类型上有一定的限制,因此可以方便在事件总线中进行转化。
 他们是：
 
 === 返回类型
@@ -561,7 +561,7 @@ public void foo(String shoeSize, Handler<AsyncResult<JsonObject>> handler) {
 SomeDatabaseService doSomething();
 ----
 
-这是因为方法不能被阻塞，远程服务是不可能不堵塞立即返回结果
+因为等待获取结果必须阻塞方法，而方法又不能被阻塞，因此远程服务不可能立即返回结果，
 
 === 参数类型
 
@@ -599,15 +599,15 @@ SomeDatabaseService doSomething();
 
 === 重载方法
 
-服务接口不支持任何的重载服务方法。(方法名相同，参数列表不同)。
+服务接口不支持任何的重载(即方法名称相同，但参数列表不同)服务方法。。
 
 [_convention_for_invoking_services_over_the_event_bus_without_proxies]
 == 通过事件总线调用服务的规则 (不使用服务代理)
 
-服务代理假定Event Bus中的消息遵循一定的格式，因此能被用于服务的调用
+服务代理假定事件总线中的消息遵循一定的格式，因此能被用于服务的调用
 
 当然，如果不愿意的话，您也可以 *不用* 服务代理类来访问远程服务。
-被广泛接受的与服务交互的方式就是直接在Event Bus发送消息。
+被广泛接受的与服务交互的方式就是直接在事件总线发送消息。
 
 为了使服务访问的方式一致，所有的服务都必须遵循以下的消息格式。
 
@@ -632,9 +632,9 @@ Body:
 
 无论有没有用到服务代理来创建服务，都应该用上面这种方式编写服务，因为这样允许服务交互时保持一致性。
 
-在上面的例子中，"action"对应的值应该与服务接口的某个方法名称相对应，而消息体中每个 `[key, value]` 都要与服务方法中的某个 `[arg_name, arg_value]` 相对应
+在上面的例子中，"action" 对应的值应该与服务接口的某个方法名称相对应，而消息体中每个 `[key, value]` 都要与服务方法中的某个 `[arg_name, arg_value]` 相对应
 
-对于返回值，服务需使用 `message.reply(...)` 方法去向调用端发送回一个返回值 -  这个值可以是Event Bus支持的任何类型。
+对于返回值，服务需使用 `message.reply(...)` 方法去向调用端发送回一个返回值 - 这个值可以是事件总线支持的任何类型。
 如果需要表示调用失败，可以调用 `message.fail(...)` 方法。
 
-如果您使用Vert.x 服务代理组件的话，生成的代码会自动帮您处理这些问题。
+如果您使用 Vert.x 服务代理组件的话，生成的代码会自动帮您处理这些问题。
