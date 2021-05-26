@@ -30,7 +30,7 @@ compile 'io.vertx:vertx-mail-client:4.0.3'
 [[_creating_a_client]]
 == 创建客户端
 
-你可以在本地JVM上创建一个客户端来打开SMTP连接发送邮件。
+您可在本地JVM上创建一个客户端来打开SMTP连接发送邮件。
 
 该客户端使用配置对象，默认会创建空的配置对象，
 这种情况下客户端将会连接到localhost的25端口。
@@ -132,7 +132,7 @@ attachment.setContentId("<image1@example.com>");
 
 message.setInlineAttachment(attachment);
 ----
-发送邮件时，你可以提供AsyncResult<MailResult>回调函数，
+发送邮件时，您可提供 AsyncResult<MailResult> 回调函数，
 它会在发送操作完成或者失败时被调用。
 
 按如下方式发送邮件：
@@ -147,8 +147,8 @@ mailClient.sendMail(message)
 [[_dkim_signature_signing_emails]]
 == DKIM 邮件电子签名
 
-支持 http://dkim.org[DomainKeys Identified Mail (DKIM)] 电子签名保护你的邮件。
-你需要做的就是指定所需配置来签名你的邮件。
+支持 http://dkim.org[DomainKeys Identified Mail (DKIM)] 电子签名保护您的邮件。
+您需要做的就是指定所需配置来签名您的邮件。
 
 邮件客户端启用DKIM功能可以按如下方式创建：
 
@@ -182,7 +182,7 @@ MailClient mailClient = MailClient.createShared(vertx, config);
 
 * 缓存在临时文件中
 
-你可以通过设置系统变量来缓存附件数据流的数据到临时文件中：
+您可通过设置系统变量将附件数据流中的数据缓存到临时文件中：
 `vertx.mail.attachment.cache.file` 设为 `true` 用于处理大体积附件。
 附件被发送之后将会删除临时文件。
 
