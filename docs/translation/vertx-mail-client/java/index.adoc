@@ -27,6 +27,7 @@ Vert.x邮件客户端通过本地邮件服务器（例如： postfix）或者外
 compile 'io.vertx:vertx-mail-client:4.0.3'
 ----
 
+[[_creating_a_client]]
 == 创建客户端
 
 你可以在本地JVM上创建一个客户端来打开SMTP连接发送邮件。
@@ -74,6 +75,7 @@ config.setPassword("password");
 MailClient mailClient = MailClient.create(vertx, config);
 ----
 
+[[_sending_mails]]
 == 发送邮件
 
 一旦客户端创建好了，就可以用它来发送邮件。
@@ -142,6 +144,7 @@ mailClient.sendMail(message)
   .onFailure(Throwable::printStackTrace);
 ----
 
+[[_dkim_signature_signing_emails]]
 == DKIM 邮件电子签名
 
 支持 http://dkim.org[DomainKeys Identified Mail (DKIM)] 电子签名保护你的邮件。
@@ -166,6 +169,7 @@ MailClient mailClient = MailClient.createShared(vertx, config);
 一旦邮件客户端被创建，每次调用 `mailClient.sendMail` 都会添加额外的
 `DKIM-Signature` 头对电子邮件进行签名。
 
+[[_caching_the_attachment_streams_used_in_dkim]]
 == 在DKIM中缓存附件数据流
 
 为了能够进行DKIM签名，需要计算电子邮件包含附件在内的正文hash。
@@ -182,8 +186,10 @@ MailClient mailClient = MailClient.createShared(vertx, config);
 `vertx.mail.attachment.cache.file` 设为 `true` 用于处理大体积附件。
 附件被发送之后将会删除临时文件。
 
+[[_mail_client_data_objects]]
 == Mail-client 数据对象
 
+[[_mailmessage_properties]]
 === MailMessage 属性
 
 Email
@@ -211,6 +217,7 @@ MailMessage对象有如下属性
 例如。提供调用程序选择的消息id或者设置不同于默认情况下生成的头。除非您知道自己在做什么，
 否则可能会生成无效消息。
 
+[[_mailattachment_properties]]
 === 邮件附件属性
 邮件附件对象由如下属性
 
@@ -224,6 +231,7 @@ MailMessage对象有如下属性
 * `contentId` String类型，表示附件的Content-Id（用于标识内联图像），可选
 * `headers` MultiMap类型，除了默认头之外的附加头，可选
 
+[[_mailconfig_options]]
 === MailConfig 选项
 
 该配置具有如下属性
@@ -250,12 +258,14 @@ MailMessage对象有如下属性
 * `pipelining` 如果邮件服务端允许，则开启管道。默认是 `true`
 * `multiPartOnly` boolean, if encode mail messages as multipart only or not. Default is `false`
 
+[[_mailresult_object]]
 === MailResult对象
 MailResult对象有下列成员变量
 
 * `messageID` 这封邮件的Message-ID
 * `recipients` 成功投递的收件人列表 （如果allowRcptErrors值为true，数量可能比预期收件人少）
 
+[[_dkimsignoptions_object]]
 === DKIMSignOptions对象
 DKIMSignOptions有下列属性
 
