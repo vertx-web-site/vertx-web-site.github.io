@@ -1,15 +1,15 @@
 = Vert.x Mail client (SMTP client implementation)
 
-Vert.x邮件客户端通过本地邮件服务器(例如: postfix)或者外部邮件服务器(例如: googlemail或aol)发送邮件。
+Vert.x邮件客户端通过本地邮件服务器(例如: postfix)或者外部邮件服务器
+(例如: googlemail或aol)发送邮件。
 
-
-该客户端支持一些额外的验证方法, 例如DIGEST-MD5。该客户端完全支持TLS和SSL。该客户端是全异步的。该客户端支持使用连接池复用连接。
-
-
+该客户端支持一些额外的验证方法, 例如DIGEST-MD5。
+该客户端完全支持TLS和SSL。该客户端是全异步的。
+该客户端支持使用连接池复用连接。
 
 要使用这个项目, 请加入以下依赖:
 
-* Maven (in your `pom.xml`):
+* Maven （在 `pom.xml` 文件中）：
 
 [source,xml,subs="+attributes"]
 ----
@@ -20,7 +20,7 @@ Vert.x邮件客户端通过本地邮件服务器(例如: postfix)或者外部邮
 </dependency>
 ----
 
-* Gradle (in your `build.gradle` file):
+* Gradle （在 `build.gradle` 文件中）：
 
 [source,groovy,subs="+attributes"]
 ----
@@ -31,15 +31,15 @@ compile 'io.vertx:vertx-mail-client:4.0.3'
 
 你可以在本地JVM上创建一个客户端来打开SMTP连接发送邮件。
 
-该客户端使用配置对象, 默认会创建空的配置对象, 这种情况下客户端将会连接到localhost的25端口。
-在运行着Postfix或类似的邮件服务器的标准Linux环境下, 本机的25端口是可用的。有关配置对象的全部可选属性，请参见下文。
+该客户端使用配置对象, 默认会创建空的配置对象,
+这种情况下客户端将会连接到localhost的25端口。
+在运行着Postfix或类似的邮件服务器的标准Linux环境下, 本机的25端口是可用的。
+有关配置对象的全部可选属性，请参见下文。
 
-
-
-该客户端可以使用SMTP连接池来避免因TLS协商、登陆产生的时间开销(这个功能可以通过设置keepAlive = false来关闭)。
-客户端可以被设置成共享或非共享的, 如果设置为共享, 则所有标识符相同的客户端都会使用同一个连接池。
-
-
+该客户端可以使用SMTP连接池来避免因TLS协商、
+登陆产生的时间开销(这个功能可以通过设置keepAlive = false来关闭)。
+客户端可以被设置成共享或非共享的,
+如果设置为共享, 则所有标识符相同的客户端都会使用同一个连接池。
 
 [source,java]
 ----
@@ -50,9 +50,9 @@ MailClient mailClient = MailClient
 MailClient.createShared的第一次调用将会实际创建一个指定配置的连接池。
 后续调用将返回一个使用相同连接池的新客户端实例, 因此后指定的配置将不会被使用。
 
-如果省略连接池标识符, 将会创建默认标识符的连接池。注意, 客户端仅共享在vertx实例作用域内(因此, 两个不同的vertx实例将会有相同标识名但实例对象不相同的连接池)。
-
-
+如果省略连接池标识符, 将会创建默认标识符的连接池。
+注意, 客户端仅共享在vertx实例作用域内(因此,
+两个不同的vertx实例将会有相同标识名但实例对象不相同的连接池)。
 
 创建非共享客户端的方法相同, 不需要指定连接池标识符。
 
@@ -76,19 +76,19 @@ MailClient mailClient = MailClient.create(vertx, config);
 
 == 发送邮件
 
-一旦客户端创建好了, 就可以用它来发送邮件。因为在vert.x中邮件发送是异步的, 所以当邮件发送操作完成后才会调用结果处理程序。
+一旦客户端创建好了, 就可以用它来发送邮件。
+因为在vert.x中邮件发送是异步的,
+所以当邮件发送操作完成后才会调用结果处理程序。
+多个邮件发送操作可以并发, 连接池将会限制并发数,
+如果没有可用连接那么新的操作将会在队列中等待。
 
-多个邮件发送操作可以并发, 连接池将会限制并发数, 如果没有可用连接那么新的操作将会在队列中等待。
-
-
-
-邮件消息被构建成JSON。 MailMessage对象有from, to, cc, bcc, subject, text, html等属性。依据具体的值, 生成的MIME消息将会有所不同。
+邮件消息被构建成JSON。 MailMessage对象有
+from、to、cc、bcc、subject、text、html等属性。
+依据具体的值, 生成的MIME消息将会有所不同。
 收件人地址可以是单个地址或地址列表。
 
-
-MIME编码器支持 us-ascii (7bit) headers/messages 和 utf8 (usually quoted-printable) headers/messages
-
-
+MIME编码器支持 us-ascii (7bit) headers/messages 和
+utf8 (usually quoted-printable) headers/messages
 
 [source,java]
 ----
@@ -100,8 +100,8 @@ message.setText("this is the plain message text");
 message.setHtml("this is html text <a href=\"http://vertx.io\">vertx.io</a>");
 ----
 
-MailAttachment对象可以使用数据存储缓冲区来创建附件, 支持base64附件。
-
+MailAttachment对象可以使用数据存储缓冲区来创建附件,
+支持base64附件。
 
 [source,java]
 ----
@@ -112,12 +112,12 @@ attachment.setData(Buffer.buffer("attachment file"));
 message.setAttachment(attachment);
 ----
 
-当使用到内联附件(通常是图像), html消息中可以引用邮件中包含的图像来展示html。
-html文本中图像可以被引用为<img src="cid:contentid@domain">,相应的图像具有特征:
+当使用到内联附件(通常是图像)，
+html消息中可以引用邮件中包含的图像来展示html。
+html文本中图像可以被引用为<img src="cid:contentid@domain">，相应的图像具有特征：
 内联并且Message-ID头是"<contentid@domain>"。
 请注意, RFC 2392需要Content-ID值的结构是Message-ID带有尖括号并且local和domain部分已经使用URL兼容编码编码过。
 这些都不是强制的, 大多数邮件客户端支持没有尖括号或者没有domain部分, 最好是使用严格的格式标准。
-
 正确的Content-ID值示例是"<filename%201.jpg@example.org>"
 
 [source,java]
@@ -130,8 +130,8 @@ attachment.setContentId("<image1@example.com>");
 
 message.setInlineAttachment(attachment);
 ----
-发送邮件时, 你可以提供AsyncResult<MailResult>回调函数, 它会在发送操作完成或者失败时被调用。
-
+发送邮件时, 你可以提供AsyncResult<MailResult>回调函数，
+它会在发送操作完成或者失败时被调用。
 
 按如下方式发送邮件:
 
@@ -144,8 +144,8 @@ mailClient.sendMail(message)
 
 == DKIM 邮件电子签名
 
-支持 http://dkim.org[DomainKeys Identified Mail (DKIM)] 电子签名保护你的邮件。你需要做的就是指定所需配置来签名你的邮件。
-
+支持 http://dkim.org[DomainKeys Identified Mail (DKIM)] 电子签名保护你的邮件。
+你需要做的就是指定所需配置来签名你的邮件。
 
 邮件客户端启用DKIM功能可以按如下方式创建:
 
@@ -163,14 +163,14 @@ MailConfig config = new MailConfig()
 MailClient mailClient = MailClient.createShared(vertx, config);
 ----
 
-一旦邮件客户端被创建, 每次调用 `mailClient.sendMail` 都会添加额外的 `DKIM-Signature` 头对电子邮件进行签名。
-
+一旦邮件客户端被创建, 每次调用 `mailClient.sendMail` 都会添加额外的
+`DKIM-Signature` 头对电子邮件进行签名。
 
 == 在DKIM中缓存附件数据流
 
-为了能够进行DKIM签名, 需要计算电子邮件包含附件在内的正文hash。
-如果附件来自读流, 它将无法被二次读取。所以我们需要缓存数据。该客户端提供了两种缓存策略。
-
+为了能够进行DKIM签名，需要计算电子邮件包含附件在内的正文hash。
+如果附件来自读流, 它将无法被二次读取。所以我们需要缓存数据。
+该客户端提供了两种缓存策略。
 
 * 缓存在内存中
 
@@ -179,15 +179,15 @@ MailClient mailClient = MailClient.createShared(vertx, config);
 * 缓存在临时文件中
 
 你可以通过设置系统变量来缓存附件数据流的数据到临时文件中:
-`vertx.mail.attachment.cache.file` 设为 `true` 用于处理大体积附件. 附件被发送之后将会删除临时文件。
-
+`vertx.mail.attachment.cache.file` 设为 `true` 用于处理大体积附件。
+附件被发送之后将会删除临时文件。
 
 == Mail-client 数据对象
 
 === MailMessage 属性
 
-Email字段是带真实名称或不带真实名称的通用电子邮件地址格式
-
+Email
+字段是带真实名称或不带真实名称的通用电子邮件地址格式
 
 * `username@example.com`
 * `username@example.com (Firstname Lastname)`
@@ -207,21 +207,21 @@ MailMessage对象有如下属性
 * `headers` MultiMap类型, 表示除MIME消息所必要的消息头之外需额外添加的消息头
 * `fixedHeaders` boolean类型, 如果值为true, 则只有headers字段的值才会作为消息的消息头
 
-最后两个属性允许操作自定义的消息头, 例如。提供调用程序选择的消息id或者设置不同于默认情况下生成的头。除非您知道自己在做什么，否则可能会生成无效消息。
-
-
+最后两个属性允许操作自定义的消息头,
+例如。提供调用程序选择的消息id或者设置不同于默认情况下生成的头。除非您知道自己在做什么，
+否则可能会生成无效消息。
 
 === 邮件附件属性
 邮件附件对象由如下属性
 
-* 'data' 缓冲区，包含附件的二进制数据
-* 'stream' ReadStream，表示附件二进制数据的源
-* 'size' int类型, 当 'stream' 作为二进制数据的源时，描述附件大小
-* 'contentType' String类型, 表示附件的内容类型(例如:text/plain或text/plain;charset="UTF8"，默认为application/octet-stream)
-* 'description' String类型, 表示附件的描述信息(放置在附件的描述头部分)，可选
-* 'disposition' String类型, 表示附件的部署类型(可以是"inline"或"attachment"，默认为attachment)
-* 'name' String类型, 表示附件的文件名(它被放入附件的disposition和Content-Type头中)，可选
-* 'contentId' String类型, 表示附件的Content-Id(用于标识内联图像)，可选
+* `data` 缓冲区，包含附件的二进制数据
+* `stream` ReadStream，表示附件二进制数据的源
+* `size` int类型, 当 `stream` 作为二进制数据的源时，描述附件大小
+* `contentType` String类型, 表示附件的内容类型(例如:text/plain或text/plain;charset="UTF8"，默认为application/octet-stream)
+* `description` String类型, 表示附件的描述信息(放置在附件的描述头部分)，可选
+* `disposition` String类型, 表示附件的部署类型(可以是“inline”或“attachment”，默认为attachment)
+* `name` String类型, 表示附件的文件名(它被放入附件的disposition和Content-Type头中)，可选
+* `contentId` String类型, 表示附件的Content-Id(用于标识内联图像)，可选
 * `headers` MultiMap类型, 除了默认头之外的附加头, 可选
 
 === MailConfig 选项
