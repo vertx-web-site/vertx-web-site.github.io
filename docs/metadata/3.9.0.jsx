@@ -444,8 +444,8 @@ const entries = [
   },
   {
     id: "vertx-mail-client",
-    name: "Mail Client",
-    description: "A SMTP client to send emails from your applications.",
+    name: "邮件客户端",
+    description: "一款用于从您应用程序中发送电子邮件的 SMTP 客户端。",
     category: "integration",
     href: "/vertx-mail-client/java/",
     repository: "https://github.com/vert-x3/vertx-mail-client",
