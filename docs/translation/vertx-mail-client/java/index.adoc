@@ -1,13 +1,13 @@
 = Vert.x Mail client (SMTP client implementation)
 
-Vert.x邮件客户端通过本地邮件服务器(例如: postfix)或者外部邮件服务器
-(例如: googlemail或aol)发送邮件。
+Vert.x邮件客户端通过本地邮件服务器（例如： postfix）或者外部邮件服务器
+（例如： googlemail或aol）发送邮件。
 
-该客户端支持一些额外的验证方法, 例如DIGEST-MD5。
+该客户端支持一些额外的验证方法，例如DIGEST-MD5。
 该客户端完全支持TLS和SSL。该客户端是全异步的。
 该客户端支持使用连接池复用连接。
 
-要使用这个项目, 请加入以下依赖:
+要使用这个项目，请加入以下依赖：
 
 * Maven （在 `pom.xml` 文件中）：
 
@@ -31,15 +31,15 @@ compile 'io.vertx:vertx-mail-client:4.0.3'
 
 你可以在本地JVM上创建一个客户端来打开SMTP连接发送邮件。
 
-该客户端使用配置对象, 默认会创建空的配置对象,
+该客户端使用配置对象，默认会创建空的配置对象，
 这种情况下客户端将会连接到localhost的25端口。
-在运行着Postfix或类似的邮件服务器的标准Linux环境下, 本机的25端口是可用的。
+在运行着Postfix或类似的邮件服务器的标准Linux环境下，本机的25端口是可用的。
 有关配置对象的全部可选属性，请参见下文。
 
 该客户端可以使用SMTP连接池来避免因TLS协商、
-登陆产生的时间开销(这个功能可以通过设置keepAlive = false来关闭)。
-客户端可以被设置成共享或非共享的,
-如果设置为共享, 则所有标识符相同的客户端都会使用同一个连接池。
+登陆产生的时间开销（这个功能可以通过设置keepAlive = false来关闭）。
+客户端可以被设置成共享或非共享的，
+如果设置为共享，则所有标识符相同的客户端都会使用同一个连接池。
 
 [source,java]
 ----
@@ -48,13 +48,13 @@ MailClient mailClient = MailClient
   .createShared(vertx, config, "exampleclient");
 ----
 MailClient.createShared的第一次调用将会实际创建一个指定配置的连接池。
-后续调用将返回一个使用相同连接池的新客户端实例, 因此后指定的配置将不会被使用。
+后续调用将返回一个使用相同连接池的新客户端实例，因此后指定的配置将不会被使用。
 
-如果省略连接池标识符, 将会创建默认标识符的连接池。
-注意, 客户端仅共享在vertx实例作用域内(因此,
-两个不同的vertx实例将会有相同标识名但实例对象不相同的连接池)。
+如果省略连接池标识符，将会创建默认标识符的连接池。
+注意，客户端仅共享在vertx实例作用域内（因此，
+两个不同的vertx实例将会有相同标识名但实例对象不相同的连接池）。
 
-创建非共享客户端的方法相同, 不需要指定连接池标识符。
+创建非共享客户端的方法相同，不需要指定连接池标识符。
 
 [source,java]
 ----
@@ -76,15 +76,15 @@ MailClient mailClient = MailClient.create(vertx, config);
 
 == 发送邮件
 
-一旦客户端创建好了, 就可以用它来发送邮件。
-因为在vert.x中邮件发送是异步的,
+一旦客户端创建好了，就可以用它来发送邮件。
+因为在vert.x中邮件发送是异步的，
 所以当邮件发送操作完成后才会调用结果处理程序。
-多个邮件发送操作可以并发, 连接池将会限制并发数,
+多个邮件发送操作可以并发，连接池将会限制并发数，
 如果没有可用连接那么新的操作将会在队列中等待。
 
 邮件消息被构建成JSON。 MailMessage对象有
 from、to、cc、bcc、subject、text、html等属性。
-依据具体的值, 生成的MIME消息将会有所不同。
+依据具体的值，生成的MIME消息将会有所不同。
 收件人地址可以是单个地址或地址列表。
 
 MIME编码器支持 us-ascii (7bit) headers/messages 和
@@ -100,7 +100,7 @@ message.setText("this is the plain message text");
 message.setHtml("this is html text <a href=\"http://vertx.io\">vertx.io</a>");
 ----
 
-MailAttachment对象可以使用数据存储缓冲区来创建附件,
+MailAttachment对象可以使用数据存储缓冲区来创建附件，
 支持base64附件。
 
 [source,java]
@@ -112,12 +112,12 @@ attachment.setData(Buffer.buffer("attachment file"));
 message.setAttachment(attachment);
 ----
 
-当使用到内联附件(通常是图像)，
+当使用到内联附件（通常是图像），
 html消息中可以引用邮件中包含的图像来展示html。
 html文本中图像可以被引用为<img src="cid:contentid@domain">，相应的图像具有特征：
 内联并且Message-ID头是"<contentid@domain>"。
-请注意, RFC 2392需要Content-ID值的结构是Message-ID带有尖括号并且local和domain部分已经使用URL兼容编码编码过。
-这些都不是强制的, 大多数邮件客户端支持没有尖括号或者没有domain部分, 最好是使用严格的格式标准。
+请注意，RFC 2392需要Content-ID值的结构是Message-ID带有尖括号并且local和domain部分已经使用URL兼容编码编码过。
+这些都不是强制的，大多数邮件客户端支持没有尖括号或者没有domain部分，最好是使用严格的格式标准。
 正确的Content-ID值示例是"<filename%201.jpg@example.org>"
 
 [source,java]
@@ -130,10 +130,10 @@ attachment.setContentId("<image1@example.com>");
 
 message.setInlineAttachment(attachment);
 ----
-发送邮件时, 你可以提供AsyncResult<MailResult>回调函数，
+发送邮件时，你可以提供AsyncResult<MailResult>回调函数，
 它会在发送操作完成或者失败时被调用。
 
-按如下方式发送邮件:
+按如下方式发送邮件：
 
 [source,java]
 ----
@@ -147,7 +147,7 @@ mailClient.sendMail(message)
 支持 http://dkim.org[DomainKeys Identified Mail (DKIM)] 电子签名保护你的邮件。
 你需要做的就是指定所需配置来签名你的邮件。
 
-邮件客户端启用DKIM功能可以按如下方式创建:
+邮件客户端启用DKIM功能可以按如下方式创建：
 
 [source,java]
 ----
@@ -163,22 +163,22 @@ MailConfig config = new MailConfig()
 MailClient mailClient = MailClient.createShared(vertx, config);
 ----
 
-一旦邮件客户端被创建, 每次调用 `mailClient.sendMail` 都会添加额外的
+一旦邮件客户端被创建，每次调用 `mailClient.sendMail` 都会添加额外的
 `DKIM-Signature` 头对电子邮件进行签名。
 
 == 在DKIM中缓存附件数据流
 
 为了能够进行DKIM签名，需要计算电子邮件包含附件在内的正文hash。
-如果附件来自读流, 它将无法被二次读取。所以我们需要缓存数据。
+如果附件来自读流，它将无法被二次读取。所以我们需要缓存数据。
 该客户端提供了两种缓存策略。
 
 * 缓存在内存中
 
-默认情况下, 数据流被缓存在内存中以便随后发送。
+默认情况下，数据流被缓存在内存中以便随后发送。
 
 * 缓存在临时文件中
 
-你可以通过设置系统变量来缓存附件数据流的数据到临时文件中:
+你可以通过设置系统变量来缓存附件数据流的数据到临时文件中：
 `vertx.mail.attachment.cache.file` 设为 `true` 用于处理大体积附件。
 附件被发送之后将会删除临时文件。
 
@@ -195,19 +195,19 @@ Email
 
 MailMessage对象有如下属性
 
-* `from` String 类型, 表示发件人地址和MAIL FROM字段
-* `to` String 或 String 列表类型, 表示单个收件人地址和RCPT TO字段
+* `from` String 类型，表示发件人地址和MAIL FROM字段
+* `to` String 或 String 列表类型，表示单个收件人地址和RCPT TO字段
 * `cc` 同to
 * `bcc` 同to
-* `bounceAddress` String类型, 表示错误地址(MAIL FROM), 如果未设置则使用from字段值
-* `text` String类型, 表示邮件的text/plain部分
-* `html` String类型, 表示邮件的text/html部分
+* `bounceAddress` String类型，表示错误地址（MAIL FROM），如果未设置则使用from字段值
+* `text` String类型，表示邮件的text/plain部分
+* `html` String类型，表示邮件的text/html部分
 * `attachment` 表示消息的单个或多个附件
-* `inlineAttachment` 表示单个或多个内联附件(通常是图像)
-* `headers` MultiMap类型, 表示除MIME消息所必要的消息头之外需额外添加的消息头
-* `fixedHeaders` boolean类型, 如果值为true, 则只有headers字段的值才会作为消息的消息头
+* `inlineAttachment` 表示单个或多个内联附件（通常是图像）
+* `headers` MultiMap类型，表示除MIME消息所必要的消息头之外需额外添加的消息头
+* `fixedHeaders` boolean类型，如果值为true，则只有headers字段的值才会作为消息的消息头
 
-最后两个属性允许操作自定义的消息头,
+最后两个属性允许操作自定义的消息头，
 例如。提供调用程序选择的消息id或者设置不同于默认情况下生成的头。除非您知道自己在做什么，
 否则可能会生成无效消息。
 
@@ -216,59 +216,59 @@ MailMessage对象有如下属性
 
 * `data` 缓冲区，包含附件的二进制数据
 * `stream` ReadStream，表示附件二进制数据的源
-* `size` int类型, 当 `stream` 作为二进制数据的源时，描述附件大小
-* `contentType` String类型, 表示附件的内容类型(例如:text/plain或text/plain;charset="UTF8"，默认为application/octet-stream)
-* `description` String类型, 表示附件的描述信息(放置在附件的描述头部分)，可选
-* `disposition` String类型, 表示附件的部署类型(可以是“inline”或“attachment”，默认为attachment)
-* `name` String类型, 表示附件的文件名(它被放入附件的disposition和Content-Type头中)，可选
-* `contentId` String类型, 表示附件的Content-Id(用于标识内联图像)，可选
-* `headers` MultiMap类型, 除了默认头之外的附加头, 可选
+* `size` int类型，当 `stream` 作为二进制数据的源时，描述附件大小
+* `contentType` String类型，表示附件的内容类型（例如：text/plain或text/plain;charset="UTF8"，默认为application/octet-stream）
+* `description` String类型，表示附件的描述信息（放置在附件的描述头部分），可选
+* `disposition` String类型，表示附件的部署类型（可以是“inline”或“attachment”，默认为attachment）
+* `name` String类型，表示附件的文件名（它被放入附件的disposition和Content-Type头中），可选
+* `contentId` String类型，表示附件的Content-Id（用于标识内联图像），可选
+* `headers` MultiMap类型，除了默认头之外的附加头，可选
 
 === MailConfig 选项
 
 该配置具有如下属性
 
-* `hostname` 连接smtp服务器的主机名(默认是localhost)
-* `port` 连接smtp服务器的端口(默认是25)
-* `startTLS` StartTLSOptions可选DISABLED, OPTIONAL或者REQUIRED, 默认是OPTIONAL
-* `login` LoginOption可选DISABLED, NONE或者REQUIRED, 默认是NONE
-* `username` 用于登陆的用户名(当LoginOption是REQUIRED时为必须)
-* `password` 用于登陆的密码(当LoginOption是REQUIRED时为必须)
-* `ssl` 连接邮件服务器是否使用ssl(默认是false), 设置为true则使用465端口建立ssl连接(默认是false)
-* `ehloHostname` 在EHLO中使用, 用于创建message-id, 如果未设置, 将使用自己的主机名, 如果主机名不是FQDN或者主机名是localhost则不推荐使用(可选的)
-* `authMethods` 用空格分割的允许认证方法列表, 可以用来禁止一些认证方法或定义一个必需的认证方法(可选的)
-* `keepAlive` 是否启用连接池(默认是true)
-* `maxPoolSize` 连接池中能保留的连接数的最大值(启用连接池)或者可以同时打开的最大连接数(不启用连接池), 默认是10
-* `trustAll` 是否接受服务端的所有证书(默认是false)
-* `keyStore` 密钥文件的文件名, 可用于信任自定义生成的服务器证书(可选的)
-* `keyStorePassword` 用于解密密钥库(可选的)
-* `allowRcptErrors` 如果为true, 允许收件人列表中的地址发送撕逼爱, 但至少有一个发送成功(默认是false)
-* `disableEsmtp` 如果为true, ESMTP-related命令将不会被调用(如果您的smtp服务器甚至没有为EHLO命令提供正确的错误响应代码，则设置此选项)(默认是false)
-* `userAgent` 表示邮件用户代理(MUA)名称用来生成multipart邮件和message-id的边界, 默认是 `vertxmail`
-* `enableDKIM` 如果为true, 则在DKIM配置设置好了的情况下DKIM签名将会启用, 默认是 `false`
+* `hostname` 连接smtp服务器的主机名（默认是localhost）
+* `port` 连接smtp服务器的端口（默认是25）
+* `startTLS` StartTLSOptions可选DISABLED，OPTIONAL或者REQUIRED，默认是OPTIONAL
+* `login` LoginOption可选DISABLED，NONE或者REQUIRED，默认是NONE
+* `username` 用于登陆的用户名（当LoginOption是REQUIRED时为必须）
+* `password` 用于登陆的密码（当LoginOption是REQUIRED时为必须）
+* `ssl` 连接邮件服务器是否使用ssl（默认是false），设置为true则使用465端口建立ssl连接（默认是false）
+* `ehloHostname` 在EHLO中使用，用于创建message-id，如果未设置，将使用自己的主机名，如果主机名不是FQDN或者主机名是localhost则不推荐使用（可选的）
+* `authMethods` 用空格分割的允许认证方法列表，可以用来禁止一些认证方法或定义一个必需的认证方法（可选的）
+* `keepAlive` 是否启用连接池（默认是true）
+* `maxPoolSize` 连接池中能保留的连接数的最大值（启用连接池）或者可以同时打开的最大连接数（不启用连接池），默认是10
+* `trustAll` 是否接受服务端的所有证书（默认是false）
+* `keyStore` 密钥文件的文件名，可用于信任自定义生成的服务器证书（可选的）
+* `keyStorePassword` 用于解密密钥库（可选的）
+* `allowRcptErrors` 如果为true，允许收件人列表中的地址发送撕逼爱，但至少有一个发送成功（默认是false）
+* `disableEsmtp` 如果为true，ESMTP-related命令将不会被调用（如果您的smtp服务器甚至没有为EHLO命令提供正确的错误响应代码，则设置此选项）（默认是false）
+* `userAgent` 表示邮件用户代理（MUA）名称用来生成multipart邮件和message-id的边界，默认是 `vertxmail`
+* `enableDKIM` 如果为true，则在DKIM配置设置好了的情况下DKIM签名将会启用，默认是 `false`
 * `dkimSignOptions` `DKIMSignOptions` 列表用于执行DKIM签名
-* `pipelining` 如果邮件服务端允许, 则开启管道。默认是 `true`
+* `pipelining` 如果邮件服务端允许，则开启管道。默认是 `true`
 * `multiPartOnly` boolean, if encode mail messages as multipart only or not. Default is `false`
 
 === MailResult对象
 MailResult对象有下列成员变量
 
 * `messageID` 这封邮件的Message-ID
-* `recipients` 成功投递的收件人列表 (如果allowRcptErrors值为true, 数量可能比预期收件人少)
+* `recipients` 成功投递的收件人列表 （如果allowRcptErrors值为true，数量可能比预期收件人少）
 
 === DKIMSignOptions对象
 DKIMSignOptions有下列属性
 
 * `privateKey` 按照RSA https://www.ietf.org/rfc/rfc5208.txt[PKCS#8] 格式来格式化的用于签名的私钥。
 * `privateKeyPath` 按照RSA https://www.ietf.org/rfc/rfc5208.txt[PKCS#8] 格式来格式化的私钥文件地址。`privateKey` 或者 `privateKeyPath` 二选一。
-* `signAlgo` `DKIMSignAlgorithm.RSA_SHA256`(default)或者 `DKIMSignAlgorithm.RSA_SHA1` 二选一。该算法用来做正文哈希或签名。
-* `signedHeaders` 指定将用于执行签名的电子邮件头的字符串列表。默认是: `From`, `Reply-to`, `Subject`, `Date`, `To`, `Cc` 。 注意: 顺序很重要。
-* `sdid` *必须的*, 字符串, 域标识符(SDID), 通常是SMTP服务端的域。
-* `auid` 可选, 字符串, 代理或用户标识符(AUID), 默认是 `@` 加上 `sdid` 。
-* `selector` *必须的*, 字符串, 用于查询公钥的选择器。
-* `headerCanonAlgo` 用于邮件头的规范化算法, `simple`(默认) 和 `relaxed` 其中之一。
-* `bodyCanonAlgo` 用于邮件正文的规范化算法, `simple`(默认) and `relaxed` 其中之一。
-* `bodyLimit` 可选的, 整型, 用于计算正文hash的正文长度上限。
-* `signatureTimestamp` 可选的, 布尔类型, 如果为true则在 `DKIM-SIgnature` 标签列表里包含时间戳。默认是false。
-* `expireTime` 可选的, 长整型, 签名在当前时间的多少秒内有效。
-* `copiedHeaders` 可选的, 字符串列表, DKIM中使用的复制头。根据DKIM规范, 它们通常用于调试。
+* `signAlgo` `DKIMSignAlgorithm.RSA_SHA256`（default）或者 `DKIMSignAlgorithm.RSA_SHA1` 二选一。该算法用来做正文哈希或签名。
+* `signedHeaders` 指定将用于执行签名的电子邮件头的字符串列表。默认是： `From`、 `Reply-to`、 `Subject`、 `Date`、 `To`、 `Cc` 。 注意：顺序很重要。
+* `sdid` *必须的*，字符串，域标识符（SDID），通常是SMTP服务端的域。
+* `auid` 可选，字符串，代理或用户标识符（AUID），默认是 `@` 加上 `sdid` 。
+* `selector` *必须的*，字符串，用于查询公钥的选择器。
+* `headerCanonAlgo` 用于邮件头的规范化算法， `simple`（默认） 和 `relaxed` 其中之一。
+* `bodyCanonAlgo` 用于邮件正文的规范化算法， `simple`（默认） and `relaxed` 其中之一。
+* `bodyLimit` 可选的，整型，用于计算正文hash的正文长度上限。
+* `signatureTimestamp` 可选的，布尔类型，如果为true则在 `DKIM-SIgnature` 标签列表里包含时间戳。默认是false。
+* `expireTime` 可选的，长整型，签名在当前时间的多少秒内有效。
+* `copiedHeaders` 可选的，字符串列表，DKIM中使用的复制头。根据DKIM规范，它们通常用于调试。
