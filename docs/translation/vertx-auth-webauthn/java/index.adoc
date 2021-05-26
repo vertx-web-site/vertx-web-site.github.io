@@ -33,7 +33,8 @@ CTAP是一个协议，类似FIDO安全口令一样，浏览器用它来与认证
 
 FIDO2使用公钥/私钥。用户有一个认证器，该认证器创建公钥/私钥的密钥对。
 这些密钥对在每个网站都不一样。公钥被传送到服务器端并被存储到用户账号名下。
-私钥存储在验证器方从不暴露。如果要登陆，服务器首先创建一个随机码（一个随机的二进制序列），然后将它发送到验证器。验证器将随机码加入签名后用私钥加密，
+私钥存储在验证器方从不暴露。如果要登陆，服务器首先创建一个随机码（一个随机的二进制序列），
+然后将它发送到验证器。验证器将随机码加入签名后用私钥加密，
 然后将签名加密后的数据发送回服务器。
 服务器用存储的公钥校验签名，如果签名合法，则进行授权。
 
@@ -54,11 +55,12 @@ WebAuthn协议已经在 Edge、Firefox、Chrome、和 Safari 浏览器当中实�
 
 == WebAuthn API
 
-https://developer.mozilla.org/en-US/docs/Web/API/Web_Authentication_API[Web Authentication API] 是 https://developer.mozilla.org/en-US/docs/Web/API/Credential_Management_API[Credential Management API] 的扩展。
+https://developer.mozilla.org/en-US/docs/Web/API/Web_Authentication_API[Web Authentication API] 是
+https://developer.mozilla.org/en-US/docs/Web/API/Credential_Management_API[Credential Management API] 的扩展。
 
-accept a publicKey parameter.
 WebAuthn 从 Credential Management API 中继承了两个功能，
-他们分别是 https://developer.mozilla.org/en-US/docs/Web/API/CredentialsContainer/create[navigator.credentials.create()] 和 https://developer.mozilla.org/en-US/docs/Web/API/CredentialsContainer/get[navigator.credentials.get()] ，所以他们会就收一个 publickKey 参数。
+他们分别是 https://developer.mozilla.org/en-US/docs/Web/API/CredentialsContainer/create[navigator.credentials.create()] 和 https://developer.mozilla.org/en-US/docs/Web/API/CredentialsContainer/get[navigator.credentials.get()] ，
+所以他们会就收一个 publickKey 参数。
 
 为了简化该API的用法，我们提供了一个JavaScript客户端应用：
 

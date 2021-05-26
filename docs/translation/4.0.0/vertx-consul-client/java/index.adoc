@@ -1,13 +1,14 @@
-= Vert.x Consul Client
+= Vert.x Consul 客户端
 
-https://www.consul.io[Consul] is a tool for discovering and configuring services in your infrastructure.
-A Vert.x client allowing applications to interact with a Consul system via blocking and non-blocking HTTP API.
+https://www.consul.io[Consul] 是一个在你的应用架构中提供服务发现和配置管理的工具。
+Vert.x 的 Consul 客户端允许应用通过阻塞或非阻塞的 HTTP 接口与 Consul 系统互动。
 
-== Using Vert.x Consul Client
+[[_using_vert_x_consul_client]]
+== 使用 Vert.x Consul 客户端
 
-To use this project, add the following dependency to the _dependencies_ section of your build descriptor:
+为了使用该项目， 将以下依赖添加到你的构建描述文件的 _依赖配置_ 中：
 
-* Maven (in your `pom.xml`):
+* Maven (在你的 `pom.xml` 中):
 
 [source,xml,subs="+attributes"]
 ----
@@ -18,23 +19,24 @@ To use this project, add the following dependency to the _dependencies_ section 
 </dependency>
 ----
 
-* Gradle (in your `build.gradle` file):
+* Gradle (在你的 `build.gradle` 文件中):
 
 [source,groovy,subs="+attributes"]
 ----
 compile 'io.vertx:vertx-consul-client:4.0.0'
 ----
 
-== Creating a client
+[[_creating_a_client]]
+== 创建客户端
 
-Just use factory method:
+只需使用工厂方法即可创建：
 
 [source,java]
 ----
 ConsulClient client = ConsulClient.create(vertx);
 ----
 
-Also the client can be configured with an options.
+Consul 客户端也可以配置选项
 
 [source,java]
 ----
@@ -44,34 +46,36 @@ ConsulClientOptions options = new ConsulClientOptions()
 ConsulClient client = ConsulClient.create(vertx, options);
 ----
 
-The following configuration is supported by the consul client:
+Consul 客户端支持以下配置：
 
-`host`:: Consul host. Defaults to `localhost`
-`port`:: Consul HTTP API port. Defaults to `8500`
-`timeout`:: Sets the amount of time (in milliseconds) after which if the request does not return any data
-within the timeout period an failure will be passed to the handler and the request will be closed.
-`aclToken`:: The ACL token. When provided, the client will use this token when making requests to the Consul
-by providing the "?token" query parameter. When not provided, the empty token, which maps to the 'anonymous'
-ACL policy, is used.
-`dc`:: The datacenter name. When provided, the client will use it when making requests to the Consul
-by providing the "?dc" query parameter. When not provided, the datacenter of the consul agent is queried.
+`host`:: Consul 的主机地址。 默认是 `localhost`
+`port`:: Consul 的 HTTP 接口地址。 默认是 `8500`
+`timeout`:: 设置超时时间 (单位为毫秒) 如果在超时时间内请求没有返回任何数据，那么
+处理器会收到一个失败的结果，请求也会被关闭
+`aclToken`:: ACL 签名。 如果设置了该参数， 客户端在请求 Consul 时会在
+查询参数中携带 "?token" 参数。如没有提供，那么签名为空，会使用对应的 '匿名'
+ACL 策略。
+`dc`:: 数据中心名称。 如果设置了该参数， 客户端在请求 Consul 时会在
+查询参数中携带 "?dc" 参数。 如果没有提供，那么会默认查询当前的 Consul agent 的数据中心。
 
-ConsulClient options extends WebClientOptions from `vertx-web-client` module,
-therefore a lot of settings are available. Please see the documentation.
+ConsulClient 的选项类继承了 `vertx-web-client` 模块的 WebClientOptions 类，
+因此还可以提供很多设置。 请参阅相关文档。
 
-== Using the API
+[[_using_the_api]]
+== 使用接口
 
-The client API is represented by `link:../../apidocs/io/vertx/ext/consul/ConsulClient.html[ConsulClient]`. The API is very similar to Consul's
-HTTP API that described in https://www.consul.io/docs/agent/http.html[Consul API docs]
+客户端接口参见 `link:../../apidocs/io/vertx/ext/consul/ConsulClient.html[ConsulClient]`。 接口的格式与 Consul 的
+HTTP 接口非常相像，Consul 的 HTTP 接口参见 https://www.consul.io/docs/agent/http.html[Consul API 文档]
 
-=== Blocking queries
+[[_blocking_queries]]
+=== 阻塞查询
 
-Certain endpoints support a feature called a "blocking query". A blocking query is used to wait for a potential
-change using long polling. Any endpoint that supports blocking also provide a unique identifier (index) representing
-the current state of the requested resource. The following configuration is used to perform blocking queries:
+Consul 的某些接口支持名为 "阻塞查询" 的特性。 阻塞查询基于长轮询以查询结果的潜在
+变化。 每个支持阻塞查询的接口都提供了一个唯一标识 (index)，以代表
+所请求资源的当前状态。 以下参数配置用于阻塞查询：
 
-`index`:: value indicating that the client wishes to wait for any changes subsequent to that index.
-`wait`:: parameter specifying a maximum duration for the blocking request. This is limited to 10 minutes.
+`index`:: 该值用于表示 Consul 客户端期望看到的所请求资源的 index 的变化。
+`wait`:: 该值用于表示阻塞查询的最大时间。 该值最大为 10 分钟。
 
 [source,java]
 ----
@@ -80,20 +84,22 @@ BlockingQueryOptions opts = new BlockingQueryOptions()
   .setWait("1m");
 ----
 
-A critical note is that the return of a blocking request is *no guarantee* of a change.
-It is possible that the timeout was reached or that there was an idempotent write that does not affect the result of the query.
+要注意的是，阻塞查询 *不能严格保证* 所返回的数据一定是发生了变化的。
+很有可能的情况是，阻塞查询的返回只是因为超时时间到了或发生了并没有改变数据内容的写入。
 
-== Key/Value Store
+[[_keyvalue_store]]
+== 键值对存储
 
-The KV endpoints are used to access Consul's simple key/value store, useful for storing service configuration or other metadata.
-The following endpoints are supported:
+键值对接口用于访问 Consul 内部的简单键值对存储，这对保存服务的配置或其他元数据很有用。
+以下是可以使用的接口：
 
-* To manage updates of individual keys, deletes of individual keys or key prefixes, and fetches of individual keys or key prefixes
-* To manage updates or fetches of multiple keys inside a single, atomic transaction
+* 管理单个键值对的更新，删除和获取，以及根据键的前缀匹配的同样操作
+* 管理通过单个原子性的事务操作来获取和更新键值对的操作
 
-=== Get key-value pair from store
+[[_get_key_value_pair_from_store]]
+=== 从存储中获取键值对
 
-Consul client can return the value for certain key
+Consul 客户端可以返回一个键的值
 
 [source,java]
 ----
@@ -107,7 +113,7 @@ consulClient.getValue("key", res -> {
 });
 ----
 
-...or it can return all key-value pairs with the given prefix
+...或者返回所有匹配某一给定前缀的键的值
 
 [source,java]
 ----
@@ -123,18 +129,18 @@ consulClient.getValues("prefix", res -> {
 });
 ----
 
-The returned key-value object contains these fields (see https://www.consul.io/docs/agent/http/kv.html#single[documentation]):
+返回的键值对数据包括以下字段（参考 https://www.consul.io/docs/agent/http/kv.html#single[文档]）：
 
-`createIndex`:: the internal index value that represents when the entry was created.
-`modifyIndex`:: the last index that modified this key
-`lockIndex`:: the number of times this key has successfully been acquired in a lock
-`key`:: the key
-`flags`:: the flags attached to this entry. Clients can choose to use this however makes
-sense for their application
-`value`:: the value
-`session`:: the session that owns the lock
+`createIndex`:: 内部的创建索引，表示该键值对何时被创建的。
+`modifyIndex`:: 更新索引，该键值对最后一次被修改时的索引
+`lockIndex`:: 该键被成功获取锁的次数
+`key`:: 键
+`flags`:: 该键值对的标志位。 客户端可以选择使用标识位
+来表示应用业务中的一些信息
+`value`:: 值
+`session`:: 拥有锁的会话
 
-The modify index can be used for blocking queries:
+更新索引可以用于阻塞查询：
 
 [source,java]
 ----
@@ -152,7 +158,8 @@ consulClient.getValueWithOptions("key", opts, res -> {
 });
 ----
 
-=== Put key-value pair to store
+[[_put_key_value_pair_to_store]]
+=== 保存键值对
 
 [source,java]
 ----
@@ -166,7 +173,7 @@ consulClient.putValue("key", "value", res -> {
 });
 ----
 
-Put request with options also accepted
+保存请求也可以接受参数
 
 [source,java]
 ----
@@ -186,29 +193,30 @@ consulClient.putValueWithOptions("key", "value", opts, res -> {
 });
 ----
 
-The list of the query options that can be used with a `PUT` request:
+以下是 `PUT` 请求可以接收的参数：
 
-`flags`:: This can be used to specify an unsigned value between `0` and `2^64^-1`.
-Clients can choose to use this however makes sense for their application.
-`casIndex`:: This flag is used to turn the PUT into a Check-And-Set operation. This is very useful as a building
-block for more complex synchronization primitives. If the index is `0`, Consul will only put the key if it does
-not already exist. If the index is non-zero, the key is only set if the index matches the ModifyIndex of that key.
-`acquireSession`:: This flag is used to turn the PUT into a lock acquisition operation. This is useful
-as it allows leader election to be built on top of Consul. If the lock is not held and the session is valid,
-this increments the LockIndex and sets the Session value of the key in addition to updating the key contents.
-A key does not need to exist to be acquired. If the lock is already held by the given session, then the LockIndex
-is not incremented but the key contents are updated. This lets the current lock holder update the key contents
-without having to give up the lock and reacquire it.
-`releaseSession`:: This flag is used to turn the PUT into a lock release operation. This is useful when paired
-with `acquireSession` as it allows clients to yield a lock. This will leave the LockIndex unmodified but will clear
-the associated Session of the key. The key must be held by this session to be unlocked.
+`flags`:: 可以指定一个无符号数，范围是 `0` 到 `2^64^-1` 。
+客户端可以选择使用标识位来表示应用业务中的一些信息。
+`casIndex`:: 该标志位用于将 PUT 操作转为一次检查设置（Check-And-Set）操作。 如果你需要构建一个
+拥有非常复杂同步原语的操作的话这回非常有用。 如果该索引值为 `0`， Consul 只会在键不存在的情况下
+设置该键值对。 如果该索引不为 0， 该键值对只会在该索引与更新索引相匹配的时候被设置。
+`acquireSession`:: 该标志位用于将 PUT 操作转为一次需要获取锁的操作。 这个参数可以让
+Consul 在顶层发生领导选举。 如果锁未被获取并且会话有效，
+那么该操作会增加锁索引（LockIndex） 并设置该键值对所属的会话以更新该键的值。
+获取锁时键不一定存在。 如果锁已经被设置的会话持有， 那么锁索引
+不会增加，但是键的内容还是会更新。 这是因为该会话当前已经拥有锁，可以直接更新键的内容，
+而不用再释放锁并重新获取。
+`releaseSession`:: 该标志位用于将 PUT 操作转换为一次释放锁的操作。 跟 `acquireSession` 一起搭配
+使用的话会很有用，这样可以让客户端生成一个锁。 该操作不会修改锁索引，但会释放
+与该键相关联的会话。 前提是该键的锁正在被该会话持有。
 
-=== Transactions
+[[_transactions]]
+=== 事务
 
-When connected to Consul 0.7 and later, client allows to manage updates or fetches of multiple keys
-inside a single, atomic transaction. KV is the only available operation type, though other types of operations
-may be added in future versions of Consul to be mixed with key/value operations
-(see https://www.consul.io/docs/agent/http/kv.html#txn[documentation]).
+当连接到 Consul 的 0.7 或更高的版本时， 客户端可以使用单次原子性的事务操作
+来管理对多个键的更新和查询。 事务操作目前只支持键值对， 其他类型的
+事务操作可能会在以后的版本中支持。
+(参见 https://www.consul.io/docs/agent/http/kv.html#txn[文档]).
 
 [source,java]
 ----
@@ -226,9 +234,10 @@ consulClient.transaction(request, res -> {
 });
 ----
 
-=== Delete key-value pair
+[[_delete_key_value_pair]]
+=== 删除键值对
 
-At last, Consul client allows to delete key-value pair from store:
+最后， Consul 允许你从存储中删除键值对：
 
 [source,java]
 ----
@@ -241,7 +250,7 @@ consulClient.deleteValue("key", res -> {
 });
 ----
 
-...or all key-value pairs with corresponding key prefix
+...或者删除所有符合该前缀的键值对
 
 [source,java]
 ----
@@ -254,15 +263,17 @@ consulClient.deleteValues("prefix", res -> {
 });
 ----
 
-== Services
+[[_services]]
+== 服务
 
-One of the main goals of service discovery is to provide a catalog of available services.
-To that end, the agent provides a simple service definition format to declare the availability of a service
-and to potentially associate it with a health check.
+服务发现的主要目的之一是提供可用的服务清单。
+为了实现该目标， agent 提供了一个简单的服务声明格式以便说明当前服务是否可用
+并将它与健康检查潜在地关联起来。
 
-=== Service registering
+[[_service_registering]]
+=== 服务注册
 
-A service definition must include a `name` and may optionally provide an `id`, `tags`, `address`, `port`, and `checks`.
+服务的声明格式必须包含一个 `name` ，还可以选择设置 `id`， `tags`， `address`， `port`， 和 `checks` 等属性
 
 [source,java]
 ----
@@ -275,18 +286,18 @@ ServiceOptions opts = new ServiceOptions()
   .setPort(8048);
 ----
 
-`name`:: the name of service
-`id`:: the `id` is set to the `name` if not provided. It is required that all services have a unique ID per node,
-so if names might conflict then unique IDs should be provided.
-`tags`:: list of values that are opaque to Consul but can be used to distinguish between primary or secondary nodes,
-different versions, or any other service level labels.
-`address`:: used to specify a service-specific IP address. By default, the IP address of the agent is used,
-and this does not need to be provided.
-`port`:: used as well to make a service-oriented architecture simpler to configure; this way,
-the address and port of a service can be discovered.
-`checks`:: associated health checks
+`name`:: 服务的名称
+`id`:: 如果没有设置 `name` 则会使用 `id` 替代。 节点的每个服务都需要使用唯一的 ID，
+如果 `name` 发生了冲突，那么会使用 `id` 替换。
+`tags`:: 一组数据，对 Consul 来说没有意义，但是用于区分服务是不是主要节点或是次要节点
+不同的版本，或者服务的其他不同等级标记。
+`address`:: 用于区分服务的 IP 地址。 默认情况下，使用 agent 的地址，
+不需要手动设置
+`port`:: 也是用于简要配置面向服务的结构； 这样，
+通过配置的地址和端口可以发现一个服务
+`checks`:: 关联的健康检查
 
-These options used to register service in catalog:
+这些设置用于将服务注册到清单中：
 
 [source,java]
 ----
@@ -300,9 +311,10 @@ consulClient.registerService(opts, res -> {
 });
 ----
 
-=== Service discovery
+[[_service_discovery]]
+=== 服务发现
 
-Consul client allows to obtain actual list of the nodes providing a service
+Consul 客户端可以当前可以提供服务的节点列表：
 
 [source,java]
 ----
@@ -321,8 +333,8 @@ consulClient.catalogServiceNodes("serviceName", res -> {
 });
 ----
 
-It is possible to obtain this list with the statuses of the associated health checks.
-The result can be filtered by check status.
+获取节点列表时还可以同时获取相关联的健康检查的状态。
+可以使用健康检查的状态过滤结果。
 
 [source,java]
 ----
@@ -341,7 +353,7 @@ consulClient.healthServiceNodes("serviceName", passingOnly, res -> {
 });
 ----
 
-There are additional parameters for services queries
+查询服务时还可以设置以下参数：
 
 [source,java]
 ----
@@ -351,13 +363,13 @@ ServiceQueryOptions queryOpts = new ServiceQueryOptions()
   .setBlockingOptions(new BlockingQueryOptions().setIndex(lastIndex));
 ----
 
-`tag`:: by default, all nodes matching the service are returned.
-The list can be filtered by tag using the `tag` query parameter
-`near`:: adding the optional `near` parameter with a node name will sort the node list in ascending order
-based on the estimated round trip time from that node. Passing `near`=`_agent` will use the agent's node for the sort.
-`blockingOptions`:: the blocking qyery options
+`tag`:: 默认情况下，会返回所有匹配服务的节点。
+你可以指定 `tag` 查询参数以根据服务的标签过滤返回结果
+`near`:: 添加可选的 `near` 参数为一个节点名，那么返回结果会根据
+到该节点的 rtt（round trip time，即往返时间）升序排序。 如果设置 `near`=`_agent` 那么会使用当前节点作为排序的依据。
+`blockingOptions`:: 阻塞查询参数
 
-Then the request should look like
+请求如下所示：
 
 [source,java]
 ----
@@ -371,9 +383,10 @@ consulClient.healthServiceNodesWithOptions("serviceName", passingOnly, queryOpts
 });
 ----
 
-=== Deregister service
+[[_deregister_service]]
+=== 取消注册服务
 
-Service can be deregistered by its ID:
+服务可以通过它的 ID 取消注册：
 
 [source,java]
 ----
@@ -386,11 +399,12 @@ consulClient.deregisterService("serviceId", res -> {
 });
 ----
 
-== Health Checks
+[[_health_checks]]
+== 健康检查
 
-One of the primary roles of the agent is management of system-level and application-level health checks.
-A health check is considered to be application-level if it is associated with a service.
-If not associated with a service, the check monitors the health of the entire node.
+agent 的主要角色之一就是系统层面和应用层面上的健康检查管理。
+如果健康检查与服务关联，那么该健康检查被认为是应用层面上的。
+反之，则健康检查监控的是整个节点的健康状态。
 
 [source,java]
 ----
@@ -399,31 +413,31 @@ CheckOptions opts = new CheckOptions()
   .setInterval("1s");
 ----
 
-The list of check options that supported by Consul client is:
+以下是 Consul 客户端支持的健康检查选项：
 
-`id`:: the check ID
-`name`:: check name
-`script`:: local path to checking script. Also you should set checking interval
-`http`:: HTTP address to check. Also you should set checking interval
-`ttl`:: Time to Live of check
-`tcp`:: TCP address to check. Also you should set checking interval
-`interval`:: checking interval in Go's time format which is sequence of decimal numbers,
-each with optional fraction and a unit suffix, such as "300ms", "-1.5h" or "2h45m".
-Valid time units are "ns", "us" (or "µs"), "ms", "s", "m", "h"
-`notes`:: the check notes
-`serviceId`:: the service ID to associate the registered check with an existing service provided by the agent.
-`deregisterAfter`:: deregister timeout. This is optional field, which is a timeout in the same time format as Interval and TTL.
-If a check is associated with a service and has the critical state for more than this configured value,
-then its associated service (and all of its associated checks) will automatically be deregistered.
-The minimum timeout is 1 minute, and the process that reaps critical services runs every 30 seconds,
-so it may take slightly longer than the configured timeout to trigger the deregistration.
-This should generally be configured with a timeout that's much, much longer than any expected recoverable outage
-for the given service.
-`status`:: the check status to specify the initial state of the health check
+`id`:: 健康检查 ID
+`name`:: 健康检查名称
+`script`:: 健康检查脚本的路径，同时你应该设置检查的间隔
+`http`:: 健康检查的 HTTP 地址，同时你应该设置检查的间隔
+`ttl`:: 健康检查的 ttl（time to live，即生存时间）
+`tcp`:: 健康检查的 tcp 地址，同时你应该设置检查的间隔
+`interval`:: 健康检查的时间间隔，使用 Go 语言的时间格式，是一个十进制的数组字符串，
+可以携带小数和单位后缀，例如 "300ms"， "-1.5h" 或 "2h45m"
+有效的时间单位是 "ns"， "us" （或 "µs"）， "ms"， "s"， "m"， "h"
+`notes`:: 健康检查的备注
+`serviceId`:: 服务的 ID，用于将当前注册的健康检查与 agent 提供的已存在的服务相关联
+`deregisterAfter`:: 取消注册超时时间。 该设置是可选的， 它的时间格式与 Interval 和 TTL 相同。
+如果健康检查与一个服务相关联并且服务的状态处于不可用的时间超过该值，
+那么该服务 (以及所有该服务相关联的服务) 将会自动取消注册
+该值最小为 1 分钟， 并且用于解除服务的进程每 30 秒运行一次。
+因此实际运用中，Consul 可能会花费比该设置长一点的时间将服务取消注册。
+该超时时间应该配置得远大于该服务
+重启或恢复所需要得时间。
+`status`:: 健康检查的初始状态值
 
-The `Name` field is mandatory, as is one of `Script`, `HTTP`, `TCP` or `TTL`. `Script`, `TCP` and `HTTP`
-also require that `Interval` be set. If an `ID` is not provided, it is set to `Name`.
-You cannot have duplicate ID entries per agent, so it may be necessary to provide an ID.
+`Name` 字段是必须的，而 `Script`， `HTTP`， `TCP` 或 `TTL` 只需一个就可以。 `Script`， `TCP` 和 `HTTP`
+需要设置 `Interval` 选项。 如果没有提供 `ID` ， 会用 `Name` 的值替代。
+每个节点上不能有重复的 ID， 因此设置一个 ID 是很有必要的。
 
 [source,java]
 ----
@@ -436,13 +450,14 @@ consulClient.registerCheck(opts, res -> {
 });
 ----
 
-== Events
+[[_events]]
+== 事件
 
-The Consul provides a mechanism to fire a custom user event to an entire datacenter.
-These events are opaque to Consul, but they can be used to build scripting infrastructure to do automated deploys,
-restart services, or perform any other orchestration action.
+Consul 提供了事件机制以便让用户触发自定义的事件给整个数据中心（datacenter）。
+这些事件对 Consul 是没有特殊意义的， 但是它们可以用于构建自动发布的脚本系统，
+重启服务，或处理其他一些编排好的动作。
 
-To send user event only its name is required
+发送用户事件时只需填写事件名称：
 
 [source,java]
 ----
@@ -456,13 +471,13 @@ consulClient.fireEvent("eventName", res -> {
 });
 ----
 
-Also additional options can be specified.
+也可以携带一些额外的参数
 
-`node`:: regular expression to filter recipients by node name
-`service`:: regular expression to filter recipients by service
-`tag`:: regular expression to filter recipients by tag
-`payload`:: an optional body of the event.
-The body contents are opaque to Consul and become the "payload" of the event
+`node`:: 一个正则表达式，用于过滤需要接收事件的节点
+`service`:: 一个正则表达式，用于过滤需要接收事件的服务
+`tag`:: 一个正则表达式，用于根据标签过滤
+`payload`:: 事件可以拥有一个消息体
+对 Consul 来说消息体的内容也是透明的，它会成为事件的内容。
 
 [source,java]
 ----
@@ -480,9 +495,9 @@ consulClient.fireEventWithOptions("eventName", opts, res -> {
 });
 ----
 
-The Consul Client supports queries for obtain the most recent events known by the agent. Events are broadcast using
-the gossip protocol, so they have no global ordering nor do they make a promise of delivery. Agents only buffer
-the most recent entries. The current buffer size is 256, but this value could change in the future.
+Consul 客户端支持查询 agent 最近收到的事件。 Consul 的事件使用
+gossip 协议广播， 因此事件之间没有顺序关系，也并不保证送达。 Agent 只会缓存
+最近的事件。 目前的缓存大小是 256， 但该值在未来也可能会发生变化。
 
 [source,java]
 ----
@@ -500,7 +515,7 @@ consulClient.listEvents(res -> {
 });
 ----
 
-The Consul Index can be used to prepare blocking requests:
+Consul 的索引也可以用于预备查询请求：
 
 [source,java]
 ----
@@ -520,12 +535,13 @@ consulClient.listEventsWithOptions(opts, res -> {
 });
 ----
 
-== Sessions
+[[_sessions]]
+== 会话
 
-Consul provides a session mechanism which can be used to build distributed locks.
-Sessions act as a binding layer between nodes, health checks, and key/value data.
-When a session is constructed, a node name, a list of health checks, a behavior, a TTL, and a lock-delay
-may be provided.
+Consul 提供了会话机制，可以用于构建分布式锁。
+会话表现为一个中间层，绑定了节点，健康检查和键值对存储的资源。
+当会话创建时， 需要提供节点名称，健康检查列表，一个动作，TTL，和
+一个延迟锁。
 
 [source,java]
 ----
@@ -534,21 +550,21 @@ SessionOptions opts = new SessionOptions()
   .setBehavior(SessionBehavior.RELEASE);
 ----
 
-`lockDelay`:: can be specified as a duration string using an 's' suffix for seconds. The default is '15s'.
-`name`:: can be used to provide a human-readable name for the Session.
-`node`:: must refer to a node that is already registered, if specified. By default, the agent's own node name is used.
-`checks`:: is used to provide a list of associated health checks. It is highly recommended that,
-if you override this list, you include the default `serfHealth`.
-`behavior`:: can be set to either `release` or `delete`. This controls the behavior when a session is invalidated.
-By default, this is `release`, causing any locks that are held to be released. Changing this to `delete` causes
-any locks that are held to be deleted. `delete` is useful for creating ephemeral key/value entries.
-`ttl`:: is a duration string, and like `LockDelay` it can use s as a suffix for seconds. If specified,
-it must be between 10s and 86400s currently. When provided, the session is invalidated if it is not renewed before the TTL expires.
+`lockDelay`:: 是一个表示时间的字符串，使用 's' 作为后缀，代表以秒为单位。默认的值是 '15s'
+`name`:: 用于给会话设置一个有意义的易于理解的名称
+`node`:: 如果要设置的话，必须是一个已经注册的节点。 默认情况下， 会使用当前 agent 的节点
+`checks`:: 用于提供相关联的健康检查的列表。 这里强烈建议如果你设置了该参数，
+健康检查列表中需要包含默认的 `serfHealth`。
+`behavior`:: 可以被设置为 `release` 或 `delete`。 该设置控制会话到期时的行为。
+默认情况下设置为 `release`， 这样该会话占有的锁会被释放。 如果将其改为 `delete` 那么
+该会话占有的锁会被删除。如果你要创建临时的键值对存储那么使用 `delete` 会很有用
+`ttl`:: 一个时间字符串， 格式与 `LockDelay` 一样，也使用 s 作为后缀。 该设置需要
+在 10s 和 86400s 之间。 如果提供该设置，那么如果会话在 TTL 时间到期前仍没有刷新的话会失效。
 
-For full info see https://www.consul.io/docs/internals/sessions.html[Consul Sessions internals]
+更多信息请参考 https://www.consul.io/docs/internals/sessions.html[Consul Sessions internals]
 
-The newly constructed session is provided with a named ID that can be used to identify it.
-This ID can be used with the KV store to acquire locks: advisory mechanisms for mutual exclusion.
+新创建的会话会拥有一个命名 ID， 可以用于区分不同的会话。
+这个 ID 可以和键值对一起使用以尝试获取锁，这个锁用通知机制实现了互斥。
 
 [source,java]
 ----
@@ -562,7 +578,7 @@ consulClient.createSessionWithOptions(opts, res -> {
 });
 ----
 
-And also to destroy it
+你也可以销毁会话
 
 [source,java]
 ----
@@ -575,7 +591,7 @@ consulClient.destroySession(sessionId, res -> {
 });
 ----
 
-Lists sessions belonging to a node
+获取属于某个节点的会话列表
 
 [source,java]
 ----
@@ -592,7 +608,7 @@ consulClient.listNodeSessions("nodeId", res -> {
 });
 ----
 
-All of the read session endpoints support blocking queries and all consistency modes.
+所有读取会话的接口支持阻塞查询和全一致模式。
 
 [source,java]
 ----
@@ -608,7 +624,8 @@ consulClient.listSessionsWithOptions(blockingOpts, res -> {
 });
 ----
 
-== Nodes in datacenter
+[[_nodes_in_datacenter]]
+== 数据中心下的节点
 
 [source,java]
 ----
@@ -622,7 +639,7 @@ consulClient.catalogNodes(res -> {
 });
 ----
 
-This endpoint supports blocking queries and sorting by distance from specified node
+该接口支持阻塞查询，并根据与指定节点的距离排序
 
 [source,java]
 ----
@@ -639,31 +656,32 @@ consulClient.catalogNodesWithOptions(opts, res -> {
 });
 ----
 
-== Prepared Queries
+[[_prepared_queries]]
+== 预备查询（Prepared Query）
 
-This endpoint creates, updates, destroys, and executes prepared queries.
-Prepared queries allow you to register a complex service query and then execute it later via its ID
-or name to get a set of healthy nodes that provide a given service. This is particularly useful in combination
-with Consul's DNS Interface as it allows for much richer queries than would be possible given
-the limited entry points exposed by DNS.
+以下接口用于创建，更新，销毁和执行预备查询。
+预备查询可以让你注册一个复杂的服务查询并在之后通过该预备查询的 ID 或名字执行，
+并获取可以提供服务的健康节点的集合。 当与 Consul 的 DNS 接口一起
+使用时会很有帮助，因为这样可以使用更复杂的查询，而不是被 DNS 接口
+的查询接口要求所限制。
 
-There are many parameters to creating a prepared query.
-For full details please https://www.consul.io/api/query.html[see docs]
+创建一条阻塞查询语句有很多参数
+所有的细节请参考 https://www.consul.io/api/query.html[文档]
 
-`dc` :: Specifies the datacenter to query. This will default to the datacenter of the agent being queried. This is specified as part of the URL as a query parameter.
-`name` :: Specifies an optional friendly name that can be used to execute a query instead of using its ID.
-`session` :: Specifies the ID of an existing session. This provides a way to automatically remove a prepared query when the given session is invalidated. If not given the prepared query must be manually removed when no longer needed.
-`token` :: Specifies the ACL token to use each time the query is executed. This allows queries to be executed by clients with lesser or even no ACL Token, so this should be used with care. The token itself can only be seen by clients with a management token. If the Token field is left blank or omitted, the client's ACL Token will be used to determine if they have access to the service being queried. If the client does not supply an ACL Token, the anonymous token will be used.
-`service` :: Specifies the name of the service to query. This is required field.
-`failover` :: contains two fields, both of which are optional, and determine what happens if no healthy nodes are available in the local datacenter when the query is executed. It allows the use of nodes in other datacenters with very little configuration.
-`nearestN` :: Specifies that the query will be forwarded to up to NearestN other datacenters based on their estimated network round trip time using Network Coordinates from the WAN gossip pool. The median round trip time from the server handling the query to the servers in the remote datacenter is used to determine the priority.
-`datacenters` :: Specifies a fixed list of remote datacenters to forward the query to if there are no healthy nodes in the local datacenter. Datacenters are queried in the order given in the list. If this option is combined with NearestN, then the NearestN queries will be performed first, followed by the list given by Datacenters. A given datacenter will only be queried one time during a failover, even if it is selected by both NearestN and is listed in Datacenters.
-`onlyPassing` :: Specifies the behavior of the query's health check filtering. If this is set to false, the results will include nodes with checks in the passing as well as the warning states. If this is set to true, only nodes with checks in the passing state will be returned.
-`tags` :: Specifies a list of service tags to filter the query results. For a service to pass the tag filter it must have all of the required tags, and none of the excluded tags (prefixed with !).
-`nodeMeta` :: Specifies a list of user-defined key/value pairs that will be used for filtering the query results to nodes with the given metadata values present.
-`dnsTtl` :: Specifies the TTL duration when query results are served over DNS. If this is specified, it will take precedence over any Consul agent-specific configuration.
-`templateType` :: is the query type, which must be `name_prefix_match`. This means that the template will apply to any query lookup with a name whose prefix matches the Name field of the template. In this example, any query for geo-db will match this query. Query templates are resolved using a longest prefix match, so it's possible to have high-level templates that are overridden for specific services. Static queries are always resolved first, so they can also override templates.
-`templateRegexp` :: is an optional regular expression which is used to extract fields from the entire name, once this template is selected. In this example, the regular expression takes the first item after the "-" as the database name and everything else after as a tag. See the RE2 reference for syntax of this regular expression.
+`dc` :: 设置要查询的数据中心的名称。 默认情况下该参数为被查询的 agent 所属的数据中心。 它会作为查询参数一部分存在于 URL 中
+`name` :: 一个可选的昵称， 你可以使用该昵称而不是 ID 来指定要使用的预备查询。
+`session` :: 指定一个现有会话的 ID，这样如果该会话过期后，对应的预备查询语句也会被删除，否则你需要手动删除不再使用的预备查询语句。
+`token` :: 指定一个 ACL 签名，每次执行查询都会使用该签名。 预备查询在执行时可以没有 ACL 签名， 因此你需要谨慎使用。 签名本身只对管理签名的客户端可见。 如果签名没有设置或为空字符串，那么会使用客户端的 ACL 签名来决定是否有权限来查询对应服务。 如果客户端无法提供 ACL 签名， 那么会使用一个匿名签名。
+`service` :: 指定要查询的服务名称，这个参数是必填的。
+`failover` :: 该参数包括两个字段，都是可选的。 该参数用于指定执行查询时如果本地的数据中心没有处于健康状态下的服务时的行为。通过简单的配置你可以使用其他数据中心上的节点。
+`nearestN` :: 该选项用于设置预备请求会被转发至其余最近的 NearestN 个数据中心。 使用 WAN gossip pool 中数据中心之间的网络 rtt（round trip time，即往返时间）构成的网路坐标来判断距离。 远程的数据中心上的服务器处理请求的 rtt 的中位数会作为判断权重的依据。
+`datacenters` :: 指定要转发的远程数据中心列表。 如果本地没有健康节点可用的话，会转发请求到这些数据中心上。 Consul 会按照列表中的顺序查询数据中心。 如果该选项与 NearestN 一起使用， 那么会首先依据 NearestN 设置的规则， 其次才是 Datacenters 配置的规则。 在失效转移请求的过程中一个数据中心只会使用一次， 即使它都满足 NearestN 和 Datacenters 配置的条件。
+`onlyPassing` :: 指定该查询的健康检查状态的条件。 如果设置为 false， 那么即使服务处于警告状态也会返回。 如果设置为 true， 则只会返回健康检查成功的服务。
+`tags` :: 设置服务标签列表， 查询结果会根据参数列表过滤。 如果设置了该参数，那么只有服务拥有列表中所有的标签才会满足条件， 并且不包含禁止标签（前缀带有 ! 的为禁止标签）。
+`nodeMeta` :: 设置一个自定义的用户键值对列表，可以用于查询节点的元数据过滤返回结果。
+`dnsTtl` :: 如果查询结果是通过 DNS 服务的话，设置 TTL 的范围。 如果提供了该设置， 那么该设置相比其他设置项是最优先的。
+`templateType` :: 查询类型，用于 `名称前缀匹配` 。 这意味着任何查询，如果它的名称的前缀都与该字段匹配，那么则属于该模板。在以下示例中，任何对 geo-db 的查询都与该查询相匹配。 查询模板使用最长前缀匹配，因此可以使用高级模板，这些高级模板为了一些服务被重写。 静态查询会被首先解析，因此也可以重写查询模板。
+`templateRegexp` :: 一个可选的正则表达式，用于从整个名称字段中匹配提取对应的变量。 如果选择了该模板，在以下示例中正则表达式提取了 "-" 符号后的第一个变量作为数据库的名称而之后的变量均作为标签数据。 参考 RE2 文档以获取正则表达式的更多信息。
 
 [source,java]
 ----
@@ -675,7 +693,7 @@ PreparedQueryDefinition def = new PreparedQueryDefinition()
   .setTemplateRegexp("^find_(.+?)_(.+?)$");
 ----
 
-If the query is successfully created, its ID will be provided
+如果预备查询被成功创建，那么会返回它的 ID
 
 [source,java]
 ----
@@ -689,7 +707,7 @@ consulClient.createPreparedQuery(def, res -> {
 });
 ----
 
-The prepared query can be executed by its id
+通过指定预备查询的 ID，可以执行该查询命令
 
 [source,java]
 ----
@@ -703,7 +721,7 @@ consulClient.executePreparedQuery(id, res -> {
 });
 ----
 
-or by query string that must match template regexp
+或者使用正则匹配来指定要执行的预备查询
 
 [source,java]
 ----
@@ -718,7 +736,7 @@ consulClient.executePreparedQuery("find_1_2", res -> {
 });
 ----
 
-Finally, `ConsulClient` allows you to modify, get or delete prepared queries
+最后， `ConsulClient` 允许你修改，获取和删除预备查询
 
 [source,java]
 ----
@@ -731,11 +749,12 @@ consulClient.deletePreparedQuery(query, res -> {
 });
 ----
 
-== Watches
+[[_watches]]
+== 监视
 
-Watches are a way of specifying a view of data (e.g. list of nodes, KV pairs, health checks)
-which is monitored for updates. When an update is detected, an `Handler` with `WatchResult` is invoked.
-As an example, you could watch the status of health checks and notify when a check is critical.
+监视是一种指定一个数据(例如节点列表， 键值对数据， 健康检查)的视图的方法，
+它会监视数据的更新。 当发现数据更新后，一个参数为 `WatchResult` 的 `Handler` 会被调用。
+以下示例中， 你可以监视健康检查的状态并当状态不正常时收到通知。
 
 [source,java]
 ----

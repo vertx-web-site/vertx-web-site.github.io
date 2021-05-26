@@ -1,6 +1,7 @@
 = JWT 认证
 
-该组件包含了一个现成的 JWT 实现，要使用这个项目，将下面的依赖添加到构建描述符里的 _dependencies_ 部分
+该组件包含了一个现成的 JWT 实现，要使用这个项目，
+将下面的依赖添加到构建描述符里的 _dependencies_ 部分
 
 * Maven（在您的 `pom.xml`）：
 
@@ -21,7 +22,7 @@ compile 'io.vertx:vertx-auth-jwt:4.0.3'
 ----
 
 JSON Web 令牌是一种简单的以明文（通常是URL）发送信息的方法，
-其内容可被验证为是可信的。 
+其内容可被验证为是可信的。
 像下面的这些场景 JWT 是非常适用的：
 
 * 在单点登录方案中，需要一个单独的身份验证服务器，
@@ -40,7 +41,8 @@ JWT 主要的优点有：
 * 它有一个 JSON 结构，可以包含任何您所需的任意数量的数据。
 * 它是无状态的。
 
-您可使用 `link:../../apidocs/io/vertx/ext/auth/jwt/JWTAuth.html[JWTAuth]` 创建一个验证器的实例。 并指定一个格式为 JSON 的配置文件。
+您可使用 `link:../../apidocs/io/vertx/ext/auth/jwt/JWTAuth.html[JWTAuth]` 创建一个验证器的实例。
+并指定一个格式为 JSON 的配置文件。
 
 这是创建一个 JWT 身份验证器的示例代码：
 
@@ -55,7 +57,8 @@ AuthenticationProvider provider = JWTAuth.create(vertx, config);
 ----
 
 JWT 用法的典型流程是，您的应用程序中有一个接口负责颁发令牌，这个接口应在 SSL 模式下运行，
-接口在通过用户名和密码验证完请求用户之后，您应当这样做：
+接口在通过用户名和密码验证完请求用户之后，
+您应当这样做：
 
 [source,java]
 ----
@@ -105,17 +108,17 @@ JWTAuth provider = JWTAuth.create(vertx, new JWTAuthOptions()
 String token = provider.generateToken(new JsonObject());
 ----
 
-在这种情况下 secret 将被设置为公钥，因为这是双方都知道的令牌，您可配置 PubSec 密钥为对称的。
+在这种情况下 secret 将被设置为公钥，因为这是双方都知道的令牌，
+您可配置 PubSec 密钥为对称的。
 
 [[_using_rsa_keys]]
 ==== 使用 RSA 秘钥
 
-这部分不是 OpenSSL 文档，建议阅读 OpenSSL 文档了解命令的使用。 
+这部分不是 OpenSSL 文档，建议阅读 OpenSSL 文档了解命令的使用。
 我们将介绍如何生成最通用的密钥以及如何与 JWT auth 一起使用。
 
-想象一下，您想使用非常常见的 `RS256` 加密算法来保护您的资源。
-与您想象的相反， 256 不是秘钥长度而是哈希算法的签名长度。
-任何 RSA 秘钥都可以和 JWT 加密算法一期使用。
+想象一下，您想使用非常常见的 `RS256` 加密算法来保护您的资源。 与您想象的相反，
+256 不是秘钥长度而是哈希算法的签名长度。 任何 RSA 秘钥都可以和 JWT 加密算法一期使用。
 这是信息表：
 
 [width="80%",cols="e,>s",options="header"]
@@ -130,7 +133,8 @@ String token = provider.generateToken(new JsonObject());
 
 |=========================================================
 
-如果您想生成一个2048位的 RSA 密钥对，那么您应该（请记住 **不要** 添加密码，否则 JWT auth 将无法载入秘钥文件）：
+如果您想生成一个2048位的 RSA 密钥对，那么您应该 （请记住 **不要** 添加密码，
+否则 JWT auth 将无法载入秘钥文件）：
 
 ----
 openssl genrsa -out private.pem 2048
@@ -162,7 +166,8 @@ MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDE9JsJBjmYEoUM
 -----END PRIVATE KEY-----
 ----
 
-如您只验证令牌（只需要 private_key.pem 文件）那么您需要签发令牌，故而您需要一个公钥。在这种情况下您需要从私钥文件中提取公钥文件：
+如您只验证令牌（只需要 private_key.pem 文件）那么您需要签发令牌，
+故而您需要一个公钥。在这种情况下您需要从私钥文件中提取公钥文件：
 
 ----
 openssl rsa -in private.pem -outform PEM -pubout -out public.pem
@@ -337,7 +342,6 @@ String token = provider.generateToken(
 
 默认情况下，该实现将查找以下别名，并不是所有加密算法都有别名。
 就比如 `HS256` 是存在的：
-
 ----
 `HS256`:: HMAC 使用SHA-256哈希算法
 `HS384`:: HMAC 使用SHA-384哈希算法
@@ -353,15 +357,17 @@ String token = provider.generateToken(
 如果未提供密钥库，则实现将回退到不安全模式，并且不会验证签名，
 这对于通过外部手段对 payload 签名会很有用。
 
+存储于 keystore 里的密钥对始终包含证书。 证书的有效性在加载时就进行了测试，
+如果证书已过期或无效， 则不会加载证书。
 
-存储于 keystore 里的密钥对始终包含证书。 证书的有效性在加载时就进行了测试，如果证书已过期或无效， 则不会加载证书。
-
-给定别名将在所有的密钥算法中匹配最合适的。 例如 `RS256` 算法是不允许的，`EC` 算法或 `RSA` 算法是允许的，注意 `RSA` 具体为 `SHA1WithRSA` 而不是 `SHA256WithRSA`。
+给定别名将在所有的密钥算法中匹配最合适的。 例如 `RS256` 算法是不允许的，`EC` 算法或 `RSA` 算法是允许的，
+注意 `RSA` 具体为 `SHA1WithRSA` 而不是 `SHA256WithRSA`。
 
 [[_generate_a_new_keystore_file]]
 ===== 生成新的Keystore格式秘钥
 
-生成秘钥文件需要唯一的工具是 `keytool`，您通过以下方式指定算法：
+生成秘钥文件需要唯一的工具是 `keytool`，
+您通过以下方式指定算法：
 
 ----
 keytool -genseckey -keystore keystore.jceks -storetype jceks -storepass secret -keyalg HMacSHA256 -keysize 2048 -alias HS256 -keypass secret
@@ -375,7 +381,8 @@ keytool -genkeypair -keystore keystore.jceks -storetype jceks -storepass secret 
 keytool -genkeypair -keystore keystore.jceks -storetype jceks -storepass secret -keyalg EC -keysize 521 -alias ES512 -keypass secret -sigalg SHA512withECDSA -dname "CN=,OU=,O=,L=,ST=,C=" -validity 360
 ----
 
-更多有关 keystores 的信息以及如何使用 `PKCS12` 格式秘钥 (默认：Java版本 >=9) 请参阅通用模块的文档。
+更多有关 keystores 的信息以及如何使用 `PKCS12` 格式秘钥 (默认：Java版本 >=9)
+请参阅通用模块的文档。
 
 [[_read_only_tokens]]
 === 读取令牌
@@ -396,17 +403,20 @@ AuthenticationProvider provider = JWTAuth.create(vertx, config);
 [[_authnauthz_with_jwt]]
 == AuthN/AuthZ 和 JWT
 
-通常在开发微服务时，您希望应用程序能够调用一些 API ​​。 
+通常在开发微服务时，您希望应用程序能够调用一些 API ​​。
 而这些 API 并不打算暴露给一般用户，
 因而我们应该在架构中移除所有对 API 调用方进行身份验证的交互部分的内容。
 
-在这种情况下，可以使用 HTTP 作为调用 API 的协议，并且 HTTP 协议已经定义了应该用于传递授权信息的标头 `Authorization` 。
-在大多数情况下令牌将以承载令牌（bearer tokens）的形式发送， 例如：`Authorization: Bearer some+base64+string`。
+在这种情况下，可以使用 HTTP 作为调用 API 的协议，
+并且 HTTP 协议已经定义了应该用于传递授权信息的标头 `Authorization` 。在大多数情况下令牌将以承载令牌（bearer tokens）的形式发送，
+例如：`Authorization: Bearer some+base64+string`。
 
 [[_authenticating_authn]]
 === 鉴权/身份验证 (AuthN)
 
-对于此验证器，如果令牌通过签名检查并且令牌未过期，则对用户进行身份验证。因此，必须保证私钥安全不被泄露，并且不要在项目中复制粘贴，因为这将是一个安全漏洞。
+对于此验证器，如果令牌通过签名检查并且令牌未过期，
+则对用户进行身份验证。因此，必须保证私钥安全不被泄露，并且不要在项目中复制粘贴，
+因为这将是一个安全漏洞。
 
 [source,java]
 ----
@@ -472,9 +482,8 @@ jwtAuth.authenticate(
 [[_authorizing_authz]]
 === 授权 (AuthZ)
 
-一旦令牌被解析并且有效，我们就可以使用它来执行授权任务。最简单的方法是验证用户是否具有特定权限。 
-授权将遵循通用的 `link:../../apidocs/io/vertx/ext/auth/authorization/AuthorizationProvider.html[AuthorizationProvider]`
-API。
+一旦令牌被解析并且有效，我们就可以使用它来执行授权任务。最简单的方法是验证用户是否具有特定权限。
+授权将遵循通用的 `link:../../apidocs/io/vertx/ext/auth/authorization/AuthorizationProvider.html[AuthorizationProvider]` API。
 选择相应的验证服务 API 来产生、验证令牌。
 
 目前有两个工厂类：
@@ -497,9 +506,11 @@ authz.getAuthorizations(user)
   });
 ----
 
-默认情况下验证器会检查 `permissions` 键，但是和其他验证器一样, 可以通过使用 `:` 分隔符将概念拓展到角色，因此可以用 `role:authority` 查找令牌。
+默认情况下验证器会检查 `permissions` 键，但是和其他验证器一样,
+可以通过使用 `:` 分隔符将概念拓展到角色，因此可以用 `role:authority` 查找令牌。
 
-JWT 是个相当自由的格式，并没有强制规定，所以可以将 `permissions` 配置成其他内容，例如，甚至可以在这样的路径下查找：
+JWT 是个相当自由的格式，并没有强制规定，所以可以将 `permissions` 配置成其他内容，
+例如，甚至可以在这样的路径下查找：
 
 [source,java]
 ----
@@ -513,7 +524,7 @@ AuthenticationProvider provider =
   JWTAuth.create(vertx, new JWTAuthOptions(config));
 ----
 
-所以在此示例中，我们将 JWT 配置为使用 Keycloak 令牌格式。在这种情况下 `realm_access/roles` 路径下的 claims 会被检查 
+所以在此示例中，我们将 JWT 配置为使用 Keycloak 令牌格式。在这种情况下 `realm_access/roles` 路径下的 claims 会被检查
 而不是 `permissions`。
 
 [[_validating_tokens]]
@@ -522,12 +533,16 @@ AuthenticationProvider provider =
 方法 `authenticate` 被调用时，令牌将根据初始化期间提供的 `JWTOptions` 进行
 验证。验证步骤如下:
 
-1. `ignoreExpiration` (默认关闭) 是关闭的的情况下, 校验令牌的有效期, 将检查字段: `exp`, `iat` 和 `nbf`。 由于各端时间存在一定偏差, 可以配置 `leeway`
-宽限日期，应对时间超出而失效的情况。
-2. 如果配置了 `audience`, 那么根据配置检查令牌中的 `aud` 属性， 所以令牌中必须有属性。
+1. `ignoreExpiration` (默认关闭) 是关闭的的情况下, 校验令牌的有效期,
+将检查字段: `exp`, `iat` 和 `nbf`。 由于各端时间存在一定偏差, 可以配置 `leeway`宽限日期，
+应对时间超出而失效的情况。
+2. 如果配置了 `audience`, 那么根据配置检查令牌中的 `aud` 属性，
+所以令牌中必须有属性。
 3. 如果配置了 `issuer` ，那么令牌的 `iss` 属性会被检查。
 
-这些验证完成后，将返回 JWTUser 对象，该对象包含了配置中对权限声明密文的引用，这个值在后面验证时会用到。 该值对应于权限检查会用的 json 路径。
+这些验证完成后，将返回 JWTUser 对象，该对象包含了配置中对权限声明密文的引用，
+这个值在后面验证时会用到。
+该值对应于权限检查会用的 json 路径。
 
 [[_customizing_token_generation]]
 === 自定义 Token 生成
@@ -538,7 +553,8 @@ AuthenticationProvider provider =
 这是一个 `JWTOptions` 对象。
 可以使用 `algorithm` 属性来配置令牌签名算法（默认为：HS256）。 在这种情况下，将执行与该算法相对应的密钥的查找并将其用于签名。
 
-令牌的 `headers` 属性可以添加额外的信息或者与默认选项合并。
+令牌的 `headers`
+属性可以添加额外的信息或者与默认选项合并。
 
 有时我们发行的令牌会没有时间戳（例如：在测试、开发过程中），在这种情况下 `noTimestamp` 属性应该被设置成 ture (默认为 false)。
 这将表示着令牌中没有 `iat` 字段。

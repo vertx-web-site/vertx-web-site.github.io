@@ -25,7 +25,7 @@
 *当前限制*
 
 * 不支持存储过程
-* 不支持某些列类型（例如BLOB和CLOB） 
+* 不支持某些列类型（例如BLOB和CLOB）
 
 [[_usage]]
 == 使用方法
@@ -138,7 +138,7 @@ DB2Pool client = DB2Pool.pool(vertx, connectOptions, poolOptions);
 pool.close();
 ----
 
-当您需要在同一连接上执行多个操作时，您需要使用 
+当您需要在同一连接上执行多个操作时，您需要使用
 `link:../../apidocs/io/vertx/db2client/DB2Connection.html[connection]` 客户端。
 
 您可以轻松地从连接池中获取一个：
@@ -417,7 +417,7 @@ client.query("SELECT * FROM users")
 });
 ----
 
-集合类处理不能保留 `link:../../apidocs/io/vertx/sqlclient/Row.html[Row]` 
+集合类处理不能保留 `link:../../apidocs/io/vertx/sqlclient/Row.html[Row]`
 的引用，因为只有一个 Row 对象用于处理整个集合。
 
 Java `Collectors` 提供了许多有趣的预定义集合类，例如，
@@ -473,6 +473,7 @@ DB2Connection.connect(vertx, options, res -> {
 ----
 
 更多详细信息，请参阅 http://vertx.io/docs/vertx-core/java/#ssl[Vert.x 文档].
+
 
 [[_using_a_proxy]]
 == 使用代理
