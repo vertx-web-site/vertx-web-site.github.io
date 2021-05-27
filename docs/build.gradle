@@ -27,7 +27,7 @@ ext {
 
     // prereleases
     [
-      version: "4.1.0.CR1",
+      version: "4.1.0.CR2",
       path: "4.1.0"
     ],
 
