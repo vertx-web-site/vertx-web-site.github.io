@@ -256,7 +256,7 @@ MailMessage对象有如下属性
 * `enableDKIM` 如果为true，则在DKIM配置设置好了的情况下DKIM签名将会启用，默认是 `false`
 * `dkimSignOptions` `DKIMSignOptions` 列表用于执行DKIM签名
 * `pipelining` 如果邮件服务端允许，则开启管道。默认是 `true`
-* `multiPartOnly` boolean, if encode mail messages as multipart only or not. Default is `false`
+* `multiPartOnly` 布尔类型，指代该编码的邮件消息是否是仅由多部分（multipart）消息组成。默认为 `false`
 
 [[_mailresult_object]]
 === MailResult对象
