@@ -1,12 +1,12 @@
-= Vert.x Kafka client
+= Vert.x Kafka 客户端
 :toc: left
 
-This component provides a Kafka client for reading and sending messages from/to an link:https://kafka.apache.org/[Apache Kafka] cluster.
+该组件提供了 Kafka 客户端， 可以用与给 link:https://kafka.apache.org/[Apache Kafka] 集群发送信息，或从中读取信息。
 
-As consumer, the API provides methods for subscribing to a topic partition receiving
-messages asynchronously or reading them as a stream (even with the possibility to pause/resume the stream).
+作为消费者，接口提供了订阅主题分区，并异步地
+接收消息，或将消息作为流进行处理（甚至可以做到中止或重启数据流）的方法。
 
-As producer, the API provides methods for sending message to a topic partition like writing on a stream.
+作为生产者，接口提供了流式向主题分区发送消息的方法。
 
 == Using the Vert.x Kafka client
 
