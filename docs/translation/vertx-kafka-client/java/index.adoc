@@ -8,11 +8,11 @@
 
 作为生产者，接口提供了流式向主题分区发送消息的方法。
 
-== Using the Vert.x Kafka client
+== 使用 Vert.x 的 Kafka 客户端
 
-To use this component, add the following dependency to the dependencies section of your build descriptor:
+为了使用该组件， 需要在你的构建描述文件中的依赖配置中添加如下内容：
 
-* Maven (in your `pom.xml`):
+* Maven (在你的 `pom.xml`):
 
 [source,xml,subs="+attributes"]
 ----
@@ -23,24 +23,24 @@ To use this component, add the following dependency to the dependencies section 
 </dependency>
 ----
 
-* Gradle (in your `build.gradle` file):
+* Gradle (在你的 `build.gradle` 文件中):
 
 [source,groovy,subs="+attributes"]
 ----
 compile io.vertx:vertx-kafka-client:4.0.3
 ----
 
-== Creating Kafka clients
+== 创建 kafka 客户端
 
-Creating consumers and producers is quite similar and on how it works using the native Kafka client library.
+创建 kafka 的消费者和生产者的方式非常详细，它们都基于原生的 kafka 的客户端库工作。
 
-They need to be configured with a bunch of properties as described in the official
-Apache Kafka documentation, for the link:https://kafka.apache.org/documentation/#newconsumerconfigs[consumer] and
-for the link:https://kafka.apache.org/documentation/#producerconfigs[producer].
+在创建时，需要进行很多配置，这些配置可以参考
+Apache Kafka 文档， 参见 link:https://kafka.apache.org/documentation/#newconsumerconfigs[消费者] 和
+ link:https://kafka.apache.org/documentation/#producerconfigs[生产者].
 
-To achieve that, a map can be configured with such properties passing it to one of the
-static creation methods exposed by `link:../../apidocs/io/vertx/kafka/client/consumer/KafkaConsumer.html[KafkaConsumer]` and
-`link:../../apidocs/io/vertx/kafka/client/producer/KafkaProducer.html[KafkaProducer]`
+为了方便配置， 你可以将参数放置在一个 Map 容器中，并在调用
+`link:../../apidocs/io/vertx/kafka/client/consumer/KafkaConsumer.html[KafkaConsumer]` 和
+`link:../../apidocs/io/vertx/kafka/client/producer/KafkaProducer.html[KafkaProducer]` 的静态创建方法时传入。
 
 [source,java]
 ----
@@ -52,15 +52,15 @@ config.put("group.id", "my_group");
 config.put("auto.offset.reset", "earliest");
 config.put("enable.auto.commit", "false");
 
-// use consumer for interacting with Apache Kafka
+// 使用消费者和 Apache Kafka 交互
 KafkaConsumer<String, String> consumer = KafkaConsumer.create(vertx, config);
 ----
 
-In the above example, a `link:../../apidocs/io/vertx/kafka/client/consumer/KafkaConsumer.html[KafkaConsumer]` instance is created using
-a map instance in order to specify the Kafka nodes list to connect (just one) and
-the deserializers to use for getting key and value from each received message.
+在以上代码中，我们传入了一个 Map 容器实例作为创建 `link:../../apidocs/io/vertx/kafka/client/consumer/KafkaConsumer.html[KafkaConsumer]` 对象实例时
+的参数，这样可以指定要连接的 kafka 节点列表（这里只有一个）的地址和
+每个接收到的消息的键和内容的反序列化器。
 
-Likewise a producer can be created
+创建 kafka 生产者地方法也大致相同。
 
 [source,java]
 ----
@@ -70,12 +70,12 @@ config.put("key.serializer", "org.apache.kafka.common.serialization.StringSerial
 config.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
 config.put("acks", "1");
 
-// use producer for interacting with Apache Kafka
+// 使用生产者和 Apache Kafka 交互
 KafkaProducer<String, String> producer = KafkaProducer.create(vertx, config);
 ----
 
 ifdef::java,groovy,kotlin[]
-Another way is to use a `link:../../apidocs/java/util/Properties.html[Properties]` instance instead of the map.
+你也可以使用 `link:../../apidocs/java/util/Properties.html[Properties]` 来替代 Map 容器传递参数。
 
 [source,java]
 ----
@@ -87,13 +87,13 @@ config.put(ConsumerConfig.GROUP_ID_CONFIG, "my_group");
 config.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
 config.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, "false");
 
-// use consumer for interacting with Apache Kafka
+// 使用消费者和 Apache Kafka 交互
 KafkaConsumer<String, String> consumer = KafkaConsumer.create(vertx, config);
 ----
 
-More advanced creation methods allow to specify the class type for the key and the value used for sending messages
-or provided by received messages; this is a way for setting the key and value serializers/deserializers instead of
-using the related properties for that
+还有别的创建方法可以让你指定发送消息或接收消息的键和
+数据的类型； 这样你可以直接设置键和数据的序列化/反序列化器
+而不是使用属性来设置。
 
 [source,java]
 ----
@@ -101,13 +101,13 @@ Properties config = new Properties();
 config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
 config.put(ProducerConfig.ACKS_CONFIG, "1");
 
-// use producer for interacting with Apache Kafka
+// 使用生产者和 Apache Kafka 交互
 KafkaProducer<String, String> producer = KafkaProducer.create(vertx, config, String.class, String.class);
 ----
 
-Here the `link:../../apidocs/io/vertx/kafka/client/producer/KafkaProducer.html[KafkaProducer]` instance is created in using a `link:../../apidocs/java/util/Properties.html[Properties]` for
-specifying Kafka nodes list to connect (just one) and the acknowledgment mode; the key and value deserializers are
-specified as parameters of `link:../../apidocs/io/vertx/kafka/client/producer/KafkaProducer.html#create-io.vertx.core.Vertx-java.util.Properties-java.lang.Class-java.lang.Class-[KafkaProducer.create]`.
+以上是使用 `link:../../apidocs/java/util/Properties.html[Properties]` 来创建一个 `link:../../apidocs/io/vertx/kafka/client/producer/KafkaProducer.html[KafkaProducer]` 实例的
+代码，它指定了要连接的 Kafka 节点列表（目前只有一个）和消息确认的模式。消息的键和数据的反序列化器
+通过 `link:../../apidocs/io/vertx/kafka/client/producer/KafkaProducer.html#create-io.vertx.core.Vertx-java.util.Properties-java.lang.Class-java.lang.Class-[KafkaProducer.create]` 方法的参数来设置。
 endif::[]
 
 == Receiving messages from a topic joining a consumer group
