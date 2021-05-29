@@ -268,7 +268,7 @@ Observer<HttpServer> observer = new Observer<HttpServer>() {
 Handler<AsyncResult<HttpServer>> handler = RxHelper.toFuture(observer);
 ----
 
-下面的代码也是可以的（译者注：直接基于`Action`）：
+下面的代码也是可以的（译者注：直接基于 `Action` ）：
 
 [source,java]
 ----
