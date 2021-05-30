@@ -110,17 +110,17 @@ KafkaProducer<String, String> producer = KafkaProducer.create(vertx, config, Str
 通过 `link:../../apidocs/io/vertx/kafka/client/producer/KafkaProducer.html#create-io.vertx.core.Vertx-java.util.Properties-java.lang.Class-java.lang.Class-[KafkaProducer.create]` 方法的参数来设置。
 endif::[]
 
-== Receiving messages from a topic joining a consumer group
+== 加入一个消费者群组并从主题中接收消息
 
-In order to start receiving messages from Kafka topics, the consumer can use the
-`link:../../apidocs/io/vertx/kafka/client/consumer/KafkaConsumer.html#subscribe-java.util.Set-[subscribe]` method for
-subscribing to a set of topics being part of a consumer group (specified by the properties on creation).
+要开始从 kafka 的主题中接收消息， 消费者需要使用
+`link:../../apidocs/io/vertx/kafka/client/consumer/KafkaConsumer.html#subscribe-java.util.Set-[subscribe]` 方法去
+作为一个消费者群组（群组在创建时的属性设置里指定）的一员去订阅一组主题。
 
-It's also possible to use the `link:../../apidocs/io/vertx/kafka/client/consumer/KafkaConsumer.html#subscribe-java.util.regex.Pattern-[subscribe]` method for
-subscribing to more topics specifying a Java regex.
+你也可以使用 `link:../../apidocs/io/vertx/kafka/client/consumer/KafkaConsumer.html#subscribe-java.util.regex.Pattern-[subscribe]` 方法去
+指定一个正则表达式，并订阅所有匹配该正则表达式的主题。
 
-You also need to register a handler for handling incoming messages using the
-`link:../../apidocs/io/vertx/kafka/client/consumer/KafkaConsumer.html#handler-io.vertx.core.Handler-[handler]`.
+为了注册一个处理器去处理接收到的消息，你需要使用
+`link:../../apidocs/io/vertx/kafka/client/consumer/KafkaConsumer.html#handler-io.vertx.core.Handler-[handler]` 方法。
 
 [source,java]
 ----
@@ -129,27 +129,27 @@ consumer.handler(record -> {
     ",partition=" + record.partition() + ",offset=" + record.offset());
 });
 
-// subscribe to several topics with list
+// 订阅一组主题
 Set<String> topics = new HashSet<>();
 topics.add("topic1");
 topics.add("topic2");
 topics.add("topic3");
 consumer.subscribe(topics);
 
-// or using a Java regex
+// 或使用正则表达式
 Pattern pattern = Pattern.compile("topic\\d");
 consumer.subscribe(pattern);
 
-// or just subscribe to a single topic
+// 或仅订阅一个主题
 consumer.subscribe("a-single-topic");
 ----
 
-The handler can be registered before or after the call to `subscribe()`; messages won't be consumed until both
-methods have been called. This allows you to call `subscribe()`, then `seek()` and finally `handler()` in
-order to only consume messages starting from a particular offset, for example.
+你可以在调用 `subscribe()` 方法的前后注册消息处理器； 直到你调用了该方法并注册了消息处理器后，消息才会
+开始被消费。 举个例子，你可以先调用 `subscribe()` 方法，再调用 `seek()` 方法，最后调用 `handler()` 方法
+，这样你可以在一个特定的偏移处开始消费消息。
 
-A handler can also be passed during subscription to be aware of the subscription result and being notified when the operation
-is completed.
+消息处理器也可以在订阅时注册，这样你就可以获取订阅的结果并当操作完成时
+收到通知。
 
 [source,java]
 ----
@@ -158,7 +158,7 @@ consumer.handler(record -> {
     ",partition=" + record.partition() + ",offset=" + record.offset());
 });
 
-// subscribe to several topics
+// 订阅一组主题
 Set<String> topics = new HashSet<>();
 topics.add("topic1");
 topics.add("topic2");
@@ -171,7 +171,7 @@ consumer
     System.out.println("Could not subscribe " + cause.getMessage())
   );
 
-// or just subscribe to a single topic
+// 或仅订阅一个主题
 consumer
   .subscribe("a-single-topic")
   .onSuccess(v ->
@@ -181,16 +181,16 @@ consumer
   );
 ----
 
-Using the consumer group way, the Kafka cluster assigns partitions to the consumer taking into account other connected
-consumers in the same consumer group, so that partitions can be spread across them.
+通过使用消费者群组，Kafka 集群会将同一个消费者群组下的其他消费者正在使用的分区
+分配给该消费者， 因此分区可以在消费者群组中传播。
 
-The Kafka cluster handles partitions re-balancing when a consumer leaves the group (so assigned partitions are free
-to be assigned to other consumers) or a new consumer joins the group (so it wants partitions to read from).
+Kafka 集群会在消费者离开集群时（此时原消费者的分区可以分配给其他消费者）或
+新的消费者加入集群时（新消费者的需要申请分区来读取）重新平衡分区。
 
-You can register handlers on a `link:../../apidocs/io/vertx/kafka/client/consumer/KafkaConsumer.html[KafkaConsumer]` to be notified
-of the partitions revocations and assignments by the Kafka cluster using
-`link:../../apidocs/io/vertx/kafka/client/consumer/KafkaConsumer.html#partitionsRevokedHandler-io.vertx.core.Handler-[partitionsRevokedHandler]` and
-`link:../../apidocs/io/vertx/kafka/client/consumer/KafkaConsumer.html#partitionsAssignedHandler-io.vertx.core.Handler-[partitionsAssignedHandler]`.
+你可以给 `link:../../apidocs/io/vertx/kafka/client/consumer/KafkaConsumer.html[KafkaConsumer]` 注册一个处理器，这样
+会在 kafka 集群给消费者分配或撤回主题分区时收到通知，使用
+`link:../../apidocs/io/vertx/kafka/client/consumer/KafkaConsumer.html#partitionsRevokedHandler-io.vertx.core.Handler-[partitionsRevokedHandler]` 和
+`link:../../apidocs/io/vertx/kafka/client/consumer/KafkaConsumer.html#partitionsAssignedHandler-io.vertx.core.Handler-[partitionsAssignedHandler]` 方法注册该处理器。
 
 [source,java]
 ----
@@ -199,7 +199,7 @@ consumer.handler(record -> {
     ",partition=" + record.partition() + ",offset=" + record.offset());
 });
 
-// registering handlers for assigned and revoked partitions
+// 注册主题分区撤回和分配的处理器
 consumer.partitionsAssignedHandler(topicPartitions -> {
   System.out.println("Partitions assigned");
   for (TopicPartition topicPartition : topicPartitions) {
@@ -214,7 +214,7 @@ consumer.partitionsRevokedHandler(topicPartitions -> {
   }
 });
 
-// subscribes to the topic
+// 订阅主题
 consumer
   .subscribe("test")
   .onSuccess(v ->
@@ -224,15 +224,15 @@ consumer
   );
 ----
 
-After joining a consumer group for receiving messages, a consumer can decide to leave the consumer group in order to
-not get messages anymore using `link:../../apidocs/io/vertx/kafka/client/consumer/KafkaConsumer.html#unsubscribe--[unsubscribe]`
+在加入一个消费者群组接收消息后， 消费者可以选择使用 `link:../../apidocs/io/vertx/kafka/client/consumer/KafkaConsumer.html#unsubscribe--[unsubscribe]` 方法
+离开群组，这样就不会再收到消息
 
 [source,java]
 ----
 consumer.unsubscribe();
 ----
 
-You can add an handler to be notified of the result
+你还可以设置一个处理器来处理退出的结果
 
 [source,java]
 ----
