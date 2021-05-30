@@ -10,9 +10,9 @@
 
 == 使用 Vert.x 的 Kafka 客户端
 
-为了使用该组件， 需要在你的构建描述文件中的依赖配置中添加如下内容：
+为了使用该组件， 需要在您的构建描述文件中的依赖配置中添加如下内容：
 
-* Maven (在你的 `pom.xml`):
+* Maven (在您的 `pom.xml`):
 
 [source,xml,subs="+attributes"]
 ----
@@ -23,7 +23,7 @@
 </dependency>
 ----
 
-* Gradle (在你的 `build.gradle` 文件中):
+* Gradle (在您的 `build.gradle` 文件中):
 
 [source,groovy,subs="+attributes"]
 ----
@@ -38,7 +38,7 @@ compile io.vertx:vertx-kafka-client:4.0.3
 Apache Kafka 文档， 参见 link:https://kafka.apache.org/documentation/#newconsumerconfigs[消费者] 和
  link:https://kafka.apache.org/documentation/#producerconfigs[生产者].
 
-为了方便配置， 你可以将参数放置在一个 Map 容器中，并在调用
+为了方便配置， 您可以将参数放置在一个 Map 容器中，并在调用
 `link:../../apidocs/io/vertx/kafka/client/consumer/KafkaConsumer.html[KafkaConsumer]` 和
 `link:../../apidocs/io/vertx/kafka/client/producer/KafkaProducer.html[KafkaProducer]` 的静态创建方法时传入。
 
@@ -75,7 +75,7 @@ KafkaProducer<String, String> producer = KafkaProducer.create(vertx, config);
 ----
 
 ifdef::java,groovy,kotlin[]
-你也可以使用 `link:../../apidocs/java/util/Properties.html[Properties]` 来替代 Map 容器传递参数。
+您也可以使用 `link:../../apidocs/java/util/Properties.html[Properties]` 来替代 Map 容器传递参数。
 
 [source,java]
 ----
@@ -91,8 +91,8 @@ config.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, "false");
 KafkaConsumer<String, String> consumer = KafkaConsumer.create(vertx, config);
 ----
 
-还有别的创建方法可以让你指定发送消息或接收消息的键和
-数据的类型； 这样你可以直接设置键和数据的序列化/反序列化器
+还有别的创建方法可以让您指定发送消息或接收消息的键和
+数据的类型； 这样您可以直接设置键和数据的序列化/反序列化器
 而不是使用属性来设置。
 
 [source,java]
@@ -116,10 +116,10 @@ endif::[]
 `link:../../apidocs/io/vertx/kafka/client/consumer/KafkaConsumer.html#subscribe-java.util.Set-[subscribe]` 方法去
 作为一个消费者群组（群组在创建时的属性设置里指定）的一员去订阅一组主题。
 
-你也可以使用 `link:../../apidocs/io/vertx/kafka/client/consumer/KafkaConsumer.html#subscribe-java.util.regex.Pattern-[subscribe]` 方法去
+您也可以使用 `link:../../apidocs/io/vertx/kafka/client/consumer/KafkaConsumer.html#subscribe-java.util.regex.Pattern-[subscribe]` 方法去
 指定一个正则表达式，并订阅所有匹配该正则表达式的主题。
 
-为了注册一个处理器去处理接收到的消息，你需要使用
+为了注册一个处理器去处理接收到的消息，您需要使用
 `link:../../apidocs/io/vertx/kafka/client/consumer/KafkaConsumer.html#handler-io.vertx.core.Handler-[handler]` 方法。
 
 [source,java]
@@ -144,11 +144,11 @@ consumer.subscribe(pattern);
 consumer.subscribe("a-single-topic");
 ----
 
-你可以在调用 `subscribe()` 方法的前后注册消息处理器； 直到你调用了该方法并注册了消息处理器后，消息才会
-开始被消费。 举个例子，你可以先调用 `subscribe()` 方法，再调用 `seek()` 方法，最后调用 `handler()` 方法
-，这样你可以在一个特定的偏移处开始消费消息。
+您可以在调用 `subscribe()` 方法的前后注册消息处理器； 直到您调用了该方法并注册了消息处理器后，消息才会
+开始被消费。 举个例子，您可以先调用 `subscribe()` 方法，再调用 `seek()` 方法，最后调用 `handler()` 方法
+，这样您可以在一个特定的偏移处开始消费消息。
 
-消息处理器也可以在订阅时注册，这样你就可以获取订阅的结果并当操作完成时
+消息处理器也可以在订阅时注册，这样您就可以获取订阅的结果并当操作完成时
 收到通知。
 
 [source,java]
@@ -187,7 +187,7 @@ consumer
 Kafka 集群会在消费者离开集群时（此时原消费者的分区可以分配给其他消费者）或
 新的消费者加入集群时（新消费者的需要申请分区来读取）重新平衡分区。
 
-你可以给 `link:../../apidocs/io/vertx/kafka/client/consumer/KafkaConsumer.html[KafkaConsumer]` 注册一个处理器，这样
+您可以给 `link:../../apidocs/io/vertx/kafka/client/consumer/KafkaConsumer.html[KafkaConsumer]` 注册一个处理器，这样
 会在 kafka 集群给消费者分配或撤回主题分区时收到通知，使用
 `link:../../apidocs/io/vertx/kafka/client/consumer/KafkaConsumer.html#partitionsRevokedHandler-io.vertx.core.Handler-[partitionsRevokedHandler]` 和
 `link:../../apidocs/io/vertx/kafka/client/consumer/KafkaConsumer.html#partitionsAssignedHandler-io.vertx.core.Handler-[partitionsAssignedHandler]` 方法注册该处理器。
@@ -232,7 +232,7 @@ consumer
 consumer.unsubscribe();
 ----
 
-你还可以设置一个处理器来处理退出的结果
+您还可以设置一个处理器来处理退出的结果
 
 [source,java]
 ----
@@ -243,14 +243,14 @@ consumer
   );
 ----
 
-== Receiving messages from a topic requesting specific partitions
+== 设置主题分区以接收消息
 
-Besides being part of a consumer group for receiving messages from a topic, a consumer can ask for a specific
-topic partition. When the consumer is not part part of a consumer group the overall application cannot
-rely on the re-balancing feature.
+在接收消息时，除了加入消费者群组， 消费者也可以主动请求一个
+主题分区。 当消费者并不在一个消费者群组内， 那么应用就不能
+依赖 kafka 的重平衡特性。
 
-You can use `link:../../apidocs/io/vertx/kafka/client/consumer/KafkaConsumer.html#assign-java.util.Set-io.vertx.core.Handler-[assign]`
-in order to ask for specific partitions.
+您可以使用 `link:../../apidocs/io/vertx/kafka/client/consumer/KafkaConsumer.html#assign-java.util.Set-io.vertx.core.Handler-[assign]` 方法
+去请求特定的分区。
 
 [source,java]
 ----
@@ -265,11 +265,11 @@ topicPartitions.add(new TopicPartition()
   .setTopic("test")
   .setPartition(0));
 
-// requesting to be assigned the specific partition
+// 请求分配特定的分区
 consumer
   .assign(topicPartitions)
   .onSuccess(v -> System.out.println("Partition assigned"))
-  // After the assignment is completed, get the assigned partitions to this consumer
+  // 成功后会从该分区获取消息
   .compose(v -> consumer.assignment())
   .onSuccess(partitions -> {
     for (TopicPartition topicPartition : partitions) {
@@ -278,21 +278,21 @@ consumer
   });
 ----
 
-As with `subscribe()`, the handler can be registered before or after the call to `assign()`;
-messages won't be consumed until both methods have been called. This allows you to call
-`assign()`, then `seek()` and finally `handler()` in
-order to only consume messages starting from a particular offset, for example.
+使用 `subscribe()` 方法时， 您可以在调用 `assign()` 方法之前或之后注册接收消息处理器；
+因为消息只会在两个方法都生效后才会被消费。 举个例子，您可以先调用
+`assign()` 方法， 再调用 `seek()` 方法，最后调用 `handler()` 方法，
+这样您就可以只消费特定分区的指定偏移之后的消息。
 
-Calling `link:../../apidocs/io/vertx/kafka/client/consumer/KafkaConsumer.html#assignment-io.vertx.core.Handler-[assignment]` provides
-the list of the current assigned partitions.
+调用 `link:../../apidocs/io/vertx/kafka/client/consumer/KafkaConsumer.html#assignment-io.vertx.core.Handler-[assignment]` 可以让您
+获取当前分配的消息分区。
 
-== Receiving messages with explicit polling
+== 通过显式请求接收消息
 
-Other than using the internal polling mechanism in order to receive messages from Kafka, the client can subscribe to a
-topic, avoiding to register the handler for getting the messages and then using the `link:../../apidocs/io/vertx/kafka/client/consumer/KafkaConsumer.html#poll-java.time.Duration-io.vertx.core.Handler-[poll]` method.
+为了从 Kafka 接收消息，除了使用客户端内部自带的请求机制外， 客户端可以订阅
+主题， 并且不注册消息处理器，并使用 `link:../../apidocs/io/vertx/kafka/client/consumer/KafkaConsumer.html#poll-java.time.Duration-io.vertx.core.Handler-[poll]` 方法获取消息。
 
-In this way, the user application is in charge to execute the poll for getting messages when it needs, for example after processing
-the previous ones.
+通过这种方式， 用户的应用可以在其需要时才执行请求以获取消息，
+举个例子。
 
 [source,java]
 ----
@@ -301,7 +301,7 @@ consumer
   .onSuccess(v -> {
     System.out.println("Consumer subscribed");
 
-    // Let's poll every second
+    // 每秒请求一次
     vertx.setPeriodic(1000, timerId ->
       consumer
         .poll(Duration.ofMillis(100))
@@ -316,15 +316,15 @@ consumer
           System.out.println("Something went wrong when polling " + cause.toString());
           cause.printStackTrace();
 
-          // Stop polling if something went wrong
+          // 当发生错误时停止请求
           vertx.cancelTimer(timerId);
         })
     );
 });
 ----
 
-After subscribing successfully, the application start a periodic timer in order to execute the poll and getting messages
-from Kafka periodically.
+订阅成功后， 应用启动了一个定时器来执行请求并且
+周期性地从 kafka 获取消息。
 
 == Changing the subscription or assignment
 
