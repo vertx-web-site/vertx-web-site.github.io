@@ -326,20 +326,20 @@ consumer
 订阅成功后， 应用启动了一个定时器来执行请求并且
 周期性地从 kafka 获取消息。
 
-== Changing the subscription or assignment
+== 改变订阅或主题分区的分配
 
-You can change the subscribed topics, or assigned partitions after you have started to consume messages, simply
-by calling `subscribe()` or `assign()` again.
+你可以在开始消费消息之后修改订阅的主题或主题分区的分配，只需要
+重新调用 `subscribe()` 方法或 `assign()` 方法。
 
-Note that due to internal buffering of messages it is possible that the record handler will continue to
-observe messages from the old subscription or assignment _after_ the `subscribe()` or `assign()`
-method's completion handler has been called. This is not the case for messages observed by the batch handler:
-Once the completion handler has been called it will only observe messages read from the subscription or assignment.
+请记住，由于 kafka 客户端的内部存在消息缓存， 因此很有可能在你
+调用 `subscribe()` 方法或 `assign()` 方法 _之后_ ，原先的消息处理器仍然 
+收到了旧的主题或分区的消息。 但是如果你使用了批处理器就不会发生这种情况：
+一旦重新调用订阅或修改方法的完成回调被触发， 那么客户端就只会收到新的主题或分区的消息。
 
-== Getting topic partition information
+== 获取主题分区信息
 
-You can call the `link:../../apidocs/io/vertx/kafka/client/consumer/KafkaConsumer.html#partitionsFor-java.lang.String-io.vertx.core.Handler-[partitionsFor]` to get information about
-partitions for a specified topic
+你可以调用 `link:../../apidocs/io/vertx/kafka/client/consumer/KafkaConsumer.html#partitionsFor-java.lang.String-io.vertx.core.Handler-[partitionsFor]` 方法来获取
+特定主题的分区信息。
 
 [source,java]
 ----
@@ -352,8 +352,8 @@ consumer
   });
 ----
 
-In addition `link:../../apidocs/io/vertx/kafka/client/consumer/KafkaConsumer.html#listTopics-io.vertx.core.Handler-[listTopics]` provides all available topics
-with related partitions
+你也可以调用 `link:../../apidocs/io/vertx/kafka/client/consumer/KafkaConsumer.html#listTopics-io.vertx.core.Handler-[listTopics]` 方法获取所有当前主题的
+分区信息。
 
 [source,java]
 ----
@@ -367,17 +367,17 @@ consumer
   );
 ----
 
-== Manual offset commit
+== 手动提交偏移
 
-In Apache Kafka the consumer is in charge to handle the offset of the last read message.
+Apache Kafka 的消费者一般会处理最后一个读取的消息的偏移。
 
-This is executed by the commit operation executed automatically every time a bunch of messages are read
-from a topic partition. The configuration parameter `enable.auto.commit` must be set to `true` when the
-consumer is created.
+一般情况下，kafka 的客户端会自动地在每次从主题分区获取一批消息
+后通过提交操作处理。 配置参数 `enable.auto.commit` 会在客户端被创建时设置
+为 `true` 。
 
-Manual offset commit, can be achieved with `link:../../apidocs/io/vertx/kafka/client/consumer/KafkaConsumer.html#commit-io.vertx.core.Handler-[commit]`.
-It can be used to achieve _at least once_ delivery to be sure that the read messages are processed before committing
-the offset.
+手动提交偏移，可以使用 `link:../../apidocs/io/vertx/kafka/client/consumer/KafkaConsumer.html#commit-io.vertx.core.Handler-[commit]` 方法。
+这样可以确保 _至少一次_ 提交偏移前消息已经被
+处理了。
 
 [source,java]
 ----
@@ -386,13 +386,13 @@ consumer.commit().onSuccess(v ->
 );
 ----
 
-== Seeking in a topic partition
+== 在消息分区内查询
 
-Apache Kafka can retain messages for a long period of time and the consumer can seek inside a topic partition
-and obtain arbitrary access to the messages.
+Apache Kafka 可以保存一段时间内的消息数据，并且消费者可以在消息分区内查询
+并获取任意一条消息。
 
-You can use `link:../../apidocs/io/vertx/kafka/client/consumer/KafkaConsumer.html#seek-io.vertx.kafka.client.common.TopicPartition-long-[seek]` to change the offset for reading at a specific
-position
+你可以使用 `link:../../apidocs/io/vertx/kafka/client/consumer/KafkaConsumer.html#seek-io.vertx.kafka.client.common.TopicPartition-long-[seek]` 方法来改变读取时的偏移，并移动到
+特定的位置
 
 [source,java]
 ----
@@ -400,13 +400,13 @@ TopicPartition topicPartition = new TopicPartition()
   .setTopic("test")
   .setPartition(0);
 
-// seek to a specific offset
+// 移动特定的偏移
 consumer
   .seek(topicPartition, 10)
   .onSuccess(v -> System.out.println("Seeking done"));
 ----
 
-When the consumer needs to re-read the stream from the beginning, it can use `link:../../apidocs/io/vertx/kafka/client/consumer/KafkaConsumer.html#seekToBeginning-io.vertx.kafka.client.common.TopicPartition-[seekToBeginning]`
+当消费者需要从开始处重新获取消息时，可以使用 `link:../../apidocs/io/vertx/kafka/client/consumer/KafkaConsumer.html#seekToBeginning-io.vertx.kafka.client.common.TopicPartition-[seekToBeginning]`
 
 [source,java]
 ----
@@ -414,13 +414,13 @@ TopicPartition topicPartition = new TopicPartition()
   .setTopic("test")
   .setPartition(0);
 
-// seek to the beginning of the partition
+// 移动偏移到分区开头
 consumer
   .seekToBeginning(Collections.singleton(topicPartition))
   .onSuccess(v -> System.out.println("Seeking done"));
 ----
 
-Finally `link:../../apidocs/io/vertx/kafka/client/consumer/KafkaConsumer.html#seekToEnd-io.vertx.kafka.client.common.TopicPartition-[seekToEnd]` can be used to come back at the end of the partition
+最后，`link:../../apidocs/io/vertx/kafka/client/consumer/KafkaConsumer.html#seekToEnd-io.vertx.kafka.client.common.TopicPartition-[seekToEnd]` 可以用于将偏移移动到分区的结尾
 
 [source,java]
 ----
@@ -428,16 +428,16 @@ TopicPartition topicPartition = new TopicPartition()
   .setTopic("test")
   .setPartition(0);
 
-// seek to the end of the partition
+// 移动偏移到分区末尾
 consumer
   .seekToEnd(Collections.singleton(topicPartition))
   .onSuccess(v -> System.out.println("Seeking done"));
 ----
 
-Note that due to internal buffering of messages it is possible that the record handler will continue to
-observe messages read from the original offset for a time _after_ the `seek*()` method's completion
-handler has been called. This is not the case for messages observed by the batch handler: Once the
-`seek*()` completion handler has been called it will only observe messages read from the new offset.
+请记住，由于 kafka 客户端的内部存在消息缓存， 因此很有可能在你
+调用完 `seek*()` 方法 _之后_ 原有的消息处理器仍在获取原先
+偏移处的消息。 但是如果你使用了批处理器就不会发生这种情况： 一旦
+`seek*()` 的完成回调被触发， 消息处理器就只会接收到新的偏移处的消息。
 
 == Offset lookup
 
