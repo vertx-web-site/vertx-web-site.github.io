@@ -439,11 +439,11 @@ consumer
 偏移处的消息。 但是如果你使用了批处理器就不会发生这种情况： 一旦
 `seek*()` 的完成回调被触发， 消息处理器就只会接收到新的偏移处的消息。
 
-== Offset lookup
+== 查询偏移
 
-You can use the beginningOffsets API introduced in Kafka 0.10.1.1 to get the first offset
-for a given partition. In contrast to `link:../../apidocs/io/vertx/kafka/client/consumer/KafkaConsumer.html#seekToBeginning-io.vertx.kafka.client.common.TopicPartition-[seekToBeginning]`,
-it does not change the consumer's offset.
+你可以使用在 Kafka 0.10.1.1 引入的 beginningOffsets 接口来获取指定分区的
+第一个偏移。 与 `link:../../apidocs/io/vertx/kafka/client/consumer/KafkaConsumer.html#seekToBeginning-io.vertx.kafka.client.common.TopicPartition-[seekToBeginning]` 方法不同的是，
+该接口并不会改变当前客户端的偏移。
 
 [source,java]
 ----
@@ -462,7 +462,7 @@ consumer
     )
   );
 
-// Convenience method for single-partition lookup
+// 方便地获取一个分区的偏移
 consumer
   .beginningOffsets(topicPartition)
   .onSuccess(beginningOffset ->
@@ -473,9 +473,9 @@ consumer
   );
 ----
 
-You can use the endOffsets API introduced in Kafka 0.10.1.1 to get the last offset
-for a given partition. In contrast to `link:../../apidocs/io/vertx/kafka/client/consumer/KafkaConsumer.html#seekToEnd-io.vertx.kafka.client.common.TopicPartition-[seekToEnd]`,
-it does not change the consumer's offset.
+你可以使用在 Kafka 0.10.1.1 引入的 endOffsets 接口来获取指定分区的
+结尾偏移。 与 `link:../../apidocs/io/vertx/kafka/client/consumer/KafkaConsumer.html#seekToEnd-io.vertx.kafka.client.common.TopicPartition-[seekToEnd]` 方法不同的是，
+该接口并不会改变当前客户端的偏移。
 
 [source,java]
 ----
@@ -493,7 +493,7 @@ consumer.endOffsets(topicPartitions)
     )
   );
 
-// Convenience method for single-partition lookup
+// 方便地获取一个分区的偏移
 consumer
   .endOffsets(topicPartition)
   .onSuccess(endOffset ->
@@ -504,16 +504,16 @@ consumer
 );
 ----
 
-You can use the offsetsForTimes API introduced in Kafka 0.10.1.1 to look up an offset by
-timestamp, i.e. search parameter is an epoch timestamp and the call returns the lowest offset
-with ingestion timestamp >= given timestamp.
+你可以使用在 Kafka 0.10.1.1 引入的 endOffsets 接口来根据时间戳获取指定分区的
+偏移。查询参数是一个 unix 时间戳，而返回的结果是满足
+摄入时间 >= 给定时间条件的最小偏移。
 
 [source,java]
 ----
 Map<TopicPartition, Long> topicPartitionsWithTimestamps = new HashMap<>();
 TopicPartition topicPartition = new TopicPartition().setTopic("test").setPartition(0);
 
-// We are interested in the offset for data ingested 60 seconds ago
+// 我们想知道 60 秒前摄入消息的偏移
 long timestamp = (System.currentTimeMillis() - 60000);
 
 topicPartitionsWithTimestamps.put(topicPartition, timestamp);
@@ -530,7 +530,7 @@ consumer
     )
 );
 
-// Convenience method for single-partition lookup
+// 方便地获取一个分区的偏移
 consumer.offsetsForTimes(topicPartition, timestamp).onSuccess(offsetAndTimestamp ->
   System.out.println(
     "Offset for topic=" + topicPartition.getTopic() +
