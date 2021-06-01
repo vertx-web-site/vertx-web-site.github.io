@@ -24,15 +24,10 @@ ext {
     "3.8.4",
     "4.0.0",
     "4.0.2",
-
-    // prereleases
-    [
-      version: "4.1.0.CR2",
-      path: "4.1.0"
-    ],
+    "4.0.3",
 
     // latest GA release (must be the last entry)
-    "4.0.3"
+    "4.1.0"
   ]
 }
 
