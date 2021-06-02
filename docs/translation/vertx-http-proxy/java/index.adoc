@@ -1,14 +1,14 @@
 = Vert.x Http Proxy
 :toc: left
 
-Vert.x Http Proxy is a reverse proxy based on Vert.x, it aims to implement reusable reverse proxy logic to focus on
-higher concerns.
+Vert.x Http Proxy 是一个基于Vert.x的反向代理服务器，其目的是实现可重用的反向代理逻辑
+这样，使用者就可以关注更高层面的问题了
 
-WARNING: This module has _Tech Preview_ status, this means the API can change between versions.
+WARNING: 这个模块处于_Tech Preview_阶段，这意味着在不同版本之间API可能会不太一样
 
-== Using Vert.x Http Proxy
+== 使用 Vert.x Http Proxy
 
-To use Vert.x Http Proxy, add the following dependency to the _dependencies_ section of your build descriptor:
+使用 Vert.x Http Proxy之前，请把以下的依赖放到你的构建描文件的_依赖_部分中
 
 * Maven (in your `pom.xml`):
 
@@ -30,19 +30,19 @@ dependencies {
 }
 ----
 
-== Basic Http Proxy
+== 基础Http Proxy的使用
 
-In order to accomplish a reverse proxy with Vert.x Http Proxy you need the following:
+为了使用Vert.x Http Proxy实现一个反向代理，你需要了解这些名词：
 
-1. *Proxy Server* that handles outbound requests and forward them to the *origin server* using `HttpProxy` instance.
-2. *Origin Server* that handles requests from the *proxy server* and handles responses accordingly.
+1. *代理服务器* 会处理出站请求，然后使用 `HttpProxy` 实例把他们转发到 *源服务器* 
+2. *源服务器* 会处理从*代理服务器*来的请求，然后处理相对应的响应
 
-Now, you have the overall concept so let's dive in implementation and begin with *origin server* then
-the *proxy server* with `HttpProxy`:
+现在，你已经了解了相应的整体概念。
+让我们来深入实现，先从 *源服务器* 再到使用 `HttpProxy` 的 *代理服务器* ：
 
-== Origin Server
+== 源服务器
 
-You simply create the *origin server* that listens to port `7070`
+我们先简单创建一个监听 `7070` 端口的 *源服务器* 
 
 [source,java]
 ----
@@ -55,10 +55,9 @@ originServer.requestHandler(req -> {
 }).listen(7070);
 ----
 
-== Proxy Server With `HttpProxy`
+== 使用 `HttpProxy` 的 *代理服务器* 
 
-Create the *proxy server* that listens to port `8080` with `HttpProxy` instance that handles reverse proxy logic
-accordingly.
+创建一个监听在 `8080` 端口的使用 `HttpProxy` 实例的 *代理服务器* 处理相应的反向代理逻辑
 
 [source,java]
 ----
@@ -72,4 +71,4 @@ HttpServer proxyServer = vertx.createHttpServer();
 proxyServer.requestHandler(proxy).listen(8080);
 ----
 
-Finally, all outbound requests will be forwarded as a reverse proxy to the *origin server* conveniently.
+最后，所有的出站请求都被轻松的反向代理转发到 *源服务器* 
