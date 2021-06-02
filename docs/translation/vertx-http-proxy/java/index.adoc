@@ -4,7 +4,7 @@
 Vert.x Http Proxy 是一个基于Vert.x的反向代理服务器，其目的是实现可重用的反向代理逻辑
 这样，使用者就可以关注更高层面的问题了
 
-WARNING: 这个模块处于_Tech Preview_阶段，这意味着在不同版本之间API可能会不太一样
+WARNING: 这个模块处于 _Tech Preview_ 阶段，这意味着在不同版本之间API可能会不太一样
 
 == 使用 Vert.x Http Proxy
 
