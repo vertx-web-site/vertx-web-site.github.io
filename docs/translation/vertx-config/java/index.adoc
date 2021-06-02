@@ -330,10 +330,10 @@ ConfigStoreOptions sys = new ConfigStoreOptions()
 则不会对值进行转换。用 `config.getString(key)` 方法，您会得到原始值。
 当操作大整型数时，这很有用。
 
-Furthermore, there is the `hierarchical` attribute (`false` by default). If `hierarchical` is `true`, the system
-properties will be parsed as a nested JSON object, using the dot-separated property name as the path in the JSON object.
+此外，亦存在有 `hierarchical` 属性（默认为 `false`）。如果 `hierarchical` 为 `true`，
+则系统属性将被解析为嵌套的 JSON 对象，使用点分隔的属性名称作为 JSON 对象中的路径。
 
-Example:
+例子：
 
 [source, java]
 ----
@@ -345,7 +345,7 @@ ConfigStoreOptions sysHierarchical = new ConfigStoreOptions()
 java -Dserver.host=localhost -Dserver.port=8080 -jar your-application.jar
 ....
 
-This will read the system properties as JSON object equivalent to
+这将会读取系统属性为 JSON 对象相当于
 
 [source,json]
 ----
