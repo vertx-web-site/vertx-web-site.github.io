@@ -80,7 +80,7 @@ def writeHash(sourceFile, version) {
   def outFile = new File(outDir, "${getVersionPath(version)}.sha")
   outFile.text = new DigestUtils("sha-256").digestAsHex(sourceFile)
 }
-String[] excludePaths = ["**/apidocs/**", "**/jsdoc/**", "**/kdoc/**", "**/scaladocs/**"]
+String[] excludePaths = ["**/jsdoc/**", "**/kdoc/**", "**/scaladocs/**"]
 task extractDocsLatest(type: Sync) {
   dependsOn configurations.runtimeClasspath
   from {
@@ -119,19 +119,6 @@ task copyApidocs(type: Sync) {
     include ".gitkeep"
   }
 }
-// 用来拷贝英文文档到translation目录的，主要是在english分支使用
-task copyEnglish(type: Copy) {
-  dependsOn extractDocs
-  from "$projectDir/extracted"
-  into "$projectDir/translation"
-  include "**/*.adoc"
-  exclude "**/dataobjects.adoc"
-  exclude "**/enums.adoc"
-  exclude {
-      return it.path.matches("\\d+\\.\\d+\\.\\d+/.*")
-  }
-  includeEmptyDirs false
-}
 
 clean {
   delete "$projectDir/extracted"
@@ -140,4 +127,4 @@ clean {
     .findAll { it.name != ".gitkeep" }
 }
 
-defaultTasks 'extractDocs'
+defaultTasks 'extractDocs', 'copyApidocs'
