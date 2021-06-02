@@ -79,8 +79,8 @@ const Footer = () => {
         </div>
         <div className="footer-copyright">
           <div className="footer-copyright-remarks">
-            &copy; {new Date().getFullYear()} Eclipse Vert.x<br/>
-            Eclipse Vert.x is open source and dual-licensed under
+            &copy; {new Date().getFullYear()} Eclipse Vert.x&trade;<br/>
+            Eclipse Vert.x&trade; is open source and dual-licensed under
             the <a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="noopener noreferrer">Eclipse Public License 2.0</a> and
             the <a href="https://www.apache.org/licenses/LICENSE-2.0.html" target="_blank" rel="noopener noreferrer">Apache License 2.0</a>. <br className="footer-copyright-break"/>
             Website design by <a href="https://michelkraemer.com" target="_blank" rel="noopener noreferrer">Michel Krämer</a>.

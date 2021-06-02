@@ -12,6 +12,7 @@ plugins {
 
 ext {
   versions = [
+    "3.9.7",
     "3.9.6",
     "3.9.5",
     "3.9.4",
@@ -23,9 +24,10 @@ ext {
     "3.8.4",
     "4.0.0",
     "4.0.2",
+    "4.0.3",
 
-    // latest version
-    "4.0.3"
+    // latest GA release (must be the last entry)
+    "4.1.0"
   ]
 }
 
@@ -40,27 +42,42 @@ repositories {
 }
 
 dependencies {
-  implementation("io.vertx:vertx-stack-docs:${versions.last()}:docs@zip") {
+  implementation("io.vertx:vertx-stack-docs:${getVersionName(versions.last())}:docs@zip") {
     transitive = false
-    changing = true
+    changing = getVersionName(versions.last()).endsWith("-SNAPSHOT")
   }
 }
 
+def getVersionName(version) {
+  if (version instanceof Map) {
+    return version.version
+  }
+  return version
+}
+
+def getVersionPath(version) {
+  if (version instanceof Map) {
+    return version.path
+  }
+  return version
+}
+
 def versionToConfiguration(version) {
-  return "implementation_${version.replace('.', '_')}"
+  return "implementation_${getVersionName(version).replace('.', '_')}"
 }
 
 versions.each { configurations.create(versionToConfiguration(it)) }
-versions.each {
-  dependencies.add(versionToConfiguration(it), "io.vertx:vertx-stack-docs:$it:docs@zip") {
+versions.each { v ->
+  dependencies.add(versionToConfiguration(v), "io.vertx:vertx-stack-docs:${getVersionName(v)}:docs@zip") {
     transitive = false
+    changing = getVersionName(v).endsWith("-SNAPSHOT")
   }
 }
 
 def writeHash(sourceFile, version) {
   def outDir = new File(projectDir, "hashes")
   outDir.mkdirs()
-  def outFile = new File(outDir, "${version}.sha")
+  def outFile = new File(outDir, "${getVersionPath(version)}.sha")
   outFile.text = new DigestUtils("sha-256").digestAsHex(sourceFile)
 }
 String[] excludePaths = ["**/apidocs/**", "**/jsdoc/**", "**/kdoc/**", "**/scaladocs/**"]
@@ -78,14 +95,14 @@ task extractDocs {
   dependsOn extractDocsLatest
 }
 
-versions.take(versions.size() - 1).each { version ->
+versions.take(versions.size()).each { version ->
   def conf = configurations[versionToConfiguration(version)]
-  def t = tasks.create(name: "extractDocs_${version.replace('.', '_')}", type: Sync) {
+  def t = tasks.create(name: "extractDocs_${getVersionName(version).replace('.', '_')}", type: Sync) {
     dependsOn conf
     from {
       conf.collect { zipTree(it) }
     }
-    into "$projectDir/extracted/$version"
+    into "$projectDir/extracted/${getVersionPath(version)}"
     exclude(excludePaths)
     conf.each { writeHash(it, version) }
   }

@@ -54,15 +54,20 @@ section.hero {
           font-weight: 500;
           color: #000;
 
+          .hero-product-name-trademark {
+            font-weight: 300;
+          }
+
           @media (max-width: $sm) and (orientation: portrait) {
             display: block;
             margin-bottom: 0.5em;
           }
+        }
 
-          .hero-product-name-separator {
-            @media (max-width: $sm) and (orientation: portrait) {
-              display: none;
-            }
+        @media (min-width: $sm) {
+          .hero-slogan-second-line {
+            letter-spacing: 0.001em;
+            word-spacing: 0.04em;
           }
         }
 

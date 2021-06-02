@@ -4,7 +4,7 @@ import "./Hero.scss"
 import GitHubStars from "../GitHubStars"
 import { ArrowUpCircle, FastForward } from "react-feather"
 import Link from "next/link"
-import { versions } from "../../docs/metadata/all"
+import { latestRelease } from "../../docs/metadata/all"
 
 const Hero = ({ gitHubStarsFallbackValue }) => (
   <section className="hero">
@@ -12,11 +12,11 @@ const Hero = ({ gitHubStarsFallbackValue }) => (
     <div className="hero-main container">
       <div className="hero-left">
         <div className="hero-slogan">
-          <span className="hero-product-name">Eclipse Vert.x<span className="hero-product-name-separator"> |</span></span> Reactive applications on the JVM
+          <span className="hero-product-name">Eclipse Vert.x<span className="hero-product-name-trademark">&trade;</span></span> Reactive <span className="hero-slogan-second-line">applications on the JVM</span>
         </div>
         <div className="hero-buttons">
           <Link href="/get-started/">
-            <a><Button primary><FastForward className="feather" /> Get started with v{versions[0]}</Button></a>
+            <a><Button primary><FastForward className="feather" /> Get started with v{latestRelease.version}</Button></a>
           </Link>
           <GitHubStars org="eclipse-vertx" repo="vert.x" button fallbackValue={gitHubStarsFallbackValue} />
         </div>
