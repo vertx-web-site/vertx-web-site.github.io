@@ -300,15 +300,16 @@ class LifecycleExampleTest {
 3. 在 `@BeforeEach` 修饰的且没有父级context的方法注入过程中，或者在先前的 `@BeforeAll` 方法的参数注入过程中，会创建一个新的对象，并共享于相关所有的测试方法以及 `AfterEach` 方法。
 4. 当执行测试方法之前没有创建 `Vertx` 对象时，则会创建一个新的 `Vertx` 对象（仅仅作用于该方法本身）
 
-==== Configuring `Vertx` instances
+[[_configuring_vertx_instances]]
+==== 配置 `Vertx` 实例
 
-By default the `Vertx` objects get created with `Vertx.vertx()`, using the default settings for `Vertx`. However you have the ability to configure `VertxOptions` to suit your needs.
-A typical use case would be "extending blocking timeout warning for debugging". To configure the `Vertx` object you must:
+默认情况下，`Vertx` 对象使用 `Vertx.vertx()` 创建，并使用 `Vertx` 的默认设置。但是，您可以配置 `VertxOptions` 以满足您的需要。
+一个典型的应用场景是“扩展调试时阻塞超时警告”。为配置 `Vertx` 对象，您必须：
 
-1. create a json file with the `VertxOptions` in https://vertx.io/docs/apidocs/io/vertx/core/VertxOptions.html#VertxOptions-io.vertx.core.json.JsonObject-[json format]
-2. create an environment variable `vertx.parameter.filename` pointing to that file
+1. 创建一个带有 https://vertx.io/docs/apidocs/io/vertx/core/VertxOptions.html#VertxOptions-io.vertx.core.json.JsonObject-[json 格式] 的 `VertxOptions` 的 json 文件
+2. 创建一个环境变量 `vertx.parameter.filename` 指向该文件
 
-Example file content for extended timeouts:
+延长超时的配置文件示例：
 
 [source,json]
 {
@@ -318,7 +319,7 @@ Example file content for extended timeouts:
  "maxEventLoopExecuteTimeUnit" : "SECONDS"
 }
 
-With these conditions met, the `Vertx` object will be created with the configured options
+当满足这些条件时， `Vertx` 对象创建时将使用配置中的参数 
 
 [[_closing_and_removal_of_vertx_objects]]
 ==== 关闭和移除 `Vertx` 对象
