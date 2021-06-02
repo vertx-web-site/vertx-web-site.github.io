@@ -8,7 +8,7 @@ WARNING: 这个模块处于 _Tech Preview_ 阶段，这意味着在不同版本�
 
 == 使用 Vert.x Http Proxy
 
-使用 Vert.x Http Proxy之前，请把以下的依赖放到你的构建描文件的_依赖_部分中
+使用 Vert.x Http Proxy之前，请把以下的依赖放到你的构建描文件的 _依赖_ 部分中
 
 * Maven (in your `pom.xml`):
 
