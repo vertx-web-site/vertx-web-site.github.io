@@ -1,0 +1,53 @@
+= LDAP Auth provider
+
+这是通过LDAP方式实现的一个认证器。
+
+[[_getting_started]]
+== 开始
+
+若要在自己的项目中使用它，需要在构建描述信息的 _dependencies_ 节点中添加以下信息:
+
+* Maven （在 `pom.xml` 文件中）:
+
+[source,xml,subs="+attributes"]
+----
+<dependency>
+ <groupId>io.vertx</groupId>
+ <artifactId>vertx-auth-ldap</artifactId>
+ <version>4.0.3</version>
+</dependency>
+----
+
+* Gradle （在 `build.gradle` 文件中）:
+
+[source,groovy,subs="+attributes"]
+----
+compile 'io.vertx:vertx-auth-ldap:4.0.3'
+----
+
+
+[[_instantiation]]
+== 实例化
+
+要使用 Ldap 认证器的实例, 请使用 `link:../../apidocs/io/vertx/ext/auth/ldap/LdapAuthentication.html#create-io.vertx.core.Vertx-io.vertx.ext.auth.ldap.LdapAuthenticationOptions-[LdapAuthentication.create]` 具体如下:
+
+[[_configuration]]
+== 配置
+
+类 `link:../../apidocs/io/vertx/ext/auth/ldap/LdapAuthenticationOptions.html[LdapAuthenticationOptions]` 用来配置 Ldap 认证器:
+
+`authenticationQuery`:: 此查询用于查找具有特定id的用户。例如 `uid={0},ou=users,dc=foo,dc=com` - 用实际的用户 id 替换 `{0}` 来进行查找。
+ 这个设置是必须的。
+
+`url`:: LDAP 服务器地址 url 。 这个 url 必须用 `ldap://` 开头并且必须制定端口。
+例如 `ldap://myldapserver.mycompany.com:10389`
+
+`authenticationMechanism`:: 设置连接LDAP服务器时使用的身份验证机制的类型。
+
+`referral`:: 设置创建连接时的 LDAP referral 行为。 默认是 `follow` 。更多信息请查看 Sun/Oracle LDAP
+referral 文档: http://java.sun.com/products/jndi/tutorial/ldap/referral/jndi.html
+
+[[_notes]]
+== 备注
+
+要注意的是：当您使用这个认证器，就意味着 `username` 和 `password` 字段会出现在身份认证信息中。
