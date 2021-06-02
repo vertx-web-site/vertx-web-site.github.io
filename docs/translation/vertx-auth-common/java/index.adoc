@@ -125,8 +125,7 @@ authorizationProvider.getAuthorizations(user)
 });
 ----
 
-以及另一个基于角色的授权示例，
-该模型使用了接口 `link:../../apidocs/io/vertx/ext/auth/authorization/RoleBasedAuthorization.html[RoleBasedAuthorization]` 。
+以及另一个基于角色的授权示例，该模型使用了接口 `link:../../apidocs/io/vertx/ext/auth/authorization/RoleBasedAuthorization.html[RoleBasedAuthorization]` 。
 
 请注意，如上所述，
 授权字符串的解释方式完全由基础实现决定，Vert.x在此不做任何假设。
@@ -144,7 +143,8 @@ authorizationProvider.getAuthorizations(user)
 
 您可以使用获得与已认证用户相对应的 `link:../../apidocs/io/vertx/ext/auth/User.html#principal--[主体（principal）]` 。
 
-返回的内容取决于具体的底层实现。主体映射是用于创建的源数据用户实例。属性是额外的属性，在实例创建的过程中 **不会** 提供，
+返回的内容取决于具体的底层实现。主体映射是用于创建的源数据用户实例。
+属性是额外的属性，在实例创建的过程中 **不会** 提供，
 但是它们是以处理用户数据的结果出现的。
 区别就在于有确保处理的主体不会修改或重写现有数据。
 
@@ -180,8 +180,7 @@ if (user.containsKey("sub")) {
 * `nbf` - Not before in seconds.
 * `leeway` - clock drift leeway in seconds.
 
-前3个控制 `link:../../apidocs/io/vertx/ext/auth/User.html#expired--[expired]` 
-方法如何计算用户的过期时间，
+前3个控制 `link:../../apidocs/io/vertx/ext/auth/User.html#expired--[expired]` 方法如何计算用户的过期时间，
 最后一个可以用于在计算过期时间时允许事件偏移补偿。
 
 [[_pseudo_random_number_generator]]

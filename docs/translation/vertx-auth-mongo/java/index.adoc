@@ -53,11 +53,12 @@ MongoDB的特性是先查询username字段中的值是否已经存在，然后�
 基于这个原因您需要添加上边的唯一索引，
 使用了这个索引过后您的代码会尝试先插入一行数据，如果出现了重复记录则会失败。
 
-根据您自身需要，您同样可以使用下边的方法改变 MongoDB 中使用的默认集合（Collection）和列（Column）名称等信息：
+根据您自身需要，您同样可以使用方法：
 
-`link:../../apidocs/io/vertx/ext/auth/mongo/MongoAuthenticationOptions.html#setCollectionName-java.lang.String-[setCollectionName]`
-`link:../../apidocs/io/vertx/ext/auth/mongo/MongoAuthenticationOptions.html#setUsernameField-java.lang.String-[setUsernameField]`
+`link:../../apidocs/io/vertx/ext/auth/mongo/MongoAuthenticationOptions.html#setCollectionName-java.lang.String-[setCollectionName]` 、
+`link:../../apidocs/io/vertx/ext/auth/mongo/MongoAuthenticationOptions.html#setUsernameField-java.lang.String-[setUsernameField]` 、
 `link:../../apidocs/io/vertx/ext/auth/mongo/MongoAuthenticationOptions.html#setPasswordField-java.lang.String-[setPasswordField]`
+改变 MongoDB 中使用的默认集合（Collection）和列（Column）名称等信息：
 
 Vert.X默认实现中的密码通过 `link:../../apidocs/io/vertx/ext/auth/HashingStrategy.html[HashingStrategy]` 在数据库中加密后进行存储。(salt值存储在该Hash结果中)
 

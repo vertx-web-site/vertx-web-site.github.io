@@ -1,6 +1,7 @@
 = OAuth2 鉴权与授权提供程序
 
-Vert.x OAuth2 组件包括一个开箱即用的 OAuth2 (以及一定程度的 OpenID Connect) 依赖实现。如果需要使用本项目，请在您使用的依赖管理工具中添加相关配置：
+Vert.x OAuth2 组件包括一个开箱即用的 OAuth2 (以及一定程度的 OpenID Connect) 依赖实现。
+如果需要使用本项目，请在您使用的依赖管理工具中添加相关配置：
 
 * Maven（在您的 `pom.xml` 文件中）：
 
@@ -20,40 +21,54 @@ Vert.x OAuth2 组件包括一个开箱即用的 OAuth2 (以及一定程度的 Op
 compile 'io.vertx:vertx-auth-oauth2:4.1.0'
 ----
 
-OAuth2 允许用户 (user) 向第三方应用程序授予访问所需资源的权限，同时让用户可以在任何时候开启或者禁用这些访问。
+OAuth2 允许用户 (user) 向第三方应用程序授予访问所需资源的权限，
+同时让用户可以在任何时候开启或者禁用这些访问。
 
 Vert.x OAuth2 支持以下模式：
 
-* 授权码模式 (Authorization Code Flow) ：用于那些可以存储持久化信息的服务端应用。
-* 密码凭证模式 (Password Credentials Flow) ：当之前的模式不可行或者项目已在开发过程中。
-* 客户端凭证模式 (Client Credentials Flow) ：客户端可以仅通过客户端凭证请求一个访问令牌(access token)。
+* 授权码模式 （Authorization Code Flow） ：用于那些可以存储持久化信息的服务端应用。
+* 密码凭证模式 （Password Credentials Flow） ：当之前的模式不可行或者项目已在开发过程中。
+* 客户端凭证模式 （Client Credentials Flow） ：客户端可以仅通过客户端凭证请求一个访问令牌（access token）。
 
-同样的代码可以用于 OpenID Connect (https://openid.net/connect) 服务器，并且支持 `http://openid.net/specs/openid-connect-discovery-1_0.html` 中的发现协议规范。
+同样的代码可以用于 OpenID Connect https://openid.net/connect/ 服务器，
+并且支持 http://openid.net/specs/openid-connect-discovery-1_0.html 中的发现协议规范。
+
 
 [[_authorization_code_flow]]
-== 授权码模式 (Authorization Code Flow)
+== 授权码模式 （Authorization Code Flow）
 
-此授权类型可以用于获取访问令牌和刷新访问令牌，并针对可信任的客户端做了优化。作为一个基于重定向(redirection)功能的授权模式，客户端必须能够与资源所有者(resource owner)的用户代理(user-agent，通常是web浏览器)进行交互，并且能够接受来自授权服务器的传入请求(通过重定向)。
+此授权类型可以用于获取访问令牌和刷新访问令牌，并针对可信任的客户端做了优化。
+作为一个基于重定向（redirection）功能的授权模式， 客户端必须能够与资源所有者（resource
+owner）的用户代理（user-agent，通常是web浏览器）进行交互，
+并且能够接受来自授权服务器的传入请求（通过重定向）。
 
 更多细节请参照 `http://tools.ietf.org/html/draft-ietf-oauth-v2-31#section-4.1[ OAuth2 specification, section 4.1]`.
 
 [[_password_credentials_flow]]
-== 密码凭证模式 (Password Credentials Flow)
+== 密码凭证模式 （Password Credentials Flow）
 
-此授权类型适用于资源所有者与客户端存在信任关系的场景，例如设备操作系统或者具备高权限的应用程序。授权服务器在启用这种授权类型必须十分谨慎，应当只有在其他模式不可行的情况下才允许使用。
+此授权类型适用于资源所有者与客户端存在信任关系的场景，
+例如设备操作系统或者具备高权限的应用程序。
+授权服务器在启用这种授权类型必须十分谨慎，
+应当只有在其他模式不可行的情况下才允许使用。
 
-此授权类型适用于能够获得资源所有者凭证(用户名和密码，通常使用交互式表单)的客户端。它还可以通过将保存的凭证转为访问令牌，使用直接身份验证方案(如 `HTTP Basic/Digest` 身份验证)将现有客户端迁移到 OAuth。
+此授权类型适用于能够获得资源所有者凭证(用户名和密码，通常使用交互式表单)的客户端。
+它还可以通过将保存的凭证转为访问令牌，
+使用直接身份验证方案(如 `HTTP Basic/Digest` 身份验证)将现有客户端迁移到 OAuth。
 
-更多细节请参照 `http://tools.ietf.org/html/draft-ietf-oauth-v2-31#section-4.3[ OAuth2 specification, section 4.3]`.
+更多细节请参照 http://tools.ietf.org/html/draft-ietf-oauth-v2-31#section-4.3[Oauth2 specification, section 4.3] 。
 
 [[_client_credentials_flow]]
 == 客户端凭证模式 (Client Credentials Flow)
 
-当客户端请求受控制的受保护资源或者授权服务器所认同的其他资源所有者时(这种方法不在该规范的范围内)，可以仅使用其客户端凭证(或其它被支持的认证方式)请求访问令牌，
+当客户端请求受控制的受保护资源或者授权服务器所认同的其他资源所有者时
+(这种方法不在该规范的范围内)，
+可以仅使用其客户端凭证
+(或其它被支持的认证方式)请求访问令牌，
 
 此授权类型必须只用于那些可以充分信任的客户端。
 
-更多细节请参照 `http://tools.ietf.org/html/draft-ietf-oauth-v2-31#section-4.4[ OAuth2 specification, section 4.4]`.
+更多细节请参照 http://tools.ietf.org/html/draft-ietf-oauth-v2-31#section-4.4[Oauth2 specification, section 4.4] 。
 
 [[_jwt_on_behalf_of_flow]]
 == JWT (代表/on behalf of) 模式
@@ -113,7 +128,10 @@ oauth2.authenticate(
 [[_authorization_code_flow_2]]
 === 授权码模式
 
-授权码模式分为两部分。首先您的应用程序向用户请求访问其数据的权限，如果用户批准 OAuth2 服务器则向客户端发送一个授权码。第二部分中，客户端将授权码和客户端机密(client secret)通过 POST 方式发送到授权服务器以获取访问令牌。
+授权码模式分为两部分。首先您的应用程序向用户请求访问其数据的权限，
+如果用户批准 OAuth2 服务器则向客户端发送一个授权码。
+第二部分中，客户端将授权码和客户端机密(client secret)通过 POST
+方式发送到授权服务器以获取访问令牌。
 
 [source,java]
 ----
@@ -157,7 +175,9 @@ oauth2.authenticate(tokenConfig)
 [[_password_credentials_flow_2]]
 === 密码凭证模式
 
-此模式适用于资源所有者和客户端存在信任关系，例如设备操作系统和高权限的应用程序。应当只有在其他模式不可行或者需要尽快测试应用程序的时候才使用该模式。
+此模式适用于资源所有者和客户端存在信任关系，
+例如设备操作系统和高权限的应用程序。
+应当只有在其他模式不可行或者需要尽快测试应用程序的时候才使用该模式。
 
 [source,java]
 ----
@@ -217,7 +237,8 @@ oauth2.authenticate(tokenConfig)
 [[_openid_connect_discovery]]
 == OpenID Connect 发现(Discovery)
 
-Vert.x OAuth2 对 OpenID 发现服务器的支持有限。使用 OIDC Discovery 可以把您的 auth 模块的配置简化为一行代码，例如，可以考虑使用 Google 设置您的 auth :
+Vert.x OAuth2 对 OpenID 发现服务器的支持有限。使用 OIDC Discovery 可以把您的 auth 模块的配置简化为一行代码，
+例如，可以考虑使用 Google 设置您的 auth :
 
 [source,java]
 ----
@@ -240,13 +261,13 @@ OpenIDConnectAuth.discover(
 在这些代码逻辑背后执行了几个动作：
 
 1. HTTP 获取对 `well-known/openid-configuration` 资源的请求。
-2. 按照规范对响应中 `issuer` 字段进行校验(issuer值必须与请求相匹配)。 
+2. 按照规范对响应中 `issuer` 字段进行校验(issuer值必须与请求相匹配)。
 3. 如果存在 JWK URL ，则从服务器加载密钥并添加到 auth 密钥链中。
 4. 对 auth 模块进行配置并返回给用户。
 
 以下是几个知名的 OpenID Connect Discovery服务提供方:
 
-* Keycloak : `http://Keycloakhost:Keycloakport/auth/realms/{realm}`
+* Keycloak: `http://keycloakhost:keycloakport/auth/realms/{realm}`
 * Google: `https://accounts.google.com`
 * SalesForce: `https://login.salesforce.com`
 * Microsoft: `https://login.windows.net/common`
@@ -318,7 +339,8 @@ IBMCloudAuth.discover(
 [[_user_object]]
 == 用户对象(User object)
 
-当一个令牌(token)过期时，我们需要对其进行更新。对于这种需求，OAuth2 提供了包含一些常用方法的 AccessToken 类用于刷新访问令牌。
+当一个令牌(token)过期时，我们需要对其进行更新。对于这种需求，
+OAuth2 提供了包含一些常用方法的 AccessToken 类用于刷新访问令牌。
 
 [source,java]
 ----
@@ -382,7 +404,8 @@ oauth2.revoke(user, "access_token")
 [[_jboss_keycloak]]
 === JBoss Keycloak
 
-当使用 Keycloak 时,Vert.x OAuth2 应该知道如何解析访问令牌并从中提取授权。这些信息很有价值，因为它允许在API级别进行授权，例如：
+当使用 Keycloak 时,Vert.x OAuth2 应该知道如何解析访问令牌并从中提取授权。
+这些信息很有价值，因为它允许在API级别进行授权，例如：
 
 [source,java]
 ----
@@ -420,7 +443,8 @@ oauth2.authenticate(
   });
 ----
 
-我们还为 Keycloak 提供了一个辅助类，这样我们就可以轻松地从 Keycloak 主体中获取解码的令牌和一些必要的数据(例如 `preferred_username` )。例如:
+我们还为 Keycloak 提供了一个辅助类，这样我们就可以轻松地从 Keycloak 主体中获取解码的令牌和一些必要的数据
+(例如 `preferred_username` )。例如:
 
 [source,java]
 ----
@@ -447,19 +471,25 @@ OpenIDConnectAuth.discover(
   });
 ----
 
-因为您可以在任何地方部署 Keycloak 服务器，所以只需将 `server:port` 替换为正确的值，并将 `your_realm` 值替换为您的应用程序路径。
+因为您可以在任何地方部署 Keycloak 服务器，所以只需将 `server:port` 替换为正确的值，
+并将 `your_realm` 值替换为您的应用程序路径。
 
 [[_google_server_to_server]]
 === Google Server to Server
 
-Vert.x OAuth2 还支持 Server to Server 或 RFC7523 扩展。这是伴随 Google 账户的一个特性。
+Vert.x OAuth2 还支持 Server to Server 或 RFC7523 扩展。
+这是伴随 Google 账户的一个特性。
 
 [[_token_introspection]]
 == 令牌自检(Token Introspection)
 
-令牌可以进行自检，以便断言自身依然有效。虽然这是RFC7662出现的目的，但实现它的项目并不多。取而代之的是一些被称为 `TokenInfo` 端点的变体。 Vert.x OAuth2 同时接受这两种形式作为配置。目前已知可以与 `Google` 和 ` Keycloak ` 一起协作。
+令牌可以进行自检，以便断言自身依然有效。虽然这是RFC7662出现的目的，
+但实现它的项目并不多。取而代之的是一些被称为 `TokenInfo` 端点的变体。 Vert.x OAuth2 同时接受这两种形式作为配置。
+目前已知可以与 `Google` 和 `Keycloak` 一起协作。
 
-令牌自检假定自身是不透明的，因此需要在部署程序的服务器上对它们进行验证。每次验证都需要一次到服务器上的完整往返。自检可以在 OAuth2 服务级别或用户级别执行：
+令牌自检假定自身是不透明的，因此需要在部署程序的服务器上对它们进行验证。
+每次验证都需要一次到服务器上的完整往返。
+自检可以在 OAuth2 服务级别或用户级别执行：
 
 [source,java]
 ----
@@ -476,9 +506,13 @@ oauth2.authenticate(user.principal())
 ----
 
 [[_verifying_jwt_tokens]]
-== 验证 JWT 令牌 
+== 验证 JWT 令牌
 
-我们刚刚介绍了如何自检一个令牌，不过在处理JWT令牌时可以减少到部署服务器的访问次数以提高总体的响应时间。这种情况下，可以仅在应用端使用JWT协议验证令牌。验证JWT令牌成本更低，性能也更好，但是由于 JWTs 的无状态性，导致我们不可能知道用户是否注销和令牌是否无效。对于这种特殊情况，如果服务提供方支持自检，则需要使用自检。
+我们刚刚介绍了如何自检一个令牌，不过在处理JWT令牌时可以减少到部署服务器的访问次数以提高总体的响应时间。
+这种情况下，可以仅在应用端使用JWT协议验证令牌。
+验证JWT令牌成本更低，性能也更好，
+但是由于 JWTs 的无状态性，导致我们不可能知道用户是否注销和令牌是否无效。
+对于这种特殊情况，如果服务提供方支持自检，则需要使用自检。
 
 [source,java]
 ----
@@ -488,14 +522,19 @@ oauth2.authenticate(new JsonObject().put("access_token", "jwt-token"))
   });
 ----
 
-截止到目前为止，我们已经讨论了很多认证模式，尽管实现它们是依赖方的事情(这也意味着真正的认证过程发生在应用端之外)，但您可以通过这些实现处理很多事情。例如在服务提供方支持JSON WEB令牌的时候，您就可以进行授权。如果您的服务提供方是 OpenID Connect 服务提供者或者他们确实支持 `access_token` 作为JWTs，那么这将是个很常见的功能。
+截止到目前为止，我们已经讨论了很多认证模式，尽管实现它们是依赖方的事情(这也意味着真正的认证过程发生在应用端之外)，
+但您可以通过这些实现处理很多事情。
+例如在服务提供方支持JSON WEB令牌的时候，您就可以进行授权。
+如果您的服务提供方是 OpenID Connect 服务提供者或者他们确实支持 `access_token` 作为JWTs，那么这将是个很常见的功能。
 
-类似的服务提供方是 Keycloak ，它实现了一个 OpenID Connect。在这种情况下，您可以用非常简单的方式进行授权。
+类似的服务提供方是 Keycloak ，它实现了一个 OpenID Connect。在这种情况下，
+您可以用非常简单的方式进行授权。
 
 [[_role_based_access_control]]
 == 基于角色(role)的访问控制
 
-OAuth2 是一个 AuthN 协议，但是 OpenID Connect 将 JWTs 添加到了令牌格式中，这意味着 AuthZ 可以在令牌级别进行编码。目前已知的 JWT AuthZ 格式有两种:
+OAuth2 是一个 AuthN 协议，但是 OpenID Connect 将 JWTs 添加到了令牌格式中，
+这意味着 AuthZ 可以在令牌级别进行编码。目前已知的 JWT AuthZ 格式有两种:
 
 * Keycloak
 * MicroProfile JWT 1.1 spec (来自 auth-jwt 模块)
@@ -508,7 +547,9 @@ OAuth2 是一个 AuthN 协议，但是 OpenID Connect 将 JWTs 添加到了令�
 * 角色(role)
 * 授权权限(authority)
 
-为了区分两者，认证服务提供者遵循基本用户类的共同定义，即使用 `:` 作为两者的分隔符。需要指出的一点是，角色和授权权限并不需要同时存在，在最简单的情况下仅有授权权限就足够了。
+为了区分两者，认证服务提供者遵循基本用户类的共同定义，即使用 `:` 作为两者的分隔符。
+需要指出的一点是，角色和授权权限并不需要同时存在，
+在最简单的情况下仅有授权权限就足够了。
 
 为了映射到 Keycloak 的令牌格式，需要执行以下校验:
 
@@ -519,7 +560,8 @@ OAuth2 是一个 AuthN 协议，但是 OpenID Connect 将 JWTs 添加到了令�
 [[_check_for_a_specific_authorities]]
 ==== 检查特定的授权
 
-这里有一个例子，指导您如何在用户进行 OAuth2 握手加载后执行授权，例如您想看看用户是否可以在当前应用程序中进行 `print` :
+这里有一个例子，指导您如何在用户进行 OAuth2 握手加载后执行授权，
+例如您想看看用户是否可以在当前应用程序中进行 `print` :
 
 [source,java]
 ----
@@ -555,9 +597,12 @@ if (
 [[_microprofile_jwt_1_1_spec]]
 === MicroProfile JWT 1.1 规格说明
 
-另一种规范形式是 MP-JWT 1.1。该规范在名为 `groups` 的属性下声明了JSON字符串数组用来定义令牌拥有的权限组。
+另一种规范形式是 MP-JWT 1.1。
+该规范在名为 `groups` 的属性下声明了JSON字符串数组用来定义令牌拥有的权限组。
 
-为了使用这个规范来断言 AuthZ ，可以使用 auth-jwt 模块中提供的 `link:../../apidocs/io/vertx/ext/auth/authorization/AuthorizationProvider.html[AuthorizationProvider]`。
+为了使用这个规范来断言 AuthZ ，
+可以使用 `auth-jwt` 模块中提供的 `link:../../apidocs/io/vertx/ext/auth/authorization/AuthorizationProvider.html[AuthorizationProvider]`。
+
 
 [[_token_management]]
 == 令牌管理(Token Management)
@@ -565,19 +610,23 @@ if (
 [[_check_if_it_is_expired]]
 === 检查是否过期
 
-令牌通常从服务器获取并缓存，在这种情况下使用它们时，它们可能已经过期并且无效，所以您可以像下面这样验证令牌是否仍然有效:
+令牌通常从服务器获取并缓存，在这种情况下使用它们时，它们可能已经过期并且无效，
+所以您可以像下面这样验证令牌是否仍然有效:
 
 [source,java]
 ----
 boolean isExpired = user.expired();
 ----
 
-这个校验是在本地完成的，所以仍然可能出现 OAuth2 服务器使令牌无效，但您得到了一个未过期的令牌的结果。原因是该方法检查是否过期是根据令牌的过期日期进行的，而不是日期之前的值(not before date and such values)。
+这个校验是在本地完成的，所以仍然可能出现 OAuth2 服务器使令牌无效，但您得到了一个未过期的令牌的结果。
+原因是该方法检查是否过期是根据令牌的过期日期进行的，
+而不是日期之前的值(not before date and such values)。
 
 [[_refresh_token]]
 === 刷新令牌
 
-有时候您知道令牌即将过期，并希望避免用户再次重定向。在这种情况下，您可以刷新令牌。要刷新一个令牌，您需要已有一个用户并调用:
+有时候您知道令牌即将过期，并希望避免用户再次重定向。
+在这种情况下，您可以刷新令牌。要刷新一个令牌，您需要已有一个用户并调用:
 
 [source,java]
 ----
@@ -596,7 +645,8 @@ oauth2.refresh(user)
 [[_revoke_token]]
 === 撤销令牌
 
-由于令牌可以在各种应用程序之间共享，因此您可能希望禁止任何应用程序使用当前令牌。为了做到这一点，需要撤销 OAuth2 服务器的令牌:
+由于令牌可以在各种应用程序之间共享，因此您可能希望禁止任何应用程序使用当前令牌。
+为了做到这一点，需要撤销 OAuth2 服务器的令牌:
 
 [source,java]
 ----
@@ -609,18 +659,22 @@ oauth2.revoke(user, "access_token")
   });
 ----
 
-需要注意的是，调用这个方法需要一个令牌类型。原因是一些提供商会返回多个令牌，例如:
+需要注意的是，调用这个方法需要一个令牌类型。原因是一些提供商会返回多个令牌，
+例如:
 
 * id_token
 * refresh_token
 * access_token
 
-所以我们需要知道让哪个令牌无效。显而易见，如果您使刷新令牌无效，但此时仍然在登录状态并已经不能再刷新了，这就意味着一旦令牌过期，之后必须需要让用户重定向到登录页面。
+所以我们需要知道让哪个令牌无效。显而易见，如果您使 `refresh_token` 无效，但此时仍然在登录状态并已经不能再刷新了，
+这就意味着一旦令牌过期，
+之后必须需要让用户重定向到登录页面。
 
 [[_introspect]]
 === 自检(Introspect)
 
-自检一个令牌类似于过期检查，但是需要注意该检查是完全在线的。这意味着检查发生在 OAuth2 服务器上。
+自检一个令牌类似于过期检查，但是需要注意该检查是完全在线的。
+这意味着检查发生在 OAuth2 服务器上。
 
 [source,java]
 ----
@@ -635,12 +689,15 @@ oauth2.authenticate(user.principal())
   });
 ----
 
-非常重要的一点是，即使调用 `expired()` 返回了 `true` ，`introspect` 的响应仍然可能是错误的。这是因为在此期间， OAuth2 可能已经收到了一个撤销令牌或者注销的请求。
+非常重要的一点是，即使调用 `expired()` 返回了 `true` ，`introspect` 的响应仍然可能是错误的。
+这是因为在此期间， OAuth2 可能已经收到了一个撤销令牌或者注销的请求。
 
 [[_logging_out]]
 === 注销(Logging out)
 
-注销不是 OAuth2 的特性，但它存在于 OpenID Connect 中，而且大多数服务提供方都支持某种形式的注销。如果配置足够进行调用，那么 Vert-OAuth2 的操作会覆盖整个区域。对于用户来说这很简单:
+注销不是 OAuth2 的特性，但它存在于 OpenID Connect 中，
+而且大多数服务提供方都支持某种形式的注销。如果配置足够进行调用，那么 Vert-OAuth2 的操作会覆盖整个区域。
+对于用户来说这很简单:
 
 [source,java]
 ----
@@ -658,17 +715,22 @@ user.logout(res -> {
 [[_key_management]]
 == 密匙管理(Key Management)
 
-当服务提供者配置 `jwks` 路径的时候，无论是手动还是使用发现机制，都存在必须旋转(be rotated)密钥的事件。因此，服务提供者实现了 OpenID Connect 核心规范推荐的两种方式。
+当服务提供者配置 `jwks` 路径的时候，无论是手动还是使用发现机制，
+都存在必须旋转(be rotated)密钥的事件。因此，
+服务提供者实现了 OpenID Connect 核心规范推荐的两种方式。
 
-当调用刷新方法时，如果服务器返回了推荐的缓存头(cache header)，正如 `https://openid.net/specs/openid-connect-core-1_0.html#RotateEncKeys` 所描述的，那么服务器将在推荐的时间执行一个周期性任务用于重新加载密钥。
+当调用刷新方法时，如果服务器返回了推荐的缓存头(cache header)，
+正如 `https://openid.net/specs/openid-connect-core-1_0.html#RotateEncKeys` 所描述的，
+那么服务器将在推荐的时间执行一个周期性任务用于重新加载密钥。
 
 [source,java]
 ----
 boolean isExpired = user.expired();
 ----
 
-但是，有时候服务器更改密钥，而这个服务提供者不知情。例如用于缓解泄漏或过期证书。在这种情况下，服务器将开始发出与 `https://openid.net/specs/openid-connect-core-1_0.html#rotatesigkeys` 描述中不同的令牌。
-
+但是，有时候服务器更改密钥，而这个服务提供者不知情。
+例如用于缓解泄漏或过期证书。 在这种情况下，
+服务器将开始发出与 `https://openid.net/specs/openid-connect-core-1_0.html#rotatesigkeys` 描述中不同的令牌。
 为了避免DDoS攻击，Vert.x OAuth2 会通知您缺少一个未知的密钥:
 
 [source,java]
@@ -685,4 +747,5 @@ oauth2.refresh(user)
   });
 ----
 
-需要特别注意的一点是，如果一个用户发送了许多缺少密钥的请求，程序应该对其的调用操作进行限制，否则可能会造成IdP服务器的DDoS。
+需要特别注意的一点是，如果一个用户发送了许多缺少密钥的请求，
+程序应该对其的调用操作进行限制，否则可能会造成IdP服务器的DDoS。
