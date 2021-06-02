@@ -32,7 +32,7 @@ To use the Reactive PostgreSQL Client add the following dependency to the _depen
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-pg-client</artifactId>
- <version>4.0.3</version>
+ <version>4.1.0</version>
 </dependency>
 ----
 * Gradle (in your `build.gradle` file):
@@ -40,7 +40,7 @@ To use the Reactive PostgreSQL Client add the following dependency to the _depen
 [source,groovy]
 ----
 dependencies {
- compile 'io.vertx:vertx-pg-client:4.0.3'
+ compile 'io.vertx:vertx-pg-client:4.1.0'
 }
 ----
 
@@ -62,7 +62,7 @@ PoolOptions poolOptions = new PoolOptions()
   .setMaxSize(5);
 
 // Create the client pool
-PgPool client = PgPool.pool(connectOptions, poolOptions);
+SqlClient client = PgPool.client(connectOptions, poolOptions);
 
 // A simple query
 client
@@ -98,7 +98,7 @@ PoolOptions poolOptions = new PoolOptions()
   .setMaxSize(5);
 
 // Create the pooled client
-PgPool client = PgPool.pool(connectOptions, poolOptions);
+SqlClient client = PgPool.client(connectOptions, poolOptions);
 ----
 
 The pooled client uses a connection pool and any operation will borrow a connection from the pool
@@ -120,18 +120,18 @@ PoolOptions poolOptions = new PoolOptions()
   .setMaxSize(5);
 
 // Create the pooled client
-PgPool client = PgPool.pool(vertx, connectOptions, poolOptions);
+SqlClient client = PgPool.client(vertx, connectOptions, poolOptions);
 ----
 
-You need to release the pool when you don't need it anymore:
+You need to release the client when you don't need it anymore:
 
 [source,java]
 ----
-pool.close();
+client.close();
 ----
 
-When you need to execute several operations on the same connection, you need to use a client
-`link:../../apidocs/io/vertx/pgclient/PgConnection.html[connection]`.
+When you need to execute several operations on the same connection, you need to acquire a
+`link:../../apidocs/io/vertx/pgclient/PgConnection.html[connection]` from a pool.
 
 You can easily get one from the pool:
 
@@ -149,10 +149,10 @@ PoolOptions poolOptions = new PoolOptions()
   .setMaxSize(5);
 
 // Create the pooled client
-PgPool client = PgPool.pool(vertx, connectOptions, poolOptions);
+PgPool pool = PgPool.pool(vertx, connectOptions, poolOptions);
 
 // Get a connection from the pool
-client.getConnection().compose(conn -> {
+pool.getConnection().compose(conn -> {
   System.out.println("Got a connection from the pool");
 
   // All operations execute on the same connection
@@ -177,6 +177,29 @@ client.getConnection().compose(conn -> {
 ----
 
 Once you are done with the connection you must close it to release it to the pool, so it can be reused.
+
+== Pool versus pooled client
+
+The `link:../../apidocs/io/vertx/pgclient/PgPool.html[PgPool]` allows you to create a pool or a pooled client
+
+[source,java]
+----
+SqlClient pooledClient = PgPool.client(vertx, connectOptions, poolOptions);
+
+// Pipelined
+Future<RowSet<Row>> res1 = pooledClient.query(sql).execute();
+
+// Connection pool
+PgPool pool = PgPool.pool(vertx, connectOptions, poolOptions);
+
+// Not pipelined
+Future<RowSet<Row>> res2 = pool.query(sql).execute();
+----
+
+- pool operations are not pipelined, only connection client are pipelined
+- pooled client operations are pipelined
+
+== Unix domain sockets
 
 Sometimes you want to improve performance via Unix domain socket connection, we achieve this with Vert.x Native transports.
 
@@ -352,7 +375,7 @@ dependencies {
 NOTE: SCRAM-SHA-256-PLUS (added in Postgresql 11) is not supported.
 
 
-include::queries.adoc[]
+include::queries.adoc[leveloffset=1]
 
 You can fetch generated keys with a 'RETURNING' clause in your query:
 

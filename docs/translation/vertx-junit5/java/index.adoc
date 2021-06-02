@@ -127,17 +127,19 @@ vertx.createHttpServer()
     requestsServed.flag();
   })
   .listen(8888)
-  .onComplete(testContext.succeeding(httpServer -> serverStarted.flag()));
+  .onComplete(testContext.succeeding(httpServer -> {
+    serverStarted.flag();
 
-HttpClient client = vertx.createHttpClient();
-for (int i = 0; i < 10; i++) {
-  client.request(HttpMethod.GET, 8888, "localhost", "/")
-    .compose(req -> req.send().compose(HttpClientResponse::body))
-    .onComplete(testContext.succeeding(buffer -> testContext.verify(() -> {
-      assertThat(buffer.toString()).isEqualTo("Ok");
-      responsesReceived.flag();
-    })));
-}
+    HttpClient client = vertx.createHttpClient();
+    for (int i = 0; i < 10; i++) {
+      client.request(HttpMethod.GET, 8888, "localhost", "/")
+        .compose(req -> req.send().compose(HttpClientResponse::body))
+        .onComplete(testContext.succeeding(buffer -> testContext.verify(() -> {
+          assertThat(buffer.toString()).isEqualTo("Ok");
+          responsesReceived.flag();
+        })));
+    }
+  }));
 ----
 
 TIP: Checkpoints should be created only from the test case main thread, not from Vert.x asynchronous event callbacks.
@@ -286,6 +288,26 @@ Generally-speaking, we respect the JUnit extension scoping rules, but here are t
 2. Injecting in a `@BeforeAll` method creates a new instance that is being shared for injection in all subsequent test and lifecycle methods.
 3. Injecting in a `@BeforeEach` with no parent context or previous `@BeforeAll` injection creates a new instance shared with the corresponding test and `AfterEach` method(s).
 4. When no instance exists before running a test method, an instance is created for that test (and only for that test).
+
+==== Configuring `Vertx` instances
+
+By default the `Vertx` objects get created with `Vertx.vertx()`, using the default settings for `Vertx`. However you have the ability to configure `VertxOptions` to suit your needs.
+A typical use case would be "extending blocking timeout warning for debugging". To configure the `Vertx` object you must:
+
+1. create a json file with the `VertxOptions` in https://vertx.io/docs/apidocs/io/vertx/core/VertxOptions.html#VertxOptions-io.vertx.core.json.JsonObject-[json format] 
+2. create an environment variable `vertx.parameter.filename` pointing to that file
+
+Example file content for extended timeouts:
+
+[source,json]
+{
+ "blockedThreadCheckInterval" : 5,
+ "blockedThreadCheckIntervalUnit" : "MINUTES",
+ "maxEventLoopExecuteTime" : 360,
+ "maxEventLoopExecuteTimeUnit" : "SECONDS"
+}
+
+With these conditions met, the `Vertx` object will be created with the configured options
 
 ==== Closing and removal of `Vertx` objects
 

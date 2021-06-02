@@ -38,7 +38,7 @@ To use the Reactive DB2 Client add the following dependency to the _dependencies
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-db2-client</artifactId>
- <version>4.0.3</version>
+ <version>4.1.0</version>
 </dependency>
 ----
 * Gradle (in your `build.gradle` file):
@@ -46,7 +46,7 @@ To use the Reactive DB2 Client add the following dependency to the _dependencies
 [source,groovy]
 ----
 dependencies {
- compile 'io.vertx:vertx-db2-client:4.0.3'
+ compile 'io.vertx:vertx-db2-client:4.1.0'
 }
 ----
 
@@ -104,7 +104,7 @@ PoolOptions poolOptions = new PoolOptions()
   .setMaxSize(5);
 
 // Create the pooled client
-DB2Pool client = DB2Pool.pool(connectOptions, poolOptions);
+SqlClient client = DB2Pool.client(connectOptions, poolOptions);
 ----
 
 The pooled client uses a connection pool and any operation will borrow a connection from the pool
@@ -125,18 +125,18 @@ DB2ConnectOptions connectOptions = new DB2ConnectOptions()
 PoolOptions poolOptions = new PoolOptions()
   .setMaxSize(5);
 // Create the pooled client
-DB2Pool client = DB2Pool.pool(vertx, connectOptions, poolOptions);
+SqlClient client = DB2Pool.client(vertx, connectOptions, poolOptions);
 ----
 
-You need to release the pool when you don't need it anymore:
+You need to release the client when you don't need it anymore:
 
 [source,java]
 ----
-pool.close();
+client.close();
 ----
 
-When you need to execute several operations on the same connection, you need to use a client
-`link:../../apidocs/io/vertx/db2client/DB2Connection.html[connection]`.
+When you need to execute several operations on the same connection, you need to acquire a
+`link:../../apidocs/io/vertx/db2client/DB2Connection.html[connection]` from a pool
 
 You can easily get one from the pool:
 
@@ -182,6 +182,27 @@ client.getConnection().compose(conn -> {
 ----
 
 Once you are done with the connection you must close it to release it to the pool, so it can be reused.
+
+== Pool versus pooled client
+
+The `link:../../apidocs/io/vertx/db2client/DB2Pool.html[DB2Pool]` allows you to create a pool or a pooled client
+
+[source,java]
+----
+SqlClient pooledClient = DB2Pool.client(vertx, connectOptions, poolOptions);
+
+// Pipelined
+Future<RowSet<Row>> res1 = pooledClient.query(sql).execute();
+
+// Connection pool
+DB2Pool pool = DB2Pool.pool(vertx, connectOptions, poolOptions);
+
+// Not pipelined
+Future<RowSet<Row>> res2 = pool.query(sql).execute();
+----
+
+- pool operations are not pipelined, only connection client are pipelined
+- pooled client operations are pipelined
 
 == Configuration
 
@@ -257,7 +278,7 @@ options
   .setReconnectInterval(1000);
 ----
 
-include::queries.adoc[]
+include::queries.adoc[leveloffset=1]
 
 You can fetch generated keys by wrapping your query in `SELECT <COLUMNS> FROM FINAL TABLE ( <SQL> )`, for example:
 

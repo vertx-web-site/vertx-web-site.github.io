@@ -1,0 +1,391 @@
+= Reactive MSSQL Client
+:PREPARED_PARAMS: `@1`, `@2`, etc…​
+:batching-unsupported:
+
+The Reactive MSSQL Client is a client for Microsoft SQL Server with a straightforward API focusing on
+scalability and low overhead.
+
+*Features*
+
+* Event driven
+* Lightweight
+* Built-in connection pooling
+* Direct memory to object without unnecessary copies
+* Java 8 Date and Time
+
+*Not supported yet*
+
+* Prepared queries caching
+* Batch and cursor
+* Row streaming
+* Some https://github.com/eclipse-vertx/vertx-sql-client/issues/608#issuecomment-629390027[data types] are not supported
+
+== Usage
+
+To use the Reactive MSSQL Client add the following dependency to the _dependencies_ section of your build descriptor:
+
+* Maven (in your `pom.xml`):
+
+[source,xml]
+----
+<dependency>
+ <groupId>io.vertx</groupId>
+ <artifactId>vertx-mssql-client</artifactId>
+ <version>4.1.0</version>
+</dependency>
+----
+* Gradle (in your `build.gradle` file):
+
+[source,groovy]
+----
+dependencies {
+ compile 'io.vertx:vertx-mssql-client:4.1.0'
+}
+----
+
+== Getting started
+
+Here is the simplest way to connect, query and disconnect
+
+[source,java]
+----
+MSSQLConnectOptions connectOptions = new MSSQLConnectOptions()
+  .setPort(1433)
+  .setHost("the-host")
+  .setDatabase("the-db")
+  .setUser("user")
+  .setPassword("secret");
+
+// Pool options
+PoolOptions poolOptions = new PoolOptions()
+  .setMaxSize(5);
+
+// Create the client pool
+MSSQLPool client = MSSQLPool.pool(connectOptions, poolOptions);
+
+// A simple query
+client
+  .query("SELECT * FROM users WHERE id='julien'")
+  .execute(ar -> {
+  if (ar.succeeded()) {
+    RowSet result = ar.result();
+    System.out.println("Got " + result.size() + " rows ");
+  } else {
+    System.out.println("Failure: " + ar.cause().getMessage());
+  }
+
+  // Now close the pool
+  client.close();
+});
+----
+
+== Connecting to SQL Server
+
+Most of the time you will use a pool to connect to MSSQL:
+
+[source,java]
+----
+MSSQLConnectOptions connectOptions = new MSSQLConnectOptions()
+  .setPort(1433)
+  .setHost("the-host")
+  .setDatabase("the-db")
+  .setUser("user")
+  .setPassword("secret");
+
+// Pool options
+PoolOptions poolOptions = new PoolOptions()
+  .setMaxSize(5);
+
+// Create the pooled client
+MSSQLPool client = MSSQLPool.pool(connectOptions, poolOptions);
+----
+
+The pooled client uses a connection pool and any operation will borrow a connection from the pool
+to execute the operation and release it to the pool.
+
+If you are running with Vert.x you can pass it your Vertx instance:
+
+[source,java]
+----
+MSSQLConnectOptions connectOptions = new MSSQLConnectOptions()
+  .setPort(1433)
+  .setHost("the-host")
+  .setDatabase("the-db")
+  .setUser("user")
+  .setPassword("secret");
+
+// Pool options
+PoolOptions poolOptions = new PoolOptions()
+  .setMaxSize(5);
+// Create the pooled client
+MSSQLPool client = MSSQLPool.pool(vertx, connectOptions, poolOptions);
+----
+
+You need to release the pool when you don't need it anymore:
+
+[source,java]
+----
+pool.close();
+----
+
+When you need to execute several operations on the same connection, you need to use a client
+`link:../../apidocs/io/vertx/mssqlclient/MSSQLConnection.html[connection]`.
+
+You can easily get one from the pool:
+
+[source,java]
+----
+MSSQLConnectOptions connectOptions = new MSSQLConnectOptions()
+  .setPort(1433)
+  .setHost("the-host")
+  .setDatabase("the-db")
+  .setUser("user")
+  .setPassword("secret");
+
+// Pool options
+PoolOptions poolOptions = new PoolOptions()
+  .setMaxSize(5);
+
+// Create the pooled client
+MSSQLPool client = MSSQLPool.pool(vertx, connectOptions, poolOptions);
+
+// Get a connection from the pool
+client.getConnection().compose(conn -> {
+  System.out.println("Got a connection from the pool");
+
+  // All operations execute on the same connection
+  return conn
+    .query("SELECT * FROM users WHERE id='julien'")
+    .execute()
+    .compose(res -> conn
+      .query("SELECT * FROM users WHERE id='emad'")
+      .execute())
+    .onComplete(ar -> {
+      // Release the connection to the pool
+      conn.close();
+    });
+}).onComplete(ar -> {
+  if (ar.succeeded()) {
+
+    System.out.println("Done");
+  } else {
+    System.out.println("Something went wrong " + ar.cause().getMessage());
+  }
+});
+----
+
+Once you are done with the connection you must close it to release it to the pool, so it can be reused.
+
+== Configuration
+
+=== Data Object
+
+A simple way to configure the client is to specify a `MSSQLConnectOptions` data object.
+
+[source,java]
+----
+MSSQLConnectOptions connectOptions = new MSSQLConnectOptions()
+  .setPort(1433)
+  .setHost("the-host")
+  .setDatabase("the-db")
+  .setUser("user")
+  .setPassword("secret");
+
+// Pool Options
+PoolOptions poolOptions = new PoolOptions().setMaxSize(5);
+
+// Create the pool from the data object
+MSSQLPool pool = MSSQLPool.pool(vertx, connectOptions, poolOptions);
+
+pool.getConnection(ar -> {
+  // Handling your connection
+});
+----
+
+=== Connection URI
+
+As an alternative to configuring the client with a `link:../../apidocs/io/vertx/mssqlclient/MSSQLConnectOptions.html[MSSQLConnectOptions]` data object, you can use a connection URI:
+
+[source,java]
+----
+String connectionUri = "sqlserver://dbuser:secretpassword@database.server.com:3211/mydb";
+
+// Create the pool from the connection URI
+MSSQLPool pool = MSSQLPool.pool(connectionUri);
+
+// Create the connection from the connection URI
+MSSQLConnection.connect(vertx, connectionUri, res -> {
+  // Handling your connection
+});
+----
+
+The connection URI format is defined by the client in an idiomatic way: `sqlserver://[user[:[password]]@]host[:port][/database][?attribute1=value1&attribute2=value2...]`
+
+Currently, the client supports the following parameter keywords in connection uri (keys are case-insensitive):
+
+* host
+* port
+* user
+* password
+* database
+
+== Connect retries
+
+You can configure the client to retry when a connection fails to be established.
+
+[source,java]
+----
+options
+  .setReconnectAttempts(2)
+  .setReconnectInterval(1000);
+----
+
+include::queries.adoc[leveloffset=1]
+
+include::connections.adoc[]
+
+include::transactions.adoc[]
+
+== Tracing queries
+
+include::tracing.adoc[]
+
+== Data types supported
+
+Currently, the client supports the following SQL Server types:
+
+* TINYINT(`java.lang.Short`)
+* SMALLINT(`java.lang.Short`)
+* INT(`java.lang.Integer`)
+* BIGINT(`java.lang.Long`)
+* BIT(`java.lang.Boolean`)
+* REAL(`java.lang.Float`)
+* DOUBLE(`java.lang.Double`)
+* NUMERIC/DECIMAL(``link:../../apidocs/java/math/BigDecimal.html[BigDecimal]``)
+* CHAR/VARCHAR(`java.lang.String`)
+* NCHAR/NVARCHAR(`java.lang.String`)
+* DATE(`java.time.LocalDate`)
+* TIME(`java.time.LocalTime`)
+* DATETIME2(`java.time.LocalDateTime`)
+* DATETIMEOFFSET(`java.time.OffsetDateTime`)
+* BINARY/VARBINARY(`io.vertx.core.buffer.Buffer`)
+
+Tuple decoding uses the above types when storing values.
+
+=== Using Java `enum` types
+
+SQL Server does not have `ENUM` data type, but the client can map the retrieved string/numeric data type to enum.
+
+You can encode Java enums like this:
+
+[source,java]
+----
+client
+  .preparedQuery("INSERT INTO colors VALUES (@p1)")
+  .execute(Tuple.of(Color.red),  res -> {
+    // ...
+  });
+----
+
+You can decode a Java enum like this:
+
+[source,java]
+----
+client
+  .preparedQuery("SELECT color FROM colors")
+  .execute()
+  .onComplete(res -> {
+    if (res.succeeded()) {
+      RowSet<Row> rows = res.result();
+      for (Row row : rows) {
+        System.out.println(row.get(Color.class, "color"));
+      }
+    }
+  });
+----
+
+=== Handling `NULL`
+
+If you modify a `Tuple` with one of the `addXXX` methods, `null` values are handled transparently.
+
+The client can infer the right SQL type when executing a prepared query:
+
+[source,java]
+----
+Tuple tuple = Tuple.tuple()
+  .addInteger(17)
+  .addString("The Man Who Knew Too Much")
+  .addString(null);
+client
+  .preparedQuery("INSERT INTO movies (id, title, plot) VALUES (@p1, @p2, @p3)")
+  .execute(tuple, res -> {
+    // ...
+  });
+----
+
+Otherwise, you should declare the type explicitely using one of the `link:../../apidocs/io/vertx/sqlclient/data/NullValue.html[NullValue]` constants or the `link:../../apidocs/io/vertx/sqlclient/data/NullValue.html#of-java.lang.Class-[NullValue.of]` method:
+
+[source,java]
+----
+Tuple tuple = Tuple.of(17, "The Man Who Knew Too Much", NullValue.String);
+client
+  .preparedQuery("INSERT INTO movies (id, title, plot) VALUES (@p1, @p2, @p3)")
+  .execute(tuple, res -> {
+    // ...
+  });
+----
+
+== Collector queries
+
+You can use Java collectors with the query API:
+
+[source,java]
+----
+Collector<Row, ?, Map<Long, String>> collector = Collectors.toMap(
+  row -> row.getLong("id"),
+  row -> row.getString("last_name"));
+
+// Run the query with the collector
+client.query("SELECT * FROM users")
+  .collecting(collector)
+  .execute(ar -> {
+    if (ar.succeeded()) {
+      SqlResult<Map<Long, String>> result = ar.result();
+
+      // Get the map created by the collector
+      Map<Long, String> map = result.value();
+      System.out.println("Got " + map);
+    } else {
+      System.out.println("Failure: " + ar.cause().getMessage());
+    }
+  });
+----
+
+The collector processing must not keep a reference on the `link:../../apidocs/io/vertx/sqlclient/Row.html[Row]` as
+there is a single row used for processing the entire set.
+
+The Java `Collectors` provides many interesting predefined collectors, for example you can
+create easily create a string directly from the row set:
+
+[source,java]
+----
+Collector<Row, ?, String> collector = Collectors.mapping(
+  row -> row.getString("last_name"),
+  Collectors.joining(",", "(", ")")
+);
+
+// Run the query with the collector
+client.query("SELECT * FROM users")
+  .collecting(collector)
+  .execute(ar -> {
+    if (ar.succeeded()) {
+      SqlResult<String> result = ar.result();
+
+      // Get the string created by the collector
+      String list = result.value();
+      System.out.println("Got " + list);
+    } else {
+      System.out.println("Failure: " + ar.cause().getMessage());
+    }
+  });
+----

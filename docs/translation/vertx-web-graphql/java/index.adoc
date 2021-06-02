@@ -6,8 +6,6 @@ TIP: This is the reference documentation for Vert.x Web GraphQL.
 It is highly recommended to get familiar with the GraphQL-Java API first.
 You may start by reading the https://www.graphql-java.com/documentation/v16/[GraphQL-Java documentation].
 
-WARNING: This module has _Tech Preview_ status, this means the API can change between versions.
-
 == Getting started
 
 To use this module, add the following to the _dependencies_ section of your Maven POM file:
@@ -17,7 +15,7 @@ To use this module, add the following to the _dependencies_ section of your Mave
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-web-graphql</artifactId>
- <version>4.0.3</version>
+ <version>4.1.0</version>
 </dependency>
 ----
 
@@ -25,7 +23,7 @@ Or, if you use Gradle:
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-web-graphql:4.0.3'
+compile 'io.vertx:vertx-web-graphql:4.1.0'
 ----
 
 == Handlers setup

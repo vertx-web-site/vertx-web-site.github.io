@@ -10,7 +10,7 @@ dependency to the _dependencies_ section of your build descriptor:
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-auth-jwt</artifactId>
- <version>4.0.3</version>
+ <version>4.1.0</version>
 </dependency>
 ----
 
@@ -18,7 +18,7 @@ dependency to the _dependencies_ section of your build descriptor:
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-auth-jwt:4.0.3'
+compile 'io.vertx:vertx-auth-jwt:4.1.0'
 ----
 
 JSON Web Token is a simple way to send information in the clear (usually in a URL) whose contents can be
@@ -411,7 +411,7 @@ be a security hole.
 
 [source,java]
 ----
-jwtAuth.authenticate(new JsonObject().put("jwt", "BASE64-ENCODED-STRING"))
+jwtAuth.authenticate(new JsonObject().put("token", "BASE64-ENCODED-STRING"))
   .onSuccess(user -> System.out.println("User: " + user.principal()))
   .onFailure(err -> {
     // Failed!
@@ -431,7 +431,7 @@ While the fields `exp`, `iat` and `nbf` are simple timestamp checks only `exp` c
 ----
 jwtAuth.authenticate(
   new JsonObject()
-    .put("jwt", "BASE64-ENCODED-STRING")
+    .put("token", "BASE64-ENCODED-STRING")
     .put("options", new JsonObject()
       .put("ignoreExpiration", true)))
   .onSuccess(user -> System.out.println("User: " + user.principal()))
@@ -446,7 +446,7 @@ In order to verify the `aud` field one needs to pass the options like before:
 ----
 jwtAuth.authenticate(
   new JsonObject()
-    .put("jwt", "BASE64-ENCODED-STRING")
+    .put("token", "BASE64-ENCODED-STRING")
     .put("options", new JsonObject()
       .put("audience", new JsonArray().add("paulo@server.com"))))
   .onSuccess(user -> System.out.println("User: " + user.principal()))
@@ -461,7 +461,7 @@ And the same for the issuer:
 ----
 jwtAuth.authenticate(
   new JsonObject()
-    .put("jwt", "BASE64-ENCODED-STRING")
+    .put("token", "BASE64-ENCODED-STRING")
     .put("options", new JsonObject()
       .put("issuer", "mycorp.com")))
   .onSuccess(user -> System.out.println("User: " + user.principal()))

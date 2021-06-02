@@ -6,8 +6,7 @@
 https://github.com/ReactiveX/RxJava[RxJava] is a popular library for composing asynchronous and event based programs using
 observable sequences for the Java VM.
 
-Vert.x integrates naturally with RxJava, allowing to use
-observable wherever you can use streams or asynchronous results.
+Vert.x integrates naturally with RxJava, allowing using RxJava wherever you can use streams or asynchronous results.
 
 === Using Vert.x API for RxJava2
 
@@ -20,7 +19,7 @@ To use Vert.x API for RxJava2, add the following dependency to the _dependencies
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-rx-java2</artifactId>
- <version>4.0.3</version>
+ <version>4.1.0</version>
 </dependency>
 ----
 
@@ -28,7 +27,7 @@ To use Vert.x API for RxJava2, add the following dependency to the _dependencies
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-rx-java2:4.0.3'
+compile 'io.vertx:vertx-rx-java2:4.1.0'
 ----
 
 There are two ways for using the RxJava 2 API with Vert.x:
@@ -416,7 +415,7 @@ deployment.subscribe(id -> {
 });
 ----
 
-= Rxified API
+== Rxified API
 
 The _Rxified_ API is a code generated version of the Vert.x API, just like the _JavaScript_ or _Groovy_
 language. The API uses the `io.vertx.rxjava` prefix, for instance the `io.vertx.core.Vertx` class is

@@ -10,12 +10,12 @@ project descriptor to access the Vert.x Core API and enable the Kotlin support:
 <dependency>
 <groupId>io.vertx</groupId>
 <artifactId>vertx-core</artifactId>
-<version>4.0.3</version>
+<version>4.1.0</version>
 </dependency>
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-lang-kotlin</artifactId>
- <version>4.0.3</version>
+ <version>4.1.0</version>
 </dependency>
 ----
 
@@ -23,8 +23,8 @@ project descriptor to access the Vert.x Core API and enable the Kotlin support:
 
 [source,groovy,subs="+attributes"]
 ----
-compile "io.vertx:vertx-core:4.0.3"
-compile "io.vertx:vertx-lang-kotlin:4.0.3"
+compile "io.vertx:vertx-core:4.1.0"
+compile "io.vertx:vertx-lang-kotlin:4.1.0"
 ----
 
 == Verticles

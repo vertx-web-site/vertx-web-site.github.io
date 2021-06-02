@@ -415,7 +415,7 @@ of cookies are enabled using the setter: `link:../../apidocs/io/vertx/core/http/
 Same site cookies can have one of 3 values:
 
 * None - The browser will send cookies with both cross-site requests and same-site requests.
-* Strict - he browser will only send cookies for same-site requests (requests originating from the site that set the
+* Strict - The browser will only send cookies for same-site requests (requests originating from the site that set the
  cookie). If the request originated from a different URL than the URL of the current location, none of the cookies
  tagged with the Strict attribute will be included.
 * Lax - Same-site cookies are withheld on cross-site subrequests, such as calls to load images or frames, but will be
@@ -442,7 +442,7 @@ algorithms.
 To enable decompression set `link:../../apidocs/io/vertx/core/http/HttpServerOptions.html#setDecompressionSupported-boolean-[setDecompressionSupported]` on the
 options when creating the server.
 
-By default decompression is disabled.
+By default, decompression is disabled.
 
 ==== Receiving custom HTTP/2 frames
 
@@ -461,7 +461,7 @@ request.customFrameHandler(frame -> {
 });
 ----
 
-HTTP/2 frames are not subject to flow control - the frame handler will be called immediatly when a
+HTTP/2 frames are not subject to flow control - the frame handler will be called immediately when a
 custom frame is received whether the request is paused or is not
 
 === Sending back responses
@@ -515,7 +515,7 @@ HttpServerResponse response = request.response();
 response.write("hello world!", "UTF-16");
 ----
 
-Writing to a response is asynchronous and always returns immediately after the write has been queued.
+Writing to a response is asynchronous and always returns immediately after write has been queued.
 
 If you are just writing a single string or buffer to the HTTP response you can write it and end the response in a
 single call to the `link:../../apidocs/io/vertx/core/http/HttpServerResponse.html#end-java.lang.String-[end]`
@@ -655,7 +655,7 @@ vertx.createHttpServer().requestHandler(request -> {
 ----
 
 Sending a file is asynchronous and may not complete until some time after the call has returned. If you want to
-be notified when the file has been writen you can use `link:../../apidocs/io/vertx/core/http/HttpServerResponse.html#sendFile-java.lang.String-io.vertx.core.Handler-[sendFile]`
+be notified when the file has been written you can use `link:../../apidocs/io/vertx/core/http/HttpServerResponse.html#sendFile-java.lang.String-io.vertx.core.Handler-[sendFile]`
 
 Please see the chapter about <<classpath, serving files from the classpath>> for restrictions about the classpath resolution or disabling it.
 
@@ -779,7 +779,7 @@ HTTP/2 supports stream reset at any time during the request/response:
 request.response().reset();
 ----
 
-By default the `NO_ERROR` (0) error code is sent, another code can sent instead:
+By default, the `NO_ERROR` (0) error code is sent, another code can sent instead:
 
 [source,java]
 ----
@@ -844,7 +844,7 @@ the pushed response can be written after.
 
 You can set an `link:../../apidocs/io/vertx/core/http/HttpServer.html#exceptionHandler-io.vertx.core.Handler-[exceptionHandler]` to receive any
 exceptions that happens before the connection is passed to the `link:../../apidocs/io/vertx/core/http/HttpServer.html#requestHandler-io.vertx.core.Handler-[requestHandler]`
-or to the `link:../../apidocs/io/vertx/core/http/HttpServer.html#webSocketHandler-io.vertx.core.Handler-[webSocketHandler]`, e.g during the TLS handshake.
+or to the `link:../../apidocs/io/vertx/core/http/HttpServer.html#webSocketHandler-io.vertx.core.Handler-[webSocketHandler]`, e.g. during the TLS handshake.
 
 === HTTP Compression
 
@@ -858,7 +858,7 @@ This allows to handle Client that support HTTP Compression and those that not su
 
 To enable compression use can configure it with `link:../../apidocs/io/vertx/core/http/HttpServerOptions.html#setCompressionSupported-boolean-[setCompressionSupported]`.
 
-By default compression is not enabled.
+By default, compression is not enabled.
 
 When HTTP compression is enabled the server will check if the client includes an `Accept-Encoding` header which
 includes the supported compressions. Commonly used are deflate and gzip. Both are supported by Vert.x.
@@ -911,7 +911,7 @@ HttpClient client = vertx.createHttpClient(options);
 
 Vert.x supports HTTP/2 over TLS `h2` and over TCP `h2c`.
 
-By default the http client performs HTTP/1.1 requests, to perform HTTP/2 requests the `link:../../apidocs/io/vertx/core/http/HttpClientOptions.html#setProtocolVersion-io.vertx.core.http.HttpVersion-[setProtocolVersion]`
+By default, the http client performs HTTP/1.1 requests, to perform HTTP/2 requests the `link:../../apidocs/io/vertx/core/http/HttpClientOptions.html#setProtocolVersion-io.vertx.core.http.HttpVersion-[setProtocolVersion]`
 must be set to `link:../../apidocs/io/vertx/core/http/HttpVersion.html#HTTP_2[HTTP_2]`.
 
 For `h2` requests, TLS must be enabled with _Application-Layer Protocol Negotiation_:
@@ -936,7 +936,7 @@ HttpClientOptions options = new HttpClientOptions().setProtocolVersion(HttpVersi
 HttpClient client = vertx.createHttpClient(options);
 ----
 
-`h2c` connections can also be established directly, i.e connection started with a prior knowledge, when
+`h2c` connections can also be established directly, i.e. connection started with a prior knowledge, when
 `link:../../apidocs/io/vertx/core/http/HttpClientOptions.html#setHttp2ClearTextUpgrade-boolean-[setHttp2ClearTextUpgrade]` options is set to false: after the
 connection is established, the client will send the HTTP/2 connection preface and expect to receive
 the same preface from the server.
@@ -1209,7 +1209,7 @@ to the request, as it will be too late otherwise.
 If you are calling one of the `end` methods that take a string or buffer then Vert.x will automatically calculate
 and set the `Content-Length` header before writing the request body.
 
-If you are using HTTP chunking a a `Content-Length` header is not required, so you do not have to calculate the size
+If you are using HTTP chunking a `Content-Length` header is not required, so you do not have to calculate the size
 up-front.
 
 ==== Ending streamed HTTP requests
@@ -1900,7 +1900,7 @@ will result in the following header added:
 
 Accept-Encoding: gzip, deflate
 
-The server will choose then from one of these. You can detect if a server ompressed the body by checking for the
+The server will choose then from one of these. You can detect if a server compressed the body by checking for the
 `Content-Encoding` header in the response sent back from it.
 
 If the body of the response was compressed via gzip it will include for example the following header:
@@ -1949,7 +1949,7 @@ Pipe-lining means another request is sent on the same connection before the resp
 returned. Pipe-lining is not appropriate for all requests.
 
 To enable pipe-lining, it must be enabled using `link:../../apidocs/io/vertx/core/http/HttpClientOptions.html#setPipelining-boolean-[setPipelining]`.
-By default pipe-lining is disabled.
+By default, pipe-lining is disabled.
 
 When pipe-lining is enabled requests will be written to connections without waiting for previous responses to return.
 
@@ -2546,12 +2546,44 @@ HttpClient client = vertx.createHttpClient(options);
 The DNS resolution is always done on the proxy server, to achieve the functionality of a SOCKS4 client, it is necessary
 to resolve the DNS address locally.
 
+Proxy options can also be set per request:
+
+[source,java]
+----
+client.request(new RequestOptions()
+  .setHost("example.com")
+  .setProxyOptions(proxyOptions))
+  .compose(request -> request
+    .send()
+    .compose(HttpClientResponse::body))
+  .onSuccess(body -> {
+    System.out.println("Received response");
+  });
+----
+
+NOTE: A given host should always use the same proxy options: as HTTP requests are pooled, per request proxy
+options are used when establishing the connection
+
+You can use `link:../../apidocs/io/vertx/core/http/HttpClientOptions.html#setNonProxyHosts-java.util.List-[setNonProxyHosts]` to configure a list of host bypassing
+the proxy. The lists accept `*` wildcard for matching domains:
+
+[source,java]
+----
+HttpClientOptions options = new HttpClientOptions()
+  .setProxyOptions(new ProxyOptions().setType(ProxyType.SOCKS5)
+    .setHost("localhost").setPort(1080)
+    .setUsername("username").setPassword("secret"))
+  .addNonProxyHost("*.foo.com")
+  .addNonProxyHost("localhost");
+HttpClient client = vertx.createHttpClient(options);
+----
+
 ==== Handling of other protocols
 
 The HTTP proxy implementation supports getting ftp:// urls if the proxy supports
 that.
 
-When the HTTP request URI contains contains the full URL then the client will not compute a full HTTP url and instead
+When the HTTP request URI contains the full URL then the client will not compute a full HTTP url and instead
 use the full URL specified in the request URI:
 
 [source,java]

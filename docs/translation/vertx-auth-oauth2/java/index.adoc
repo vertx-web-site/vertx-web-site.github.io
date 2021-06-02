@@ -10,7 +10,7 @@ To use this project, add the following dependency to the _dependencies_ section 
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-auth-oauth2</artifactId>
- <version>4.0.3</version>
+ <version>4.1.0</version>
 </dependency>
 ----
 
@@ -18,7 +18,7 @@ To use this project, add the following dependency to the _dependencies_ section 
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-auth-oauth2:4.0.3'
+compile 'io.vertx:vertx-auth-oauth2:4.1.0'
 ----
 
 OAuth2 lets users grant the access to the desired resources to third party applications, giving them the possibility
@@ -83,7 +83,7 @@ An example on how to use this provider and authenticate with GitHub can be imple
 ----
 OAuth2Auth oauth2 = OAuth2Auth.create(vertx, new OAuth2Options()
   .setFlow(OAuth2FlowType.AUTH_CODE)
-  .setClientID("YOUR_CLIENT_ID")
+  .setClientId("YOUR_CLIENT_ID")
   .setClientSecret("YOUR_CLIENT_SECRET")
   .setSite("https://github.com/login")
   .setTokenPath("/oauth/access_token")
@@ -130,7 +130,7 @@ access token.
 ----
 OAuth2Options credentials = new OAuth2Options()
   .setFlow(OAuth2FlowType.AUTH_CODE)
-  .setClientID("<client-id>")
+  .setClientId("<client-id>")
   .setClientSecret("<client-secret>")
   .setSite("https://api.oauth.com");
 
@@ -206,7 +206,7 @@ This flow is suitable when client is requesting access to the protected resource
 ----
 OAuth2Options credentials = new OAuth2Options()
   .setFlow(OAuth2FlowType.CLIENT)
-  .setClientID("<client-id>")
+  .setClientId("<client-id>")
   .setClientSecret("<client-secret>")
   .setSite("https://api.oauth.com");
 
@@ -235,7 +235,7 @@ auth module into a single line of code, for example, consider setting up your au
 OpenIDConnectAuth.discover(
   vertx,
   new OAuth2Options()
-    .setClientID("clientId")
+    .setClientId("clientId")
     .setClientSecret("clientSecret")
     .setSite("https://accounts.google.com"))
   .onSuccess(oauth2 -> {
@@ -273,7 +273,7 @@ For these well known providers a shortcut is provided:
 KeycloakAuth.discover(
   vertx,
   new OAuth2Options()
-    .setClientID("clientId")
+    .setClientId("clientId")
     .setClientSecret("clientSecret")
     .setSite("http://keycloakhost:keycloakport/auth/realms/{realm}")
     .setTenant("your-realm"))
@@ -285,7 +285,7 @@ KeycloakAuth.discover(
 GoogleAuth.discover(
   vertx,
   new OAuth2Options()
-    .setClientID("clientId")
+    .setClientId("clientId")
     .setClientSecret("clientSecret"))
   .onSuccess(oauth2 -> {
     // ...
@@ -295,7 +295,7 @@ GoogleAuth.discover(
 SalesforceAuth.discover(
   vertx,
   new OAuth2Options()
-    .setClientID("clientId")
+    .setClientId("clientId")
     .setClientSecret("clientSecret"))
   .onSuccess(oauth2 -> {
     // ...
@@ -305,7 +305,7 @@ SalesforceAuth.discover(
 AzureADAuth.discover(
   vertx,
   new OAuth2Options()
-    .setClientID("clientId")
+    .setClientId("clientId")
     .setClientSecret("clientSecret")
     .setTenant("your-app-guid"))
   .onSuccess(oauth2 -> {
@@ -316,7 +316,7 @@ AzureADAuth.discover(
 IBMCloudAuth.discover(
   vertx,
   new OAuth2Options()
-    .setClientID("clientId")
+    .setClientId("clientId")
     .setClientSecret("clientSecret")
     .setSite("https://<region-id>.appid.cloud.ibm.com/oauth/v4/{tenant}")
     .setTenant("your-tenant-id"))
@@ -449,7 +449,7 @@ Please remember that Keycloak **does** implement OpenID Connect, so you can conf
 OpenIDConnectAuth.discover(
   vertx,
   new OAuth2Options()
-    .setClientID("clientId")
+    .setClientId("clientId")
     .setTenant("your_realm")
     .setSite("http://server:port/auth/realms/{tenant}"))
   .onSuccess(oauth2 -> {

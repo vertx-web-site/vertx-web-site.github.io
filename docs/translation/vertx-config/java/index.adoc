@@ -32,14 +32,14 @@ _dependencies_ section of your build descriptor:
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-config</artifactId>
- <version>4.0.3</version>
+ <version>4.1.0</version>
 </dependency>
 ----
 
 * Gradle (in your `build.gradle` file):
 
 [source,groovy,subs="+attributes"]
-compile 'io.vertx:vertx-config:4.0.3'
+compile 'io.vertx:vertx-config:4.1.0'
 ----
 
 Once done, you first need to instantiate the `link:../../apidocs/io/vertx/config/ConfigRetriever.html[ConfigRetriever]`:
@@ -268,7 +268,7 @@ the global configuration.
 
 [source, java]
 ----
-ConfigStoreOptions json = new ConfigStoreOptions()
+ConfigStoreOptions env = new ConfigStoreOptions()
   .setType("env");
 ----
 
@@ -278,7 +278,7 @@ conversion, configure the `raw-data` attribute:
 
 [source, java]
 ----
-ConfigStoreOptions json = new ConfigStoreOptions()
+ConfigStoreOptions env = new ConfigStoreOptions()
   .setType("env")
   .setConfig(new JsonObject().put("raw-data", true));
 ----
@@ -292,7 +292,7 @@ must be listed individually:
 
 [source, java]
 ----
-ConfigStoreOptions json = new ConfigStoreOptions()
+ConfigStoreOptions env = new ConfigStoreOptions()
   .setType("env")
   .setConfig(new JsonObject().put("keys", new JsonArray().add("SERVICE1_HOST").add("SERVICE2_HOST")));
 ----
@@ -304,7 +304,7 @@ global configuration.
 
 [source, java]
 ----
-ConfigStoreOptions json = new ConfigStoreOptions()
+ConfigStoreOptions sys = new ConfigStoreOptions()
   .setType("sys")
   .setConfig(new JsonObject().put("cache", false));
 ----
@@ -317,6 +317,33 @@ not it caches the system properties on the first access and does not reload them
 You can also configure the `raw-data` attribute (`false` by default). If `raw-data` is `true` no attempts to convert
 values are made, and you'll be able to get raw values using `config.getString(key)`. It is useful when manipulating
 large integers.
+
+Furthermore, there is the `hierarchical` attribute (`false` by default). If `hierarchical` is `true`, the system
+properties will be parsed as a nested JSON object, using the dot-separated property name as the path in the JSON object.
+
+Example:
+
+[source, java]
+----
+ConfigStoreOptions sysHierarchical = new ConfigStoreOptions()
+  .setType("sys")
+  .setConfig(new JsonObject().put("hierarchical", true));
+----
+....
+java -Dserver.host=localhost -Dserver.port=8080 -jar your-application.jar
+....
+
+This will read the system properties as JSON object equivalent to
+
+[source,json]
+----
+{
+ "server": {
+   "host": "localhost",
+   "port": 8080
+ }
+}
+----
 
 === HTTP
 
@@ -439,13 +466,13 @@ Get values:
 
 [source, java]
 ----
-ConfigStoreOptions propertyWitHierarchical = new ConfigStoreOptions()
+ConfigStoreOptions propertyWithHierarchical = new ConfigStoreOptions()
   .setFormat("properties")
   .setType("file")
   .setConfig(new JsonObject().put("path", "hierarchical.properties").put("hierarchical", true)
   );
 ConfigRetrieverOptions options = new ConfigRetrieverOptions()
-  .addStore(propertyWitHierarchical);
+  .addStore(propertyWithHierarchical);
 
 ConfigRetriever configRetriever = ConfigRetriever.create(Vertx.vertx(), options);
 

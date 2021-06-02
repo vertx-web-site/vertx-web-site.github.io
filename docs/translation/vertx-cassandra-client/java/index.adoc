@@ -2,8 +2,6 @@
 
 A Vert.x client allowing applications to interact with an http://cassandra.apache.org/[Apache Cassandra] service.
 
-WARNING: This module has _Tech Preview_ status, this means the API can change between versions.
-
 == Getting started
 
 To use this module, add the following to the _dependencies_ section of your Maven POM file:
@@ -13,7 +11,7 @@ To use this module, add the following to the _dependencies_ section of your Mave
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-cassandra-client</artifactId>
- <version>4.0.3</version>
+ <version>4.1.0</version>
 </dependency>
 ----
 
@@ -21,7 +19,7 @@ Or, if you use Gradle:
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-cassandra-client:4.0.3'
+compile 'io.vertx:vertx-cassandra-client:4.1.0'
 ----
 
 WARNING: The Cassandra client is not compatible with the Vert.x Dropwizard Metrics library.

@@ -24,7 +24,7 @@ To use this project, add the following dependency to the _dependencies_ section 
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-mongo-client</artifactId>
- <version>4.0.3</version>
+ <version>4.1.0</version>
 </dependency>
 ----
 
@@ -32,7 +32,7 @@ To use this project, add the following dependency to the _dependencies_ section 
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-mongo-client:4.0.3'
+compile 'io.vertx:vertx-mongo-client:4.1.0'
 ----
 
 
@@ -319,6 +319,7 @@ This has the following fields:
 `sort`:: The fields to sort by. Defaults to `null`.
 `limit`:: The limit of the number of results to return. Default to `-1`, meaning all results will be returned.
 `skip`:: The number of documents to skip before returning the results. Defaults to `0`.
+`hint`:: The index to use. Defaults to empty String.
 
 === Finding documents in batches
 
@@ -1020,8 +1021,6 @@ Defaults to `false`.
 
 The mongo client tries to support most options that are allowed by the driver. There are two ways to configure mongo
 for use by the driver, either by a connection string or by separate configuration options.
-
-NOTE: If the connection string is used the mongo client will ignore any driver configuration options.
 
 `connection_string`:: The connection string the driver uses to create the client. E.g. `mongodb://localhost:27017`.
 For more information on the format of the connection string please consult the driver documentation.
