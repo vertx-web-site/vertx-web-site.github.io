@@ -24,7 +24,7 @@ Vert.x OpenAPI 可以做到如下事情：
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-web-openapi</artifactId>
- <version>4.0.3</version>
+ <version>4.1.0</version>
 </dependency>
 ----
 
@@ -33,7 +33,7 @@ Vert.x OpenAPI 可以做到如下事情：
 [source,groovy,subs="+attributes"]
 ----
 dependencies {
- compile 'io.vertx:vertx-web-openapi:4.0.3'
+ compile 'io.vertx:vertx-web-openapi:4.1.0'
 }
 ----
 
@@ -47,15 +47,13 @@ dependencies {
 
 [source,java]
 ----
-RouterBuilder.create(vertx, "src/main/resources/petstore.yaml").onComplete(ar -> {
-  if (ar.succeeded()) {
+RouterBuilder.create(vertx, "src/main/resources/petstore.yaml")
+  .onSuccess(routerBuilder -> {
     // 约束加载成功
-    RouterBuilder routerBuilder = ar.result();
-  } else {
+  })
+  .onFailure(err -> {
     // router builder 初始化失败
-    Throwable exception = ar.cause();
-  }
-});
+  });
 ----
 
 您可以从一个远程约束构建一个 router builder ：
@@ -65,16 +63,13 @@ RouterBuilder.create(vertx, "src/main/resources/petstore.yaml").onComplete(ar ->
 RouterBuilder.create(
   vertx,
   "https://raw.githubusercontent" +
-    ".com/OAI/OpenAPI-Specification/master/examples/v3.0/petstore.yaml"
-).onComplete(ar -> {
-  if (ar.succeeded()) {
+    ".com/OAI/OpenAPI-Specification/master/examples/v3.0/petstore.yaml")
+  .onSuccess(routerBuilder -> {
     // 约束加载成功
-    RouterBuilder routerBuilder = ar.result();
-  } else {
+  })
+  .onFailure(err -> {
     // router builder 初始化失败
-    Throwable exception = ar.cause();
-  }
-});
+  });
 ----
 
 您可以通过配置 `link:../../apidocs/io/vertx/ext/web/openapi/OpenAPILoaderOptions.html[OpenAPILoaderOptions]` 以获取私有的远程约束：
@@ -87,16 +82,13 @@ RouterBuilder.create(
   vertx,
   "https://raw.githubusercontent" +
     ".com/OAI/OpenAPI-Specification/master/examples/v3.0/petstore.yaml",
-  loaderOptions
-).onComplete(ar -> {
-  if (ar.succeeded()) {
+  loaderOptions)
+  .onSuccess(routerBuilder -> {
     // 约束加载成功
-    RouterBuilder routerBuilder = ar.result();
-  } else {
+  })
+  .onFailure(err -> {
     // router builder 初始化失败
-    Throwable exception = ar.cause();
-  }
-});
+  });
 ----
 
 您可以用 `link:../../apidocs/io/vertx/ext/web/openapi/RouterBuilderOptions.html[RouterBuilderOptions]` 来修改 router builder 的各种行为：
@@ -142,16 +134,186 @@ routerBuilder
 Vert.x OpenAPI 为您挂载了正确的 `link:../../apidocs/io/vertx/ext/web/validation/ValidationHandler.html[ValidationHandler]` ，所以您才可以获取到请求参数和请求体。
 请参考 https://vertx.io/docs/vertx-web-validation/java/[Vert.x Web 校验文档] 来学习如何获取请求参数以及请求体，并学习如何管理校验失败的处理方式。
 
+== Configuring `AuthenticationHandler`s defined in the OpenAPI document
+
+Security is a important aspect of any API. OpenAPI defines how security is expected to be enforced in the api document.
+
+All security scheme information resided under the `/components/securitySchemes` component. The information in this
+object is different and specific for each type of authentication. To avoid double configuration, this module allows you
+to provide factories for authentication handlers that will receive the source configuration from the source document.
+
+For example, given an document that defines `Basic Authentication` as follows:
+
+----
+openapi: 3.0.0
+...
+components:
+ securitySchemes:
+   basicAuth:     # <-- arbitrary name for the security scheme
+     type: http
+     scheme: basic
+----
+
+This can be configured with a factory as:
+
+[source,java]
+----
+routerBuilder
+  .securityHandler("basicAuth")
+  .bindBlocking(config -> BasicAuthHandler.create(authProvider));
+----
+
+While this example is quite simple to configure, creating an authentication handler that requires the configuration
+such as the API Key handler can extract the config:
+
+----
+ openapi: 3.0.0
+ ...
+ # 1) Define the key name and location
+ components:
+   securitySchemes:
+     ApiKeyAuth:        # arbitrary name for the security scheme
+       type: apiKey
+       in: header       # can be "header", "query" or "cookie"
+       name: X-API-KEY  # name of the header, query parameter or cookie
+----
+
+[source,java]
+----
+routerBuilder
+  .securityHandler("ApiKeyAuth")
+  .bindBlocking(config ->
+    APIKeyHandler.create(authProvider)
+      .header(config.getString("name")));
+----
+
+Or you can configure more complex scenarios such as OpenId Connect which require server discovery.
+
+----
+openapi: 3.0.0
+...
+# 1) Define the security scheme type and attributes
+components:
+ securitySchemes:
+   openId:   # <--- Arbitrary name for the security scheme. Used to refer to it from elsewhere.
+     type: openIdConnect
+     openIdConnectUrl: https://example.com/.well-known/openid-configuration
+----
+
+[source,java]
+----
+routerBuilder
+  .securityHandler("openId")
+  .bind(config ->
+    OpenIDConnectAuth
+      .discover(vertx, new OAuth2Options()
+        .setClientId("client-id") // user provided
+        .setClientSecret("client-secret") // user provided
+        .setSite(config.getString("openIdConnectUrl")))
+      .compose(authProvider -> {
+        AuthenticationHandler handler =
+          OAuth2AuthHandler.create(vertx, authProvider);
+        return Future.succeededFuture(handler);
+      }))
+  .onSuccess(self -> {
+    // Creation completed with success
+  })
+  .onFailure(err -> {
+    // Something went wrong
+  });
+----
+
+The API is designed to be fluent so it can be used in a short notation, for example:
+
+[source,java]
+----
+routerBuilder
+  .securityHandler("api_key")
+  .bindBlocking(config -> APIKeyHandler.create(authProvider))
+  .operation("listPetsSingleSecurity")
+  .handler(routingContext -> {
+    routingContext
+      .response()
+      .setStatusCode(200)
+      .setStatusMessage("Cats and Dogs")
+      .end();
+  });
+
+// non-blocking bind
+routerBuilder
+  .securityHandler("oauth")
+  .bind(config -> OpenIDConnectAuth.discover(vertx, new OAuth2Options(config))
+    .compose(oidc -> Future.succeededFuture(
+      OAuth2AuthHandler.create(vertx, oidc))))
+
+  .onSuccess(self -> {
+    self
+      .operation("listPetsSingleSecurity")
+      .handler(routingContext -> {
+        routingContext
+          .response()
+          .setStatusCode(200)
+          .setStatusMessage("Cats and Dogs")
+          .end();
+      });
+  });
+----
+
+=== Blocking vs NonBlocking
+
+From the examples above it is noticeable that handlers can be added in a blocking or not blocking way. The reason for
+non blocking way usage is not just to support handlers like `OAuth2`. The non-blocking way can be useful for handlers
+like JWT or basic authentication where the authentication provider requires loading of keys or configuration files.
+
+Here is an example with JWT:
+
+[source,java]
+----
+routerBuilder
+  .securityHandler("oauth")
+  .bind(config ->
+    // as we don't want to block while reading the
+    // public key, we use the non blocking bind
+    vertx.fileSystem()
+      .readFile("public.key")
+      // we map the future to a authentication provider
+      .map(key ->
+        JWTAuth.create(vertx, new JWTAuthOptions()
+          .addPubSecKey(new PubSecKeyOptions()
+            .setAlgorithm("RS256")
+            .setBuffer(key))))
+      // and map again to create the final handler
+      .map(JWTAuthHandler::create))
+
+  .onSuccess(self ->
+    self
+      .operation("listPetsSingleSecurity")
+      .handler(routingContext -> {
+        routingContext
+          .response()
+          .setStatusCode(200)
+          .setStatusMessage("Cats and Dogs")
+          .end();
+      }));
+----
+
+
 [[_map_authenticationhandler_to_openapi_security_schemes]]
 == 将 `AuthenticationHandler` 映射到 OpenAPI 安全约束
 
-您可以将一个 `link:../../apidocs/io/vertx/ext/web/handler/AuthenticationHandler.html[AuthenticationHandler]` 映射到一个接口协议当中定义的安全约束。
+You have seen how you can map an `link:../../apidocs/io/vertx/ext/web/handler/AuthenticationHandler.html[AuthenticationHandler]` to a security schema defined in the contract. The previous examples are validating and will fail your route builder if the configuration is missing.
+
+There could be cases where the contract is incomplete and you explicitly want to define security handlers. In this case
+the API is slightly different and will not enforce any contract validation. Yet, the security handlers will be available
+to the builder regardless.
 
 例如，给出一个名为 `security_scheme_name` 接口约束：
 
 [source,java]
 ----
-routerBuilder.securityHandler("security_scheme_name", authenticationHandler);
+routerBuilder.securityHandler(
+  "security_scheme_name",
+  authenticationHandler);
 ----
 
 您可以挂载包含在Vert.x Web中模块中的 `link:../../apidocs/io/vertx/ext/web/handler/AuthenticationHandler.html[AuthenticationHandler]` ，例如：

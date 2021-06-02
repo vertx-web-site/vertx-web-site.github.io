@@ -1,5 +1,4 @@
 = Vert.x 服务代理
-:toc: left
 
 当您编写 Vert.x 程序的时候，您也许想将某处独立服务功能提供给其他程序使用。
 此时便使用服务代理。它可以让您在事件总线上发布您的 _服务_ ，
@@ -24,7 +23,7 @@
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-service-proxy</artifactId>
- <version>4.0.3</version>
+ <version>4.1.0</version>
 </dependency>
 ----
 
@@ -32,7 +31,7 @@
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-service-proxy:4.0.3'
+compile 'io.vertx:vertx-service-proxy:4.1.0'
 ----
 
 为了 *实现* 服务代理, 您还需要添加：
@@ -44,7 +43,7 @@ compile 'io.vertx:vertx-service-proxy:4.0.3'
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-codegen</artifactId>
- <version>4.0.3</version>
+ <version>4.1.0</version>
  <scope>provided</scope>
 </dependency>
 ----
@@ -53,14 +52,14 @@ compile 'io.vertx:vertx-service-proxy:4.0.3'
 
 [source,groovy,subs="+attributes"]
 ----
-compileOnly 'io.vertx:vertx-codegen:4.0.3'
+compileOnly 'io.vertx:vertx-codegen:4.1.0'
 ----
 * Gradle >= 5（在您的 `build.gradle` 文件中）：
 
 [source,groovy,subs="+attributes"]
 ----
-annotationProcessor 'io.vertx:vertx-codegen:4.0.3:processor'
-annotationProcessor 'io.vertx:vertx-service-proxy:4.0.3'
+annotationProcessor 'io.vertx:vertx-codegen:4.1.0:processor'
+annotationProcessor 'io.vertx:vertx-service-proxy:4.1.0'
 ----
 
 注意：因为服务代理类是由代码自动生成的，因此每当您修改了 _服务接口_ 您必须重新编译源码，
@@ -129,7 +128,7 @@ void save(String collection, JsonObject document,
 .package-info.java
 [source,java]
 ----
-@io.vertx.codegen.annotations.ModuleGen(groupPackage = "io.vertx.example", name = "services")
+@io.vertx.codegen.annotations.ModuleGen(groupPackage = "io.vertx.example", name = "services", useFutures = true)
 package io.vertx.example;
 ----
 
@@ -174,7 +173,7 @@ public interface SomeDatabaseService {
 == 异步接口
 
 想要正确地生成服务代理类，_服务接口_ 的设计必须遵循一些规则。 首先是需要遵循异步模式。
-如果需要返回结果，对应的方法需要包含一个 Handler<AsyncResult<ResultType>> 类型的参数
+如果需要返回结果，对应的方法需要包含一个 `Future<ResultType>` 类型的返回值。
 其中 `ResultType` 可以是另一种代理类型（所以一个代理类可以作为另一个代理类的工厂）。
 
 例如：
@@ -195,16 +194,13 @@ static SomeDatabaseService createProxy(Vertx vertx, String address) {
 }
 
 // 异步方法，仅通知调用是否完成，不返回结果
-void save(String collection, JsonObject document,
-  Handler<AsyncResult<Void>> result);
+Future<Void> save(String collection, JsonObject document);
 
 // 异步方法，包含JsonObject类型的返回结果
-void findOne(String collection, JsonObject query,
-  Handler<AsyncResult<JsonObject>> result);
+Future<JsonObject> findOne(String collection, JsonObject query);
 
 // 创建连接
-void createConnection(String shoeSize,
-  Handler<AsyncResult<MyDatabaseConnection>> resultHandler);
+Future<MyDatabaseConnection> createConnection(String shoeSize);
 
 }
 ----
@@ -219,7 +215,7 @@ public interface MyDatabaseConnection {
 
 void insert(JsonObject someData);
 
-void commit(Handler<AsyncResult<Void>> resultHandler);
+Future<Void> commit();
 
 @ProxyClose
 void close();
@@ -230,6 +226,57 @@ void close();
 当此方法被调用时，代理实例被清除。
 
 更多 `服务接口` 的限制会在下面详解。
+
+== Async interface with callbacks
+
+Until Vert.x 4.1, service async interfaces were defined by callbacks.
+
+You can still create service async interface using callbacks, with this module declaration:
+
+.package-info.java
+[source,java]
+----
+@io.vertx.codegen.annotations.ModuleGen(groupPackage = "io.vertx.example", name = "services", useFutures = false)
+package io.vertx.example;
+----
+
+NOTE: for backward compatibility, the default value of `useFutures` is `false` so you can also omit the declaration
+
+The service async interface with callbacks looks like:
+
+[source,java]
+----
+@ProxyGen
+public interface SomeDatabaseService {
+
+ // A method notifying the completion without a result (void)
+ void save(String collection, JsonObject document,
+  Handler<AsyncResult<Void>> result);
+
+ // A method providing a result (a json object)
+ void findOne(String collection, JsonObject query,
+  Handler<AsyncResult<JsonObject>> result);
+
+ // Create a connection
+ void createConnection(String shoeSize,
+  Handler<AsyncResult<MyDatabaseConnection>> resultHandler);
+
+}
+----
+
+Return types must be one of:
+
+* `void`
+* `@Fluent` and return reference to the service (`this`):
+
+[source,java]
+----
+@Fluent
+SomeDatabaseService doSomething();
+----
+
+This is because methods must not block and it's not possible to return a result immediately without blocking if
+the service is remote.
 
 [[_security]]
 == 安全
@@ -292,13 +339,13 @@ _codegen_ 注释处理器在编译时生成这些类
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-codegen</artifactId>
- <version>4.0.3</version>
+ <version>4.1.0</version>
  <classifier>processor</classifier>
 </dependency>
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-service-proxy</artifactId>
- <version>4.0.3</version>
+ <version>4.1.0</version>
 </dependency>
 ----
 
@@ -306,8 +353,8 @@ _codegen_ 注释处理器在编译时生成这些类
 
 [source]
 ----
-compile "io.vertx:vertx-codegen:4.0.3:processor"
-compile "io.vertx:vertx-service-proxy:4.0.3"
+compile "io.vertx:vertx-codegen:4.1.0:processor"
+compile "io.vertx:vertx-service-proxy:4.1.0"
 ----
 
 IDE 通常为注释处理器提供支持。
@@ -422,59 +469,51 @@ static SomeDatabaseService createProxy(Vertx vertx, String address) {
 [source,java]
 ----
 public class SomeDatabaseServiceImpl implements SomeDatabaseService {
-private static final BAD_SHOE_SIZE = 42;
-private static final CONNECTION_FAILED = 43;
+
+ private static final BAD_SHOE_SIZE = 42;
+ private static final CONNECTION_FAILED = 43;
 
  // 创建连接
- void createConnection(String shoeSize, Handler<AsyncResult<MyDatabaseConnection>> resultHandler) {
+ public Future<MyDatabaseConnection> createConnection(String shoeSize) {
    if (!shoeSize.equals("9")) {
-     resultHandler.handle(ServiceException.fail(BAD_SHOE_SIZE, "The shoe size must be 9!",
-       new JsonObject().put("shoeSize", shoeSize));
+     return Future.failedFuture(ServiceException.fail(BAD_SHOE_SIZE, "The shoe size must be 9!",
+       new JsonObject().put("shoeSize", shoeSize)));
     } else {
-       doDbConnection(result -> {
-         if (result.succeeded()) {
-           resultHandler.handle(Future.succeededFuture(result.result()));
-         } else {
-           resultHandler.handle(ServiceException.fail(CONNECTION_FAILED, result.cause().getMessage()));
-         }
-       });
+       return doDbConnection().recover(err -> Future.failedFuture(ServiceException.fail(CONNECTION_FAILED, result.cause().getMessage())));
     }
  }
 }
 ----
 
-服务调用端（客户端）可以检查它接收到的失败状态的 AsyncResult 包含的 Throwable 对象是否为 ServiceException 实例。
+服务调用端（客户端）可以检查它接收到的失败状态的 `Future` 包含的 `Throwable` 对象是否为 `ServiceException` 实例。
 如果是的话，继续检查内部的特定的错误状态码。
 调用端可以通过这些信息来将业务逻辑错误与系统错误（如服务没有被注册到事件总线上）区分开，
 以便确定到底发生了哪一种业务逻辑错误。下面是一个例子：
 
 [source,java]
 ----
-public void foo(String shoeSize, Handler<AsyncResult<JsonObject>> handler) {
+public Future<JsonObject> foo(String shoeSize) {
  SomeDatabaseService service = SomeDatabaseService.createProxy(vertx, SERVICE_ADDRESS);
- service.createConnection("8", result -> {
-   if (result.succeeded()) {
+ server.createConnection("8")
+   .compose(connection -> {
      // 正常调用。
-   } else {
-     if (result.cause() instanceof ServiceException) {
-       ServiceException exc = (ServiceException) result.cause();
+     return doSuccessStuff(connection);
+   })
+   .recover(err -> {
+     if (err instanceof ServiceException) {
+       ServiceException exc = (ServiceException) err;
        if (exc.failureCode() == SomeDatabaseServiceImpl.BAD_SHOE_SIZE) {
-         handler.handle(Future.failedFuture(
+         return Future.failedFuture(
            new InvalidInputError("You provided a bad shoe size: " +
-             exc.getDebugInfo().getString("shoeSize"))
-         ));
+             exc.getDebugInfo().getString("shoeSize")));
        } else if (exc.failureCode() == SomeDatabaseServiceImpl.CONNECTION) {
-         handler.handle(Future.failedFuture(
-           new ConnectionError("Failed to connect to the DB")));
+         return Future.failedFuture(new ConnectionError("Failed to connect to the DB"));
        }
      } else {
-       //必须是一个系统错误，如：服务代理没有对应的已注册的服务
-       handler.handle(Future.failedFuture(
-         new SystemError("An unexpected error occurred: + " result.cause().getMessage())
-       ));
+       // 必须是一个系统错误，如：服务代理没有对应的已注册的服务
+       return Future.failedFuture(new SystemError("An unexpected error occurred: + " result.cause().getMessage()));
      }
-   }
- }
+   });
 }
 ----
 
@@ -497,7 +536,7 @@ class ShoeSizeException extends ServiceException {
    return extra;
  }
 
- public static <T> AsyncResult<T> fail(int failureCode, String message, String shoeSize) {
+ public static <T> Future<T> fail(int failureCode, String message, String shoeSize) {
    return Future.failedFuture(new MyServiceException(failureCode, message, shoeSize));
  }
 }
@@ -518,12 +557,12 @@ public class SomeDatabaseServiceImpl implements SomeDatabaseService {
  }
 
  // 创建连接
- void createConnection(String shoeSize, Handler<AsyncResult<MyDatabaseConnection>> resultHandler) {
+ Future<MyDatabaseConnection> createConnection(String shoeSize) {
    if (!shoeSize.equals("9")) {
-     resultHandler.handle(ShoeSizeException.fail(shoeSize));
+     return ShoeSizeException.fail(shoeSize);
    } else {
      // 此处创建连接
-     resultHandler.Handle(Future.succeededFuture(myDbConnection));
+     return Future.succeededFuture(myDbConnection);
    }
  }
 }
@@ -532,27 +571,28 @@ public class SomeDatabaseServiceImpl implements SomeDatabaseService {
 
 [source,java]
 ----
-public void foo(String shoeSize, Handler<AsyncResult<JsonObject>> handler) {
- // 如果运行在集群模式当中，代码在不同的节点运行,
+public Future<JsonObject> foo(String shoeSize) {
+ // 如果运行在集群模式当中，代码在不同的节点运行，
  // ShoeSizeExceptionMessageCodec 必须注册到
  // 该节点的Vertx当中
  SomeDatabaseService service = SomeDatabaseService.createProxy(vertx, SERVICE_ADDRESS);
- service.createConnection("8", result -> {
-   if (result.succeeded()) {
+ service.createConnection("8")
+   .compose(connection -> {
      // 成功调用。
-   } else {
+     return doSuccessStuff(connection);
+   })
+   .recover(err -> {
      if (result.cause() instanceof ShoeSizeException) {
        ShoeSizeException exc = (ShoeSizeException) result.cause();
-       handler.handle(Future.failedFuture(
-         new InvalidInputError("You provided a bad shoe size: " + exc.getShoeSize())));
+       return Future.failedFuture(
+         new InvalidInputError("You provided a bad shoe size: " + exc.getShoeSize()));
      } else {
        // 必须是个系统错误 (例如：没有为服务代理进行注册)
-       handler.handle(Future.failedFuture(
+       return Future.failedFuture(
          new SystemError("An unexpected error occurred: + " result.cause().getMessage())
-       ));
+       );
      }
-   }
- }
+   });
 }
 ----
 
@@ -565,25 +605,8 @@ public void foo(String shoeSize, Handler<AsyncResult<JsonObject>> handler) {
 在服务中参数和返回值在类型上有一定的限制,因此可以方便在事件总线中进行转化。
 他们是：
 
-[[_return_types]]
-=== 返回类型
-
-必须是以下两种：
-
-* `void`
-* `@Fluent` 返回服务实例本身(即： `this` )：
-
-[source,java]
-----
-@Fluent
-SomeDatabaseService doSomething();
-----
-
-因为等待获取结果必须阻塞方法，而方法又不能被阻塞，
-因此远程服务不可能立即返回结果，
-
-[[_parameter_types]]
-=== 参数类型
+[[_data_types]]
+=== 数据类型
 
 `JSON` 表示 `JsonObject 或 JsonArray`
 `PRIMITIVE` 表示任何原始类型或被自动拆装箱的原始类型
@@ -601,7 +624,10 @@ SomeDatabaseService doSomething();
 * 任何 _枚举_ 类型
 * 任何被打上 `@DataObject` 注解的实体类
 
-如果需要返回异步结果，可以提供一个 `Handler<AsyncResult<R>>` 。
+Asynchronous results are modelled as
+
+* `Future<R>`
+* `Handler<AsyncResult<R>>` for callback style
 
 `R` 的类型可以是：
 

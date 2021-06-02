@@ -81,8 +81,8 @@ const Footer = () => {
         </div>
         <div className="footer-copyright">
           <div className="footer-copyright-remarks">
-            &copy; {new Date().getFullYear()} Eclipse Vert.x<br/>
-            Eclipse Vert.x 是开源的，并在
+            &copy; {new Date().getFullYear()} Eclipse Vert.x&trade;<br/>
+            Eclipse Vert.x&trade; 是开源的，并在
             <a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="noopener noreferrer">Eclipse Public License 2.0</a>和
             <a href="https://www.apache.org/licenses/LICENSE-2.0.html" target="_blank" rel="noopener noreferrer">Apache License 2.0</a>协议下获得了双重许可。<br className="footer-copyright-break"/>
             网站由 <a href="https://michelkraemer.com" target="_blank" rel="noopener noreferrer">Michel Krämer</a> 设计。

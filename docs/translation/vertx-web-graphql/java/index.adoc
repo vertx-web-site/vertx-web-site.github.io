@@ -16,7 +16,7 @@ TIP: 这是一个 Vert.x Web GraphQL 的参考文档。
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-web-graphql</artifactId>
- <version>4.0.3</version>
+ <version>4.1.0</version>
 </dependency>
 ----
 
@@ -24,7 +24,7 @@ TIP: 这是一个 Vert.x Web GraphQL 的参考文档。
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-web-graphql:4.0.3'
+compile 'io.vertx:vertx-web-graphql:4.1.0'
 ----
 
 [[_handlers_setup]]
@@ -291,7 +291,7 @@ TIP: `link:../../apidocs/io/vertx/ext/web/handler/graphql/schema/VertxPropertyDa
 
 DataLoader 可以批量化请求并缓存结果，助您高效地加载数据。（译者注：与 DataFetcher 对应，DataLoader保留原文不翻译）
 
-首先，创建一个批量加载器： 
+首先，创建一个批量加载器：
 
 [source,java]
 ----
@@ -321,7 +321,7 @@ https://github.com/jaydenseric/graphql-multipart-request-spec[GraphQL multipart 
 通过启用此功能，GraphQL 客户端将能够使用单个变更（Mutation）调用来上传文件。
 所有服务器端文件处理逻辑都抽象到了 `link:../../apidocs/io/vertx/ext/web/handler/graphql/GraphQLHandler.html[GraphQLHandler]` 。
 
-启用该功能需要创建一个 `link:../../apidocs/io/vertx/ext/web/handler/graphql/GraphQLHandler.html[GraphQLHandler]` ，并将 requestMultipartEnabled 配置设置为true，然后添加 `link:../../apidocs/io/vertx/ext/web/handler/BodyHandler.html[BodyHandler]` 到路由。 
+启用该功能需要创建一个 `link:../../apidocs/io/vertx/ext/web/handler/graphql/GraphQLHandler.html[GraphQLHandler]` ，并将 requestMultipartEnabled 配置设置为true，然后添加 `link:../../apidocs/io/vertx/ext/web/handler/BodyHandler.html[BodyHandler]` 到路由。
 
 [source,java]
 ----

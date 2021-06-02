@@ -19,7 +19,7 @@ WARNING: 这个模块已经过时了，如果您想构建一个新的应用，�
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-web-api-contract</artifactId>
- <version>4.0.3</version>
+ <version>4.1.0</version>
 </dependency>
 ----
 
@@ -28,7 +28,7 @@ WARNING: 这个模块已经过时了，如果您想构建一个新的应用，�
 [source,groovy,subs="+attributes"]
 ----
 dependencies {
- compile 'io.vertx:vertx-web-api-contract:4.0.3'
+ compile 'io.vertx:vertx-web-api-contract:4.1.0'
 }
 ----
 

@@ -1162,6 +1162,20 @@ NetClient client = vertx.createNetClient(options);
 DNS 解析总是在代理服务器上完成解析，为了实现 SOCKS4 客户端的功能，
 需要先在本地解析 DNS 地址。
 
+You can use `link:../../apidocs/io/vertx/core/net/NetClientOptions.html#setNonProxyHosts-java.util.List-[setNonProxyHosts]` to configure a list of host bypassing
+the proxy. The lists accepts `*` wildcard for matching domains:
+
+[source,java]
+----
+NetClientOptions options = new NetClientOptions()
+  .setProxyOptions(new ProxyOptions().setType(ProxyType.SOCKS5)
+    .setHost("localhost").setPort(1080)
+    .setUsername("username").setPassword("secret"))
+  .addNonProxyHost("*.foo.com")
+  .addNonProxyHost("localhost");
+NetClient client = vertx.createNetClient(options);
+----
+
 [[_using_ha_proxy_protocol]]
 === 使用HA PROXY协议
 

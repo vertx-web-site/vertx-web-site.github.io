@@ -13,7 +13,7 @@
 <dependency>
    <groupId>io.vertx</groupId>
    <artifactId>vertx-mqtt</artifactId>
-   <version>4.0.3</version>
+   <version>4.1.0</version>
 </dependency>
 ----
 
@@ -21,7 +21,7 @@
 
 [source,groovy,subs="+attributes"]
 ----
-compile io.vertx:vertx-mqtt:4.0.3
+compile io.vertx:vertx-mqtt:4.1.0
 ----
 
 [[_vert_x_mqtt_server]]

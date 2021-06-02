@@ -2639,6 +2639,38 @@ HttpClient client = vertx.createHttpClient(options);
 DNS 解析会一直在代理服务器上执行。为了实现 SOCKS4 客户端的功能，
 需要先在本地解析 DNS 地址。
 
+Proxy options can also be set per request:
+
+[source,java]
+----
+client.request(new RequestOptions()
+  .setHost("example.com")
+  .setProxyOptions(proxyOptions))
+  .compose(request -> request
+    .send()
+    .compose(HttpClientResponse::body))
+  .onSuccess(body -> {
+    System.out.println("Received response");
+  });
+----
+
+NOTE: A given host should always use the same proxy options: as HTTP requests are pooled, per request proxy
+options are used when establishing the connection
+
+You can use `link:../../apidocs/io/vertx/core/http/HttpClientOptions.html#setNonProxyHosts-java.util.List-[setNonProxyHosts]` to configure a list of host bypassing
+the proxy. The lists accept `*` wildcard for matching domains:
+
+[source,java]
+----
+HttpClientOptions options = new HttpClientOptions()
+  .setProxyOptions(new ProxyOptions().setType(ProxyType.SOCKS5)
+    .setHost("localhost").setPort(1080)
+    .setUsername("username").setPassword("secret"))
+  .addNonProxyHost("*.foo.com")
+  .addNonProxyHost("localhost");
+HttpClient client = vertx.createHttpClient(options);
+----
+
 [[_handling_of_other_protocols]]
 ==== 处理其他协议
 

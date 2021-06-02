@@ -4,7 +4,7 @@ import Layout from "./Page"
 import ReadMoreLink from "../ReadMoreLink"
 import ScrollLink from "../ScrollLink"
 import Label from "../Label"
-import { versions as docsVersions } from "../../docs/metadata/all"
+import { versions as docsVersions, metadata as docsMetadata, latestRelease } from "../../docs/metadata/all"
 import { filterLatestBugfixVersions } from "../../docs/metadata/helpers"
 import Link from "next/link"
 import { Book, ExternalLink } from "react-feather"
@@ -69,9 +69,13 @@ const SectionPart = ({ title, label, href, children }) => {
 
 const Docs = ({ metadata, version }) => {
   let versionPath = ""
+  let activeVersion = latestRelease.version
   if (version !== undefined) {
     versionPath = `/${version}`
+    activeVersion = version
   }
+  let activeVersionTitle = docsMetadata.find(m => m.version === activeVersion)
+      .metadata.title || activeVersion
 
   return (
     <Layout meta={{ title: "文档" }}>
@@ -99,23 +103,32 @@ const Docs = ({ metadata, version }) => {
 
             <div className="docs-index-content-heading-right">
               <span className="docs-index-api">
-                <a href={`https://vertx.io/docs/${version ? `${version}/` : ""}apidocs`}>
+                <a href={`/docs${versionPath}/apidocs`}>
                   <Book className="feather" />API
                 </a>
               </span>
 
               <span className="docs-index-content-version">
-                <DropDown title={`v${version || docsVersions[0]}`} align="right">
-                  <DropDownItem active={version === undefined ||
-                        version === docsVersions[0]} href="/docs/">
-                    Latest (v{docsVersions[0]})
-                  </DropDownItem>
-                  {filterLatestBugfixVersions(docsVersions).slice(1).map(v => (
-                    <DropDownItem key={v} active={version === v}
-                        href={`/docs/${v}/`}>
-                      v{v}
-                    </DropDownItem>
-                  ))}
+                <DropDown title={`v${activeVersionTitle}`} align="right">
+                  {filterLatestBugfixVersions(docsVersions).map(v => {
+                    let md = docsMetadata.find(m => m.version === v)
+                    let title = md.metadata.title || v
+                    if (latestRelease.version === v) {
+                      return (
+                        <DropDownItem key={v} active={activeVersion === v}
+                            href={"/docs/"}>
+                          Latest (v{title})
+                        </DropDownItem>
+                      )
+                    } else {
+                      return (
+                        <DropDownItem key={v} active={activeVersion === v}
+                            href={`/docs/${v}/`}>
+                          v{title}
+                        </DropDownItem>
+                      )
+                    }
+                  })}
                 </DropDown>
               </span>
             </div>
@@ -125,7 +138,7 @@ const Docs = ({ metadata, version }) => {
             <Section key={category.id} icon={category.icon} id={category.id} name={category.name}>
               {metadata.metadata.entries.filter(e => e.category === category.id).map(entry => (
                 <SectionPart key={entry.id} title={entry.name} label={entry.label}
-                    href={`/docs${versionPath}${entry.href}`}>
+                    href={(entry.href.startsWith("/") ? `/docs${versionPath}` : "") + entry.href}>
                   {entry.description}
                 </SectionPart>
               ))}

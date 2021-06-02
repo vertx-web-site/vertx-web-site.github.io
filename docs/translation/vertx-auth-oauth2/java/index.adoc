@@ -9,7 +9,7 @@ Vert.x OAuth2 组件包括一个开箱即用的 OAuth2 (以及一定程度的 Op
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-auth-oauth2</artifactId>
- <version>4.0.3</version>
+ <version>4.1.0</version>
 </dependency>
 ----
 
@@ -17,7 +17,7 @@ Vert.x OAuth2 组件包括一个开箱即用的 OAuth2 (以及一定程度的 Op
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-auth-oauth2:4.0.3'
+compile 'io.vertx:vertx-auth-oauth2:4.1.0'
 ----
 
 OAuth2 允许用户 (user) 向第三方应用程序授予访问所需资源的权限，同时让用户可以在任何时候开启或者禁用这些访问。
@@ -74,7 +74,7 @@ Vert.x OAuth2 支持 RFC7523 扩展，允许服务器之间基于 JWT 进行授�
 ----
 OAuth2Auth oauth2 = OAuth2Auth.create(vertx, new OAuth2Options()
   .setFlow(OAuth2FlowType.AUTH_CODE)
-  .setClientID("YOUR_CLIENT_ID")
+  .setClientId("YOUR_CLIENT_ID")
   .setClientSecret("YOUR_CLIENT_SECRET")
   .setSite("https://github.com/login")
   .setTokenPath("/oauth/access_token")
@@ -119,7 +119,7 @@ oauth2.authenticate(
 ----
 OAuth2Options credentials = new OAuth2Options()
   .setFlow(OAuth2FlowType.AUTH_CODE)
-  .setClientID("<client-id>")
+  .setClientId("<client-id>")
   .setClientSecret("<client-secret>")
   .setSite("https://api.oauth.com");
 
@@ -195,7 +195,7 @@ oauth2.authenticate(tokenConfig)
 ----
 OAuth2Options credentials = new OAuth2Options()
   .setFlow(OAuth2FlowType.CLIENT)
-  .setClientID("<client-id>")
+  .setClientId("<client-id>")
   .setClientSecret("<client-secret>")
   .setSite("https://api.oauth.com");
 
@@ -224,7 +224,7 @@ Vert.x OAuth2 对 OpenID 发现服务器的支持有限。使用 OIDC Discovery 
 OpenIDConnectAuth.discover(
   vertx,
   new OAuth2Options()
-    .setClientID("clientId")
+    .setClientId("clientId")
     .setClientSecret("clientSecret")
     .setSite("https://accounts.google.com"))
   .onSuccess(oauth2 -> {
@@ -262,7 +262,7 @@ OpenIDConnectAuth.discover(
 KeycloakAuth.discover(
   vertx,
   new OAuth2Options()
-    .setClientID("clientId")
+    .setClientId("clientId")
     .setClientSecret("clientSecret")
     .setSite("http://keycloakhost:keycloakport/auth/realms/{realm}")
     .setTenant("your-realm"))
@@ -274,7 +274,7 @@ KeycloakAuth.discover(
 GoogleAuth.discover(
   vertx,
   new OAuth2Options()
-    .setClientID("clientId")
+    .setClientId("clientId")
     .setClientSecret("clientSecret"))
   .onSuccess(oauth2 -> {
     // ...
@@ -284,7 +284,7 @@ GoogleAuth.discover(
 SalesforceAuth.discover(
   vertx,
   new OAuth2Options()
-    .setClientID("clientId")
+    .setClientId("clientId")
     .setClientSecret("clientSecret"))
   .onSuccess(oauth2 -> {
     // ...
@@ -294,7 +294,7 @@ SalesforceAuth.discover(
 AzureADAuth.discover(
   vertx,
   new OAuth2Options()
-    .setClientID("clientId")
+    .setClientId("clientId")
     .setClientSecret("clientSecret")
     .setTenant("your-app-guid"))
   .onSuccess(oauth2 -> {
@@ -305,7 +305,7 @@ AzureADAuth.discover(
 IBMCloudAuth.discover(
   vertx,
   new OAuth2Options()
-    .setClientID("clientId")
+    .setClientId("clientId")
     .setClientSecret("clientSecret")
     .setSite("https://<region-id>.appid.cloud.ibm.com/oauth/v4/{tenant}")
     .setTenant("your-tenant-id"))
@@ -438,7 +438,7 @@ String username = user.principal().getString("preferred_username");
 OpenIDConnectAuth.discover(
   vertx,
   new OAuth2Options()
-    .setClientID("clientId")
+    .setClientId("clientId")
     .setTenant("your_realm")
     .setSite("http://server:port/auth/realms/{tenant}"))
   .onSuccess(oauth2 -> {

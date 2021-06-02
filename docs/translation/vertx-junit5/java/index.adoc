@@ -133,17 +133,19 @@ vertx.createHttpServer()
     requestsServed.flag();
   })
   .listen(8888)
-  .onComplete(testContext.succeeding(httpServer -> serverStarted.flag()));
+  .onComplete(testContext.succeeding(httpServer -> {
+    serverStarted.flag();
 
-HttpClient client = vertx.createHttpClient();
-for (int i = 0; i < 10; i++) {
-  client.request(HttpMethod.GET, 8888, "localhost", "/")
-    .compose(req -> req.send().compose(HttpClientResponse::body))
-    .onComplete(testContext.succeeding(buffer -> testContext.verify(() -> {
-      assertThat(buffer.toString()).isEqualTo("Ok");
-      responsesReceived.flag();
-    })));
-}
+    HttpClient client = vertx.createHttpClient();
+    for (int i = 0; i < 10; i++) {
+      client.request(HttpMethod.GET, 8888, "localhost", "/")
+        .compose(req -> req.send().compose(HttpClientResponse::body))
+        .onComplete(testContext.succeeding(buffer -> testContext.verify(() -> {
+          assertThat(buffer.toString()).isEqualTo("Ok");
+          responsesReceived.flag();
+        })));
+    }
+  }));
 ----
 
 TIP: checkpoint只能在测试用例的主线程创建，不能在Vert.x异步事件回调中创建。
@@ -297,6 +299,26 @@ class LifecycleExampleTest {
 2. 在 `@BeforeAll` 修饰的方法中注入的 `Vertx` 对象，会在之后所有的测试方法以及生命周期函数中注入的 `Vertx` 参数当中共享。
 3. 在 `@BeforeEach` 修饰的且没有父级context的方法注入过程中，或者在先前的 `@BeforeAll` 方法的参数注入过程中，会创建一个新的对象，并共享于相关所有的测试方法以及 `AfterEach` 方法。
 4. 当执行测试方法之前没有创建 `Vertx` 对象时，则会创建一个新的 `Vertx` 对象（仅仅作用于该方法本身）
+
+==== Configuring `Vertx` instances
+
+By default the `Vertx` objects get created with `Vertx.vertx()`, using the default settings for `Vertx`. However you have the ability to configure `VertxOptions` to suit your needs.
+A typical use case would be "extending blocking timeout warning for debugging". To configure the `Vertx` object you must:
+
+1. create a json file with the `VertxOptions` in https://vertx.io/docs/apidocs/io/vertx/core/VertxOptions.html#VertxOptions-io.vertx.core.json.JsonObject-[json format]
+2. create an environment variable `vertx.parameter.filename` pointing to that file
+
+Example file content for extended timeouts:
+
+[source,json]
+{
+ "blockedThreadCheckInterval" : 5,
+ "blockedThreadCheckIntervalUnit" : "MINUTES",
+ "maxEventLoopExecuteTime" : 360,
+ "maxEventLoopExecuteTimeUnit" : "SECONDS"
+}
+
+With these conditions met, the `Vertx` object will be created with the configured options
 
 [[_closing_and_removal_of_vertx_objects]]
 ==== 关闭和移除 `Vertx` 对象

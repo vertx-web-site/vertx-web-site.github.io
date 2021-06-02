@@ -32,7 +32,7 @@
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-config</artifactId>
- <version>4.0.3</version>
+ <version>4.1.0</version>
 </dependency>
 ----
 
@@ -40,7 +40,7 @@
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-config:4.0.3'
+compile 'io.vertx:vertx-config:4.1.0'
 ----
 
 以上工作完成之后，您第一件要做的事情就是实例化 `link:../../apidocs/io/vertx/config/ConfigRetriever.html[ConfigRetriever]` ：
@@ -279,7 +279,7 @@ JSON obejct
 
 [source, java]
 ----
-ConfigStoreOptions json = new ConfigStoreOptions()
+ConfigStoreOptions env = new ConfigStoreOptions()
   .setType("env");
 ----
 
@@ -289,7 +289,7 @@ ConfigStoreOptions json = new ConfigStoreOptions()
 
 [source, java]
 ----
-ConfigStoreOptions json = new ConfigStoreOptions()
+ConfigStoreOptions env = new ConfigStoreOptions()
   .setType("env")
   .setConfig(new JsonObject().put("raw-data", true));
 ----
@@ -303,7 +303,7 @@ key必须独立列出：
 
 [source, java]
 ----
-ConfigStoreOptions json = new ConfigStoreOptions()
+ConfigStoreOptions env = new ConfigStoreOptions()
   .setType("env")
   .setConfig(new JsonObject().put("keys", new JsonArray().add("SERVICE1_HOST").add("SERVICE2_HOST")));
 ----
@@ -316,7 +316,7 @@ JSON 对象
 
 [source, java]
 ----
-ConfigStoreOptions json = new ConfigStoreOptions()
+ConfigStoreOptions sys = new ConfigStoreOptions()
   .setType("sys")
   .setConfig(new JsonObject().put("cache", false));
 ----
@@ -329,6 +329,33 @@ ConfigStoreOptions json = new ConfigStoreOptions()
 您也可以配置 `raw-data` 属性（默认为 `false` ）。如果 `raw-data` 为 `true` ，
 则不会对值进行转换。用 `config.getString(key)` 方法，您会得到原始值。
 当操作大整型数时，这很有用。
+
+Furthermore, there is the `hierarchical` attribute (`false` by default). If `hierarchical` is `true`, the system
+properties will be parsed as a nested JSON object, using the dot-separated property name as the path in the JSON object.
+
+Example:
+
+[source, java]
+----
+ConfigStoreOptions sysHierarchical = new ConfigStoreOptions()
+  .setType("sys")
+  .setConfig(new JsonObject().put("hierarchical", true));
+----
+....
+java -Dserver.host=localhost -Dserver.port=8080 -jar your-application.jar
+....
+
+This will read the system properties as JSON object equivalent to
+
+[source,json]
+----
+{
+ "server": {
+   "host": "localhost",
+   "port": 8080
+ }
+}
+----
 
 === HTTP
 
@@ -454,13 +481,13 @@ multiple.values=1,2,3
 
 [source, java]
 ----
-ConfigStoreOptions propertyWitHierarchical = new ConfigStoreOptions()
+ConfigStoreOptions propertyWithHierarchical = new ConfigStoreOptions()
   .setFormat("properties")
   .setType("file")
   .setConfig(new JsonObject().put("path", "hierarchical.properties").put("hierarchical", true)
   );
 ConfigRetrieverOptions options = new ConfigRetrieverOptions()
-  .addStore(propertyWitHierarchical);
+  .addStore(propertyWithHierarchical);
 
 ConfigRetriever configRetriever = ConfigRetriever.create(Vertx.vertx(), options);
 

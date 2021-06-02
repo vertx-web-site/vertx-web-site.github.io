@@ -1,7 +1,7 @@
 import Docs from "../../components/layouts/Docs"
 import DocsIndex from "../../components/layouts/DocsIndex"
 import VersionContext from "../../components/contexts/VersionContext"
-import { metadata } from "../../docs/metadata/all"
+import { metadata, latestRelease } from "../../docs/metadata/all"
 import parse5 from "parse5"
 import { useContext, useEffect } from "react"
 import { fetchGitHubStarsByUrl } from "../../components/lib/github-stars"
@@ -267,7 +267,7 @@ function getMetadataByVersion(version) {
   if (version !== undefined) {
     return metadata.find(m => m.version === version)
   }
-  return metadata[metadata.length - 1]
+  return latestRelease
 }
 
 const DocsPage = ({ slug, title, fallbackGitHubStars, toc, contents, version }) => {

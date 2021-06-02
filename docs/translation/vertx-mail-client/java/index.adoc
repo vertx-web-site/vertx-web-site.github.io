@@ -16,7 +16,7 @@ Vert.x邮件客户端通过本地邮件服务器（例如： postfix）或者外
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-mail-client</artifactId>
- <version>4.0.3</version>
+ <version>4.1.0</version>
 </dependency>
 ----
 
@@ -24,7 +24,7 @@ Vert.x邮件客户端通过本地邮件服务器（例如： postfix）或者外
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-mail-client:4.0.3'
+compile 'io.vertx:vertx-mail-client:4.1.0'
 ----
 
 [[_creating_a_client]]
@@ -257,6 +257,10 @@ MailMessage对象有如下属性
 * `dkimSignOptions` `DKIMSignOptions` 列表用于执行DKIM签名
 * `pipelining` 如果邮件服务端允许，则开启管道。默认是 `true`
 * `multiPartOnly` 布尔类型，指代该编码的邮件消息是否是仅由多部分（multipart）消息组成。默认为 `false`
+* `poolCleanerPeriod` int, the connection pool cleaner period in milli seconds. Default is `1000 ms`.
+* `poolCleanerPeriodUnit` TimeUnit of cleaning the pool, Default is `TimeUnit.MILLISECONDS`
+* `keepAliveTimeout` int, the keep alive timeout for SMTP connection in seconds. Default is `300 s`.
+* `keepAliveTimeoutUnit`, TimeUnit of keeping connections in the pool alive. Default is `TimeUnit.SECONDS`
 
 [[_mailresult_object]]
 === MailResult对象

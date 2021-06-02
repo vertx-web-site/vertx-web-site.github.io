@@ -10,7 +10,8 @@ class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head />
-        <body>
+        <body data-build-time={process.env.buildDate} data-build-commit-id={process.env.GITHUB_SHA}
+            data-build-run-id={process.env.GITHUB_RUN_ID}>
           <Main />
           <NextScript />
         </body>

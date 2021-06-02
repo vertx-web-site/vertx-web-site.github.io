@@ -7,8 +7,7 @@
 https://github.com/ReactiveX/RxJava[RxJava] 是 JVM 上一个流行的库，用于组合异步的、
 使用可观察序列的、基于事件的程序。
 
-Vert.x 与 RxJava 集成起来很自然：
-它使得无论什么时候，只要我们能使用流和异步结果，就能使用 Observable。
+Vert.x 与 RxJava 集成起来很自然：它使得无论什么时候，只要我们能使用流和异步结果，就能使用 RxJava。
 
 [[_using_vert_x_api_for_rxjava2]]
 === 在 RxJava2 中使用 Vert.x API
@@ -22,7 +21,7 @@ Vert.x 与 RxJava 集成起来很自然：
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-rx-java2</artifactId>
- <version>4.0.3</version>
+ <version>4.1.0</version>
 </dependency>
 ----
 
@@ -30,7 +29,7 @@ Vert.x 与 RxJava 集成起来很自然：
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-rx-java2:4.0.3'
+compile 'io.vertx:vertx-rx-java2:4.1.0'
 ----
 
 要使用 Vert.x 的 RxJava2 API，有两种方式：
@@ -82,14 +81,14 @@ fs.open("/data.txt", new OpenOptions(), result -> {
 当订阅动作发生时，适配器会调用 `link:../../apidocs/io/vertx/core/streams/ReadStream.html#handler-io.vertx.core.Handler-[handler]`
 来设置它的 handler 。
 
-某些 `ReadStream` 实现会在这个调用之后开始发射事件，而其他的则与 
+某些 `ReadStream` 实现会在这个调用之后开始发射事件，而其他的则与
 handler 是否设置无关：
 
 - `AsyncFile` 在 handler 设置后开始产生 buffer 事件
 - `HttpServerRequest` 则不依赖于此（即 如果 handler 未设置，buffer 可能会丢失）
 
 在上述两种情形中，订阅 `Flowable` 都是安全的。原因在于不管 event loop 还是 worker
-verticle 都不会被并发执行，所以订阅一定是在 handler 
+verticle 都不会被并发执行，所以订阅一定是在 handler
 开始发射数据之前发生。
 
 当你想延迟订阅时，需要先 `暂停（pause）` `ReadStream` ，并在之后 `恢复（resume）` 它，
@@ -121,7 +120,7 @@ server.requestHandler(request -> {
 
 同样的，将一个 `Flowable` 转变为 Vert.x `ReadStream` 也是可以的。
 
-静态方法 `link:../../apidocs/io/vertx/reactivex/FlowableHelper.html#toReadStream-io.reactivex.Flowable-[FlowableHelper.toReadStream]`  用于将 
+静态方法 `link:../../apidocs/io/vertx/reactivex/FlowableHelper.html#toReadStream-io.reactivex.Flowable-[FlowableHelper.toReadStream]`  用于将
 `Flowable` 转换为 Vert.x 可读流：
 
 [source,java]
@@ -170,7 +169,7 @@ CAUTION: 该适配器会设置 `link:../../apidocs/io/vertx/reactivex/core/strea
 * `link:../../apidocs/io/vertx/reactivex/core/streams/WriteStream.html[WriteStream]` 结束（即，所有写入已完成，且文件已关闭），或
 * `link:../../apidocs/io/vertx/reactivex/core/streams/WriteStream.html[WriteStream]` 错误地结束（即，所有写入已结束，当关闭文件时发生了错误）
 
-这样不但可以设计更健壮的程序，而且可以在处理完流之后安排其他任务： 
+这样不但可以设计更健壮的程序，而且可以在处理完流之后安排其他任务：
 
 [source,java]
 ----
@@ -319,7 +318,7 @@ Maybe<String> maybe = MaybeHelper.toMaybe(handler -> {
 这意味着定时器线程并非 Vert.x 线程，因此（这些操作）并不是在 Vert.x Event Loop 线程上执行的。
 
 在 RxJava 中，有些操作通常会有接受一个 `io.reactivex.Scheduler` 参数的重载方法用于设定 Scheduler。
-`RxHelper` 类提供了一个 `link:../../apidocs/io/vertx/reactivex/RxHelper.html#scheduler-io.vertx.core.Vertx-[RxHelper.scheduler]` 方法，其返回的调度器可供 RxJava 
+`RxHelper` 类提供了一个 `link:../../apidocs/io/vertx/reactivex/RxHelper.html#scheduler-io.vertx.core.Vertx-[RxHelper.scheduler]` 方法，其返回的调度器可供 RxJava
 的这些方法使用。
 
 [source,java]
@@ -583,7 +582,7 @@ vertx.periodicStream(1000).
 [[_http_server_requests]]
 === HTTP服务端请求
 
-`link:../../apidocs/io/vertx/reactivex/core/http/HttpServer.html#requestStream--[requestStream]` 
+`link:../../apidocs/io/vertx/reactivex/core/http/HttpServer.html#requestStream--[requestStream]`
 方法对到达的每个请求都提供了回调：
 
 [source,java]
@@ -620,7 +619,7 @@ requestObservable.subscribe(request -> {
 [[_websocket_client]]
 === WebSocket客户端
 
-当 WebSocket 连接成功或失败时， `link:../../apidocs/io/vertx/reactivex/core/http/HttpClient.html#rxWebSocket-int-java.lang.String-java.lang.String-[rxWebSocket]` 
+当 WebSocket 连接成功或失败时， `link:../../apidocs/io/vertx/reactivex/core/http/HttpClient.html#rxWebSocket-int-java.lang.String-java.lang.String-[rxWebSocket]`
 方法对此提供了一次性的回调：
 
 [source,java]
@@ -653,7 +652,7 @@ socketObservable.subscribe(
 [[_websocket_server]]
 === WebSocket服务端
 
-每当有新连接到达时， `link:../../apidocs/io/vertx/reactivex/core/http/HttpServer.html#webSocketStream--[webSocketStream]` 
+每当有新连接到达时， `link:../../apidocs/io/vertx/reactivex/core/http/HttpServer.html#webSocketStream--[webSocketStream]`
 方法都会提供一次回调：
 
 [source,java]

@@ -18,7 +18,7 @@ Kubernetes中的服务，在导入到Vert.x后都会创建对应的 `link:../../
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-service-discovery-bridge-kubernetes</artifactId>
- <version>4.0.3</version>
+ <version>4.1.0</version>
 </dependency>
 ----
 
@@ -26,7 +26,7 @@ Kubernetes中的服务，在导入到Vert.x后都会创建对应的 `link:../../
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-service-discovery-bridge-kubernetes:4.0.3'
+compile 'io.vertx:vertx-service-discovery-bridge-kubernetes:4.1.0'
 ----
 
 然后，当创建服务发现时，按如下注册桥接器：

@@ -12,7 +12,7 @@
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-auth-sql-client</artifactId>
- <version>4.0.3</version>
+ <version>4.1.0</version>
 </dependency>
 ----
 
@@ -20,7 +20,7 @@
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-auth-sql-client:4.0.3'
+compile 'io.vertx:vertx-auth-sql-client:4.1.0'
 ----
 
 要创建一个权限管理器对象，您首先需要一个 `link:../../apidocs/io/vertx/sqlclient/SqlClient.html[SqlClient]` 对象。
@@ -89,14 +89,14 @@ WARNING: 我们也推荐您将密码作为散列值存入数据库表当中，�
 您应该使用安全性强的哈希算法。
 强烈不推荐密码明文存入数据库。
 
-[[_vertx_auth_jdbc_and_gdpr]]
-== Vertx Auth JDBC 和 GDPR
+[[_vertx_auth_sql_client_and_gdpr]]
+== Vertx Auth SQL Client 和 GDPR
 
 GDPR是欧盟普通法中的一项法规。它重新定义了成员国的数据保护法或凌驾该法之上，
 并扩展了先前已存在的法令。本节内容绝不是一个法规的概览，
 而是对组件如何遵循要求做的小总结。
 不遵守法规的公司可以按营业额的4％或2000万欧元处以罚款。
-因此我们想要确保的是，您，作为 Vert.x Auth JDBC 的用户，很好地遵守了该法规。
+因此我们想要确保的是，您，作为 Vert.x Auth SQL Client 的用户，很好地遵守了该法规。
 
 该法规定义如下术语：
 
@@ -129,7 +129,6 @@ GDPR 定义如下的功能：
 对于 Vert.x Auth SQL 场景，您应该删除您的表，
 只要不将用户名和个人信息关联起来，那么您依旧可以保留对用户名的外键引用，
 
-
 重要说明：这必须在备份中保留下来！作为提示，您应该备份数据，并保证数据备份在不同的数据库当中，
 所以他们才能够独立地回滚。
 
@@ -146,7 +145,7 @@ GDPR 定义如下的功能：
 
 [source,java]
 ----
-String hash = jdbcAuth.hash(
+String hash = sqlAuth.hash(
   "pbkdf2", // hashing algorithm (OWASP recommended)
   VertxContextPRNG.current().nextString(32), // secure random salt
   "sausages" // password
@@ -154,7 +153,7 @@ String hash = jdbcAuth.hash(
 
 // save to the database
 sqlClient
-  .preparedQuery("INSERT INTO user (username, password) VALUES (?, ?)")
+  .preparedQuery("INSERT INTO users (username, password) VALUES ($1, $2)")
   .execute(Tuple.of("tim", hash))
   .onSuccess(rowset -> {
     // password updated

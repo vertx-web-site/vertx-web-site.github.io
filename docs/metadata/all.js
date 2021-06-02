@@ -17,7 +17,17 @@ const metadata = metadataModules.keys().map(m => {
   return { version, metadata: metadataModules(m).default }
 }).sort((a, b) => a.version.localeCompare(b.version))
 
+// get latest release
+let latestRelease
+for (let i = metadata.length - 1; i >= 0; --i) {
+  if (!metadata[i].metadata.prerelease) {
+    latestRelease = metadata[i]
+    break
+  }
+}
+
 module.exports = {
   metadata,
-  versions
+  versions,
+  latestRelease
 }
