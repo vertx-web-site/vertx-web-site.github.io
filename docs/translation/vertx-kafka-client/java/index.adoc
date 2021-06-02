@@ -328,17 +328,17 @@ consumer
 
 == 改变订阅或主题分区的分配
 
-你可以在开始消费消息之后修改订阅的主题或主题分区的分配，只需要
+您可以在开始消费消息之后修改订阅的主题或主题分区的分配，只需要
 重新调用 `subscribe()` 方法或 `assign()` 方法。
 
-请记住，由于 kafka 客户端的内部存在消息缓存， 因此很有可能在你
+请记住，由于 kafka 客户端的内部存在消息缓存， 因此很有可能在您
 调用 `subscribe()` 方法或 `assign()` 方法 _之后_ ，原先的消息处理器仍然 
-收到了旧的主题或分区的消息。 但是如果你使用了批处理器就不会发生这种情况：
+收到了旧的主题或分区的消息。 但是如果您使用了批处理器就不会发生这种情况：
 一旦重新调用订阅或修改方法的完成回调被触发， 那么客户端就只会收到新的主题或分区的消息。
 
 == 获取主题分区信息
 
-你可以调用 `link:../../apidocs/io/vertx/kafka/client/consumer/KafkaConsumer.html#partitionsFor-java.lang.String-io.vertx.core.Handler-[partitionsFor]` 方法来获取
+您可以调用 `link:../../apidocs/io/vertx/kafka/client/consumer/KafkaConsumer.html#partitionsFor-java.lang.String-io.vertx.core.Handler-[partitionsFor]` 方法来获取
 特定主题的分区信息。
 
 [source,java]
@@ -352,7 +352,7 @@ consumer
   });
 ----
 
-你也可以调用 `link:../../apidocs/io/vertx/kafka/client/consumer/KafkaConsumer.html#listTopics-io.vertx.core.Handler-[listTopics]` 方法获取所有当前主题的
+您也可以调用 `link:../../apidocs/io/vertx/kafka/client/consumer/KafkaConsumer.html#listTopics-io.vertx.core.Handler-[listTopics]` 方法获取所有当前主题的
 分区信息。
 
 [source,java]
@@ -391,7 +391,7 @@ consumer.commit().onSuccess(v ->
 Apache Kafka 可以保存一段时间内的消息数据，并且消费者可以在消息分区内查询
 并获取任意一条消息。
 
-你可以使用 `link:../../apidocs/io/vertx/kafka/client/consumer/KafkaConsumer.html#seek-io.vertx.kafka.client.common.TopicPartition-long-[seek]` 方法来改变读取时的偏移，并移动到
+您可以使用 `link:../../apidocs/io/vertx/kafka/client/consumer/KafkaConsumer.html#seek-io.vertx.kafka.client.common.TopicPartition-long-[seek]` 方法来改变读取时的偏移，并移动到
 特定的位置
 
 [source,java]
@@ -434,14 +434,14 @@ consumer
   .onSuccess(v -> System.out.println("Seeking done"));
 ----
 
-请记住，由于 kafka 客户端的内部存在消息缓存， 因此很有可能在你
+请记住，由于 kafka 客户端的内部存在消息缓存， 因此很有可能在您
 调用完 `seek*()` 方法 _之后_ 原有的消息处理器仍在获取原先
-偏移处的消息。 但是如果你使用了批处理器就不会发生这种情况： 一旦
+偏移处的消息。 但是如果您使用了批处理器就不会发生这种情况： 一旦
 `seek*()` 的完成回调被触发， 消息处理器就只会接收到新的偏移处的消息。
 
 == 查询偏移
 
-你可以使用在 Kafka 0.10.1.1 引入的 beginningOffsets 接口来获取指定分区的
+您可以使用在 Kafka 0.10.1.1 引入的 beginningOffsets 接口来获取指定分区的
 第一个偏移。 与 `link:../../apidocs/io/vertx/kafka/client/consumer/KafkaConsumer.html#seekToBeginning-io.vertx.kafka.client.common.TopicPartition-[seekToBeginning]` 方法不同的是，
 该接口并不会改变当前客户端的偏移。
 
@@ -473,7 +473,7 @@ consumer
   );
 ----
 
-你可以使用在 Kafka 0.10.1.1 引入的 endOffsets 接口来获取指定分区的
+您可以使用在 Kafka 0.10.1.1 引入的 endOffsets 接口来获取指定分区的
 结尾偏移。 与 `link:../../apidocs/io/vertx/kafka/client/consumer/KafkaConsumer.html#seekToEnd-io.vertx.kafka.client.common.TopicPartition-[seekToEnd]` 方法不同的是，
 该接口并不会改变当前客户端的偏移。
 
@@ -504,7 +504,7 @@ consumer
 );
 ----
 
-你可以使用在 Kafka 0.10.1.1 引入的 endOffsets 接口来根据时间戳获取指定分区的
+您可以使用在 Kafka 0.10.1.1 引入的 endOffsets 接口来根据时间戳获取指定分区的
 偏移。查询参数是一个 unix 时间戳，而返回的结果是满足
 摄入时间 >= 给定时间条件的最小偏移。
 
@@ -540,20 +540,20 @@ consumer.offsetsForTimes(topicPartition, timestamp).onSuccess(offsetAndTimestamp
   )
 );
 ----
-== Message flow control
+== 消息流控制
 
-A consumer can control the incoming message flow and pause/resume the read operation from a topic, e.g it
-can pause the message flow when it needs more time to process the actual messages and then resume
-to continue message processing.
+kafka 的消费者可以控制消息的流入，并且暂停 / 重启从一个主题中读取消息的操作。当消费者需要
+更多时间去处理当前消息时，它可以暂停消息流，它也可以重启消息流
+去继续处理消息。
 
-To achieve that you can use `link:../../apidocs/io/vertx/kafka/client/consumer/KafkaConsumer.html#pause--[pause]` and
-`link:../../apidocs/io/vertx/kafka/client/consumer/KafkaConsumer.html#resume--[resume]`.
+为了这么做，你可以使用 `link:../../apidocs/io/vertx/kafka/client/consumer/KafkaConsumer.html#pause--[pause]` 方法和
+`link:../../apidocs/io/vertx/kafka/client/consumer/KafkaConsumer.html#resume--[resume]` 方法。
 
-In the case of the partition-specific pause and resume it is possible that the record handler will continue to
-observe messages from a paused partition for a time _after_ the `pause()` method's completion
-handler has been called. This is not the case for messages observed by the batch handler: Once the
-`pause()` completion handler has been called it will only observe messages from those partitions which
-are not paused.
+在对特定的主题分区调用了暂停和重启方法后，消息处理器有可能仍然会从
+已经暂停了的主题分区接收消息，即使是在 `pause()` 方法的完成回调
+_已经被调用之后_ 。 如果你使用了批处理器，一旦你调用
+`pause()` 方法的完成回调被调用， 消费者就只能从未被暂停的主题分区
+接收消息。
 
 [source,java]
 ----
@@ -561,33 +561,33 @@ TopicPartition topicPartition = new TopicPartition()
   .setTopic("test")
   .setPartition(0);
 
-// registering the handler for incoming messages
+// 注册消息处理器
 consumer.handler(record -> {
   System.out.println("key=" + record.key() + ",value=" + record.value() +
     ",partition=" + record.partition() + ",offset=" + record.offset());
 
-  // i.e. pause/resume on partition 0, after reading message up to offset 5
+  // 在接收消息的偏移到达 5 之后暂停 / 重启分区 0 的消息流
   if ((record.partition() == 0) && (record.offset() == 5)) {
 
     // pause the read operations
     consumer.pause(topicPartition)
       .onSuccess(v -> System.out.println("Paused"))
       .onSuccess(v -> vertx.setTimer(5000, timeId ->
-        // resume read operations
+        // 重启读操作
         consumer.resume(topicPartition)
       ));
   }
 });
 ----
 
-== Closing a consumer
+== 关闭消费者
 
-Call close to close the consumer. Closing the consumer closes any open connections and releases all consumer resources.
+调用 close 方法来关闭消费者。 关闭消费者会关闭其所持有的所有连接并释放它所有的消费者资源。
 
-The close is actually asynchronous and might not complete until some time after the call has returned. If you want to be notified
-when the actual close has completed then you can pass in a handler.
+close 方法是异步的并且在方法返回时可能还未完成。 如果您想在关闭完成后
+收到通知，那么可以向其传递一个回调处理器。
 
-This handler will then be called when the close has fully completed.
+该回调处理器会在关闭操作完全完成后被调用。
 
 [source,java]
 ----
