@@ -6,6 +6,7 @@ Vert.x Http Proxy 是一个基于Vert.x的反向代理服务器，其目的是�
 
 WARNING: 这个模块处于 _Tech Preview_ 阶段，这意味着在不同版本之间API可能会不太一样
 
+[[_using_vert_x_http_proxy]]
 == 使用 Vert.x Http Proxy
 
 使用 Vert.x Http Proxy之前，请把以下的依赖放到你的构建描述文件的 _依赖_ 部分中
@@ -30,6 +31,7 @@ dependencies {
 }
 ----
 
+[[_basic_http_proxy]]
 == Http Proxy基础
 
 为了使用Vert.x Http Proxy实现一个反向代理，你需要了解这些名词：
@@ -40,6 +42,7 @@ dependencies {
 现在，你已经了解了相应的整体概念。
 让我们来深入实现，先从 *源服务器* 再到使用 `HttpProxy` 的 *代理服务器* ：
 
+[[_origin_server]]
 == 源服务器
 
 我们先简单创建一个监听 `7070` 端口的 *源服务器* 
@@ -55,6 +58,7 @@ originServer.requestHandler(req -> {
 }).listen(7070);
 ----
 
+[[_proxy_server_with_httpproxy]]
 == 使用 `HttpProxy` 的 *代理服务器* 
 
 创建一个监听在 `8080` 端口的使用 `HttpProxy` 实例的 *代理服务器* 处理相应的反向代理逻辑
