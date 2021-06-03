@@ -9,9 +9,9 @@ WARNING: 这个模块处于 _Tech Preview_ 阶段，这意味着在不同版本�
 [[_using_vert_x_http_proxy]]
 == 使用 Vert.x Http Proxy
 
-使用 Vert.x Http Proxy之前，请把以下的依赖放到你的构建描述文件的 _依赖_ 部分中
+使用 Vert.x Http Proxy之前，请把以下的依赖放到您的构建描述文件的 _依赖_ 部分中
 
-* Maven (in your `pom.xml`):
+* Maven (在您的  `pom.xml` 文件中):
 
 [source,xml,subs="+attributes"]
 ----
@@ -22,7 +22,7 @@ WARNING: 这个模块处于 _Tech Preview_ 阶段，这意味着在不同版本�
 </dependency>
 ----
 
-* Gradle (in your `build.gradle` file):
+* Gradle (在您的  `build.gradle` 文件中):
 
 [source,groovy,subs="+attributes"]
 ----
@@ -34,12 +34,12 @@ dependencies {
 [[_basic_http_proxy]]
 == Http Proxy基础
 
-为了使用Vert.x Http Proxy实现一个反向代理，你需要了解这些名词：
+为了使用Vert.x Http Proxy实现一个反向代理，您需要了解这些名词：
 
 1. *代理服务器* 会处理出站请求，然后使用 `HttpProxy` 实例把他们转发到 *源服务器* 
 2. *源服务器* 会处理从*代理服务器*来的请求，然后处理相对应的响应
 
-现在，你已经了解了相应的整体概念。
+现在，您已经了解了相应的整体概念。
 让我们来深入实现，先从 *源服务器* 再到使用 `HttpProxy` 的 *代理服务器* ：
 
 [[_origin_server]]
