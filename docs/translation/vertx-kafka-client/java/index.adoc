@@ -597,18 +597,18 @@ consumer
   .onFailure(cause -> System.out.println("Close failed: " + cause));
 ----
 
-== Sending messages to a topic
+== 向主题发送消息
 
-You can use  `link:../../apidocs/io/vertx/core/streams/WriteStream.html#write-java.lang.Object-[write]` to send messages (records) to a topic.
+你可以使用 `link:../../apidocs/io/vertx/core/streams/WriteStream.html#write-java.lang.Object-[write]` 方法去发送消息 (记录) 给主题。
 
-The simplest way to send a message is to specify only the destination topic and the related value, omitting its key
-or partition, in this case the messages are sent in a round robin fashion across all the partitions of the topic.
+最简单的发送消息的方法是指定目标主题和相对应的值， 忽略它的键
+和分区，这种情况下消息会以轮流循环的方式呗发送给该主题的所有分区。
 
 [source,java]
 ----
 for (int i = 0; i < 5; i++) {
 
-  // only topic and message value are specified, round robin on destination partitions
+  // 只设置主题和消息内容的情况下，消息会被循环轮流发送给目的主题的所有分区
   KafkaProducerRecord<String, String> record =
     KafkaProducerRecord.create("test", "message_" + i);
 
@@ -616,13 +616,13 @@ for (int i = 0; i < 5; i++) {
 }
 ----
 
-You can receive message sent metadata like its topic, its destination partition and its assigned offset.
+在发送消息成功时，你可以接收到该消息在 kafka 中的元数据，例如它的主题，目标分区和它在存储中的偏移。
 
 [source,java]
 ----
 for (int i = 0; i < 5; i++) {
 
-  // only topic and message value are specified, round robin on destination partitions
+  // 只设置主题和消息内容的情况下，消息会被循环轮流发送给目的主题的所有分区
   KafkaProducerRecord<String, String> record =
     KafkaProducerRecord.create("test", "message_" + i);
 
@@ -636,14 +636,14 @@ for (int i = 0; i < 5; i++) {
 }
 ----
 
-When you need to assign a partition to a message, you can specify its partition identifier
-or its key
+当你需要指定消息发送的分区时，你需要指定它的分区标识符或
+消息的键。
 
 [source,java]
 ----
 for (int i = 0; i < 10; i++) {
 
-  // a destination partition is specified
+  // 指定分区
   KafkaProducerRecord<String, String> record =
     KafkaProducerRecord.create("test", null, "message_" + i, 0);
 
@@ -651,17 +651,17 @@ for (int i = 0; i < 10; i++) {
 }
 ----
 
-Since the producers identifies the destination using key hashing, you can use that to guarantee that all
-messages with the same key are sent to the same partition and retain the order.
+由于消息的生产者使用键的哈希计算对应的主题分区，你可以利用这一点保证拥有相同键的所有
+消息都按照顺序被发送给一个相同的分区。
 
 [source,java]
 ----
 for (int i = 0; i < 10; i++) {
 
-  // i.e. defining different keys for odd and even messages
+  // 根据奇偶性设置消息的键
   int key = i % 2;
 
-  // a key is specified, all messages with same key will be sent to the same partition
+  // 指定一个消息的键，所有键相同的消息会被发给同一个分区
   KafkaProducerRecord<String, String> record =
     KafkaProducerRecord.create("test", String.valueOf(key), "message_" + i);
 
@@ -669,28 +669,28 @@ for (int i = 0; i < 10; i++) {
 }
 ----
 
-NOTE: the shared producer is created on the first `createShared` call and its configuration is defined at this moment,
-shared producer usage must use the same configuration.
+请记住：可共用的 producer 通过 `createShared` 方法的第一次调用创建，并且它的配置在此时被设置，
+可共用的 producer 使用时必须确保配置相同。
 
-== Sharing a producer
+== 公用 Producer
 
-Sometimes you want to share the same producer from within several verticles or contexts.
+有时你需要在多个 verticle 或上下文（context）中共享同一个 producer。
 
-Calling `link:../../apidocs/io/vertx/kafka/client/producer/KafkaProducer.html#createShared-io.vertx.core.Vertx-java.lang.String-java.util.Map-[KafkaProducer.createShared]`
-returns a producer that can be shared safely.
+使用 `link:../../apidocs/io/vertx/kafka/client/producer/KafkaProducer.html#createShared-io.vertx.core.Vertx-java.lang.String-java.util.Map-[KafkaProducer.createShared]` 方法
+返回一个可以被安全地共用的 producer。
 
 [source,java]
 ----
 KafkaProducer<String, String> producer1 = KafkaProducer.createShared(vertx, "the-producer", config);
 
-// Sometimes later you can close it
+// 之后你可以关闭它
 producer1.close();
 ----
 
-The same resources (thread, connection) will be shared between the producer returned by this method.
+通过该方法返回的 produer 会共享相同的资源（线程，连接） 。
 
-When you are done with the producer, just close it, when all shared producers are closed, the resources will
-be released for you.
+当你使用完毕该 producer 后，简单地关闭它。 当所有共用的 producer 被关闭后，所有的资源
+也会被释放。
 
 == Closing a producer
 
