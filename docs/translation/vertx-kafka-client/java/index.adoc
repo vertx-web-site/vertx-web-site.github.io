@@ -669,12 +669,12 @@ for (int i = 0; i < 10; i++) {
 }
 ----
 
-请记住：可共用的 producer 通过 `createShared` 方法的第一次调用创建，并且它的配置在此时被设置，
-可共用的 producer 使用时必须确保配置相同。
+请记住：可共用的生产者通过 `createShared` 方法的第一次调用创建，并且它的配置在此时被设置，
+可共用的生产者使用时必须确保配置相同。
 
-== 公用 Producer
+== 公用生产者
 
-有时你需要在多个 verticle 或上下文（context）中共享同一个 producer。
+有时你需要在多个 verticle 或上下文（context）中共享同一个生产者。
 
 使用 `link:../../apidocs/io/vertx/kafka/client/producer/KafkaProducer.html#createShared-io.vertx.core.Vertx-java.lang.String-java.util.Map-[KafkaProducer.createShared]` 方法
 返回一个可以被安全地共用的 producer。
@@ -687,19 +687,19 @@ KafkaProducer<String, String> producer1 = KafkaProducer.createShared(vertx, "the
 producer1.close();
 ----
 
-通过该方法返回的 produer 会共享相同的资源（线程，连接） 。
+通过该方法返回的生产者会共享相同的资源（线程，连接） 。
 
-当你使用完毕该 producer 后，简单地关闭它。 当所有共用的 producer 被关闭后，所有的资源
+当你使用完毕该生产者后，可以简单地关闭它。 当所有共用的生产者被关闭后，所有的资源
 也会被释放。
 
-== Closing a producer
+== 关闭生产者
 
-Call close to close the producer. Closing the producer closes any open connections and releases all producer resources.
+调用 close 方法来关闭生产者。关闭生产者会关闭其打开的连接并释放其所占有的所有资源。
 
-The close is actually asynchronous and might not complete until some time after the call has returned. If you want to be notified
-when the actual close has completed then you can pass in a handler.
+关闭是异步进行的，因此在调用返回时生产者可能还没有完全关闭。 如果你想在
+关闭完成时收到通知，那么你可以传入一个回调。
 
-This handler will then be called when the close has fully completed.
+这个回调会在生产者被完全关闭后调用。
 
 [source,java]
 ----
@@ -709,10 +709,10 @@ producer
   .onFailure(cause -> System.out.println("Close failed: " + cause));
 ----
 
-== Getting topic partition information
+== 获取主题分片信息
 
-You can call the `link:../../apidocs/io/vertx/kafka/client/producer/KafkaProducer.html#partitionsFor-java.lang.String-io.vertx.core.Handler-[partitionsFor]` to get information about
-partitions for a specified topic:
+你可以调用 `link:../../apidocs/io/vertx/kafka/client/producer/KafkaProducer.html#partitionsFor-java.lang.String-io.vertx.core.Handler-[partitionsFor]` 方法来获取
+指定主题的分片信息：
 
 [source,java]
 ----
@@ -723,11 +723,11 @@ producer
   );
 ----
 
-== Handling errors
+== 处理错误
 
-Errors handling (e.g timeout) between a Kafka client (consumer or producer) and the Kafka cluster is done using
-`link:../../apidocs/io/vertx/kafka/client/consumer/KafkaConsumer.html#exceptionHandler-io.vertx.core.Handler-[exceptionHandler]` or
-`link:../../apidocs/io/vertx/kafka/client/producer/KafkaProducer.html#exceptionHandler-io.vertx.core.Handler-[exceptionHandler]`
+kafka 客户端（消费者或生产者）和 kafka 集群间的异常处理 (例如连接超时) 需要用到
+`link:../../apidocs/io/vertx/kafka/client/consumer/KafkaConsumer.html#exceptionHandler-io.vertx.core.Handler-[exceptionHandler]` 方法或
+`link:../../apidocs/io/vertx/kafka/client/producer/KafkaProducer.html#exceptionHandler-io.vertx.core.Handler-[exceptionHandler]` 方法
 
 [source,java]
 ----
@@ -736,10 +736,10 @@ consumer.exceptionHandler(e -> {
 });
 ----
 
-== Automatic clean-up in verticles
+== verticle 的自动清理
 
-If you’re creating consumers and producer from inside verticles, those consumers and producers will be automatically
-closed when the verticle is undeployed.
+如果你是在 verticle 中创建 kafka 的消费者和生产者的，那么这些消费者和生产者会在
+该 verticle 被取消部署时被自动清理。
 
 == Using Vert.x serializers/deserializers
 
