@@ -1,7 +1,7 @@
 = Vert.x Http Proxy
 :toc: left
 
-Vert.x Http Proxy 是一个基于Vert.x的反向代理服务器，其目的是实现可重用的反向代理逻辑
+Vert.x Http Proxy 是一个基于Vert.x的反向代理服务器，其目的是实现可重用的反向代理逻辑，
 这样，使用者就可以关注更高层面的问题了
 
 WARNING: 这个模块处于 _Tech Preview_ 阶段，这意味着在不同版本之间API可能会不太一样
@@ -11,7 +11,7 @@ WARNING: 这个模块处于 _Tech Preview_ 阶段，这意味着在不同版本�
 
 使用 Vert.x Http Proxy之前，请把以下的依赖放到您的构建描述文件的 _依赖_ 部分中
 
-* Maven (在您的  `pom.xml` 文件中):
+* Maven （在您的 `pom.xml` 文件中）：
 
 [source,xml,subs="+attributes"]
 ----
@@ -22,7 +22,7 @@ WARNING: 这个模块处于 _Tech Preview_ 阶段，这意味着在不同版本�
 </dependency>
 ----
 
-* Gradle (在您的  `build.gradle` 文件中):
+* Gradle （在您的 `build.gradle` 文件中）：
 
 [source,groovy,subs="+attributes"]
 ----
@@ -61,7 +61,8 @@ originServer.requestHandler(req -> {
 [[_proxy_server_with_httpproxy]]
 == 使用 `HttpProxy` 的 *代理服务器* 
 
-创建一个监听在 `8080` 端口的使用 `HttpProxy` 实例的 *代理服务器* 处理相应的反向代理逻辑
+创建一个监听在 `8080` 端口的使用 `HttpProxy` 实例的 *代理服务器* 
+处理相应的反向代理逻辑
 
 [source,java]
 ----
