@@ -331,7 +331,7 @@ mongoClient.find("books", query, res -> {
 `sort`:: 指定排序字段。默认为 null。
 `limit`:: 指定返回的数据条数。默认值为 -1，意味着查询结果会返回所有数据。
 `skip`:: 在返回查询结果之前，指定跳过的数据数量。默认值为 0 。
-`hint`:: The index to use. Defaults to empty String.
+`hint`:: 要使用的索引。默认为空字符串。
 
 [[_finding_documents_in_batches]]
 === 批量查询文档
