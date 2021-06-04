@@ -625,10 +625,10 @@ public Future<JsonObject> foo(String shoeSize) {
 * 任何 _枚举_ 类型
 * 任何被打上 `@DataObject` 注解的实体类
 
-Asynchronous results are modelled as
+异步结果可建模为
 
 * `Future<R>`
-* `Handler<AsyncResult<R>>` for callback style
+* 用于回调样式的 `Handler<AsyncResult<R>>` 
 
 `R` 的类型可以是：
 
