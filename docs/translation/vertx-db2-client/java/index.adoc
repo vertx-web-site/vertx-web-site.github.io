@@ -186,26 +186,27 @@ client.getConnection().compose(conn -> {
 
 连接使用完后，您必须关闭它以释放到连接池中，以便可以重复使用。
 
-== Pool versus pooled client
+[[_pool_versus_pooled_client]]
+== 连接池与池化的客户端
 
-The `link:../../apidocs/io/vertx/db2client/DB2Pool.html[DB2Pool]` allows you to create a pool or a pooled client
+`link:../../apidocs/io/vertx/db2client/DB2Pool.html[DB2Pool]` 允许您创建连接池或池化客户端
 
 [source,java]
 ----
 SqlClient pooledClient = DB2Pool.client(vertx, connectOptions, poolOptions);
 
-// Pipelined
+// 流水线操作（Pipelined）
 Future<RowSet<Row>> res1 = pooledClient.query(sql).execute();
 
-// Connection pool
+// 连接池
 DB2Pool pool = DB2Pool.pool(vertx, connectOptions, poolOptions);
 
-// Not pipelined
+// 不是流水线操作
 Future<RowSet<Row>> res2 = pool.query(sql).execute();
 ----
 
-- pool operations are not pipelined, only connection client are pipelined
-- pooled client operations are pipelined
+- 连接池操作并非流水线操作（pipelined），只有连接客户端是流水线操作
+- 池化的客户端操作是流水线操作
 
 [[_configuration]]
 == 配置
