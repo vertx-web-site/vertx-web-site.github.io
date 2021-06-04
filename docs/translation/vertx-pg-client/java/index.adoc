@@ -190,13 +190,13 @@ pool.getConnection().compose(conn -> {
 ----
 SqlClient pooledClient = PgPool.client(vertx, connectOptions, poolOptions);
 
-// Pipelined
+// 流水线操作（Pipelined）
 Future<RowSet<Row>> res1 = pooledClient.query(sql).execute();
 
-// Connection pool
+// 连接池
 PgPool pool = PgPool.pool(vertx, connectOptions, poolOptions);
 
-// Not pipelined
+// 不是流水线操作
 Future<RowSet<Row>> res2 = pool.query(sql).execute();
 ----
 
