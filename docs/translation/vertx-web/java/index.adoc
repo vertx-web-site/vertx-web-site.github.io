@@ -1746,7 +1746,7 @@ Vertx.clusteredVertx(new VertxOptions(), res -> {
 第二个已知的实现是Redis session储存器。
 该储存器的工作方式与普通集群存储区相同，但是，顾名思义，它使用redis作为后端将会话数据集中化。
 
-Also, there is the Infinispan session store (details below).
+此外，亦提供 Infinispan 会话存储（详情如下）。
 
 这些储存器可在这些坐标上可用：
 

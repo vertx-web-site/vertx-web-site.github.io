@@ -2602,7 +2602,7 @@ webSocket.frameHandler(frame -> {
 HTTP 客户端支持通过 HTTP 代理（如Squid）或 _SOCKS4a_ 或 _SOCKS5_ 代理访问 HTTP/HTTPS 的 URL。
 CONNECT 协议使用 HTTP/1.x，但可以连接到 HTTP/1.x 和 HTTP/2 服务器。
 
-到 `h2c`（未加密HTTP/2服务器）的连接可能不受 HTTP 代理支持，
+发送到 `h2c`（未加密HTTP/2服务器）的连接可能不支持 HTTP 代理，
 因为代理仅支持 HTTP/1.1。
 
 您可以通过 `link:../../apidocs/io/vertx/core/http/HttpClientOptions.html[HttpClientOptions]` 中的
@@ -2639,7 +2639,7 @@ HttpClient client = vertx.createHttpClient(options);
 DNS 解析会一直在代理服务器上执行。为了实现 SOCKS4 客户端的功能，
 需要先在本地解析 DNS 地址。
 
-Proxy options can also be set per request:
+代理选项还可以根据请求设置：
 
 [source,java]
 ----
@@ -2654,11 +2654,11 @@ client.request(new RequestOptions()
   });
 ----
 
-NOTE: A given host should always use the same proxy options: as HTTP requests are pooled, per request proxy
-options are used when establishing the connection
+NOTE: 对于一个固定的主机应始终使用相同的代理选项：
+因为 HTTP 请求被池化了（译者注：也就是连接会被缓存到连接池里，连接使用完之后不会马上销毁，再次使用的时候，先去池里找有没有已建立好的连接），所以在根据请求设置的代理选项其实是在连接建立时使用
 
-You can use `link:../../apidocs/io/vertx/core/http/HttpClientOptions.html#setNonProxyHosts-java.util.List-[setNonProxyHosts]` to configure a list of host bypassing
-the proxy. The lists accept `*` wildcard for matching domains:
+您可以使用 `link:../../apidocs/io/vertx/core/http/HttpClientOptions.html#setNonProxyHosts-java.util.List-[setNonProxyHosts]` 来配置主机列表绕过代理。
+列表接受可用于匹配域名的 `*` 通配符：
 
 [source,java]
 ----

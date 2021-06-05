@@ -227,11 +227,12 @@ void close();
 
 更多 `服务接口` 的限制会在下面详解。
 
-== Async interface with callbacks
+[[_async_interface_with_callbacks]]
+== 带回调的异步接口
 
-Until Vert.x 4.1, service async interfaces were defined by callbacks.
+在 Vert.x 4.1 之前，服务异步接口由回调定义。
 
-You can still create service async interface using callbacks, with this module declaration:
+您仍然可以使用回调创建服务异步接口，使用以下模块声明：
 
 .package-info.java
 [source,java]
@@ -240,34 +241,34 @@ You can still create service async interface using callbacks, with this module d
 package io.vertx.example;
 ----
 
-NOTE: for backward compatibility, the default value of `useFutures` is `false` so you can also omit the declaration
+NOTE: 为向后兼容，`useFutures` 的默认值为 `false`，因此您也可以省略该声明
 
-The service async interface with callbacks looks like:
+带有回调的服务异步接口如下所示：
 
 [source,java]
 ----
 @ProxyGen
 public interface SomeDatabaseService {
 
- // A method notifying the completion without a result (void)
+ // 一个通知完成而没有结果的方法（void）
  void save(String collection, JsonObject document,
   Handler<AsyncResult<Void>> result);
 
- // A method providing a result (a json object)
+ // 一个提供了结果的方法（一个 json 对象）
  void findOne(String collection, JsonObject query,
   Handler<AsyncResult<JsonObject>> result);
 
- // Create a connection
+ // 创建连接
  void createConnection(String shoeSize,
   Handler<AsyncResult<MyDatabaseConnection>> resultHandler);
 
 }
 ----
 
-Return types must be one of:
+返回类型必须是以下之一：
 
 * `void`
-* `@Fluent` and return reference to the service (`this`):
+* `@Fluent` 并返回对该服务的引用（`this`）：
 
 [source,java]
 ----
@@ -275,8 +276,8 @@ Return types must be one of:
 SomeDatabaseService doSomething();
 ----
 
-This is because methods must not block and it's not possible to return a result immediately without blocking if
-the service is remote.
+这是因为方法不允许阻塞，如果该服务是远程调用（remote）（译者注：远程意思是服务代理通过事件总线调用其他verticle中的服务），
+那么无法在不阻塞的前提下立即返回结果。（译者注：因为远程调用需要消耗一定时间）
 
 [[_security]]
 == 安全
@@ -624,10 +625,10 @@ public Future<JsonObject> foo(String shoeSize) {
 * 任何 _枚举_ 类型
 * 任何被打上 `@DataObject` 注解的实体类
 
-Asynchronous results are modelled as
+异步结果可建模为
 
 * `Future<R>`
-* `Handler<AsyncResult<R>>` for callback style
+* 用于回调样式的 `Handler<AsyncResult<R>>` 
 
 `R` 的类型可以是：
 

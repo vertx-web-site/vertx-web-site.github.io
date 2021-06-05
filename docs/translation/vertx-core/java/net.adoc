@@ -1162,8 +1162,8 @@ NetClient client = vertx.createNetClient(options);
 DNS 解析总是在代理服务器上完成解析，为了实现 SOCKS4 客户端的功能，
 需要先在本地解析 DNS 地址。
 
-You can use `link:../../apidocs/io/vertx/core/net/NetClientOptions.html#setNonProxyHosts-java.util.List-[setNonProxyHosts]` to configure a list of host bypassing
-the proxy. The lists accepts `*` wildcard for matching domains:
+您可以使用 `link:../../apidocs/io/vertx/core/net/NetClientOptions.html#setNonProxyHosts-java.util.List-[setNonProxyHosts]` 来配置主机列表绕过代理。
+列表接受可用于匹配域名的 `*` 通配符：
 
 [source,java]
 ----
