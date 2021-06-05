@@ -8,6 +8,7 @@
 
 作为生产者，接口提供了流式向主题分区发送消息的方法。
 
+[[_using_the_vert_x_kafka_client]]
 == 使用 Vert.x 的 Kafka 客户端
 
 为了使用该组件， 需要在您的构建描述文件中的依赖配置中添加如下内容：
@@ -30,6 +31,7 @@
 compile io.vertx:vertx-kafka-client:4.0.3
 ----
 
+[[_creating_kafka_clients]]
 == 创建 kafka 客户端
 
 创建 kafka 的消费者和生产者的方式非常详细，它们都基于原生的 kafka 的客户端库工作。
@@ -110,6 +112,7 @@ KafkaProducer<String, String> producer = KafkaProducer.create(vertx, config, Str
 通过 `link:../../apidocs/io/vertx/kafka/client/producer/KafkaProducer.html#create-io.vertx.core.Vertx-java.util.Properties-java.lang.Class-java.lang.Class-[KafkaProducer.create]` 方法的参数来设置。
 endif::[]
 
+[[_receiving_messages_from_a_topic_joining_a_consumer_group]]
 == 加入一个消费者群组并从主题中接收消息
 
 要开始从 kafka 的主题中接收消息， 消费者需要使用
@@ -243,10 +246,11 @@ consumer
   );
 ----
 
-== 设置主题分区以接收消息
+[[_receiving_messages_from_a_topic_requesting_specific_partitions]]
+== 请求指定主题分区以接收消息
 
 在接收消息时，除了加入消费者群组， 消费者也可以主动请求一个
-主题分区。 当消费者并不在一个消费者群组内， 那么应用就不能
+特定的主题分区。 当消费者并不在一个消费者群组内， 那么应用就不能
 依赖 kafka 的重平衡特性。
 
 您可以使用 `link:../../apidocs/io/vertx/kafka/client/consumer/KafkaConsumer.html#assign-java.util.Set-io.vertx.core.Handler-[assign]` 方法
@@ -286,7 +290,8 @@ consumer
 调用 `link:../../apidocs/io/vertx/kafka/client/consumer/KafkaConsumer.html#assignment-io.vertx.core.Handler-[assignment]` 可以让您
 获取当前分配的消息分区。
 
-== 通过显式请求接收消息
+[[_receiving_messages_with_explicit_polling]]
+== 通过显式请求获取消息
 
 为了从 Kafka 接收消息，除了使用客户端内部自带的请求机制外， 客户端可以订阅
 主题， 并且不注册消息处理器，并使用 `link:../../apidocs/io/vertx/kafka/client/consumer/KafkaConsumer.html#poll-java.time.Duration-io.vertx.core.Handler-[poll]` 方法获取消息。
@@ -326,6 +331,7 @@ consumer
 订阅成功后， 应用启动了一个定时器来执行请求并且
 周期性地从 kafka 获取消息。
 
+[[_changing_the_subscription_or_assignment]]
 == 改变订阅或主题分区的分配
 
 您可以在开始消费消息之后修改订阅的主题或主题分区的分配，只需要
@@ -336,6 +342,7 @@ consumer
 收到了旧的主题或分区的消息。 但是如果您使用了批处理器就不会发生这种情况：
 一旦重新调用订阅或修改方法的完成回调被触发， 那么客户端就只会收到新的主题或分区的消息。
 
+[[_getting_topic_partition_information]]
 == 获取主题分区信息
 
 您可以调用 `link:../../apidocs/io/vertx/kafka/client/consumer/KafkaConsumer.html#partitionsFor-java.lang.String-io.vertx.core.Handler-[partitionsFor]` 方法来获取
@@ -367,6 +374,7 @@ consumer
   );
 ----
 
+[[_manual_offset_commit]]
 == 手动提交偏移
 
 Apache Kafka 的消费者一般会处理最后一个读取的消息的偏移。
@@ -386,6 +394,7 @@ consumer.commit().onSuccess(v ->
 );
 ----
 
+[[_seeking_in_a_topic_partition]]
 == 在消息分区内查询
 
 Apache Kafka 可以保存一段时间内的消息数据，并且消费者可以在消息分区内查询
@@ -439,6 +448,7 @@ consumer
 偏移处的消息。 但是如果您使用了批处理器就不会发生这种情况： 一旦
 `seek*()` 的完成回调被触发， 消息处理器就只会接收到新的偏移处的消息。
 
+[[_offset_lookup]]
 == 查询偏移
 
 您可以使用在 Kafka 0.10.1.1 引入的 beginningOffsets 接口来获取指定分区的
@@ -540,18 +550,20 @@ consumer.offsetsForTimes(topicPartition, timestamp).onSuccess(offsetAndTimestamp
   )
 );
 ----
+
+[[_message_flow_control]]
 == 消息流控制
 
 kafka 的消费者可以控制消息的流入，并且暂停 / 重启从一个主题中读取消息的操作。当消费者需要
 更多时间去处理当前消息时，它可以暂停消息流，它也可以重启消息流
 去继续处理消息。
 
-为了这么做，你可以使用 `link:../../apidocs/io/vertx/kafka/client/consumer/KafkaConsumer.html#pause--[pause]` 方法和
+为了这么做，您可以使用 `link:../../apidocs/io/vertx/kafka/client/consumer/KafkaConsumer.html#pause--[pause]` 方法和
 `link:../../apidocs/io/vertx/kafka/client/consumer/KafkaConsumer.html#resume--[resume]` 方法。
 
 在对特定的主题分区调用了暂停和重启方法后，消息处理器有可能仍然会从
 已经暂停了的主题分区接收消息，即使是在 `pause()` 方法的完成回调
-_已经被调用之后_ 。 如果你使用了批处理器，一旦你调用
+_已经被调用之后_ 。 如果您使用了批处理器，一旦您调用
 `pause()` 方法的完成回调被调用， 消费者就只能从未被暂停的主题分区
 接收消息。
 
@@ -580,6 +592,7 @@ consumer.handler(record -> {
 });
 ----
 
+[[_closing_a_consumer]]
 == 关闭消费者
 
 调用 close 方法来关闭消费者。 关闭消费者会关闭其所持有的所有连接并释放它所有的消费者资源。
@@ -597,9 +610,10 @@ consumer
   .onFailure(cause -> System.out.println("Close failed: " + cause));
 ----
 
+[[_sending_messages_to_a_topic]]
 == 向主题发送消息
 
-你可以使用 `link:../../apidocs/io/vertx/core/streams/WriteStream.html#write-java.lang.Object-[write]` 方法去发送消息 (记录) 给主题。
+您可以使用 `link:../../apidocs/io/vertx/core/streams/WriteStream.html#write-java.lang.Object-[write]` 方法去发送消息 (记录) 给主题。
 
 最简单的发送消息的方法是指定目标主题和相对应的值， 忽略它的键
 和分区，这种情况下消息会以轮流循环的方式呗发送给该主题的所有分区。
@@ -616,7 +630,7 @@ for (int i = 0; i < 5; i++) {
 }
 ----
 
-在发送消息成功时，你可以接收到该消息在 kafka 中的元数据，例如它的主题，目标分区和它在存储中的偏移。
+在发送消息成功时，您可以接收到该消息在 kafka 中的元数据，例如它的主题，目标分区和它在存储中的偏移。
 
 [source,java]
 ----
@@ -636,7 +650,7 @@ for (int i = 0; i < 5; i++) {
 }
 ----
 
-当你需要指定消息发送的分区时，你需要指定它的分区标识符或
+当您需要指定消息发送的分区时，您需要指定它的分区标识符或
 消息的键。
 
 [source,java]
@@ -651,7 +665,7 @@ for (int i = 0; i < 10; i++) {
 }
 ----
 
-由于消息的生产者使用键的哈希计算对应的主题分区，你可以利用这一点保证拥有相同键的所有
+由于消息的生产者使用键的哈希计算对应的主题分区，您可以利用这一点保证拥有相同键的所有
 消息都按照顺序被发送给一个相同的分区。
 
 [source,java]
@@ -672,9 +686,10 @@ for (int i = 0; i < 10; i++) {
 请记住：可共用的生产者通过 `createShared` 方法的第一次调用创建，并且它的配置在此时被设置，
 可共用的生产者使用时必须确保配置相同。
 
+[[_sharing_a_producer]]
 == 公用生产者
 
-有时你需要在多个 verticle 或上下文（context）中共享同一个生产者。
+有时您需要在多个 verticle 或上下文（context）中共享同一个生产者。
 
 使用 `link:../../apidocs/io/vertx/kafka/client/producer/KafkaProducer.html#createShared-io.vertx.core.Vertx-java.lang.String-java.util.Map-[KafkaProducer.createShared]` 方法
 返回一个可以被安全地共用的 producer。
@@ -683,21 +698,22 @@ for (int i = 0; i < 10; i++) {
 ----
 KafkaProducer<String, String> producer1 = KafkaProducer.createShared(vertx, "the-producer", config);
 
-// 之后你可以关闭它
+// 之后您可以关闭它
 producer1.close();
 ----
 
 通过该方法返回的生产者会共享相同的资源（线程，连接） 。
 
-当你使用完毕该生产者后，可以简单地关闭它。 当所有共用的生产者被关闭后，所有的资源
+当您使用完毕该生产者后，可以简单地关闭它。 当所有共用的生产者被关闭后，所有的资源
 也会被释放。
 
+[[_closing_a_producer]]
 == 关闭生产者
 
 调用 close 方法来关闭生产者。关闭生产者会关闭其打开的连接并释放其所占有的所有资源。
 
-关闭是异步进行的，因此在调用返回时生产者可能还没有完全关闭。 如果你想在
-关闭完成时收到通知，那么你可以传入一个回调。
+关闭是异步进行的，因此在调用返回时生产者可能还没有完全关闭。 如果您想在
+关闭完成时收到通知，那么您可以传入一个回调。
 
 这个回调会在生产者被完全关闭后调用。
 
@@ -709,9 +725,10 @@ producer
   .onFailure(cause -> System.out.println("Close failed: " + cause));
 ----
 
+[[_getting_topic_partition_information_2]]
 == 获取主题分片信息
 
-你可以调用 `link:../../apidocs/io/vertx/kafka/client/producer/KafkaProducer.html#partitionsFor-java.lang.String-io.vertx.core.Handler-[partitionsFor]` 方法来获取
+您可以调用 `link:../../apidocs/io/vertx/kafka/client/producer/KafkaProducer.html#partitionsFor-java.lang.String-io.vertx.core.Handler-[partitionsFor]` 方法来获取
 指定主题的分片信息：
 
 [source,java]
@@ -723,6 +740,7 @@ producer
   );
 ----
 
+[[_handling_errors]]
 == 处理错误
 
 kafka 客户端（消费者或生产者）和 kafka 集群间的异常处理 (例如连接超时) 需要用到
@@ -736,17 +754,19 @@ consumer.exceptionHandler(e -> {
 });
 ----
 
+[[_automatic_clean_up_in_verticles]]
 == verticle 的自动清理
 
-如果你是在 verticle 中创建 kafka 的消费者和生产者的，那么这些消费者和生产者会在
+如果您是在 verticle 中创建 kafka 的消费者和生产者的，那么这些消费者和生产者会在
 该 verticle 被取消部署时被自动清理。
 
-== Using Vert.x serializers/deserializers
+[[_using_vert_x_serializersdeserializers]]
+== 使用 Vert.x 的序列化器 / 反序列化器
 
-Vert.x Kafka client comes out of the box with serializers and deserializers for buffers, json object
-and json array.
+Vert.x 的 Kafka 客户端的实现自带了对 Buffer 数据类型， json 对象
+和 json 对象数组的序列化器和反序列化器的包装。
 
-In a consumer you can use buffers
+使用消费者时您可以直接接收 Buffer 数据类型
 
 [source,java]
 ----
@@ -758,7 +778,7 @@ config.put("group.id", "my_group");
 config.put("auto.offset.reset", "earliest");
 config.put("enable.auto.commit", "false");
 
-// Creating a consumer able to deserialize to json object
+// 创建一个可以反序列化 json 对象的消费者
 config = new HashMap<>();
 config.put("bootstrap.servers", "localhost:9092");
 config.put("key.deserializer", "io.vertx.kafka.client.serialization.JsonObjectDeserializer");
@@ -767,7 +787,7 @@ config.put("group.id", "my_group");
 config.put("auto.offset.reset", "earliest");
 config.put("enable.auto.commit", "false");
 
-// Creating a consumer able to deserialize to json array
+// 创建一个可以反序列化 json 对象数组的消费者
 config = new HashMap<>();
 config.put("bootstrap.servers", "localhost:9092");
 config.put("key.deserializer", "io.vertx.kafka.client.serialization.JsonArrayDeserializer");
@@ -777,7 +797,7 @@ config.put("auto.offset.reset", "earliest");
 config.put("enable.auto.commit", "false");
 ----
 
-Or in a producer
+在生产者端，您也可以这么做
 
 [source,java]
 ----
@@ -787,14 +807,14 @@ config.put("key.serializer", "io.vertx.kafka.client.serialization.BufferSerializ
 config.put("value.serializer", "io.vertx.kafka.client.serialization.BufferSerializer");
 config.put("acks", "1");
 
-// Creating a producer able to serialize to json object
+// 创建一个可以序列化 json 对象的生产者
 config = new HashMap<>();
 config.put("bootstrap.servers", "localhost:9092");
 config.put("key.serializer", "io.vertx.kafka.client.serialization.JsonObjectSerializer");
 config.put("value.serializer", "io.vertx.kafka.client.serialization.JsonObjectSerializer");
 config.put("acks", "1");
 
-// Creating a producer able to serialize to json array
+// 创建一个可以序列化 json 对象数组的生产者
 config = new HashMap<>();
 config.put("bootstrap.servers", "localhost:9092");
 config.put("key.serializer", "io.vertx.kafka.client.serialization.JsonArraySerializer");
@@ -803,9 +823,9 @@ config.put("acks", "1");
 ----
 
 ifeval::["java" == "java"]
-You can also specify the serializers/deserializers at creation time:
+您可以在创建时直接指定序列化器/反序列化器：
 
-In a consumer
+对于消费者
 
 [source,java]
 ----
@@ -815,17 +835,17 @@ config.put("group.id", "my_group");
 config.put("auto.offset.reset", "earliest");
 config.put("enable.auto.commit", "false");
 
-// Creating a consumer able to deserialize buffers
+// 创建一个可以反序列化 Buffer 数据类型的消费者
 KafkaConsumer<Buffer, Buffer> bufferConsumer = KafkaConsumer.create(vertx, config, Buffer.class, Buffer.class);
 
-// Creating a consumer able to deserialize json objects
+// 创建一个可以反序列化 json 对象的消费者
 KafkaConsumer<JsonObject, JsonObject> jsonObjectConsumer = KafkaConsumer.create(vertx, config, JsonObject.class, JsonObject.class);
 
-// Creating a consumer able to deserialize json arrays
+// 创建一个可以反序列化 json 对象数组的消费者
 KafkaConsumer<JsonArray, JsonArray> jsonArrayConsumer = KafkaConsumer.create(vertx, config, JsonArray.class, JsonArray.class);
 ----
 
-Or in a producer
+而对于生产者
 
 [source,java]
 ----
@@ -833,13 +853,13 @@ Map<String, String> config = new HashMap<>();
 config.put("bootstrap.servers", "localhost:9092");
 config.put("acks", "1");
 
-// Creating a producer able to serialize to buffers
+// 创建一个可以序列化 Buffer 数据类型的生产者
 KafkaProducer<Buffer, Buffer> bufferProducer = KafkaProducer.create(vertx, config, Buffer.class, Buffer.class);
 
-// Creating a producer able to serialize to json objects
+// 创建一个可以序列化 json 对象的生产者
 KafkaProducer<JsonObject, JsonObject> jsonObjectProducer = KafkaProducer.create(vertx, config, JsonObject.class, JsonObject.class);
 
-// Creating a producer able to serialize to json arrays
+// 创建一个可以序列化 json 对象数组的生产者
 KafkaProducer<JsonArray, JsonArray> jsonArrayProducer = KafkaProducer.create(vertx, config, JsonArray.class, JsonArray.class);
 ----
 
@@ -850,37 +870,39 @@ include::override/rxjava2.adoc[]
 endif::[]
 
 ifdef::java,groovy,kotlin[]
-== Stream implementation and native Kafka objects
 
-When you want to operate on native Kafka records you can use a stream oriented
-implementation which handles native Kafka objects.
+== 流式接口和原生的 Kafka 对象
 
-The `link:../../apidocs/io/vertx/kafka/client/consumer/KafkaReadStream.html[KafkaReadStream]` shall be used for reading topic partitions, it is
-a read stream of `link:../../apidocs/org/apache/kafka/clients/consumer/ConsumerRecord.html[ConsumerRecord]` objects.
+当您想要操作 Kafka 原生的记录对象时，可以使用流式
+接口，它可以返回原生的 Kafka 对象。
 
-The `link:../../apidocs/io/vertx/kafka/client/producer/KafkaWriteStream.html[KafkaWriteStream]` shall be used for writing to topics, it is a write
-stream of `link:../../apidocs/org/apache/kafka/clients/producer/ProducerRecord.html[ProducerRecord]`.
+使用 `link:../../apidocs/io/vertx/kafka/client/consumer/KafkaReadStream.html[KafkaReadStream]` 来读取主题分区，它可以以流的
+方式读取 `link:../../apidocs/org/apache/kafka/clients/consumer/ConsumerRecord.html[ConsumerRecord]` 对象。
 
-The API exposed by these interfaces is mostly the same than the polyglot version.
+使用 `link:../../apidocs/io/vertx/kafka/client/producer/KafkaWriteStream.html[KafkaWriteStream]` 来将消息写入主题。它可以以流的
+方式写入 `link:../../apidocs/org/apache/kafka/clients/producer/ProducerRecord.html[ProducerRecord]` 对象。
+
+通过这些接口暴露的 API 在多语言的版本中都大致相同。
 endif::[]
 
-== Automatic trace propagation
+[[_automatic_trace_propagation]]
+== 自动追踪传播
 
-When Vert.x is configured with Tracing enabled (see `link:../../apidocs/io/vertx/core/VertxOptions.html#setTracingOptions-io.vertx.core.tracing.TracingOptions-[setTracingOptions]`),
-traces will be automatically propagated with Kafka messages.
+当您配置 Vert.x 开启追踪时 (参见 `link:../../apidocs/io/vertx/core/VertxOptions.html#setTracingOptions-io.vertx.core.tracing.TracingOptions-[setTracingOptions]`)，
+追踪可以通过 Kafka 的消息自动传播。
 
-Kafka producers will add a span to traces when a message is being written, trace contexts
-will be propagated as Kafka headers, and the consumers will also create a span while reading a message.
+Kafka 的生产者会在写入消息时自动添加一个 Span 去追踪，追踪的上下文通过
+Kafka 消息头部传递。并且消费者会在收到消息后根据消息头部信息重建 Span。
 
-Following the
+参考以下信息
 link:https://github.com/opentracing/specification/blob/master/semantic_conventions.md[OpenTracing semantic convention],
-span tags are:
+Span 的标签包括：
 
-- `span.kind`, it is either `consumer` or `producer`
-- `peer.address` can be configured from `link:../../apidocs/io/vertx/kafka/client/common/KafkaClientOptions.html#setTracePeerAddress-java.lang.String-[setTracePeerAddress]`. If unset, it will be the configured bootstrap server.
-- `peer.hostname` is parsed from `peer.address`
-- `peer.port` is parsed from `peer.address`
-- `peer.service` is always `kafka`
-- `message_bus.destination`, which is set to the topic in use
+- `span.kind`，类型是 `consumer` 或 `producer`
+- `peer.address` 可以使用 `link:../../apidocs/io/vertx/kafka/client/common/KafkaClientOptions.html#setTracePeerAddress-java.lang.String-[setTracePeerAddress]` 配置。如果没有设置，那么会使用配置中的 Kafka 服务器地址
+- `peer.hostname` 通过解析 `peer.address` 得到
+- `peer.port` 通过解析 `peer.address` 得到
+- `peer.service` 一直是 always `kafka`
+- `message_bus.destination`, 会设置为 kafka 消息的主题
 
 include::admin.adoc[]
