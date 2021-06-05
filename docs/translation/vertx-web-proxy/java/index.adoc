@@ -40,7 +40,7 @@ dependencies {
 现在，您已经了解了相应的整体概念。
 让我们来深入实现，先从 *源服务器* 再到使用 `ProxyHandler` 的 *代理服务器* ：
 
-[[_origin_server]]
+[[_origin_server_backend]]
 == 源服务器 (后端)
 
 您可以简单地创建一个 *源服务器* 然后利用 Vert.x Web的 `Router` 处理请求,
@@ -76,7 +76,6 @@ proxyServer.requestHandler(proxyRouter);
 
 proxyServer.listen(8080);
 ----
-
 [[_using_proxyhandler]]
 == 使用 `ProxyHandler`
 
