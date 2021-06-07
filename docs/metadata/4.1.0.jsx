@@ -8,7 +8,7 @@ insert(docs, "vertx-opentracing",
     {
         id: "vertx-opentelemetry",
         name: "OpenTelemetry",
-        description: "Distributed tracing with OpenTelemetry.",
+        description: "使用 OpenTelemetry 开展分布式跟踪。",
         category: "monitoring",
         href: "/vertx-opentelemetry/java/",
         repository: "https://github.com/eclipse-vertx/vertx-tracing/tree/master/vertx-opentelemetry",
