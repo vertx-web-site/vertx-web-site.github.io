@@ -81,9 +81,10 @@ client
 });
 ----
 
-== Connecting to SQL Server
+[[_connecting_to_sql_server]]
+== 连接 SQL Server
 
-Most of the time you will use a pool to connect to MSSQL:
+大多数情况下，您将使用池连接到 MSSQL：
 
 [source,java]
 ----
@@ -94,18 +95,18 @@ MSSQLConnectOptions connectOptions = new MSSQLConnectOptions()
   .setUser("user")
   .setPassword("secret");
 
-// Pool options
+// 池参数
 PoolOptions poolOptions = new PoolOptions()
   .setMaxSize(5);
 
-// Create the pooled client
+// 创建池客户端
 MSSQLPool client = MSSQLPool.pool(connectOptions, poolOptions);
 ----
 
-The pooled client uses a connection pool and any operation will borrow a connection from the pool
-to execute the operation and release it to the pool.
+池化客户端使用连接池，任何操作都会从池中借用连接，
+随后执行操作，并最终执行完之后将其释放到池中。
 
-If you are running with Vert.x you can pass it your Vertx instance:
+如果您使用 Vert.x 运行，您可以将它传递给您的 Vertx 实例：
 
 [source,java]
 ----
@@ -116,24 +117,24 @@ MSSQLConnectOptions connectOptions = new MSSQLConnectOptions()
   .setUser("user")
   .setPassword("secret");
 
-// Pool options
+// 池选项
 PoolOptions poolOptions = new PoolOptions()
   .setMaxSize(5);
-// Create the pooled client
+// 创建池客户端
 MSSQLPool client = MSSQLPool.pool(vertx, connectOptions, poolOptions);
 ----
 
-You need to release the pool when you don't need it anymore:
+当你不再需要它时，你需要释放池：
 
 [source,java]
 ----
 pool.close();
 ----
 
-When you need to execute several operations on the same connection, you need to use a client
-`link:../../apidocs/io/vertx/mssqlclient/MSSQLConnection.html[connection]`.
+当您需要在同一个连接上执行多个操作时，需要使用客户端
+`link:../../apidocs/io/vertx/mssqlclient/MSSQLConnection.html[连接]`。
 
-You can easily get one from the pool:
+您可以轻松地从池中获取一个：
 
 [source,java]
 ----
@@ -144,18 +145,18 @@ MSSQLConnectOptions connectOptions = new MSSQLConnectOptions()
   .setUser("user")
   .setPassword("secret");
 
-// Pool options
+// 池选项
 PoolOptions poolOptions = new PoolOptions()
   .setMaxSize(5);
 
-// Create the pooled client
+// 创建池客户端
 MSSQLPool client = MSSQLPool.pool(vertx, connectOptions, poolOptions);
 
-// Get a connection from the pool
+// 从池中获取连接
 client.getConnection().compose(conn -> {
   System.out.println("Got a connection from the pool");
 
-  // All operations execute on the same connection
+  // 所有操作都在同一个连接上执行
   return conn
     .query("SELECT * FROM users WHERE id='julien'")
     .execute()
@@ -163,7 +164,7 @@ client.getConnection().compose(conn -> {
       .query("SELECT * FROM users WHERE id='emad'")
       .execute())
     .onComplete(ar -> {
-      // Release the connection to the pool
+      // 释放连接并将其归还给池
       conn.close();
     });
 }).onComplete(ar -> {
@@ -176,13 +177,15 @@ client.getConnection().compose(conn -> {
 });
 ----
 
-Once you are done with the connection you must close it to release it to the pool, so it can be reused.
+完成连接后，您必须关闭它以将其释放到池中，以便可以重复使用。
 
-== Configuration
+[[_configuration]]
+== 配置
 
-=== Data Object
+[[_data_object]]
+=== 数据对象
 
-A simple way to configure the client is to specify a `MSSQLConnectOptions` data object.
+一种配置客户端的简单方法是指定一个 `MSSQLConnectOptions` 数据对象。
 
 [source,java]
 ----
@@ -193,14 +196,14 @@ MSSQLConnectOptions connectOptions = new MSSQLConnectOptions()
   .setUser("user")
   .setPassword("secret");
 
-// Pool Options
+// 池参数
 PoolOptions poolOptions = new PoolOptions().setMaxSize(5);
 
-// Create the pool from the data object
+// 根据数据对象创建池
 MSSQLPool pool = MSSQLPool.pool(vertx, connectOptions, poolOptions);
 
 pool.getConnection(ar -> {
-  // Handling your connection
+  // 处理您的连接
 });
 ----
 
