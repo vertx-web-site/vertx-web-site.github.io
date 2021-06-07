@@ -4,7 +4,7 @@
 [[_vert_x_api_for_rxjava3]]
 == 用于RxJava3的Vert.x API
 
-https://github.com/ReactiveX/RxJava[RxJava] 是一个在JVM上使用的组合异步、
+https://github.com/ReactiveX/RxJava[RxJava] 是一个流行的库，
 使用可观察序列的、基于事件的程序的流行库
 
 Vert.x 与 RxJava 集成起来很自然：它使得无论什么时候，只要我们能使用流和异步结果，就能使用 RxJava。
