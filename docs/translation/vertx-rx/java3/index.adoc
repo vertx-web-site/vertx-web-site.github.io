@@ -32,7 +32,7 @@ Vert.x 与 RxJava 集成起来很自然：它使得无论什么时候，只要�
 compile 'io.vertx:vertx-rx-java3:4.1.0'
 ----
 
-有两种方式在 Vert.x 使用RxJava3：
+有两种方式在 Vert.x 使用RxJava 3 的 API：
 
 * 通过原始的 Vert.x API 辅以辅助类， 这些辅助类提供了提供了用于 Vert.x Core API 和
 RxJava2 API 之间互相转化的静态方法。
