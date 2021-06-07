@@ -32,7 +32,7 @@ dependencies {
 ----
 
 [[_creating_a_client]]
-== 创建客户端
+=== 创建客户端
 
 您还可以像下面这样，使用完整的 amqp uri 来创建一个客户端实例：
 （译者注：amqp uri的使用规范可参考官网 https://www.rabbitmq.com/uri-spec.html）
@@ -312,7 +312,7 @@ client.queueDeclare("my-queue", true, false, true, config, queueResult -> {
 [[_operations]]
 == 各种操作
 
-下面是一些 `RabbitMQService API`支持的操作示例。
+下面是一些 `RabbitMQService API` 支持的操作示例。
 关于所有 `API` 方法的详细信息，请参阅 API文档。
 
 [[_publish]]
@@ -439,7 +439,7 @@ client.basicConsumer("my.queue", rabbitMQConsumerAsyncResult -> {
 });
 ----
 
-任何时候您都可以暂停、或者继续 `stream`。当 `stream` 暂停时，你将不会接收到任何消息。
+任何时候您都可以暂停、或者继续 `stream`。当 `stream` 暂停时，您将不会接收到任何消息。
 
 [source,java]
 ----
