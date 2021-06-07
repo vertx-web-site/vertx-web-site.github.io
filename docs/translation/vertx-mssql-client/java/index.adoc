@@ -1,24 +1,24 @@
-= Reactive MSSQL Client
+= Reactive MSSQL 客户端
 :PREPARED_PARAMS: `@1`, `@2`, etc…​
 :batching-unsupported:
 
-The Reactive MSSQL Client is a client for Microsoft SQL Server with a straightforward API focusing on
-scalability and low overhead.
+Reactive MSSQL 客户端是微软 SQL Server 的客户端，
+具有简单直接专注于可扩展性和低开销的 API。
 
-*Features*
+*特性*
 
-* Event driven
-* Lightweight
-* Built-in connection pooling
-* Direct memory to object without unnecessary copies
-* Java 8 Date and Time
+* 事件驱动
+* 轻量级
+* 内置连接池
+* 直接内存到对象的转换，无需不必要的拷贝
+* Java 8 Date 和 Time 支持
 
-*Not supported yet*
+*暂不支持*
 
-* Prepared queries caching
-* Batch and cursor
-* Row streaming
-* Some https://github.com/eclipse-vertx/vertx-sql-client/issues/608#issuecomment-629390027[data types] are not supported
+* Prepared 查询缓存
+* 批处理和游标
+* 行流（Row streaming）
+* 不支持一些 https://github.com/eclipse-vertx/vertx-sql-client/issues/608#issuecomment-629390027[数据类型] 
 
 == Usage
 
