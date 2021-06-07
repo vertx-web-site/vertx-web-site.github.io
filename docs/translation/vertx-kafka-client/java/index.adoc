@@ -338,7 +338,7 @@ consumer
 重新调用 `subscribe()` 方法或 `assign()` 方法。
 
 请记住，由于 kafka 客户端的内部存在消息缓存， 因此很有可能在您
-调用 `subscribe()` 方法或 `assign()` 方法 _之后_ ，原先的消息处理器仍然 
+调用 `subscribe()` 方法或 `assign()` 方法 _之后_ ，原先的消息处理器仍然
 收到了旧的主题或分区的消息。 但是如果您使用了批处理器就不会发生这种情况：
 一旦重新调用订阅或修改方法的完成回调被触发， 那么客户端就只会收到新的主题或分区的消息。
 
@@ -550,7 +550,6 @@ consumer.offsetsForTimes(topicPartition, timestamp).onSuccess(offsetAndTimestamp
   )
 );
 ----
-
 [[_message_flow_control]]
 == 消息流控制
 
@@ -870,7 +869,6 @@ include::override/rxjava2.adoc[]
 endif::[]
 
 ifdef::java,groovy,kotlin[]
-
 == 流式接口和原生的 Kafka 对象
 
 当您想要操作 Kafka 原生的记录对象时，可以使用流式
