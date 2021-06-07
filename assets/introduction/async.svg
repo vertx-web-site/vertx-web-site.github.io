@@ -54,7 +54,7 @@
       </g>
       <g id="Graphic_2">
         <text transform="translate(762.7891 914)" fill="black">
-          <tspan font-family="Roboto Mono" font-size="14" font-weight="400" fill="black" x="0" y="13">consume(message)</tspan>
+          <tspan font-family="Roboto Mono" font-size="14" font-weight="400" fill="black" x="0" y="13">消费（消息）</tspan>
         </text>
       </g>
       <g id="Graphic_4">
@@ -67,7 +67,7 @@
       </g>
       <g id="Graphic_5">
         <text transform="translate(1261 819)" fill="black">
-          <tspan font-family="Roboto Condensed" font-size="14" font-weight="400" fill="black" x="0" y="13">Database</tspan>
+          <tspan font-family="Roboto Condensed" font-size="14" font-weight="400" fill="black" x="0" y="13">数据库</tspan>
         </text>
       </g>
       <g id="Graphic_7">
@@ -76,12 +76,12 @@
       </g>
       <g id="Graphic_6">
         <text transform="translate(968 897)" fill="black">
-          <tspan font-family="Roboto Condensed" font-size="14" font-weight="400" fill="black" x="0" y="13">Service</tspan>
+          <tspan font-family="Roboto Condensed" font-size="14" font-weight="400" fill="black" x="0" y="13">服务</tspan>
         </text>
       </g>
       <g id="Graphic_8">
         <text transform="translate(605 897)" fill="black">
-          <tspan font-family="Roboto Condensed" font-size="14" font-weight="400" fill="black" x="0" y="13">Message queue</tspan>
+          <tspan font-family="Roboto Condensed" font-size="14" font-weight="400" fill="black" x="0" y="13">消息队列</tspan>
         </text>
       </g>
       <g id="Graphic_9">
@@ -90,7 +90,7 @@
       </g>
       <g id="Graphic_10">
         <text transform="translate(1274.501 958.7391)" fill="black">
-          <tspan font-family="Roboto Condensed" font-size="14" font-weight="400" fill="black" x="0" y="13">SMS</tspan>
+          <tspan font-family="Roboto Condensed" font-size="14" font-weight="400" fill="black" x="0" y="13">短消息服务</tspan>
         </text>
       </g>
       <g id="Line_11">
@@ -104,12 +104,12 @@
       </g>
       <g id="Graphic_14">
         <text transform="translate(1074 855)" fill="black">
-          <tspan font-family="Roboto Mono" font-size="14" font-weight="400" fill="black" x="0" y="13">persist(data)</tspan>
+          <tspan font-family="Roboto Mono" font-size="14" font-weight="400" fill="black" x="0" y="13">持久化（数据）</tspan>
         </text>
       </g>
       <g id="Graphic_15">
         <text transform="translate(1074 1051)" fill="black">
-          <tspan font-family="Roboto Mono" font-size="14" font-weight="400" fill="black" x="0" y="13">send(text)</tspan>
+          <tspan font-family="Roboto Mono" font-size="14" font-weight="400" fill="black" x="0" y="13">发送（文本）</tspan>
         </text>
       </g>
       <g id="Graphic_16">
@@ -132,17 +132,17 @@
       </g>
       <g id="Graphic_21">
         <text transform="translate(796.1237 876.5237) rotate(-15)" fill="#521b93">
-          <tspan font-family="Roboto Condensed" font-size="16" font-weight="400" fill="#521b93" x="0" y="15">async</tspan>
+          <tspan font-family="Roboto Condensed" font-size="16" font-weight="400" fill="#521b93" x="0" y="15">异步</tspan>
         </text>
       </g>
       <g id="Graphic_22">
         <text transform="translate(1108.4012 815.5237) rotate(-15)" fill="#521b93">
-          <tspan font-family="Roboto Condensed" font-size="16" font-weight="400" fill="#521b93" x="0" y="15">async</tspan>
+          <tspan font-family="Roboto Condensed" font-size="16" font-weight="400" fill="#521b93" x="0" y="15">异步</tspan>
         </text>
       </g>
       <g id="Graphic_23">
         <text transform="translate(1109.2976 1008.6353) rotate(-15)" fill="#521b93">
-          <tspan font-family="Roboto Condensed" font-size="16" font-weight="400" fill="#521b93" x="0" y="15">async</tspan>
+          <tspan font-family="Roboto Condensed" font-size="16" font-weight="400" fill="#521b93" x="0" y="15">异步</tspan>
         </text>
       </g>
     </g>
