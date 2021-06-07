@@ -987,7 +987,7 @@ include::zookeeper-bridge.adoc[]
 include::docker-links-bridge.adoc[]
 
 [[_additional_backends]]
-== 其他的后台支持
+== 其他后台支持
 
 除了此库支持的后台之外，Vert.x服务发现还提供了其他后台以供您在自己的应用程序中使用。
 
