@@ -207,26 +207,27 @@ pool.getConnection(ar -> {
 });
 ----
 
-=== Connection URI
+[[_connection_uri]]
+=== 连接 URI
 
-As an alternative to configuring the client with a `link:../../apidocs/io/vertx/mssqlclient/MSSQLConnectOptions.html[MSSQLConnectOptions]` data object, you can use a connection URI:
+一种替代用 `link:../../apidocs/io/vertx/mssqlclient/MSSQLConnectOptions.html[MSSQLConnectOptions]` 数据对象配置客户端的方案，便是您可使用连接 URI：
 
 [source,java]
 ----
 String connectionUri = "sqlserver://dbuser:secretpassword@database.server.com:3211/mydb";
 
-// Create the pool from the connection URI
+// 从连接 URI 创建池
 MSSQLPool pool = MSSQLPool.pool(connectionUri);
 
-// Create the connection from the connection URI
+// 从连接 URI 创建连接
 MSSQLConnection.connect(vertx, connectionUri, res -> {
-  // Handling your connection
+  // 处理您的连接
 });
 ----
 
-The connection URI format is defined by the client in an idiomatic way: `sqlserver://[user[:[password]]@]host[:port][/database][?attribute1=value1&attribute2=value2...]`
+连接 URI 格式由客户端以惯用方式定义： `sqlserver://[user[:[password]]@]host[:port][/database][?attribute1=value1&attribute2=value2...]`
 
-Currently, the client supports the following parameter keywords in connection uri (keys are case-insensitive):
+当前，客户端在连接 uri 中支持以下参数关键字（key不区分大小写）：
 
 * host
 * port
@@ -234,9 +235,10 @@ Currently, the client supports the following parameter keywords in connection ur
 * password
 * database
 
-== Connect retries
+[[_connect_retries]]
+== 连接重试
 
-You can configure the client to retry when a connection fails to be established.
+您可以配置客户端连接失败后重试。
 
 [source,java]
 ----
@@ -251,13 +253,15 @@ include::connections.adoc[]
 
 include::transactions.adoc[]
 
-== Tracing queries
+[[_tracing_queries]]
+== 查询追踪
 
 include::tracing.adoc[]
 
-== Data types supported
+[[_data_types_supported]]
+== 支持的数据类型
 
-Currently, the client supports the following SQL Server types:
+当前，客户端支持以下 SQL Server 类型：
 
 * TINYINT(`java.lang.Short`)
 * SMALLINT(`java.lang.Short`)
@@ -275,13 +279,14 @@ Currently, the client supports the following SQL Server types:
 * DATETIMEOFFSET(`java.time.OffsetDateTime`)
 * BINARY/VARBINARY(`io.vertx.core.buffer.Buffer`)
 
-Tuple decoding uses the above types when storing values.
+元组（Tuple）解码在存储值时使用上述类型。
 
-=== Using Java `enum` types
+[[_using_java_enum_types]]
+=== 使用 Java 的 `枚举` 类型
 
-SQL Server does not have `ENUM` data type, but the client can map the retrieved string/numeric data type to enum.
+SQL Server 没有 `ENUM` 数据类型，但客户端可以将检索到的字符串/数字数据类型映射到枚举。
 
-You can encode Java enums like this:
+您可以像这样对 Java 枚举进行编码：
 
 [source,java]
 ----
@@ -292,7 +297,7 @@ client
   });
 ----
 
-You can decode a Java enum like this:
+您可以像这样解码 Java 枚举：
 
 [source,java]
 ----
@@ -309,11 +314,12 @@ client
   });
 ----
 
-=== Handling `NULL`
+[[_handling_null]]
+=== 处理空 `NULL`
 
-If you modify a `Tuple` with one of the `addXXX` methods, `null` values are handled transparently.
+如果您使用 `addXXX` 方法之一修改 `Tuple`，则 `null` 值被透明处理。
 
-The client can infer the right SQL type when executing a prepared query:
+客户端可以在执行准备好的查询时推断正确的 SQL 类型：
 
 [source,java]
 ----
@@ -328,7 +334,7 @@ client
   });
 ----
 
-Otherwise, you should declare the type explicitely using one of the `link:../../apidocs/io/vertx/sqlclient/data/NullValue.html[NullValue]` constants or the `link:../../apidocs/io/vertx/sqlclient/data/NullValue.html#of-java.lang.Class-[NullValue.of]` method:
+否则，您应该使用 `link:../../apidocs/io/vertx/sqlclient/data/NullValue.html[NullValue]` 常数之一 或 `link:../../apidocs/io/vertx/sqlclient/data/NullValue.html#of-java.lang.Class-[NullValue.of]`方法显式声明类型：
 
 [source,java]
 ----
