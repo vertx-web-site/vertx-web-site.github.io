@@ -7,7 +7,7 @@ insert(docs, "mutiny",
   {
     id: "vertx-mutiny-bindings",
     name: "Mutiny",
-    description: "Mutiny is an intuitive event-driven reactive programming library for Java. The Vert.x bindings simplify reactive programming for both pure Vert.x and Quarkus applications.",
+    description: "Mutiny 是一个直观的事件驱动的 Java 响应式编程库。 Vert.x 的绑定简化了纯 Vert.x 和 Quarkus 应用程序的响应式编程。",
     category: "reactive",
     href: "https://smallrye.io/smallrye-mutiny/",
     repository: "https://github.com/smallrye/smallrye-reactive-utils",
