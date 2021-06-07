@@ -316,7 +316,7 @@ Maybe<String> maybe = MaybeHelper.toMaybe(handler -> {
 
 有时候 Reactive 扩展库需要执行一些可调度的操作，例如 `Flowable#timer`
 方法将创建一个能周期性发射事件的定时器并返回之。默认情况下，这些可调度的操作由 RxJava 管理，
-这意味着定时器线程并非 Vert.x 线程，因此（这些操作）并不是在 Vert.x Event Loop 线程上执行的。
+这意味着定时器线程并非 Vert.x 线程，因此（这些操作）并不在 Vert.x Event Loop 线程上执行。
 
 当 Rxjava方法处理一个调度器的时候，它接受一个额外 `io.reactivex.Scheduler` 参数的重载方法，
 `link:../../apidocs/io/vertx/rxjava3/RxHelper.html#scheduler-io.vertx.core.Vertx-[RxHelper.scheduler]` 方法返回的调度器可以供RxJava的
