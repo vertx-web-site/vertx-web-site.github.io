@@ -1,28 +1,29 @@
-= Reactive MSSQL Client
+= Reactive MSSQL 客户端
 :PREPARED_PARAMS: `@1`, `@2`, etc…​
 :batching-unsupported:
 
-The Reactive MSSQL Client is a client for Microsoft SQL Server with a straightforward API focusing on
-scalability and low overhead.
+Reactive MSSQL 客户端是微软 SQL Server 的客户端，
+具有简单直接专注于可扩展性和低开销的 API。
 
-*Features*
+*特性*
 
-* Event driven
-* Lightweight
-* Built-in connection pooling
-* Direct memory to object without unnecessary copies
-* Java 8 Date and Time
+* 事件驱动
+* 轻量级
+* 内置连接池
+* 直接内存到对象的转换，无需不必要的拷贝
+* Java 8 Date 和 Time 支持
 
-*Not supported yet*
+*暂不支持*
 
-* Prepared queries caching
-* Batch and cursor
-* Row streaming
-* Some https://github.com/eclipse-vertx/vertx-sql-client/issues/608#issuecomment-629390027[data types] are not supported
+* Prepared 查询缓存
+* 批处理和游标
+* 行流（Row streaming）
+* 不支持一些 https://github.com/eclipse-vertx/vertx-sql-client/issues/608#issuecomment-629390027[数据类型] 
 
-== Usage
+[[_usage]]
+== 用法
 
-To use the Reactive MSSQL Client add the following dependency to the _dependencies_ section of your build descriptor:
+要使用反应式 MSSQL 客户端，请将以下依赖项添加到构建描述文件中的 _dependencies_ 部分：
 
 * Maven (in your `pom.xml`):
 
@@ -43,9 +44,10 @@ dependencies {
 }
 ----
 
-== Getting started
+[[_getting_started]]
+== 由此开始
 
-Here is the simplest way to connect, query and disconnect
+这是最简单的连接、查询和断开连接方法：
 
 [source,java]
 ----
@@ -56,14 +58,14 @@ MSSQLConnectOptions connectOptions = new MSSQLConnectOptions()
   .setUser("user")
   .setPassword("secret");
 
-// Pool options
+// 连接池参数
 PoolOptions poolOptions = new PoolOptions()
   .setMaxSize(5);
 
-// Create the client pool
+// 创建客户端池
 MSSQLPool client = MSSQLPool.pool(connectOptions, poolOptions);
 
-// A simple query
+// 一个简单的查询
 client
   .query("SELECT * FROM users WHERE id='julien'")
   .execute(ar -> {
@@ -74,14 +76,15 @@ client
     System.out.println("Failure: " + ar.cause().getMessage());
   }
 
-  // Now close the pool
+  // 现在关闭池
   client.close();
 });
 ----
 
-== Connecting to SQL Server
+[[_connecting_to_sql_server]]
+== 连接 SQL Server
 
-Most of the time you will use a pool to connect to MSSQL:
+大多数情况下，您将使用池连接到 MSSQL：
 
 [source,java]
 ----
@@ -92,18 +95,18 @@ MSSQLConnectOptions connectOptions = new MSSQLConnectOptions()
   .setUser("user")
   .setPassword("secret");
 
-// Pool options
+// 池参数
 PoolOptions poolOptions = new PoolOptions()
   .setMaxSize(5);
 
-// Create the pooled client
+// 创建池化客户端
 MSSQLPool client = MSSQLPool.pool(connectOptions, poolOptions);
 ----
 
-The pooled client uses a connection pool and any operation will borrow a connection from the pool
-to execute the operation and release it to the pool.
+池化客户端使用连接池，任何操作都会从池中借用连接，
+随后执行操作，并最终执行完之后将其释放到池中。
 
-If you are running with Vert.x you can pass it your Vertx instance:
+如果您使用 Vert.x 运行，您可以将它传递给您的 Vertx 实例：
 
 [source,java]
 ----
@@ -114,24 +117,24 @@ MSSQLConnectOptions connectOptions = new MSSQLConnectOptions()
   .setUser("user")
   .setPassword("secret");
 
-// Pool options
+// 池选项
 PoolOptions poolOptions = new PoolOptions()
   .setMaxSize(5);
-// Create the pooled client
+// 创建池化客户端
 MSSQLPool client = MSSQLPool.pool(vertx, connectOptions, poolOptions);
 ----
 
-You need to release the pool when you don't need it anymore:
+当您不再需要它时，您需要释放池：
 
 [source,java]
 ----
 pool.close();
 ----
 
-When you need to execute several operations on the same connection, you need to use a client
-`link:../../apidocs/io/vertx/mssqlclient/MSSQLConnection.html[connection]`.
+当您需要在同一个连接上执行多个操作时，需要使用客户端
+`link:../../apidocs/io/vertx/mssqlclient/MSSQLConnection.html[连接]`。
 
-You can easily get one from the pool:
+您可以轻松地从池中获取一个：
 
 [source,java]
 ----
@@ -142,18 +145,18 @@ MSSQLConnectOptions connectOptions = new MSSQLConnectOptions()
   .setUser("user")
   .setPassword("secret");
 
-// Pool options
+// 池选项
 PoolOptions poolOptions = new PoolOptions()
   .setMaxSize(5);
 
-// Create the pooled client
+// 创建池化客户端
 MSSQLPool client = MSSQLPool.pool(vertx, connectOptions, poolOptions);
 
-// Get a connection from the pool
+// 从池中获取连接
 client.getConnection().compose(conn -> {
   System.out.println("Got a connection from the pool");
 
-  // All operations execute on the same connection
+  // 所有操作都在同一个连接上执行
   return conn
     .query("SELECT * FROM users WHERE id='julien'")
     .execute()
@@ -161,7 +164,7 @@ client.getConnection().compose(conn -> {
       .query("SELECT * FROM users WHERE id='emad'")
       .execute())
     .onComplete(ar -> {
-      // Release the connection to the pool
+      // 释放连接并将其归还给池
       conn.close();
     });
 }).onComplete(ar -> {
@@ -174,13 +177,15 @@ client.getConnection().compose(conn -> {
 });
 ----
 
-Once you are done with the connection you must close it to release it to the pool, so it can be reused.
+完成连接后，您必须关闭它以将其释放到池中，以便可以重复使用。
 
-== Configuration
+[[_configuration]]
+== 配置
 
-=== Data Object
+[[_data_object]]
+=== 数据对象
 
-A simple way to configure the client is to specify a `MSSQLConnectOptions` data object.
+一种配置客户端的简单方法是指定一个 `MSSQLConnectOptions` 数据对象。
 
 [source,java]
 ----
@@ -191,37 +196,38 @@ MSSQLConnectOptions connectOptions = new MSSQLConnectOptions()
   .setUser("user")
   .setPassword("secret");
 
-// Pool Options
+// 池参数
 PoolOptions poolOptions = new PoolOptions().setMaxSize(5);
 
-// Create the pool from the data object
+// 根据数据对象创建池
 MSSQLPool pool = MSSQLPool.pool(vertx, connectOptions, poolOptions);
 
 pool.getConnection(ar -> {
-  // Handling your connection
+  // 处理您的连接
 });
 ----
 
-=== Connection URI
+[[_connection_uri]]
+=== 连接 URI
 
-As an alternative to configuring the client with a `link:../../apidocs/io/vertx/mssqlclient/MSSQLConnectOptions.html[MSSQLConnectOptions]` data object, you can use a connection URI:
+一种替代用 `link:../../apidocs/io/vertx/mssqlclient/MSSQLConnectOptions.html[MSSQLConnectOptions]` 数据对象配置客户端的方案，便是您可使用连接 URI：
 
 [source,java]
 ----
 String connectionUri = "sqlserver://dbuser:secretpassword@database.server.com:3211/mydb";
 
-// Create the pool from the connection URI
+// 从连接 URI 创建池
 MSSQLPool pool = MSSQLPool.pool(connectionUri);
 
-// Create the connection from the connection URI
+// 从连接 URI 创建连接
 MSSQLConnection.connect(vertx, connectionUri, res -> {
-  // Handling your connection
+  // 处理您的连接
 });
 ----
 
-The connection URI format is defined by the client in an idiomatic way: `sqlserver://[user[:[password]]@]host[:port][/database][?attribute1=value1&attribute2=value2...]`
+连接 URI 格式由客户端以惯用方式定义： `sqlserver://[user[:[password]]@]host[:port][/database][?attribute1=value1&attribute2=value2...]`
 
-Currently, the client supports the following parameter keywords in connection uri (keys are case-insensitive):
+当前，客户端在连接 uri 中支持以下参数关键字（key不区分大小写）：
 
 * host
 * port
@@ -229,9 +235,10 @@ Currently, the client supports the following parameter keywords in connection ur
 * password
 * database
 
-== Connect retries
+[[_connect_retries]]
+== 连接重试
 
-You can configure the client to retry when a connection fails to be established.
+您可以配置客户端连接失败后重试。
 
 [source,java]
 ----
@@ -246,13 +253,15 @@ include::connections.adoc[]
 
 include::transactions.adoc[]
 
-== Tracing queries
+[[_tracing_queries]]
+== 查询追踪
 
 include::tracing.adoc[]
 
-== Data types supported
+[[_data_types_supported]]
+== 支持的数据类型
 
-Currently, the client supports the following SQL Server types:
+当前，客户端支持以下 SQL Server 类型：
 
 * TINYINT(`java.lang.Short`)
 * SMALLINT(`java.lang.Short`)
@@ -270,13 +279,14 @@ Currently, the client supports the following SQL Server types:
 * DATETIMEOFFSET(`java.time.OffsetDateTime`)
 * BINARY/VARBINARY(`io.vertx.core.buffer.Buffer`)
 
-Tuple decoding uses the above types when storing values.
+元组（Tuple）解码在存储值时使用上述类型。
 
-=== Using Java `enum` types
+[[_using_java_enum_types]]
+=== 使用 Java 的 `枚举` 类型
 
-SQL Server does not have `ENUM` data type, but the client can map the retrieved string/numeric data type to enum.
+SQL Server 没有 `ENUM` 数据类型，但客户端可以将检索到的字符串/数字数据类型映射到枚举。
 
-You can encode Java enums like this:
+您可以像这样对 Java 枚举进行编码：
 
 [source,java]
 ----
@@ -287,7 +297,7 @@ client
   });
 ----
 
-You can decode a Java enum like this:
+您可以像这样解码 Java 枚举：
 
 [source,java]
 ----
@@ -304,11 +314,12 @@ client
   });
 ----
 
-=== Handling `NULL`
+[[_handling_null]]
+=== 处理空 `NULL`
 
-If you modify a `Tuple` with one of the `addXXX` methods, `null` values are handled transparently.
+如果您使用 `addXXX` 方法之一修改 `Tuple`，则 `null` 值被透明处理。
 
-The client can infer the right SQL type when executing a prepared query:
+客户端可以在执行准备好的查询时推断正确的 SQL 类型：
 
 [source,java]
 ----
@@ -323,7 +334,7 @@ client
   });
 ----
 
-Otherwise, you should declare the type explicitely using one of the `link:../../apidocs/io/vertx/sqlclient/data/NullValue.html[NullValue]` constants or the `link:../../apidocs/io/vertx/sqlclient/data/NullValue.html#of-java.lang.Class-[NullValue.of]` method:
+否则，您应该使用 `link:../../apidocs/io/vertx/sqlclient/data/NullValue.html[NullValue]` 常量和 `link:../../apidocs/io/vertx/sqlclient/data/NullValue.html#of-java.lang.Class-[NullValue.of]` 方法之一以显式声明类型：
 
 [source,java]
 ----
@@ -335,9 +346,10 @@ client
   });
 ----
 
-== Collector queries
+[[_collector_queries]]
+== 收集器查询
 
-You can use Java collectors with the query API:
+您可以通过查询 API 使用 Java 收集器：
 
 [source,java]
 ----
@@ -345,14 +357,14 @@ Collector<Row, ?, Map<Long, String>> collector = Collectors.toMap(
   row -> row.getLong("id"),
   row -> row.getString("last_name"));
 
-// Run the query with the collector
+// 使用收集器运行查询
 client.query("SELECT * FROM users")
   .collecting(collector)
   .execute(ar -> {
     if (ar.succeeded()) {
       SqlResult<Map<Long, String>> result = ar.result();
 
-      // Get the map created by the collector
+      // 获取收集器创建的映射（map）对象
       Map<Long, String> map = result.value();
       System.out.println("Got " + map);
     } else {
@@ -361,11 +373,11 @@ client.query("SELECT * FROM users")
   });
 ----
 
-The collector processing must not keep a reference on the `link:../../apidocs/io/vertx/sqlclient/Row.html[Row]` as
-there is a single row used for processing the entire set.
+收集器处理时不得保留对 `link:../../apidocs/io/vertx/sqlclient/Row.html[Row]` 的引用，
+因为有一行用于处理整个集合。
 
-The Java `Collectors` provides many interesting predefined collectors, for example you can
-create easily create a string directly from the row set:
+Java `Collectors` 提供了许多有趣的预定义收集器，例如您可以
+create 直接从行集轻松创建字符串：
 
 [source,java]
 ----
@@ -374,14 +386,14 @@ Collector<Row, ?, String> collector = Collectors.mapping(
   Collectors.joining(",", "(", ")")
 );
 
-// Run the query with the collector
+// 使用收集器运行查询
 client.query("SELECT * FROM users")
   .collecting(collector)
   .execute(ar -> {
     if (ar.succeeded()) {
       SqlResult<String> result = ar.result();
 
-      // Get the string created by the collector
+      // 获取收集器创建的字符串
       String list = result.value();
       System.out.println("Got " + list);
     } else {
