@@ -12,7 +12,7 @@ insert(docs, "vertx-opentracing",
         category: "monitoring",
         href: "/vertx-opentelemetry/java/",
         repository: "https://github.com/eclipse-vertx/vertx-tracing/tree/master/vertx-opentelemetry",
-        edit: "https://github.com/eclipse-vertx/vertx-tracing/tree/master/vertx-opentelemetry/src/main/asciidoc",
+        edit: "https://github.com/vertx-china/vertx-web-site/tree/master/docs/translation/vertx-opentelemetry/java",
         label: "Technical Preview"
     }
 )
