@@ -60,35 +60,35 @@
         <rect x="408.5" y="195.625" width="173.5" height="128.5" fill="white"/>
         <path d="M 407.82005 195.62633 L 583.0777 195.28278 M 582.4137 194.56377 L 582.1822 324.67938 M 582.81354 324.23617 L 408.0394 324.49384 M 408.5328 325.4162 L 408.4998 194.78378 M 407.94486 195.40114 L 582.5374 195.13187 M 582.66215 194.43899 L 582.4071 324.11228 M 582.93864 324.17746 L 408.65775 324.4753 M 408.6331 325.2912 L 408.586 195.5" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
         <text transform="translate(413.5 251.875)" fill="black">
-          <tspan font-family="Roboto Condensed" font-size="14" font-weight="400" fill="black" x="38.54004" y="13">Shared memory</tspan>
+          <tspan font-family="Roboto Condensed" font-size="14" font-weight="400" fill="black" x="38.54004" y="13">共享内存</tspan>
         </text>
       </g>
       <g id="Graphic_3">
         <rect x="260.5" y="211.25" width="166" height="37.5" fill="white"/>
         <path d="M 260.01622 211.24894 L 427.43963 211.6151 M 426.79353 210.986 L 426.1723 248.85487 M 426.47636 248.48298 L 260.63472 248.92285 M 260.944 249.9133 L 260.4889 210.28417 M 260.1413 211.09056 L 426.90835 211.43446 M 426.9946 210.86224 L 426.30495 248.3588 M 426.60166 248.47137 L 261.0578 248.85933 M 261.03708 249.78868 L 260.5734 211.1256" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
         <text transform="translate(265.5 222)" fill="black">
-          <tspan font-family="Roboto Condensed" font-size="14" font-weight="400" fill="black" x="53.74951" y="13">Thread 1</tspan>
+          <tspan font-family="Roboto Condensed" font-size="14" font-weight="400" fill="black" x="53.74951" y="13">线程 1</tspan>
         </text>
       </g>
       <g id="Graphic_4">
         <rect x="260.5" y="271" width="166" height="37.5" fill="white"/>
         <path d="M 260.2124 270.99988 L 427.30157 271.06853 M 426.65376 270.53306 L 426.67393 309.15546 M 427.38917 308.85707 L 259.48004 308.47406 M 260.33128 308.78554 L 260.50152 270.65943 M 260.33742 270.7833 L 426.77907 270.86206 M 426.8075 270.40804 L 426.8278 308.73042 M 427.5141 308.76755 L 260.45762 308.36837 M 260.41717 308.66037 L 260.56078 270.8747" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
         <text transform="translate(265.5 281.75)" fill="black">
-          <tspan font-family="Roboto Condensed" font-size="14" font-weight="400" fill="black" x="53.74951" y="13">Thread 2</tspan>
+          <tspan font-family="Roboto Condensed" font-size="14" font-weight="400" fill="black" x="53.74951" y="13">线程 2</tspan>
         </text>
       </g>
       <g id="Graphic_5">
         <rect x="566.5" y="211.25" width="166" height="37.5" fill="white"/>
         <path d="M 565.65855 211.25115 L 733.1635 211.02198 M 732.529 210.58022 L 732.1599 249.70596 M 732.552 248.72756 L 566.07536 248.52916 M 566.73505 248.9077 L 566.4971 210.78476 M 565.7835 211.1014 L 732.6497 210.78965 M 732.7604 210.45623 L 732.35065 248.60264 M 732.6769 248.68514 L 566.8576 248.50242 M 566.81376 248.783 L 566.5482 211.12548" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
         <text transform="translate(571.5 222)" fill="black">
-          <tspan font-family="Roboto Condensed" font-size="14" font-weight="400" fill="black" x="53.74951" y="13">Thread 3</tspan>
+          <tspan font-family="Roboto Condensed" font-size="14" font-weight="400" fill="black" x="53.74951" y="13">线程 3</tspan>
         </text>
       </g>
       <g id="Graphic_6">
         <rect x="566.5" y="271" width="166" height="37.5" fill="white"/>
         <path d="M 565.8547 270.99814 L 733.02545 271.47926 M 732.3931 271.12736 L 732.6712 309.0065 M 733.4648 308.09884 L 565.6707 308.08385 M 566.1283 308.52985 L 566.50584 270.4101 M 565.97996 270.7902 L 732.5207 271.34224 M 732.5771 271.00192 L 732.8735 307.97316 M 733.5898 307.97852 L 566.2577 308.01146 M 566.19984 308.40433 L 566.53555 270.8741" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
         <text transform="translate(571.5 281.75)" fill="black">
-          <tspan font-family="Roboto Condensed" font-size="14" font-weight="400" fill="black" x="53.74951" y="13">Thread 4</tspan>
+          <tspan font-family="Roboto Condensed" font-size="14" font-weight="400" fill="black" x="53.74951" y="13">线程 4</tspan>
         </text>
       </g>
       <g id="Line_7">
@@ -105,22 +105,22 @@
       </g>
       <g id="Graphic_13">
         <text transform="translate(316.66406 169)" fill="#942092">
-          <tspan font-family="Roboto Condensed" font-size="12" font-weight="400" fill="#942092" x="0" y="11">Request #1</tspan>
+          <tspan font-family="Roboto Condensed" font-size="12" font-weight="400" fill="#942092" x="0" y="11">请求 #1</tspan>
         </text>
       </g>
       <g id="Graphic_14">
         <text transform="translate(316.66406 335.75)" fill="#942092">
-          <tspan font-family="Roboto Condensed" font-size="12" font-weight="400" fill="#942092" x="0" y="11">Request #2</tspan>
+          <tspan font-family="Roboto Condensed" font-size="12" font-weight="400" fill="#942092" x="0" y="11">请求 #2</tspan>
         </text>
       </g>
       <g id="Graphic_16">
         <text transform="translate(622.66406 169)" fill="#942092">
-          <tspan font-family="Roboto Condensed" font-size="12" font-weight="400" fill="#942092" x="0" y="11">Request #3</tspan>
+          <tspan font-family="Roboto Condensed" font-size="12" font-weight="400" fill="#942092" x="0" y="11">请求 #3</tspan>
         </text>
       </g>
       <g id="Graphic_17">
         <text transform="translate(622.66406 335.75)" fill="#942092">
-          <tspan font-family="Roboto Condensed" font-size="12" font-weight="400" fill="#942092" x="0" y="11">Request #4</tspan>
+          <tspan font-family="Roboto Condensed" font-size="12" font-weight="400" fill="#942092" x="0" y="11">请求 #4</tspan>
         </text>
       </g>
     </g>
