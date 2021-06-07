@@ -84,7 +84,7 @@ fs.open("/data.txt", new OpenOptions())
 是否设置了处理器无关：
 
 - `AsyncFile` 在 handler 设置后开始产生 buffer 事件
-- `HttpServerRequest` 则不依赖于此（即 如果 handler 未设置，buffer 可能会丢失）
+- `HttpServerRequest` 则不依赖于此（即 如果处理器未设置，buffer 可能会丢失）
 
 在上述两种情形中，订阅 `Flowable` 都是安全的。原因在于不管 event loop 还是 worker
 verticle 都不会被并发执行，所以订阅一定是在 handler
