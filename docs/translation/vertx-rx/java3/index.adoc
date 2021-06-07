@@ -78,7 +78,7 @@ fs.open("/data.txt", new OpenOptions())
 
 当订阅动作发生时，适配器会调用
 `link:../../apidocs/io/vertx/core/streams/ReadStream.html#handler-io.vertx.core.Handler-[handler]`
-来设置它的 handler 
+来设置它的处理器（handler）。
 
 某些 `ReadStream` 实现会在这个调用之后开始发射事件，而其他的则与
 是否设置了处理器无关：
