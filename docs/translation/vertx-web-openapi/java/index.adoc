@@ -134,27 +134,28 @@ routerBuilder
 Vert.x OpenAPI 为您挂载了正确的 `link:../../apidocs/io/vertx/ext/web/validation/ValidationHandler.html[ValidationHandler]` ，所以您才可以获取到请求参数和请求体。
 请参考 https://vertx.io/docs/vertx-web-validation/java/[Vert.x Web 校验文档] 来学习如何获取请求参数以及请求体，并学习如何管理校验失败的处理方式。
 
-== Configuring `AuthenticationHandler`s defined in the OpenAPI document
+[[_configuring_authentication_handler]]
+== 配置定义在 OpenAPI 文档中的 `AuthenticationHandler`
 
-Security is a important aspect of any API. OpenAPI defines how security is expected to be enforced in the api document.
+安全是任何API的一个重要部分。OpenAPI定义了如何在api文档中强调安全性。
 
-All security scheme information resided under the `/components/securitySchemes` component. The information in this
-object is different and specific for each type of authentication. To avoid double configuration, this module allows you
-to provide factories for authentication handlers that will receive the source configuration from the source document.
+所有安全约束信息都在 `/components/securitySchemes` 组件下。
+对于每种类型的身份验证，该对象中的信息是不同的而且是特别指定的
+为了避免重复配置，这个模块允许您为从原文档中读取源配置的身份验证处理器提供工厂
 
-For example, given an document that defines `Basic Authentication` as follows:
+举个例子，下面是一个定义了 `Basic Authentication` 的文档：
 
 ----
 openapi: 3.0.0
 ...
 components:
  securitySchemes:
-   basicAuth:     # <-- arbitrary name for the security scheme
+   basicAuth:     # <-- 为这个security scheme随便提供一个名字
      type: http
      scheme: basic
 ----
 
-This can be configured with a factory as:
+可以这样配置一个工厂：
 
 [source,java]
 ----
@@ -163,19 +164,19 @@ routerBuilder
   .bindBlocking(config -> BasicAuthHandler.create(authProvider));
 ----
 
-While this example is quite simple to configure, creating an authentication handler that requires the configuration
-such as the API Key handler can extract the config:
+尽管这个例子配置起来很简单，但是创建一个身份验证处理器需要配置
+例如从一个API Key处理器中获取配置：
 
 ----
  openapi: 3.0.0
  ...
- # 1) Define the key name and location
+ # 1) 定义key的名字和位置
  components:
    securitySchemes:
-     ApiKeyAuth:        # arbitrary name for the security scheme
+     ApiKeyAuth:        # 为这个安全约束随便提供一个名字
        type: apiKey
-       in: header       # can be "header", "query" or "cookie"
-       name: X-API-KEY  # name of the header, query parameter or cookie
+       in: header       # 可以是"header", "query" 或者 "cookie"
+       name: X-API-KEY  # "header", "query" 或者 "cookie"中的名字
 ----
 
 [source,java]
@@ -187,15 +188,15 @@ routerBuilder
       .header(config.getString("name")));
 ----
 
-Or you can configure more complex scenarios such as OpenId Connect which require server discovery.
+或者你可以配置更多复杂场景的情况，比如需要服务发现的OpenId Connect
 
 ----
 openapi: 3.0.0
 ...
-# 1) Define the security scheme type and attributes
+# 1) 定义安全约束的类型和属性
 components:
  securitySchemes:
-   openId:   # <--- Arbitrary name for the security scheme. Used to refer to it from elsewhere.
+   openId:   # <--- 为这个安全约束随便提供一个名字。就可以利用该名从别处引用。
      type: openIdConnect
      openIdConnectUrl: https://example.com/.well-known/openid-configuration
 ----
@@ -216,14 +217,14 @@ routerBuilder
         return Future.succeededFuture(handler);
       }))
   .onSuccess(self -> {
-    // Creation completed with success
+    //创建成功
   })
   .onFailure(err -> {
-    // Something went wrong
+    // 出了一些问题
   });
 ----
 
-The API is designed to be fluent so it can be used in a short notation, for example:
+这个API被设计为流式的，所以它用起来很简洁，举个例子：
 
 [source,java]
 ----
@@ -239,7 +240,7 @@ routerBuilder
       .end();
   });
 
-// non-blocking bind
+// 非阻塞绑定
 routerBuilder
   .securityHandler("oauth")
   .bind(config -> OpenIDConnectAuth.discover(vertx, new OAuth2Options(config))
@@ -259,24 +260,25 @@ routerBuilder
   });
 ----
 
-=== Blocking vs NonBlocking
+[[_blocking_vs_nonblocking]]
+=== 阻塞 vs 非阻塞
 
-From the examples above it is noticeable that handlers can be added in a blocking or not blocking way. The reason for
-non blocking way usage is not just to support handlers like `OAuth2`. The non-blocking way can be useful for handlers
-like JWT or basic authentication where the authentication provider requires loading of keys or configuration files.
+从上面的例子可以看出，处理器可以以阻塞或非阻塞的方式添加。
+使用非阻塞方式的原因不仅仅是为了支持像 `OAuth2` 这样的处理器。
+非阻塞方式对于JWT或基本身份验证之类的处理器很有用，因为其中身份验证提供者需要加载密钥或配置文件。
 
-Here is an example with JWT:
+这是一个使用JWT的例子
 
 [source,java]
 ----
 routerBuilder
   .securityHandler("oauth")
   .bind(config ->
-    // as we don't want to block while reading the
-    // public key, we use the non blocking bind
+    // 当读取公钥的时候，我们不想阻塞
+    // 我们可以使用非阻塞绑定
     vertx.fileSystem()
       .readFile("public.key")
-      // we map the future to a authentication provider
+      //  我们把future映射为身份验证提供程序
       .map(key ->
         JWTAuth.create(vertx, new JWTAuthOptions()
           .addPubSecKey(new PubSecKeyOptions()
@@ -301,11 +303,12 @@ routerBuilder
 [[_map_authenticationhandler_to_openapi_security_schemes]]
 == 将 `AuthenticationHandler` 映射到 OpenAPI 安全约束
 
-You have seen how you can map an `link:../../apidocs/io/vertx/ext/web/handler/AuthenticationHandler.html[AuthenticationHandler]` to a security schema defined in the contract. The previous examples are validating and will fail your route builder if the configuration is missing.
+您已经知道了您如何将 `link:../../apidocs/io/vertx/ext/web/handler/AuthenticationHandler.html[AuthenticationHandler]` 映射为一个定义在约定中的安全约束
+前面的示例会验证配置，如果找不到配置就会导致您的路由构建失败
 
-There could be cases where the contract is incomplete and you explicitly want to define security handlers. In this case
-the API is slightly different and will not enforce any contract validation. Yet, the security handlers will be available
-to the builder regardless.
+在某些情况下，约定是不完整的，您需要显式地定义安全处理器。
+在这种情况下API略有不同，不会强制验证任何约束。
+但是，无论如何，安全处理器对构建器都是可用的。
 
 例如，给出一个名为 `security_scheme_name` 接口约束：
 
