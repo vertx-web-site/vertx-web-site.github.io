@@ -1,6 +1,6 @@
 = RabbitMQ Client for Vert.x
 
-您的 Vert.x 应用可使用 Vert.x RabbitMQ Client（以下简称客户端）与 RabbitMQ 服务实例(基于 AMQP 0.9.1 版协议)交互
+您的 Vert.x 应用可使用 Vert.x RabbitMQ Client（以下简称客户端）与 RabbitMQ 服务实例（基于 AMQP 0.9.1 版协议）互动
 
 **此服务是实验性的，API可能会在解决之前发生变化。**
 
