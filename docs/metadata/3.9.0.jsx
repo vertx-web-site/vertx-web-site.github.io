@@ -435,7 +435,7 @@ const entries = [
   {
     id: "vertx-kafka-client",
     name: "Kafka client",
-    description: "A client for Apache Kafka.",
+    description: "Apache Kafka 的客户端。",
     category: "integration",
     href: "/vertx-kafka-client/java/",
     repository: "https://github.com/vert-x3/vertx-kafka-client",
