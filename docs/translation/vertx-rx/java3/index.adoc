@@ -88,7 +88,7 @@ fs.open("/data.txt", new OpenOptions())
 
 在上述两种情形中，订阅 `Flowable` 都是安全的。原因在于不管 event loop 还是 worker
 verticle 都不会被并发执行，
-开始发射数据之前发生。
+所以订阅一定是在处理器开始发射数据之前产生。
 
 当您想延迟订阅时，需要先 `暂停（pause）` `ReadStream` ，并在之后 `恢复（resume）` 它，
 这与使用 `ReadStream` 一样。
