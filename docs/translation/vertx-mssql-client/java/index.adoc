@@ -99,7 +99,7 @@ MSSQLConnectOptions connectOptions = new MSSQLConnectOptions()
 PoolOptions poolOptions = new PoolOptions()
   .setMaxSize(5);
 
-// 创建池客户端
+// 创建池化客户端
 MSSQLPool client = MSSQLPool.pool(connectOptions, poolOptions);
 ----
 
@@ -120,7 +120,7 @@ MSSQLConnectOptions connectOptions = new MSSQLConnectOptions()
 // 池选项
 PoolOptions poolOptions = new PoolOptions()
   .setMaxSize(5);
-// 创建池客户端
+// 创建池化客户端
 MSSQLPool client = MSSQLPool.pool(vertx, connectOptions, poolOptions);
 ----
 
@@ -149,7 +149,7 @@ MSSQLConnectOptions connectOptions = new MSSQLConnectOptions()
 PoolOptions poolOptions = new PoolOptions()
   .setMaxSize(5);
 
-// 创建池客户端
+// 创建池化客户端
 MSSQLPool client = MSSQLPool.pool(vertx, connectOptions, poolOptions);
 
 // 从池中获取连接
@@ -334,7 +334,7 @@ client
   });
 ----
 
-否则，您应该使用 `link:../../apidocs/io/vertx/sqlclient/data/NullValue.html[NullValue]` 常数之一 或 `link:../../apidocs/io/vertx/sqlclient/data/NullValue.html#of-java.lang.Class-[NullValue.of]`方法显式声明类型：
+否则，您应该使用 `link:../../apidocs/io/vertx/sqlclient/data/NullValue.html[NullValue]` 常量和 `link:../../apidocs/io/vertx/sqlclient/data/NullValue.html#of-java.lang.Class-[NullValue.of]` 方法之一以显式声明类型：
 
 [source,java]
 ----
