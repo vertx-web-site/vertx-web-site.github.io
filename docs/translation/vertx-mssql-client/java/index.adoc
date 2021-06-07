@@ -20,9 +20,10 @@ Reactive MSSQL 客户端是微软 SQL Server 的客户端，
 * 行流（Row streaming）
 * 不支持一些 https://github.com/eclipse-vertx/vertx-sql-client/issues/608#issuecomment-629390027[数据类型] 
 
-== Usage
+[[_usage]]
+== 用法
 
-To use the Reactive MSSQL Client add the following dependency to the _dependencies_ section of your build descriptor:
+要使用反应式 MSSQL 客户端，请将以下依赖项添加到构建描述文件中的 _dependencies_ 部分：
 
 * Maven (in your `pom.xml`):
 
@@ -43,9 +44,10 @@ dependencies {
 }
 ----
 
-== Getting started
+[[_getting_started]]
+== 由此开始
 
-Here is the simplest way to connect, query and disconnect
+这是最简单的连接、查询和断开连接方法：
 
 [source,java]
 ----
@@ -56,14 +58,14 @@ MSSQLConnectOptions connectOptions = new MSSQLConnectOptions()
   .setUser("user")
   .setPassword("secret");
 
-// Pool options
+// 连接池参数
 PoolOptions poolOptions = new PoolOptions()
   .setMaxSize(5);
 
-// Create the client pool
+// 创建客户端池
 MSSQLPool client = MSSQLPool.pool(connectOptions, poolOptions);
 
-// A simple query
+// 一个简单的查询
 client
   .query("SELECT * FROM users WHERE id='julien'")
   .execute(ar -> {
@@ -74,7 +76,7 @@ client
     System.out.println("Failure: " + ar.cause().getMessage());
   }
 
-  // Now close the pool
+  // 现在关闭池
   client.close();
 });
 ----
