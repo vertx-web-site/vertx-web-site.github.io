@@ -164,7 +164,7 @@ routerBuilder
   .bindBlocking(config -> BasicAuthHandler.create(authProvider));
 ----
 
-尽管这个例子配置起来很简单，但是创建一个需要配置的身份验证处理器
+尽管这个例子配置起来很简单，但是创建一个身份验证处理器需要配置
 例如从一个API Key处理器中获取配置：
 
 ----
