@@ -83,7 +83,7 @@
       </g>
       <g id="Graphic_41">
         <text transform="translate(1316.5 873)" fill="black">
-          <tspan font-family="Roboto Condensed" font-size="14" font-weight="400" fill="black" x="0" y="13">Time</tspan>
+          <tspan font-family="Roboto Condensed" font-size="14" font-weight="400" fill="black" x="0" y="13">时间</tspan>
         </text>
       </g>
       <g id="Line_33">
@@ -177,12 +177,12 @@
       </g>
       <g id="Graphic_31">
         <text transform="translate(647.3871 927.9369)" fill="black">
-          <tspan font-family="Roboto Condensed" font-size="14" font-weight="400" fill="black" x="0" y="13">Event-loop thread</tspan>
+          <tspan font-family="Roboto Condensed" font-size="14" font-weight="400" fill="black" x="0" y="13">事件循环（Event-loop）线程</tspan>
         </text>
       </g>
       <g id="Graphic_32">
         <text transform="translate(1141.8512 724)" fill="black">
-          <tspan font-family="Roboto Condensed" font-size="14" font-weight="400" fill="black" x="0" y="13">Events</tspan>
+          <tspan font-family="Roboto Condensed" font-size="14" font-weight="400" fill="black" x="0" y="13">事件</tspan>
         </text>
       </g>
     </g>
