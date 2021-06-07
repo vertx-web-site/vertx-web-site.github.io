@@ -5,7 +5,7 @@
 == 用于RxJava3的Vert.x API
 
 https://github.com/ReactiveX/RxJava[RxJava] 是一个流行的库，
-使用可观察序列的、基于事件的程序的流行库
+使用 Java VM 的可观察序列来编写异步和基于事件的程序。
 
 Vert.x 与 RxJava 集成起来很自然：它使得无论什么时候，只要我们能使用流和异步结果，就能使用 RxJava。
 
