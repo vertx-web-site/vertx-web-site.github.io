@@ -364,7 +364,7 @@ RxJavaPlugins.setIoSchedulerHandler(s -> RxHelper.blockingScheduler(vertx));
 RxJavaPlugins.setNewThreadSchedulerHandler(s -> RxHelper.scheduler(vertx));
 ----
 
-基于一个命名的工作线程池（named worker pool）创建调度器也是可以的，
+也可以基于一个命名的工作线程池（named worker pool）创建调度器，
 如果您想为了调度阻塞操作复用特定的线程池，这将会很有帮助：
 
 [source,java]
