@@ -3,19 +3,19 @@
 :lang: java
 :java: java
 
-This component provides a Vert.x wrapper around the Kafka Admin Client API.
-The Kafka Admin Client is used to create, modify, and delete topics.
-It also provides methods for handling ACLs (Access Control Lists), consumer groups and many more.
+该组件提供了对 Kafka 管理客户端接口的 Vert.x 风格的包装。
+Kafka 管理客户端用于创建，修改和删除主题。
+除此之外，它还可以用于管理 ACL (Access Control Lists)，消费者群组和更多信息。
 
-== Creating the Kafka Admin Client
+== 创建 Kafka 管理客户端
 
-Creating the admin client is quite similar on how it works using the native Kafka client library.
+创建 Kafka 管理客户端的方法与使用原生 Kafka 客户端库十分相似。
 
-It needs to be configured with a bunch of properties as described in the official
-Apache Kafka documentation, for the link:https://kafka.apache.org/documentation/#adminclientconfigs[admin].
+您需要配置一些属性，这些属性可以参见官方的
+Apache Kafka 文档， 参考此链接:https://kafka.apache.org/documentation/#adminclientconfigs[admin].
 
-To achieve that, a map can be configured with such properties passing it to one of the
-static creation methods exposed by `link:../../apidocs/io/vertx/kafka/admin/KafkaAdminClient.html[KafkaAdminClient]`.
+为了传递配置信息，您可以使用一个 Map 来保存属性值，
+并在调用 `link:../../apidocs/io/vertx/kafka/admin/KafkaAdminClient.html[KafkaAdminClient]` 提供的静态创建方法传入。
 
 [source,java]
 ----
@@ -25,12 +25,12 @@ config.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
 KafkaAdminClient adminClient = KafkaAdminClient.create(vertx, config);
 ----
 
-== Using the Kafka Admin Client
+== 使用 Kafka 管理客户端
 
-=== Listing topics
+=== 获取主题列表
 
-You can call the `link:../../apidocs/io/vertx/kafka/admin/KafkaAdminClient.html#listTopics-io.vertx.core.Handler-[listTopics]` for listing the topics in the cluster.
-The only parameter is the usual callback to handle the result, which provides the topics list.
+您可以调用 `link:../../apidocs/io/vertx/kafka/admin/KafkaAdminClient.html#listTopics-io.vertx.core.Handler-[listTopics]` 方法来获取集群中的主题列表。
+该方法唯一需要的参数是一个回调函数用于处理返回的主题列表。
 
 [source,java]
 ----
@@ -39,12 +39,12 @@ adminClient.listTopics().onSuccess(topics ->
 );
 ----
 
-=== Describe topics
+=== 主题描述
 
-You can call `link:../../apidocs/io/vertx/kafka/admin/KafkaAdminClient.html#describeTopics-java.util.List-io.vertx.core.Handler-[describeTopics]` to describe topics in the cluster.
-Describing a topic means getting all related metadata like number of partitions, replicas, leader, in-sync replicas and so on.
-The needed parameters are the list of topics names to describe, and the usual callback to handle the result providing
-a map with topic names and related `link:../../apidocs/io/vertx/kafka/admin/TopicDescription.html[TopicDescription]`.
+您可以调用 `link:../../apidocs/io/vertx/kafka/admin/KafkaAdminClient.html#describeTopics-java.util.List-io.vertx.core.Handler-[describeTopics]` 方法来获取集群中的主题描述。
+主题描述是指获取该主题相关的元数据，例如分片数量，副本，领导，同步中的副本等。
+方法需要的参数是您要获取的主题列表和用于处理结果的回调，
+回调会通过一个 Map 来返回查询结果，Map 的键是主题名称，Map 的内容是 `link:../../apidocs/io/vertx/kafka/admin/TopicDescription.html[TopicDescription]`。
 
 [source,java]
 ----
@@ -64,87 +64,87 @@ adminClient.describeTopics(Collections.singletonList("my-topic")).onSuccess(topi
 });
 ----
 
-=== Create topic
+=== 创建主题
 
-You can call `link:../../apidocs/io/vertx/kafka/admin/KafkaAdminClient.html#createTopics-java.util.List-io.vertx.core.Handler-[createTopics]` to create topics in the cluster.
-The needed parameters are the list of the topics to create, and the usual callback to handle the result.
-The topics to create are defined via the `link:../../apidocs/io/vertx/kafka/admin/NewTopic.html[NewTopic]` class specifying the name, the number of
-partitions and the replication factor.
-It is also possible to describe the replicas assignment, mapping each replica to the broker id, instead of specifying the
-number of partitions and the replication factor (which in this case has to be set to -1).
+您可以调用 `link:../../apidocs/io/vertx/kafka/admin/KafkaAdminClient.html#createTopics-java.util.List-io.vertx.core.Handler-[createTopics]` 方法在集群中创建主题，
+方法需要的参数是您要创建的主题列表和处理结果的回调。
+要创建的主题需要通过 `link:../../apidocs/io/vertx/kafka/admin/NewTopic.html[NewTopic]` 类来指定名称
+分区的数量和复制因子。
+也可以指定副本的分配，将副本映射给每个 Kafka 消息中介的 id，而不是仅设置
+分片的数量和复制银子 (在这种情况下该值会被设置为 -1)。
 
 [source,java]
 ----
 adminClient.createTopics(Collections.singletonList(new NewTopic("testCreateTopic", 1, (short)1)))
   .onSuccess(v -> {
-    // topics created successfully
+    // 成功创建主题
   })
   .onFailure(cause -> {
-    // something went wrong when creating the topics
+    // 创建主题时出错
   });
 ----
 
-=== Delete topic
+=== 删除主题
 
-You can call `link:../../apidocs/io/vertx/kafka/admin/KafkaAdminClient.html#deleteTopics-java.util.List-io.vertx.core.Handler-[deleteTopics]` to delete topics in the cluster.
-The needed parameters are the list of the topics to delete, and the usual callback to handle the result.
+您可以调用 `link:../../apidocs/io/vertx/kafka/admin/KafkaAdminClient.html#deleteTopics-java.util.List-io.vertx.core.Handler-[deleteTopics]` 方法来删除集群中的主题。
+方法需要的参数是要删除的主题列表和处理结果的回调。
 
 [source,java]
 ----
 adminClient.deleteTopics(Collections.singletonList("topicToDelete"))
   .onSuccess(v -> {
-    // topics deleted successfully
+    // 成功删除主题
   })
   .onFailure(cause -> {
-    // something went wrong when removing the topics
+    // 删除主题时出错
   });
 ----
 
-=== Describe configuration
+=== 配置描述
 
-You can call `link:../../apidocs/io/vertx/kafka/admin/KafkaAdminClient.html#describeConfigs-java.util.List-io.vertx.core.Handler-[describeConfigs]` to describe resources configuration.
-Describing resources configuration means getting all configuration information for cluster resources like topics or brokers.
-The needed parameters are the list of the resources for which you want the configuration, and the usual callback to handle the result.
-The resources are described by a collection of `link:../../apidocs/io/vertx/kafka/client/common/ConfigResource.html[ConfigResource]` while the result maps
-each resource with a corresponding `link:../../apidocs/io/vertx/kafka/admin/Config.html[Config]` which as more `link:../../apidocs/io/vertx/kafka/admin/ConfigEntry.html[ConfigEntry]` for
-each configuration parameter.
+您可以调用 `link:../../apidocs/io/vertx/kafka/admin/KafkaAdminClient.html#describeConfigs-java.util.List-io.vertx.core.Handler-[describeConfigs]` 方法来获取资源配置的数据。
+资源配置的描述是指获取集群中一些资源的信息，例如主题和消息中介。
+方法需要的参数是您想要获取的资源列表和用于处理结果的回调。
+资源配置通过一个类型为 `link:../../apidocs/io/vertx/kafka/client/common/ConfigResource.html[ConfigResource]` 的集合描述。每个配置的数据
+保存在 `link:../../apidocs/io/vertx/kafka/admin/Config.html[Config]` 类的 `link:../../apidocs/io/vertx/kafka/admin/ConfigEntry.html[ConfigEntry]`
+键值对类型中
 
 [source,java]
 ----
 adminClient.describeConfigs(Collections.singletonList(
   new ConfigResource(org.apache.kafka.common.config.ConfigResource.Type.TOPIC, "my-topic"))).onSuccess(configs -> {
-  // check the configurations
+  // 检查配置
 });
 ----
 
-=== Alter configuration
+=== 选择配置
 
-You can call `link:../../apidocs/io/vertx/kafka/admin/KafkaAdminClient.html#alterConfigs-java.util.Map-io.vertx.core.Handler-[alterConfigs]` to alter resources configuration.
-Altering resources configuration means updating configuration information for cluster resources like topics or brokers.
-The needed parameters are the list of the resources with the related configurations to updated, and the usual callback to handle the result.
-It is possible to alter configurations for different resources with just one call. The input parameter maps each
-`link:../../apidocs/io/vertx/kafka/client/common/ConfigResource.html[ConfigResource]` with the corresponding `link:../../apidocs/io/vertx/kafka/admin/Config.html[Config]` you want to apply.
+您可以调用 `link:../../apidocs/io/vertx/kafka/admin/KafkaAdminClient.html#alterConfigs-java.util.Map-io.vertx.core.Handler-[alterConfigs]` 方法来选取集群的资源配置。
+选取资源配置是指更新集群资源的配置信息，例如主题和分区。
+方法需要的参数是您想更新的配置的资源列表和用于处理结果的回调。
+您可以在一次方法调用中选取更新多个不同资源的数据。需要的参数是
+`link:../../apidocs/io/vertx/kafka/client/common/ConfigResource.html[ConfigResource]` 作为资源参数与 `link:../../apidocs/io/vertx/kafka/admin/Config.html[Config]` 作为配置一一对应。
 
 [source,java]
 ----
 ConfigResource resource = new ConfigResource(org.apache.kafka.common.config.ConfigResource.Type.TOPIC, "my-topic");
-// create a entry for updating the retention.ms value on the topic
+// 创建更新该主题 retention.ms 的配置项
 ConfigEntry retentionEntry = new ConfigEntry(TopicConfig.RETENTION_MS_CONFIG, "51000");
 Map<ConfigResource, Config> updateConfig = new HashMap<>();
 updateConfig.put(resource, new Config(Collections.singletonList(retentionEntry)));
 adminClient.alterConfigs(updateConfig)
   .onSuccess(v -> {
-    // configuration altered successfully
+    // 成功更新配种
   })
   .onFailure(cause -> {
-    // something went wrong when altering configs
+    // 配置更新时出错
   });
 ----
 
-=== List consumer groups
+=== 消费者群组列表
 
-You can call the `link:../../apidocs/io/vertx/kafka/admin/KafkaAdminClient.html#listConsumerGroups-io.vertx.core.Handler-[listConsumerGroups]` for listing the consumer groups in the cluster.
-The only parameter is the usual callback to handle the result, which provides the consumer groups list.
+您可以调用 `link:../../apidocs/io/vertx/kafka/admin/KafkaAdminClient.html#listConsumerGroups-io.vertx.core.Handler-[listConsumerGroups]` 方法来获取集群中的消费者群组列表。
+方法需要的参数只有用于处理消费者群组列表结果的回调。
 
 [source,java]
 ----
@@ -153,12 +153,12 @@ adminClient.listConsumerGroups().onSuccess(consumerGroups ->
 );
 ----
 
-=== Describe consumer groups
+=== 消费者群组的描述
 
-You can call `link:../../apidocs/io/vertx/kafka/admin/KafkaAdminClient.html#describeConsumerGroups-java.util.List-io.vertx.core.Handler-[describeConsumerGroups]` to describe consumer groups in the cluster.
-Describing a consumer group means getting all related information like members, related ids, topics subscribed, partitions assignment and so on.
-The needed parameters are the list of consumer groups names to describe, and the usual callback to handle the result providing
-a map with consumer group names and related `link:../../apidocs/io/vertx/kafka/admin/MemberDescription.html[MemberDescription]`.
+您可以调用 `link:../../apidocs/io/vertx/kafka/admin/KafkaAdminClient.html#describeConsumerGroups-java.util.List-io.vertx.core.Handler-[describeConsumerGroups]` 来获取消费者群组的描述。
+消费者群组的描述是指获取消费者群组的相关信息，例如成员，相关的 id，主题订阅，分区分配等。
+需要的参数是要获取描述的消费者群组列表和用于处理结果的回调，
+回调会通过一个 Map 来返回查询结果，Map 的键是消费者群组的名称，Map 的值类型是 `link:../../apidocs/io/vertx/kafka/admin/MemberDescription.html[MemberDescription]` 。
 
 [source,java]
 ----
