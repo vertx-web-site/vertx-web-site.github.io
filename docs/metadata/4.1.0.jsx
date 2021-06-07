@@ -47,7 +47,7 @@ insert(docs, "vertx-rx-java2",
      {
          id: "vertx-rx-java3",
          name: "RxJava 3",
-         description: "RxJava 3 bindings for the Vert.x APIs, modules and clients.",
+         description: "用于Vert.x API，模块和客户端的 RxJava 3 绑定。",
          category: "reactive",
          href: "/vertx-rx/java3/",
          repository: "https://github.com/vert-x3/vertx-rx",
