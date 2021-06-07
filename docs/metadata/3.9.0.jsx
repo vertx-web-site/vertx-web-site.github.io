@@ -413,8 +413,8 @@ const entries = [
   },
   {
     id: "vertx-rabbitmq-client",
-    name: "RabbitMQ Client",
-    description: "A client for RabbitMQ brokers.",
+    name: "RabbitMQ 客户端",
+    description: "RabbitMQ 代理的客户端。",
     category: "messaging",
     href: "/vertx-rabbitmq-client/java/",
     repository: "https://github.com/vert-x3/vertx-rabbitmq-client",
