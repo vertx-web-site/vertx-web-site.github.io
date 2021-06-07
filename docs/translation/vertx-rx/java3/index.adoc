@@ -76,8 +76,7 @@ fs.open("/data.txt", new OpenOptions())
 这样的 Flowable 是所谓 *hot* Flowable，即不管是否有订阅，它们都会产生通知。
 `ReadStream` 是否能自发地发射数据，这取决于它的具体实现：
 
-当订阅动作发生时，适配器会调用
-`link:../../apidocs/io/vertx/core/streams/ReadStream.html#handler-io.vertx.core.Handler-[handler]`
+当订阅动作发生时，适配器会调用`link:../../apidocs/io/vertx/core/streams/ReadStream.html#handler-io.vertx.core.Handler-[handler]`
 来设置它的处理器（handler）。
 
 某些 `ReadStream` 实现会在这个调用之后开始发射事件，而其他的则与
@@ -132,10 +131,10 @@ pump.start();
 
 [[_write_stream_support]]
 === 可写流支持
+
 `link:../../apidocs/io/vertx/core/streams/WriteStream.html[WriteStream]` 类似于 `org.reactivestreams.Subscriber` ，它会消费数据，并且在消费速度无法跟上生产速度时与生产者协作，以避免积压的情况不断增加。
 
-Vert.x 提供了 
-`link:../../apidocs/io/vertx/rxjava3/WriteStreamSubscriber.html[WriteStreamSubscriber]` 适配器，它可以发送 `Flowable` 对象到任意 `link:../../apidocs/io/vertx/core/streams/WriteStream.html[WriteStream]`:
+Vert.x 提供了 `link:../../apidocs/io/vertx/rxjava3/WriteStreamSubscriber.html[WriteStreamSubscriber]` 适配器，它可以发送 `Flowable` 对象到任意 `link:../../apidocs/io/vertx/core/streams/WriteStream.html[WriteStream]`:
 
 .将 buffer 发送到 HTTP 服务响应
 [source,java]
@@ -146,11 +145,9 @@ flowable.subscribe(subscriber);
 ----
 
 TIP: 另外也存在用于非背压的 `io.reactivex.Observable` 使用的 `io.vertx.rxjava3.WriteStreamObserver` 适配器。
-不同之处在于，这个适配器将向 `link:../../apidocs/io/vertx/core/streams/WriteStream.html[WriteStream]`
-发送对象，即使它不能跟上生产者速率
+不同之处在于，这个适配器将向 `link:../../apidocs/io/vertx/core/streams/WriteStream.html[WriteStream]` 发送对象，即使它不能跟上生产者速率
 
-如果您正在使用 _RX化的_ Vert.x API进行编程，
-`link:../../apidocs/io/vertx/rxjava3/core/streams/WriteStream.html[WriteStream]` 的实现提供了一个 `toSubscriber` 方法。
+如果您正在使用 _RX化的_ Vert.x API进行编程， `link:../../apidocs/io/vertx/rxjava3/core/streams/WriteStream.html[WriteStream]` 的实现提供了一个 `toSubscriber` 方法。
 这样一来，上面的例子可以变得更直接明了：
 
 [source,java]
@@ -408,10 +405,8 @@ fileSystem
 [[_deploying_a_verticle]]
 === 部署Verticle
 
-
 部署一个已经存在的 Verticle 实例可以使用 `link:../../apidocs/io/vertx/rxjava3/core/RxHelper.html#deployVerticle-io.vertx.rxjava3.core.Vertx-io.vertx.core.Verticle-[RxHelper.deployVerticle]` 方法，
 它会部署一个 `Verticle` 并返回包含部署ID 的 `Single<String>`。
-
 
 [source,java]
 ----
@@ -428,8 +423,7 @@ deployment.subscribe(id -> {
 == Rx化的 API
 
 _Rx化的_ API 是 Vert.x API 的一个代码自动生成版本，就像 Vert.x 的 _JavaScript_ 或 _Groovy_ 版本一样。
-这些 API 以 `io.vertx.rxjava` 为包名前缀，例如 `io.vertx.core.Vertx` 类对应为
-`link:../../apidocs/io/vertx/rxjava3/core/Vertx.html[Vertx]` 类。
+这些 API 以 `io.vertx.rxjava` 为包名前缀，例如 `io.vertx.core.Vertx` 类对应为 `link:../../apidocs/io/vertx/rxjava3/core/Vertx.html[Vertx]` 类。
 
 Rx化的API以两种方式提供Vert.x的异步方法
 
@@ -518,8 +512,7 @@ vertx.setTimer(10000, id -> {
 });
 ----
 
-`link:../../apidocs/io/vertx/rxjava3/core/eventbus/MessageConsumer.html[MessageConsumer]` 提供了一个
- `link:../../apidocs/io/vertx/rxjava3/core/eventbus/Message.html[Message]` 的流. 
+`link:../../apidocs/io/vertx/rxjava3/core/eventbus/MessageConsumer.html[MessageConsumer]` 提供了一个 `link:../../apidocs/io/vertx/rxjava3/core/eventbus/Message.html[Message]` 的流.
  如果有需要，可以通过 `link:../../apidocs/io/vertx/rxjava3/core/eventbus/Message.html#body--[body]` 方法获取信息体组成的流
 
 [source,java]
@@ -682,7 +675,8 @@ requestFlowable.subscribe(request -> {
 [[_websocket_client]]
 === WebSocket客户端
 
-当 WebSocket 连接成功或失败时，`link:../../apidocs/io/vertx/rxjava3/core/http/HttpClient.html#webSocket-int-java.lang.String-java.lang.String-[webSocket]` 方法对此提供了一次性的回调：
+当 WebSocket 连接成功或失败时，`link:../../apidocs/io/vertx/rxjava3/core/http/HttpClient.html#webSocket-int-java.lang.String-java.lang.String-[webSocket]`
+方法对此提供了一次性的回调：
 
 [source,java]
 ----
@@ -714,7 +708,7 @@ socketObservable.subscribe(
 [[_websocket_server]]
 === WebSocket服务端
 
-当有连接接入时， `link:../../apidocs/io/vertx/rxjava3/core/http/HttpServer.html#webSocketStream--[webSocketStream]`  
+当有连接接入时， `link:../../apidocs/io/vertx/rxjava3/core/http/HttpServer.html#webSocketStream--[webSocketStream]`
 为每个接入的连接提供了回调
 
 [source,java]
