@@ -11,7 +11,7 @@ Vertx vertx = Vertx.vertx(new VertxOptions()
 );
 ----
 
-您还可以传递自定义的 `OpenTelemetry` ，
+您还可以通过传递自定义的 `OpenTelemetry`对象，
 以掌握在配置上更大的控制权。
 
 [source,java]
