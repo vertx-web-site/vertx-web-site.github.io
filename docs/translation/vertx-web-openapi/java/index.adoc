@@ -196,7 +196,7 @@ openapi: 3.0.0
 # 1) 定义安全约束的类型和属性
 components:
  securitySchemes:
-   openId:   # <--- 为这个安全约束随便提供一个名字. 用于从别处引用它
+   openId:   # <--- 为这个安全约束随便提供一个名字。就可以利用该名从别处引用。
      type: openIdConnect
      openIdConnectUrl: https://example.com/.well-known/openid-configuration
 ----
