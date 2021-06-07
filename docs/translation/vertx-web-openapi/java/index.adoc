@@ -135,7 +135,7 @@ Vert.x OpenAPI 为您挂载了正确的 `link:../../apidocs/io/vertx/ext/web/val
 请参考 https://vertx.io/docs/vertx-web-validation/java/[Vert.x Web 校验文档] 来学习如何获取请求参数以及请求体，并学习如何管理校验失败的处理方式。
 
 [[_configuring_authentication_handler]]
-== 配置定义在OpenAPI文档中的`AuthenticationHandler`
+== 配置定义在 OpenAPI 文档中的 `AuthenticationHandler`
 
 安全是任何API的一个重要部分。OpenAPI定义了如何在api文档中强调安全性。
 
