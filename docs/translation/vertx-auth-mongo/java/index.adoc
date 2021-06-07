@@ -1,12 +1,12 @@
 = Mongo Auth Provider
 
 Vert.X中提供了一个 `link:../../apidocs/io/vertx/ext/auth/authentication/AuthenticationProvider.html[AuthenticationProvider]` 的实现，
-它可以让你使用MongoClient针对MongoDb数据库执行认证和授权。
+它可以让您使用 MongoClient 针对 MongoDb 数据库执行认证和授权。
 
 若要在自己的项目中使用它，
-需要在构建描述信息的_dependencies_节点中添加如下信息：
+需要在构建描述信息的 _dependencies_ 节点中添加以下信息：
 
-* Maven (在 `pom.xml` 文件中):
+* Maven （在 `pom.xml` 文件中）：
 
 [source,xml,subs="+attributes"]
 ----
@@ -17,17 +17,17 @@ Vert.X中提供了一个 `link:../../apidocs/io/vertx/ext/auth/authentication/Au
 </dependency>
 ----
 
-* Gradle (在 `build.gradle` 文件中):
+* Gradle （在 `build.gradle` 文件中）：
 
 [source,groovy,subs="+attributes"]
 ----
 compile 'io.vertx:vertx-auth-mongo:4.0.3'
 ----
 
-如果要创建一个客户端实例，你首先需要一个 `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html[MongoClient]` 的实例，
+如果要创建一个客户端实例，您首先需要一个 `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html[MongoClient]` 的实例，
 要知道如何创建这个实例可按照文档中的内容实施。
 
-一旦你创建了一个 `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html[MongoClient]` 实例后，就可以按照下边的代码创建 `link:../../apidocs/io/vertx/ext/auth/mongo/MongoAuth.html[MongoAuth]` 实例：
+一旦您创建了一个 `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html[MongoClient]` 实例后，就可以按照下边的代码创建 `link:../../apidocs/io/vertx/ext/auth/mongo/MongoAuth.html[MongoAuth]` 实例：
 
 [source,java]
 ----
@@ -37,32 +37,31 @@ MongoAuthentication authenticationProvider =
   MongoAuthentication.create(client, options);
 ----
 
-创建好上边的实例过后，你就可以使用任何 `link:../../apidocs/io/vertx/ext/auth/authentication/AuthenticationProvider.html[AuthenticationProvider]` 针对MongoDB执行认证和授权功能了。
+创建好上边的实例过后，您就可以使用任何 `link:../../apidocs/io/vertx/ext/auth/authentication/AuthenticationProvider.html[AuthenticationProvider]` 针对MongoDB执行认证和授权功能了。
 
 Vert.X的默认标准配置（Out Of the Box）中包含了"user"集合（Collection），
 用户名字段使用"username"进行存储和读取。
 
 为了避免在"user"集合中出现重复的用户名，应该在"user"集合中给"username"添加唯一索引（Unique Index），
-你可以在MongoDB服务器中运行下边的片段来完成此操作：
+您可以在MongoDB服务器中运行下边的片段来完成此操作：
 
 ----
 db.user.createIndex( { username: 1 }, { unique: true } )
 ----
 
 MongoDB的特性是先查询username字段中的值是否已经存在，然后会插入一个Document，并不能作为一个原子性操作，
-基于这个原因你需要添加上边的唯一索引，
-使用了这个索引过后你的代码会尝试先插入一行数据，如果出现了重复记录则会失败。
+基于这个原因您需要添加上边的唯一索引，
+使用了这个索引过后您的代码会尝试先插入一行数据，如果出现了重复记录则会失败。
 
-根据你自己的需要，你同样可以使用下边的方法改变MongoDB中使用的默认集合（Collection）和列（Column）名称等信息：
+根据您自身需要，您同样可以使用下边的方法改变 MongoDB 中使用的默认集合（Collection）和列（Column）名称等信息：
 
 `link:../../apidocs/io/vertx/ext/auth/mongo/MongoAuthenticationOptions.html#setCollectionName-java.lang.String-[setCollectionName]`
 `link:../../apidocs/io/vertx/ext/auth/mongo/MongoAuthenticationOptions.html#setUsernameField-java.lang.String-[setUsernameField]`
 `link:../../apidocs/io/vertx/ext/auth/mongo/MongoAuthenticationOptions.html#setPasswordField-java.lang.String-[setPasswordField]`
 
+Vert.X默认实现中的密码通过 `link:../../apidocs/io/vertx/ext/auth/HashingStrategy.html[HashingStrategy]` 在数据库中加密后进行存储。(salt值存储在该Hash结果中)
 
-Vert.X默认实现中的密码通过 `link:../../apidocs/io/vertx/ext/auth/HashingStrategy.html[HashingStrategy]` 在数据库中加密后进行存储。(在该Hash算法中已存储了salt值)
-
-如果你想要重写上述行为，则你可以调用 `link:../../apidocs/io/vertx/ext/auth/mongo/MongoAuth.html#setHashStrategy-io.vertx.ext.auth.mongo.HashStrategy-[setHashStrategy]`
+如您想要重写上述行为，则可以调用 `link:../../apidocs/io/vertx/ext/auth/mongo/MongoAuth.html#setHashStrategy-io.vertx.ext.auth.mongo.HashStrategy-[setHashStrategy]`
 方法设置新的Hash策略，并且提供变更过的Hash策略及配置信息。
 
 [[_vertx_auth_jdbc_and_gdpr]]
@@ -127,15 +126,15 @@ authProvider.authenticate(authInfo)
     // Failed!
   });
 ----
-如果想要替换上边的 `username` 和 `password` 两个默认字段名，你可以使用下边两个方法：
+如果想要替换上边的 `username` 和 `password` 两个默认字段名，您可使用以下两种方法：
 `link:../../apidocs/io/vertx/ext/auth/mongo/MongoAuthenticationOptions.html#getUsernameCredentialField--[getUsernameCredentialField]` 和
 `link:../../apidocs/io/vertx/ext/auth/mongo/MongoAuthenticationOptions.html#getPasswordCredentialField--[getPasswordCredentialField]`
 
 [[_authorisation_permission_role_model]]
 == 授权：Permission/Role模型
 
-尽管Vert.X自身并不要求使用特定的许可模型（它本身只是使用了不透明的字符串），
-但MongoDB认证中的实现使用了比较熟悉的：用户/角色/许可模型，这样在应用里你可以使用一个或者多个角色，
+尽管 Vert.X 自身并不要求使用特定的许可模型（它本身只是使用了不透明的字符串），
+但 MongoDB 认证中的实现使用了比较熟悉的：用户/角色/许可模型，这样在应用里您可以使用一个或者多个角色，
 而一个角色也可以拥有一个或者多个许可。
 
 如果要验证一个用户是否拥有特定的许可，则要将许可信息传递到
