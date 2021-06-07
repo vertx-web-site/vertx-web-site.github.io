@@ -33,12 +33,12 @@ insert(docs, "vertx-mail-client",
 insert(docs, "vertx-sql-client-templates",
      {
          id: "vertx-mssql-client",
-         name: "MSSQL Client",
-         description: "The Reactive MSSQL client.",
+         name: "MSSQL 客户端",
+         description: "响应式 MSSQL 客户端。",
          category: "databases",
          href: "/vertx-mssql-client/java/",
          repository: "https://github.com/eclipse-vertx/vertx-sql-client",
-         edit: "https://github.com/eclipse-vertx/vertx-sql-client/tree/master/vertx-mssql-client/src/main/asciidoc",
+         edit: "https://github.com/vertx-china/vertx-web-site/tree/master/docs/translation/vertx-mssql-client/java",
          label: "Technical Preview"
        }
  )
