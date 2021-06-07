@@ -11,8 +11,6 @@ Vertx vertx = Vertx.vertx(new VertxOptions()
 );
 ----
 
-You can also pass a custom `OpenTelemetry` allowing for greater control
-over the configuration.
 您还可以传递自定义的 `OpenTelemetry` ，
 以掌握在配置上更大的控制权。
 
