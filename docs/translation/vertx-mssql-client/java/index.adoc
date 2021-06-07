@@ -124,7 +124,7 @@ PoolOptions poolOptions = new PoolOptions()
 MSSQLPool client = MSSQLPool.pool(vertx, connectOptions, poolOptions);
 ----
 
-当你不再需要它时，你需要释放池：
+当您不再需要它时，您需要释放池：
 
 [source,java]
 ----
@@ -346,9 +346,10 @@ client
   });
 ----
 
-== Collector queries
+[[_collector_queries]]
+== 收集器查询
 
-You can use Java collectors with the query API:
+您可以通过查询 API 使用 Java 收集器：
 
 [source,java]
 ----
@@ -356,14 +357,14 @@ Collector<Row, ?, Map<Long, String>> collector = Collectors.toMap(
   row -> row.getLong("id"),
   row -> row.getString("last_name"));
 
-// Run the query with the collector
+// 使用收集器运行查询
 client.query("SELECT * FROM users")
   .collecting(collector)
   .execute(ar -> {
     if (ar.succeeded()) {
       SqlResult<Map<Long, String>> result = ar.result();
 
-      // Get the map created by the collector
+      // 获取收集器创建的映射（map）对象
       Map<Long, String> map = result.value();
       System.out.println("Got " + map);
     } else {
@@ -372,11 +373,11 @@ client.query("SELECT * FROM users")
   });
 ----
 
-The collector processing must not keep a reference on the `link:../../apidocs/io/vertx/sqlclient/Row.html[Row]` as
-there is a single row used for processing the entire set.
+收集器处理时不得保留对 `link:../../apidocs/io/vertx/sqlclient/Row.html[Row]` 的引用，
+因为有一行用于处理整个集合。
 
-The Java `Collectors` provides many interesting predefined collectors, for example you can
-create easily create a string directly from the row set:
+Java `Collectors` 提供了许多有趣的预定义收集器，例如您可以
+create 直接从行集轻松创建字符串：
 
 [source,java]
 ----
@@ -385,14 +386,14 @@ Collector<Row, ?, String> collector = Collectors.mapping(
   Collectors.joining(",", "(", ")")
 );
 
-// Run the query with the collector
+// 使用收集器运行查询
 client.query("SELECT * FROM users")
   .collecting(collector)
   .execute(ar -> {
     if (ar.succeeded()) {
       SqlResult<String> result = ar.result();
 
-      // Get the string created by the collector
+      // 获取收集器创建的字符串
       String list = result.value();
       System.out.println("Got " + list);
     } else {
