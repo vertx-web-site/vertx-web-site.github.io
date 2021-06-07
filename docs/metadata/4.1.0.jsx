@@ -25,7 +25,7 @@ insert(docs, "vertx-mail-client",
         category: "integration",
         href: "/vertx-http-proxy/java/",
         repository: "https://github.com/eclipse-vertx/vertx-http-proxy/tree/master",
-        edit: "https://github.com/eclipse-vertx/vertx-http-proxy/tree/master/src/main/asciidoc",
+        edit: "https://github.com/vertx-china/vertx-web-site/tree/master/docs/translation/vertx-http-proxy/java",
         label: "Technical Preview"
     }
 )
@@ -51,7 +51,7 @@ insert(docs, "vertx-rx-java2",
          category: "reactive",
          href: "/vertx-rx/java3/",
          repository: "https://github.com/vert-x3/vertx-rx",
-         edit: "https://github.com/vert-x3/vertx-rx/tree/master/rx-java3/src/main/asciidoc",
+         edit: "https://github.com/vertx-china/vertx-web-site/tree/master/docs/translation/vertx-rx/java3",
          label: "Technical Preview"
        }
 )
@@ -64,7 +64,7 @@ insert(docs, "vertx-web-graphql",
          category: "web",
          href: "/vertx-web-proxy/java/",
          repository: "https://github.com/vert-x3/vertx-web",
-         edit: "https://github.com/vert-x3/vertx-web/tree/master/vertx-web-proxy/src/main/asciidoc",
+         edit: "https://github.com/vertx-china/vertx-web-site/tree/master/docs/translation/vertx-web-graphql/java",
          label: "Technical Preview"
        }
 )

@@ -3,8 +3,10 @@
 您可以使用 Vert.x Config 配置 Vert.x 应用。
 它：
 
-* 提供多种配置语法（JSON，properties，Yaml（extension），Hocon（extension）……）
-* 提供多种配置中心，例如文件、目录、HTTP、git（extension）、Redis（extension）、系统参数和环境变量。
+* 提供多种配置语法（JSON，properties，Yaml（extension），
+Hocon（extension）……）
+* 提供多种配置中心，例如文件、目录、HTTP、git（extension）、Redis（extension）、
+系统参数和环境变量。
 * 让您定义执行顺序以及覆盖规则
 * 支持运行时重新定义
 
@@ -161,7 +163,6 @@ retriever.getConfig(json -> {
 [[_configuring_a_set_of_verticles]]
 === 配置一组Verticles
 
-The following example configures 2 verticles using the configurations contained in the `verticles.json` file:
 以下示例用 `verticles.json` 文件中的配置创建了2个verticle
 
 [source,java]
@@ -240,7 +241,8 @@ Config Retriever 提供一系列的配置中心和配置格式。
 每一个声明的数据配置中心必须要指定 `类型（type）` ，它也定义了 `格式（format）` 。
 如果没有设置，默认用JSON。
 
-一些配置中心要求额外的配置（比如路径……）。这项配置需要用 `link:../../apidocs/io/vertx/config/ConfigStoreOptions.html#setConfig-io.vertx.core.json.JsonObject-[setConfig]` 方法传入一个JSON 对象来指定。
+一些配置中心要求额外的配置（比如路径……）。
+这项配置需要用 `link:../../apidocs/io/vertx/config/ConfigStoreOptions.html#setConfig-io.vertx.core.json.JsonObject-[setConfig]` 方法传入一个JSON 对象来指定。
 
 [[_file]]
 === 文件
