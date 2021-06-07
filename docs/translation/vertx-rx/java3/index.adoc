@@ -83,7 +83,7 @@ fs.open("/data.txt", new OpenOptions())
 某些 `ReadStream` 实现会在这个调用之后开始发射事件，而其他的则与
 是否设置了处理器无关：
 
-- `AsyncFile` 在 handler 设置后开始产生 buffer 事件
+- `AsyncFile` 在处理器设置后开始产生 buffer 事件
 - `HttpServerRequest` 则不依赖于此（即 如果处理器未设置，buffer 可能会丢失）
 
 在上述两种情形中，订阅 `Flowable` 都是安全的。原因在于不管 event loop 还是 worker
