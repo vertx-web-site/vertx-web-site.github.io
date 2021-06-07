@@ -1744,7 +1744,7 @@ Vertx.clusteredVertx(new VertxOptions(), res -> {
 由于会话存储在Cookie中，因此会话也可以在服务器崩溃后幸免
 
 第二个已知的实现是Redis session储存器。
-该储存器的工作方式与普通集群存储区相同，但是，顾名思义，它使用redis作为后端将会话数据集中化。
+该储存器的工作方式与普通集群存储区相同，然而顾名思义，它使用 redis 作为后端将会话数据集中存储。
 
 此外，亦提供 Infinispan 会话存储（详情如下）。
 

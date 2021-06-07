@@ -1,12 +1,14 @@
-= Infinispan Web Session Store
+[[_infinispan_web_session_store]]
+= Infinispan 网络会话存储
 
-An implementation of `link:../../apidocs/io/vertx/ext/web/sstore/SessionStore.html[SessionStore]` that relies on the https://infinispan.org/[Infinispan] Java Client.
+依赖于 https://infinispan.org/[Infinispan] Java 客户端的一种 `link:../../apidocs/io/vertx/ext/web/sstore/SessionStore.html[SessionStore]` 实现。
 
-WARNING: This module has _Tech Preview_ status, this means the API can change between versions.
+WARNING: 此模块具有 _Tech Preview_ 状态，这意味着 API 可能会在后续版本中更改。
 
-== Getting started
+[[_getting_started]]
+== 由此开始
 
-To use this module, add the following to the _dependencies_ section of your Maven POM file:
+要使用此模块，请将以下内容添加到 Maven POM 文件的 _dependencies_ 部分中：
 
 [source,xml,subs="+attributes"]
 ----
@@ -17,16 +19,17 @@ To use this module, add the following to the _dependencies_ section of your Mave
 </dependency>
 ----
 
-Or, if you use Gradle:
+或者，您使用的是 Gradle：
 
 [source,groovy,subs="+attributes"]
 ----
 compile 'io.vertx:vertx-web-sstore-infinispan:4.1.0'
 ----
 
-== Using
+[[_using]]
+== 使用
 
-If this session store is the only one you have in your dependencies, you can initialize it in a generic way:
+如果这个会话存储是您所有依赖项中唯一的一项，那么您可以用一种通用的方式将其初始化：
 
 [source,java]
 ----
@@ -46,7 +49,7 @@ SessionHandler sessionHandler = SessionHandler.create(store);
 router.route().handler(sessionHandler);
 ----
 
-Otherwise, use the `link:../../apidocs/io/vertx/ext/web/sstore/infinispan/InfinispanSessionStore.html[InfinispanSessionStore]` type explicitely:
+或者，使用明确的 `link:../../apidocs/io/vertx/ext/web/sstore/infinispan/InfinispanSessionStore.html[InfinispanSessionStore]` 类型。
 
 [source,java]
 ----
@@ -66,33 +69,37 @@ SessionHandler sessionHandler = SessionHandler.create(store);
 router.route().handler(sessionHandler);
 ----
 
-== Configuring
+[[_configuring]]
+== 配置
 
-=== Config entries
+[[_config_entries]]
+=== 配置条目（entry）
 
-The root entries are:
+根条目是：
 
-* `servers`: mandatory, a JSON array of server definitions (see below)
-* `cacheName`: optional, the name of the cache used to store session data (defaults to `vertx-web.sessions`)
-* `retryTimeout`: optional, the retry timeout value in milli-seconds used by the session handler when it retrieves a value from the store (defaults to `5000`)
+* `servers`：强制/必填的，服务器定义的 JSON 数组（见下文）
+* `cacheName`：可选的，用于存储会话数据的缓存名称（默认为 `vertx-web.sessions`）
+* `retryTimeout`：可选的，会话处理程序从存储中检索值时所使用的重试超时时间（以毫秒为单位）（`5000`）
 
-The entries for a server definition are:
+用于服务器定义的条目是：
 
-* `uri` : optional, a https://infinispan.org/blog/2020/05/26/hotrod-uri/[Hot Rod URI]
-* `host`: optional (defaults to `localhost`)
-* `port`: optional (defaults to `11222`)
-* `clientIntelligence`: optional (one of `BASIC`, `TOPOLOGY_AWARE`, `HASH_DISTRIBUTION_AWARE`)
-* `username`: mandatory
-* `password`: mandatory
-* `realm`: optional (defaults to `default`)
-* `saslMechanism`: optional (defaults to `DIGEST-MD5`)
-* `saslQop`: optional (one of `AUTH`, `AUTH_INT`, `AUTH_CONF`)
+* `uri` ：可选的，一个 https://infinispan.org/blog/2020/05/26/hotrod-uri/[Hot Rod URI]
+* `host`：可选的（默认为 `localhost`）
+* `port`：可选的（默认为 `11222`）
+* `clientIntelligence`：可选的（以下值之一 `BASIC`，`TOPOLOGY_AWARE`，`HASH_DISTRIBUTION_AWARE`）
+* `username`：强制的
+* `password`：强制的
+* `realm`：可选的（默认为 `default`）
+* `saslMechanism`：可选的（默认为 `DIGEST-MD5`）
+* `saslQop`：可选的（以下值之一 `AUTH`，`AUTH_INT`，`AUTH_CONF`）
 
-IMPORTANT: If the `uri` entry is set, the others are ignored.
+IMPORTANT: 如果设置了 `uri` 条目，则其他条目将被忽略。
 
-=== Custom Infinispan Client
+[[_custom_infinispan_client]]
+=== 自定义 Infinispan 客户端
 
-For advanced configuration requirements, you can provide a custom https://docs.jboss.org/infinispan/12.1/apidocs/org/infinispan/client/hotrod/RemoteCacheManager.html[`RemoteCacheManager`]:
+对于高级配置要求，
+您可以提供自定义的 https://docs.jboss.org/infinispan/12.1/apidocs/org/infinispan/client/hotrod/RemoteCacheManager.html[`RemoteCacheManager`]：
 
 [source,java]
 ----
