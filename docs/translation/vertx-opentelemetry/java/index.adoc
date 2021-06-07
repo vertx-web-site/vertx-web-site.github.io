@@ -1,6 +1,6 @@
 = Vertx OpenTelemetry
 
-Vert.x integration with OpenTelemetry.
+Vert.x 与 OpenTelemetry 的集成。
 
 [source,java]
 ----
@@ -13,6 +13,8 @@ Vertx vertx = Vertx.vertx(new VertxOptions()
 
 You can also pass a custom `OpenTelemetry` allowing for greater control
 over the configuration.
+您还可以传递自定义的 `OpenTelemetry` ，
+以掌握在配置上更大的控制权。
 
 [source,java]
 ----
@@ -23,27 +25,30 @@ Vertx vertx = Vertx.vertx(new VertxOptions()
 );
 ----
 
-== Tracing policy
+[[_tracing_policy]]
+== 追踪政策
 
-The tracing policy defines the behavior of a component when tracing is enabled:
+当启用跟踪时，跟踪策略定义组件的行为：
 
-- `link:../../apidocs/io/vertx/core/tracing/TracingPolicy.html#PROPAGATE[PROPAGATE]`: the component reports a span in the active trace
-- `link:../../apidocs/io/vertx/core/tracing/TracingPolicy.html#ALWAYS[ALWAYS]`: the component reports a span in the active trace or creates a new active trace
-- `link:../../apidocs/io/vertx/core/tracing/TracingPolicy.html#IGNORE[IGNORE]`: the component will not be involved in any trace.
+- `link:../../apidocs/io/vertx/core/tracing/TracingPolicy.html#PROPAGATE[PROPAGATE]`：该组件报告活动跟踪中的跨度
+- `link:../../apidocs/io/vertx/core/tracing/TracingPolicy.html#ALWAYS[ALWAYS]`：该组件报告活动轨迹中的跨度或创建新的活动轨迹
+- `link:../../apidocs/io/vertx/core/tracing/TracingPolicy.html#IGNORE[IGNORE]`：该组件不会参与任何跟踪。
 
-The tracing policy is usually configured in the component options.
+跟踪策略通常在组件选项中配置。
 
-== HTTP tracing
+[[_http_tracing]]
+== HTTP 跟踪
 
-The Vert.x HTTP server and client reports span around HTTP requests:
+Vert.x HTTP 服务器和客户端报告涵盖了 HTTP 请求：
 
-- `name`: the HTTP method
-- tags
- - `http.method`: the HTTP method
- - `http.url`: the request URL
- - `http.status_code`: the HTTP status code (as `String`)
+- `name`：HTTP 方法
+- 标签
+ - `http.method`：HTTP 方法
+ - `http.url`：请求地址链接
+ - `http.status_code`：HTTP 状态代码（作为 `String字符串`）
 
-The default HTTP server tracing policy is `ALWAYS`, you can configure the policy with `link:../../apidocs/io/vertx/core/http/HttpServerOptions.html#setTracingPolicy-io.vertx.core.tracing.TracingPolicy-[setTracingPolicy]`
+默认的 HTTP 服务器跟踪策略是 `ALWAYS`，
+您可使用 `link:../../apidocs/io/vertx/core/http/HttpServerOptions.html#setTracingPolicy-io.vertx.core.tracing.TracingPolicy-[setTracingPolicy]` 配置策略
 
 [source,java]
 ----
@@ -52,7 +57,8 @@ HttpServer server = vertx.createHttpServer(new HttpServerOptions()
 );
 ----
 
-The default HTTP client tracing policy is `PROPAGATE`, you can configure the policy with `link:../../apidocs/io/vertx/core/http/HttpClientOptions.html#setTracingPolicy-io.vertx.core.tracing.TracingPolicy-[setTracingPolicy]`
+默认的 HTTP 客户端跟踪策略是 `PROPAGATE`，
+您可使用 `link:../../apidocs/io/vertx/core/http/HttpClientOptions.html#setTracingPolicy-io.vertx.core.tracing.TracingPolicy-[setTracingPolicy]` 配置策略
 
 [source,java]
 ----
@@ -61,11 +67,13 @@ HttpClient client = vertx.createHttpClient(new HttpClientOptions()
 );
 ----
 
-== EventBus tracing
+[[_eventbus_tracing]]
+== EventBus 追踪
 
-The Vert.x EventBus reports spans around message exchanges.
+Vert.x EventBus 报告涵盖了事件总线上交换和传递的消息。
 
-The default sending policy is `PROPAGATE`, you can configure the policy with `link:../../apidocs/io/vertx/core/eventbus/DeliveryOptions.html#setTracingPolicy-io.vertx.core.tracing.TracingPolicy-[setTracingPolicy]`.
+默认发送策略是 `PROPAGATE`，
+您可使用 `link:../../apidocs/io/vertx/core/eventbus/DeliveryOptions.html#setTracingPolicy-io.vertx.core.tracing.TracingPolicy-[setTracingPolicy]` 配置策略。
 
 [source,java]
 ----
