@@ -90,7 +90,7 @@
       </g>
       <g id="Graphic_10">
         <text transform="translate(1274.501 958.7391)" fill="black">
-          <tspan font-family="Roboto Condensed" font-size="14" font-weight="400" fill="black" x="0" y="13">短消息服务</tspan>
+          <tspan font-family="Roboto Condensed" font-size="14" font-weight="400" fill="black" x="0" y="13">运营商服务</tspan>
         </text>
       </g>
       <g id="Line_11">
@@ -109,7 +109,7 @@
       </g>
       <g id="Graphic_15">
         <text transform="translate(1074 1051)" fill="black">
-          <tspan font-family="Roboto Mono" font-size="14" font-weight="400" fill="black" x="0" y="13">发送（文本）</tspan>
+          <tspan font-family="Roboto Mono" font-size="14" font-weight="400" fill="black" x="0" y="13">发送（短信）</tspan>
         </text>
       </g>
       <g id="Graphic_16">
