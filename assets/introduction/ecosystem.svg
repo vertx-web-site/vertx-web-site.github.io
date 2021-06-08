@@ -95,12 +95,12 @@
       </g>
       <g id="Graphic_11">
         <text transform="translate(883.8272 294)" fill="#945200">
-          <tspan font-family="Roboto Condensed" font-size="16" font-weight="400" fill="#945200" x="0" y="15">Reactiverse</tspan>
+          <tspan font-family="Roboto Condensed" font-size="16" font-weight="400" fill="#945200" x="0" y="15">Reactiverse组织</tspan>
         </text>
       </g>
       <g id="Graphic_13">
         <text transform="translate(880.9976 242)" fill="#424242">
-          <tspan font-family="Roboto Condensed" font-size="16" font-weight="400" fill="#424242" x="0" y="15">Community</tspan>
+          <tspan font-family="Roboto Condensed" font-size="16" font-weight="400" fill="#424242" x="0" y="15">社区</tspan>
         </text>
       </g>
       <g id="Graphic_8">
@@ -109,23 +109,23 @@
       <g id="Graphic_9">
         <text transform="translate(877.3936 380.21857)" fill="#521b93">
           <tspan font-family="Roboto Condensed" font-size="16" font-weight="400" fill="#521b93" x="0" y="15">Eclipse Vert.x</tspan>
-          <tspan font-family="Roboto Condensed" font-size="16" font-weight="400" fill="#521b93" x="25.44922" y="34">Stack</tspan>
+          <tspan font-family="Roboto Condensed" font-size="16" font-weight="400" fill="#521b93" x="25.44922" y="34">栈</tspan>
         </text>
       </g>
       <g id="Graphic_14">
         <text transform="translate(200.18604 522)" fill="#521b93">
-          <tspan font-family="Roboto Condensed" font-size="14" font-weight="400" fill="#521b93" x="0" y="13">Reactive database clients</tspan>
+          <tspan font-family="Roboto Condensed" font-size="14" font-weight="400" fill="#521b93" x="0" y="13">响应式数据库客户端</tspan>
         </text>
       </g>
       <g id="Graphic_15">
         <text transform="translate(403.5 522)" fill="#521b93">
-          <tspan font-family="Roboto Condensed" font-size="14" font-weight="400" fill="#521b93" x="0" y="13">Messaging and</tspan>
-          <tspan font-family="Roboto Condensed" font-size="14" font-weight="400" fill="#521b93" x="1.4697266" y="29"> event streams</tspan>
+          <tspan font-family="Roboto Condensed" font-size="14" font-weight="400" fill="#521b93" x="0" y="13">消息以及</tspan>
+          <tspan font-family="Roboto Condensed" font-size="14" font-weight="400" fill="#521b93" x="1.4697266" y="29">事件流</tspan>
         </text>
       </g>
       <g id="Graphic_16">
         <text transform="translate(576.8091 522)" fill="#521b93">
-          <tspan font-family="Roboto Condensed" font-size="14" font-weight="400" fill="#521b93" x="0" y="13">Web APIs and clients</tspan>
+          <tspan font-family="Roboto Condensed" font-size="14" font-weight="400" fill="#521b93" x="0" y="13">Web APIs 以及客户端</tspan>
         </text>
       </g>
       <g id="Graphic_17">
@@ -134,8 +134,8 @@
       </g>
       <g id="Graphic_18">
         <text transform="translate(576.9834 673.4669)" fill="#521b93">
-          <tspan font-family="Roboto Condensed" font-size="14" font-weight="400" fill="#521b93" x="0" y="13">Micro-services and</tspan>
-          <tspan font-family="Roboto Condensed" font-size="14" font-weight="400" fill="#521b93" x="18.757812" y="29">cloud native</tspan>
+          <tspan font-family="Roboto Condensed" font-size="14" font-weight="400" fill="#521b93" x="0" y="13">微服务以及</tspan>
+          <tspan font-family="Roboto Condensed" font-size="14" font-weight="400" fill="#521b93" x="18.757812" y="29">云原生</tspan>
         </text>
       </g>
       <g id="Graphic_19">
@@ -144,13 +144,13 @@
       </g>
       <g id="Graphic_20">
         <text transform="translate(779.0103 673.4669)" fill="#521b93">
-          <tspan font-family="Roboto Condensed" font-size="14" font-weight="400" fill="#521b93" x="5.6259766" y="13">Security and</tspan>
-          <tspan font-family="Roboto Condensed" font-size="14" font-weight="400" fill="#521b93" x="0" y="29">authentication</tspan>
+          <tspan font-family="Roboto Condensed" font-size="14" font-weight="400" fill="#521b93" x="5.6259766" y="13">安全机制以及</tspan>
+          <tspan font-family="Roboto Condensed" font-size="14" font-weight="400" fill="#521b93" x="0" y="29">授权认证</tspan>
         </text>
       </g>
       <g id="Graphic_21">
         <text transform="translate(794.6509 522)" fill="#521b93">
-          <tspan font-family="Roboto Condensed" font-size="14" font-weight="400" fill="#521b93" x="0" y="13">Integration</tspan>
+          <tspan font-family="Roboto Condensed" font-size="14" font-weight="400" fill="#521b93" x="0" y="13">软件集成</tspan>
         </text>
       </g>
       <g id="Graphic_23">
@@ -171,7 +171,7 @@
       </g>
       <g id="Graphic_27">
         <text transform="translate(411.63135 673.4669)" fill="#521b93">
-          <tspan font-family="Roboto Condensed" font-size="14" font-weight="400" fill="#521b93" x="0" y="13">Clustering</tspan>
+          <tspan font-family="Roboto Condensed" font-size="14" font-weight="400" fill="#521b93" x="0" y="13">集群</tspan>
         </text>
       </g>
       <g id="Line_28">
@@ -194,7 +194,7 @@
       </g>
       <g id="Graphic_34">
         <text transform="translate(233.95312 587.0331)" fill="#521b93">
-          <tspan font-family="Roboto Condensed" font-size="64" font-weight="300" fill="#521b93" x="0" y="59">(…)</tspan>
+          <tspan font-family="Roboto Condensed" font-size="64" font-weight="300" fill="#521b93" x="0" y="59">（……）</tspan>
         </text>
       </g>
     </g>
