@@ -109,7 +109,7 @@
       <g id="Graphic_9">
         <text transform="translate(877.3936 380.21857)" fill="#521b93">
           <tspan font-family="Roboto Condensed" font-size="16" font-weight="400" fill="#521b93" x="0" y="15">Eclipse Vert.x</tspan>
-          <tspan font-family="Roboto Condensed" font-size="16" font-weight="400" fill="#521b93" x="25.44922" y="34">栈</tspan>
+          <tspan font-family="Roboto Condensed" font-size="16" font-weight="400" fill="#521b93" x="13" y="34">栈</tspan>
         </text>
       </g>
       <g id="Graphic_14">
@@ -120,7 +120,7 @@
       <g id="Graphic_15">
         <text transform="translate(403.5 522)" fill="#521b93">
           <tspan font-family="Roboto Condensed" font-size="14" font-weight="400" fill="#521b93" x="0" y="13">消息以及</tspan>
-          <tspan font-family="Roboto Condensed" font-size="14" font-weight="400" fill="#521b93" x="1.4697266" y="29">事件流</tspan>
+          <tspan font-family="Roboto Condensed" font-size="14" font-weight="400" fill="#521b93" x="0" y="29">事件流</tspan>
         </text>
       </g>
       <g id="Graphic_16">
@@ -135,7 +135,7 @@
       <g id="Graphic_18">
         <text transform="translate(576.9834 673.4669)" fill="#521b93">
           <tspan font-family="Roboto Condensed" font-size="14" font-weight="400" fill="#521b93" x="0" y="13">微服务以及</tspan>
-          <tspan font-family="Roboto Condensed" font-size="14" font-weight="400" fill="#521b93" x="18.757812" y="29">云原生</tspan>
+          <tspan font-family="Roboto Condensed" font-size="14" font-weight="400" fill="#521b93" x="0" y="29">云原生</tspan>
         </text>
       </g>
       <g id="Graphic_19">
@@ -144,7 +144,7 @@
       </g>
       <g id="Graphic_20">
         <text transform="translate(779.0103 673.4669)" fill="#521b93">
-          <tspan font-family="Roboto Condensed" font-size="14" font-weight="400" fill="#521b93" x="5.6259766" y="13">安全机制以及</tspan>
+          <tspan font-family="Roboto Condensed" font-size="14" font-weight="400" fill="#521b93" x="0" y="13">安全机制以及</tspan>
           <tspan font-family="Roboto Condensed" font-size="14" font-weight="400" fill="#521b93" x="0" y="29">授权认证</tspan>
         </text>
       </g>
