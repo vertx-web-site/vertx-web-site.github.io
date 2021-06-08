@@ -103,13 +103,13 @@
       </g>
       <g id="Graphic_21">
         <text transform="translate(379.97197 401)" fill="black">
-          <tspan font-family="Roboto Condensed" font-size="14" font-weight="400" fill="black" x="0" y="13">Threads</tspan>
+          <tspan font-family="Roboto Condensed" font-size="14" font-weight="400" fill="black" x="0" y="13">线程</tspan>
         </text>
       </g>
       <g id="Graphic_22">
         <text transform="translate(708.5759 333.5)" fill="#941100">
-          <tspan font-family="Roboto Condensed" font-size="14" font-weight="400" fill="#941100" x="17.623047" y="13">Blocking I/O</tspan>
-          <tspan font-family="Roboto Condensed" font-size="14" font-weight="400" fill="#941100" x="0" y="29">(wasted CPU time)</tspan>
+          <tspan font-family="Roboto Condensed" font-size="14" font-weight="400" fill="#941100" x="17.623047" y="13">阻塞的 I/O 操作</tspan>
+          <tspan font-family="Roboto Condensed" font-size="14" font-weight="400" fill="#941100" x="0" y="29">（浪费掉的 CPU 时间）</tspan>
         </text>
       </g>
       <g id="Line_23">
