@@ -107,7 +107,7 @@
         </text>
       </g>
       <g id="Graphic_22">
-        <text transform="translate(688.5759 333.5)" fill="#941100">
+        <text transform="translate(666.5759 333.5)" fill="#941100">
           <tspan font-family="Roboto Condensed" font-size="14" font-weight="400" fill="#941100" x="17.623047" y="13">阻塞的 I/O 操作</tspan>
           <tspan font-family="Roboto Condensed" font-size="14" font-weight="400" fill="#941100" x="0" y="29">（浪费掉的 CPU 时间）</tspan>
         </text>
