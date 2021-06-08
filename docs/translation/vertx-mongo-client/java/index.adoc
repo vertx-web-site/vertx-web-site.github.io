@@ -1,4 +1,4 @@
-= Vert.x MongoDB Client
+= Vert.x MongoDB 客户端
 
 您的 Vert.x 应用可使用 Vert.x MongoDB Client（以下简称客户端）与 MongoDB 互动，
 包括保存，获取，搜索和删除文档。MongoDB 是在 Vert.x 应用进行数据持久化时的最佳选择，
