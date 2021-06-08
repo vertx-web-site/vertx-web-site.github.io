@@ -15,7 +15,7 @@
 * 支持原生流式操作
 * 命令管道（pipeline）
 * RxJava 1 and RxJava 2
-* 使用直接内存存储对象，避免了不必要的复制
+* 支持内存直接映射到对象，避免了不必要的复制
 * 支持Java 8 Date and Time
 * SSL/TLS
 * Unix domain socket
