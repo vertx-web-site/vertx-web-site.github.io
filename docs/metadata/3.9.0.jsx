@@ -434,7 +434,7 @@ const entries = [
   // integration
   {
     id: "vertx-kafka-client",
-    name: "Kafka client",
+    name: "Kafka 客户端",
     description: "Apache Kafka 的客户端。",
     category: "integration",
     href: "/vertx-kafka-client/java/",
