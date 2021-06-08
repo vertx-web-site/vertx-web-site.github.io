@@ -1,4 +1,4 @@
-= Reactive DB2 客户端
+= 响应式 DB2 客户端
 :PREPARED_PARAMS: `?` ​
 
 响应式的DB2客户端具有直接简单的API，
