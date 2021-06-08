@@ -102,12 +102,12 @@
         <path d="M 402.3497 419.3031 L 402.6152 647.9632 M 402.79253 418.92804 L 403.0279 646.07084" marker-end="url(#FilledArrow_Marker)" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
       </g>
       <g id="Graphic_21">
-        <text transform="translate(379.97197 401)" fill="black">
+        <text transform="translate(385.97197 401)" fill="black">
           <tspan font-family="Roboto Condensed" font-size="14" font-weight="400" fill="black" x="0" y="13">线程</tspan>
         </text>
       </g>
       <g id="Graphic_22">
-        <text transform="translate(708.5759 333.5)" fill="#941100">
+        <text transform="translate(688.5759 333.5)" fill="#941100">
           <tspan font-family="Roboto Condensed" font-size="14" font-weight="400" fill="#941100" x="17.623047" y="13">阻塞的 I/O 操作</tspan>
           <tspan font-family="Roboto Condensed" font-size="14" font-weight="400" fill="#941100" x="0" y="29">（浪费掉的 CPU 时间）</tspan>
         </text>
