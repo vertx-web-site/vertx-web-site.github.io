@@ -13,7 +13,7 @@ insert(docs, "vertx-opentracing",
         href: "/vertx-opentelemetry/java/",
         repository: "https://github.com/eclipse-vertx/vertx-tracing/tree/master/vertx-opentelemetry",
         edit: "https://github.com/vertx-china/vertx-web-site/tree/master/docs/translation/vertx-opentelemetry/java",
-        label: "Technical Preview"
+        label: "技术预览"
     }
 )
 
@@ -26,7 +26,7 @@ insert(docs, "vertx-mail-client",
         href: "/vertx-http-proxy/java/",
         repository: "https://github.com/eclipse-vertx/vertx-http-proxy/tree/master",
         edit: "https://github.com/vertx-china/vertx-web-site/tree/master/docs/translation/vertx-http-proxy/java",
-        label: "Technical Preview"
+        label: "技术预览"
     }
 )
 
@@ -39,7 +39,7 @@ insert(docs, "vertx-sql-client-templates",
          href: "/vertx-mssql-client/java/",
          repository: "https://github.com/eclipse-vertx/vertx-sql-client",
          edit: "https://github.com/vertx-china/vertx-web-site/tree/master/docs/translation/vertx-mssql-client/java",
-         label: "Technical Preview"
+         label: "技术预览"
        }
  )
 
@@ -52,7 +52,7 @@ insert(docs, "vertx-rx-java2",
          href: "/vertx-rx/java3/",
          repository: "https://github.com/vert-x3/vertx-rx",
          edit: "https://github.com/vertx-china/vertx-web-site/tree/master/docs/translation/vertx-rx/java3",
-         label: "Technical Preview"
+         label: "技术预览"
        }
 )
 
@@ -65,7 +65,7 @@ insert(docs, "vertx-web-graphql",
          href: "/vertx-web-proxy/java/",
          repository: "https://github.com/vert-x3/vertx-web",
          edit: "https://github.com/vertx-china/vertx-web-site/tree/master/docs/translation/vertx-web-graphql/java",
-         label: "Technical Preview"
+         label: "技术预览"
        }
 )
 

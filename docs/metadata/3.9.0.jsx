@@ -133,7 +133,7 @@ const entries = [
     repository: "https://github.com/vert-x3/vertx-web",
     edit: "https://github.com/vert-x3/vertx-web/tree/master/vertx-web-api-service/src/main/asciidoc",
     examples: "https://github.com/vert-x3/vertx-examples/tree/3.x/web-api-service-example",
-    label: "Technical Preview"
+    label: "技术预览"
   },
   {
     id: "vertx-web-graphql",
@@ -144,7 +144,7 @@ const entries = [
     repository: "https://github.com/vert-x3/vertx-web",
     edit: "https://github.com/vert-x3/vertx-web/tree/master/vertx-web-graphql/src/main/asciidoc",
     examples: "https://github.com/vert-x3/vertx-examples/tree/3.x/web-graphql-examples",
-    label: "Technical Preview"
+    label: "技术预览"
   },
 
   // databases
@@ -157,7 +157,7 @@ const entries = [
     repository: "https://github.com/eclipse-vertx/vertx-sql-client",
     edit: "https://github.com/eclipse-vertx/vertx-sql-client/tree/master/vertx-pg-client/src/main/asciidoc",
     examples: "https://github.com/vert-x3/vertx-examples/tree/3.x/reactive-sql-client-examples",
-    label: "Technical Preview"
+    label: "技术预览"
   },
   {
     id: "vertx-mysql-client",
@@ -168,7 +168,7 @@ const entries = [
     repository: "https://github.com/eclipse-vertx/vertx-sql-client",
     edit: "https://github.com/eclipse-vertx/vertx-sql-client/tree/master/vertx-mysql-client/src/main/asciidoc",
     examples: "https://github.com/vert-x3/vertx-examples/tree/3.x/reactive-sql-client-examples",
-    label: "Technical Preview"
+    label: "技术预览"
   },
   {
     id: "vertx-mongo-client",
@@ -400,7 +400,7 @@ const entries = [
     href: "/vertx-amqp-client/java/",
     repository: "https://github.com/vert-x3/vertx-amqp-client",
     edit: "https://github.com/vert-x3/vertx-amqp-client/tree/master/src/main/asciidoc",
-    label: "Technical Preview"
+    label: "技术预览"
   },
   {
     id: "vertx-stomp",

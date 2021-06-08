@@ -14,7 +14,7 @@ insert(docs, "vertx-mongo-client",
       repository: "https://github.com/eclipse-vertx/vertx-sql-client",
       edit: "https://github.com/eclipse-vertx/vertx-sql-client/tree/master/vertx-db2-client/src/main/asciidoc",
       examples: "https://github.com/vert-x3/vertx-examples/tree/3.x/reactive-sql-client-examples",
-      label: "Technical Preview"
+      label: "技术预览"
   }
 )
 
