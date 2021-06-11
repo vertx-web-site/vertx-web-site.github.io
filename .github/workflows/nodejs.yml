@@ -51,6 +51,15 @@ jobs:
           GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VERTX_WEBSITE_BASEPATH: ${{ steps.basePath.outputs.basePath }}
 
+      # Remove files that have been used during build but that are not needed
+      # anymore for the remainder of the workflow. This is necessary to save
+      # disk space.
+      - name: Cleanup temporary files
+        run: |
+          rm -rf docs/extracted
+          rm -rf node_modules
+          rm -rf public/docs
+
       - name: Clone current GitHub Pages repo
         run: git clone --depth 1 https://github.com/vertx-web-site/vertx-web-site.github.io.git
 
