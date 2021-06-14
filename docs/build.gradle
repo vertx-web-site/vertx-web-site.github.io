@@ -30,6 +30,9 @@ ext {
     // latest GA release (must be the last entry)
     "4.1.0"
   ]
+
+  extractApidocsTargetDir = project.hasProperty("extractApidocsTargetDir") ?
+    project.getProperty("extractApidocsTargetDir") : "$projectDir/../public/docs"
 }
 
 repositories {
@@ -97,7 +100,7 @@ task extractApidocsLatest(type: Sync) {
   from {
     configurations.runtimeClasspath.collect { zipTree(it) }
   }
-  into "$projectDir/../public/docs"
+  into extractApidocsTargetDir
   include "**/apidocs/**"
   includeEmptyDirs false
   preserve {
@@ -109,8 +112,11 @@ task extractDocs {
   dependsOn extractDocsLatest
 }
 
+task extractApidocsVersions
+
 task extractApidocs {
   dependsOn extractApidocsLatest
+  dependsOn extractApidocsVersions
 }
 
 versions.take(versions.size()).each { version ->
@@ -132,20 +138,22 @@ versions.take(versions.size()).each { version ->
     from {
       conf.collect { zipTree(it) }
     }
-    into "$projectDir/../public/docs/${getVersionPath(version)}"
+    into "$extractApidocsTargetDir/${getVersionPath(version)}"
     include "**/apidocs/**"
     includeEmptyDirs false
   }
-  extractApidocs.dependsOn apidocsTask
+  extractApidocsVersions.dependsOn apidocsTask
   // do not delete our directory when extracting latest apidocs
   extractApidocsLatest.preserve.include(getVersionPath(version))
 }
 
 clean {
   delete "$projectDir/extracted"
-  delete "$projectDir/../public/docs/apidocs"
-  versions.take(versions.size()).each { version ->
-    delete "$projectDir/../public/docs/${getVersionPath(version)}"
+  delete "$extractApidocsTargetDir/apidocs"
+  doLast {
+    versions.take(versions.size()).each { version ->
+      delete "$extractApidocsTargetDir/${getVersionPath(version)}"
+    }
   }
 }
 

@@ -75,7 +75,10 @@ jobs:
       - run: |
           du -sh *
           df -h
-      - run: npm run update-docs
+      # Download and extract docs but only extract API docs of latest version.
+      # We will copy them to the target repository later. This saves disk
+      # space and time.
+      - run: npm run update-docs -- extractDocs extractApidocsLatest
       - run: |
           du -sh *
           df -h
@@ -135,6 +138,9 @@ jobs:
       - run: |
           du -sh *
           df -h
+
+      # Extract remaining API docs directly into output directory
+      - run: npm run update-docs -- -PextractApidocsTargetDir=$(pwd)/vertx-web-site.github.io/docs extractApidocsVersions
 
       - name: Deploy to GitHub Pages
         run: |
