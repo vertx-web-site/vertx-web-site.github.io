@@ -133,7 +133,7 @@ versions.take(versions.size()).each { version ->
   }
   extractDocs.dependsOn docsTask
 
-  def apidocsTask = tasks.create(name: "extractApidocs_${getVersionName(version).replace('.', '_')}", type: Sync) {
+  def apidocsTask = tasks.create(name: "extractApidocs_${getVersionName(version).replace('.', '_')}", type: Copy) {
     dependsOn conf
     from {
       conf.collect { zipTree(it) }
