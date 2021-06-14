@@ -117,11 +117,14 @@ jobs:
       - name: Copy build to output directory
         run: mv out/* vertx-web-site.github.io
 
-      # Extract remaining API docs directly into output directory
-      - run: npm run update-docs -- -PextractApidocsTargetDir=$(pwd)/vertx-web-site.github.io/docs extractApidocsVersions
+      - name: Extract remaining API docs
+        run: npm run update-docs -- -PextractApidocsTargetDir=$(pwd)/apidocs extractApidocsVersions
       - run: |
           du -sh *
           df -h / /mnt
+
+      - name: Move API docs to output directory
+        run: mv apidocs/* vertx-web-site.github.io/docs
 
       - name: Deploy to GitHub Pages
         run: |
