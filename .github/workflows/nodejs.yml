@@ -9,6 +9,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Delete unnecesary tools
+        run: |
+          df -h /
+          sudo rm -rf /usr/local/share/boost
+          sudo rm -rf $AGENT_TOOLSDIRECTORY
+          df -h /
+
       - run: |
           df -h
 
