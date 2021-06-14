@@ -92,16 +92,34 @@ jobs:
           du -sh *
           df -h
 
+      - name: Prepare deployment on GitHub Pages
+        run: |
+          mkdir -p ~/.ssh
+          echo "$DEPLOY_KEY" > ~/.ssh/github
+          cat >>~/.ssh/config <<EOL
+          Host github.com
+            HostName github.com
+            IdentityFile ~/.ssh/github
+            User git
+          EOL
+          chmod 700 ~/.ssh
+          chmod -R 600 ~/.ssh/*
+        env:
+          DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
+
       - name: Clone current GitHub Pages repo
-        run: git clone --depth 1 https://github.com/vertx-web-site/vertx-web-site.github.io.git
+        run: git clone --depth 1 --single-branch --branch disk-space git@github.com:vertx-web-site/vertx-web-site.github.io.git
       - run: |
           du -sh *
           df -h
 
       - name: Clean output directory
         run: |
-          rm -rf vertx-web-site.github.io/.git
-          rm vertx-web-site.github.io/.nojekyll
+          cd vertx-web-site.github.io
+          git rm -r -q --ignore-unmatch *
+          touch .nojekyll
+          echo vertx.io > CNAME
+          cd ..
       - run: |
           du -sh *
           df -h
@@ -113,13 +131,15 @@ jobs:
           df -h
 
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          deploy_key: ${{ secrets.DEPLOY_KEY }}
-          external_repository: vertx-web-site/vertx-web-site.github.io
-          publish_branch: disk-space
-          publish_dir: vertx-web-site.github.io
-          cname: vertx.io
+        run: |
+          cd vertx-web-site.github.io
+          git add -A
+          git config user.name "$GITHUB_ACTOR"
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+          git commit -q -m "deploy: $GITHUB_REPOSITORY@$GITHUB_SHA"
+          git push origin disk-space
+          cd ..
+
       - run: |
           du -sh *
           df -h
