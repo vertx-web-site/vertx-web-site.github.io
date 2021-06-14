@@ -141,17 +141,6 @@ versions.take(versions.size()).each { version ->
   extractApidocsLatest.preserve.include(getVersionPath(version))
 }
 
-task copyApidocs(type: Sync) {
-  dependsOn extractDocs
-  from "$projectDir/extracted"
-  into "$projectDir/../public/docs"
-  include "**/apidocs/**"
-  includeEmptyDirs false
-  preserve {
-    include ".gitkeep"
-  }
-}
-
 clean {
   delete "$projectDir/extracted"
   delete "$projectDir/../public/docs/apidocs"
