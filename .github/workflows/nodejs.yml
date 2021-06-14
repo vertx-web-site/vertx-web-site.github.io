@@ -2,7 +2,7 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ disk-space, preview ]
+    branches: [ disk-space ]
 
 jobs:
   build:
@@ -65,22 +65,6 @@ jobs:
           du -sh *
           df -h
 
-      - name: Get basePath from branch
-        id: basePath
-        run: |
-          REF=${REF#"refs/heads/"}
-          if [ $REF == 'disk-space' ]
-          then
-              echo "::set-output name=basePath::"
-          elif [ $REF == 'preview' ]
-          then
-              echo "::set-output name=basePath::_preview"
-          else
-              echo "::set-output name=basePath::_preview/$REF"
-          fi
-        env:
-          REF: ${{ github.ref }}
-
       - run: npm ci
       - run: |
           du -sh *
@@ -92,7 +76,6 @@ jobs:
       - run: npm run build
         env:
           GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          VERTX_WEBSITE_BASEPATH: ${{ steps.basePath.outputs.basePath }}
       - run: |
           du -sh *
           df -h
@@ -123,36 +106,8 @@ jobs:
           du -sh *
           df -h
 
-      - name: Clean preview directory
-        run: rm -rf vertx-web-site.github.io/${{ steps.basePath.outputs.basePath }}
-        if: ${{ github.ref != 'refs/heads/disk-space' }}
-      - run: |
-          du -sh *
-          df -h
-
-      - name: Copy build to preview directory
-        run: |
-          mkdir -p vertx-web-site.github.io/${{ steps.basePath.outputs.basePath }}
-          mv out/* vertx-web-site.github.io/${{ steps.basePath.outputs.basePath }}
-        if: ${{ github.ref != 'refs/heads/disk-space' }}
-      - run: |
-          du -sh *
-          df -h
-
-      - name: Clean output directory (except preview directory)
-        run: |
-          mkdir -p vertx-web-site.github.io.tmp
-          mv vertx-web-site.github.io/_preview vertx-web-site.github.io.tmp/_preview || true
-          rm -rf vertx-web-site.github.io
-          mv vertx-web-site.github.io.tmp vertx-web-site.github.io
-        if: ${{ github.ref == 'refs/heads/disk-space' }}
-      - run: |
-          du -sh *
-          df -h
-
       - name: Copy build to output directory
         run: mv out/* vertx-web-site.github.io
-        if: ${{ github.ref == 'refs/heads/disk-space' }}
       - run: |
           du -sh *
           df -h
