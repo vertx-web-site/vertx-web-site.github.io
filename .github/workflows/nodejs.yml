@@ -8,13 +8,24 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    env:
+      # put gradle user home on another volume so we have more space on /
+      GRADLE_USER_HOME: /mnt/gradle
+
     steps:
+      # Delete tools not needed for the build process
+      # This saves about 4GB of disk space
       - name: Delete unnecesary tools
         run: |
           df -h /
           sudo rm -rf /usr/local/share/boost
           sudo rm -rf $AGENT_TOOLSDIRECTORY
           df -h /
+
+      # Prepare gradle user home
+      - run: |
+          sudo mkdir $GRADLE_USER_HOME
+          sudo chmod uog+rwx $GRADLE_USER_HOME
 
       - run: |
           df -h
