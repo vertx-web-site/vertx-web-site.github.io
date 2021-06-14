@@ -88,24 +88,57 @@ task extractDocsLatest(type: Sync) {
     configurations.runtimeClasspath.collect { zipTree(it) }
   }
   into "$projectDir/extracted"
+  exclude "**/apidocs/**"
   configurations.runtimeClasspath.each { writeHash(it, "latest") }
+}
+
+task extractApidocsLatest(type: Sync) {
+  dependsOn configurations.runtimeClasspath
+  from {
+    configurations.runtimeClasspath.collect { zipTree(it) }
+  }
+  into "$projectDir/../public/docs"
+  include "**/apidocs/**"
+  includeEmptyDirs false
+  preserve {
+    include ".gitkeep"
+  }
 }
 
 task extractDocs {
   dependsOn extractDocsLatest
 }
 
+task extractApidocs {
+  dependsOn extractApidocsLatest
+}
+
 versions.take(versions.size()).each { version ->
   def conf = configurations[versionToConfiguration(version)]
-  def t = tasks.create(name: "extractDocs_${getVersionName(version).replace('.', '_')}", type: Sync) {
+
+  def docsTask = tasks.create(name: "extractDocs_${getVersionName(version).replace('.', '_')}", type: Sync) {
     dependsOn conf
     from {
       conf.collect { zipTree(it) }
     }
     into "$projectDir/extracted/${getVersionPath(version)}"
+    exclude "**/apidocs/**"
     conf.each { writeHash(it, version) }
   }
-  extractDocs.dependsOn t
+  extractDocs.dependsOn docsTask
+
+  def apidocsTask = tasks.create(name: "extractApidocs_${getVersionName(version).replace('.', '_')}", type: Sync) {
+    dependsOn conf
+    from {
+      conf.collect { zipTree(it) }
+    }
+    into "$projectDir/../public/docs/${getVersionPath(version)}"
+    include "**/apidocs/**"
+    includeEmptyDirs false
+  }
+  extractApidocs.dependsOn apidocsTask
+  // do not delete our directory when extracting latest apidocs
+  extractApidocsLatest.preserve.include(getVersionPath(version))
 }
 
 task copyApidocs(type: Sync) {
@@ -121,9 +154,10 @@ task copyApidocs(type: Sync) {
 
 clean {
   delete "$projectDir/extracted"
-  delete copyApidocs.outputs.files.findResults { it.listFiles() }
-    .flatten()
-    .findAll { it.name != ".gitkeep" }
+  delete "$projectDir/../public/docs/apidocs"
+  versions.take(versions.size()).each { version ->
+    delete "$projectDir/../public/docs/${getVersionPath(version)}"
+  }
 }
 
-defaultTasks 'extractDocs', 'copyApidocs'
+defaultTasks 'extractDocs', 'extractApidocs'
