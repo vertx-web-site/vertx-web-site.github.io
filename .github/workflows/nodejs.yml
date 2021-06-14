@@ -2,7 +2,7 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ disk-space ]
+    branches: [ master ]
 
 jobs:
   build:
@@ -27,38 +27,23 @@ jobs:
           sudo mkdir $GRADLE_USER_HOME
           sudo chmod uog+rwx $GRADLE_USER_HOME
 
-      - run: |
-          df -h
-
       - uses: actions/checkout@v2
 
-      # Remove more unnecessary tools
+      # Remove more unnecessary tools. We should have about 52GB of free disk space after this.
       # See https://github.com/apache/flink/blob/master/tools/azure-pipelines/free_disk_space.sh
       - name: Free up more disk space
         run: |
           .github/workflows/free_disk_space.sh
-
-      - run: |
-          du -sh *
-          df -h
 
       - name: Setup Node.js 12.x
         uses: actions/setup-node@v1
         with:
           node-version: 12.x
 
-      - run: |
-          du -sh *
-          df -h
-
       - name: Setup Java 11
         uses: actions/setup-java@v1
         with:
           java-version: "11"
-
-      - run: |
-          du -sh *
-          df -h
 
       - uses: actions/cache@v2
         with:
@@ -69,25 +54,24 @@ jobs:
 
       - run: |
           du -sh *
-          df -h
+          df -h / /mnt
 
       - run: npm ci
-      - run: |
-          du -sh *
-          df -h
+
       # Download and extract docs but only extract API docs of latest version.
       # We will copy them to the target repository later. This saves disk
       # space and time.
       - run: npm run update-docs -- extractDocs extractApidocsLatest
       - run: |
           du -sh *
-          df -h
+          df -h / /mnt
+
       - run: npm run build
         env:
           GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: |
           du -sh *
-          df -h
+          df -h / /mnt
 
       # Remove files that have been used during build but that are not needed
       # anymore for the remainder of the workflow. This is necessary to save
@@ -99,7 +83,7 @@ jobs:
           rm -rf public/docs
       - run: |
           du -sh *
-          df -h
+          df -h / /mnt
 
       - name: Prepare deployment on GitHub Pages
         run: |
@@ -117,10 +101,10 @@ jobs:
           DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
 
       - name: Clone current GitHub Pages repo
-        run: git clone --depth 1 --single-branch --branch disk-space git@github.com:vertx-web-site/vertx-web-site.github.io.git
+        run: git clone --depth 1 --single-branch --branch master git@github.com:vertx-web-site/vertx-web-site.github.io.git
       - run: |
           du -sh *
-          df -h
+          df -h / /mnt
 
       - name: Clean output directory
         run: |
@@ -129,18 +113,15 @@ jobs:
           touch .nojekyll
           echo vertx.io > CNAME
           cd ..
-      - run: |
-          du -sh *
-          df -h
 
       - name: Copy build to output directory
         run: mv out/* vertx-web-site.github.io
-      - run: |
-          du -sh *
-          df -h
 
       # Extract remaining API docs directly into output directory
       - run: npm run update-docs -- -PextractApidocsTargetDir=$(pwd)/vertx-web-site.github.io/docs extractApidocsVersions
+      - run: |
+          du -sh *
+          df -h / /mnt
 
       - name: Deploy to GitHub Pages
         run: |
@@ -149,9 +130,5 @@ jobs:
           git config user.name "$GITHUB_ACTOR"
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
           git commit -q -m "deploy: $GITHUB_REPOSITORY@$GITHUB_SHA"
-          git push origin disk-space
+          git push origin master
           cd ..
-
-      - run: |
-          du -sh *
-          df -h
