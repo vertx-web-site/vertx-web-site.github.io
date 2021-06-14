@@ -122,7 +122,8 @@ task extractApidocs {
 versions.take(versions.size()).each { version ->
   def conf = configurations[versionToConfiguration(version)]
 
-  def docsTask = tasks.create(name: "extractDocs_${getVersionName(version).replace('.', '_')}", type: Sync) {
+  // Use type: Copy instead of Sync so we don't overwrite files in the target directory
+  def docsTask = tasks.create(name: "extractDocs_${getVersionName(version).replace('.', '_')}", type: Copy) {
     dependsOn conf
     from {
       conf.collect { zipTree(it) }
@@ -133,6 +134,7 @@ versions.take(versions.size()).each { version ->
   }
   extractDocs.dependsOn docsTask
 
+  // Use type: Copy instead of Sync (see above)
   def apidocsTask = tasks.create(name: "extractApidocs_${getVersionName(version).replace('.', '_')}", type: Copy) {
     dependsOn conf
     from {
