@@ -1,3 +1,5 @@
+@use "sass:math";
+
 @import "../../css/variables";
 
 .blog-post {
@@ -26,12 +28,12 @@
 
       ul ul {
         padding-left: 1.3rem;
-        margin-top: $spacer / 2;
+        margin-top: math.div($spacer, 2);
         margin-bottom: $spacer;
       }
 
       li {
-        margin-bottom: $spacer / 2;
+        margin-bottom: math.div($spacer, 2);
       }
 
       img {
@@ -63,7 +65,7 @@
         font-style: italic;
 
         p {
-          padding: $spacer / 4 $spacer;
+          padding: math.div($spacer, 4) $spacer;
         }
       }
 
@@ -89,13 +91,13 @@
           width: 60px;
           height: 60px;
           border-radius: 30px;
-          margin-right: $spacer / 5 * 4;
+          margin-right: math.div($spacer, 5) * 4;
         }
 
         .blog-post-author-name {
           font-size: 1.2rem;
           line-height: 1.2;
-          margin-bottom: $spacer / 4;
+          margin-bottom: math.div($spacer, 4);
 
           a {
             font-weight: 400;
@@ -143,7 +145,7 @@
           }
 
           &:not(:last-child) {
-            margin-right: $spacer / 3 * 2;
+            margin-right: math.div($spacer, 3) * 2;
           }
         }
       }
