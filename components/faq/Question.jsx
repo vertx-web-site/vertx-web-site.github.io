@@ -1,7 +1,7 @@
 import classNames from "classnames"
 import { ChevronRight } from "react-feather"
 import { useState } from "react"
-import "./Question.scss"
+import styles from "./Question.scss?type=global"
 
 const Question = ({ question, children }) => {
   const [visible, setVisible] = useState()
@@ -16,6 +16,7 @@ const Question = ({ question, children }) => {
       <div className={classNames("faq-question-answer", { visible })}>
         {children}
       </div>
+      <style jsx>{styles}</style>
     </section>
   )
 }

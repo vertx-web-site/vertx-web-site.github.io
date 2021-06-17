@@ -1,6 +1,6 @@
 import classNames from "classnames"
 import { Children, cloneElement, useState } from "react"
-import "./CodeExamples.scss"
+import styles from "./CodeExamples.scss?type=global"
 
 const CodeExamples = ({ wide, children } ) => {
   let titles = Children.map(children, c => c.props.title)
@@ -20,6 +20,7 @@ const CodeExamples = ({ wide, children } ) => {
           active: active === child.props.title
         }))}
       </div>
+      <style jsx>{styles}</style>
     </div>
   )
 }

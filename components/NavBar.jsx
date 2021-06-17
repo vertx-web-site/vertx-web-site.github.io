@@ -4,7 +4,7 @@ import NavBarContext from "./contexts/NavBarContext"
 import VersionContext from "./contexts/VersionContext"
 import classNames from "classnames"
 import Link from "next/link"
-import "./NavBar.scss"
+import styles from "./NavBar.scss?type=global"
 import { ExternalLink } from "react-feather"
 import { useContext, useEffect, useRef, useState } from "react"
 import throttle from "lodash/throttle"
@@ -136,6 +136,7 @@ const NavBar = () => {
           </div>
         </div>
       </div>
+      <style jsx>{styles}</style>
     </div>
   )
 }

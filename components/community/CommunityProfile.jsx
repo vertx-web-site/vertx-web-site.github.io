@@ -1,5 +1,5 @@
 import classNames from "classnames"
-import "./CommunityProfile.scss"
+import styles from "./CommunityProfile.scss?type=global"
 import { Home, MapPin } from "react-feather"
 import { Github, Twitter } from "@icons-pack/react-simple-icons"
 
@@ -32,6 +32,7 @@ const CommunityProfile = ({ profile, size = "small" }) => {
           {profile.twitter && <a href={`https://twitter.com/${profile.twitter}`} target="_blank" rel="noopener noreferrer"><Twitter /></a>}
         </div>
       )}
+      <style jsx>{styles}</style>
     </div>
   )
 }

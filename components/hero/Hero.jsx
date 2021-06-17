@@ -1,6 +1,6 @@
 import Button from "../Button"
 import MainCodeExamples from "./MainCodeExamples"
-import "./Hero.scss"
+import styles from "./Hero.scss?type=global"
 import GitHubStars from "../GitHubStars"
 import { ArrowUpCircle, FastForward } from "react-feather"
 import Link from "next/link"
@@ -30,6 +30,7 @@ const Hero = ({ gitHubStarsFallbackValue }) => (
         <MainCodeExamples />
       </div>
     </div>
+    <style jsx>{styles}</style>
   </section>
 )
 

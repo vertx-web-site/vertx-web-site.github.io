@@ -8,7 +8,7 @@ import { versions as docsVersions, metadata as docsMetadata, latestRelease } fro
 import { filterLatestBugfixVersions } from "../../docs/metadata/helpers"
 import Link from "next/link"
 import { Book, ExternalLink } from "react-feather"
-import "./DocsIndex.scss"
+import styles from "./DocsIndex.scss?type=global"
 
 const Section = ({ icon, children, id, name }) => {
   let numChildren = 1
@@ -146,6 +146,7 @@ const Docs = ({ metadata, version }) => {
           ))}
         </div>
       </div>
+      <style jsx>{styles}</style>
     </Layout>
   )
 }

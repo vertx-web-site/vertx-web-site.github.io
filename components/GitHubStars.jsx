@@ -2,7 +2,7 @@ import Button from "./Button"
 import Head from "next/head"
 import { useEffect, useState } from "react"
 import { GitHub } from "react-feather"
-import "./GitHubStars.scss"
+import styles from "./GitHubStars.scss?type=global"
 
 const GitHubStars = ({ org, repo, fallbackValue, button }) => {
   const url = `https://api.github.com/repos/${org}/${repo}`
@@ -38,6 +38,7 @@ const GitHubStars = ({ org, repo, fallbackValue, button }) => {
           {button ? <Button>{content}</Button> : content}
         </a>
       </div>
+      <style jsx>{styles}</style>
     </>
   )
 }

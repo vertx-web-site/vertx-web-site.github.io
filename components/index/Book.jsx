@@ -1,4 +1,4 @@
-import "./Book.scss"
+import styles from "./Book.scss?type=global"
 import Button from "../Button"
 
 const URL = "https://www.manning.com/books/vertx-in-action"
@@ -55,6 +55,7 @@ const Book = () => (
         </div>
       </div>
     </div>
+    <style jsx>{styles}</style>
   </div>
 )
 

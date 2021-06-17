@@ -1,6 +1,6 @@
 import Page from "./Page"
 import BlogNavBar from "../blog/BlogNavBar"
-import "./Blog.scss"
+import styles from "./Blog.scss?type=global"
 
 const Blog = (props) => (
   <Page {...props}>
@@ -8,6 +8,7 @@ const Blog = (props) => (
       <BlogNavBar categories={props.categories} />
       {props.children}
     </div>
+    <style jsx>{styles}</style>
   </Page>
 )
 

@@ -1,6 +1,6 @@
 import classNames from "classnames"
 import { forwardRef, useEffect } from "react"
-import "./SearchResults.scss"
+import styles from "./SearchResults.scss?type=global"
 
 const SearchResults = forwardRef(({ results, activeId, onHover, onClick }, ref) => {
   let resultsList = []
@@ -41,6 +41,7 @@ const SearchResults = forwardRef(({ results, activeId, onHover, onClick }, ref) 
     <div className={classNames("search-results-none", { visible: results && results.length === 0 })}>
       No results.
     </div>
+    <style jsx>{styles}</style>
   </>)
 })
 

@@ -1,4 +1,4 @@
-import "./CommunitySection.scss"
+import styles from "./CommunitySection.scss?type=global"
 
 const CommunitySection = ({ title, children }) => {
   return (
@@ -7,6 +7,7 @@ const CommunitySection = ({ title, children }) => {
       <div className="community-section-main">
         {children}
       </div>
+      <style jsx>{styles}</style>
     </section>
   )
 }

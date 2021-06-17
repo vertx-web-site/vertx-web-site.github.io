@@ -1,6 +1,6 @@
 import Page from "./Page"
 import BlogNavBar from "../blog/BlogNavBar"
-import "./BlogPost.scss"
+import styles from "./BlogPost.scss?type=global"
 
 const BlogPost = (props) => (
   <Page hashSmoothScroll {...props}>
@@ -8,6 +8,7 @@ const BlogPost = (props) => (
       <BlogNavBar categories={props.categories} />
       {props.children}
     </div>
+    <style jsx>{styles}</style>
   </Page>
 )
 

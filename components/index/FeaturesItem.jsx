@@ -1,5 +1,5 @@
 import { cloneElement } from "react"
-import "./FeaturesItem.scss"
+import styles from "./FeaturesItem.scss?type=global"
 
 const FeaturesItem = ({ icon, title, children }) => {
   let newIcon = cloneElement(icon, {
@@ -11,6 +11,7 @@ const FeaturesItem = ({ icon, title, children }) => {
       <span className="features-item-icon">{newIcon}</span>
       <h5>{title}</h5>
       {children}
+      <style jsx>{styles}</style>
     </div>
   )
 }

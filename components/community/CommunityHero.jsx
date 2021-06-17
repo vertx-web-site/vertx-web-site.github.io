@@ -1,4 +1,4 @@
-import "./CommunityHero.scss"
+import styles from "./CommunityHero.scss?type=global"
 
 const CommunityHero = () => (
   <section className="community-hero">
@@ -37,6 +37,7 @@ const CommunityHero = () => (
         </svg>
       </div>
     </div>
+    <style jsx>{styles}</style>
   </section>
 )
 

@@ -1,5 +1,5 @@
 import classNames from "classnames"
-import "./DropDown.scss"
+import styles from "./DropDown.scss?type=global"
 import { ChevronDown } from "react-feather"
 import { Children, cloneElement, isValidElement, useEffect, useState } from "react"
 
@@ -39,6 +39,7 @@ const DropDown = (({ title, children, align = "left" }) => {
       <ul className={classNames("dropdown-menu", { visible, "align-right": align === "right" })}>
         {menuItems}
       </ul>
+      <style jsx>{styles}</style>
     </div>
   )
 })

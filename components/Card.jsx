@@ -1,5 +1,5 @@
 import Link from "next/link"
-import "./Card.scss"
+import styles from "./Card.scss?type=global"
 
 const Card = ({ href, title, icon, children }) => {
   let result = <div className="card-content"><h4>
@@ -15,7 +15,10 @@ const Card = ({ href, title, icon, children }) => {
     }
   }
 
-  return result
+  return (<>
+    {result}
+    <style jsx>{styles}</style>
+  </>)
 }
 
 export default Card

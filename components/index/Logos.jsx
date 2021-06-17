@@ -1,4 +1,4 @@
-import "./Logos.scss"
+import styles from "./Logos.scss?type=global"
 import Button from "../Button"
 import { Mail } from "react-feather"
 import shuffle from "lodash/shuffle"
@@ -157,6 +157,7 @@ const Logos = () => {
           <Mail className="feather" /> Contact us!
         </Button></a>
       </div>
+      <style jsx>{styles}</style>
     </div>
   )
 }

@@ -23,7 +23,7 @@
     "@mdx-js/loader": "^1.6.21",
     "@next/mdx": "^10.2.3",
     "@silvenon/remark-smartypants": "^1.0.0",
-    "@zeit/next-sass": "^1.0.1",
+    "@styled-jsx/plugin-sass": "^3.0.0",
     "asciidoctor": "^2.2.0",
     "asciidoctor-highlight.js": "^0.3.0",
     "body-scroll-lock": "^3.1.5",
@@ -59,8 +59,7 @@
     "super-react-gist": "^1.0.4",
     "unist-util-visit": "^2.0.3",
     "unist-util-visit-parents": "^3.1.1",
-    "webpack": "^4.42.0",
-    "webpack-filter-warnings-plugin": "^1.2.1"
+    "webpack": "^4.42.0"
   },
   "devDependencies": {
     "@octokit/rest": "^18.6.0",
