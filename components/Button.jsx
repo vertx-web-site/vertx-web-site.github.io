@@ -1,9 +1,9 @@
 import classNames from "classnames"
-import styles from "./Button.scss?type=global"
+import styles from "./Button.scss"
 
-const Button = ({ children, primary }) => (
+const Button = ({ icon, primary, children }) => (
   <div className={classNames("button", { primary })}>
-    {children}
+    {icon && <div className="icon">{icon}</div>} {children}
     <style jsx>{styles}</style>
   </div>
 )

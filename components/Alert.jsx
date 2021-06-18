@@ -1,5 +1,5 @@
 import classNames from "classnames"
-import styles from "./Alert.scss?type=global"
+import styles from "./Alert.scss"
 
 const Alert = ({ children, error, warning, info, title }) => (
   <div className={classNames("alert", { error, warning, info })}>

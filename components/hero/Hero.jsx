@@ -16,13 +16,13 @@ const Hero = ({ gitHubStarsFallbackValue }) => (
         </div>
         <div className="hero-buttons">
           <Link href="/get-started/">
-            <a><Button primary><FastForward className="feather" /> Get started with v{latestRelease.version}</Button></a>
+            <a><Button primary icon={<FastForward />}>Get started with v{latestRelease.version}</Button></a>
           </Link>
           <GitHubStars org="eclipse-vertx" repo="vert.x" button fallbackValue={gitHubStarsFallbackValue} />
         </div>
         <div className="hero-buttons hero-buttons-second">
           <Link href="/blog/from-vert-x-3-to-vert-x-4/">
-            <a><Button primary><ArrowUpCircle className="feather" /> Migrate from Vert.x 3</Button></a>
+            <a><Button primary icon={<ArrowUpCircle />}> Migrate from Vert.x 3</Button></a>
           </Link>
         </div>
       </div>
