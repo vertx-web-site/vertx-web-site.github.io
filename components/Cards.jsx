@@ -1,4 +1,4 @@
-import styles from "./Cards.scss?type=global"
+import styles from "./Cards.scss"
 import classNames from "classnames"
 
 const Cards = ({ columns = 1, children }) => {

@@ -1,13 +1,13 @@
 @import "../../css/variables";
 
 .guide {
-  h1 {
+  :global(h1) {
     text-align: center;
     margin-top: 8rem;
     margin-bottom: 3rem;
   }
 
-  h2 {
+  :global(h2) {
     border-top: 1px solid $gray-300;
     margin-top: 4rem;
     padding-top: 2rem;
@@ -15,11 +15,11 @@
     align-items: center;
   }
 
-  ul {
+  :global(ul) {
     padding-left: 1.1rem;
   }
 
-  img {
+  :global(img) {
     max-width: 100%;
     height: auto;
     margin: $spacer * 2 auto;

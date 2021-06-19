@@ -1,10 +1,11 @@
 import Card from "../components/Card"
 import Cards from "../components/Cards"
-import Layout from "../components/layouts/GetStarted"
+import Layout from "../components/layouts/Guide"
 import Link from "next/link"
 import CodeExample from "../components/CodeExample"
 import CodeExamples from "../components/CodeExamples"
 import { latestRelease } from "../docs/metadata/all"
+import styles from "./get-started.scss"
 
 export default Layout
 
@@ -287,3 +288,5 @@ Now that you have had a taste of how easy and fun it is to get started with Vert
     Check out the Vert.x How-tos to get pragmatic guides for specific topics
   </Card>
 </Cards>
+
+<style jsx>{styles}</style>

@@ -3,6 +3,7 @@
   "plugins": [
     "stylelint-scss"
   ],
+  "ignoreFiles": ["**/*.mdx"],
   "rules": {
     "at-rule-no-unknown": null,
     "no-invalid-position-at-import-rule": null,

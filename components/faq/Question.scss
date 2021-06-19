@@ -11,22 +11,22 @@
     cursor: pointer;
     color: $primary;
   }
+}
 
-  .faq-question-chevron {
-    width: $spacer * 2;
-    transition: transform 150ms ease-in-out;
+.faq-question-chevron {
+  width: $spacer * 2;
+  transition: transform 150ms ease-in-out;
 
-    &.visible {
-      transform: rotate(90deg);
-    }
+  &.visible {
+    transform: rotate(90deg);
   }
+}
 
-  .faq-question-answer {
-    display: none;
-    margin-left: $spacer * 2;
+.faq-question-answer {
+  display: none;
+  margin-left: $spacer * 2;
 
-    &.visible {
-      display: block;
-    }
+  &.visible {
+    display: block;
   }
 }
