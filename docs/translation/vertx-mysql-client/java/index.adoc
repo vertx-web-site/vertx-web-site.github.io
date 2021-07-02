@@ -11,7 +11,7 @@
 * 预处理查询缓存
 * 支持游标
 * 流式行处理
-* RxJava 1 和 RxJava 2
+* RxJava API
 * 支持内存直接映射到对象，避免了不必要的复制
 * 完整的数据类型支持
 * 支持存储过程
@@ -33,7 +33,7 @@
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-mysql-client</artifactId>
- <version>4.1.0</version>
+ <version>4.1.1</version>
 </dependency>
 ----
 * Gradle (在您的 `build.gradle` 文件中):
@@ -41,7 +41,7 @@
 [source,groovy]
 ----
 dependencies {
- compile 'io.vertx:vertx-mysql-client:4.1.0'
+ compile 'io.vertx:vertx-mysql-client:4.1.1'
 }
 ----
 
@@ -132,7 +132,7 @@ MySQLPool client = MySQLPool.pool(vertx, connectOptions, poolOptions);
 pool.close();
 ----
 
-当您需要在同一连接上执行多个操作时，您需要使用 
+当您需要在同一连接上执行多个操作时，您需要使用
 `link:../../apidocs/io/vertx/mysqlclient/MySQLConnection.html[connection]` 客户端 。
 
 您可以轻松地从连接池中获取一个：
@@ -761,7 +761,7 @@ client.query("SELECT * FROM users").collecting(collector).execute(ar -> {
   });
 ----
 
-集合类处理不能保留 `link:../../apidocs/io/vertx/sqlclient/Row.html[Row]` 
+集合类处理不能保留 `link:../../apidocs/io/vertx/sqlclient/Row.html[Row]`
 的引用，因为只有一个 Row 对象用于处理整个集合。
 
 Java `Collectors` 提供了许多有趣的预定义集合类，例如，
@@ -902,7 +902,7 @@ MySQLConnectOptions options2 = new MySQLConnectOptions()
 配置客户端使用SSL连接, 您可以像 Vert.x `NetClient` 一样配置
 `link:../../apidocs/io/vertx/mysqlclient/MySQLConnectOptions.html[MySQLConnectOptions]` 。
 响应式 MySQL 客户端 支持所有 https://dev.mysql.com/doc/refman/8.0/en/connection-options.html#option_general_ssl-mode[SSL 模式] ，而且您能够配置 `sslmode`. 客户端默认设置为 `DISABLED` SSL 模式。
- `ssl` 参数仅作为设置 `sslmode` 的快捷方式存在。`setSsl(true)` 等价于 `setSslMode(VERIFY_CA)` ， `setSsl(false)` 等价于 `setSslMode(DISABLED)`
+`ssl` 参数仅作为设置 `sslmode` 的快捷方式存在。`setSsl(true)` 等价于 `setSslMode(VERIFY_CA)` ， `setSsl(false)` 等价于 `setSslMode(DISABLED)`
 [source,java]
 ----
 MySQLConnectOptions options = new MySQLConnectOptions()
@@ -1115,3 +1115,7 @@ connection.setOption(MySQLSetOption.MYSQL_OPTION_MULTI_STATEMENTS_OFF, ar -> {
 
 * MySQL DATETIME 数据类型不包含时区信息，因此无论当前会话中的时区是什么，您获取的内容都与您设置的内容相同
 * MySQL TIMESTAMP 数据类型包含时区信息，因此当您设置或获取值时，服务器总是通过当前会话中设置的时区来转换该值。
+
+== Advanced pool configuration
+
+include::pool_config.adoc[]

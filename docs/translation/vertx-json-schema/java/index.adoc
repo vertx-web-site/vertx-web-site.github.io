@@ -25,7 +25,7 @@ Vert.x Json Schema组件提供了一个异步可扩展的 https://json-schema.or
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-json-schema</artifactId>
- <version>4.1.0</version>
+ <version>4.1.1</version>
 </dependency>
 ----
 
@@ -34,7 +34,7 @@ Vert.x Json Schema组件提供了一个异步可扩展的 https://json-schema.or
 [source,groovy,subs="+attributes"]
 ----
 dependencies {
- compile 'io.vertx:vertx-json-schema:4.1.0'
+ compile 'io.vertx:vertx-json-schema:4.1.1'
 }
 ----
 
@@ -204,7 +204,7 @@ Schema schema = parser.parse(mySchema);
 [[_asynchronous_keywords]]
 === 异步关键词
 
-同步校验器必须要实现 `link:../../apidocs/io/vertx/json/schema/common/AsyncValidator.html[AsyncValidator]` 接口。
+异步校验器必须要实现 `link:../../apidocs/io/vertx/json/schema/common/AsyncValidator.html[AsyncValidator]` 接口。
 在这个例子中，我添加了一个关键词，这个关键词从Vert.x Event bus中检索一个枚举值
 
 [source,java]

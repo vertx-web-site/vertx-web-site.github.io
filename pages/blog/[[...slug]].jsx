@@ -11,8 +11,8 @@ import Link from "next/link"
 import Label from "../../components/Label"
 import ScrollLink from "../../components/ScrollLink"
 import capitalize from "lodash/capitalize"
-import renderToString from "next-mdx-remote/render-to-string"
-import hydrate from "next-mdx-remote/hydrate"
+import { serialize } from "next-mdx-remote/serialize"
+import { MDXRemote } from "next-mdx-remote"
 import matter from "gray-matter"
 
 import { Clock } from "react-feather"
@@ -47,7 +47,7 @@ async function compileAllPosts() {
   const TermFrequency = require("../../components/lib/remark-term-frequency")
   const { slash } = require("../../components/lib/path-utils")
 
-  const cachePath = "./.cache/blog"
+  const cachePath = "./.cache/blog2"
 
   let files = (await readdir("blog")).filter(f => {
     let e = slash(f).match(/.\/([0-9]+-[0-9]+-[0-9]+)-(.*)\.mdx/)
@@ -93,8 +93,7 @@ async function compileAllPosts() {
       // render post
       let autoBasePath = new AutoBasePath(process.env.basePath)
       let tf = new TermFrequency()
-      post.content = await renderToString(content, {
-        components: COMPONENTS,
+      post.content = await serialize(content, {
         mdxOptions: {
           ...mdxOptions,
           remarkPlugins: [
@@ -409,7 +408,6 @@ const BlogPage = ({ post, prevPost, nextPost, relatedPosts, category, categories
     )
   }
 
-  let hydratedPost = hydrate(post.content, { components: COMPONENTS })
   let url = `${process.env.baseUrl}/blog/${post.slug}`
 
   return (
@@ -417,7 +415,7 @@ const BlogPage = ({ post, prevPost, nextPost, relatedPosts, category, categories
       <div className="blog-post-main">
         <div className="blog-post-content">
           <h1>{post.meta.title}</h1>
-          {hydratedPost}
+          <MDXRemote {...post.content} components={COMPONENTS} />
         </div>
 
         <div className="blog-post-sidebar">

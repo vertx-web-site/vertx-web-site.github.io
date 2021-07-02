@@ -29,7 +29,7 @@ Web Client使得发送 HTTP 请求以及从 Web 服务器接收 HTTP 响应变�
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-web-client</artifactId>
- <version>4.1.0</version>
+ <version>4.1.1</version>
 </dependency>
 ----
 
@@ -38,7 +38,7 @@ Web Client使得发送 HTTP 请求以及从 Web 服务器接收 HTTP 响应变�
 [source,groovy,subs="+attributes"]
 ----
 dependencies {
- compile 'io.vertx:vertx-web-client:4.1.0'
+ compile 'io.vertx:vertx-web-client:4.1.1'
 }
 ----
 
@@ -848,7 +848,7 @@ session.addHeader("my-jwt-token", jwtToken);
 然后headers将被添加到每个请求中； 注意 这些headers将发送给所有主机；如果你需要发送不同的headers到不同的主机， 您必须将它们手动添加到每个单个请求中，并且不添加到 `link:../../apidocs/io/vertx/ext/web/client/WebClientSession.html[WebClientSession]` 。
 
 ifeval::["java" == "java"]
-include::override/rxjava2.adoc[]
+include::override/rxjava3.adoc[]
 endif::[]
 
 [[_domain_sockets]]

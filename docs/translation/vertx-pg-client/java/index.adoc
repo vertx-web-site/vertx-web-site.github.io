@@ -14,7 +14,7 @@
 * 批处理和游标
 * 支持原生流式操作
 * 命令管道（pipeline）
-* RxJava 1 and RxJava 2
+* RxJava API
 * 支持内存直接映射到对象，避免了不必要的复制
 * 支持Java 8 Date and Time
 * SSL/TLS
@@ -33,7 +33,7 @@
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-pg-client</artifactId>
- <version>4.1.0</version>
+ <version>4.1.1</version>
 </dependency>
 ----
 * Gradle（在您的 `build.gradle` 文件里）：
@@ -41,7 +41,7 @@
 [source,groovy]
 ----
 dependencies {
- compile 'io.vertx:vertx-pg-client:4.1.0'
+ compile 'io.vertx:vertx-pg-client:4.1.1'
 }
 ----
 
@@ -478,6 +478,7 @@ include::tracing.adoc[]
 * CIRCLE (`io.vertx.pgclient.data.Circle`)
 * TSVECTOR (`java.lang.String`)
 * TSQUERY (`java.lang.String`)
+* INET (`io.vertx.pgclient.data.Inet`)
 
 Tuple（元组）在解码时使用上述类型映射关系存储解码出的值，并且在合法的条件下可以动态转换为实际类型的值：
 
@@ -979,6 +980,10 @@ PgConnection.connect(vertx, options, res -> {
 
 更多信息可以在这里找到 http://vertx.io/docs/vertx-core/java/#_using_a_proxy_for_client_connections[Vert.x documentation]。
 
+== Advanced pool configuration
+
+include::pool_config.adoc[]
+
 ifeval::["java" == "java"]
-include::override/rxjava2.adoc[]
+include::override/rxjava3.adoc[]
 endif::[]

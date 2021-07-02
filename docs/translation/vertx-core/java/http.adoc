@@ -885,6 +885,14 @@ response.sendFile("<html><head><script src=\"/main.js\"></script></head><body></
 连接传递给 `link:../../apidocs/io/vertx/core/http/HttpServer.html#requestHandler-io.vertx.core.Handler-[requestHandler]` 之前发生的异常，
 或者是传递给 `link:../../apidocs/io/vertx/core/http/HttpServer.html#webSocketHandler-io.vertx.core.Handler-[webSocketHandler]` 之前发生的异常，如TLS握手期间发生的异常。
 
+==== Handling invalid requests
+
+Vert.x will handle invalid HTTP requests and provides a default handler that will handle the common case
+appropriately, e.g. it does respond with `REQUEST_HEADER_FIELDS_TOO_LARGE` when a request header is too long.
+
+You can set your own `link:../../apidocs/io/vertx/core/http/HttpServer.html#invalidRequestHandler-io.vertx.core.Handler-[invalidRequestHandler]` to process
+invalid requests. Your implementation can handle specific cases and delegate other cases to to `link:../../apidocs/io/vertx/core/http/HttpServerRequest.html#DEFAULT_INVALID_REQUEST_HANDLER[HttpServerRequest.DEFAULT_INVALID_REQUEST_HANDLER]`.
+
 [[_http_compression]]
 ===  HTTP 压缩
 

@@ -39,7 +39,7 @@ vert.x的服务发现通过桥接方式 支持对其他服务发现技术的导�
 <dependency>
 <groupId>io.vertx</groupId>
 <artifactId>vertx-service-discovery</artifactId>
-<version>4.1.0</version>
+<version>4.1.1</version>
 </dependency>
 ----
 
@@ -47,7 +47,7 @@ vert.x的服务发现通过桥接方式 支持对其他服务发现技术的导�
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-service-discovery:4.1.0'
+compile 'io.vertx:vertx-service-discovery:4.1.1'
 ----
 
 [[_overall_concepts]]
@@ -968,10 +968,6 @@ MongoDataSource.<JsonObject>getMongoClient(discovery,
 调用 `link:../../apidocs/io/vertx/servicediscovery/spi/ServiceImporter.html#close-io.vertx.core.Handler-[close]` 函数会清除资源，移除已经导入/导出的服务。这个函数必须设置返回的 `link:../../apidocs/io/vertx/core/Future.html[Future]` 对象为 `completed` 状态,目的在于提醒调用者处理完成事件。
 
 注意：在集群当中，只需要注册服务记录当中一个成员的桥接器即可，因为所有的服务记录都是互通的。
-
-ifeval::["java" == "java"]
-include::override/rxjava2.adoc[]
-endif::[]
 
 [[_additional_bridges]]
 == 其他的桥接器支持

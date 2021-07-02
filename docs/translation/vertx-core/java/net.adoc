@@ -939,8 +939,12 @@ NetClient client = vertx.createNetClient(options);
 [[_configuring_the_cipher_suite]]
 ==== 配置密码套件
 
-默认情况下，TLS配置将使用运行Vert.x的JVM 密码套件，该密码套件可以
-配置一套启用的密码：
+By default, the TLS configuration will use the list of Cipher suites of the SSL engine:
+
+- JDK SSL engine when `link:../../apidocs/io/vertx/core/net/JdkSSLEngineOptions.html[JdkSSLEngineOptions]` is used
+- OpenSSL engine when `link:../../apidocs/io/vertx/core/net/OpenSSLEngineOptions.html[OpenSSLEngineOptions]` is used
+
+This Cipher suite can be configured with a suite of enabled ciphers:
 
 [source,java]
 ----
@@ -953,6 +957,8 @@ NetServerOptions options = new NetServerOptions().
   addEnabledCipherSuite("CDHE-ECDSA-AES256-GCM-SHA384");
 NetServer server = vertx.createNetServer(options);
 ----
+
+When the enabled cipher suites is defined (i.e not empty), it takes precedence over the default cipher suites of the SSL engine.
 
 密码套件可在 `link:../../apidocs/io/vertx/core/net/NetServerOptions.html[NetServerOptions]` 或 `link:../../apidocs/io/vertx/core/net/NetClientOptions.html[NetClientOptions]` 配置项中指定。
 

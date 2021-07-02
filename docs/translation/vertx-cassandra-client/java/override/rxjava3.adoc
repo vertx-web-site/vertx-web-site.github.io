@@ -1,11 +1,11 @@
-== RxJava 2 API
+== RxJava 3 API
 
 Cassandra 客户端为原来的API提供了一个Rx版本。
 
 [[_creating_an_rxfied_client]]
 === 创建Rx版客户端
 
-想要创建Rx版 Cassandra 客户端，您需要引入 `link:../../apidocs/io/vertx/reactivex/cassandra/CassandraClient.html[CassandraClient]` 类。
+想要创建Rx版 Cassandra 客户端，您需要引入 `link:../../apidocs/io/vertx/rxjava3/cassandra/CassandraClient.html[CassandraClient]` 类。
 然后用 `create` 方法获取一个实例：
 
 [source,java]
@@ -24,7 +24,7 @@ CassandraClient cassandraClient = CassandraClient.createShared(vertx, options);
 
 ==== Streaming
 
-一个 `link:../../apidocs/io/vertx/reactivex/cassandra/CassandraRowStream.html[CassandraRowStream]` 可以转换成 `link:../../apidocs/io/reactivex/Flowable.html[Flowable]` ，这样会方便您处理大容量数据集合:
+一个 `link:../../apidocs/io/vertx/rxjava3/cassandra/CassandraRowStream.html[CassandraRowStream]` 可以转换成 `link:../../apidocs/io/reactivex/rxjava3/core/Flowable.html[Flowable]` ，这样会方便您处理大容量数据集合:
 
 [source,java]
 ----

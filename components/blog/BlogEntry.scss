@@ -1,3 +1,5 @@
+@use "sass:math";
+
 @import "../../css/variables";
 
 .blog-entry {
@@ -15,7 +17,7 @@
   h3 {
     font-size: 1.5rem;
     line-height: 1.4;
-    margin-top: $spacer / 2;
+    margin-top: math.div($spacer, 2);
     margin-bottom: $spacer;
 
     a:hover {
@@ -27,7 +29,7 @@
     font-size: $font-size-small;
     text-transform: uppercase;
     white-space: nowrap;
-    margin-right: $spacer / 3 * 2;
+    margin-right: math.div($spacer, 3) * 2;
   }
 
   .blog-entry-category {
@@ -51,7 +53,7 @@
           margin-right: $spacer;
 
           &.avatars-only {
-            margin-right: $spacer / 4;
+            margin-right: math.div($spacer, 4);
           }
         }
 
@@ -59,7 +61,7 @@
           width: 24px;
           height: 24px;
           border-radius: 12px;
-          margin-right: $spacer / 3;
+          margin-right: math.div($spacer, 3);
         }
       }
     }

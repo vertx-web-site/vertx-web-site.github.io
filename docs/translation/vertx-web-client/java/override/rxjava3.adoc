@@ -1,8 +1,8 @@
-[[_rxjava_2_api]]
-== RxJava 2 API
+[[_rxjava_3_api]]
+== RxJava 3 API
 
-RxJava `link:../../apidocs/io/vertx/reactivex/ext/web/client/HttpRequest.html[HttpRequest]` 提供了RX化的原始版本API，
-`link:../../apidocs/io/vertx/reactivex/ext/web/client/HttpRequest.html#rxSend--[rxSend]` 方法返回一个能够订阅到HTTP请求的 `Single<HttpResponse<Buffer>>` ，因此，`Single` 能被订阅多次。
+RxJava `link:../../apidocs/io/vertx/rxjava3/ext/web/client/HttpRequest.html[HttpRequest]` 提供了RX化的原始版本API，
+`link:../../apidocs/io/vertx/rxjava3/ext/web/client/HttpRequest.html#rxSend--[rxSend]` 方法返回一个能够订阅到HTTP请求的 `Single<HttpResponse<Buffer>>` ，因此，`Single` 能被订阅多次。
 
 [source,java]
 ----
@@ -48,7 +48,8 @@ single.subscribe(resp -> {
 });
 ----
 
-`link:../../apidocs/io/vertx/reactivex/ext/web/client/HttpRequest.html#sendStream-io.reactivex.Flowable-io.vertx.core.Handler-[sendStream]` 应首选发送 `Flowable<Buffer>` body。
+`link:../../apidocs/io/vertx/rxjava3/ext/web/client/HttpRequest.html#rxSendStream-io.reactivex.rxjava3.core.Flowable-[rxSendStream]`
+应首选发送 `Flowable<Buffer>` body。
 
 [source,java]
 ----

@@ -12,7 +12,7 @@ Vert.x 客户端可以访问 http://cassandra.apache.org/[Apache Cassandra] 服�
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-cassandra-client</artifactId>
- <version>4.1.0</version>
+ <version>4.1.1</version>
 </dependency>
 ----
 
@@ -20,12 +20,8 @@ Vert.x 客户端可以访问 http://cassandra.apache.org/[Apache Cassandra] 服�
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-cassandra-client:4.1.0'
+compile 'io.vertx:vertx-cassandra-client:4.1.1'
 ----
-
-WARNING: Cassandra客户端与Vert.x Dropwizard Metrics库不兼容。
-他们都在使用 Dropwizard Metrics库的不同主版本并且 Datastax Java driver https://github.com/datastax/java-driver/pull/943[将不会升级]到最新版本，因为它舍弃了对java7的兼容性。
-下一个driver的主版本（4.x）将会使用一个较新的 Dropwizard Metrics 版本。
 
 [[_creating_a_client]]
 == 创建客户端
@@ -279,5 +275,5 @@ cassandraClient.execute(batchStatement, result -> {
 ----
 
 ifeval::["java" == "java"]
-include::override/rxjava2.adoc[]
+include::override/rxjava3.adoc[]
 endif::[]

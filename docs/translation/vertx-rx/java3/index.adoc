@@ -21,7 +21,7 @@ Vert.x 与 RxJava 集成起来很自然：它使得无论什么时候，只要�
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-rx-java3</artifactId>
- <version>4.1.0</version>
+ <version>4.1.1</version>
 </dependency>
 ----
 
@@ -29,7 +29,7 @@ Vert.x 与 RxJava 集成起来很自然：它使得无论什么时候，只要�
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-rx-java3:4.1.0'
+compile 'io.vertx:vertx-rx-java3:4.1.1'
 ----
 
 有两种方式在 Vert.x 使用RxJava 3 的 API：
@@ -68,7 +68,7 @@ fileSystem.open("/data.txt", new OpenOptions(), result -> {
 [source,java]
 ----
 FileSystem fs = vertx.fileSystem();
-fs.open("/data.txt", new OpenOptions())
+fs.rxOpen("/data.txt", new OpenOptions())
   .flatMapPublisher(file -> file.toFlowable())
   .subscribe(data -> System.out.println("Read data: " + data.toString("UTF-8")));
 ----
@@ -373,7 +373,7 @@ Observable<Long> timer = Observable.interval(100, 100, TimeUnit.MILLISECONDS, sc
 [[_json_unmarshalling]]
 === JSON解码
 
-`link:../../apidocs/io/vertx/rxjava3/FlowableHelper.html#unmarshaller-java.lang.Class-[FlowableHelper.unmarshaller]` 方法创建了一个 `io.reactivex.rxjava2.FlowableOperator` 对象，
+`link:../../apidocs/io/vertx/rxjava3/FlowableHelper.html#unmarshaller-java.lang.Class-[FlowableHelper.unmarshaller]` 方法创建了一个 `io.reactivex.rxjava3.FlowableOperator` 对象，
 它可以将json格式的 `Flowable<Buffer>` 转换为对象的 flowable
 
 [source,java]
@@ -513,7 +513,7 @@ vertx.setTimer(10000, id -> {
 ----
 
 `link:../../apidocs/io/vertx/rxjava3/core/eventbus/MessageConsumer.html[MessageConsumer]` 提供了一个 `link:../../apidocs/io/vertx/rxjava3/core/eventbus/Message.html[Message]` 的流.
- 如果有需要，可以通过 `link:../../apidocs/io/vertx/rxjava3/core/eventbus/Message.html#body--[body]` 方法获取信息体组成的流
+如果有需要，可以通过 `link:../../apidocs/io/vertx/rxjava3/core/eventbus/Message.html#body--[body]` 方法获取信息体组成的流
 
 [source,java]
 ----

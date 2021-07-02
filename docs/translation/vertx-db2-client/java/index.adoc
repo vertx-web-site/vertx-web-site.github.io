@@ -16,7 +16,7 @@
 * 预处理查询（Prepared query）缓存
 * 批处理及游标支持
 * 流式行处理
-* RxJava 1 与 RxJava 2 支持
+* RxJava API 支持
 * 支持内存直接映射到对象，避免了不必要的复制
 * 支持Java 8的日期和时间类型
 * 支持 SSL/TLS
@@ -39,7 +39,7 @@
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-db2-client</artifactId>
- <version>4.1.0</version>
+ <version>4.1.1</version>
 </dependency>
 ----
 * Gradle (在您的 `build.gradle` 文件中):
@@ -47,7 +47,7 @@
 [source,groovy]
 ----
 dependencies {
- compile 'io.vertx:vertx-db2-client:4.1.0'
+ compile 'io.vertx:vertx-db2-client:4.1.1'
 }
 ----
 
@@ -504,6 +504,10 @@ DB2Connection.connect(vertx, options, res -> {
 
 更多详细信息，请参阅 http://vertx.io/docs/vertx-core/java/#_using_a_proxy_for_client_connections[Vert.x 文档]。
 
+== Advanced pool configuration
+
+include::pool_config.adoc[]
+
 ifeval::["java" == "java"]
-include::override/rxjava2.adoc[]
+include::override/rxjava3.adoc[]
 endif::[]

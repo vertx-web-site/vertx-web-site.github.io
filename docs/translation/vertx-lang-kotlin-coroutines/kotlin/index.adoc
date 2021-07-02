@@ -11,9 +11,9 @@ Vert.x 不同于许多经典应用平台的一个关键优势是它几乎是完�
 这允许基于 Vert.x 的应用程序使用极小数量的内核线程处理极高的并发（比如许多连接和消息），
 这为强大的扩容能力扫除了障碍。
 
-非阻塞的特性促生了异步的API，异步API存在很多种变种形式，比如 callbacks, promises, fibers 和 reactive 扩展。在核心API中，Vert.x
-使用了callback风格，但它也支持其他模型比如
-RxJava 1 和 2。
+非阻塞的特性促生了异步的API，异步API存在很多种变种形式，
+比如 callbacks, promises, fibers 和 reactive 扩展。在核心API中，Vert.x使用了callback风格，
+但它也支持其他模型比如 RxJava。
 
 在一些情况下，使用异步 API 编程要比使用经典的/顺序风格更加富有挑战性，
 特别是当几个操作需要以顺序的形式完成时。

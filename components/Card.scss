@@ -1,3 +1,5 @@
+@use "sass:math";
+
 @import "../css/variables";
 
 .card-content {
@@ -17,7 +19,7 @@
       height: $spacer * 2;
       width: $spacer * 2;
       margin-bottom: 4px;
-      margin-right: $spacer / 2;
+      margin-right: math.div($spacer, 2);
     }
   }
 }

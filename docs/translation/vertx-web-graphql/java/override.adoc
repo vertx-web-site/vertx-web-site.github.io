@@ -1,26 +1,26 @@
-== RxJava 2 API
+== RxJava 3 API
 
 [[_setting_up_with_an_rxified_router]]
 === 配置 Rxified 路由
 
-若需要在 Rxified `link:../../apidocs/io/vertx/reactivex/ext/web/Route.html[路由]` 中处理 GraphQL 请求，则请确保已导入了 `link:../../apidocs/io/vertx/reactivex/ext/web/handler/graphql/GraphQLHandler.html[GraphQLHandler]` 类。
+若需要在 Rxified `link:../../apidocs/io/vertx/rxjava3/ext/web/Route.html[路由]` 中处理 GraphQL 请求，则请确保已导入了 `link:../../apidocs/io/vertx/rxjava3/ext/web/handler/graphql/GraphQLHandler.html[GraphQLHandler]` 类。
 
 [[_working_with_vert_x_rxified_apis]]
 === 使用 Vert.x 的 Rxified API
 
 GraphQL-Java 期望 DataFetcher 和批量加载器使用 `CompletionStage` 提供异步结果。
 
-但是若您使用 Vert.x Rxified API （如 https://vertx.io/docs/vertx-web-client/java/#_rxjava_2_api[Web 客户端] 或 https://vertx.io/docs/vertx-cassandra-client/java/#_rxjava_2_api[Cassandra 客户端]），则需要适配 `Single` 和 `Maybe` 对象。
+但是若您使用 Vert.x Rxified API （如 https://vertx.io/docs/vertx-web-client/java/#_rxjava_3_api[Web 客户端] 或 https://vertx.io/docs/vertx-cassandra-client/java/#_rxjava_3_api[Cassandra 客户端]），则需要适配 `Single` 和 `Maybe` 对象。
 
-`RxJava2Jdk8Interop` 库提供了这些适配工具。
+`RxJavaJdk8Interop` 库提供了这些适配工具。
 您可以在 Maven 构建配置文件的 _dependencies_ 部分中增加以下依赖：
 
 [source,xml,subs="+attributes"]
 ----
 <dependency>
  <groupId>com.github.akarnokd</groupId>
- <artifactId>rxjava2-jdk8-interop</artifactId>
- <version>0.3.5</version>
+ <artifactId>rxjava3-jdk8-interop</artifactId>
+ <version>3.0.0-RC6</version>
 </dependency>
 ----
 
@@ -28,7 +28,7 @@ GraphQL-Java 期望 DataFetcher 和批量加载器使用 `CompletionStage` 提�
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'com.github.akarnokd:rxjava2-jdk8-interop:0.3.5'
+implementation 'com.github.akarnokd:rxjava3-jdk8-interop:3.0.0-RC6'
 ----
 
 然后可以从 `Single` 结果中创建 DataFetcher ：

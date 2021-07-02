@@ -2,14 +2,38 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ master, preview ]
+    branches: [ master ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
+    env:
+      # put gradle user home on another volume so we have more space on /
+      GRADLE_USER_HOME: /mnt/gradle
+
     steps:
+      # Delete tools not needed for the build process
+      # This saves about 4GB of disk space
+      - name: Delete unnecesary tools
+        run: |
+          df -h /
+          sudo rm -rf /usr/local/share/boost
+          sudo rm -rf $AGENT_TOOLSDIRECTORY
+          df -h /
+
+      # Prepare gradle user home
+      - run: |
+          sudo mkdir $GRADLE_USER_HOME
+          sudo chmod uog+rwx $GRADLE_USER_HOME
+
       - uses: actions/checkout@v2
+
+      # Remove more unnecessary tools. We should have about 52GB of free disk space after this.
+      # See https://github.com/apache/flink/blob/master/tools/azure-pipelines/free_disk_space.sh
+      - name: Free up more disk space
+        run: |
+          .github/workflows/free_disk_space.sh
 
       - name: Setup Node.js 12.x
         uses: actions/setup-node@v1
@@ -28,68 +52,86 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-build-
 
-      - name: Get basePath from branch
-        id: basePath
-        run: |
-          REF=${REF#"refs/heads/"}
-          if [ $REF == 'master' ]
-          then
-              echo "::set-output name=basePath::"
-          elif [ $REF == 'preview' ]
-          then
-              echo "::set-output name=basePath::_preview"
-          else
-              echo "::set-output name=basePath::_preview/$REF"
-          fi
-        env:
-          REF: ${{ github.ref }}
+      - run: |
+          du -sh *
+          df -h / /mnt
 
       - run: npm ci
-      - run: npm run update-docs
+
+      # Download and extract docs but only extract API docs of latest version.
+      # We will copy them to the target repository later. This saves disk
+      # space and time.
+      - run: npm run update-docs -- extractDocs extractApidocsLatest
+      - run: |
+          du -sh *
+          df -h / /mnt
+
       - run: npm run build
         env:
           GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          CONTRIBUTE_FETCH_TOKEN: ${{ secrets.CONTRIBUTE_FETCH_TOKEN }}
-          VERTX_WEBSITE_BASEPATH: ${{ steps.basePath.outputs.basePath }}
+      - run: |
+          du -sh *
+          df -h / /mnt
+
+      # Remove files that have been used during build but that are not needed
+      # anymore for the remainder of the workflow. This is necessary to save
+      # disk space.
+      - name: Cleanup temporary files
+        run: |
+          rm -rf docs/extracted
+          rm -rf node_modules
+          rm -rf public/docs
+      - run: |
+          du -sh *
+          df -h / /mnt
+
+      - name: Prepare deployment on GitHub Pages
+        run: |
+          mkdir -p ~/.ssh
+          echo "$DEPLOY_KEY" > ~/.ssh/github
+          cat >>~/.ssh/config <<EOL
+          Host github.com
+            HostName github.com
+            IdentityFile ~/.ssh/github
+            User git
+          EOL
+          chmod 700 ~/.ssh
+          chmod -R 600 ~/.ssh/*
+        env:
+          DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
 
       - name: Clone current GitHub Pages repo
-        run: git clone --depth 1 https://github.com/vertx-china/vertx-china.github.io.git
+        run: git clone --depth 1 --single-branch --branch master git@github.com:vertx-china/vertx-china.github.io.git
+      - run: |
+          du -sh *
+          df -h / /mnt
 
       - name: Clean output directory
         run: |
-          rm -rf vertx-china.github.io/.git
-          rm vertx-china.github.io/.nojekyll
-
-      - name: Clean preview directory
-        run: rm -rf vertx-china.github.io/${{ steps.basePath.outputs.basePath }}
-        if: ${{ github.ref != 'refs/heads/master' }}
-
-      - name: Copy build to preview directory
-        run: |
-          mkdir -p vertx-china.github.io/${{ steps.basePath.outputs.basePath }}
-          mv out/* vertx-china.github.io/${{ steps.basePath.outputs.basePath }}
-        if: ${{ github.ref != 'refs/heads/master' }}
-
-      - name: Clean output directory (except preview directory)
-        run: |
-          mkdir -p vertx-china.github.io.tmp
-          mv vertx-china.github.io/_preview vertx-china.github.io.tmp/_preview || true
-          rm -rf vertx-china.github.io
-          mv vertx-china.github.io.tmp vertx-china.github.io
-        if: ${{ github.ref == 'refs/heads/master' }}
+          cd vertx-china.github.io
+          git rm -r -q --ignore-unmatch *
+          touch .nojekyll
+          echo vertx.io > CNAME
+          cd ..
 
       - name: Copy build to output directory
         run: mv out/* vertx-china.github.io
-        if: ${{ github.ref == 'refs/heads/master' }}
+
+      - name: Extract remaining API docs directly into output directory
+        run: npm run update-docs -- -PextractApidocsTargetDir=$(pwd)/vertx-china.github.io/docs extractApidocsVersions
+      - run: |
+          du -sh *
+          df -h / /mnt
 
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          deploy_key: ${{ secrets.DEPLOY_KEY }}
-          external_repository: vertx-china/vertx-china.github.io
-          publish_branch: master
-          publish_dir: vertx-china.github.io
-    #          cname: vertx.io
+        run: |
+          cd vertx-china.github.io
+          git add -A
+          git config user.name "$GITHUB_ACTOR"
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+          git commit -q -m "deploy: $GITHUB_REPOSITORY@$GITHUB_SHA"
+          git push origin master
+          cd ..
   deploy:
     runs-on: ubuntu-latest
     if: ${{ github.ref == 'refs/heads/master' }}

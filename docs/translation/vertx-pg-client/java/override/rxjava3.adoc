@@ -1,7 +1,10 @@
-[[_rxjava_2_api]]
-== RxJava 2 API
+[[_rxjava_3_api]]
+== RxJava 3 API
 
-Rx风格的API支持 RxJava 1 and RxJava 2，下边的例子使用的是 RxJava 2。
+The client provides an Rxified version of the original API.
+The following examples use RxJava 3.
+
+=== Simple query
 
 [source,java]
 ----
@@ -23,7 +26,7 @@ single.subscribe(result -> {
 
 [source,java]
 ----
-Maybe<RowSet<Row>> maybe = pool.rxWithConnection((Function<SqlConnection, Maybe<RowSet<Row>>>) conn ->
+Maybe<RowSet<Row>> maybe = pool.withConnection(conn ->
   conn
     .query("INSERT INTO Users (first_name,last_name) VALUES ('Julien','Viet')")
     .rxExecute()
@@ -47,7 +50,7 @@ maybe.subscribe(rows -> {
 
 [source,java]
 ----
-Completable completable = pool.rxWithTransaction((Function<SqlConnection, Maybe<RowSet<Row>>>) conn ->
+Completable completable = pool.withTransaction(conn ->
   conn
     .query("INSERT INTO Users (first_name,last_name) VALUES ('Julien','Viet')")
     .rxExecute()
@@ -67,8 +70,8 @@ completable.subscribe(() -> {
 [[_streaming]]
 === 流式操作
 
-RxJava 2 支持 `Observable` 和 `Flowable` 类型，这些类型可以从 `link:../../apidocs/io/vertx/reactivex/sqlclient/PreparedQuery.html[PreparedQuery]`
-产生的 `link:../../apidocs/io/vertx/reactivex/sqlclient/RowStream.html[RowStream]`
+RxJava 支持 `Observable` 和 `Flowable` 类型，这些类型可以从 `link:../../apidocs/io/vertx/rxjava3/sqlclient/PreparedQuery.html[PreparedQuery]`
+产生的 `link:../../apidocs/io/vertx/rxjava3/sqlclient/RowStream.html[RowStream]`
 里获取到：
 
 [source,java]

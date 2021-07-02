@@ -12,6 +12,7 @@ plugins {
 
 ext {
   versions = [
+    "3.9.8",
     "3.9.7",
     "3.9.6",
     "3.9.5",
@@ -25,10 +26,14 @@ ext {
     "4.0.0",
     "4.0.2",
     "4.0.3",
+    "4.1.0",
 
     // latest GA release (must be the last entry)
-    "4.1.0"
+    "4.1.1"
   ]
+
+  extractApidocsTargetDir = project.hasProperty("extractApidocsTargetDir") ?
+    project.getProperty("extractApidocsTargetDir") : "$projectDir/../public/docs"
 }
 
 repositories {
@@ -88,31 +93,16 @@ task extractDocsLatest(type: Sync) {
   }
   exclude(excludePaths)
   into "$projectDir/extracted"
+  exclude "**/apidocs/**"
   configurations.runtimeClasspath.each { writeHash(it, "latest") }
 }
 
-task extractDocs {
-  dependsOn extractDocsLatest
-}
-
-versions.take(versions.size()).each { version ->
-  def conf = configurations[versionToConfiguration(version)]
-  def t = tasks.create(name: "extractDocs_${getVersionName(version).replace('.', '_')}", type: Sync) {
-    dependsOn conf
-    from {
-      conf.collect { zipTree(it) }
-    }
-    into "$projectDir/extracted/${getVersionPath(version)}"
-    exclude(excludePaths)
-    conf.each { writeHash(it, version) }
+task extractApidocsLatest(type: Sync) {
+  dependsOn configurations.runtimeClasspath
+  from {
+    configurations.runtimeClasspath.collect { zipTree(it) }
   }
-  extractDocs.dependsOn t
-}
-
-task copyApidocs(type: Sync) {
-  dependsOn extractDocs
-  from "$projectDir/extracted"
-  into "$projectDir/../public/docs"
+  into extractApidocsTargetDir
   include "**/apidocs/**"
   includeEmptyDirs false
   preserve {
@@ -120,11 +110,56 @@ task copyApidocs(type: Sync) {
   }
 }
 
-clean {
-  delete "$projectDir/extracted"
-  delete copyApidocs.outputs.files.findResults { it.listFiles() }
-    .flatten()
-    .findAll { it.name != ".gitkeep" }
+task extractDocs {
+  dependsOn extractDocsLatest
 }
 
-defaultTasks 'extractDocs', 'copyApidocs'
+task extractApidocsVersions
+
+task extractApidocs {
+  dependsOn extractApidocsLatest
+  dependsOn extractApidocsVersions
+}
+
+versions.take(versions.size()).each { version ->
+  def conf = configurations[versionToConfiguration(version)]
+
+  // Use type: Copy instead of Sync so we don't overwrite files in the target directory
+  def docsTask = tasks.create(name: "extractDocs_${getVersionName(version).replace('.', '_')}", type: Copy) {
+    dependsOn conf
+    from {
+      conf.collect { zipTree(it) }
+    }
+    into "$projectDir/extracted/${getVersionPath(version)}"
+    exclude "**/apidocs/**"
+    exclude(excludePaths)
+    conf.each { writeHash(it, version) }
+  }
+  extractDocs.dependsOn docsTask
+
+  // Use type: Copy instead of Sync (see above)
+  def apidocsTask = tasks.create(name: "extractApidocs_${getVersionName(version).replace('.', '_')}", type: Copy) {
+    dependsOn conf
+    from {
+      conf.collect { zipTree(it) }
+    }
+    into "$extractApidocsTargetDir/${getVersionPath(version)}"
+    include "**/apidocs/**"
+    includeEmptyDirs false
+  }
+  extractApidocsVersions.dependsOn apidocsTask
+  // do not delete our directory when extracting latest apidocs
+  extractApidocsLatest.preserve.include(getVersionPath(version))
+}
+
+clean {
+  delete "$projectDir/extracted"
+  delete "$extractApidocsTargetDir/apidocs"
+  doLast {
+    versions.take(versions.size()).each { version ->
+      delete "$extractApidocsTargetDir/${getVersionPath(version)}"
+    }
+  }
+}
+
+defaultTasks 'extractDocs', 'extractApidocs'

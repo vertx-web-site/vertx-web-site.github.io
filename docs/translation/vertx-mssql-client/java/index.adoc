@@ -1,6 +1,5 @@
 = 响应式 MSSQL 客户端
 :PREPARED_PARAMS: `@1`, `@2`, etc…​
-:batching-unsupported:
 
 Reactive MSSQL 客户端是微软 SQL Server 的客户端，
 具有简单直接专注于可扩展性和低开销的 API。
@@ -12,13 +11,14 @@ Reactive MSSQL 客户端是微软 SQL Server 的客户端，
 * 内置连接池
 * 支持内存直接映射到对象，避免了不必要的复制
 * Java 8 Date 和 Time 支持
+* RxJava API
 
 *暂不支持*
 
 * Prepared 查询缓存
-* 批处理和游标
+* 游标
 * 行流（Row streaming）
-* 不支持一些 https://github.com/eclipse-vertx/vertx-sql-client/issues/608#issuecomment-629390027[数据类型] 
+* 不支持一些 https://github.com/eclipse-vertx/vertx-sql-client/issues/608#issuecomment-629390027[数据类型]
 
 [[_usage]]
 == 用法
@@ -32,7 +32,7 @@ Reactive MSSQL 客户端是微软 SQL Server 的客户端，
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-mssql-client</artifactId>
- <version>4.1.0</version>
+ <version>4.1.1</version>
 </dependency>
 ----
 * Gradle (in your `build.gradle` file):
@@ -40,7 +40,7 @@ Reactive MSSQL 客户端是微软 SQL Server 的客户端，
 [source,groovy]
 ----
 dependencies {
- compile 'io.vertx:vertx-mssql-client:4.1.0'
+ compile 'io.vertx:vertx-mssql-client:4.1.1'
 }
 ----
 
@@ -249,6 +249,22 @@ options
 
 include::queries.adoc[leveloffset=1]
 
+== Working with `identity` columns
+
+You can retrieve the value of an `identity` column after inserting new data using the `OUTPUT` clause:
+
+[source,java]
+----
+client
+  .preparedQuery("INSERT INTO movies (title) OUTPUT INSERTED.id VALUES (@p1)")
+  .execute(Tuple.of("The Man Who Knew Too Much"), res -> {
+    if (res.succeeded()) {
+      Row row = res.result().iterator().next();
+      System.out.println(row.getLong("id"));
+    }
+  });
+----
+
 include::connections.adoc[]
 
 include::transactions.adoc[]
@@ -401,3 +417,7 @@ client.query("SELECT * FROM users")
     }
   });
 ----
+
+== Advanced pool configuration
+
+include::pool_config.adoc[]

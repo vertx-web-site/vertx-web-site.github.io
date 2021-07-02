@@ -24,7 +24,7 @@ Vert.x OpenAPI 可以做到如下事情：
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-web-openapi</artifactId>
- <version>4.1.0</version>
+ <version>4.1.1</version>
 </dependency>
 ----
 
@@ -33,7 +33,7 @@ Vert.x OpenAPI 可以做到如下事情：
 [source,groovy,subs="+attributes"]
 ----
 dependencies {
- compile 'io.vertx:vertx-web-openapi:4.1.0'
+ compile 'io.vertx:vertx-web-openapi:4.1.1'
 }
 ----
 

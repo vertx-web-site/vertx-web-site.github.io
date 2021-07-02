@@ -1,3 +1,5 @@
+@use "sass:math";
+
 @import "../css/variables";
 
 .code-examples {
@@ -15,7 +17,7 @@
       width: 7rem;
       text-align: center;
       background-color: $code-bg-inactive;
-      padding: $spacer / 1.9 0;
+      padding: math.div($spacer, 1.9) 0;
       cursor: pointer;
       transition: $button-background-transition;
 

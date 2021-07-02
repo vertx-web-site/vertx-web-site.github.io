@@ -319,7 +319,7 @@ class LifecycleExampleTest {
  "maxEventLoopExecuteTimeUnit" : "SECONDS"
 }
 
-当满足这些条件时， `Vertx` 对象创建时将使用配置中的参数 
+当满足这些条件时， `Vertx` 对象创建时将使用配置中的参数
 
 [[_closing_and_removal_of_vertx_objects]]
 ==== 关闭和移除 `Vertx` 对象
@@ -345,8 +345,17 @@ JUnit 5 允许同一个生命周期事件之下存在多个方法。
 Vert.x Unit 5 模块是可扩展的：
 您可以通过 `link:../../apidocs/io/vertx/junit5/VertxExtensionParameterProvider.html[VertxExtensionParameterProvider]` 服务接口来添加更多的类型。
 
-如果您在用RxJava 2，那么您可以注入一个 `io.vertx.reactivex.core.Vertx` （而非 `io.vertx.core.Vertx` ），这仅仅需要引入 `io.vertx:vertx-junit5-rx-java2` 依赖。
-类似的，RxJava1则需要引入 `io.vertx:vertx-junit5-rx-java`
+If you use RxJava, instead of `io.vertx.core.Vertx` you can inject:
+
+* `io.vertx.rxjava3.core.Vertx`, or
+* `io.vertx.reactivex.core.Vertx`, or
+* `io.vertx.rxjava.core.Vertx`.
+
+To do so, add the corresponding library to your project:
+
+* `io.vertx:vertx-junit5-rx-java3`, or
+* `io.vertx:vertx-junit5-rx-java2`, or
+* `io.vertx:vertx-junit5-rx-java`.
 
 对于响应式库，您可以找到许多 `vertx-junit5` 的扩展库，
 他们属于 `reactiverse-junit5-extensions` 项目，而且都整合了Vert.x技术栈，这些扩展库也正在进一步的发展：

@@ -13,7 +13,7 @@ Vert.X中提供了一个 `link:../../apidocs/io/vertx/ext/auth/authentication/Au
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-auth-mongo</artifactId>
- <version>4.1.0</version>
+ <version>4.1.1</version>
 </dependency>
 ----
 
@@ -21,7 +21,7 @@ Vert.X中提供了一个 `link:../../apidocs/io/vertx/ext/auth/authentication/Au
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-auth-mongo:4.1.0'
+compile 'io.vertx:vertx-auth-mongo:4.1.1'
 ----
 
 如果要创建一个客户端实例，您首先需要一个 `link:../../apidocs/io/vertx/ext/mongo/MongoClient.html[MongoClient]` 的实例，

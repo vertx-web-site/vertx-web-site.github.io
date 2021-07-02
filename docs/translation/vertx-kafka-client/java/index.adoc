@@ -20,7 +20,7 @@
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-kafka-client</artifactId>
- <version>4.1.0</version>
+ <version>4.1.1</version>
 </dependency>
 ----
 
@@ -28,7 +28,7 @@
 
 [source,groovy,subs="+attributes"]
 ----
-compile io.vertx:vertx-kafka-client:4.1.0
+compile io.vertx:vertx-kafka-client:4.1.1
 ----
 
 [[_creating_kafka_clients]]
@@ -865,7 +865,7 @@ KafkaProducer<JsonArray, JsonArray> jsonArrayProducer = KafkaProducer.create(ver
 endif::[]
 
 ifeval::["java" == "java"]
-include::override/rxjava2.adoc[]
+include::override/rxjava3.adoc[]
 endif::[]
 
 ifdef::java,groovy,kotlin[]

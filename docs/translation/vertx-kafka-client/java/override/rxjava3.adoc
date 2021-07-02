@@ -1,5 +1,5 @@
-[[_rxjava_2_api]]
-== RxJava 2 接口
+[[_rxjava_3_api]]
+== RxJava 3 接口
 
 Kafka 客户端提供了在原有 API 基础上的响应式接口
 
