@@ -1,4 +1,4 @@
-== RxJava 2 API
+== RxJava 3 API
 
 The Web API Contract provides an rxified version of APIs
 
@@ -7,7 +7,7 @@ Here is a complete example:
 [source,java]
 ----
 OpenAPI3RouterFactory
-  .rxCreate(vertx, "src/main/resources/petstore.yaml")
+  .create(vertx, "src/main/resources/petstore.yaml")
   .flatMap(routerFactory -> {
     // Spec loaded with success. router factory contains OpenAPI3RouterFactory
     // Set router factory options.
@@ -28,7 +28,7 @@ OpenAPI3RouterFactory
 
     // Now you can use your Router instance
     HttpServer server = vertx.createHttpServer(new HttpServerOptions().setPort(8080).setHost("localhost"));
-    return server.requestHandler(router).rxListen();
+    return server.requestHandler(router).listen();
   })
   .subscribe(httpServer -> {
     // Server up and running

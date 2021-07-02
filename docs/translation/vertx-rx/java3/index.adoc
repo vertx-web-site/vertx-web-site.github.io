@@ -19,7 +19,7 @@ To use Vert.x API for RxJava3, add the following dependency to the _dependencies
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-rx-java3</artifactId>
- <version>4.1.0</version>
+ <version>4.1.1</version>
 </dependency>
 ----
 
@@ -27,7 +27,7 @@ To use Vert.x API for RxJava3, add the following dependency to the _dependencies
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-rx-java3:4.1.0'
+compile 'io.vertx:vertx-rx-java3:4.1.1'
 ----
 
 There are two ways for using the RxJava 3 API with Vert.x:
@@ -65,7 +65,7 @@ The _Rxified_ Vert.x API provides a `link:../../apidocs/io/vertx/rxjava3/core/st
 [source,java]
 ----
 FileSystem fs = vertx.fileSystem();
-fs.open("/data.txt", new OpenOptions())
+fs.rxOpen("/data.txt", new OpenOptions())
   .flatMapPublisher(file -> file.toFlowable())
   .subscribe(data -> System.out.println("Read data: " + data.toString("UTF-8")));
 ----
@@ -366,7 +366,7 @@ Observable<Long> timer = Observable.interval(100, 100, TimeUnit.MILLISECONDS, sc
 
 === Json unmarshalling
 
-The `link:../../apidocs/io/vertx/rxjava3/FlowableHelper.html#unmarshaller-java.lang.Class-[FlowableHelper.unmarshaller]` creates an `io.reactivex.rxjava2.FlowableOperator` that
+The `link:../../apidocs/io/vertx/rxjava3/FlowableHelper.html#unmarshaller-java.lang.Class-[FlowableHelper.unmarshaller]` creates an `io.reactivex.rxjava3.FlowableOperator` that
 transforms an `Flowable<Buffer>` in json format into an object flowable:
 
 [source,java]

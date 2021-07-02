@@ -15,7 +15,7 @@ To use this module, add the following to the _dependencies_ section of your Mave
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-web-graphql</artifactId>
- <version>4.1.0</version>
+ <version>4.1.1</version>
 </dependency>
 ----
 
@@ -23,7 +23,7 @@ Or, if you use Gradle:
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-web-graphql:4.1.0'
+compile 'io.vertx:vertx-web-graphql:4.1.1'
 ----
 
 == Handlers setup
@@ -343,5 +343,5 @@ FileUpload file = environment.getArgument("myFile");
 ----
 
 ifeval::["java" == "java"]
-include::override/rxjava2.adoc[]
+include::override/rxjava3.adoc[]
 endif::[]

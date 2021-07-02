@@ -32,14 +32,15 @@ _dependencies_ section of your build descriptor:
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-config</artifactId>
- <version>4.1.0</version>
+ <version>4.1.1</version>
 </dependency>
 ----
 
 * Gradle (in your `build.gradle` file):
 
 [source,groovy,subs="+attributes"]
-compile 'io.vertx:vertx-config:4.1.0'
+----
+compile 'io.vertx:vertx-config:4.1.1'
 ----
 
 Once done, you first need to instantiate the `link:../../apidocs/io/vertx/config/ConfigRetriever.html[ConfigRetriever]`:

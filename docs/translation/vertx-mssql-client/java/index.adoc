@@ -1,6 +1,5 @@
 = Reactive MSSQL Client
 :PREPARED_PARAMS: `@1`, `@2`, etc…​
-:batching-unsupported:
 
 The Reactive MSSQL Client is a client for Microsoft SQL Server with a straightforward API focusing on
 scalability and low overhead.
@@ -12,11 +11,12 @@ scalability and low overhead.
 * Built-in connection pooling
 * Direct memory to object without unnecessary copies
 * Java 8 Date and Time
+* RxJava API
 
 *Not supported yet*
 
 * Prepared queries caching
-* Batch and cursor
+* Cursor
 * Row streaming
 * Some https://github.com/eclipse-vertx/vertx-sql-client/issues/608#issuecomment-629390027[data types] are not supported
 
@@ -31,7 +31,7 @@ To use the Reactive MSSQL Client add the following dependency to the _dependenci
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-mssql-client</artifactId>
- <version>4.1.0</version>
+ <version>4.1.1</version>
 </dependency>
 ----
 * Gradle (in your `build.gradle` file):
@@ -39,7 +39,7 @@ To use the Reactive MSSQL Client add the following dependency to the _dependenci
 [source,groovy]
 ----
 dependencies {
- compile 'io.vertx:vertx-mssql-client:4.1.0'
+ compile 'io.vertx:vertx-mssql-client:4.1.1'
 }
 ----
 
@@ -242,6 +242,22 @@ options
 
 include::queries.adoc[leveloffset=1]
 
+== Working with `identity` columns
+
+You can retrieve the value of an `identity` column after inserting new data using the `OUTPUT` clause:
+
+[source,java]
+----
+client
+  .preparedQuery("INSERT INTO movies (title) OUTPUT INSERTED.id VALUES (@p1)")
+  .execute(Tuple.of("The Man Who Knew Too Much"), res -> {
+    if (res.succeeded()) {
+      Row row = res.result().iterator().next();
+      System.out.println(row.getLong("id"));
+    }
+  });
+----
+
 include::connections.adoc[]
 
 include::transactions.adoc[]
@@ -389,3 +405,7 @@ client.query("SELECT * FROM users")
     }
   });
 ----
+
+== Advanced pool configuration
+
+include::pool_config.adoc[]

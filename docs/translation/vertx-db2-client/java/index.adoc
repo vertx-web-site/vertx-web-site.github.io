@@ -16,7 +16,7 @@ The client is reactive and non blocking, allowing to handle many database connec
 * Prepared queries caching
 * Batch and cursor
 * Row streaming
-* RxJava 1 and RxJava 2
+* RxJava API
 * Direct memory to object without unnecessary copies
 * Java 8 Date and Time
 * SSL/TLS
@@ -38,7 +38,7 @@ To use the Reactive DB2 Client add the following dependency to the _dependencies
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-db2-client</artifactId>
- <version>4.1.0</version>
+ <version>4.1.1</version>
 </dependency>
 ----
 * Gradle (in your `build.gradle` file):
@@ -46,7 +46,7 @@ To use the Reactive DB2 Client add the following dependency to the _dependencies
 [source,groovy]
 ----
 dependencies {
- compile 'io.vertx:vertx-db2-client:4.1.0'
+ compile 'io.vertx:vertx-db2-client:4.1.1'
 }
 ----
 
@@ -490,6 +490,10 @@ You can also configure the client to use an HTTP/1.x CONNECT, SOCKS4a or SOCKS5 
 
 More information can be found in the http://vertx.io/docs/vertx-core/java/#_using_a_proxy_for_client_connections[Vert.x documentation].
 
+== Advanced pool configuration
+
+include::pool_config.adoc[]
+
 ifeval::["java" == "java"]
-include::override/rxjava2.adoc[]
+include::override/rxjava3.adoc[]
 endif::[]

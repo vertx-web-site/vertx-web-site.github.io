@@ -1,7 +1,7 @@
-== RxJava 2 API
+== RxJava 3 API
 
-The RxJava `link:../../apidocs/io/vertx/reactivex/ext/web/client/HttpRequest.html[HttpRequest]` provides an rx-ified version of the original API,
-the `link:../../apidocs/io/vertx/reactivex/ext/web/client/HttpRequest.html#rxSend--[rxSend]` method returns a `Single<HttpResponse<Buffer>>` that
+The RxJava `link:../../apidocs/io/vertx/rxjava3/ext/web/client/HttpRequest.html[HttpRequest]` provides an rx-ified version of the original API,
+the `link:../../apidocs/io/vertx/rxjava3/ext/web/client/HttpRequest.html#rxSend--[rxSend]` method returns a `Single<HttpResponse<Buffer>>` that
 makes the HTTP request upon subscription, as consequence, the `Single` can be subscribed many times.
 
 [source,java]
@@ -48,7 +48,7 @@ single.subscribe(resp -> {
 });
 ----
 
-The `link:../../apidocs/io/vertx/reactivex/ext/web/client/HttpRequest.html#sendStream-io.reactivex.Flowable-io.vertx.core.Handler-[sendStream]` shall
+The `link:../../apidocs/io/vertx/rxjava3/ext/web/client/HttpRequest.html#rxSendStream-io.reactivex.rxjava3.core.Flowable-[rxSendStream]` shall
 be preferred for sending bodies `Flowable<Buffer>`.
 
 [source,java]

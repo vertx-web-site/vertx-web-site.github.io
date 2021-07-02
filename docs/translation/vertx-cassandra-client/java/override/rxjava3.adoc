@@ -1,10 +1,10 @@
-== RxJava 2 API
+== RxJava 3 API
 
 The Cassandra client provides an Rxified version of the original API.
 
 === Creating an Rxified client
 
-To create an Rxified Cassandra client, make sure to import the `link:../../apidocs/io/vertx/reactivex/cassandra/CassandraClient.html[CassandraClient]` class.
+To create an Rxified Cassandra client, make sure to import the `link:../../apidocs/io/vertx/rxjava3/cassandra/CassandraClient.html[CassandraClient]` class.
 Then use one of the `create` methods to get an instance:
 
 [source,java]
@@ -22,7 +22,7 @@ In this section, we will reconsider some of the previous use cases with the Rxif
 
 ==== Streaming
 
-A `link:../../apidocs/io/vertx/reactivex/cassandra/CassandraRowStream.html[CassandraRowStream]` can be converted to a `link:../../apidocs/io/reactivex/Flowable.html[Flowable]`, which is handy when you have to deal with large data sets:
+A `link:../../apidocs/io/vertx/rxjava3/cassandra/CassandraRowStream.html[CassandraRowStream]` can be converted to a `link:../../apidocs/io/reactivex/rxjava3/core/Flowable.html[Flowable]`, which is handy when you have to deal with large data sets:
 
 [source,java]
 ----

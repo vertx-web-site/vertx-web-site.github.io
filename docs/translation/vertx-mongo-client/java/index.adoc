@@ -24,7 +24,7 @@ To use this project, add the following dependency to the _dependencies_ section 
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-mongo-client</artifactId>
- <version>4.1.0</version>
+ <version>4.1.1</version>
 </dependency>
 ----
 
@@ -32,7 +32,7 @@ To use this project, add the following dependency to the _dependencies_ section 
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-mongo-client:4.1.0'
+compile 'io.vertx:vertx-mongo-client:4.1.1'
 ----
 
 
@@ -1125,5 +1125,5 @@ NOTE: Most of the default values listed above use the default values of the Mong
 Please consult the driver documentation for up to date information.
 
 ifeval::["java" == "java"]
-include::override/rxjava2.adoc[]
+include::override/rxjava3.adoc[]
 endif::[]

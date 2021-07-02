@@ -1,0 +1,29 @@
+=== Server load balancing
+
+You can configure the pool with a list of servers instead of a single server.
+
+[source,java]
+----
+MySQLPool pool = MySQLPool.pool(Arrays.asList(server1, server2, server3), options);
+----
+
+The pool uses a round-robin load balancing when a connection is created to select different servers.
+
+NOTE: this provides load balancing when the connection is created and not when the connection is borrowed from the pool.
+
+=== Pool connection initialization
+
+You can use the `link:../../apidocs/io/vertx/sqlclient/Pool.html#connectHandler-io.vertx.core.Handler-[connectHandler]` to interact with a connection after it
+has been created and before it is inserted in the pool.
+
+[source,java]
+----
+pool.connectHandler(conn -> {
+  conn.query(sql).execute().onSuccess(res -> {
+    // Release the connection to the pool, ready to be used by the application
+    conn.close();
+  });
+});
+----
+
+Once you are done with the connection, you should simply close it to signal the pool to use it.

@@ -24,7 +24,7 @@ To use Vert.x Json Schema, add the following dependency to the _dependencies_ se
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-json-schema</artifactId>
- <version>4.1.0</version>
+ <version>4.1.1</version>
 </dependency>
 ----
 
@@ -33,7 +33,7 @@ To use Vert.x Json Schema, add the following dependency to the _dependencies_ se
 [source,groovy,subs="+attributes"]
 ----
 dependencies {
- compile 'io.vertx:vertx-json-schema:4.1.0'
+ compile 'io.vertx:vertx-json-schema:4.1.1'
 }
 ----
 
@@ -194,7 +194,7 @@ Schema schema = parser.parse(mySchema);
 
 === Asynchronous keywords
 
-Synchronous validators must implement the interface `link:../../apidocs/io/vertx/json/schema/common/AsyncValidator.html[AsyncValidator]`.
+Asynchronous validators must implement the interface `link:../../apidocs/io/vertx/json/schema/common/AsyncValidator.html[AsyncValidator]`.
 In this example I add a keyword that retrieves from the Vert.x Event bus an enum of values:
 
 [source,java]

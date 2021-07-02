@@ -18,7 +18,7 @@ To use Vert.x API Contract, add the following dependency to the _dependencies_ s
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-web-api-contract</artifactId>
- <version>4.1.0</version>
+ <version>4.1.1</version>
 </dependency>
 ----
 
@@ -27,7 +27,7 @@ To use Vert.x API Contract, add the following dependency to the _dependencies_ s
 [source,groovy,subs="+attributes"]
 ----
 dependencies {
- compile 'io.vertx:vertx-web-api-contract:4.1.0'
+ compile 'io.vertx:vertx-web-api-contract:4.1.1'
 }
 ----
 
@@ -345,5 +345,5 @@ server.requestHandler(router).listen();
 This method can fail with a `link:../../apidocs/io/vertx/ext/web/api/contract/RouterFactoryException.html[RouterFactoryException]` if you didn't provide the required security handlers.
 
 ifeval::["java" == "java"]
-include::override/rxjava2.adoc[]
+include::override/rxjava3.adoc[]
 endif::[]

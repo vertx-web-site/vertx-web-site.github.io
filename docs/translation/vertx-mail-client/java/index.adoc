@@ -16,7 +16,7 @@ To use this project, add the following dependency to the _dependencies_ section 
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-mail-client</artifactId>
- <version>4.1.0</version>
+ <version>4.1.1</version>
 </dependency>
 ----
 
@@ -24,7 +24,7 @@ To use this project, add the following dependency to the _dependencies_ section 
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-mail-client:4.1.0'
+compile 'io.vertx:vertx-mail-client:4.1.1'
 ----
 
 == Creating a client
@@ -253,6 +253,8 @@ The configuration has the following properties
 * `poolCleanerPeriodUnit` TimeUnit of cleaning the pool, Default is `TimeUnit.MILLISECONDS`
 * `keepAliveTimeout` int, the keep alive timeout for SMTP connection in seconds. Default is `300 s`.
 * `keepAliveTimeoutUnit`, TimeUnit of keeping connections in the pool alive. Default is `TimeUnit.SECONDS`
+* `ntDomain`, String, the domain name used for NTLM authentication. If `username` follows format: `<DOMAIN>\<UserName>`, the part before `\` will be used for the domain name.
+* `workstation`, String, the workstation name used for NTLM authentication
 
 === MailResult object
 The MailResult object has the following members

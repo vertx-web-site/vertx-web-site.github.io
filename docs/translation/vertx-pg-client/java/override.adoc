@@ -1,8 +1,11 @@
 == Kotlin API
 
-TODO== RxJava 2 API
+TODO== RxJava 3 API
 
-The Rxified API supports RxJava 1 and RxJava 2, the following examples use RxJava 2.
+The client provides an Rxified version of the original API.
+The following examples use RxJava 3.
+
+=== Simple query
 
 [source,java]
 ----
@@ -23,7 +26,7 @@ a connection from the pool and return it for you:
 
 [source,java]
 ----
-Maybe<RowSet<Row>> maybe = pool.rxWithConnection((Function<SqlConnection, Maybe<RowSet<Row>>>) conn ->
+Maybe<RowSet<Row>> maybe = pool.withConnection(conn ->
   conn
     .query("INSERT INTO Users (first_name,last_name) VALUES ('Julien','Viet')")
     .rxExecute()
@@ -46,7 +49,7 @@ method start and commit a transaction for you:
 
 [source,java]
 ----
-Completable completable = pool.rxWithTransaction((Function<SqlConnection, Maybe<RowSet<Row>>>) conn ->
+Completable completable = pool.withTransaction(conn ->
   conn
     .query("INSERT INTO Users (first_name,last_name) VALUES ('Julien','Viet')")
     .rxExecute()
@@ -65,9 +68,9 @@ completable.subscribe(() -> {
 
 === Streaming
 
-RxJava 2 supports `Observable` and `Flowable` types, these are exposed using
-the `link:../../apidocs/io/vertx/reactivex/sqlclient/RowStream.html[RowStream]` that you can get
-from a `link:../../apidocs/io/vertx/reactivex/sqlclient/PreparedQuery.html[PreparedQuery]`:
+RxJava supports `Observable` and `Flowable` types, these are exposed using
+the `link:../../apidocs/io/vertx/rxjava3/sqlclient/RowStream.html[RowStream]` that you can get
+from a `link:../../apidocs/io/vertx/rxjava3/sqlclient/PreparedQuery.html[PreparedQuery]`:
 
 [source,java]
 ----

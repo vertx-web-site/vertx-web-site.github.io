@@ -12,7 +12,7 @@ of your build descriptor:
 <dependency>
    <groupId>io.vertx</groupId>
    <artifactId>vertx-mqtt</artifactId>
-   <version>4.1.0</version>
+   <version>4.1.1</version>
 </dependency>
 ----
 
@@ -20,7 +20,7 @@ of your build descriptor:
 
 [source,groovy,subs="+attributes"]
 ----
-compile io.vertx:vertx-mqtt:4.1.0
+compile io.vertx:vertx-mqtt:4.1.1
 ----
 
 = Vert.x MQTT server
@@ -499,4 +499,53 @@ client.pingResponseHandler(s -> {
   //The handler will be called time to time by default
   System.out.println("We have just received PINGRESP packet");
 });
+----
+
+=== Use proxy protocol
+
+[source,java]
+----
+MqttServer mqttServer = MqttServer
+  .create(vertx, new MqttServerOptions()
+    // set true to use proxy protocol
+    .setUseProxyProtocol(true));
+mqttServer.endpointHandler(endpoint -> {
+  // remote address is origin real address， not proxy's address
+  System.out.println(endpoint.remoteAddress());
+  endpoint.accept(false);
+
+})
+  .listen(ar -> {
+
+    if (ar.succeeded()) {
+
+      System.out.println("MQTT server is listening on port " + ar.result().actualPort());
+    } else {
+
+      System.out.println("Error on starting the server");
+      ar.cause().printStackTrace();
+    }
+  });
+----
+
+If your servers are behind haproxy or nginx and you want to get the client's original ip and port, then you need to set `setUseProxyProtocol` to `true`
+
+IMPORTANT: to enable this feature, you need to add dependency `netty-codec-haproxy`, but it is not introduced by default, so you need to manually add it
+
+* Maven (in your `pom.xml`):
+
+[source,xml,subs="+attributes"]
+----
+<dependency>
+   <groupId>io.netty</groupId>
+   <artifactId>netty-codec-haproxy</artifactId>
+   <version>4.1.1</version>
+</dependency>
+----
+
+* Gradle (in your `build.gradle` file):
+
+[source,groovy,subs="+attributes"]
+----
+compile io.netty:netty-codec-haproxy:4.1.1
 ----

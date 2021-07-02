@@ -17,12 +17,12 @@ _dependencies_ section of your build descriptor:
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-config-hocon</artifactId>
- <version>4.1.0</version>
+ <version>4.1.1</version>
 </dependency>
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-config</artifactId>
- <version>4.1.0</version>
+ <version>4.1.1</version>
 </dependency>
 ----
 
@@ -30,8 +30,8 @@ _dependencies_ section of your build descriptor:
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-config:4.1.0'
-compile 'io.vertx:vertx-config-hocon:4.1.0'
+compile 'io.vertx:vertx-config:4.1.1'
+compile 'io.vertx:vertx-config-hocon:4.1.1'
 ----
 
 ==== Configuring the store to use HOCON
