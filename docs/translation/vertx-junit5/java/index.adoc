@@ -345,7 +345,7 @@ JUnit 5 允许同一个生命周期事件之下存在多个方法。
 Vert.x Unit 5 模块是可扩展的：
 您可以通过 `link:../../apidocs/io/vertx/junit5/VertxExtensionParameterProvider.html[VertxExtensionParameterProvider]` 服务接口来添加更多的类型。
 
-如您使的是 RxJava，您可注入以下类以替代 `io.vertx.core.Vertx` ：
+如果您使用的是 RxJava，您可注入以下类以替代 `io.vertx.core.Vertx` ：
 
 * `io.vertx.rxjava3.core.Vertx`，或
 * `io.vertx.reactivex.core.Vertx`，或
