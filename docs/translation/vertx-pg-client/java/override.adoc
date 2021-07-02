@@ -19,9 +19,10 @@ single.subscribe(result -> {
 });
 ----
 
+[[_connection]]
 === 连接
 
-简化版的 connection API 可以让您很容易地使用connection对象,  `withConnection` 方法
+简化版的 connection API 可以让您很容易地使用connection对象， `withConnection` 方法
 可以从连接池里拿到一条连接：
 
 [source,java]
@@ -42,10 +43,11 @@ maybe.subscribe(rows -> {
 });
 ----
 
+[[_transaction]]
 === 事务
 
-简化版的事务API可以让您很容易地编码异步事务流, `withTransaction`
-方法会帮助您开启和提交事务:
+简化版的事务API可以让您很容易地编码异步事务流，`withTransaction`
+方法会帮助您开启和提交事务：
 
 [source,java]
 ----
@@ -66,11 +68,12 @@ completable.subscribe(() -> {
 });
 ----
 
-=== Streaming
+[[_streaming]]
+=== 流式操作
 
-RxJava 2 支持 `Observable` 和 `Flowable` 类型, 这些类型可以从 `link:../../apidocs/io/vertx/rxjava3/sqlclient/PreparedQuery.html[PreparedQuery]`
+RxJava 支持 `Observable` 和 `Flowable` 类型，这些类型可以从 `link:../../apidocs/io/vertx/rxjava3/sqlclient/PreparedQuery.html[PreparedQuery]`
 产生的 `link:../../apidocs/io/vertx/rxjava3/sqlclient/RowStream.html[RowStream]`
-里获取到 :
+里获取到：
 
 [source,java]
 ----
@@ -96,7 +99,7 @@ observable.subscribe(row -> {
 });
 ----
 
-下边是使用 `Flowable` 的例子:
+下边是使用 `Flowable` 的例子：
 
 [source,java]
 ----

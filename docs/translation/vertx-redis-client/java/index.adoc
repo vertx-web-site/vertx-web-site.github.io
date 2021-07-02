@@ -34,9 +34,9 @@ Redis 有着丰富的 API，可以分成以下几组：
 [source,xml,subs="+attributes"]
 ----
 <dependency>
-<groupId>io.vertx</groupId>
-<artifactId>vertx-redis-client</artifactId>
-<version>4.1.1</version>
+  <groupId>io.vertx</groupId>
+  <artifactId>vertx-redis-client</artifactId>
+  <version>4.1.1</version>
 </dependency>
 ----
 
