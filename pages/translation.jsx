@@ -122,7 +122,7 @@ export async function getStaticProps() {
   })
 
   const octokit = new Octokit({
-    auth: process.env.CONTRIBUTE_FETCH_TOKEN,
+    auth: process.env.GITHUB_ACCESS_TOKEN,
     request: {
       fetch
     }
@@ -130,11 +130,11 @@ export async function getStaticProps() {
 
   let fullTimeDevelopers = null
   let contributors = null
-  if (process.env.CONTRIBUTE_FETCH_TOKEN === undefined) {
+  if (process.env.GITHUB_ACCESS_TOKEN === undefined) {
     console.log("No GitHub access token found. Generating list of contributors " +
         "will be skipped. To fix this, provide an environment variable " +
-        "`CONTRIBUTE_FETCH_TOKEN` with your personal access token. For example: " +
-        "`CONTRIBUTE_FETCH_TOKEN=abcdefghijklmnopqrs0123456789 npm run build`")
+        "`GITHUB_ACCESS_TOKEN` with your personal access token. For example: " +
+        "`GITHUB_ACCESS_TOKEN=abcdefghijklmnopqrs0123456789 npm run build`")
   } else {
 
     const pulls = await octokit.paginate(octokit.pulls.list, {
