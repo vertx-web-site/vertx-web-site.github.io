@@ -1,3 +1,5 @@
+@use "sass:math";
+
 @import "../../css/variables";
 
 @keyframes logos-row-slide {
@@ -42,7 +44,7 @@
     .button {
       margin-left: 0.75rem;
       line-height: 1.25rem;
-      padding-top: $spacer / 1.65;
+      padding-top: math.div($spacer, 1.65);
     }
 
     @media (max-width: $sm) {

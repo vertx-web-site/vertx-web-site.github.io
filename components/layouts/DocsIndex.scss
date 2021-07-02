@@ -1,3 +1,5 @@
+@use "sass:math";
+
 @import "../../css/variables";
 
 .docs-index-main {
@@ -34,7 +36,7 @@
     margin-top: 0;
 
     li {
-      padding: $spacer / 3 0;
+      padding: math.div($spacer, 3) 0;
 
       &:first-child {
         padding-top: 0;
@@ -153,7 +155,7 @@
 
     svg {
       stroke: $gray-700;
-      margin-right: $spacer / 2;
+      margin-right: math.div($spacer, 2);
 
       &.no-stroke {
         stroke: none;
@@ -180,15 +182,15 @@
       }
 
       .docs-index-section-part-label {
-        margin-top: $spacer / 4;
-        margin-left: $spacer / 3 * 2;
+        margin-top: math.div($spacer, 4);
+        margin-left: math.div($spacer, 3) * 2;
 
         @media (max-width: $xl) {
           margin-left: 0;
         }
 
         @media (max-width: $lg) {
-          margin-left: $spacer / 3 * 2;
+          margin-left: math.div($spacer, 3) * 2;
         }
       }
 

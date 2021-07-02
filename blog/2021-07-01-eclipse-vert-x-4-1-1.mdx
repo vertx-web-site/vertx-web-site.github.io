@@ -1,0 +1,65 @@
+---
+title: Eclipse Vert.x 4.1.1 released!
+category: releases
+authors:
+  - name: Julien Viet
+    github_id: vietj
+summary: >-
+  Eclipse Vert.x version 4.1.1 has just been released. It fixes quite a few bugs
+  that have been reported by the community and provides a couple of features
+---
+
+We are extremely pleased to announce that Eclipse Vert.x version 4.1.1 has been released.
+
+Since the release of Vert.x 4.1.0, quite a few bugs have been reported. We would like to thank you all for reporting these issues.
+
+This release also provides a few small features that were postponed from previous release.
+
+## Sql Client pool enhancements
+
+The pool supports now load balancing accross multiple servers:
+
+```java
+PgPool pool = PgPool.create(vertx, Arrays.asList(server1, server2);
+```
+
+There is a new hook for customizing connection after it has been created and before it is inserted in the pool:
+
+```java
+pool.connectHandler(conn -> {
+  conn.query(sql).execute().onSuccess(res -> {
+    // Release the connection to the pool, ready to be used by the application
+    conn.close();
+  });
+});
+```
+
+## Finally
+
+A few other noticeable improvements are available
+
+* Jackson 2.11.4 upgrade
+* MSSQL now supports batch queries as well as packet size configuration
+* The PostgreSQL client now supports the `INET` data type
+* MSSQL metadata version is now retrieved
+* Redis Client exposes now pool metrics through the Vert.x metrics reporting
+* HTTP server invalid request handler hook to customize invalid request responses
+* Redis client fix for [well known Azure issue](https://docs.microsoft.com/en-us/answers/questions/431238/azure-redis-603-responding-incorrectly-to-hello-3.html)
+* Mail client supports NTLM
+
+The [4.1.1 release notes](https://github.com/vert-x3/wiki/wiki/4.1.1-Release-Notes) can be found on the wiki.
+
+You can bootstrap a Vert.x 4 project using [start.vertx.io](https://start.vertx.io).
+
+The release artifacts have been deployed to [Maven Central](https://search.maven.org/search?q=g:io.vertx%20AND%20v:4.1.1) and
+you can get the distribution on [Maven Central](https://repo1.maven.org/maven2/io/vertx/vertx-stack-manager/4.1.1/).
+
+The [Vert.x 4 eventbus JavaScript client library](https://www.npmjs.com/package/@vertx/eventbus-bridge-client.js) is now available
+in a single location and it now usable standalone or it can easily be integrated with any frontend build tool.
+
+The Vert.x distribution is available from [SDKMan](https://sdkman.io) and our
+[HomeBrew TAP](https://github.com/vertx-distrib/homebrew-tap).
+
+Docker images are available on [Docker Hub](https://hub.docker.com/u/vertx/).
+
+That's it! Happy coding and see you soon on our user or dev [channels](https://vertx.io/channels).

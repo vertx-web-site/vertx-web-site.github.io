@@ -1,3 +1,5 @@
+@use "sass:math";
+
 @import "../../css/variables";
 
 .search-results, .search-results-none {
@@ -19,7 +21,7 @@
 
   li {
     display: block;
-    padding: $spacer / 2;
+    padding: math.div($spacer, 2);
     margin-bottom: $spacer;
     border-radius: $border-radius-tiny;
     border: 1px solid transparent;
@@ -31,7 +33,7 @@
     }
 
     h5 {
-      margin: 0 0 $spacer / 2 0;
+      margin: 0 0 math.div($spacer, 2) 0;
       font-size: 1em;
     }
 
@@ -42,7 +44,7 @@
 }
 
 .search-results-none {
-  padding: $spacer $spacer / 2;
+  padding: $spacer math.div($spacer, 2);
   text-align: center;
   width: 100%;
 }
