@@ -43,9 +43,9 @@ Vert.x HTTP服务端和客户端根据HTTP请求上报跨度（span）：
 
 - `operationName`: 当前HTTP方法
 - tags
-- `http.method`: HTTP请求方法
-- `http.url`: 请求URL
-- `http.status_code`: HTTP状态码
+ - `http.method`: HTTP请求方法
+ - `http.url`: 请求URL
+ - `http.status_code`: HTTP状态码
 
 HTTP服务端默认的追踪策略是 `ALWAYS`,
 您可以使用`link:../../apidocs/io/vertx/core/http/HttpServerOptions.html#setTracingPolicy-io.vertx.core.tracing.TracingPolicy-[setTracingPolicy]` 来调配该策略。
