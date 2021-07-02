@@ -345,17 +345,17 @@ JUnit 5 允许同一个生命周期事件之下存在多个方法。
 Vert.x Unit 5 模块是可扩展的：
 您可以通过 `link:../../apidocs/io/vertx/junit5/VertxExtensionParameterProvider.html[VertxExtensionParameterProvider]` 服务接口来添加更多的类型。
 
-If you use RxJava, instead of `io.vertx.core.Vertx` you can inject:
+如您使的是 RxJava，您可注入以下类以替代 `io.vertx.core.Vertx` ：
 
-* `io.vertx.rxjava3.core.Vertx`, or
-* `io.vertx.reactivex.core.Vertx`, or
-* `io.vertx.rxjava.core.Vertx`.
+* `io.vertx.rxjava3.core.Vertx`，或
+* `io.vertx.reactivex.core.Vertx`，或
+* `io.vertx.rxjava.core.Vertx`。
 
-To do so, add the corresponding library to your project:
+为此，请将相应库添加到您的项目中：
 
-* `io.vertx:vertx-junit5-rx-java3`, or
-* `io.vertx:vertx-junit5-rx-java2`, or
-* `io.vertx:vertx-junit5-rx-java`.
+* `io.vertx:vertx-junit5-rx-java3`，或
+* `io.vertx:vertx-junit5-rx-java2`，或
+* `io.vertx:vertx-junit5-rx-java`。
 
 对于响应式库，您可以找到许多 `vertx-junit5` 的扩展库，
 他们属于 `reactiverse-junit5-extensions` 项目，而且都整合了Vert.x技术栈，这些扩展库也正在进一步的发展：
