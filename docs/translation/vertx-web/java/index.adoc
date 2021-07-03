@@ -3347,15 +3347,15 @@ event可以通过 `link:../../apidocs/io/vertx/ext/bridge/BaseBridgeEvent.html#t
 }
 ----
 
-NOTE: `SOCKET_CLOSED` events may include a message. In this case inspecting the type property, may introduce a new kind
-of message. A `err` message. This is a synthetic message generated when there is a socket exception. The message will
-follow the bridge wire protocol and look like this:
+注意：`SOCKET_CLOSED` 事件可能会包含消息。在这种情况下检查type属性，可能会引入一种新的
+消息。一个 `err` 消息。这是当一个套接字异常时会生成的一个合成消息。该消息将会
+遵循桥接数据传输格式，并像下面的示例一样：
 
 ----
 {
  "type": "err",
  "failureType": "socketException",
- "message": "optionally a message from the exception being raised"
+ "message": "可选的，来自被引发的异常的消息"
 }
 ----
 
