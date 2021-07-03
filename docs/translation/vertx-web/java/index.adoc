@@ -3349,7 +3349,7 @@ event可以通过 `link:../../apidocs/io/vertx/ext/bridge/BaseBridgeEvent.html#t
 
 注意：`SOCKET_CLOSED` 事件可能会包含消息。在这种情况下检查type属性，可能会引入一种新的
 消息。一个 `err` 消息。这是当一个套接字异常时会生成的一个合成消息。该消息将会
-遵循桥丝协议，并像下面的示例一样：
+遵循桥接数据传输格式，并像下面的示例一样：
 
 ----
 {
