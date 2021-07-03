@@ -417,7 +417,7 @@ client.query("SELECT * FROM users")
     }
   });
 ----
-
-== Advanced pool configuration
+[[_advanced_pool_configuration]]
+== 高级连接池配置
 
 include::pool_config.adoc[]

@@ -1116,6 +1116,7 @@ connection.setOption(MySQLSetOption.MYSQL_OPTION_MULTI_STATEMENTS_OFF, ar -> {
 * MySQL DATETIME 数据类型不包含时区信息，因此无论当前会话中的时区是什么，您获取的内容都与您设置的内容相同
 * MySQL TIMESTAMP 数据类型包含时区信息，因此当您设置或获取值时，服务器总是通过当前会话中设置的时区来转换该值。
 
-== Advanced pool configuration
+[[_advanced_pool_configuration]]
+== 高级连接池配置
 
 include::pool_config.adoc[]

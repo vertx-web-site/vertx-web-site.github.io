@@ -1,29 +1,26 @@
-=== Server load balancing
+=== 数据库服务负载均衡
 
-You can configure the pool with a list of servers instead of a single server.
+你可以使用多个数据库服务列表来配置连接池而不是单个服务。
 
 [source,java]
 ----
 MSSQLPool pool = MSSQLPool.pool(Arrays.asList(server1, server2, server3), options);
 ----
 
-The pool uses a round-robin load balancing when a connection is created to select different servers.
+当一个连接创建时，连接池使用(round-robin)轮询调度算法做负载均衡以选择不同的数据库服务
 
-NOTE: this provides load balancing when the connection is created and not when the connection is borrowed from the pool.
+NOTE: 负载均衡在创建连接时提供的，而不是从池中获取连接时
 
-=== Pool connection initialization
-
-You can use the `link:../../apidocs/io/vertx/sqlclient/Pool.html#connectHandler-io.vertx.core.Handler-[connectHandler]` to interact with a connection after it
-has been created and before it is inserted in the pool.
+=== 连接初始化
+在连接创建后和返回连接池之前你可以使用 `link:../../apidocs/io/vertx/sqlclient/Pool.html#connectHandler-io.vertx.core.Handler-[connectHandler]` 来与连接交互
 
 [source,java]
 ----
 pool.connectHandler(conn -> {
   conn.query(sql).execute().onSuccess(res -> {
-    // Release the connection to the pool, ready to be used by the application
+    // 从连接池中释放连接，以被应用程序继续使用Release the connection to the pool, ready to be used by the application
     conn.close();
   });
 });
 ----
-
-Once you are done with the connection, you should simply close it to signal the pool to use it.
+连接完成后,你应该释放连接以通知连接池可以继续使用该连接
