@@ -12,7 +12,7 @@ DB2Pool pool = DB2Pool.pool(Arrays.asList(server1, server2, server3), options);
 NOTE: 负载均衡是在创建连接时提供的，而不是在从连接池中获取连接时提供
 
 === 连接初始化
-在连接创建后和返回连接池之前你可以使用 `link:../../apidocs/io/vertx/sqlclient/Pool.html#connectHandler-io.vertx.core.Handler-[connectHandler]` 来与连接交互
+你可以使用 `link:../../apidocs/io/vertx/sqlclient/Pool.html#connectHandler-io.vertx.core.Handler-[connectHandler]` 方法在连接创建后和连接释放回连接池之前来与数据库连接交互
 
 [source,java]
 ----
