@@ -18,7 +18,7 @@ NOTE: 负载均衡是在创建连接时提供的，而不是在从连接池中�
 ----
 pool.connectHandler(conn -> {
   conn.query(sql).execute().onSuccess(res -> {
-    // 从连接池中释放连接，以被应用程序继续使用Release the connection to the pool, ready to be used by the application
+    //  将连接释放回连接池，以被该应用程序复用
     conn.close();
   });
 });
