@@ -248,10 +248,10 @@ options
 ----
 
 include::queries.adoc[leveloffset=1]
+[[_working_with_identity_columns]]
+== 使用自增列
 
-== Working with `identity` columns
-
-You can retrieve the value of an `identity` column after inserting new data using the `OUTPUT` clause:
+你可以在插入新数据后使用 `OUTPUT` 子句来获取自增列的值
 
 [source,java]
 ----
