@@ -15,7 +15,7 @@ NOTE: 负载均衡是在创建连接时提供的，而不是在从连接池中�
 [[_pool_connection_initialization]]
 === 连接初始化
 
-你可以使用 `link:../../apidocs/io/vertx/sqlclient/Pool.html#connectHandler-io.vertx.core.Handler-[connectHandler]`
+您可以使用 `link:../../apidocs/io/vertx/sqlclient/Pool.html#connectHandler-io.vertx.core.Handler-[connectHandler]`
 方法在连接创建后和连接释放回连接池之前来与数据库连接交互
 
 [source,java]
