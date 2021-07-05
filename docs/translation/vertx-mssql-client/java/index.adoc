@@ -417,6 +417,7 @@ client.query("SELECT * FROM users")
     }
   });
 ----
+
 [[_advanced_pool_configuration]]
 == 高级连接池配置
 
