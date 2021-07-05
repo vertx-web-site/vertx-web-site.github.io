@@ -251,7 +251,7 @@ include::queries.adoc[leveloffset=1]
 [[_working_with_identity_columns]]
 == 使用自增列
 
-你可以在插入新数据后使用 `OUTPUT` 子句来获取自增列的值
+您可以在插入新数据后使用 `OUTPUT` 子句来获取自增列的值
 
 [source,java]
 ----
