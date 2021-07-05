@@ -1,7 +1,7 @@
 [[_rxjava_3_api]]
 == RxJava 3 API
 
-客户端提供原始API的修订版本
+客户端提供了原生 API 的响应式版本
 以下示例使用RxJava3
 
 [[_simple_query]]
