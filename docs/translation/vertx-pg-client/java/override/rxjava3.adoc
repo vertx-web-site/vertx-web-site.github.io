@@ -1,10 +1,11 @@
 [[_rxjava_3_api]]
 == RxJava 3 API
 
-The client provides an Rxified version of the original API.
-The following examples use RxJava 3.
+客户端提供原始API的修订版本
+以下示例使用RxJava3
 
-=== Simple query
+[[_simple_query]]
+=== 简单的查询示例
 
 [source,java]
 ----
