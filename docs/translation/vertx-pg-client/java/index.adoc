@@ -980,7 +980,8 @@ PgConnection.connect(vertx, options, res -> {
 
 更多信息可以在这里找到 http://vertx.io/docs/vertx-core/java/#_using_a_proxy_for_client_connections[Vert.x documentation]。
 
-== Advanced pool configuration
+[[_advanced_pool_configuration]]
+== 高级连接池配置
 
 include::pool_config.adoc[]
 

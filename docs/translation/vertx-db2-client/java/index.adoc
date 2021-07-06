@@ -504,7 +504,8 @@ DB2Connection.connect(vertx, options, res -> {
 
 更多详细信息，请参阅 http://vertx.io/docs/vertx-core/java/#_using_a_proxy_for_client_connections[Vert.x 文档]。
 
-== Advanced pool configuration
+[[_advanced_pool_configuration]]
+== 高级连接池配置
 
 include::pool_config.adoc[]
 
