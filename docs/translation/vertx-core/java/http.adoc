@@ -892,7 +892,7 @@ Vert.x 可以处理不合法的 HTTP 请求，并且提供了一个默认的处�
 所有这种不合法的请求，举个例子，当请求首部过大时，它会返回 `REQUEST_HEADER_FIELDS_TOO_LARGE` 的响应。
 
 您可以设置您自定义的 `link:../../apidocs/io/vertx/core/http/HttpServer.html#invalidRequestHandler-io.vertx.core.Handler-[invalidRequestHandler]` 来处理
-不合法的请求。您的实现类可以只处理特定的不合法的请求并将其他的错误请求交给 `link:../../apidocs/io/vertx/core/http/HttpServerRequest.html#DEFAULT_INVALID_REQUEST_HANDLER[HttpServerRequest.DEFAULT_INVALID_REQUEST_HANDLER]` 作为代理来处理。
+不合法的请求。您的实现类可以只处理特定的不合法的请求并将其他的错误请求委托给 `link:../../apidocs/io/vertx/core/http/HttpServerRequest.html#DEFAULT_INVALID_REQUEST_HANDLER[HttpServerRequest.DEFAULT_INVALID_REQUEST_HANDLER]` 来处理。
 
 [[_http_compression]]
 ===  HTTP 压缩
