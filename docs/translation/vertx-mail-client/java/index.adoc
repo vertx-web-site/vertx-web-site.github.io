@@ -257,12 +257,12 @@ MailMessage对象有如下属性
 * `dkimSignOptions` `DKIMSignOptions` 列表用于执行DKIM签名
 * `pipelining` 如果邮件服务端允许，则开启管道。默认是 `true`
 * `multiPartOnly` 布尔类型，指代该编码的邮件消息是否是仅由多部分（multipart）消息组成。默认为 `false`
-* `poolCleanerPeriod` 整形，以毫秒为单位的连接池清理周期。默认值为 `1000 ms`。
+* `poolCleanerPeriod` 整型，以毫秒为单位的连接池清理周期。默认值为 `1000 ms`。
 * `poolCleanerPeriodUnit` 清理池的时间单位，默认为 `TimeUnit.MILLISECONDS`
-* `keepAliveTimeout` 整形，SMTP 连接处于活跃状态（keep alive）的超时时间（以秒为单位）。默认值为`300 s`。
+* `keepAliveTimeout` 整型，SMTP 连接处于活跃状态（keep alive）的超时时间（以秒为单位）。默认值为`300 s`。
 * `keepAliveTimeoutUnit`, 保证池中连接处于活跃状态（keep alive）的时间单位。默认为`TimeUnit.SECONDS`
-* `ntDomain`, String, the domain name used for NTLM authentication. If `username` follows format: `<DOMAIN>\<UserName>`, the part before `\` will be used for the domain name.
-* `workstation`, String, the workstation name used for NTLM authentication
+* `ntDomain`, 字符串类型, 用于NTLM协议身份认证的域名，如果 `用户名` 格式为:`<DOMAIN>\<UserName>` 则使用 `\` 前的部分作为域名
+* `workstation`, 字符串类型, 用于NTLM协议身份认证的工作站名称。
 
 [[_mailresult_object]]
 === MailResult对象
