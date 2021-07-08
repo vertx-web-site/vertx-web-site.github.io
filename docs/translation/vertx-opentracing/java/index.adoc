@@ -97,26 +97,26 @@ DeliveryOptions options = new DeliveryOptions().setTracingPolicy(TracingPolicy.A
 vertx.eventBus().send("the-address", "foo", options);
 ----
 
-== Obtain current Span
+== 获取当前的 Span
 
-Vert.x stores current `Span` object in local context.
-To obtain it, use method `OpenTracingUtil.getSpan()`.
+Vert.x 使用本地上下文来保存当前的 `Span` 对象。
+为了获取当前的 `Span` 实例，请使用 `OpenTracingUtil.getSpan()` 方法
 
-This method will work only on Vert.x threads (instances of `VertxThread`).
-Obtaining from non-Vert.x thread doesn't work by design, method will return null.
+这个方法只能在 Vert.x 的线程上使用 (线程必须是 `VertxThread` 的实例)。
+在一个不是 Vert.x 的线程上调用该方法是不符合设计预期的，因此该方法会返回 null。
 
-== Coroutines support
+== 协程支持
 
-There is no direct support for coroutines, but it can be achieved with minimal instrumentation.
+现在并没有提供对协程的直接支持，但是通过极小的改动就可以做到。
 
-There are several steps to achieve this.
+为了支持协程，您需要做以下几步。
 
-1. Use `CoroutineVerticle`.
-2. Convert *every route handler* you have to a coroutine.
-3. Use CoroutineContext to store `Tracer` and current `Span` object
+1. 使用 `CoroutineVerticle`。
+2. 将您的 *每个路由处理器* 转换为协程。
+3. 使用 CoroutineContext 来保存 `Tracer` 和当前的 `Span` 对象
 
 
-Example code:
+示例代码：
 
 [source,kotlin]
 ----
@@ -179,9 +179,9 @@ class TracedVerticle(private val tracer: Tracer): CoroutineVerticle() {
 }
 ----
 
-1. Creates a coroutine handler with `coroutineHandler` extension method.
-2. Creates usual async handler, which is then wrapped to a coroutine.
-3. Extension method to convert `Handler<RoutingContext>` to suspendable function.
+1. 使用 `coroutineHandler` 扩展方法来创建一个协程处理器。
+2. 创建一个普通的异步处理器，并将其包装在一个协程中。
+3. 使用扩展方法来讲 `Handler<RoutingContext>` 转化为一个可挂起的函数。
 4. Extension method which creates and launches a coroutine on Vert.x EventLoop.
 5. Get current `Span` from Vert.x local context (populated automatically).
 6. Create a wrapper coroutine, add current Span to `CoroutineContext`.
