@@ -40,7 +40,7 @@ Vert.x 通过 TLS 之上的 `h2` 和 TCP 之上的 `h2c` 来支持 HTTP/2 协议
 - `h2c` 表示在TCP层上使用明文形式的 HTTP/2 协议，
 这样的连接可以使用 HTTP/1.1 升级请求建立，也可以直接建立。
 
-要处理 `h2` 请求，你必须调用 `link:../../apidocs/io/vertx/core/http/HttpServerOptions.html#setUseAlpn-boolean-[setUseAlpn]` 方法来启用TLS：
+要处理 `h2` 请求，您必须调用 `link:../../apidocs/io/vertx/core/http/HttpServerOptions.html#setUseAlpn-boolean-[setUseAlpn]` 方法来启用 TLS：
 
 [source,java]
 ----
@@ -885,30 +885,31 @@ response.sendFile("<html><head><script src=\"/main.js\"></script></head><body></
 连接传递给 `link:../../apidocs/io/vertx/core/http/HttpServer.html#requestHandler-io.vertx.core.Handler-[requestHandler]` 之前发生的异常，
 或者是传递给 `link:../../apidocs/io/vertx/core/http/HttpServer.html#webSocketHandler-io.vertx.core.Handler-[webSocketHandler]` 之前发生的异常，如TLS握手期间发生的异常。
 
-==== Handling invalid requests
+[[_handling_invalid_requests]]
+==== 处理不合法的请求
 
-Vert.x will handle invalid HTTP requests and provides a default handler that will handle the common case
-appropriately, e.g. it does respond with `REQUEST_HEADER_FIELDS_TOO_LARGE` when a request header is too long.
+Vert.x 可以处理不合法的 HTTP 请求，并且提供了一个默认的处理器来处理
+所有这种不合法的请求，举个例子，当请求首部过大时，它会返回 `REQUEST_HEADER_FIELDS_TOO_LARGE` 的响应。
 
-You can set your own `link:../../apidocs/io/vertx/core/http/HttpServer.html#invalidRequestHandler-io.vertx.core.Handler-[invalidRequestHandler]` to process
-invalid requests. Your implementation can handle specific cases and delegate other cases to to `link:../../apidocs/io/vertx/core/http/HttpServerRequest.html#DEFAULT_INVALID_REQUEST_HANDLER[HttpServerRequest.DEFAULT_INVALID_REQUEST_HANDLER]`.
+您可以设置您自定义的 `link:../../apidocs/io/vertx/core/http/HttpServer.html#invalidRequestHandler-io.vertx.core.Handler-[invalidRequestHandler]` 来处理
+不合法的请求。您的实现类可以只处理特定的不合法的请求并将其他的错误请求委托给 `link:../../apidocs/io/vertx/core/http/HttpServerRequest.html#DEFAULT_INVALID_REQUEST_HANDLER[HttpServerRequest.DEFAULT_INVALID_REQUEST_HANDLER]` 来处理。
 
 [[_http_compression]]
 ===  HTTP 压缩
 
-Vert.x 支持开箱即用的HTTP压缩。
+Vert.x 支持开箱即用的 HTTP 压缩。
 
 这意味着在响应发送回客户端之前，您可以将响应体自动压缩。
 
-若客户端不支持HTTP 压缩，则它可以发回没有压缩过的请求。
+若客户端不支持 HTTP 压缩，则它可以发回没有压缩过的请求。
 
-这允许它同时处理支持HTTP 压缩的客户端和不支持的客户端。
+这允许它同时处理支持 HTTP 压缩的客户端和不支持的客户端。
 
 要启用压缩，可以使用 `link:../../apidocs/io/vertx/core/http/HttpServerOptions.html#setCompressionSupported-boolean-[setCompressionSupported]` 方法进行配置。
 
 默认情况下，未启用压缩。
 
-当启用HTTP 压缩时，服务器将检查客户端请求头中是否包含了 `Accept-Encoding` 并支持常用的 deflate 和 gzip 压缩算法。
+当启用 HTTP 压缩时，服务器将检查客户端请求头中是否包含了 `Accept-Encoding` 并支持常用的 deflate 和 gzip 压缩算法。
 Vert.x 两者都支持。
 
 若找到这样的请求头，服务器将使用所支持的压缩算法之一自动压缩响应正文，
@@ -991,10 +992,10 @@ HttpClient client = vertx.createHttpClient(options);
 并期望从服务端接收相同的连接偏好。
 
 HTTP 服务端可能不支持 HTTP/2，当响应到达时，可以使用
-`link:../../apidocs/io/vertx/core/http/HttpClientResponse.html#version--[version]` 方法检查实际HTTP版本。。
+`link:../../apidocs/io/vertx/core/http/HttpClientResponse.html#version--[version]` 方法检查实际HTTP版本。
 
 当客户端连接到 HTTP/2 服务端时，它将向服务端发送其 `link:../../apidocs/io/vertx/core/http/HttpClientOptions.html#getInitialSettings--[初始设置]` 。
-设置定义服务器如何使用连接、
+设置定义服务器如何使用连接，
 客户端的默认初始设置是由 HTTP/2 RFC定义的。
 
 [[_logging_network_client_activity]]
@@ -1121,9 +1122,9 @@ client.request(HttpMethod.GET,8080, "myserver.mycompany.com", "/some-uri", ar1 -
 });
 ----
 
-你也可以发送带请求体的请求。
+您也可以发送带请求体的请求。
 
-使用 `link:../../apidocs/io/vertx/core/http/HttpClientRequest.html#send-java.lang.String-[send]` 方法可以发送String类型的请求体，
+使用 `link:../../apidocs/io/vertx/core/http/HttpClientRequest.html#send-java.lang.String-[send]` 方法可以发送 String 类型的请求体，
 如果 `Content-Length` 请求头没有预先设置，则会自动设置。
 
 [source,java]
@@ -1224,7 +1225,7 @@ client.request(HttpMethod.POST, "some-uri")
 });
 ----
 
-也有一些方法可用于写入UTF-8编码的字符串，或以其他特定编码写入buffer：
+也有一些方法可用于写入 UTF-8 编码的字符串，或以其他特定编码写入 buffer：
 
 [source,java]
 ----
@@ -1239,7 +1240,7 @@ buffer.appendInt(123).appendLong(245l);
 request.write(buffer);
 ----
 
-如果你的http请求只需要写入一个字符串或buffer，
+如果您的 http 请求只需要写入一个字符串或 buffer，
 可以直接调用 `end` 方法。
 
 [source,java]
@@ -1558,11 +1559,11 @@ http客户端接口可以按下面的模式使用，非常简单：
 因此您需要充分了解它的工作过程，否则可能会遇到数据争夺
 （即丢失事件导致数据损坏）的情况。
 
-NOTE: https://vertx.io/docs/vertx-web-client/java/[Vert.x Web Client] 是比HttpClient更高级别的替代品
-（实际上它也是基于HttpClient构建的），如果HttpClient对于你的使用场景来说太底层，可以考虑WebClient。
+NOTE: https://vertx.io/docs/vertx-web-client/java/[Vert.x Web Client] 是比 HttpClient 更高级别的替代品
+（实际上它也是基于 HttpClient 构建的），如果 HttpClient 对于您的使用场景来说太底层，可以考虑 WebClient。
 
-HttpClient客户端有意地避免返回 `Future<HttpClientResponse>` ，
-因为如果在event-loop之外设置Future的完成处理器可能会导致线程竞争。。
+HttpClient 客户端有意地避免返回 `Future<HttpClientResponse>` ，
+因为如果在 event-loop 之外设置 Future 的完成处理器可能会导致线程竞争。
 
 [source,java]
 ----
@@ -2595,10 +2596,10 @@ webSocket.frameHandler(frame -> {
 [[_event_bus_handlers]]
 ==== Event bus 处理器
 
-每个WebSocket都会在事件总线上自动注册两个处理器，当此处理器中接收到任何数据时，
-它会将数据写入WebSocket。这两个处理器是本地订阅，不会路由到集群上。
+每个 WebSocket 都会在事件总线上自动注册两个处理器，当此处理器中接收到任何数据时，
+它会将数据写入 WebSocket。这两个处理器是本地订阅，不会路由到集群上。
 
-基于这个特性，你可以将数据写入WebSocket（可能在完全不同的verticle中），
+基于这个特性，您可以将数据写入 WebSocket（可能在完全不同的 verticle 中），
 只要将数据发送到这两个处理器监听的地址即可。
 
 这两个处理器的监听地址由 `link:../../apidocs/io/vertx/core/http/WebSocketBase.html#binaryHandlerID--[binaryHandlerID]` 和

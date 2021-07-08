@@ -939,12 +939,12 @@ NetClient client = vertx.createNetClient(options);
 [[_configuring_the_cipher_suite]]
 ==== 配置密码套件
 
-By default, the TLS configuration will use the list of Cipher suites of the SSL engine:
+默认情况下，TLS 配置会使用以下列表中的密码套件作为 SSL 的协议引擎：
 
-- JDK SSL engine when `link:../../apidocs/io/vertx/core/net/JdkSSLEngineOptions.html[JdkSSLEngineOptions]` is used
-- OpenSSL engine when `link:../../apidocs/io/vertx/core/net/OpenSSLEngineOptions.html[OpenSSLEngineOptions]` is used
+- 使用 `link:../../apidocs/io/vertx/core/net/JdkSSLEngineOptions.html[JdkSSLEngineOptions]` 配置时，使用 JDK 的 SSLEngine
+- 使用 `link:../../apidocs/io/vertx/core/net/OpenSSLEngineOptions.html[OpenSSLEngineOptions]` 配置时，使用 OpenSSL 的 SSL 引擎实现
 
-This Cipher suite can be configured with a suite of enabled ciphers:
+这个密码套件可以使用一系列启用的密文来配置：
 
 [source,java]
 ----
@@ -958,14 +958,14 @@ NetServerOptions options = new NetServerOptions().
 NetServer server = vertx.createNetServer(options);
 ----
 
-When the enabled cipher suites is defined (i.e not empty), it takes precedence over the default cipher suites of the SSL engine.
+当您定义了启用的密码套件时(也就是其配置不为空)，该密码套件会覆盖掉 SSL 引擎的默认密码套件。
 
 密码套件可在 `link:../../apidocs/io/vertx/core/net/NetServerOptions.html[NetServerOptions]` 或 `link:../../apidocs/io/vertx/core/net/NetClientOptions.html[NetClientOptions]` 配置项中指定。
 
 [[_configuring_tls_protocol_versions]]
-==== 配置TLS协议版本
+==== 配置 TLS 协议版本
 
-默认情况下，TLS配置将使用以下协议版本：SSLv2Hello、TLSv1、TLSv1.1 和 TLSv1.2。
+默认情况下，TLS 配置将使用以下协议版本：SSLv2Hello、TLSv1、TLSv1.1 和 TLSv1.2。
 协议版本可以通过显式添加启用协议进行配置：
 
 [source,java]
@@ -981,10 +981,10 @@ NetServer server = vertx.createNetServer(options);
 协议版本可在 `link:../../apidocs/io/vertx/core/net/NetServerOptions.html[NetServerOptions]` 或 `link:../../apidocs/io/vertx/core/net/NetClientOptions.html[NetClientOptions]` 配置项中指定。
 
 [[_ssl_engine]]
-==== SSL引擎
+==== SSL 引擎
 
-引擎实现可以配置为使用 https://www.openssl.org[OpenSSL] 而不是JDK实现（来支持SSL）。
-OpenSSL提供比JDK引擎更好的性能和CPU使用率、以及JDK版本独立性。
+引擎实现可以配置为使用 https://www.openssl.org[OpenSSL] 而不是 JDK 实现（来支持 SSL）。
+OpenSSL 提供比 JDK 引擎更好的性能和 CPU 使用率、以及 JDK 版本独立性。
 
 引擎选项可使用：
 
