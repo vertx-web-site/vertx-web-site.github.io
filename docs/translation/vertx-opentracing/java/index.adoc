@@ -2,7 +2,7 @@
 
 Vert.x 借助 Jaeger 的支持集成了 OpenTracing 。
 
-您可以使用Jaeger客户端的下列配置项来配置 Vert.x
+您可以使用 Jaeger 客户端的下列配置项来配置 Vert.x
 https://github.com/jaegertracing/jaeger-client-java/blob/master/jaeger-core/README.md#configuration-via-environment[环境]。
 
 [source,java]
@@ -14,7 +14,7 @@ Vertx vertx = Vertx.vertx(new VertxOptions()
 );
 ----
 
-您也可以传递一个自定义的`Tracer`来更好地调控
+您也可以传递一个自定义的 `Tracer` 来更好地调控
 配置项
 
 [source,java]
@@ -39,16 +39,16 @@ tracing 策略通常可在组件选项里配置
 
 == HTTP tracing
 
-Vert.x HTTP服务端和客户端根据HTTP请求上报跨度（span）：
+Vert.x HTTP 服务端和客户端根据 HTTP 请求上报跨度（span）：
 
 - `operationName`: 当前HTTP方法
 - tags
- - `http.method`: HTTP请求方法
- - `http.url`: 请求URL
- - `http.status_code`: HTTP状态码
+ - `http.method`: HTTP 请求方法
+ - `http.url`: 请求 URL
+ - `http.status_code`: HTTP 状态码
 
 HTTP服务端默认的追踪策略是 `ALWAYS`,
-您可以使用`link:../../apidocs/io/vertx/core/http/HttpServerOptions.html#setTracingPolicy-io.vertx.core.tracing.TracingPolicy-[setTracingPolicy]` 来调配该策略。
+您可以使用 `link:../../apidocs/io/vertx/core/http/HttpServerOptions.html#setTracingPolicy-io.vertx.core.tracing.TracingPolicy-[setTracingPolicy]` 来调配该策略。
 
 [source,java]
 ----
@@ -57,8 +57,8 @@ HttpServer server = vertx.createHttpServer(new HttpServerOptions()
 );
 ----
 
-HTTP客户端默认的追踪策略是 `PROPAGATE` ,
-您可以使用`link:../../apidocs/io/vertx/core/http/HttpClientOptions.html#setTracingPolicy-io.vertx.core.tracing.TracingPolicy-[setTracingPolicy]` 来调配该策略。
+HTTP 客户端默认的追踪策略是 `PROPAGATE` ,
+您可以使用 `link:../../apidocs/io/vertx/core/http/HttpClientOptions.html#setTracingPolicy-io.vertx.core.tracing.TracingPolicy-[setTracingPolicy]` 来调配该策略。
 
 [source,java]
 ----
@@ -80,7 +80,7 @@ OpenTracingUtil.setSpan(span);
 span.finish();
 ----
 
-在包含有两个Vert.x服务的HTTP场景中，将会在客户端创建一个跨度，
+在包含有两个 Vert.x 服务的 HTTP 场景中，将会在客户端创建一个跨度，
 而后追踪上下文将在服务器端传播，另一个跨度将添加到追踪中。
 
 [[_eventbus_tracing]]
@@ -89,7 +89,7 @@ span.finish();
 Vert.x 事件总线围绕消息交换报告跨度。
 
 默认的追踪策略是 `PROPAGATE` ,
-您可以使用`link:../../apidocs/io/vertx/core/eventbus/DeliveryOptions.html#setTracingPolicy-io.vertx.core.tracing.TracingPolicy-[setTracingPolicy]` 来调配该策略.
+您可以使用 `link:../../apidocs/io/vertx/core/eventbus/DeliveryOptions.html#setTracingPolicy-io.vertx.core.tracing.TracingPolicy-[setTracingPolicy]` 来调配该策略.
 
 [source,java]
 ----
@@ -190,9 +190,9 @@ class TracedVerticle(private val tracer: Tracer): CoroutineVerticle() {
 7. 从协程上下文中恢复 `Span` 。
 8. 复用 `span` 或使用 `tracer.buildSpan("").asChildOf(span).start()` 方法创建一个新的 `Span`。
 9. 将这个 `Span` 放入上下文中
-10. 如果你创建了一个新的话，请终结掉之前的 `childSpan`。
+10. 如果您创建了一个新的话，请终结掉之前的 `childSpan`。
 
-以下是一些有用的代码，你的实现可以参考：
+以下是一些有用的代码，您的实现可以参考：
 
 [source,kotlin]
 ----
