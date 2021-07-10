@@ -2,7 +2,7 @@
 
 Vert.x 借助 Jaeger 的支持集成了 OpenTracing 。
 
-您可以使用Jaeger客户端的下列配置项来配置 Vert.x
+您可以使用 Jaeger 客户端的下列配置项来配置 Vert.x
 https://github.com/jaegertracing/jaeger-client-java/blob/master/jaeger-core/README.md#configuration-via-environment[环境]。
 
 [source,java]
@@ -14,7 +14,7 @@ Vertx vertx = Vertx.vertx(new VertxOptions()
 );
 ----
 
-您也可以传递一个自定义的`Tracer`来更好地调控
+您也可以传递一个自定义的 `Tracer` 来更好地调控
 配置项
 
 [source,java]
@@ -39,16 +39,16 @@ tracing 策略通常可在组件选项里配置
 
 == HTTP tracing
 
-Vert.x HTTP服务端和客户端根据HTTP请求上报跨度（span）：
+Vert.x HTTP 服务端和客户端根据 HTTP 请求上报跨度（span）：
 
 - `operationName`: 当前HTTP方法
 - tags
- - `http.method`: HTTP请求方法
- - `http.url`: 请求URL
- - `http.status_code`: HTTP状态码
+ - `http.method`: HTTP 请求方法
+ - `http.url`: 请求 URL
+ - `http.status_code`: HTTP 状态码
 
 HTTP服务端默认的追踪策略是 `ALWAYS`,
-您可以使用`link:../../apidocs/io/vertx/core/http/HttpServerOptions.html#setTracingPolicy-io.vertx.core.tracing.TracingPolicy-[setTracingPolicy]` 来调配该策略。
+您可以使用 `link:../../apidocs/io/vertx/core/http/HttpServerOptions.html#setTracingPolicy-io.vertx.core.tracing.TracingPolicy-[setTracingPolicy]` 来调配该策略。
 
 [source,java]
 ----
@@ -57,8 +57,8 @@ HttpServer server = vertx.createHttpServer(new HttpServerOptions()
 );
 ----
 
-HTTP客户端默认的追踪策略是 `PROPAGATE` ,
-您可以使用`link:../../apidocs/io/vertx/core/http/HttpClientOptions.html#setTracingPolicy-io.vertx.core.tracing.TracingPolicy-[setTracingPolicy]` 来调配该策略。
+HTTP 客户端默认的追踪策略是 `PROPAGATE` ,
+您可以使用 `link:../../apidocs/io/vertx/core/http/HttpClientOptions.html#setTracingPolicy-io.vertx.core.tracing.TracingPolicy-[setTracingPolicy]` 来调配该策略。
 
 [source,java]
 ----
@@ -80,7 +80,7 @@ OpenTracingUtil.setSpan(span);
 span.finish();
 ----
 
-在包含有两个Vert.x服务的HTTP场景中，将会在客户端创建一个跨度，
+在包含有两个 Vert.x 服务的 HTTP 场景中，将会在客户端创建一个跨度，
 而后追踪上下文将在服务器端传播，另一个跨度将添加到追踪中。
 
 [[_eventbus_tracing]]
@@ -89,7 +89,7 @@ span.finish();
 Vert.x 事件总线围绕消息交换报告跨度。
 
 默认的追踪策略是 `PROPAGATE` ,
-您可以使用`link:../../apidocs/io/vertx/core/eventbus/DeliveryOptions.html#setTracingPolicy-io.vertx.core.tracing.TracingPolicy-[setTracingPolicy]` 来调配该策略.
+您可以使用 `link:../../apidocs/io/vertx/core/eventbus/DeliveryOptions.html#setTracingPolicy-io.vertx.core.tracing.TracingPolicy-[setTracingPolicy]` 来调配该策略.
 
 [source,java]
 ----
@@ -97,26 +97,28 @@ DeliveryOptions options = new DeliveryOptions().setTracingPolicy(TracingPolicy.A
 vertx.eventBus().send("the-address", "foo", options);
 ----
 
-== Obtain current Span
+[[_obtain_current_span]]
+== 获取当前的 Span
 
-Vert.x stores current `Span` object in local context.
-To obtain it, use method `OpenTracingUtil.getSpan()`.
+Vert.x 使用本地上下文来保存当前的 `Span` 对象。
+为了获取当前的 `Span` 实例，请使用 `OpenTracingUtil.getSpan()` 方法
 
-This method will work only on Vert.x threads (instances of `VertxThread`).
-Obtaining from non-Vert.x thread doesn't work by design, method will return null.
+这个方法只能在 Vert.x 的线程上使用 (线程必须是 `VertxThread` 的实例)。
+在一个不是 Vert.x 的线程上调用该方法是不符合设计预期的，因此该方法会返回 null。
 
-== Coroutines support
+[[_coroutines_support]]
+== 协程支持
 
-There is no direct support for coroutines, but it can be achieved with minimal instrumentation.
+现在并没有提供对协程的直接支持，但是通过极小的改动就可以做到。
 
-There are several steps to achieve this.
+为了支持协程，您需要做以下几步。
 
-1. Use `CoroutineVerticle`.
-2. Convert *every route handler* you have to a coroutine.
-3. Use CoroutineContext to store `Tracer` and current `Span` object
+1. 使用 `CoroutineVerticle`。
+2. 将您的 *每个路由处理器* 转换为协程。
+3. 使用 CoroutineContext 来保存 `Tracer` 和当前的 `Span` 对象
 
 
-Example code:
+示例代码：
 
 [source,kotlin]
 ----
@@ -166,7 +168,7 @@ class TracedVerticle(private val tracer: Tracer): CoroutineVerticle() {
                    // childSpan.finish()                                           // (10)
                }
            }
-           // OR create a helper method for further reuse
+           // 或为了复用代码而创建一个帮助方法
            withContextTraced(coroutineContext) {
                try {
                    handler(ctx)
@@ -179,23 +181,23 @@ class TracedVerticle(private val tracer: Tracer): CoroutineVerticle() {
 }
 ----
 
-1. Creates a coroutine handler with `coroutineHandler` extension method.
-2. Creates usual async handler, which is then wrapped to a coroutine.
-3. Extension method to convert `Handler<RoutingContext>` to suspendable function.
-4. Extension method which creates and launches a coroutine on Vert.x EventLoop.
-5. Get current `Span` from Vert.x local context (populated automatically).
-6. Create a wrapper coroutine, add current Span to `CoroutineContext`.
-7. Retrieve a `Span` from coroutine context.
-8. Either reuse `span` or create a new span with `tracer.buildSpan("").asChildOf(span).start()`.
-9. Put a new `Span` to a context.
-10. Finish `childSpan`, if you created a new one.
+1. 使用 `coroutineHandler` 扩展方法来创建一个协程处理器。
+2. 创建一个普通的异步处理器，并将其包装在一个协程中。
+3. 使用扩展方法来讲 `Handler<RoutingContext>` 转化为一个可挂起的函数。
+4. 声明一个用来在 Vert.x 的事件循环上创建并执行协程的扩展方法。
+5. 自动从当前的 Vert.x 上下文中获取 `Span` 实例(该方法会自动这么做)。
+6. 创建一个包装协程，并将当前的 `Span` 添加到 `CoroutineContext` 中。
+7. 从协程上下文中恢复 `Span` 。
+8. 复用 `span` 或使用 `tracer.buildSpan("").asChildOf(span).start()` 方法创建一个新的 `Span`。
+9. 将这个 `Span` 放入上下文中
+10. 如果您创建了一个新的话，请终结掉之前的 `childSpan`。
 
-Helper code, your implementation may vary:
+以下是一些有用的代码，您的实现可以参考：
 
 [source,kotlin]
 ----
 /**
-* Keeps references to a tracer and current Span inside CoroutineContext
+* 保存一个 tracer 和当前协程上下文中的 Span 的引用
 */
 class SpanElement(val tracer: Tracer, val span: Span) :
    ThreadContextElement<Scope>,
@@ -204,14 +206,14 @@ class SpanElement(val tracer: Tracer, val span: Span) :
    companion object Key : CoroutineContext.Key<SpanElement>
 
    /**
-   *  Will close current [Scope] after continuation's pause.
+   *  在协程挂起后，关闭 [Scope]
    */
    override fun restoreThreadContext(context: CoroutineContext, oldState: Scope) {
        oldState.close()
    }
 
    /**
-   * Will create a new [Scope] after each continuation's resume, scope is activated with provided [span] instance.
+   * 当协程恢复后，创建新的 [Scope] ， scope 激活后可以提供 [span] 的实例
    */
    override fun updateThreadContext(context: CoroutineContext): Scope {
        return tracer.activateSpan(span)
@@ -219,7 +221,7 @@ class SpanElement(val tracer: Tracer, val span: Span) :
 }
 
 /**
-* Advanced helper method with a few options, also shows how to use MDCContext to pass a Span to a logger.
+* 更高级的帮助代码，包含一些选项，并且展示了怎么使用 MDCContext 来将 Span 传递给 logger。
 */
 suspend fun <T> withContextTraced(
    context: CoroutineContext,
