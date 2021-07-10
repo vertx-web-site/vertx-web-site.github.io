@@ -139,10 +139,10 @@ Vert.x中的几乎所有API都不会阻塞调用线程，除了个别特例（�
 
 在多数情况下，Vert.x使用被称为 *Event Loop* 的线程来调用您的处理器。
 
-由于Vert.x或应用程序的代码块中没有阻塞，**Event Loop**
+由于Vert.x或应用程序的代码块中没有阻塞代码，**Event Loop**
 可以在事件到达时快速地分发到不同的处理器中。
 
-由于没有阻塞，Event Loop 可在短时间内分发大量的事件。
+由于没有阻塞代码，Event Loop 可在短时间内分发大量的事件。
 例如，一个单独的 *Event Loop* 可以非常迅速地处理数千个 HTTP 请求。
 
 我们称之为 https://en.wikipedia.org/wiki/Reactor_pattern[Reactor 模式]（译者注：Reactor Pattern 翻译成了 https://zh.wikipedia.org/wiki/%E5%8F%8D%E5%BA%94%E5%99%A8%E6%A8%A1%E5%BC%8F[反应器模式]）。
