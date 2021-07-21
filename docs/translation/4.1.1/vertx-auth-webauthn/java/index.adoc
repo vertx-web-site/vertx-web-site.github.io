@@ -1,0 +1,371 @@
+= WebAuthn 权限管理器
+
+本组件包含一个开箱即用的
+https://github.com/herrjemand/awesome-webauthn#server-libs[符合FIDO标准] 的 WebAuthn 实现。要使用该组件，
+您需要在编译脚本中添加如下依赖：
+
+* Maven （在您的 `pom.xml` ）：
+
+[source,xml,subs="+attributes"]
+----
+<dependency>
+ <groupId>io.vertx</groupId>
+ <artifactId>vertx-auth-webauthn</artifactId>
+ <version>4.1.1</version>
+</dependency>
+----
+
+* Gradle（在您的 `build.gradle` ）：
+
+[source,groovy,subs="+attributes"]
+----
+compile 'io.vertx:vertx-auth-webauthn:4.1.1'
+----
+
+https://developer.mozilla.org/en-US/docs/Web/API/Web_Authentication_API[WebAuthn (Web Authentication)] 是一个web标准，
+该标准使用了公钥和私钥来给web应用的用户授权。
+严格来讲，WebAuthn仅仅是浏览器API的名称， 而且它还是 https://fidoalliance.org/fido2/[FIDO2] 的一部分。
+FIDO2 是一系列标准的宏观总体，它包含了 WebAuthn 和 CTAP。
+FIDO2 是历史遗留协议 FIDO Universal 2nd Factor（U2F）的替代者。
+
+作为应用开发者，我们不处理 CTAP（Client-to-Authenticator Protocol），
+CTAP是一个协议，类似FIDO安全口令一样，浏览器用它来与认证器交互。
+
+FIDO2使用公钥/私钥。用户有一个认证器，该认证器创建公钥/私钥的密钥对。
+这些密钥对在每个网站都不一样。公钥被传送到服务器端并被存储到用户账号名下。
+私钥存储在验证器方从不暴露。如果要登陆，服务器首先创建一个随机码（一个随机的二进制序列），
+然后将它发送到验证器。验证器将随机码加入签名后用私钥加密，
+然后将签名加密后的数据发送回服务器。
+服务器用存储的公钥校验签名，如果签名合法，则进行授权。
+
+按传统，该技术需要一个硬件安全口令，类似 https://www.yubico.com/products/[Yubico key] 或者 https://www.ftsafe.com/Products/FIDO[Feitian] 生成的口令，
+从而命名客户端和服务端两方。
+
+FIDO2 依旧支持这些硬件口令，但是这个技术也支持其他的。如果您有一个安卓7以上版本的手机，
+或者Windows10系统，那么您用WebAuthn时，便不再需要购买FIDO2安全口令。
+
+在 https://fidoalliance.org/news-your-google-android-7-phone-is-now-a-fido2-security-key/[2019年4月, 谷歌声明] 所有安卓7版本以上的手机都可以充当一个FIDO2安全密钥。
+在 https://www.microsoft.com/en-us/microsoft-365/blog/2018/11/20/sign-in-to-your-microsoft-account-without-a-password-using-windows-hello-or-a-security-key/[2018年11月, 微软声明] 您可以用 Windows Hello 作为一个FIDO2的安全密钥。
+在 https://developer.apple.com/videos/play/wwdc2020/10670/[2020年6月 苹果声明] ，
+您可以通过兼容WebAuthn标准的方式，
+将IOS系统的 FaceID 和 TouchID 用于web应用。
+
+WebAuthn协议已经在 Edge、Firefox、Chrome、和 Safari 浏览器当中实现。
+访问 https://caniuse.com 来查看当前已实现该标准的浏览器： https://caniuse.com/#search=webauthn
+
+== WebAuthn API
+
+https://developer.mozilla.org/en-US/docs/Web/API/Web_Authentication_API[Web Authentication API] 是
+https://developer.mozilla.org/en-US/docs/Web/API/Credential_Management_API[Credential Management API] 的扩展。
+
+WebAuthn 从 Credential Management API 中继承了两个功能，
+他们分别是 https://developer.mozilla.org/en-US/docs/Web/API/CredentialsContainer/create[navigator.credentials.create()] 和 https://developer.mozilla.org/en-US/docs/Web/API/CredentialsContainer/get[navigator.credentials.get()] ，
+所以他们会就收一个 publickKey 参数。
+
+为了简化该API的用法，我们提供了一个JavaScript客户端应用：
+
+* Maven （在您的 `pom.xml` 文件）：
+
+[source,xml,subs="+attributes"]
+----
+<dependency>
+ <groupId>io.vertx</groupId>
+ <artifactId>vertx-auth-webauthn</artifactId>
+ <classifier>client</classifier>
+ <type>js</type>
+ <version>4.1.1</version>
+</dependency>
+----
+
+* Gradle （在您的 `build.gradle` 文件）：
+
+[source,groovy,subs="+attributes"]
+----
+compile 'io.vertx:vertx-auth-webauthn:4.1.1:client@js'
+----
+
+该库应该和vertx-web配合使用，
+因为它处理了web层和鉴权码之间的API交互问题。
+
+[[_registration]]
+== 注册
+
+注册是将一个新的鉴权器存入数据库并与用户生成关系的过程。
+
+该过程总共有两个步骤：
+
+1. 调用 `link:../../apidocs/io/vertx/ext/auth/webauthn/WebAuthn.html#createCredentialsOptions-io.vertx.core.json.JsonObject-[createCredentialsOptions]` 生成一个JsonObject
+2. 调用常规的 `authenticate` API来解密。
+
+如果解密正确，则新的鉴权器应该添加到数据库中并在登陆中可用。
+
+[[_login]]
+== 登陆
+
+类似注册，登陆也有两个步骤：
+
+1. 调用 `link:../../apidocs/io/vertx/ext/auth/webauthn/WebAuthn.html#getCredentialsOptions-java.lang.String-[getCredentialsOptions]` 并生成字符串。
+2. 调用常规的 `authenticate` API来解密。
+
+解密成功，则用户被视为已登陆。
+
+[[_device_attestation]]
+== 设备证明
+
+当一个鉴权器将一个新的密钥对注册于一个服务，则该鉴权器会用证书在公钥上签名。
+这个证书在设备制造的时候就已经被内置于鉴权器当中并指定一个设备模型。
+也就是说，
+所有的 "Samsung Galaxy S8" 手机在出厂时间或特定运行时间拥有同样的证书。
+
+不同设备的证书格式不同。WebAuthn预定义的证书格式如下：
+
+* `Packed` - 广泛用于核心功能为WebAuthn鉴权器的通用证书格式，例如安全口令。
+* `TPM` - 可信平台模块（TPM）是可信平台组（TPG）中的一系列标准。这个证书格式在台式电脑中广泛应用，并且在Window Hello中作为首选证书格式。
+* `Android Key Attestation` - 安卓密钥证书是在安卓0版本中的一个特性，它允许安卓系统校验口令。
+* `Android SafetyNet` - 主要用于Android Key Attestation，创建 Android SafetyNet 证书对于安卓是唯一的可选项。
+* `FIDO U2F` - 实现了 FIDO U2F 的安全密钥使用这个格式。
+* `Apple` - 校验匿名苹果设备证书
+* `none` - 浏览器可能会提示用户选择是否允许网站查看证书数据或者在 `navigator.credentials.create()` 的 `attestation` 参数被设置为 `none` 时是否允许从鉴权器响应中移除证书信息。
+
+这个证书的目的在于，从密码学角度证明，一个新生成的密钥对是来自于一个指定的设备。
+这提供了一个受信的基础，并且能够识别正在使用的设备的属性
+（私钥如何被保护；是否使用了生物识别或使用哪一种生物识别；
+设备是否已认证；等等）。
+
+要注意的是，尽管证书提供了信任的基础，但是校验这个受信的基础是非常不必要的。
+当为一个新的用户注册鉴权器时，通常会使用首次使用信任模型（TOFU）；
+当对一个已存在的用户添加鉴权器时，
+则用户此时已经被授权并已经处于一个安全的会话当中。
+
+[[_a_simple_example]]
+== 一个简单的示例
+
+[[_create_a_registration_request]]
+=== 创建一个注册请求
+
+[source,java]
+----
+WebAuthn webAuthN = WebAuthn.create(
+  vertx,
+  new WebAuthnOptions()
+    .setRelyingParty(new RelyingParty().setName("ACME Corporation")))
+  .authenticatorFetcher(query -> {
+    // 从持久层
+    // 获取鉴权器的函数
+    return Future.succeededFuture(authenticators);
+  })
+  .authenticatorUpdater(authenticator -> {
+    // 更新一个鉴权器并持久化
+    // 的函数
+    return Future.succeededFuture();
+  });
+
+// 某用户
+JsonObject user = new JsonObject()
+  // id最好是base64url字符串
+  .put("id", "000000000000000000000000")
+  .put("rawId", "000000000000000000000000")
+  .put("name", "john.doe@email.com")
+  // 可选项
+  .put("displayName", "John Doe")
+  .put("icon", "https://pics.example.com/00/p/aBjjjpqPb.png");
+
+webAuthN
+  .createCredentialsOptions(user)
+  .onSuccess(challengeResponse -> {
+    // 将密钥返回到浏览器
+    // 以供后续使用
+  });
+----
+
+[[_verify_the_registration_request]]
+=== 校验注册请求
+
+[source,java]
+----
+WebAuthn webAuthN = WebAuthn.create(
+  vertx,
+  new WebAuthnOptions()
+    .setRelyingParty(new RelyingParty().setName("ACME Corporation")))
+  .authenticatorFetcher(query -> {
+    // 从持久层
+    // 获取鉴权器的函数
+    return Future.succeededFuture(authenticators);
+  })
+  .authenticatorUpdater(authenticator -> {
+    // 更新一个鉴权器并持久化
+    // 的函数
+    return Future.succeededFuture();
+  });
+
+// the response received from the browser
+JsonObject request = new JsonObject()
+  .put("id", "Q-MHP0Xq20CKM5LW3qBt9gu5vdOYLNZc3jCcgyyL...")
+  .put("rawId", "Q-MHP0Xq20CKM5LW3qBt9gu5vdOYLNZc3jCcgyyL...")
+  .put("type", "public-key")
+  .put("response", new JsonObject()
+    .put("attestationObject", "o2NmbXRkbm9uZWdhdHRTdG10oGhhdXRoRGF0YVj...")
+    .put("clientDataJSON", "eyJ0eXBlIjoid2ViYXV0aG4uY3JlYXRlIiwiY2hhbGxlb..."));
+
+webAuthN
+  .authenticate(
+    new JsonObject()
+      // 您想要关联到用户名
+      .put("username", "paulo")
+      // 服务器源地址
+      .put("origin", "https://192.168.178.206.xip.io:8443")
+      // 域名
+      .put("domain", "192.168.178.206.xip.io")
+      // 上一步获取到到密钥
+      .put("challenge", "BH7EKIDXU6Ct_96xTzG0l62qMhW_Ef_K4MQdDLoVNc1UX...")
+      .put("webauthn", request))
+  .onSuccess(user -> {
+    // success!
+  });
+----
+
+[[_create_a_Login_request]]
+=== 创建登陆请求
+
+[source,java]
+----
+WebAuthn webAuthN = WebAuthn.create(
+  vertx,
+  new WebAuthnOptions()
+    .setRelyingParty(new RelyingParty().setName("ACME Corporation")))
+  .authenticatorFetcher(query -> {
+    // 从持久层
+    // 获取鉴权器的函数
+    return Future.succeededFuture(authenticators);
+  })
+  .authenticatorUpdater(authenticator -> {
+    // 更新一个鉴权器并持久化
+    // 的函数
+    return Future.succeededFuture();
+  });
+
+// 登陆仅仅需要username，
+// 而且在支持常驻密钥时甚至可以设置为null
+// 这个场景下，鉴权器存储用户方使用的公钥
+webAuthN.getCredentialsOptions("paulo")
+  .onSuccess(challengeResponse -> {
+    // 将密钥返回到浏览器
+    // 以供后续使用
+  });
+----
+
+[[_verify_the_login_request]]
+=== 校验登陆请求
+
+[source,java]
+----
+WebAuthn webAuthN = WebAuthn.create(
+  vertx,
+  new WebAuthnOptions()
+    .setRelyingParty(new RelyingParty().setName("ACME Corporation")))
+  .authenticatorFetcher(query -> {
+    // 从持久层
+    // 获取鉴权器的函数
+    return Future.succeededFuture(authenticators);
+  })
+  .authenticatorUpdater(authenticator -> {
+    // 更新一个鉴权器并持久化
+    // 的函数
+    return Future.succeededFuture();
+  });
+
+// The response from the login challenge request
+JsonObject body = new JsonObject()
+  .put("id", "rYLaf9xagyA2YnO-W3CZDW8udSg8VeMMm25nenU7nCSxUqy1pEzOdb9o...")
+  .put("rawId", "rYLaf9xagyA2YnO-W3CZDW8udSg8VeMMm25nenU7nCSxUqy1pEzOdb9o...")
+  .put("type", "public-key")
+  .put("response", new JsonObject()
+    .put("authenticatorData", "fxV8VVBPmz66RLzscHpg5yjRhO...")
+    .put("clientDataJSON", "eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlb...")
+    .put("signature", "MEUCIFXjL0ONRuLP1hkdlRJ8d0ofuRAS12c6w8WgByr-0yQZA...")
+    .put("userHandle", ""));
+
+webAuthN.authenticate(new JsonObject()
+  // 您想要关联到用户名
+  .put("username", "paulo")
+  // 服务器源地址
+  .put("origin", "https://192.168.178.206.xip.io:8443")
+  // 服务器域名
+  .put("domain", "192.168.178.206.xip.io")
+  // 之前得到的密钥
+  .put("challenge", "BH7EKIDXU6Ct_96xTzG0l62qMhW_Ef_K4MQdDLoVNc1UX...")
+  .put("webauthn", body))
+  .onSuccess(user -> {
+    // success!
+  });
+----
+
+[[_metadata_service]]
+== 元数据服务
+
+当前模块通过了所有FIDO2一致性测试，**包括**尚未确定的FIDO2元数据服务API。
+这意味着我们遵循这个协议，并且此处理器**可以**检测被令牌供应商标记为不可信任的令牌。
+例如，一个安全漏洞允许从令牌中提取私钥。
+
+为了支持元数据服务API，作为用户，
+您需要注册自己或者在 https://fidoalliance.org/metadata/[https://fidoalliance.org/metadata] 注册您的应用
+
+在注册之后，您可以获取到 `APIKey` ，并将您到应用配置为：
+
+[source,java]
+----
+final WebAuthnOptions webAuthnOptions = new WebAuthnOptions()
+  // 为了完全信任MDS口令，
+  // 我们需要按照 https://fidoalliance.org/metadata/ 来加载CRLs
+
+  // here the content of: http://mds.fidoalliance.org/Root.crl
+  .addRootCrl(
+    "MIIB1jCCAV0CAQEwCg...")
+  // 内容: http://mds.fidoalliance.org/CA-1.crl
+  .addRootCrl(
+    "MIIB5DCCAYoCAQEwCg...");
+
+// 类似前述，创建webauthn安全对象
+final WebAuthn webAuthN = WebAuthn.create(vertx, webAuthnOptions);
+
+webAuthN.metaDataService()
+  .fetchTOC("https://mds2.fidoalliance.org/?token=your-access-token-string")
+  .onSuccess(allOk -> {
+    // 如果所有的元数据下载完毕，并且解析正确，allOk为true
+    // 如果这个对象已经过时，那么这个过程不会停止
+    // 这个场景下，会跳过指定对象且标识位为false。这也意味着
+    // 这个对象会被标记为 "不受信任"，
+    // 因为我们无法做出任何校验判断
+  });
+----
+
+[[_updating_certificates]]
+== 更新证书
+
+几乎所有设备的证书都基于 `X509` 证书校验。这意味着，证书在某个时间点会过期。
+默认情况下，当前 "激活的" 证书是在 `WebAuthnOptions` 中硬编码的。
+
+然而，如果您的应用需要在自身更新一个证书，例如，用一个时效更近的证书，
+或者用另一个不同的密钥，此时，
+您可以调用 `WebAuthnOptions.putRootCertificate(String, String)` 替换默认的 `根证书` ，
+第一个参数是证书名称或者 FIDO元数据服务的"mds"：
+
+* none
+* u2f
+* packed
+* android-key
+* android-safetynet
+* tpm
+* apple
+* mds
+
+其次，PEM格式的X509证书（大小不做要求）。
+
+[source,java]
+----
+final WebAuthnOptions webAuthnOptions = new WebAuthnOptions()
+  // fido2 MDS 自定义根证书
+  .putRootCertificate("mds", "MIIB1jCCAV0CAQEwCg...")
+  // 从 https://pki.goog/repository/ 更新谷歌根证书
+  .putRootCertificate("android-safetynet", "MIIDvDCCAqSgAwIBAgINAgPk9GHs...");
+----
