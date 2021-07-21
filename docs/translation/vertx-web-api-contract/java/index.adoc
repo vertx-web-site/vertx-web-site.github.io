@@ -18,7 +18,7 @@ To use Vert.x API Contract, add the following dependency to the _dependencies_ s
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-web-api-contract</artifactId>
- <version>4.1.1</version>
+ <version>4.1.2</version>
 </dependency>
 ----
 
@@ -27,7 +27,7 @@ To use Vert.x API Contract, add the following dependency to the _dependencies_ s
 [source,groovy,subs="+attributes"]
 ----
 dependencies {
- compile 'io.vertx:vertx-web-api-contract:4.1.1'
+ compile 'io.vertx:vertx-web-api-contract:4.1.2'
 }
 ----
 

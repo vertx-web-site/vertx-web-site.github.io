@@ -31,7 +31,7 @@ To use the Reactive MSSQL Client add the following dependency to the _dependenci
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-mssql-client</artifactId>
- <version>4.1.1</version>
+ <version>4.1.2</version>
 </dependency>
 ----
 * Gradle (in your `build.gradle` file):
@@ -39,7 +39,7 @@ To use the Reactive MSSQL Client add the following dependency to the _dependenci
 [source,groovy]
 ----
 dependencies {
- compile 'io.vertx:vertx-mssql-client:4.1.1'
+ compile 'io.vertx:vertx-mssql-client:4.1.2'
 }
 ----
 
