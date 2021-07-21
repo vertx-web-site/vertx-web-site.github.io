@@ -302,7 +302,8 @@ router
 [[_using_blocking_handlers]]
 == 使用阻塞式处理器
 
-某些时候您可能需要在处理器里执行一些需要阻塞 Event Loop 的操作，比如调用某个传统的阻塞式 API 或者执行密集计算。
+某些时候您可能需要在处理器里执行一些需要阻塞 Event Loop 的操作，
+比如调用某个传统的阻塞式 API 或者执行密集计算。
 
 您不能在普通的处理器里执行这些操作， 因此我们提供了将route设置成阻塞式处理器的功能。
 
@@ -1951,12 +1952,14 @@ http://en.wikipedia.org/wiki/Basic_access_authentication[HTTP Basic Authenticati
 [[_redirect_authentication_handler]]
 === 重定向身份认证
 
-使用重定向身份认证处理的情况下，如果用户尝试访问受保护的资源并且未登录，则将用户重定向到登录页面
+使用重定向身份认证处理的情况下，如果用户尝试访问受保护的资源并且未登录，
+则将用户重定向到登录页面
 
 然后，用户填写登录表单并提交。
 这由服务器进行处理，服务器对用户进行身份认证，如果通过身份认证，则将用户重定向回原始资源。
 
-要使用重定向身份验证，您可以配置 `link:../../apidocs/io/vertx/ext/web/handler/RedirectAuthHandler.html[RedirectAuthHandler]` 实例，而不是basic authentication处理器。
+要使用重定向身份验证，您可以配置 `link:../../apidocs/io/vertx/ext/web/handler/RedirectAuthHandler.html[RedirectAuthHandler]` 实例，
+而不是basic authentication处理器。
 
 您还需要设置处理器以处理于您的实际登录页面，以及一个处理器来处理实际登录本身。
 为了处理登录，我们为此提供了一个预先构建的处理程序 `link:../../apidocs/io/vertx/ext/web/handler/FormLoginHandler.html[FormLoginHandler]` 。
@@ -1990,6 +1993,7 @@ router
   .handler(ctx -> {
 
     // 这里需要登录
+
     // 这里的值是true
     boolean isAuthenticated = ctx.user() != null;
 
@@ -2235,10 +2239,13 @@ router.route("/static/*").handler(StaticHandler.create());
 它还会在类路径中寻找一个名为 `webroot/css/mystyle.css` 的文件。这意味着您可以将所有静态资源打包到一个jar文件（或fatjar）中，
 然后像这样分发它们。
 
-当Vert.x首次在类路径中找到资源时，它将提取该资源并将其缓存在磁盘上的临时目录中，因此不必每次都这样做。
+当Vert.x首次在类路径中找到资源时，它将提取该资源并将其缓存在磁盘上的临时目录中
+，因此不必每次都这样做。
 
-处理器会处理范围感知的请求。当客户端向静态资源发出请求时，处理程序将通过在 `Accept-Ranges` 标头上声明该单元来通知其可以处理范围感知的请求。
-包含带有正确单位以及起始索引和结束索引的 `Range` 标头的进一步请求将收到带有正确 `Content-Range` 标头的部分响应。
+处理器会处理范围感知的请求。当客户端向静态资源发出请求时，
+处理程序将通过在 `Accept-Ranges` 标头上声明该单元来通知其可以处理范围感知的请求。
+包含带有正确单位以及起始索引和结束索引的 `Range`
+标头的进一步请求将收到带有正确 `Content-Range` 标头的部分响应。
 
 [[_configuring_caching]]
 === 配置缓存
@@ -2498,6 +2505,13 @@ router.get("/dynamic/*").handler(handler);
 // 将所有以 `.hbs` 结尾的 GET 请求路由到模板处理器上
 router.getWithRegex(".+\\.hbs").handler(handler);
 ----
+
+
+
+
+
+
+
 
 [[_mvel_template_engine]]
 === MVEL 模版引擎
@@ -3619,7 +3633,8 @@ router.route().handler(
 `frame` ，`iframe`，`embed` 或 `object` 中呈现页面。
 网站可以通过确保其内容未嵌入其他网站来避免点击劫持攻击。
 
-仅当访问文档的用户使用支持 `X-Frame-Options` 的浏览器时，才提供附加的安全性。
+仅当访问文档的用户使用支持 `X-Frame-Options` 的浏览器时，
+才提供附加的安全性。
 
 如果指定 `DENY`，则从其他站点加载时，不仅在fram中加载页面失败，而且从同一站点加载时，也会失败。
 另一方面，如果您指定 `SAMEORIGIN` ，则只要frame中包含该页面的站点与提供该页面的站点相同，
