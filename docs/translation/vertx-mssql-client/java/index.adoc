@@ -32,7 +32,7 @@ Reactive MSSQL 客户端是微软 SQL Server 的客户端，
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-mssql-client</artifactId>
- <version>4.1.1</version>
+ <version>4.1.2</version>
 </dependency>
 ----
 * Gradle (in your `build.gradle` file):
@@ -40,7 +40,7 @@ Reactive MSSQL 客户端是微软 SQL Server 的客户端，
 [source,groovy]
 ----
 dependencies {
- compile 'io.vertx:vertx-mssql-client:4.1.1'
+ compile 'io.vertx:vertx-mssql-client:4.1.2'
 }
 ----
 

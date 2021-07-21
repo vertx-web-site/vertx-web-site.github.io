@@ -16,7 +16,7 @@ WARNING: 这个模块处于 _Tech Preview_ 阶段，这意味着在不同版本�
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-web-proxy</artifactId>
- <version>4.1.1</version>
+ <version>4.1.2</version>
 </dependency>
 ----
 
@@ -25,7 +25,7 @@ WARNING: 这个模块处于 _Tech Preview_ 阶段，这意味着在不同版本�
 [source,groovy,subs="+attributes"]
 ----
 dependencies {
- compile 'io.vertx:vertx-web-proxy:4.1.1'
+ compile 'io.vertx:vertx-web-proxy:4.1.2'
 }
 ----
 

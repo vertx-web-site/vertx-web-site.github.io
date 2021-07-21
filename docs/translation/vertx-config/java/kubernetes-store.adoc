@@ -17,12 +17,12 @@ Kubernetes ConfigMap 配置中心扩展了 Vert.x Configuration Retriever 并提
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-config-kubernetes-configmap</artifactId>
- <version>4.1.1</version>
+ <version>4.1.2</version>
 </dependency>
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-config</artifactId>
- <version>4.1.1</version>
+ <version>4.1.2</version>
 </dependency>
 ----
 
@@ -30,8 +30,8 @@ Kubernetes ConfigMap 配置中心扩展了 Vert.x Configuration Retriever 并提
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-config:4.1.1'
-compile 'io.vertx:vertx-config-kubernetes-configmap:4.1.1'
+compile 'io.vertx:vertx-config:4.1.2'
+compile 'io.vertx:vertx-config-kubernetes-configmap:4.1.2'
 ----
 
 [[_configuring_the_store]]

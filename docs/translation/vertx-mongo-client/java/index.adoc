@@ -25,7 +25,7 @@ https://mongodb.github.io/mongo-java-driver/4.1/driver-reactive/getting-started/
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-mongo-client</artifactId>
- <version>4.1.1</version>
+ <version>4.1.2</version>
 </dependency>
 ----
 
@@ -33,7 +33,7 @@ https://mongodb.github.io/mongo-java-driver/4.1/driver-reactive/getting-started/
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-mongo-client:4.1.1'
+compile 'io.vertx:vertx-mongo-client:4.1.2'
 ----
 
 

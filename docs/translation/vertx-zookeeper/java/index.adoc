@@ -12,7 +12,7 @@
 <dependency>
 <groupId>io.vertx</groupId>
 <artifactId>vertx-zookeeper</artifactId>
-<version>4.1.1</version>
+<version>4.1.2</version>
 </dependency>
 ----
 * Gradle (在 `build.gradle` 文件中):
@@ -49,7 +49,7 @@ Vert.x 集群器并不处理节点之间的通信，在 Vert.x 中节点中的�
 [[_using_this_cluster_manager]]
 == 使用 Zookeeper cluster manager
 
-如果您从命令行使用Vert.x，则应将此集群管理器对应的jar（将其命名为 `vertx-zookeeper-4.1.1.jar`
+如果您从命令行使用Vert.x，则应将此集群管理器对应的jar（将其命名为 `vertx-zookeeper-4.1.2.jar`
 复制到Vert.x安装目录下的 `lib` 目录中。
 
 如果要在Maven或Gradle项目中使用此群集管理器管理Vert.x 的群集，则只需将

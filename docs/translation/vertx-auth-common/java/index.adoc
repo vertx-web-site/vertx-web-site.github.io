@@ -15,7 +15,7 @@ vertx-web同样也使用了Vert.x auth来处理其身份验证和授权。
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-auth-common</artifactId>
- <version>4.1.1</version>
+ <version>4.1.2</version>
 </dependency>
 ----
 
@@ -23,7 +23,7 @@ vertx-web同样也使用了Vert.x auth来处理其身份验证和授权。
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-auth-common:4.1.1'
+compile 'io.vertx:vertx-auth-common:4.1.2'
 ----
 
 [[_basic_concepts]]

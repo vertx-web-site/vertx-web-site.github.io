@@ -23,7 +23,7 @@ Vert.x 的事件总线桥接, 或者直接与 websocket 客户端建立连接 (�
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-stomp</artifactId>
- <version>4.1.1</version>
+ <version>4.1.2</version>
 </dependency>
 ----
 
@@ -31,7 +31,7 @@ Vert.x 的事件总线桥接, 或者直接与 websocket 客户端建立连接 (�
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-stomp:4.1.1'
+compile 'io.vertx:vertx-stomp:4.1.2'
 ----
 
 [[_stomp_server]]
