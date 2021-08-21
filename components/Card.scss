@@ -15,7 +15,7 @@
     font-size: 1.25rem;
     color: $primary;
 
-    .card-content-icon svg {
+    .card-content-icon :global(svg) {
       height: $spacer * 2;
       width: $spacer * 2;
       margin-bottom: 4px;
