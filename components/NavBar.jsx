@@ -107,6 +107,10 @@ const NavBar = () => {
                   <DropDownItem>EventBus Bridge Clients <ExternalLink className="external-link-icon"
                     size="1em" /></DropDownItem>
                 </a>
+                <a href="https://github.com/vert-x3/advanced-vertx-guide" target="_blank" rel="noreferrer">
+                  <DropDownItem>Advanced Vert.x Guide <ExternalLink className="external-link-icon"
+                    size="1em" /></DropDownItem>
+                </a>
               </DropDown>
             </span>
             <Link href="/blog/">
