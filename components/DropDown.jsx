@@ -1,5 +1,5 @@
 import classNames from "classnames"
-import styles from "./DropDown.scss?type=global"
+import styles from "./DropDown.scss"
 import { ChevronDown } from "react-feather"
 import { Children, cloneElement, isValidElement, useEffect, useState } from "react"
 

@@ -7,7 +7,7 @@ const DropDownItem = (({ active, onClick, href, hasActiveSiblings = false, child
   let content = (
     <li className={classNames("dropdown-item", { active, "has-active-siblings": hasActiveSiblings })}
         onClick={onClick}>
-      {active && <Check className="dropdown-check-icon" />}{children}
+      {active && <span className="dropdown-check-icon"><Check width="16" /></span>}{children}
       <style jsx>{styles}</style>
     </li>
   )
