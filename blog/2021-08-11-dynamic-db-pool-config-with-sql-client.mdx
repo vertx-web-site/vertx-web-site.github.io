@@ -8,7 +8,7 @@ summary: >-
   You will learn how to achieve dynamic database configuration of the Vert.x SQL Client pool
 ---
 
-Vert.x SQL Client provides since Vert.x 4.1.1 connection creation load balancing.
+Since Vert.x 4.1.1, the SQL Client provides connection creation load balancing.
 
 You can create a pool with a list of connect options that the pool uses with a round robin policy when it needs to create a connection.
 
@@ -18,7 +18,7 @@ List<PgConnectOptions> servers = getListOfServers();
 PgPool pool = PgPool.create(vertx, servers);
 ```
 
-Load balancing is in fact an helper in front of a more powerful feature:
+Load balancing is actually a helper in front of a more powerful feature:
 
 ```java
 interface Pool {
@@ -28,7 +28,7 @@ interface Pool {
 }
 ```
 
-The `connectionProvider` is called by the pool when it needs to create a new connection, here is a trivial usage:
+The `connectionProvider` is called by the pool when it needs to create a new connection. Here is a trivial example:
 
 ```java
 ConnectionFactory factory = new PgDriver().connectionFactory(vertx, connectOptions);
@@ -37,7 +37,7 @@ pool.connectionProvider(ctx -> {
 });
 ```
 
-Since the provider is asynchronous, it can obviously be abused to provide dynamic pool configuration.
+Since the provider is asynchronous, it can be used to provide dynamic pool configuration.
 
 ```java
 pool.connectionProvider(ctx -> {
@@ -50,9 +50,9 @@ pool.connectionProvider(ctx -> {
 });
 ```
 
-Important caveat, when the connection factory becomes useless (e.g because of a new configuration) it must be closed
+Important caveat: when the connection factory becomes useless (e.g because of a new configuration) it must be closed
 to release its resources.
 
-The SQL client does not provide out of the box such feature because of the above caveat: it is difficult to determine when
-the factories needs to be disposed. Instead we expose the `connectionProvider` to allow application implement it trivially since each
-application know best how and when release the resources.
+The SQL client does not provide this feature out of the box because of this caveat. It is difficult to determine when
+the factories need to be disposed. Instead, we expose the `connectionProvider` to allow applications to implement it trivially since each
+application knows best how and when to release the resources.
