@@ -40,7 +40,7 @@ const config = {
   assetPrefix: basePath,
 
   eslint: {
-    dirs: ["components", "pages"]
+    dirs: ["components", "pages", "docs/metadata"]
   },
 
   images: {

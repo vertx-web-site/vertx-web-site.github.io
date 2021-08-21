@@ -7,7 +7,8 @@ import styles from "./BlogEntry.scss?type=global"
 
 const BlogEntry = ({ post }) => {
   let authors = post.meta.authors.map(a => {
-    let img = <img src={`https://github.com/${a.github_id}.png?size=50`} />
+    let img = <img src={`https://github.com/${a.github_id}.png?size=50`}
+      alt={`${a.name}'s profile image`} />
     let name = a.name
     let avatarsOnly = post.meta.authors.length > 2
     if (avatarsOnly) {
