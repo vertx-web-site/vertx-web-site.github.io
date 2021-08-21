@@ -22,10 +22,6 @@ const basePath = (() => {
 })()
 
 const config = {
-  future: {
-    webpack5: true
-  },
-
   env: {
     basePath,
     // URL to the website. MUST NOT end with a slash.
@@ -42,6 +38,15 @@ const config = {
   // configure base path
   basePath,
   assetPrefix: basePath,
+
+  eslint: {
+    dirs: ["components", "pages"]
+  },
+
+  images: {
+    // make build compatible with next-optimized-images
+    disableStaticImages: true
+  },
 
   // list pages to export
   exportPathMap() {
