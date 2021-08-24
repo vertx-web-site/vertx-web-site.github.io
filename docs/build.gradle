@@ -29,6 +29,12 @@ ext {
     "4.1.0",
     "4.1.1",
 
+    // prereleases
+    [
+        version: "4.2.0.Beta1",
+        path: "4.2.0"
+    ],
+
     // latest GA release (must be the last entry)
     "4.1.2"
   ]
