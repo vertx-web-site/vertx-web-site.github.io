@@ -329,7 +329,7 @@ Multi-part forms can also contain file uploads.
 
 If you want to retrieve the attributes of a multi-part form you should tell Vert.x that you expect to receive
 such a form *before* any of the body is read by calling `link:../../apidocs/io/vertx/core/http/HttpServerRequest.html#setExpectMultipart-boolean-[setExpectMultipart]`
-with true, and then you should retrieve the actual attributes using `link:../../apidocs/io/vertx/core/http/HttpServerRequest.html#formAttributes--[formAttributes]`
+with `true`, and then you should retrieve the actual attributes using `link:../../apidocs/io/vertx/core/http/HttpServerRequest.html#formAttributes--[formAttributes]`
 once the entire body has been read:
 
 [source,java]
@@ -342,6 +342,10 @@ server.requestHandler(request -> {
   });
 });
 ----
+
+Form attributes have a maximum size of `8192` bytes. When the client submits a form with an attribute
+size greater than this value, the file upload triggers an exception on `HttpServerRequest` exception handler. You
+can set a different maximum size with `link:../../apidocs/io/vertx/core/http/HttpServerOptions.html#setMaxFormAttributeSize-int-[setMaxFormAttributeSize]`.
 
 ==== Handling form file uploads
 

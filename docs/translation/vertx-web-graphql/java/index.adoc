@@ -15,7 +15,7 @@ To use this module, add the following to the _dependencies_ section of your Mave
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-web-graphql</artifactId>
- <version>4.1.2</version>
+ <version>4.1.3</version>
 </dependency>
 ----
 
@@ -23,7 +23,7 @@ Or, if you use Gradle:
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-web-graphql:4.1.2'
+compile 'io.vertx:vertx-web-graphql:4.1.3'
 ----
 
 == Handlers setup
@@ -286,11 +286,11 @@ First, create a batch loader:
 
 [source,java]
 ----
-BatchLoaderWithContext<String, Link> linksBatchLoader = this::retrieveLinksFromBackend;
+BatchLoaderWithContext<String, Link> linksBatchLoader = (ids, env) -> {
+  // retrieveLinksFromBackend takes a list of ids and returns a CompletionStage for a list of links
+  return retrieveLinksFromBackend(ids, env);
+};
 ----
-
-TIP: If you work with Vert.x callback-based APIs, you may use a `link:../../apidocs/io/vertx/ext/web/handler/graphql/dataloader/VertxBatchLoader.html[VertxBatchLoader]`
-or a `link:../../apidocs/io/vertx/ext/web/handler/graphql/dataloader/VertxMappedBatchLoader.html[VertxMappedBatchLoader]` to simplify your code.
 
 Then, configure the `link:../../apidocs/io/vertx/ext/web/handler/graphql/GraphQLHandler.html[GraphQLHandler]` to create a `DataLoaderRegistry` for each request:
 
@@ -302,6 +302,16 @@ GraphQLHandler handler = GraphQLHandler.create(graphQL).dataLoaderRegistry(rc ->
 
   return new DataLoaderRegistry().register("link", linkDataLoader);
 
+});
+----
+
+If you work with Vert.x APIs, you may use a `link:../../apidocs/io/vertx/ext/web/handler/graphql/dataloader/VertxBatchLoader.html[VertxBatchLoader]` or a `link:../../apidocs/io/vertx/ext/web/handler/graphql/dataloader/VertxMappedBatchLoader.html[VertxMappedBatchLoader]` to simplify your code:
+
+[source,java]
+----
+BatchLoaderWithContext<Long, String> commentsBatchLoader = VertxBatchLoader.create((ids, env) -> {
+  // findComments takes a list of ids and returns a Future for a list of links
+  return findComments(ids, env);
 });
 ----
 

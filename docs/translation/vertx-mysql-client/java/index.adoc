@@ -33,7 +33,7 @@ To use the Reactive MySQL Client add the following dependency to the _dependenci
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-mysql-client</artifactId>
- <version>4.1.2</version>
+ <version>4.1.3</version>
 </dependency>
 ----
 * Gradle (in your `build.gradle` file):
@@ -41,7 +41,7 @@ To use the Reactive MySQL Client add the following dependency to the _dependenci
 [source,groovy]
 ----
 dependencies {
- compile 'io.vertx:vertx-mysql-client:4.1.2'
+ compile 'io.vertx:vertx-mysql-client:4.1.3'
 }
 ----
 

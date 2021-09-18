@@ -12,6 +12,7 @@ scalability and low overhead.
 * Direct memory to object without unnecessary copies
 * Java 8 Date and Time
 * RxJava API
+* SSL/TLS
 
 *Not supported yet*
 
@@ -31,7 +32,7 @@ To use the Reactive MSSQL Client add the following dependency to the _dependenci
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-mssql-client</artifactId>
- <version>4.1.2</version>
+ <version>4.1.3</version>
 </dependency>
 ----
 * Gradle (in your `build.gradle` file):
@@ -39,7 +40,7 @@ To use the Reactive MSSQL Client add the following dependency to the _dependenci
 [source,groovy]
 ----
 dependencies {
- compile 'io.vertx:vertx-mssql-client:4.1.2'
+ compile 'io.vertx:vertx-mssql-client:4.1.3'
 }
 ----
 
@@ -405,6 +406,58 @@ client.query("SELECT * FROM users")
     }
   });
 ----
+
+== Using SSL/TLS
+
+=== Encryption level negotiation
+
+When a connection is established, the client and the server negotiate the encryption level.
+
+The negotiated level depends on the client config in `link:../../apidocs/io/vertx/mssqlclient/MSSQLConnectOptions.html[MSSQLConnectOptions]` and the server config:
+
+* no encryption: if `ssl` is set to `false` in client options, and the server does not support encryption
+* encrypt login packet only: if `ssl` is set to `false` in client options, and the server supports encryption
+* encrypt entire connection: if `ssl` is set to `true` in client options, or the server requires encryption
+
+[NOTE]
+====
+The negotiation fails if `ssl` is set to `true` in client options, and the server does not support encryption.
+In this case, the client terminates the connection.
+====
+
+=== Configuration
+
+To configure `ssl` in client options, use the `link:../../apidocs/io/vertx/mssqlclient/MSSQLConnectOptions.html#setSsl-boolean-[setSsl]` method.
+By default, `ssl` is set to `false`.
+
+[source,java]
+----
+MSSQLConnectOptions connectOptions = new MSSQLConnectOptions().setSsl(true);
+----
+
+When `ssl` is set to `false`, the client trusts all server certificates.
+Otherwise, it performs hostname validation.
+
+If `ssl` is set to true in client options, and the server uses a self-signed certificate, hostname validation can be disabled:
+
+[source,java]
+----
+MSSQLConnectOptions connectOptions = new MSSQLConnectOptions()
+  .setSsl(true)
+  .setTrustAll(true);
+----
+
+Alternatively, the client can be configured to trust the server certificate with `link:../../apidocs/io/vertx/core/net/TrustOptions.html[TrustOptions]`.
+For example, `link:../../apidocs/io/vertx/core/net/PemTrustOptions.html[PemTrustOptions]` can be used if a PEM file contains the server certificate:
+
+[source,java]
+----
+MSSQLConnectOptions connectOptions = new MSSQLConnectOptions()
+  .setSsl(true)
+  .setPemTrustOptions(new PemTrustOptions().addCertPath("/path/to/server-cert.pem"));
+----
+
+For further details about SSL support in Vert.x, please refer to the https://vertx.io/docs/vertx-core/java/#ssl[Vert.x Core documentation].
 
 == Advanced pool configuration
 

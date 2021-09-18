@@ -11,7 +11,7 @@ To use this module, add the following to the _dependencies_ section of your Mave
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-cassandra-client</artifactId>
- <version>4.1.2</version>
+ <version>4.1.3</version>
 </dependency>
 ----
 
@@ -19,7 +19,7 @@ Or, if you use Gradle:
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-cassandra-client:4.1.2'
+compile 'io.vertx:vertx-cassandra-client:4.1.3'
 ----
 
 == Creating a client
