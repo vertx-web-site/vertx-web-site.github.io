@@ -1,6 +1,6 @@
 import Link from "next/link"
 import { Rss } from "react-feather"
-import "./BlogNavBar.scss"
+import styles from "./BlogNavBar.scss?type=global"
 
 const BlogNavBar = ({ categories }) => (
   <div className="blog-navbar">
@@ -18,6 +18,7 @@ const BlogNavBar = ({ categories }) => (
     <div className="feed-icons">
       <a href="/feed/atom.xml"><Rss /></a>
     </div>
+    <style jsx>{styles}</style>
   </div>
 )
 

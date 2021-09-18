@@ -8,7 +8,7 @@ import { versions as docsVersions, metadata as docsMetadata, latestRelease } fro
 import { filterLatestBugfixVersions } from "../../docs/metadata/helpers"
 import Link from "next/link"
 import { Book, ExternalLink } from "react-feather"
-import "./DocsIndex.scss"
+import styles from "./DocsIndex.scss?type=global"
 
 const Section = ({ icon, children, id, name }) => {
   let numChildren = 1
@@ -22,7 +22,8 @@ const Section = ({ icon, children, id, name }) => {
     book = (
       <div className="docs-index-section-book">
         <a href={url} target="_blank" rel="noopener noreferrer">
-          <img src={require("../../assets/book-cover-medium.jpg")} width="230" />
+          <img src={require("../../assets/book-cover-medium.jpg")} width="230"
+            alt="Vert.x in Action book cover" />
         </a><br />
         <a href={url} target="_blank" rel="noopener noreferrer">
           Get the book ... <ExternalLink className="external-link-icon" size="1em" />
@@ -146,6 +147,7 @@ const Docs = ({ metadata, version }) => {
           ))}
         </div>
       </div>
+      <style jsx>{styles}</style>
     </Layout>
   )
 }

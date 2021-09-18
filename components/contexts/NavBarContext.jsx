@@ -22,8 +22,10 @@ const Provider = ({ children }) => {
   )
 }
 
-export default {
+const NavBarContext = {
   State,
   Dispatch,
   Provider
 }
+
+export default NavBarContext

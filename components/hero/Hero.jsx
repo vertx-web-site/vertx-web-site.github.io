@@ -1,6 +1,6 @@
 import Button from "../Button"
 import MainCodeExamples from "./MainCodeExamples"
-import "./Hero.scss"
+import styles from "./Hero.scss?type=global"
 import GitHubStars from "../GitHubStars"
 import { ArrowUpCircle, FastForward } from "react-feather"
 import Link from "next/link"
@@ -16,13 +16,13 @@ const Hero = ({ gitHubStarsFallbackValue }) => (
         </div>
         <div className="hero-buttons">
           <Link href="/get-started/">
-            <a><Button primary><FastForward className="feather" /> Get started with v{latestRelease.version}</Button></a>
+            <a><Button primary icon={<FastForward />}>Get started with v{latestRelease.version}</Button></a>
           </Link>
           <GitHubStars org="eclipse-vertx" repo="vert.x" button fallbackValue={gitHubStarsFallbackValue} />
         </div>
         <div className="hero-buttons hero-buttons-second">
           <Link href="/blog/from-vert-x-3-to-vert-x-4/">
-            <a><Button primary><ArrowUpCircle className="feather" /> Migrate from Vert.x 3</Button></a>
+            <a><Button primary icon={<ArrowUpCircle />}> Migrate from Vert.x 3</Button></a>
           </Link>
         </div>
       </div>
@@ -30,6 +30,7 @@ const Hero = ({ gitHubStarsFallbackValue }) => (
         <MainCodeExamples />
       </div>
     </div>
+    <style jsx>{styles}</style>
   </section>
 )
 

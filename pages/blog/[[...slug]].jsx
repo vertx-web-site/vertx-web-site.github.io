@@ -422,7 +422,8 @@ const BlogPage = ({ post, prevPost, nextPost, relatedPosts, category, categories
           {post.meta.authors.map(author => (
             <div className="blog-post-author" key={author.github_id}>
               <img className="blog-post-author-avatar"
-                src={`https://github.com/${author.github_id}.png?size=160`} />
+                src={`https://github.com/${author.github_id}.png?size=160`}
+                alt={`${author.name}'s profile image`} />
               <div className="blog-post-author-name">
                 {post.meta.authors.length === 1 && "by "}<a href={`https://github.com/${author.github_id}`}
                   target="_blank" rel="noopener noreferrer">{author.name}</a>

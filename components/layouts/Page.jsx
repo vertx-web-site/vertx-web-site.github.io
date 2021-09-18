@@ -5,7 +5,7 @@ import { smoothScrollTo } from "../lib/scroll-utils"
 import NavBarContext from "../contexts/NavBarContext"
 import Header from "../Header"
 import Footer from "../Footer"
-import "./Page.scss"
+import styles from "./Page.scss"
 
 const Layout = ({ meta = {}, narrow, hashSmoothScroll = false, children }) => {
   const navBarState = useContext(NavBarContext.State)
@@ -72,6 +72,7 @@ const Layout = ({ meta = {}, narrow, hashSmoothScroll = false, children }) => {
         </div>
       </div>
       <Footer />
+      <style jsx>{styles}</style>
     </main>
   )
 }

@@ -2,7 +2,7 @@ import NProgress from "../components/NProgress"
 import NavBarContext from "../components/contexts/NavBarContext"
 import VersionContext from "../components/contexts/VersionContext"
 import "lazysizes"
-import "../css/main.scss"
+import styles from "../css/main.scss?type=global"
 
 const App = ({ Component, pageProps }) => (
   <>
@@ -12,6 +12,7 @@ const App = ({ Component, pageProps }) => (
       </VersionContext.Provider>
     </NavBarContext.Provider>
     <NProgress />
+    <style jsx>{styles}</style>
   </>
 )
 

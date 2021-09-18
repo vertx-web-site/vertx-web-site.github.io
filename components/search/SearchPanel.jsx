@@ -3,7 +3,7 @@ import Router from "next/router"
 import SearchBox from "./SearchBox"
 import SearchResults from "./SearchResults"
 import lunr from "lunr"
-import "./SearchPanel.scss"
+import styles from "./SearchPanel.scss?type=global"
 
 const MAX_EXCERPT_LENGTH = 100
 
@@ -374,6 +374,7 @@ const SearchPanel = forwardRef(({ contentRef, onHasResults }, ref) => {
         <SearchResults results={searchResults} activeId={activeResultId}
           onHover={onResultHover} onClick={(id) => pushRouter(id)} ref={ref} />
       </div>
+      <style jsx>{styles}</style>
     </>
   )
 })

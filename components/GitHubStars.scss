@@ -3,11 +3,11 @@
 .github-stars {
   display: inline-block;
 
-  .feather {
-    margin-right: 0.325em;
-  }
+  .icon {
+    margin-right: 0.25em;
 
-  .button {
-    min-width: 8rem;
+    :global(svg) {
+      height: 1rem;
+    }
   }
 }

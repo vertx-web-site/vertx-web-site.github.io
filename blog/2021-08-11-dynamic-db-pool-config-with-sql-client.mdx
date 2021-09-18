@@ -1,0 +1,58 @@
+---
+title: Dynamic database pool configuration with Vert.x SQL Client
+category: guides
+authors:
+  - name: Julien Viet
+    github_id: vietj
+summary: >-
+  You will learn how to achieve dynamic database configuration of the Vert.x SQL Client pool
+---
+
+Since Vert.x 4.1.1, the SQL Client provides connection creation load balancing.
+
+You can create a pool with a list of connect options that the pool uses with a round robin policy when it needs to create a connection.
+
+```java
+List<PgConnectOptions> servers = getListOfServers();
+
+PgPool pool = PgPool.create(vertx, servers);
+```
+
+Load balancing is actually a helper in front of a more powerful feature:
+
+```java
+interface Pool {
+  ....
+  Pool connectionProvider(Function<Context, Future<SqlConnection>> provider);
+  ....
+}
+```
+
+The `connectionProvider` is called by the pool when it needs to create a new connection. Here is a trivial example:
+
+```java
+ConnectionFactory factory = new PgDriver().connectionFactory(vertx, connectOptions);
+pool.connectionProvider(ctx -> {
+  return factory.connect(ctx);
+});
+```
+
+Since the provider is asynchronous, it can be used to provide dynamic pool configuration.
+
+```java
+pool.connectionProvider(ctx -> {
+  Future<PgConnectOptions> fut = retrieveOptions();
+  return fut.compose(connectOptions -> {
+    // Do not forget to close later
+    ConnectionFactory factory = new PgDriver().connectionFactory(vertx, connectOptions);
+    return factory.connect(ctx);
+  });
+});
+```
+
+Important caveat: when the connection factory becomes useless (e.g because of a new configuration) it must be closed
+to release its resources.
+
+The SQL client does not provide this feature out of the box because of this caveat. It is difficult to determine when
+the factories need to be disposed. Instead, we expose the `connectionProvider` to allow applications to implement it trivially since each
+application knows best how and when to release the resources.

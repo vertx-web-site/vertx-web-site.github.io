@@ -1,5 +1,5 @@
 import classNames from "classnames"
-import "./Pagination.scss"
+import styles from "./Pagination.scss?type=global"
 import Link from "next/link"
 
 function makePages(curPage, numPages) {
@@ -107,6 +107,7 @@ const Pagination = ({ currentPage = 1, numPages = 1, category }) => {
   return (
     <div className="pagination">
       {pages}
+      <style jsx>{styles}</style>
     </div>
   )
 }

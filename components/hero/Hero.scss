@@ -1,4 +1,4 @@
-@import "../../css/variables";
+@import "css/variables";
 
 section.hero {
   .hero-background {
@@ -8,7 +8,7 @@ section.hero {
     max-width: 100%;
     height: 900px;
     z-index: -1;
-    background-image: url(../../assets/hero-background.svg);
+    background-image: url("/images/hero-background.svg");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;

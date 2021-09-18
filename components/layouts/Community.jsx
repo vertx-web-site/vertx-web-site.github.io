@@ -1,7 +1,7 @@
 import Header from "../Header"
 import CommunityHero from "../community/CommunityHero"
 import Footer from "../Footer"
-import "./Community.scss"
+import styles from "./Community.scss?type=global"
 
 const Layout = ({ children }) => (
   <main>
@@ -12,6 +12,7 @@ const Layout = ({ children }) => (
       {children}
     </div>
     <Footer />
+    <style jsx>{styles}</style>
   </main>
 )
 

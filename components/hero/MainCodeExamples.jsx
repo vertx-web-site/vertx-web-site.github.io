@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react"
 import CodeExample from "../CodeExample"
 import CodeExamples from "../CodeExamples"
-import "./MainCodeExamples.scss"
+import styles from "./MainCodeExamples.scss?type=global"
 
 import Java from "./MainCodeExamplesJava.mdx"
 import Kotlin from "./MainCodeExamplesKotlin.mdx"
@@ -95,6 +95,7 @@ const MainCodeExamples = () => {
           <Groovy />
         </CodeExample>
       </CodeExamples>
+      <style jsx>{styles}</style>
     </div>
   )
 }

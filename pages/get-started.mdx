@@ -1,10 +1,12 @@
 import Card from "../components/Card"
 import Cards from "../components/Cards"
-import Layout from "../components/layouts/GetStarted"
+import { Fragment } from "react"
+import Layout from "../components/layouts/Guide"
 import Link from "next/link"
 import CodeExample from "../components/CodeExample"
 import CodeExamples from "../components/CodeExamples"
 import { latestRelease } from "../docs/metadata/all"
+import styles from "./get-started.scss"
 
 export default Layout
 
@@ -23,12 +25,18 @@ Before starting, you need:
 * Maven 3 or higher
 * curl or [HTTPie](https://httpie.org/) or a browser to perform HTTP requests
 
+<Fragment>
+
 ## <span className="get-started-step">1</span> Bootstrap
+
+<style jsx>{styles}</style>
+</Fragment>
 
 To create a new project, go to [start.vertx.io](https://start.vertx.io).
 
 <a href="https://start.vertx.io" className="get-started-screenshot">
   <img src={require("../assets/get-started/starter-screenshot.png")} />
+  <style jsx>{styles}</style>
 </a>
 
 Choose the version of Vert.x you want to use, choose Java as the language, Maven as the build tool, and
@@ -45,7 +53,12 @@ The generated project contains:
 If you want to try it now, you can download this sample project using
 <a href={`https://start.vertx.io/starter.zip?vertxDependencies=vertx-web&vertxVersion=${latestRelease.version}&jdkVersion=11`}>Maven</a> or using <a href={`https://start.vertx.io/starter.zip?vertxDependencies=vertx-web&buildTool=gradle&vertxVersion=${latestRelease.version}&jdkVersion=11`}>Gradle</a>.
 
+<Fragment>
+
 ## <span className="get-started-step">2</span> Code
+
+<style jsx>{styles}</style>
+</Fragment>
 
 Open the project in the editor of your choice and navigate to `src/main/java/com/example/starter/MainVerticle.java`.
 This source file contains a sample `Verticle` (the Vert.x deployment unit) that starts an HTTP server.
@@ -184,7 +197,12 @@ class MainVerticle extends AbstractVerticle {
 This code creates a Vert.x Web Router (the object used to route HTTP requests to specific request handlers)
 and starts an HTTP Server on port `8888`. On each request, it returns a JSON object containing the address of the request, the query parameter `name`, and a greeting message.
 
+<Fragment>
+
 ## <span className="get-started-step">3</span> Run
+
+<style jsx>{styles}</style>
+</Fragment>
 
 To run the code, open a terminal and navigate to your project folder.
 Build the application as follows:
@@ -272,7 +290,12 @@ $ curl -v http://localhost:8888\?name\="Francesco"
 </CodeExample>
 </CodeExamples>
 
+<Fragment>
+
 ## <span className="get-started-step">4</span> Go further
+
+<style jsx>{styles}</style>
+</Fragment>
 
 Now that you have had a taste of how easy and fun it is to get started with Vert.x, here are a few pointers to help guide you further along your journey:
 
