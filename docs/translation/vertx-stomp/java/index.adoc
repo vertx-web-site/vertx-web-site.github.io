@@ -22,7 +22,7 @@ descriptor:
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-stomp</artifactId>
- <version>4.1.3</version>
+ <version>4.1.4</version>
 </dependency>
 ----
 
@@ -30,7 +30,7 @@ descriptor:
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-stomp:4.1.3'
+compile 'io.vertx:vertx-stomp:4.1.4'
 ----
 
 == STOMP server

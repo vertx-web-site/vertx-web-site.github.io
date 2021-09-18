@@ -23,7 +23,7 @@ build descriptor:
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-camel-bridge</artifactId>
- <version>4.1.3</version>
+ <version>4.1.4</version>
 </dependency>
 ----
 
@@ -31,7 +31,7 @@ build descriptor:
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-camel-bridge:4.1.3'
+compile 'io.vertx:vertx-camel-bridge:4.1.4'
 ----
 
 == Bridge configuration
