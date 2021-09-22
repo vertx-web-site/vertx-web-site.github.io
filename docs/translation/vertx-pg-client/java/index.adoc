@@ -33,7 +33,7 @@
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-pg-client</artifactId>
- <version>4.1.2</version>
+ <version>4.1.4</version>
 </dependency>
 ----
 * Gradle（在您的 `build.gradle` 文件里）：
@@ -41,7 +41,7 @@
 [source,groovy]
 ----
 dependencies {
- compile 'io.vertx:vertx-pg-client:4.1.2'
+ compile 'io.vertx:vertx-pg-client:4.1.4'
 }
 ----
 
@@ -387,23 +387,34 @@ NOTE: SCRAM-SHA-256-PLUS（在Postgresql 11中加入）当前版本客户端暂�
 
 include::queries.adoc[leveloffset=1]
 
+== Returning clauses
+
 您可以使用 'RETURNING' 从查询里拿到生成的key：
 
 [source,java]
 ----
 client
   .preparedQuery("INSERT INTO color (color_name) VALUES ($1), ($2), ($3) RETURNING color_id")
-  .execute(Tuple.of("white", "red", "blue"), ar -> {
-  if (ar.succeeded()) {
-    RowSet<Row> rows = ar.result();
-    System.out.println(rows.rowCount());
+  .execute(Tuple.of("white", "red", "blue"))
+  .onSuccess(rows -> {
     for (Row row : rows) {
       System.out.println("generated key: " + row.getInteger("color_id"));
     }
-  } else {
-    System.out.println("Failure: " + ar.cause().getMessage());
-  }
 });
+----
+
+This works with any SQL as long as there is a `RETURNING` clause:
+
+[source,java]
+----
+client
+  .query("DELETE FROM color RETURNING color_name")
+  .execute()
+  .onSuccess(rows -> {
+    for (Row row : rows) {
+      System.out.println("deleted color: " + row.getString("color_name"));
+    }
+  });
 ----
 
 带有 `RETURNING` 语句的批量查询创建了一个 `link:../../apidocs/io/vertx/sqlclient/RowSet.html[RowSet]` ，
@@ -413,14 +424,11 @@ client
 ----
 client
   .preparedQuery("INSERT INTO color (color_name) VALUES ($1) RETURNING color_id")
-  .executeBatch(Arrays.asList(Tuple.of("white"), Tuple.of("red"), Tuple.of("blue")),ar -> {
-    if (ar.succeeded()) {
-      for (RowSet<Row> rows = ar.result();rows.next() != null;rows = rows.next()) {
-        Integer colorId = rows.iterator().next().getInteger("color_id");
-        System.out.println("generated key: " + colorId);
-      }
-    } else {
-      System.out.println("Failure: " + ar.cause().getMessage());
+  .executeBatch(Arrays.asList(Tuple.of("white"), Tuple.of("red"), Tuple.of("blue")))
+  .onSuccess(res -> {
+    for (RowSet<Row> rows = res;rows.next() != null;rows = rows.next()) {
+      Integer colorId = rows.iterator().next().getInteger("color_id");
+      System.out.println("generated key: " + colorId);
     }
   });
 ----

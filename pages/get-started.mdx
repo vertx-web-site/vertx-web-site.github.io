@@ -1,10 +1,12 @@
 import Card from "../components/Card"
 import Cards from "../components/Cards"
-import Layout from "../components/layouts/GetStarted"
+import { Fragment } from "react"
+import Layout from "../components/layouts/Guide"
 import Link from "next/link"
 import CodeExample from "../components/CodeExample"
 import CodeExamples from "../components/CodeExamples"
 import { latestRelease } from "../docs/metadata/all"
+import styles from "./get-started.scss"
 
 export default Layout
 
@@ -23,12 +25,18 @@ export const meta = {
 * Maven 3 或更高版本
 * curl 或 [HTTPie](https://httpie.org/) ，或浏览器，用于执行 HTTP 请求
 
+<Fragment>
+
 ## <span className="get-started-step">1</span> 起步
+
+<style jsx>{styles}</style>
+</Fragment>
 
 打开 [start.vertx.io](https://start.vertx.io) 网页创建一个新项目。
 
 <a href="https://start.vertx.io" className="get-started-screenshot">
   <img src={require("../assets/get-started/starter-screenshot.png")} />
+  <style jsx>{styles}</style>
 </a>
 
 选择您所需的 Vert.x 版本，Language 选择 Java，Build 选择 Maven，
@@ -45,7 +53,12 @@ export const meta = {
 您也可以从以下地址直接下载示例项目：
 <a href={`https://start.vertx.io/starter.zip?vertxDependencies=vertx-web&vertxVersion=${latestRelease.version}&jdkVersion=11`}>Maven</a> 或 <a href={`https://start.vertx.io/starter.zip?vertxDependencies=vertx-web&buildTool=gradle&vertxVersion=${latestRelease.version}&jdkVersion=11`}>Gradle</a>。
 
+<Fragment>
+
 ## <span className="get-started-step">2</span> 编码
+
+<style jsx>{styles}</style>
+</Fragment>
 
 在任意编辑器打开项目，然后打开 `src/main/java/com/example/starter/MainVerticle.java` 文件。
 源码中包含一个示例 `Verticle` （Vert.x 的最小部署单元），该 Veticle 启动一个HTTP服务。
@@ -184,7 +197,12 @@ class MainVerticle extends AbstractVerticle {
 以上代码创建了一个 Vert.x Web 路由（用于将HTTP请求路由到指定的请求处理器）
 并以 `8888` 端口启动HTTP服务器。它对所有请求都返回一个JSON对象，内容包括请求的地址、 `name` 参数取值，以及欢迎信息。
 
+<Fragment>
+
 ## <span className="get-started-step">3</span> 运行
+
+<style jsx>{styles}</style>
+</Fragment>
 
 运行代码需要打开终端，并进入项目的目录。
 通过以下命令构建应用：
@@ -272,7 +290,12 @@ $ curl -v http://localhost:8888\?name\="Francesco"
 </CodeExample>
 </CodeExamples>
 
+<Fragment>
+
 ## <span className="get-started-step">4</span> 进一步了解
+
+<style jsx>{styles}</style>
+</Fragment>
 
 现在您已经体验了 Vert.x 入门的乐趣，以下的指南可以帮助您进一步了解 Vert.x ：
 

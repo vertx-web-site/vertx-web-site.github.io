@@ -4,7 +4,7 @@ import NavBarContext from "./contexts/NavBarContext"
 import VersionContext from "./contexts/VersionContext"
 import classNames from "classnames"
 import Link from "next/link"
-import "./NavBar.scss"
+import styles from "./NavBar.scss?type=global"
 import { ExternalLink } from "react-feather"
 import { useContext, useEffect, useRef, useState } from "react"
 import throttle from "lodash/throttle"
@@ -107,6 +107,10 @@ const NavBar = () => {
                   <DropDownItem>EventBus Bridge Clients <ExternalLink className="external-link-icon"
                     size="1em" /></DropDownItem>
                 </a>
+                <a href="https://github.com/vert-x3/advanced-vertx-guide" target="_blank" rel="noreferrer">
+                  <DropDownItem>Advanced Vert.x Guide <ExternalLink className="external-link-icon"
+                    size="1em" /></DropDownItem>
+                </a>
               </DropDown>
             </span>
             <Link href="/blog/">
@@ -142,6 +146,7 @@ const NavBar = () => {
           </div>
         </div>
       </div>
+      <style jsx>{styles}</style>
     </div>
   )
 }

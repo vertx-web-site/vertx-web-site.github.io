@@ -20,8 +20,10 @@ const Provider = ({ children }) => {
   )
 }
 
-export default {
+const VersionContext = {
   State,
   Dispatch,
   Provider
 }
+
+export default VersionContext

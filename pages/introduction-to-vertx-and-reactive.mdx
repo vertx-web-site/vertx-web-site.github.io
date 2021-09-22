@@ -1,4 +1,5 @@
-import Layout from "../components/layouts/Intro"
+import Layout from "../components/layouts/Guide"
+import styles from "./introduction-to-vertx-and-reactive.scss"
 import Link from "next/link"
 export default Layout
 
@@ -25,7 +26,7 @@ Vert.x 是工具包，而不是暗含黑魔法的框架：**所写即所得**，
 实现并发的经典方法是使用 **线程**。
 多个线程可以在同一个 **进程** 中存活，**并行** 地执行工作，并 **共享** 同一片内存空间。
 
-<img src={require("../assets/introduction/threads.svg")} alt="Threads" className="intro-img-threads" />
+<img src={require("../assets/introduction/threads.svg")} alt="Threads" className="img-threads" />
 
 大多数应用程序和服务开发框架都基于多线程。
 从表面上看，**每个连接对应一个线程** 的模型令人放心，因为开发人员可以使用传统的 **命令式** 代码。
@@ -65,7 +66,7 @@ Vert.x core 支持 **回调** 和 **Promise/Future**，后者是用于链接异�
 
 <img src={require("../assets/introduction/async.svg")} alt="Asynchronous programming" />
 
-Vert.x 支持许多异步编程模型，请根据您需要解决的具体问题去选择最佳的模型！ 
+Vert.x 支持许多异步编程模型，请根据您需要解决的具体问题去选择最佳的模型！
 
 ## 不要让失败破坏响应能力
 
@@ -79,7 +80,7 @@ Vert.x 提供了控制延迟的工具，包括简单有效的 **断路器**。
 ## 丰富的生态系统
 
 _Eclipse Vert.x 技术栈_ 包含了用于构建现代应用程、端到端响应式服务的模块。
-从高效的响应式数据库客户端，到事件流、消息传递和 Web 技术栈等，Eclipse Vert.x 项目覆盖了： 
+从高效的响应式数据库客户端，到事件流、消息传递和 Web 技术栈等，Eclipse Vert.x 项目覆盖了：
 
 <img src={require("../assets/introduction/ecosystem.svg")} alt="Ecosystem" />
 
@@ -91,3 +92,5 @@ _Eclipse Vert.x 技术栈_ 包含了用于构建现代应用程、端到端响�
 ## 准备好编写代码了吗？
 
 请参考 <Link href="/get-started" passHref={true}><a>开始</a></Link> 页面进行操作!
+
+<style jsx>{styles}</style>

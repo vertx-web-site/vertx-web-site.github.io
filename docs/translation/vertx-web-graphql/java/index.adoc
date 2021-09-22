@@ -16,7 +16,7 @@ TIP: 这是一个 Vert.x Web GraphQL 的参考文档。
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-web-graphql</artifactId>
- <version>4.1.2</version>
+ <version>4.1.4</version>
 </dependency>
 ----
 
@@ -24,7 +24,7 @@ TIP: 这是一个 Vert.x Web GraphQL 的参考文档。
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-web-graphql:4.1.2'
+compile 'io.vertx:vertx-web-graphql:4.1.4'
 ----
 
 [[_handlers_setup]]
@@ -295,11 +295,11 @@ DataLoader 可以批量化请求并缓存结果，助您高效地加载数据。
 
 [source,java]
 ----
-BatchLoaderWithContext<String, Link> linksBatchLoader = this::retrieveLinksFromBackend;
+BatchLoaderWithContext<String, Link> linksBatchLoader = (ids, env) -> {
+  // retrieveLinksFromBackend takes a list of ids and returns a CompletionStage for a list of links
+  return retrieveLinksFromBackend(ids, env);
+};
 ----
-
-TIP: 如果您使用基于回调的 Vert.x API，则可以使用 `link:../../apidocs/io/vertx/ext/web/handler/graphql/dataloader/VertxBatchLoader.html[VertxBatchLoader]`
-或 `link:../../apidocs/io/vertx/ext/web/handler/graphql/dataloader/VertxMappedBatchLoader.html[VertxMappedBatchLoader]` 简化代码。
 
 然后，配置 `link:../../apidocs/io/vertx/ext/web/handler/graphql/GraphQLHandler.html[GraphQLHandler]` ，为每个请求创建一个 `DataLoaderRegistry` ：
 
@@ -311,6 +311,16 @@ GraphQLHandler handler = GraphQLHandler.create(graphQL).dataLoaderRegistry(rc ->
 
   return new DataLoaderRegistry().register("link", linkDataLoader);
 
+});
+----
+
+If you work with Vert.x APIs, you may use a `link:../../apidocs/io/vertx/ext/web/handler/graphql/dataloader/VertxBatchLoader.html[VertxBatchLoader]` or a `link:../../apidocs/io/vertx/ext/web/handler/graphql/dataloader/VertxMappedBatchLoader.html[VertxMappedBatchLoader]` to simplify your code:
+
+[source,java]
+----
+BatchLoaderWithContext<Long, String> commentsBatchLoader = VertxBatchLoader.create((ids, env) -> {
+  // findComments takes a list of ids and returns a Future for a list of links
+  return findComments(ids, env);
 });
 ----
 

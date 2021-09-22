@@ -16,7 +16,7 @@
     padding-left: $spacer * 0.75;
   }
 
-  &:not(.active).has-active-siblings {
+  &.has-active-siblings:not(.active) {
     padding-left: calc(#{$spacer * 0.75} + 16px + 0.5em);
   }
 

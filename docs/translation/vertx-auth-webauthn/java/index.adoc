@@ -11,7 +11,7 @@ https://github.com/herrjemand/awesome-webauthn#server-libs[符合FIDO标准] 的
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-auth-webauthn</artifactId>
- <version>4.1.2</version>
+ <version>4.1.4</version>
 </dependency>
 ----
 
@@ -19,7 +19,7 @@ https://github.com/herrjemand/awesome-webauthn#server-libs[符合FIDO标准] 的
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-auth-webauthn:4.1.2'
+compile 'io.vertx:vertx-auth-webauthn:4.1.4'
 ----
 
 https://developer.mozilla.org/en-US/docs/Web/API/Web_Authentication_API[WebAuthn (Web Authentication)] 是一个web标准，
@@ -73,7 +73,7 @@ WebAuthn 从 Credential Management API 中继承了两个功能，
  <artifactId>vertx-auth-webauthn</artifactId>
  <classifier>client</classifier>
  <type>js</type>
- <version>4.1.2</version>
+ <version>4.1.4</version>
 </dependency>
 ----
 
@@ -81,7 +81,7 @@ WebAuthn 从 Credential Management API 中继承了两个功能，
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-auth-webauthn:4.1.2:client@js'
+compile 'io.vertx:vertx-auth-webauthn:4.1.4:client@js'
 ----
 
 该库应该和vertx-web配合使用，

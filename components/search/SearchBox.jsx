@@ -1,7 +1,7 @@
 import classNames from "classnames"
 import { useState, useRef } from "react"
 import { Search, XCircle } from "react-feather"
-import "./SearchBox.scss"
+import styles from "./SearchBox.scss?type=global"
 import debounce from "lodash/debounce"
 
 const SearchBox = ({ onChange, onSubmit, onNext, onPrev }) => {
@@ -54,6 +54,7 @@ const SearchBox = ({ onChange, onSubmit, onNext, onPrev }) => {
           onChange={internalOnChange} onKeyDown={onKeyDown} ref={inputRef} />
       <Search className="search-icon" />
       <XCircle className="search-icon-delete" onClick={() => onDelete()} />
+      <style jsx>{styles}</style>
     </div>
   )
 }

@@ -1,6 +1,4 @@
-const FilterWarningsPlugin = require("webpack-filter-warnings-plugin")
 const optimizedImages = require("next-optimized-images")
-const sass = require("@zeit/next-sass")
 const mdxOptions = require("./components/lib/mdx-options")
 
 const withPlugins = require("next-compose-plugins")
@@ -41,6 +39,15 @@ const config = {
   basePath,
   assetPrefix: basePath,
 
+  eslint: {
+    dirs: ["components", "pages", "docs/metadata"]
+  },
+
+  images: {
+    // make build compatible with next-optimized-images
+    disableStaticImages: true
+  },
+
   // list pages to export
   exportPathMap() {
     return {
@@ -58,7 +65,20 @@ const config = {
     }
   },
 
-  webpack: (config, { dev }) => {
+  webpack: (config, { dev, defaultLoaders }) => {
+    config.module.rules.push({
+      test: /\.scss$/,
+      use: [
+        defaultLoaders.babel,
+        {
+          loader: require("styled-jsx/webpack").loader,
+          options: {
+            type: (fileName, options) => options.query.type || "scoped"
+          }
+        }
+      ]
+    })
+
     if (dev) {
       config.module.rules.push({
         test: /\.jsx?$/,
@@ -71,32 +91,11 @@ const config = {
       })
     }
 
-    // We can ignore the order of CSS files because we use very strict scoping.
-    // There should never be any conflicts in our CSS files.
-    config.plugins.push(
-      new FilterWarningsPlugin({
-        exclude: /mini-css-extract-plugin[^]*Conflicting order between:/
-      })
-    )
-
-    if (!dev) {
-      // run 'next-mdx-remote' through babel to make it compatible to older browsers
-      let babelLoader = config.module.rules.find(r => r.use.loader === "next-babel-loader")
-      let oldBabelExclude = babelLoader.exclude
-      babelLoader.exclude = function(excludePath) {
-        if (excludePath.indexOf("next-mdx-remote") !== -1) {
-          return false
-        }
-        return oldBabelExclude(excludePath)
-      }
-    }
-
     return config
   }
 }
 
 module.exports = withPlugins([
   [optimizedImages],
-  [sass],
   [mdx]
 ], config)

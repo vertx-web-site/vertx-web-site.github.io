@@ -3,11 +3,12 @@ import BlogDate from "./BlogDate"
 import ReadMoreLink from "../ReadMoreLink"
 import Label from "../Label"
 import classNames from "classnames"
-import "./BlogEntry.scss"
+import styles from "./BlogEntry.scss?type=global"
 
 const BlogEntry = ({ post }) => {
   let authors = post.meta.authors.map(a => {
-    let img = <img src={`https://github.com/${a.github_id}.png?size=50`} />
+    let img = <img src={`https://github.com/${a.github_id}.png?size=50`}
+      alt={`${a.name}'s profile image`} />
     let name = a.name
     let avatarsOnly = post.meta.authors.length > 2
     if (avatarsOnly) {
@@ -42,6 +43,7 @@ const BlogEntry = ({ post }) => {
         {post.meta.summary || "*** PLEASE SPECIFY A MEANINGFUL SUMMARY ***"}
       </p>
       <ReadMoreLink href="/blog/[[...slug]]" as={`/blog/${post.slug}/`} />
+      <style jsx>{styles}</style>
     </div>
   )
 }

@@ -15,7 +15,7 @@ WARNING: 此模块具有 _Tech Preview_ 状态，这意味着 API 可能会在�
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-web-sstore-infinispan</artifactId>
- <version>4.1.2</version>
+ <version>4.1.4</version>
 </dependency>
 ----
 
@@ -23,7 +23,7 @@ WARNING: 此模块具有 _Tech Preview_ 状态，这意味着 API 可能会在�
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-web-sstore-infinispan:4.1.2'
+compile 'io.vertx:vertx-web-sstore-infinispan:4.1.4'
 ----
 
 [[_using]]

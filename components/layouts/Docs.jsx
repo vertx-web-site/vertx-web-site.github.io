@@ -14,7 +14,7 @@ import Label from "../Label"
 import { latestRelease, metadata as docsMetadata } from "../../docs/metadata/all"
 import { filterLatestBugfixVersions } from "../../docs/metadata/helpers"
 import { Book, Code, Edit, List, Paperclip, X } from "react-feather"
-import "./Docs.scss"
+import styles from "./Docs.scss?type=global"
 
 const Docs = ({ metadata, allVersions, fallbackGitHubStars, toc, contents }) => {
   const tocRef = useRef()
@@ -245,6 +245,7 @@ const Docs = ({ metadata, allVersions, fallbackGitHubStars, toc, contents }) => 
         </div>
       </div>
       <Footer />
+      <style jsx>{styles}</style>
     </main>
   )
 }

@@ -1,6 +1,6 @@
 import VersionContext from "./contexts/VersionContext"
 import classNames from "classnames"
-import "./Footer.scss"
+import styles from "./Footer.scss?type=global"
 import Link from "next/link"
 import { useContext, useRef, useState } from "react"
 
@@ -94,6 +94,7 @@ const Footer = () => {
           </div>
         </div>
       </div>
+      <style jsx>{styles}</style>
     </footer>
   )
 }

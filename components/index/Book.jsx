@@ -1,4 +1,4 @@
-import "./Book.scss"
+import styles from "./Book.scss?type=global"
 import Button from "../Button"
 
 const URL = "https://www.manning.com/books/vertx-in-action"
@@ -15,7 +15,8 @@ const Book = () => (
         <div className="book-main">
           <div className="book-left">
             <a href={URL} target="_blank" rel="noopener noreferrer">
-              <img src={require("../../assets/book-cover.jpg")} width="200" />
+              <img src={require("../../assets/book-cover.jpg")} width="200"
+                alt="Vert.x in Action book cover" />
             </a>
           </div>
           <div className="book-right">
@@ -53,6 +54,7 @@ const Book = () => (
         </div>
       </div>
     </div>
+    <style jsx>{styles}</style>
   </div>
 )
 

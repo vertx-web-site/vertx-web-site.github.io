@@ -1,10 +1,11 @@
 import classNames from "classnames"
-import "./Alert.scss"
+import styles from "./Alert.scss"
 
 const Alert = ({ children, error, warning, info, title }) => (
   <div className={classNames("alert", { error, warning, info })}>
     {title && <div className="alert-title">{title}</div>}
     {children}
+    <style jsx>{styles}</style>
   </div>
 )
 

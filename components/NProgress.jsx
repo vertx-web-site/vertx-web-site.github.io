@@ -1,8 +1,6 @@
 import NProgress from "nprogress"
 import Router from "next/router"
 
-import "./NProgress.scss"
-
 let timer
 NProgress.configure({ showSpinner: false })
 

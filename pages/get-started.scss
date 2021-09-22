@@ -1,0 +1,30 @@
+@import "../css/variables";
+
+.get-started-step {
+  display: inline-flex;
+  background-color: $primary;
+  color: #fff;
+  width: 3.5rem;
+  height: 3.5rem;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.25em;
+  border-radius: $border-radius;
+  margin-right: $spacer;
+}
+
+.get-started-screenshot {
+  margin: $spacer * 2 auto;
+  display: block;
+  border: 1px solid $gray-300;
+  box-shadow: $button-box-shadow;
+  padding: $spacer;
+  width: 600px;
+  max-width: 100%;
+
+  :global(img) {
+    margin: 0;
+    width: auto;
+    max-width: 100%;
+  }
+}

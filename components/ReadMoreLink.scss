@@ -11,11 +11,11 @@
     width: 0;
     height: 0;
     display: inline-block;
-    border-top: 0.38rem solid transparent;
-    border-bottom: 0.38rem solid transparent;
+    border-top: 0.39rem solid transparent;
+    border-bottom: 0.39rem solid transparent;
     border-left: 0.45rem solid $primary;
     margin-left: math.div($spacer, 2);
-    margin-top: 4px;
+    margin-top: 2px;
     transition: all 100ms ease;
   }
 

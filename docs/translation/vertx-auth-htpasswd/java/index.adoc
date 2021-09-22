@@ -14,7 +14,7 @@ Vert.x提供了 `link:../../apidocs/io/vertx/ext/auth/authentication/Authenticat
 <dependency>
 <groupId>io.vertx</groupId>
 <artifactId>vertx-auth-htpasswd</artifactId>
-<version>4.1.2</version>
+<version>4.1.4</version>
 </dependency>
 ----
 
@@ -22,7 +22,7 @@ Vert.x提供了 `link:../../apidocs/io/vertx/ext/auth/authentication/Authenticat
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-auth-htpasswd:4.1.2'
+compile 'io.vertx:vertx-auth-htpasswd:4.1.4'
 ----
 
 要创建一个实例，您首先需要一份htpasswd文件。htpasswd文件可以使用apache htpasswd工具生成。

@@ -27,13 +27,13 @@
     }
   }
 
-  & + & {
-    margin-left: $spacer * 0.8;
-  }
+  .icon {
+    display: inline-block;
 
-  .feather {
-    margin-bottom: 3px;
-    margin-right: 2px;
-    height: 1.1rem;
+    :global(svg) {
+      margin-bottom: 3px;
+      margin-right: 2px;
+      height: 1.1rem;
+    }
   }
 }

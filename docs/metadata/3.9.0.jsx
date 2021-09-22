@@ -666,7 +666,9 @@ const entries = [
   }
 ]
 
-export default {
+const docs = {
   categories,
   entries
 }
+
+export default docs

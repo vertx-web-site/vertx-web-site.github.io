@@ -24,7 +24,7 @@
     display: none;
     user-select: none;
 
-    a {
+    :global(a) {
       color: #4d4d4d;
       text-decoration: none;
       font-weight: 300;
@@ -43,7 +43,7 @@
     }
   }
 
-  svg {
+  :global(svg) {
     margin-bottom: 2px;
   }
 }
