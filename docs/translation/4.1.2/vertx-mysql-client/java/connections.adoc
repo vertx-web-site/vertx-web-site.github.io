@@ -1,0 +1,76 @@
+[[_using_connections]]
+== 使用连接
+
+[[_getting_a_connection]]
+=== 获取连接
+
+当需要执行顺序查询（无事务）时，可以创建一个新连接或从连接池中借用一个。
+请注意在从拿到连接到将连接释放回连接池这之间的连接状态，服务端可能由于某些原因比如空闲时间超时，而关闭这条连接。
+
+[source,java]
+----
+pool
+  .getConnection()
+  .compose(connection ->
+    connection
+      .preparedQuery("INSERT INTO Users (first_name,last_name) VALUES (?, ?)")
+      .executeBatch(Arrays.asList(
+        Tuple.of("Julien", "Viet"),
+        Tuple.of("Emad", "Alblueshi")
+      ))
+      .compose(res -> connection
+        // 对行执行一些操作
+        .query("SELECT COUNT(*) FROM Users")
+        .execute()
+        .map(rows -> rows.iterator().next().getInteger(0)))
+      // 将连接返回到连接池中
+      .eventually(v -> connection.close())
+  ).onSuccess(count -> {
+  System.out.println("Insert users, now the number of users is " + count);
+});
+----
+
+可以创建预处理查询语句：
+
+[source,java]
+----
+connection
+  .prepare("SELECT * FROM users WHERE first_name LIKE ?")
+  .compose(pq ->
+    pq.query()
+      .execute(Tuple.of("Julien"))
+      .eventually(v -> pq.close())
+  ).onSuccess(rows -> {
+  // 所有的行
+});
+----
+
+[[_simplified_connection_api]]
+=== 简单连接 API
+
+当您创建了一个连接池, 您可以调用 `link:../../apidocs/io/vertx/sqlclient/Pool.html#withConnection-java.util.function.Function-io.vertx.core.Handler-[withConnection]` 并传入一个使用连接进行处理的函数。
+
+它从连接池中借用一个连接，并使用该连接调用函数。
+
+该函数必须返回一个任意结果的 Future。
+
+Future 完成后, 连接将归还至连接池，并提供全部的结果。
+
+[source,java]
+----
+pool.withConnection(connection ->
+  connection
+    .preparedQuery("INSERT INTO Users (first_name,last_name) VALUES (?, ?)")
+    .executeBatch(Arrays.asList(
+      Tuple.of("Julien", "Viet"),
+      Tuple.of("Emad", "Alblueshi")
+    ))
+    .compose(res -> connection
+      // Do something with rows
+      .query("SELECT COUNT(*) FROM Users")
+      .execute()
+      .map(rows -> rows.iterator().next().getInteger(0)))
+).onSuccess(count -> {
+  System.out.println("Insert users, now the number of users is " + count);
+});
+----

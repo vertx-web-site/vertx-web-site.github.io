@@ -1,0 +1,38 @@
+== RxJava 3 API
+
+The Web API Contract 提供了RxJava版本的API。
+
+如下为完整例子：
+
+[source,java]
+----
+OpenAPI3RouterFactory
+  .create(vertx, "src/main/resources/petstore.yaml")
+  .flatMap(routerFactory -> {
+    // 规范加载成功，路由器工厂包含了OpenAPI3RouterFactory
+    // 设置路由器工厂
+    RouterFactoryOptions options = new RouterFactoryOptions().setOperationModelKey("openapi_model");
+    // 挂载设置
+    routerFactory.setOptions(options);
+    // 以operationId添加处理器
+    routerFactory.addHandlerByOperationId("listPets", routingContext -> {
+      // 处理 listPets 操作
+      routingContext.response().setStatusMessage("Called listPets").end();
+    });
+
+    // 添加安全处理器
+    routerFactory.addSecurityHandler("api_key", JWTAuthHandler.create(jwtAuth));
+
+    // 现在您必须生成路由器
+    Router router = routerFactory.getRouter();
+
+    // 现在 您可以使用路由器对象
+    HttpServer server = vertx.createHttpServer(new HttpServerOptions().setPort(8080).setHost("localhost"));
+    return server.requestHandler(router).listen();
+  })
+  .subscribe(httpServer -> {
+    // 服务启动运行
+  }, throwable -> {
+    // http服务启动失败 或 路由器工厂初始化失败
+  });
+----

@@ -1,0 +1,38 @@
+== RxJava 3 API
+
+Mongo客户端提供了RX化的原始版本API。
+
+[[_creating_an_rxified_client]]
+=== 创建一个RX化的客户端
+
+要想创建一个RX化的Mongo客户端，需要您确保导入了 `link:../../apidocs/io/vertx/rxjava3/ext/mongo/MongoClient.html[MongoClient]` 类。
+创建并获取一个客户端实例的方法有很多，例如下面：
+
+[source,java]
+----
+MongoClient client = MongoClient.createShared(vertx, config);
+----
+
+[[_finding_documents_in_batches]]
+=== 批量查询文档
+
+`link:../../apidocs/io/vertx/rxjava3/core/streams/ReadStream.html[ReadStream]` 可以被转换成 `link:../../apidocs/io/reactivex/rxjava3/core/Flowable.html[Flowable]` 。这个功能会方便您处理大型数据集。
+
+[source,java]
+----
+JsonObject query = new JsonObject()
+  .put("author", "J. R. R. Tolkien");
+
+ReadStream<JsonObject> books = mongoClient.findBatch("book", query);
+
+// Convert the stream to a Flowable
+Flowable<JsonObject> flowable = books.toFlowable();
+
+flowable.subscribe(doc -> {
+  System.out.println("Found doc: " + doc.encodePrettily());
+}, throwable -> {
+  throwable.printStackTrace();
+}, () -> {
+  System.out.println("End of research");
+});
+----
