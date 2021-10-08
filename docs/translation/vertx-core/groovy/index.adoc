@@ -10,12 +10,12 @@ project descriptor to access the Vert.x Core API and enable the Groovy support:
 <dependency>
 <groupId>io.vertx</groupId>
 <artifactId>vertx-core</artifactId>
-<version>4.1.4</version>
+<version>4.1.5</version>
 </dependency>
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-lang-groovy</artifactId>
- <version>4.1.4</version>
+ <version>4.1.5</version>
 </dependency>
 ----
 
@@ -23,8 +23,8 @@ project descriptor to access the Vert.x Core API and enable the Groovy support:
 
 [source,groovy,subs="+attributes"]
 ----
-compile "io.vertx:vertx-core:4.1.4"
-compile "io.vertx:vertx-lang-groovy:4.1.4"
+compile "io.vertx:vertx-core:4.1.5"
+compile "io.vertx:vertx-lang-groovy:4.1.5"
 ----
 
 == Verticles

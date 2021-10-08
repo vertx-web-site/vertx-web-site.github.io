@@ -24,7 +24,7 @@ To use Vert.x Json Schema, add the following dependency to the _dependencies_ se
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-json-schema</artifactId>
- <version>4.1.4</version>
+ <version>4.1.5</version>
 </dependency>
 ----
 
@@ -33,7 +33,7 @@ To use Vert.x Json Schema, add the following dependency to the _dependencies_ se
 [source,groovy,subs="+attributes"]
 ----
 dependencies {
- compile 'io.vertx:vertx-json-schema:4.1.4'
+ compile 'io.vertx:vertx-json-schema:4.1.5'
 }
 ----
 
