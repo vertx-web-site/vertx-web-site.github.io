@@ -1,7 +1,7 @@
 = 响应式（Reactive） PostgreSQL 客户端
 :PREPARED_PARAMS: `$1`, `$2`, etc…​
 
-响应式PostgreSQL客户端是一款以可扩展性和低开销为目标而专门为PostgreSQL数据库设计的
+响应式 PostgreSQL 客户端是一款以可扩展性和低开销为目标而专门为 PostgreSQL 数据库设计的
 客户端。
 
 客户端是响应式和非阻塞的，可以仅仅使用一条线程来处理大量的数据库连接。
@@ -10,16 +10,16 @@
 * 轻量级
 * 内置连接池
 * 预查询缓存
-* 基于PostgreSQL的`NOTIFY/LISTEN`机制实现的发布/订阅
+* 基于 PostgreSQL 的 `NOTIFY/LISTEN` 机制实现的发布/订阅
 * 批处理和游标
 * 支持原生流式操作
 * 命令管道（pipeline）
 * RxJava API
 * 支持内存直接映射到对象，避免了不必要的复制
-* 支持Java 8 Date and Time
+* 支持 Java 8 Date and Time
 * SSL/TLS
 * Unix domain socket
-* 支持HTTP/1.x， SOCKS4a 或 SOCKS5 代理
+* 支持 HTTP/1.x， SOCKS4a 或 SOCKS5 代理
 
 [[_usage]]
 == 用法
@@ -272,9 +272,9 @@ pool.getConnection(ar -> {
 });
 ----
 
-您也可以使用 `setProperties`或 `addProperty`方法配置通用属性。注意 `setProperties` 将覆盖默认的客户端属性。
+您也可以使用 `setProperties` 或 `addProperty` 方法配置通用属性。注意 `setProperties` 将覆盖默认的客户端属性。
 
-例如，您可以通过添加 `search_path` 属性来配置一个默认的schema。
+例如，您可以通过添加 `search_path` 属性来配置一个默认的 schema。
 
 [source,java]
 ----
@@ -594,9 +594,9 @@ PostgreSQL定义了几个特殊的值用来表示这些最值。
 
 相应类型的最大/最小值由这些常量 https://www.postgresql.org/docs/9.0/datatype-datetime.html[特殊值] 表示。
 
-- `OffsetDateTime.MAX`/OffsetDateTime.MIN`
-- `LocalDateTime.MAX`/LocalDateTime.MIN`
-- `LocalDate.MAX`/LocalDate.MIN`
+- `OffsetDateTime.MAX`/`OffsetDateTime.MIN`
+- `LocalDateTime.MAX`/`LocalDateTime.MIN`
+- `LocalDate.MAX`/`LocalDate.MIN`
 
 [source,java]
 ----
