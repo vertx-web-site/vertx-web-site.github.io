@@ -387,7 +387,8 @@ NOTE: SCRAM-SHA-256-PLUS（在Postgresql 11中加入）当前版本客户端暂�
 
 include::queries.adoc[leveloffset=1]
 
-== Returning clauses
+[[_returning_clauses]]
+== Returning 字句
 
 您可以使用 'RETURNING' 从查询里拿到生成的key：
 
@@ -403,7 +404,7 @@ client
 });
 ----
 
-This works with any SQL as long as there is a `RETURNING` clause:
+只要 SQL 语句中存在 `RETURNING` 子句，就可以生效：
 
 [source,java]
 ----
