@@ -83,19 +83,20 @@ Vertx vertx = Vertx.vertx(new VertxOptions().
 当使用搜索域列表时， “.” 符号数量的阈值一般为 `1` ，在Linux操作系统里该阈值由 `/etc/resolv.conf` 文件来指定，
 通过 `link:../../apidocs/io/vertx/core/dns/AddressResolverOptions.html#setNdots-int-[setNdots]` 可以人为指定该阈值的大小。
 
-=== MacOS configuration
+[[_macos_configuration]]
+=== MacOS 配置
 
-MacOS has a specific native extension to get the name server configuration of the system based on
-<a href="https://opensource.apple.com/tarballs/mDNSResponder/">Apple's open source mDNSResponder</a>. When this extension is not present,
-Netty logs the following warning.
+MacOS 需要使用特殊的扩展以获取其基于
+<a href="https://opensource.apple.com/tarballs/mDNSResponder/">Apple's open source mDNSResponder</a> 系统的主机名解析服务配置。 如果没有该扩展
+Netty 会输出以下的警告日志。
 
 ----
 [main] WARN io.netty.resolver.dns.DnsServerAddressStreamProviders - Can not find io.netty.resolver.dns.macos.MacOSDnsServerAddressStreamProvider in the classpath, fallback to system defaults. This may result in incorrect DNS resolutions on MacOS.
 ----
 
-This extension is not required as its absence does not prevent Vert.x to execute, yet is *recommended*.
+缺少该扩展并不会阻止 Vert.x 的运行，因此它不是必须的，而只是 *建议使用*。
 
-You can use add it to your classpath to improve the integration and remove the warning.
+你可以在类路径中添加该扩展以提升集成度并移除警告。
 
 [source,xml]
 ----
