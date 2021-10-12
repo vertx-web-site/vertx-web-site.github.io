@@ -388,7 +388,7 @@ NOTE: SCRAM-SHA-256-PLUS（在Postgresql 11中加入）当前版本客户端暂�
 include::queries.adoc[leveloffset=1]
 
 [[_returning_clauses]]
-== Returning 字句
+== Returning 子句
 
 您可以使用 'RETURNING' 从查询里拿到生成的key：
 
