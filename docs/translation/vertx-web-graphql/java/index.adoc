@@ -314,7 +314,7 @@ GraphQLHandler handler = GraphQLHandler.create(graphQL).dataLoaderRegistry(rc ->
 });
 ----
 
-If you work with Vert.x APIs, you may use a `link:../../apidocs/io/vertx/ext/web/handler/graphql/dataloader/VertxBatchLoader.html[VertxBatchLoader]` or a `link:../../apidocs/io/vertx/ext/web/handler/graphql/dataloader/VertxMappedBatchLoader.html[VertxMappedBatchLoader]` to simplify your code:
+如果您使用了 Vert.x 的 API，那么您可以使用 `link:../../apidocs/io/vertx/ext/web/handler/graphql/dataloader/VertxBatchLoader.html[VertxBatchLoader]` 或 `link:../../apidocs/io/vertx/ext/web/handler/graphql/dataloader/VertxMappedBatchLoader.html[VertxMappedBatchLoader]` 来简化代码：
 
 [source,java]
 ----
