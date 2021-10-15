@@ -450,7 +450,7 @@ client.query("SELECT * FROM users")
 MSSQLConnectOptions connectOptions = new MSSQLConnectOptions().setSsl(true);
 ----
 
-当 `ssl` 配置为 `false` 时，客户端新人所有的服务端密钥。
+当 `ssl` 配置为 `false` 时，客户端信任所有的服务端密钥。
 否则，客户端会验证主机名。
 
 如果客户端的 `ssl` 配置为 `true`， 并且服务端使用了自签名的密钥， 可以禁用主机名验证：
