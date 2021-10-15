@@ -419,38 +419,41 @@ client.query("SELECT * FROM users")
   });
 ----
 
-== Using SSL/TLS
+[[_using_ssltls]]
+== 使用 SSL/TLS
 
-=== Encryption level negotiation
+[[_encryption_level_negotiation]]
+=== 加密等级协商
 
-When a connection is established, the client and the server negotiate the encryption level.
+当一个数据库连接建立时，客户端和服务端需要协商加密等级。
 
-The negotiated level depends on the client config in `link:../../apidocs/io/vertx/mssqlclient/MSSQLConnectOptions.html[MSSQLConnectOptions]` and the server config:
+协商的加密等级取决于客户端的 `link:../../apidocs/io/vertx/mssqlclient/MSSQLConnectOptions.html[MSSQLConnectOptions]` 配置和服务端和配置：
 
-* no encryption: if `ssl` is set to `false` in client options, and the server does not support encryption
-* encrypt login packet only: if `ssl` is set to `false` in client options, and the server supports encryption
-* encrypt entire connection: if `ssl` is set to `true` in client options, or the server requires encryption
+* 不加密： 如果客户端的 `ssl` 配置设置为 `false` ，并且服务端不支持加密
+* 只加密登录报文: 如果客户端的 `ssl` 配置设置为 `false` , 并且服务端支持加密
+* 加密整个连接通道: 如果客户端的 `ssl` 配置设置为 `true` , 并且服务端要求加密
 
 [NOTE]
 ====
-The negotiation fails if `ssl` is set to `true` in client options, and the server does not support encryption.
-In this case, the client terminates the connection.
+如果客户端的 `ssl` 配置设置为 `true` ，并且服务端不支持加密时，加密等级协商会失败。
+在这种情况下，客户端会终止连接。
 ====
 
-=== Configuration
+[[_configuration_2]]
+=== 配置
 
-To configure `ssl` in client options, use the `link:../../apidocs/io/vertx/mssqlclient/MSSQLConnectOptions.html#setSsl-boolean-[setSsl]` method.
-By default, `ssl` is set to `false`.
+为了设置客户端的 `ssl` 项配置, 使用 `link:../../apidocs/io/vertx/mssqlclient/MSSQLConnectOptions.html#setSsl-boolean-[setSsl]` 方法。
+默认情况下， `ssl` 配置为 `false`。
 
 [source,java]
 ----
 MSSQLConnectOptions connectOptions = new MSSQLConnectOptions().setSsl(true);
 ----
 
-When `ssl` is set to `false`, the client trusts all server certificates.
-Otherwise, it performs hostname validation.
+当 `ssl` 配置为 `false` 时，客户端新人所有的服务端密钥。
+否则，客户端会验证主机名。
 
-If `ssl` is set to true in client options, and the server uses a self-signed certificate, hostname validation can be disabled:
+如果客户端的 `ssl` 配置为 `true`， 并且服务端使用了自签名的密钥， 可以禁用主机名验证：
 
 [source,java]
 ----
@@ -459,8 +462,8 @@ MSSQLConnectOptions connectOptions = new MSSQLConnectOptions()
   .setTrustAll(true);
 ----
 
-Alternatively, the client can be configured to trust the server certificate with `link:../../apidocs/io/vertx/core/net/TrustOptions.html[TrustOptions]`.
-For example, `link:../../apidocs/io/vertx/core/net/PemTrustOptions.html[PemTrustOptions]` can be used if a PEM file contains the server certificate:
+客户端也可以选择配置信任所有服务端的密钥，使用 `link:../../apidocs/io/vertx/core/net/TrustOptions.html[TrustOptions]` 进行配置。
+例如，如果服务端密钥放置在一个 PEM 格式的文件中时，可以使用 `link:../../apidocs/io/vertx/core/net/PemTrustOptions.html[PemTrustOptions]` 进行如下配置：
 
 [source,java]
 ----
@@ -469,7 +472,7 @@ MSSQLConnectOptions connectOptions = new MSSQLConnectOptions()
   .setPemTrustOptions(new PemTrustOptions().addCertPath("/path/to/server-cert.pem"));
 ----
 
-For further details about SSL support in Vert.x, please refer to the https://vertx.io/docs/vertx-core/java/#ssl[Vert.x Core documentation].
+对于 Vert.x 中更高级的 SSL 支持，请参考 https://vertx.io/docs/vertx-core/java/#ssl[Vert.x Core 文档]。
 
 [[_advanced_pool_configuration]]
 == 高级连接池配置
