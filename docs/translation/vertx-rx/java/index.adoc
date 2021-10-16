@@ -20,7 +20,7 @@ Vert.x 与 RxJava 集成起来很自然：
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-rx-java</artifactId>
- <version>4.1.4</version>
+ <version>4.1.5</version>
 </dependency>
 ----
 
@@ -28,7 +28,7 @@ Vert.x 与 RxJava 集成起来很自然：
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-rx-java:4.1.4'
+compile 'io.vertx:vertx-rx-java:4.1.5'
 ----
 
 要使用 Vert.x 的 RxJava API，有两种方式：

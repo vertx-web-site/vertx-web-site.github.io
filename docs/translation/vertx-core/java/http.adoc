@@ -2501,6 +2501,43 @@ client.webSocket("/some-uri", res -> {
 });
 ----
 
+By default, the client sets the `origin` header to the server host, e.g http://www.example.com. Some servers will refuse
+such request, you can configure the client to not set this header.
+
+[source,java]
+----
+WebSocketConnectOptions options = new WebSocketConnectOptions()
+  .setHost(host)
+  .setPort(port)
+  .setURI(requestUri)
+  .setAllowOriginHeader(false);
+client.webSocket(options, res -> {
+  if (res.succeeded()) {
+    WebSocket ws = res.result();
+    System.out.println("Connected!");
+  }
+});
+----
+
+You can also set a different header:
+
+[source,java]
+----
+WebSocketConnectOptions options = new WebSocketConnectOptions()
+  .setHost(host)
+  .setPort(port)
+  .setURI(requestUri)
+  .addHeader(HttpHeaders.ORIGIN, origin);
+client.webSocket(options, res -> {
+  if (res.succeeded()) {
+    WebSocket ws = res.result();
+    System.out.println("Connected!");
+  }
+});
+----
+
+NOTE: older versions of the WebSocket protocol use `sec-websocket-origin` instead
+
 [[_writing_messages_to_websockets]]
 ==== 向 WebSocket 写入消息
 

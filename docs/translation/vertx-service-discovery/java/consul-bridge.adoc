@@ -22,7 +22,7 @@ Consul服务发现网桥从 http://consul.io[Consul] 导入服务到Vert.x服务
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-service-discovery-bridge-consul</artifactId>
- <version>4.1.4</version>
+ <version>4.1.5</version>
 </dependency>
 ----
 
@@ -30,7 +30,7 @@ Consul服务发现网桥从 http://consul.io[Consul] 导入服务到Vert.x服务
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-service-discovery-bridge-consul:4.1.4'
+compile 'io.vertx:vertx-service-discovery-bridge-consul:4.1.5'
 ----
 
 然后，在创建服务发现对象的时候，像下面这样注册桥接器：
