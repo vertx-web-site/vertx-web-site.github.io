@@ -115,7 +115,6 @@ jobs:
           cd vertx-china.github.io
           git rm -r -q --ignore-unmatch *
           touch .nojekyll
-#          echo vertx.io > CNAME
           cd ..
 
       - name: Copy build to output directory
