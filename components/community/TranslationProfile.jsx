@@ -1,5 +1,5 @@
 import classNames from "classnames"
-import "./CommunityProfile.scss"
+import styles from "./CommunityProfile.scss?type=global"
 
 const TranslationProfile = ({ profile, size = "small" }) => {
   let cx = 300
@@ -19,6 +19,7 @@ const TranslationProfile = ({ profile, size = "small" }) => {
         className="lazyload" />
       </a>
       {profile.name && <div className="community-profile-name">{profile.name}</div>}
+      <style jsx>{styles}</style>
     </div>
   )
 }
