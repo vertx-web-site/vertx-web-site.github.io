@@ -2501,8 +2501,8 @@ client.webSocket("/some-uri", res -> {
 });
 ----
 
-默认情况下， WebSocket 客户端会设置 `origin` 首部为服务器域名， 就像 http://www.example.com。 一些服务器会
-拒绝这种请求，您可以自己配置客户端不要设置该首部。
+默认情况下， WebSocket 客户端会设置 `origin` 头部为服务器域名， 就像 http://www.example.com。 
+一些服务器会拒绝这种请求，您可以自行配置客户端要不要设置该头部（header）。
 
 [source,java]
 ----
@@ -2519,7 +2519,7 @@ client.webSocket(options, res -> {
 });
 ----
 
-您也可以设置一个不同的首部：
+您也可以设置一个不同的头部（header）：
 
 [source,java]
 ----
@@ -2536,7 +2536,7 @@ client.webSocket(options, res -> {
 });
 ----
 
-NOTE: 旧版本的 WebSocket 协议使用的是 `sec-websocket-origin` 首部
+NOTE: 旧版本的 WebSocket 协议使用的是 `sec-websocket-origin` 代替
 
 [[_writing_messages_to_websockets]]
 ==== 向 WebSocket 写入消息
