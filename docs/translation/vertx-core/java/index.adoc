@@ -462,7 +462,7 @@ Worker Verticles:: 这类 Verticle 会运行在 Worker Pool 中的线程上。
 === Worker verticles
 
 Worker Verticle 和 Standard Verticle 很像，但它并不是由一个 Event Loop 来执行，
-而是由Vert.x中的 Worker Pool 中的线程执行。
+而是由 Vert.x 中的 Worker Pool 中的线程执行。
 
 Worker Verticle 设计用于调用阻塞式代码，它不会阻塞任何 Event Loop。
 
