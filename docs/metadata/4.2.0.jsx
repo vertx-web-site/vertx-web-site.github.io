@@ -23,6 +23,6 @@ insert(docs, "vertx-mssql-client",
 docs.prerelease = true
 
 // force title
-docs.title = "4.2.0.Beta1"
+docs.title = "4.2.0.CR1"
 
 export default docs
