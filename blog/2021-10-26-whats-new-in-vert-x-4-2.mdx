@@ -41,7 +41,7 @@ Our Cassandra client now supports tracing, you can use it either with your favou
 
 ## Web Client enhancements
 
-Our Web Client supports now Oauth2 security.
+Our Web Client supports now Oauth2 automated token security management.
 
 ```java
 WebClient client = WebClient.create(vertx);
@@ -53,6 +53,8 @@ OAuth2WebClient oauth2 = OAuth2WebClient.create(
   // the access_token
   .withCredentials(new TokenCredentials("some.jwt.token"));
 ```
+
+Tokens are now fetched or refreshed during the lifecycle of the client.
 
 It also offers an HTTP response caching facility.
 
