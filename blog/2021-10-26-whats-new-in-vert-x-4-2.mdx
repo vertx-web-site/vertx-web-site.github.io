@@ -88,3 +88,7 @@ otp
 ```
 
 This module and handler are compatible with google authenticator and similar apps.
+
+## OpenAPI
+
+When using OpenAPI and eventbus deployed services, when deploying secure APIs, the HTTP `Authorization` header is now propagated along with the request all the way with the request on the eventbus. This paves the way to create a `Zero Trust` foundation for vert.x distributed applications.
