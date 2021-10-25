@@ -62,3 +62,29 @@ It also offers an HTTP response caching facility.
 WebClient client = WebClient.create(vertx);
 WebClient cachingWebClient = CachingWebClient.create(client);
 ```
+
+## Auth enhancements
+
+### Webauthn
+
+Webauthn now supports [MDS3](https://fidoalliance.org/metadata/). The now "legacy" MDS2 is still available as the service is expected to be running until Nov 2022. In terms of usage, nothing changed, the module can identify the metadata version from the payload and decide how to handle it internally.
+
+### OTP
+
+A new module and handler for 2nd factor authentication is now available:
+
+```java
+OtpAuthHandler otp = OtpAuthHandler.create(TotpAuth.create();
+
+otp
+  // the issuer for the application
+  .issuer("Vert.x Demo")
+  // handle code verification responses
+  .verifyUrl("/verify-otp.html")
+  // handle registration of authenticators
+  .setupRegisterCallback(router.post("/otp/register"))
+  // handle verification of authenticators
+  .setupCallback(router.post("/otp/verify"));
+```
+
+This module and handler are compatible with google authenticator and similar apps.
