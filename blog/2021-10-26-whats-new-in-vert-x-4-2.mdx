@@ -1,0 +1,57 @@
+---
+title: "What's new in Vert.x 4.1"
+category: releases
+pinned: true
+authors:
+  - name: Julien Viet
+    github_id: vietj
+summary: >-
+  See an overview of all new and exciting features in Vert.x 4.2, including Vert.x Oracle Client,
+  RxJava 3, Open Telemetry, and more.
+---
+
+Vert.x 4.2 comes with plenty of new exciting features.
+
+Here is an overview of the most important features supported in Vert.x 4.2.
+
+## Reactive SQL Client
+
+### Oracle client
+
+The [Reactive Oracle Client](https://vertx.io/docs/4.2.0/vertx-oracle-client/java/) joins the [database clients](https://vertx.io/docs/#databases) family!
+
+This client is in tech preview and we are eager to hear any feedback you may have.
+
+### MSSQL client TLS and Azure support
+
+Our MSSQL client now supports TLS encryption as well as Azure support.
+
+## MQTT Server V5 supports
+
+The MQTT Server has been upgraded to support the version 5 of the protocol partially (the auth message remains to be implemented).
+
+### Tracing
+
+Our Cassandra client now supports tracing, you can use it either with your favourite tracer.
+
+## Web Client enhancements
+
+Our Web Client supports now Oauth2 security.
+
+```java
+WebClient client = WebClient.create(vertx);
+OAuth2WebClient oauth2 = OAuth2WebClient.create(
+    client,
+    OAuth2Auth.create(vertx, new OAuth2Options(/* enter IdP config */)))
+
+  // configure the initial credentials (needed to fetch if needed
+  // the access_token
+  .withCredentials(new TokenCredentials("some.jwt.token"));
+```
+
+It also offers an HTTP response caching facility.
+
+```java
+WebClient client = WebClient.create(vertx);
+WebClient cachingWebClient = CachingWebClient.create(client);
+```
