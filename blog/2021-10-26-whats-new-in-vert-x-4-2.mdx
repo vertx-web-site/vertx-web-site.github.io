@@ -92,3 +92,23 @@ This module and handler are compatible with google authenticator and similar app
 ## OpenAPI
 
 When using OpenAPI and eventbus deployed services, when deploying secure APIs, the HTTP `Authorization` header is now propagated along with the request all the way with the request on the eventbus. This paves the way to create a `Zero Trust` foundation for vert.x distributed applications.
+
+## Redis Client
+
+Redis client now support `REPLICATION` mode. This mode is commonly used by cloud providers like Azure and AWS. The client will act just like in a clustered mode, with less overhead as the hosting will perform most of the clustered tasks, not the client.
+
+```java
+Redis.createClient(
+      vertx,
+      new RedisOptions()
+        .setType(RedisClientType.REPLICATION)
+        .addConnectionString("redis://localhost:7000"))
+      .connect()
+      .onSuccess(conn -> {
+        // this is a replication client.
+        // write operations will end up in the master node
+        conn.send(Request.cmd(Command.SET).arg("key").arg("value"));
+        // and read operations will end up in the replica nodes if available
+        conn.send(Request.cmd(Command.GET).arg("key"));
+      });
+```
