@@ -19,7 +19,7 @@ Vert.x 4.2 comes with official support of Java 17.
 
 Our CI has been updated to test from our Java 8 baseline to the very recent Java 17 release.
 
-## Reactive SQL Client
+## Reactive SQL Clients
 
 ### Oracle client
 
@@ -27,17 +27,42 @@ The [Reactive Oracle Client](https://vertx.io/docs/4.2.0/vertx-oracle-client/jav
 
 This client is in tech preview and we are eager to hear any feedback you may have.
 
-### MSSQL client TLS and Azure support
+### MSSQL client
 
-Our MSSQL client now supports TLS encryption as well as Azure support.
+#### Encryption
+
+The Reactive SQL Server Client is able to negotiate the encryption level when a connection is established:
+
+* no encryption
+* encrypt login packet only
+* encrypt entire connection
+
+#### Azure SQL Database
+
+Our client is now able to connect to [Azure SQL Database](https://docs.microsoft.com/en-us/azure/azure-sql/database/sql-database-paas-overview) servers.
+
+This was made possible thanks to:
+
+- encryption support (see above)
+- enhancements in the protocol implemention ([TDS `ENV_CHANGE` `ROUTING` token support](https://github.com/eclipse-vertx/vertx-sql-client/pull/1038))
 
 ## MQTT Server V5 supports
 
 The MQTT Server has been upgraded to support the version 5 of the protocol partially (the auth message remains to be implemented).
 
-### Tracing
+## Cassandra Client
 
-Our Cassandra client now supports tracing, you can use it either with your favourite tracer.
+The Cassandra Client can trace query execution when Vert.x has tracing enabled.
+
+The client reports the following _client_ spans:
+
+* `Query` operation name
+* tags
+    - `peer.address`: list of nodes known to the driver, in the form `[127_0_0_1:9042,localhost:9042,myhost_mydomain:9042]`
+    - `span.kind`: `client`
+    - `db.instance`: the keyspace
+    - `db.statement`: the CQL query
+    - `db.type`: `cassandra`
 
 ## Web Client enhancements
 
@@ -112,3 +137,29 @@ Redis.createClient(
         conn.send(Request.cmd(Command.GET).arg("key"));
       });
 ```
+
+## Vert.x Web GraphQL
+
+### Context Management
+
+Vert.x Web GraphQL has been upgraded to GraphQL-Java version 17.
+In this version, the `GraphQLContext` object becomes the standard to share contextual data between components of a GraphQL Java application (see [v17 Release Notes](https://github.com/graphql-java/graphql-java/releases/tag/v17.0)).
+
+Consequently, we have:
+
+- deprecated the existing context hooks in Vert.x Web GraphQL handlers
+- created new hooks (e.g. [GraphQLHandler beforeExecute](https://vertx.io/docs/4.2.0/apidocs/io/vertx/ext/web/handler/graphql/GraphQLHandler.html#beforeExecute-io.vertx.core.Handler-)) for context management
+
+### GraphQL over Websockets protocol
+
+The Apollo `subscriptions-transport-ws` library is not being actively maintained.
+It is recommended that you use the `graphql-ws` in your client applications library instead.
+
+For this purpose, Vert.x Web GraphQL supports the [GraphQL over Websockets protocol](https://vertx.io/docs/4.2.0/vertx-web-graphql/java/#_graphql_over_websocket).
+
+For details about it, please read the [GraphQL over WebSockets announcement](https://the-guild.dev/blog/graphql-over-websockets).
+
+## Vert.x JUnit 5
+
+By default the thread invoking the test methods is the JUnit thread.
+The [`io.vertx.junit5.RunTestOnContext`](https://vertx.io/docs/4.2.0/vertx-junit5/java/#_running_tests_on_a_vert_x_context) extension can be used to alter this behavior by running test methods on a Vert.x event-loop thread.
