@@ -17,12 +17,4 @@ insert(docs, "vertx-mssql-client",
        }
  )
 
-// Mark this version as a prerelease. Prereleases can be selected manually
-// from the dropdown menu on the docs page but the default entry is still
-// the latest GA release.
-docs.prerelease = true
-
-// force title
-docs.title = "4.2.0.CR1"
-
 export default docs

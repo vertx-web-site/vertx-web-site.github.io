@@ -32,15 +32,10 @@ ext {
     "4.1.2",
     "4.1.3",
     "4.1.4",
-
-    // prereleases
-    [
-        version: "4.2.0.CR1",
-        path: "4.2.0"
-    ],
+    "4.1.5",
 
     // latest GA release (must be the last entry)
-    "4.1.5"
+    "4.2.0"
   ]
 
   extractApidocsTargetDir = project.hasProperty("extractApidocsTargetDir") ?
