@@ -34,8 +34,7 @@ dependencies {
 [[_creating_a_client]]
 === 创建客户端
 
-您还可以像下面这样，使用完整的 amqp uri 来创建一个客户端实例：
-（译者注：amqp uri的使用规范可参考官网 https://www.rabbitmq.com/uri-spec.html ）
+您还可以像下面这样，使用完整的 amqp uri 来创建一个客户端实例： （译者注：amqp uri的使用规范可参考官网 https://www.rabbitmq.com/uri-spec.html ）
 
 [source,java]
 ----
@@ -148,6 +147,7 @@ options.setReconnectInterval(500);
 当服务端的拓扑结构准备好之前（换句话说，即在创建/绑定交换机和队列之前）发送信息，可能会导致竞争状况。
 为了在连接准备就绪之前提供创建这些对象的机会， `RabbitMQClient` 提供了 `ConnectionEstablishedCallback` 方法。
 `ConnectionEstablishedCallback` 方法可用于在其他使用者（包括 `RabbitMQConsumer` 和 `RabbitMQPublisher` ）访问 `RabbitMQClient`前，执行任意操作。
+
 [source,java]
 ----
 RabbitMQClient client = RabbitMQClient.create(vertx, config);
@@ -529,10 +529,10 @@ client.basicGet("my.queue", true, getResult -> {
 
 [[_consume_messages_without_auto_ack]]
 === 手动确认消费的消息
-（译者注：设置autoAck = false时，需要手动对投递到 `Consumer` 的消息进行确认）
+
 [source,java]
 ----
-client.basicConsumer("my.queue", new QueueOptions().setAutoAck(false), consumeResult -> {
+client.basicConsumer("my.queue", new QueueOptions().setAutoAck(false), consumeResult -> {//（译者注：设置autoAck = false时，需要手动对投递到 `Consumer` 的消息进行确认）
   if (consumeResult.succeeded()) {
     System.out.println("RabbitMQ consumer created !");
     RabbitMQConsumer consumer = consumeResult.result();
