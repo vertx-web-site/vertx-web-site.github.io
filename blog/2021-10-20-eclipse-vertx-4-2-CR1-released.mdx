@@ -1,0 +1,69 @@
+---
+title: Eclipse Vert.x 4.2.0.CR1 released!
+category: releases
+authors:
+  - name: Julien Viet
+    github_id: vietj
+summary: >-
+  The first candidate release of the upcoming Vert.x 4.2 has just been released. We
+    consider it feature complete and invite the community to test it.
+---
+
+We are extremely pleased to announce the first candidate release of Vert.x 4.2.
+
+## Reactive SQL Client
+
+### Oracle client
+
+The [Reactive Oracle Client](https://vertx.io/docs/4.2.0/vertx-oracle-client/java/) joins the [database clients](https://vertx.io/docs/#databases) family!
+
+This client is in tech preview and we are eager to hear any feedback you may have.
+
+### MSSQL client TLS and Azure support
+
+Our MSSQL client now supports TLS encryption as well as Azure support.
+
+## MQTT Server V5 supports
+
+The MQTT Server has been upgraded to support the version 5 of the protocol partially (the auth message remains to be implemented).
+
+### Tracing
+
+Our Cassandra client now supports tracing, you can use it either with your favourite tracer.
+
+## Web Client enhancements
+
+Our Web Client supports now Oauth2 security.
+
+```java
+WebClient client = WebClient.create(vertx);
+OAuth2WebClient oauth2 = OAuth2WebClient.create(
+    client,
+    OAuth2Auth.create(vertx, new OAuth2Options(/* enter IdP config */)))
+
+  // configure the initial credentials (needed to fetch if needed
+  // the access_token
+  .withCredentials(new TokenCredentials("some.jwt.token"));
+```
+
+It also offers an HTTP response caching facility.
+
+```java
+WebClient client = WebClient.create(vertx);
+WebClient cachingWebClient = CachingWebClient.create(client);
+```
+
+## Finally
+
+[Deprecations and breaking changes](https://github.com/vert-x3/wiki/wiki/4.2.0-Deprecations-and-breaking-changes)
+ can be found on the wiki.
+
+For this release, there are no Docker images.
+
+The release artifacts have been deployed to [Maven Central](https://search.maven.org/search?q=g:io.vertx%20AND%20v:4.2.0.CR1) and you can get the distribution on [Maven Central](https://repo1.maven.org/maven2/io/vertx/vertx-stack-manager/4.2.0.CR1/).
+
+You can bootstrap a Vert.x 4.2.0.CR1 project using https://start.vertx.io.
+
+The documentation has been deployed on the web-site: https://vertx.io/docs/4.2.0
+
+That's it! Happy coding and see you soon on our user or dev [channels](https://vertx.io/community).

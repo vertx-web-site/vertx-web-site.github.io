@@ -1,0 +1,165 @@
+---
+title: "What's new in Vert.x 4.2"
+category: releases
+authors:
+  - name: Julien Viet
+    github_id: vietj
+summary: >-
+  See an overview of all new and exciting features in Vert.x 4.2, including Java 17 supports, Vert.x Oracle Client and more.
+pinned: true
+---
+
+Vert.x 4.2 comes with plenty of new exciting features.
+
+Here is an overview of the most important features supported in Vert.x 4.2.
+
+## Java 17
+
+Vert.x 4.2 comes with official support of Java 17.
+
+Our CI has been updated to test from our Java 8 baseline to the very recent Java 17 release.
+
+## Reactive SQL Clients
+
+### Oracle client
+
+The [Reactive Oracle Client](https://vertx.io/docs/4.2.0/vertx-oracle-client/java/) joins the [database clients](https://vertx.io/docs/#databases) family!
+
+This client is in tech preview and we are eager to hear any feedback you may have.
+
+### MSSQL client
+
+#### Encryption
+
+The Reactive SQL Server Client is able to negotiate the encryption level when a connection is established:
+
+* no encryption
+* encrypt login packet only
+* encrypt entire connection
+
+#### Azure SQL Database
+
+Our client is now able to connect to [Azure SQL Database](https://docs.microsoft.com/en-us/azure/azure-sql/database/sql-database-paas-overview) servers.
+
+This was made possible thanks to:
+
+- encryption support (see above)
+- enhancements in the protocol implemention ([TDS `ENV_CHANGE` `ROUTING` token support](https://github.com/eclipse-vertx/vertx-sql-client/pull/1038))
+
+## MQTT Server V5 supports
+
+The MQTT Server has been upgraded to support the version 5 of the protocol partially (the auth message remains to be implemented).
+
+## Cassandra Client
+
+The Cassandra Client can trace query execution when Vert.x has tracing enabled.
+
+The client reports the following _client_ spans:
+
+* `Query` operation name
+* tags
+    - `peer.address`: list of nodes known to the driver, in the form `[127_0_0_1:9042,localhost:9042,myhost_mydomain:9042]`
+    - `span.kind`: `client`
+    - `db.instance`: the keyspace
+    - `db.statement`: the CQL query
+    - `db.type`: `cassandra`
+
+## Web Client enhancements
+
+Our Web Client supports now Oauth2 automated token security management.
+
+```java
+WebClient client = WebClient.create(vertx);
+OAuth2WebClient oauth2 = OAuth2WebClient.create(
+    client,
+    OAuth2Auth.create(vertx, new OAuth2Options(/* enter IdP config */)))
+
+  // configure the initial credentials (needed to fetch if needed
+  // the access_token
+  .withCredentials(new TokenCredentials("some.jwt.token"));
+```
+
+Tokens are now fetched or refreshed during the lifecycle of the client.
+
+It also offers an HTTP response caching facility.
+
+```java
+WebClient client = WebClient.create(vertx);
+WebClient cachingWebClient = CachingWebClient.create(client);
+```
+
+## Auth enhancements
+
+### Webauthn
+
+Webauthn now supports [MDS3](https://fidoalliance.org/metadata/). The now "legacy" MDS2 is still available as the service is expected to be running until Nov 2022. In terms of usage, nothing changed, the module can identify the metadata version from the payload and decide how to handle it internally.
+
+### OTP
+
+A new module and handler for 2nd factor authentication is now available:
+
+```java
+OtpAuthHandler otp = OtpAuthHandler.create(TotpAuth.create();
+
+otp
+  // the issuer for the application
+  .issuer("Vert.x Demo")
+  // handle code verification responses
+  .verifyUrl("/verify-otp.html")
+  // handle registration of authenticators
+  .setupRegisterCallback(router.post("/otp/register"))
+  // handle verification of authenticators
+  .setupCallback(router.post("/otp/verify"));
+```
+
+This module and handler are compatible with google authenticator and similar apps.
+
+## OpenAPI
+
+When using OpenAPI and eventbus deployed services, when deploying secure APIs, the HTTP `Authorization` header is now propagated along with the request all the way with the request on the eventbus. This paves the way to create a `Zero Trust` foundation for vert.x distributed applications.
+
+## Redis Client
+
+Redis client now support `REPLICATION` mode. This mode is commonly used by cloud providers like Azure and AWS. The client will act just like in a clustered mode, with less overhead as the hosting will perform most of the clustered tasks, not the client.
+
+```java
+Redis.createClient(
+      vertx,
+      new RedisOptions()
+        .setType(RedisClientType.REPLICATION)
+        .addConnectionString("redis://localhost:7000"))
+      .connect()
+      .onSuccess(conn -> {
+        // this is a replication client.
+        // write operations will end up in the master node
+        conn.send(Request.cmd(Command.SET).arg("key").arg("value"));
+        // and read operations will end up in the replica nodes if available
+        conn.send(Request.cmd(Command.GET).arg("key"));
+      });
+```
+
+## Vert.x Web GraphQL
+
+### Context Management
+
+Vert.x Web GraphQL has been upgraded to GraphQL-Java version 17.
+In this version, the `GraphQLContext` object becomes the standard to share contextual data between components of a GraphQL Java application (see [v17 Release Notes](https://github.com/graphql-java/graphql-java/releases/tag/v17.0)).
+
+Consequently, we have:
+
+- deprecated the existing context hooks in Vert.x Web GraphQL handlers
+- created new hooks (e.g. [GraphQLHandler beforeExecute](https://vertx.io/docs/4.2.0/apidocs/io/vertx/ext/web/handler/graphql/GraphQLHandler.html#beforeExecute-io.vertx.core.Handler-)) for context management
+
+### GraphQL over Websockets protocol
+
+The Apollo `subscriptions-transport-ws` library is not being actively maintained.
+It is recommended that you use the `graphql-ws` in your client applications library instead.
+
+For this purpose, Vert.x Web GraphQL supports the [GraphQL over Websockets protocol](https://vertx.io/docs/4.2.0/vertx-web-graphql/java/#_graphql_over_websocket).
+
+For details about it, please read the [GraphQL over WebSockets announcement](https://the-guild.dev/blog/graphql-over-websockets).
+
+## Vert.x JUnit 5
+
+By default the thread invoking the test methods is the JUnit thread.
+The [`io.vertx.junit5.RunTestOnContext`](https://vertx.io/docs/4.2.0/vertx-junit5/java/#_running_tests_on_a_vert_x_context) extension can be used to alter this behavior by running test methods on a Vert.x event-loop thread.
