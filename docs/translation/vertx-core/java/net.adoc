@@ -1099,54 +1099,18 @@ ALPN(Application-Layer Protocol Negotiation)是应用层协议协商的TLS扩展
 在TLS握手期时，客户端给出其接受的应用协议列表，
 之后服务器使用它所支持的协议响应。
 
-Java 9 支持HTTP/2，可以开箱即用，无需其他步骤。
-
-标准的Java 8不支持ALPN，所以ALPN应该通过其他方式启用：
-
-- _OpenSSL_ 支持
-- _Jetty-ALPN_ 支持
-
-引擎选项可使用:
-
-- 设置了 `link:../../apidocs/io/vertx/core/net/TCPSSLOptions.html#getSslEngineOptions--[getSslEngineOptions]` 时，使用该选项
-- JDK中ALPN可用时，使用 `link:../../apidocs/io/vertx/core/net/JdkSSLEngineOptions.html[JdkSSLEngineOptions]`
-- OpenSSL中ALPN可用时，使用 `link:../../apidocs/io/vertx/core/net/OpenSSLEngineOptions.html[OpenSSLEngineOptions]`
-- 否则失败
+Java TLS supports ALPN (Java 8 with the most recent versions).
 
 [[_openssl_alpn_support]]
 ===== OpenSSL ALPN支持
 
-OpenSSL提供了原生的ALPN支持。
+OpenSSL also supports (native) ALPN.
 
 OpenSSL需要配置 `link:../../apidocs/io/vertx/core/net/TCPSSLOptions.html#setOpenSslEngineOptions-io.vertx.core.net.OpenSSLEngineOptions-[setOpenSslEngineOptions]`
 并在类路径上使用 http://netty.io/wiki/forked-tomcat-native.html[netty-tcnative] 的jar库。
 依赖于tcnative的实现，需要OpenSSL安装在您的操作系统中。
 
-[[_jetty_alpn_support]]
-===== Jetty-ALPN支持
-
-Jetty-ALPN是一个小型的jar，它覆盖了几种Java 8发行版用以支持ALPN。
-
-JVM必须将 _alpn-boot-${version}.jar_ 放在它的 `bootclasspath` 中启动：
-
-----
--Xbootclasspath/p:/path/to/alpn-boot${version}.jar
-----
-
-其中 ${version} 取决于JVM的版本，如 _OpenJDK 1.8.0u74_ 中的 _8.1.7.v20160121_。
-这个完整列表可以在 http://www.eclipse.org/jetty/documentation/current/alpn-chapter.html[Jetty-ALPN page] 页面上找到。
-
-这种方法主要缺点是ALPN的实现版本依赖于JVM的版本。
-
-为了解决这个问题，可以使用 _https://github.com/jetty-project/jetty-alpn-agent[Jetty ALPN agent]_ 。agent是一个JVM代理，
-它会为运行它的JVM选择正确的ALPN版本：
-
-----
--javaagent:/path/to/alpn/agent
-----
-
-[[_using_a_proxy_for_client_connections]]
-=== 客户端连接使用代理
+=== Using a proxy for client connections
 
 `link:../../apidocs/io/vertx/core/net/NetClient.html[NetClient]` 支持HTTP/1.x _CONNECT_、_SOCKS4a_ 或 _SOCKS5_ 代理。
 

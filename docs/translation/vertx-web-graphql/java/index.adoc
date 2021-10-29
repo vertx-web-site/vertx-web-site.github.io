@@ -4,7 +4,7 @@ Vert.x Web GraphQL 用 https://www.graphql-java.com[GraphQL-Java] 库扩展了 V
 
 TIP: 这是一个 Vert.x Web GraphQL 的参考文档。
 强烈建议您先熟悉一下 GraphQL-Java API。
-您可以从此处开始阅读 https://www.graphql-java.com/documentation/v16/[GraphQL-Java documentation]。
+您可以从此处开始阅读 https://www.graphql-java.com/documentation/v17/[GraphQL-Java documentation]。
 
 [[_getting_started]]
 == 由此开始
@@ -16,7 +16,7 @@ TIP: 这是一个 Vert.x Web GraphQL 的参考文档。
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-web-graphql</artifactId>
- <version>4.1.5</version>
+ <version>4.2.0</version>
 </dependency>
 ----
 
@@ -24,7 +24,7 @@ TIP: 这是一个 Vert.x Web GraphQL 的参考文档。
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-web-graphql:4.1.5'
+compile 'io.vertx:vertx-web-graphql:4.2.0'
 ----
 
 [[_handlers_setup]]
@@ -106,6 +106,46 @@ router.route("/graphiql/*").handler(graphiQLHandler);
 
 请参考 `link:../../apidocs/io/vertx/ext/web/handler/graphql/GraphiQLHandlerOptions.html[GraphiQLHandlerOptions]` 文档以获取更多详细信息。
 
+=== GraphQL over WebSocket
+
+Vert.x Web GraphQL is compatible with the https://github.com/enisdenjo/graphql-ws[GraphQL over Websocket protocol].
+
+The websocket transport is specially useful when you need to add subscriptions to your GraphQL schema, but you can also use it for queries and mutations.
+
+NOTE: By default, the configuration does not include a default `Origin` property. To prevent Cross-Site WebSocket
+Hijacking attacks from web browsers, it is recommended to set this property to the internet facing origin of the
+application. This will enforce a check that web sockets origin is from this application. This check is important because
+WebSockets are not restrained by the same-origin policy, an attacker can easily initiate a WebSocket request from a
+malicious webpage targeting the `ws://` or `wss://` endpoint URL of the GraphQL WS handler.
+
+[source,java]
+----
+router.route("/graphql").handler(GraphQLWSHandler.create(graphQL));
+----
+
+[IMPORTANT]
+====
+The client will ask for the `graphql-transport-ws` websocket subprotocol.
+Consequently, it has to be added to the list of supported subprotocols in the server configuration:
+
+[source,java]
+----
+HttpServerOptions httpServerOptions = new HttpServerOptions()
+  .addWebSocketSubProtocol("graphql-transport-ws");
+----
+====
+
+To support both HTTP and Websockets on the same URI, the `link:../../apidocs/io/vertx/ext/web/handler/graphql/ws/GraphQLWSHandler.html[GraphQLWSHandler]` must be installed to the `link:../../apidocs/io/vertx/ext/web/Router.html[Router]` before the `link:../../apidocs/io/vertx/ext/web/handler/graphql/GraphQLHandler.html[GraphQLHandler]`:
+
+[source,java]
+----
+router.route("/graphql")
+  .handler(GraphQLWSHandler.create(graphQL))
+  .handler(GraphQLHandler.create(graphQL));
+----
+
+IMPORTANT: A _subscription_ `DataFetcher` has to return a `org.reactivestreams.Publisher` instance.
+
 === Apollo WebSocketLink
 
 您可以使用 https://www.apollographql.com/docs/link/links/ws/[Apollo WebSocketLink] 连接 websocket。
@@ -148,7 +188,7 @@ IMPORTANT: 一个 `DataFetcher` 订阅必需返回一个 `org.reactivestreams.Pu
 
 GraphQL-Java API 非常适合异步环境：查询操作默认策略便是异步执行（对于变更，则是串行异步）。
 
-为 https://vertx-china.github.io/docs/vertx-core/java/#golden_rule[避免阻塞 eventloop] ，您需要做的是实现 https://www.graphql-java.com/documentation/v16/data-fetching/[data fetchers] 并返回 `CompletionStage` ，而不是直接返回结果。（译者注： Data Fetcher 下文统一保留原文、不翻译）
+为 https://vertx-china.github.io/docs/vertx-core/java/#golden_rule[避免阻塞 eventloop] ，您需要做的是实现 https://www.graphql-java.com/documentation/v17/data-fetching/[data fetchers] 并返回 `CompletionStage` ，而不是直接返回结果。（译者注： Data Fetcher 下文统一保留原文、不翻译）
 
 [source,java]
 ----
@@ -223,7 +263,7 @@ RuntimeWiring runtimeWiring = RuntimeWiring.newRuntimeWiring()
 ----
 VertxDataFetcher<List<Link>> dataFetcher = VertxDataFetcher.create((environment, promise) -> {
 
-  RoutingContext routingContext = environment.getContext();
+  RoutingContext routingContext = GraphQLHandler.getRoutingContext(environment.getGraphQlContext());
 
   User user = routingContext.get("user");
 
@@ -233,31 +273,6 @@ VertxDataFetcher<List<Link>> dataFetcher = VertxDataFetcher.create((environment,
 ----
 
 NOTE: RoutingContext 可用于任何类型的 DataFetcher ，而不仅仅是 `link:../../apidocs/io/vertx/ext/web/handler/graphql/schema/VertxDataFetcher.html[VertxDataFetcher]` 。
-
-如果您不想将 RoutingContext 暴露给 DataFetcher ，请配置 GraphQL 处理器并自定义上下文对象：
-
-[source,java]
-----
-VertxDataFetcher<List<Link>> dataFetcher = VertxDataFetcher.create((environment, promise) -> {
-
-  // 以 User 对象作为自定义上下文对象
-  User user = environment.getContext();
-
-  retrieveLinksPostedBy(user, promise);
-
-});
-
-GraphQL graphQL = setupGraphQLJava(dataFetcher);
-
-// 设置处理器时，自定义查询上下文对象
-GraphQLHandler handler = GraphQLHandler.create(graphQL).queryContext(routingContext -> {
-
-  return routingContext.get("user");
-
-});
-
-router.route("/graphql").handler(handler);
-----
 
 [[_json_data_results]]
 === JSON 类型数据结果
@@ -305,11 +320,13 @@ BatchLoaderWithContext<String, Link> linksBatchLoader = (ids, env) -> {
 
 [source,java]
 ----
-GraphQLHandler handler = GraphQLHandler.create(graphQL).dataLoaderRegistry(rc -> {
+GraphQLHandler handler = GraphQLHandler.create(graphQL).beforeExecute(builderWithContext -> {
 
-  DataLoader<String, Link> linkDataLoader = DataLoader.newDataLoader(linksBatchLoader);
+  DataLoader<String, Link> linkDataLoader = DataLoaderFactory.newDataLoader(linksBatchLoader);
 
-  return new DataLoaderRegistry().register("link", linkDataLoader);
+  DataLoaderRegistry dataLoaderRegistry = new DataLoaderRegistry().register("link", linkDataLoader);
+
+  builderWithContext.builder().dataLoaderRegistry(dataLoaderRegistry);
 
 });
 ----

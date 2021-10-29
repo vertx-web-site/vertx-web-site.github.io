@@ -17,12 +17,12 @@ git配置中心是对 Vert.x Configuration Retriever 的扩展，
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-config-git</artifactId>
- <version>4.1.5</version>
+ <version>4.2.0</version>
 </dependency>
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-config</artifactId>
- <version>4.1.5</version>
+ <version>4.2.0</version>
 </dependency>
 ----
 
@@ -30,8 +30,8 @@ git配置中心是对 Vert.x Configuration Retriever 的扩展，
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-config:4.1.5'
-compile 'io.vertx:vertx-config-git:4.1.5'
+compile 'io.vertx:vertx-config:4.2.0'
+compile 'io.vertx:vertx-config-git:4.2.0'
 ----
 
 [[_configuring_the_store]]

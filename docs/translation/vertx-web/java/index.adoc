@@ -75,7 +75,7 @@ Vert.x Web 的大部分特性是使用Handler实现的， 而且您随时可以�
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-web</artifactId>
- <version>4.1.5</version>
+ <version>4.2.0</version>
 </dependency>
 ----
 
@@ -84,7 +84,7 @@ Vert.x Web 的大部分特性是使用Handler实现的， 而且您随时可以�
 [source,groovy,subs="+attributes"]
 ----
 dependencies {
- compile 'io.vertx:vertx-web:4.1.5'
+ compile 'io.vertx:vertx-web:4.2.0'
 }
 ----
 
@@ -1545,13 +1545,13 @@ cookie被 `link:../../apidocs/io/vertx/core/http/Cookie.html[Cookie]` 实例所�
 
 [source,java]
 ----
-Cookie someCookie = ctx.getCookie("mycookie");
+Cookie someCookie = ctx.request().getCookie("mycookie");
 String cookieValue = someCookie.getValue();
 
 // 使用cookie做一些事情
 
 // 添加一个cookie——它将自动写回到响应中
-ctx.addCookie(Cookie.cookie("othercookie", "somevalue"));
+ctx.response().addCookie(Cookie.cookie("othercookie", "somevalue"));
 ----
 
 [[_handling_sessions]]
@@ -2004,7 +2004,7 @@ router
 === JWT 认证
 
 使用JWT身份认证可以通过权限保护资源，并且拒绝没有足够权限的用户访问。
-您需要添加 `io.vertx：vertx-auth-jwt：4.1.5` 依赖项才能使用 `JWTAuthProvider`。
+您需要添加 `io.vertx：vertx-auth-jwt：4.2.0` 依赖项才能使用 `JWTAuthProvider`。
 
 使用这个处理器需要包含两步
 
@@ -2399,7 +2399,7 @@ OAuth2AuthHandler githubOAuth2 = OAuth2AuthHandler.create(
   "https://myserver.com/github-callback");
 
 // 设置回调处理程序以接收GitHub回调
-githubOAuth2.setupCallback(router.route());
+githubOAuth2.setupCallback(router.route("/github-callback"));
 
 // 创建一个OAuth2提供者，ClintID和ClientSecret
 // 应该向Google请求
@@ -2418,7 +2418,7 @@ OAuth2AuthHandler googleOAuth2 = OAuth2AuthHandler.create(
   "https://myserver.com/google-callback");
 
 // 设置回调处理程序以接收Google回调
-googleOAuth2.setupCallback(router.route());
+googleOAuth2.setupCallback(router.route("/google-callback"));
 
 // 此时，两个回调端点已注册：
 
@@ -2517,7 +2517,7 @@ router.getWithRegex(".+\\.hbs").handler(handler);
 === MVEL 模版引擎
 
 您需要在项目中添加以下 _依赖_ 以使用 MVEL 模板引擎：
-`io.vertx:vertx-web-templ-mvel:4.1.5`。 并通过此方法以创建 MVEL 模板引擎实例：
+`io.vertx:vertx-web-templ-mvel:4.2.0`。 并通过此方法以创建 MVEL 模板引擎实例：
 `io.vertx.ext.web.templ.mvel.MVELTemplateEngine#create(io.vertx.core.Vertx)`。
 
 在使用 MVEL 模板引擎时，如果不指定模板文件的扩展名，
@@ -2544,7 +2544,7 @@ The value 'bar' from the context data is @{context.get('bar')}
 === Jade 模版引擎（译者注：Jade 已更名为 Pug)
 
 您需要在项目中添加以下 _依赖_ 以使用 Jade 模板引擎：
-`io.vertx:vertx-web-templ-jade:4.1.5`。 并通过此方法以创建 Jade 模板引擎实例：
+`io.vertx:vertx-web-templ-jade:4.2.0`。 并通过此方法以创建 Jade 模板引擎实例：
 `io.vertx.ext.web.templ.jade.JadeTemplateEngine#create(io.vertx.core.Vertx)`。
 
 在使用 Jade 模板引擎时，如果不指定模板文件的扩展名，
@@ -2571,7 +2571,7 @@ html
 === Handlebars 模板引擎
 
 您需要在项目中添加以下 _依赖_ 以使用 Handlebars 模板引擎：
-`io.vertx:vertx-web-templ-handlebars:4.1.5`。 并通过此方法以创建 Handlebars 模板引擎实例：
+`io.vertx:vertx-web-templ-handlebars:4.2.0`。 并通过此方法以创建 Handlebars 模板引擎实例：
 `io.vertx.ext.web.templ.handlebars.HandlebarsTemplateEngine#create(io.vertx.core.Vertx)`。
 
 在使用 Handlebars 模板引擎时，如果不指定模板文件的扩展名，
@@ -2607,7 +2607,7 @@ router.get("/dynamic/").handler(handler);
 === Thymeleaf 模板引擎
 
 您需要在项目中添加以下 _依赖_ 以使用 Thymeleaf 模板引擎：
-`io.vertx:vertx-web-templ-thymeleaf:4.1.5`。 并通过此方法以创建 Thymeleaf 模板引擎实例：
+`io.vertx:vertx-web-templ-thymeleaf:4.2.0`。 并通过此方法以创建 Thymeleaf 模板引擎实例：
 `io.vertx.ext.web.templ.thymeleaf.ThymeleafTemplateEngine#create(io.vertx.core.Vertx)`。
 
 在使用 Thymeleaf 模板引擎时，如果不指定模板文件的扩展名，
@@ -2636,7 +2636,7 @@ router.get("/dynamic/").handler(handler);
 === Apache FreeMarker 模版引擎
 
 您需要在项目中添加以下 _依赖_ 以使用 Apache FreeMarker ：
-`io.vertx:vertx-web-templ-freemarker:4.1.5`。 并通过此方法以创建 Apache FreeMarker 模板引擎实例：
+`io.vertx:vertx-web-templ-freemarker:4.2.0`。 并通过此方法以创建 Apache FreeMarker 模板引擎实例：
 `io.vertx.ext.web.templ.Engine#create()`。
 
 在使用 Apache FreeMarker 模板引擎时，如果不指定模板文件的扩展名，
@@ -2665,7 +2665,7 @@ router.get("/dynamic/").handler(handler);
 === Pebble 模版引擎
 
 您需要在项目中添加以下 _依赖_ 以使用 Pebble ：
-`io.vertx:vertx-web-templ-pebble:4.1.5`。 并通过此方法以创建 Pebble 模板引擎实例：
+`io.vertx:vertx-web-templ-pebble:4.2.0`。 并通过此方法以创建 Pebble 模板引擎实例：
 `io.vertx.ext.web.templ.pebble.PebbleTemplateEngine#create(vertx)`。
 
 在使用 Pebble 模板引擎时，如果不指定模板文件的扩展名，
@@ -2693,7 +2693,7 @@ router.get("/dynamic/").handler(handler);
 [[_rocker_template_engine]]
 === Rocker 模版引擎
 
-您需要在项目中添加以下 _依赖_ 以使用 Rocker：`io.vertx:vertx-web-templ-rocker:4.1.5`。
+您需要在项目中添加以下 _依赖_ 以使用 Rocker：`io.vertx:vertx-web-templ-rocker:4.2.0`。
 并通过此方法以创建 Rocker 模板引擎实例：`io.vertx.ext.web.templ.rocker#create()`。
 
 Rocker会将JSON上下文对象的值传递给 `render` 方法作为模版的参数。
@@ -2725,7 +2725,7 @@ Request path is @context.getString("path")
 === HTTL 模版引擎
 
 您需要在项目中添加以下 _依赖_ 以使用 HTTL ：
-`io.vertx:vertx-web-templ-httl:4.1.5`。 并通过此方法以创建 HTTL 模板引擎实例：
+`io.vertx:vertx-web-templ-httl:4.2.0`。 并通过此方法以创建 HTTL 模板引擎实例：
 `io.vertx.ext.web.templ.httl.HTTLTemplateEngine#create(io.vertx.core.Vertx)`。
 
 在使用 HTTL 模板引擎时，如果不指定模板文件的扩展名，
@@ -2762,7 +2762,7 @@ Hello ${foo} and ${bar}
 === Rythm 模版引擎
 
 您需要在项目中添加以下 _依赖_ 以使用 Rythm ：
-`io.vertx:vertx-web-templ-rythm:4.1.5`。 并通过此方法以创建 Rythm 模板引擎实例：
+`io.vertx:vertx-web-templ-rythm:4.2.0`。 并通过此方法以创建 Rythm 模板引擎实例：
 `io.vertx.ext.web.templ.rythm.RythmTemplateEngine#create(io.vertx.core.Vertx)`。
 
 在使用 Rythm 模板引擎时，如果不指定模板文件的扩展名，
@@ -3035,6 +3035,12 @@ sock.close();
 === 配置 SockJS 处理器
 
 可使用 `link:../../apidocs/io/vertx/ext/web/handler/sockjs/SockJSHandlerOptions.html[SockJSHandlerOptions]` 为处理器配置各种选项。
+
+NOTE: By default, the configuration does not include a default `Origin` property. To prevent Cross-Site WebSocket
+Hijacking attacks from web browsers, it is recommended to set this property to the internet facing origin of the
+application. This will enforce a check that web sockets origin is from this application. This check is important because
+WebSockets are not restrained by the same-origin policy, an attacker can easily initiate a WebSocket request from a
+malicious webpage targeting the `ws://` or `wss://` endpoint URL of the sockJS bridge.
 
 [[_writing_to_a_sockjs_socket_over_the_event_bus]]
 === 通过 event bus 写入 SockJS 套接字
@@ -3342,6 +3348,7 @@ SOCKET_CREATED:: 创建新的SockJS套接字时，将发生此事件
 SOCKET_IDLE:: 当SockJS套接字闲置的时间比最初配置的时间长时，将发生此事件.
 SOCKET_PING:: 当为SockJS套接字更新最后的ping时间戳时，将发生此事件。.
 SOCKET_CLOSED:: 关闭SockJS套接字时，将发生此事件.
+SOCKET_ERROR:: This event will occur when an underlying transport errors.
 SEND:: 尝试将消息从客户端发送到服务器时，将发生此事件.
 PUBLISH:: 尝试将消息从客户端发布到服务器时，将发生此事件.
 RECEIVE:: 尝试将消息从服务器传递到客户端时，将发生此事件.
@@ -3361,7 +3368,7 @@ event可以通过 `link:../../apidocs/io/vertx/ext/bridge/BaseBridgeEvent.html#t
 }
 ----
 
-注意：`SOCKET_CLOSED` 事件可能会包含消息。在这种情况下检查type属性，可能会引入一种新的
+注意：`SOCKET_ERROR` 事件可能会包含消息。在这种情况下检查type属性，可能会引入一种新的
 消息。一个 `err` 消息。这是当一个套接字异常时会生成的一个合成消息。该消息将会
 遵循桥接数据传输格式，并像下面的示例一样：
 
@@ -3665,7 +3672,7 @@ OAuth2AuthHandler oauth2 = OAuth2AuthHandler
   .create(vertx, authProvider, "https://myserver.com/callback");
 
 // 为接收GitHb回调设置回调处理器
-oauth2.setupCallback(router.route());
+oauth2.setupCallback(router.route("/callback"));
 
 // 保护 /protected 下的一切资源
 router.route("/protected/*").handler(oauth2);
@@ -3766,7 +3773,7 @@ OAuth2AuthHandler oauth2 = OAuth2AuthHandler
   .create(vertx, provider, "https://myserver.com:8447/callback");
 
 // 现在允许处理器为您设置回调url
-oauth2.setupCallback(router.route());
+oauth2.setupCallback(router.route("/callback"));
 ----
 
 在该示例中，路由对象是由 `Router.route()` 内联创建的，
@@ -3794,7 +3801,10 @@ router.route()
   .handler(SessionHandler.create(LocalSessionStore.create(vertx)));
 // 我们现在保护 "/protected" 下的一切资源
 router.route("/protected").handler(
-  OAuth2AuthHandler.create(vertx, authProvider)
+  OAuth2AuthHandler.create(
+    vertx,
+      authProvider,
+      "http://localhost:8080/callback")
     // 我们现在配置oauth2处理器
     // 设置回调处理器
     // 回调处理器必须符合oauth2提供者的规范
@@ -4100,6 +4110,153 @@ WARNING: 由于API的安全性，浏览器将不允许您在纯文本HTTP上使�
 
 WARNING: WebAuthN需要具有有效TLS证书的HTTPS，
 您也可以在开发过程中使用自签名证书。
+
+=== One Time Password (Multi-Factor Authentication)
+
+Vert.x also supports multi factor authentication. There are two options to work with MFA:
+
+* `HOTP` - Hash Based One Time Password
+* `TOTP` - Time Based One Time Password
+
+The usage is the same across providers, for this reason a single handler is present that allows you to select the
+desired mode at the constructor level.
+
+The behavior of this handler can be seen as:
+
+If there is no `link:../../apidocs/io/vertx/ext/auth/User.html[User]` in the current request, then it is assumed that no previous authentication has been
+performed. This implies that the request will be immediately terminated with status code 401.
+
+If a user is present and the object lacks the property `mfa` with a matching type (`hotp`/`totp`), the request will
+be redirected to the verification url (if provided), otherwise it will be terminated. Such url should provide a way
+to enter the code, for example:
+
+[source,html]
+----
+<html>
+<head>
+ <meta charset="UTF-8">
+ <title>OTP Authenticator Verification Example Page</title>
+</head>
+<body>
+<form action="/otp/verify" method="post" enctype="multipart/form-data">
+ <div>
+   <label>Code:</label>
+   <input type="text" name="code"/><br/>
+ </div>
+ <div>
+   <input type="submit" value="Submit"/>
+ </div>
+</form>
+</body>
+</html>
+
+----
+
+After the user enters the valid code, the request redirects to the initial url or to `/` if no original url is known.
+
+Of course this flow assumes that authenticator applications or devices have been already configured. In order to
+configure a new application/device, an example HTML page could be:
+
+[source,html]
+----
+<html>
+<head>
+ <title>OTP Authenticator Registration Example Page</title>
+</head>
+<body>
+ <p>Scan this QR Code in Google Authenticator</p>
+ <img id="qrcode">
+ <p>- or enter this key manually -</p>
+ <span id="url"></span>
+
+ <script>
+ const key = document.getElementById('url');
+ const qrcode = document.getElementById('qrcode');
+
+ fetch(
+   '/otp/register',
+   {
+     method: 'POST',
+     headers: {
+       'Accept': 'application/json'
+     }
+   })
+   .then(res => {
+     if (res.status === 200) {
+       return res;
+     }
+     throw new Error(res.statusText);
+   })
+   .catch(err => console.error(err))
+   .then(res => res.json())
+   .then(json => {
+     key.innerText = json.url;
+     qrcode.src =
+       'https://chart.googleapis.com/chart?chs=166x166&chld=L|0&cht=qr&chl=' +
+       encodeURIComponent(json.url);
+   });
+ </script>
+</body>
+</html>
+----
+
+The important bit in this example is that the script makes a `POST` request to the configured registration callback.
+Again this callback will return status code 401 if there is no user already authenticated in the request. On success a
+JSON document is returned with a url, and a few extra metadata. This url should be used to configure the authenticator,
+either by manually entering it on the application or by rendering a QR code. Rendering of QR codes can be done both on
+the backend or on the frontend. For the sake of simplicity, this example makes use of the google charts API to render
+it on the browser.
+
+Finally, this is how you would use the handler in your vert.x application:
+
+[source,java]
+----
+router.post()
+  .handler(BodyHandler.create());
+// add a session handler (OTP requires state)
+router.route()
+  .handler(SessionHandler
+    .create(LocalSessionStore.create(vertx))
+    .setCookieSameSite(CookieSameSite.STRICT));
+
+// add the first authentication mode, for example HTTP Basic Authentication
+router.route()
+  .handler(basicAuthHandler);
+
+final OtpAuthHandler otp = OtpAuthHandler
+  .create(TotpAuth.create()
+    .authenticatorFetcher(authr -> {
+      // fetch authenticators from a database
+      // ...
+      return Future.succeededFuture(new io.vertx.ext.auth.otp.Authenticator());
+    })
+    .authenticatorUpdater(authr -> {
+      // update or insert authenticators from a database
+      // ...
+      return Future.succeededFuture();
+    }));
+
+otp
+  // the issuer for the application
+  .issuer("Vert.x Demo")
+  // handle code verification responses
+  .verifyUrl("/verify-otp.html")
+  // handle registration of authenticators
+  .setupRegisterCallback(router.post("/otp/register"))
+  // handle verification of authenticators
+  .setupCallback(router.post("/otp/verify"));
+
+// secure the rest of the routes
+router.route()
+  .handler(otp);
+
+// To view protected details, user must be authenticated and
+// using 2nd factor authentication
+router.get("/protected")
+  .handler(ctx -> {
+    ctx.end("Super secret content");
+  });
+----
 
 [[_handling_http_method_overriding]]
 === 处理HTTP请求方法覆盖

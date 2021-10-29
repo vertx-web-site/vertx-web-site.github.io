@@ -11,7 +11,7 @@ https://github.com/herrjemand/awesome-webauthn#server-libs[符合FIDO标准] 的
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-auth-webauthn</artifactId>
- <version>4.1.5</version>
+ <version>4.2.0</version>
 </dependency>
 ----
 
@@ -19,7 +19,7 @@ https://github.com/herrjemand/awesome-webauthn#server-libs[符合FIDO标准] 的
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-auth-webauthn:4.1.5'
+compile 'io.vertx:vertx-auth-webauthn:4.2.0'
 ----
 
 https://developer.mozilla.org/en-US/docs/Web/API/Web_Authentication_API[WebAuthn (Web Authentication)] 是一个web标准，
@@ -73,7 +73,7 @@ WebAuthn 从 Credential Management API 中继承了两个功能，
  <artifactId>vertx-auth-webauthn</artifactId>
  <classifier>client</classifier>
  <type>js</type>
- <version>4.1.5</version>
+ <version>4.2.0</version>
 </dependency>
 ----
 
@@ -81,7 +81,7 @@ WebAuthn 从 Credential Management API 中继承了两个功能，
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-auth-webauthn:4.1.5:client@js'
+compile 'io.vertx:vertx-auth-webauthn:4.2.0:client@js'
 ----
 
 该库应该和vertx-web配合使用，
@@ -318,18 +318,15 @@ final WebAuthnOptions webAuthnOptions = new WebAuthnOptions()
   // 为了完全信任MDS口令，
   // 我们需要按照 https://fidoalliance.org/metadata/ 来加载CRLs
 
-  // here the content of: http://mds.fidoalliance.org/Root.crl
+  // here the content of: http://crl.globalsign.net/Root.crl
   .addRootCrl(
-    "MIIB1jCCAV0CAQEwCg...")
-  // 内容: http://mds.fidoalliance.org/CA-1.crl
-  .addRootCrl(
-    "MIIB5DCCAYoCAQEwCg...");
+    "MIIB1jCCAV0CAQEwCg...");
 
 // 类似前述，创建webauthn安全对象
 final WebAuthn webAuthN = WebAuthn.create(vertx, webAuthnOptions);
 
 webAuthN.metaDataService()
-  .fetchTOC("https://mds2.fidoalliance.org/?token=your-access-token-string")
+  .fetchTOC()
   .onSuccess(allOk -> {
     // 如果所有的元数据下载完毕，并且解析正确，allOk为true
     // 如果这个对象已经过时，那么这个过程不会停止

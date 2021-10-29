@@ -21,13 +21,13 @@ Vert.x Web API 服务通过事件总线帮助您处理HTTP请求
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-codegen</artifactId>
- <version>4.1.5</version>
+ <version>4.2.0</version>
  <classifier>processor</classifier>
 </dependency>
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-web-api-service</artifactId>
- <version>4.1.5</version>
+ <version>4.2.0</version>
 </dependency>
 ----
 
@@ -36,8 +36,8 @@ Vert.x Web API 服务通过事件总线帮助您处理HTTP请求
 [source,groovy,subs="+attributes"]
 ----
 dependencies {
- compile 'io.vertx:vertx-codegen:4.1.5:processor'
- compile 'io.vertx:vertx-web-api-service:4.1.5'
+ compile 'io.vertx:vertx-codegen:4.2.0:processor'
+ compile 'io.vertx:vertx-web-api-service:4.2.0'
 }
 ----
 
@@ -46,9 +46,9 @@ dependencies {
 [source,groovy,subs="+attributes"]
 ----
 dependencies {
- annotationProcessor 'io.vertx:vertx-codegen:4.1.5:processor'
- annotationProcessor 'io.vertx:vertx-web-api-service:4.1.5'
- compile 'io.vertx:vertx-web-api-service:4.1.5'
+ annotationProcessor 'io.vertx:vertx-codegen:4.2.0:processor'
+ annotationProcessor 'io.vertx:vertx-web-api-service:4.2.0'
+ compile 'io.vertx:vertx-web-api-service:4.2.0'
 }
 ----
 
@@ -157,8 +157,9 @@ void putTransaction(Transaction body, ServiceRequest context, Handler<AsyncResul
 void putTransaction(RequestParameter body, ServiceRequest context, Handler<AsyncResult<ServiceResponse>> resultHandler);
 ----
 
-
 我们建议用 `link:../../apidocs/io/vertx/ext/web/validation/RequestParameter.html[RequestParameter]` 类型来提取以json shcema（allOf/anyOf/oneOf/not）定义的参数，因为提取参数可能产生未定义的行为。
+
+NOTE: When working with `DataObjects` by default `base64` strings are handled with the `base64url` alphabet, while OpenAPI does not mandate this alphabet so it assumes `basic`. To force a `DataObject` to use a specific alphabet this can be configured in the `@DataObject` annotation.
 
 [[_implement_your_web_api_service]]
 == 实现您自己的Web API服务

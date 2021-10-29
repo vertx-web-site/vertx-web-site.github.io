@@ -2339,6 +2339,17 @@ Hello from i.v.e.h.s.HttpServerVerticle@2
 您不需要像编写负载均衡器那样使用任何特殊技巧去编写，
 就可以在多核机器上扩展服务器。
 
+You can bind on a shared random ports using a negative port value, the first bind will pick a port randomly, subsequent binds
+on the same port value will share this random port.
+
+.io.vertx.examples.http.sharing.HttpServerVerticle
+[source,java]
+----
+vertx.createHttpServer().requestHandler(request -> {
+  request.response().end("Hello from server " + this);
+}).listen(-1);
+----
+
 [[_using_https_with_vert_x]]
 === 使用 HTTPS
 
@@ -2501,7 +2512,7 @@ client.webSocket("/some-uri", res -> {
 });
 ----
 
-默认情况下， WebSocket 客户端会设置 `origin` 头部为服务器域名， 就像 http://www.example.com。 
+默认情况下， WebSocket 客户端会设置 `origin` 头部为服务器域名， 就像 http://www.example.com。
 一些服务器会拒绝这种请求，您可以自行配置客户端要不要设置该头部（header）。
 
 [source,java]

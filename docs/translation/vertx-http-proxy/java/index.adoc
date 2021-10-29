@@ -18,7 +18,7 @@ WARNING: 这个模块处于 _Tech Preview_ 阶段，这意味着在不同版本�
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-http-proxy</artifactId>
- <version>4.1.5</version>
+ <version>4.2.0</version>
 </dependency>
 ----
 
@@ -27,7 +27,7 @@ WARNING: 这个模块处于 _Tech Preview_ 阶段，这意味着在不同版本�
 [source,groovy,subs="+attributes"]
 ----
 dependencies {
- compile 'io.vertx:vertx-http-proxy:4.1.5'
+ compile 'io.vertx:vertx-http-proxy:4.2.0'
 }
 ----
 
@@ -36,7 +36,7 @@ dependencies {
 
 为了使用Vert.x Http Proxy实现一个反向代理，您需要了解这些名词：
 
-1. *代理服务器* 会处理出站请求，然后使用 `HttpProxy` 实例把他们转发到 *源服务器* 
+1. *代理服务器* 会处理出站请求，然后使用 `HttpProxy` 实例把他们转发到 *源服务器*
 2. *源服务器* 会处理从*代理服务器*来的请求，然后处理相对应的响应
 
 现在，您已经了解了相应的整体概念。
@@ -45,7 +45,7 @@ dependencies {
 [[_origin_server]]
 == 源服务器
 
-我们先简单创建一个监听 `7070` 端口的 *源服务器* 
+我们先简单创建一个监听 `7070` 端口的 *源服务器*
 
 [source,java]
 ----
@@ -59,9 +59,9 @@ originServer.requestHandler(req -> {
 ----
 
 [[_proxy_server_with_httpproxy]]
-== 使用 `HttpProxy` 的 *代理服务器* 
+== 使用 `HttpProxy` 的 *代理服务器*
 
-创建一个监听在 `8080` 端口的使用 `HttpProxy` 实例的 *代理服务器* 
+创建一个监听在 `8080` 端口的使用 `HttpProxy` 实例的 *代理服务器*
 处理相应的反向代理逻辑
 
 [source,java]
@@ -76,4 +76,13 @@ HttpServer proxyServer = vertx.createHttpServer();
 proxyServer.requestHandler(proxy).listen(8080);
 ----
 
-最后，所有的出站请求都被轻松的反向代理转发到 *源服务器* 
+最后，所有的出站请求都被轻松的反向代理转发到 *源服务器*
+
+=== Proxy caching
+
+By default the proxy does not cache response and ignores most cache directives, you can enable caching by setting the cache options.
+
+[source,java]
+----
+HttpProxy proxy = HttpProxy.reverseProxy(new ProxyOptions().setCacheOptions(new CacheOptions()), proxyClient);
+----

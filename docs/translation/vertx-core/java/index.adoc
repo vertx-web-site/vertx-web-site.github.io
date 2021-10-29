@@ -624,6 +624,7 @@ vertx run my-verticle.js -ha
 关于高可用的功能和配置的更多细节可参考
 <<_high_availability_and_fail_over, 高可用和故障转移>>
 
+
 [[_running_verticles_from_the_command_line]]
 === 从命令行运行Verticle
 
@@ -633,7 +634,9 @@ Core 为依赖，在项目中直接使用 Vert.x。
 您也可以从命令行直接运行 Vert.x 的 Verticle。
 
 为此，您需要下载并安装 Vert.x 的发行版，并且将安装的 `bin` 目录添加到您的
-`PATH` 环境变量中，并确保您的 `PATH` 中设置了Java 8的JDK环境。
+`PATH` 环境变量中，并确保您的 `PATH` 中设置了Java 的JDK环境。
+
+Vert.x supports Java from 8 to 17.
 
 NOTE: 在 `PATH` 设置JDK是为了支持Java代码的运行时编译（on the fly compilation）。
 
@@ -960,7 +963,9 @@ NOTE: 这些配置信息在 worker pool 创建的时候设置。
 
 `vertx` 命令用于在命令行中与 Vert.x 进行交互。主要用于运行 Vert.x Verticle。
 为此，您需要下载并安装Vert.x 发行版，并将安装位置的 `bin` 目录添加
-到 `PATH` 环境变量中，还要确保您的 `PATH` 上已配置了Java 8的JDK的路径。
+到 `PATH` 环境变量中，还要确保您的 `PATH` 上已配置了Java的JDK的路径。
+
+Vert.x supports Java from 8 to 17.
 
 NOTE: `PATH` 中的JDK是用于支持Java代码的快速编译。
 

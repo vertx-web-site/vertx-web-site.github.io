@@ -23,6 +23,20 @@ Vertx vertx = Vertx.vertx(new VertxOptions()
 );
 ----
 
+If you only add this library, it will give you access to OpenTelemetry API with a default `noop` Tracer,
+which gives dummy values (all zeroes) for trace and span ids. The OpenTelemetry SDK is needed to get proper values.
+
+[source,java]
+----
+SdkTracerProvider sdkTracerProvider = SdkTracerProvider.builder().build();
+OpenTelemetry openTelemetry = OpenTelemetrySdk.builder()
+  .setTracerProvider(sdkTracerProvider)
+  .setPropagators(ContextPropagators.create(W3CTraceContextPropagator.getInstance()))
+  .buildAndRegisterGlobal();
+
+vertxOptions.setTracingOptions(new OpenTelemetryOptions(openTelemetry));
+----
+
 [[_tracing_policy]]
 == 追踪政策
 

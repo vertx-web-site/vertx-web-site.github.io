@@ -14,7 +14,7 @@ JDBC 客户端 API 接口描述请参考 `link:../../apidocs/io/vertx/ext/jdbc/J
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-jdbc-client</artifactId>
- <version>4.1.5</version>
+ <version>4.2.0</version>
 </dependency>
 ----
 
@@ -22,13 +22,13 @@ JDBC 客户端 API 接口描述请参考 `link:../../apidocs/io/vertx/ext/jdbc/J
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-jdbc-client:4.1.5'
+compile 'io.vertx:vertx-jdbc-client:4.2.0'
 ----
 
 [[_using_the_sql_client_api]]
 == 使用Sql 客户端 API
 
-SQL客户端是使用SQL数据库通信的vert.x响应式API， 
+SQL客户端是使用SQL数据库通信的vert.x响应式API，
 已经实现了MySQL、PostgreSQL、MSSQL和IBM DB2等多个流行数据的异步驱动程序。
 但是，由于还有许多其他数据库没有异步驱动程序，
 因此JDBC客户端实现了相同的API，直接使用JDBC驱动，以实现数据库的异步支持。
@@ -174,8 +174,136 @@ pool
   });
 ----
 
+=== Retrieving the generated keys
+
+Generated keys is a common feature of JDBC drivers. The pool allows you to retrieve the keys using a special property:
+`JDBCPool.GENERATED_KEYS`. For example:
+
+[source,java]
+----
+String sql = "INSERT INTO insert_table (FNAME, LNAME) VALUES (?, ?)";
+
+pool
+  .preparedQuery(sql)
+  .execute(Tuple.of("Paulo", "Lopes"))
+  .onSuccess(rows -> {
+    // the generated keys are returned as an extra row
+    Row lastInsertId = rows.property(JDBCPool.GENERATED_KEYS);
+    // just refer to the position as usual:
+    long newId = lastInsertId.getLong(0);
+  });
+----
+
+
+=== Working with Procedures and Functions
+
+Users that have used JDBC before are aware that in order to call either a function or a stored procedure, one must use
+the interface `CallableStatement`. This abstraction is, for most database engines, synthetic as popular engines like
+`PostgreSQL` or `MySQL` do not really have any special command to differentiate from callable statements from any other
+regular statement.
+
+The existing SQL client api was designed to be closed to what the reality of wire protocols shows, rather than adapt to
+the JDBC spec, therefore you will not find any specific way to deal with callable statements. This design choice
+introduces some complexities on the JDBC SQL client, as we need to adapt a regular call to respect the JDBC spec
+requirements and be compatible with clients out there.
+
+==== Simple IN mapping
+
+Mapping simple `IN` parameters is trivial. Consider the following procedure:
+
+[source,"sql"]
+----
+create procedure new_customer(firstname varchar(50), lastname varchar(50))
+ modifies sql data
+ insert into customers values (default, firstname, lastname, current_timestamp)
+----
+
+In order to call this procedure from the JDBC client, you would write some code as:
+
+[source,java]
+----
+String sql = "{call new_customer(?, ?)}";
+
+pool
+  .preparedQuery(sql)
+  // by default the "IN" argument types are extracted from the
+  // type of the data in the tuple, as well as the order
+  .execute(Tuple.of("Paulo", "Lopes"))
+  .onFailure(e -> {
+    // handle the failure
+  })
+  .onSuccess(rows -> {
+    // ... success handler
+  });
+----
+
+==== Complex IN / OUT mapping
+
+The previous example, showed how to create simple queries. However, there are some limitations with it. It will assume
+that arguments are always of type `IN` and that the argument type is the corresponding java type of the argument, which
+will not always work, for example, when dealing with `null`.
+
+In this case, the client has a helper `link:../../apidocs/io/vertx/jdbcclient/SqlOutParam.html[SqlOutParam]` that allows you to explicitly tag the
+desired type of the argument. Not only the data type but also if it is a `IN` or a `OUT`.
+
+Consider the following procedure:
+
+[source,"sql"]
+----
+create procedure customer_lastname(IN firstname varchar(50), OUT lastname varchar(50))
+ modifies sql data
+ select lastname into lastname from customers where firstname = firstname
+----
+
+This procedure will return all last names, from all customers, when looking for a first name. So we will need to map
+both `IN` parameters as well as `OUT` parameters.
+
+[source,java]
+----
+String sql = "{call customer_lastname(?, ?)}";
+
+pool
+  .preparedQuery(sql)
+  // by default the "IN" argument types are extracted from the
+  // type of the data in the tuple, as well as the order
+  //
+  // Note that we now also declare the output parameter and it's
+  // type. The type can be a "String", "int" or "JDBCType" constant
+  .execute(Tuple.of("John", SqlOutParam.OUT(JDBCType.VARCHAR)))
+  .onFailure(e -> {
+    // handle the failure
+  })
+  .onSuccess(rows -> {
+    // we can verify if there was a output received from the callable statement
+    if (rows.property(JDBCPool.OUTPUT)) {
+      // and then iterate the results
+      for (Row row : rows) {
+        System.out.println(row.getString(0));
+      }
+    }
+  });
+----
+
+Sometimes, you will need to map both `IN` and `OUT` parameters to the same variable. Again, it is all handled by the
+`link:../../apidocs/io/vertx/jdbcclient/SqlOutParam.html[SqlOutParam]` helper.
+
+[source,java]
+----
+SqlOutParam param;
+
+// map IN as "int" as well as "OUT" as VARCHAR
+param = SqlOutParam.INOUT(123456, JDBCType.VARCHAR);
+// or
+param = SqlOutParam.INOUT(123456, "VARCHAR");
+
+// and then just add to the tuple as usual:
+Tuple.of(param);
+----
+
+
 [[_legacy_jdbc_client_api]]
 == 旧版JDBC客户端API
+
 现在已弃用Vert.x 3中创建的JDBC客户端API，而应使用新的SQL客户端API。
 
 在Vert.x 4的生命周期内仍将支持该功能，
@@ -184,7 +312,7 @@ pool
 [[_getting_a_connection]]
 === 建立连接
 
-创建客户端后，您可以通过 `link:../../apidocs/io/vertx/ext/sql/SQLClient.html#getConnection-io.vertx.core.Handler-[getConnection]` 
+创建客户端后，您可以通过 `link:../../apidocs/io/vertx/ext/sql/SQLClient.html#getConnection-io.vertx.core.Handler-[getConnection]`
 以获取一个连接。
 
 当池中有连接处于准备（ready）状态时，将在处理器（handler）中返回。
@@ -275,7 +403,7 @@ client.query("SELECT * FROM USERS", ar -> {
 ----
 SQLClient client = JDBCClient.createShared(vertx, config);
 ----
-第一次调用 `link:../../apidocs/io/vertx/ext/jdbc/JDBCClient.html#createShared-io.vertx.core.Vertx-io.vertx.core.json.JsonObject-[JDBCClient.createShared]` 
+第一次调用 `link:../../apidocs/io/vertx/ext/jdbc/JDBCClient.html#createShared-io.vertx.core.Vertx-io.vertx.core.json.JsonObject-[JDBCClient.createShared]`
 将实际创建数据源，并使用指定的配置。
 
 随后的调用将返回使用相同数据源的新客户端实例，因此将不会使用该配置。
@@ -294,7 +422,7 @@ SQLClient client = JDBCClient.createShared(vertx, config, "MyDataSource");
 则它们将共享相同的数据源。
 
 
-第一次调用 `link:../../apidocs/io/vertx/ext/jdbc/JDBCClient.html#createShared-io.vertx.core.Vertx-io.vertx.core.json.JsonObject-[JDBCClient.createShared]` 
+第一次调用 `link:../../apidocs/io/vertx/ext/jdbc/JDBCClient.html#createShared-io.vertx.core.Vertx-io.vertx.core.json.JsonObject-[JDBCClient.createShared]`
 将实际创建数据源，并使用指定的配置。
 
 后续调用将返回使用相同数据源的新客户端实例，因此将不使用该配置。
@@ -316,7 +444,7 @@ SQLClient client = JDBCClient.createShared(vertx, config, "MyDataSource");
 SQLClient client = JDBCClient.create(vertx, config);
 ----
 
-这等效于 `link:../../apidocs/io/vertx/ext/jdbc/JDBCClient.html#createShared-io.vertx.core.Vertx-io.vertx.core.json.JsonObject-java.lang.String-[JDBCClient.createShared]` 
+这等效于 `link:../../apidocs/io/vertx/ext/jdbc/JDBCClient.html#createShared-io.vertx.core.Vertx-io.vertx.core.json.JsonObject-java.lang.String-[JDBCClient.createShared]`
 每次使用唯一的数据源名称进行调用。
 
 [[_specifying_a_data_source]]
@@ -355,7 +483,7 @@ SQLClient client = JDBCClient.create(vertx, dataSource);
 这意味着您执行的每个操作将有效地在其自己的事务中执行。
 
 如果您希望在单个事务中执行多个操作，
-则应使用 `link:../../apidocs/io/vertx/ext/sql/SQLConnection.html#setAutoCommit-boolean-io.vertx.core.Handler-[setAutoCommit]` 将自动提交设置为false 
+则应使用 `link:../../apidocs/io/vertx/ext/sql/SQLConnection.html#setAutoCommit-boolean-io.vertx.core.Handler-[setAutoCommit]` 将自动提交设置为false
 
 操作完成后，将调用处理程序：
 
@@ -415,8 +543,8 @@ for (JsonArray row : results) {
 }
 ----
 
-您还可以使用 `link:../../apidocs/io/vertx/ext/sql/ResultSet.html#getRows--[getRows]` 
-- 作为Json对象实例的列表来检索行 
+您还可以使用 `link:../../apidocs/io/vertx/ext/sql/ResultSet.html#getRows--[getRows]`
+- 作为Json对象实例的列表来检索行
 - 这可以使您使用的API稍微简单一些，但是请注意，SQL结果可以包含重复的列名 - 如果是这种情况
 则应改用 `link:../../apidocs/io/vertx/ext/sql/ResultSet.html#getResults--[getResults]`
 
@@ -442,7 +570,7 @@ for (JsonObject row : rows) {
 要执行准备好的语句查询，
 可以使用 `link:../../apidocs/io/vertx/ext/sql/SQLConnection.html#queryWithParams-java.lang.String-io.vertx.core.json.JsonArray-io.vertx.core.Handler-[queryWithParams]`。
 
-这将执行查询，其中包括参数占位符和一个 `link:../../apidocs/io/vertx/core/json/JsonArray.html[JsonArray]` 
+这将执行查询，其中包括参数占位符和一个 `link:../../apidocs/io/vertx/core/json/JsonArray.html[JsonArray]`
 或参数值。
 
 [source,java]
@@ -522,7 +650,7 @@ connection.updateWithParams(update, params, res -> {
 [[_callable_statements]]
 ==== 可赎回声明
 
-要执行可调用语句(SQL函数或SQL过程)，可以使用 
+要执行可调用语句(SQL函数或SQL过程)，可以使用
 `link:../../apidocs/io/vertx/ext/sql/SQLConnection.html#callWithParams-java.lang.String-io.vertx.core.json.JsonArray-io.vertx.core.json.JsonArray-io.vertx.core.Handler-[callWithParams]`。
 
 这将使用标准JDBC格式 `{call func_proc_name()}` 接受可调用语句，
@@ -640,7 +768,7 @@ connection.batchWithParams("INSERT INTO emp (name) VALUES (?)", batch, res -> {
 [[_executing_other_operations]]
 ==== 执行其他操作
 
-要执行任何其他数据库操作，例如 `CREATE TABLE` 您可以使用 
+要执行任何其他数据库操作，例如 `CREATE TABLE` 您可以使用
 `link:../../apidocs/io/vertx/ext/sql/SQLConnection.html#execute-java.lang.String-io.vertx.core.Handler-[execute]` 。
 
 sql语句将会直接在数据库中执行。操作完成后调用处理程序
@@ -723,9 +851,9 @@ connection.queryStream("SELECT * FROM large_table; SELECT * FROM other_table", s
 
 要使用事务，请先使用 `link:../../apidocs/io/vertx/ext/sql/SQLConnection.html#setAutoCommit-boolean-io.vertx.core.Handler-[setAutoCommit]` 将自动提交设置为false。
 
-然后，您可以进行事务性操作，并在要提交或回滚时使用 
+然后，您可以进行事务性操作，并在要提交或回滚时使用
 `link:../../apidocs/io/vertx/ext/sql/SQLConnection.html#commit-io.vertx.core.Handler-[commit]`
-或 
+或
 `link:../../apidocs/io/vertx/ext/sql/SQLConnection.html#rollback-io.vertx.core.Handler-[rollback]` 。
 
 提交/回滚完成后，将调用处理程序，并且下一个事务将自动启动。

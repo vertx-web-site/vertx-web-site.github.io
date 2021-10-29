@@ -29,7 +29,7 @@ Web Client使得发送 HTTP 请求以及从 Web 服务器接收 HTTP 响应变�
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-web-client</artifactId>
- <version>4.1.5</version>
+ <version>4.2.0</version>
 </dependency>
 ----
 
@@ -38,7 +38,7 @@ Web Client使得发送 HTTP 请求以及从 Web 服务器接收 HTTP 响应变�
 [source,groovy,subs="+attributes"]
 ----
 dependencies {
- compile 'io.vertx:vertx-web-client:4.1.5'
+ compile 'io.vertx:vertx-web-client:4.2.0'
 }
 ----
 
@@ -780,6 +780,69 @@ WebClient client = WebClient
 
 NOTE: 出于安全原因，客户端不会使用除了GET或HEAD的方法来跟随着重定向请求
 
+== HTTP response caching
+
+Vert.x web offers an HTTP response caching facility; to use it, you create a `link:../../apidocs/io/vertx/ext/web/client/CachingWebClient.html[CachingWebClient]`.
+
+=== Creating a caching web client
+
+[source,java]
+----
+WebClient client = WebClient.create(vertx);
+WebClient cachingWebClient = CachingWebClient.create(client);
+----
+
+=== Configuring what is cached
+
+By default, a caching web client will only cache a response from a `GET` method that has a status code of `200`, `301`, or `404`.
+Additionally, responses that contain a `Vary` header will not be cached by default.
+
+This can be configured by passing `link:../../apidocs/io/vertx/ext/web/client/CachingWebClientOptions.html[CachingWebClientOptions]` during client creation.
+
+[source,java]
+----
+CachingWebClientOptions options = new CachingWebClientOptions()
+  .addCachedMethod(HttpMethod.HEAD)
+  .removeCachedStatusCode(301)
+  .setEnableVaryCaching(true);
+
+WebClient client = WebClient.create(vertx);
+WebClient cachingWebClient = CachingWebClient.create(client, options);
+----
+
+Responses that contain the `private` directive in the `Cache-Control` header will not be cached unless the client is also
+a `link:../../apidocs/io/vertx/ext/web/client/WebClientSession.html[WebClientSession]`. See <<_handling_private_responses>>.
+
+=== Providing an external store
+
+When storing responses, the default caching client will use a local `Map`.You may provide your own store implementation to store responses.
+To do so, implement `link:../../apidocs/io/vertx/ext/web/client/spi/CacheStore.html[CacheStore]`, and then you can provide it when creating your client.
+
+[source,java]
+----
+WebClient client = WebClient.create(vertx);
+CacheStore store = new NoOpCacheStore(); // or any store you like
+WebClient cachingWebClient = CachingWebClient.create(client, store);
+----
+
+=== Handling private responses
+
+To enable private response caching, the `link:../../apidocs/io/vertx/ext/web/client/CachingWebClient.html[CachingWebClient]` can be combined with the
+`link:../../apidocs/io/vertx/ext/web/client/WebClientSession.html[WebClientSession]`. When this is done, public responses, those with the `public` directive
+in the `Cache-Control` header, will be cached in the `link:../../apidocs/io/vertx/ext/web/client/spi/CacheStore.html[CacheStore]` the client was
+created with. Private responses, those with the `private` directive in the `Cache-Control` header, will be cached in
+with the session to ensure the cached response is not leaked to other users (sessions).
+
+To create a client that can cache private responses, pass a `link:../../apidocs/io/vertx/ext/web/client/CachingWebClient.html[CachingWebClient]` to
+a `link:../../apidocs/io/vertx/ext/web/client/WebClientSession.html[WebClientSession]`.
+
+[source,java]
+----
+WebClient client = WebClient.create(vertx);
+WebClient cachingWebClient = CachingWebClient.create(client);
+WebClient sessionClient = WebClientSession.create(cachingWebClient);
+----
+
 [[_using_https]]
 == 使用 HTTPS
 
@@ -817,8 +880,8 @@ client
 
 Vert.x Web提供了Web会话管理设施；使用它，您需要对于每个用户（会话）创建一个 `link:../../apidocs/io/vertx/ext/web/client/WebClientSession.html[WebClientSession]` ，并使用它来代替 `link:../../apidocs/io/vertx/ext/web/client/WebClient.html[WebClient]` 。
 
-[[_creating_a_websession]]
-=== 创建一个 WebSession
+[[_creating_a_webclientsession]]
+=== 创建一个 WebClientSession
 
 您像下面一样创建一个 `link:../../apidocs/io/vertx/ext/web/client/WebClientSession.html[WebClientSession]` 实例
 
@@ -846,6 +909,89 @@ session.addHeader("my-jwt-token", jwtToken);
 ----
 
 然后headers将被添加到每个请求中； 注意 这些headers将发送给所有主机；如果你需要发送不同的headers到不同的主机， 您必须将它们手动添加到每个单个请求中，并且不添加到 `link:../../apidocs/io/vertx/ext/web/client/WebClientSession.html[WebClientSession]` 。
+
+== OAuth2 security
+
+Vert.x web offers a web session management facility; to use it, you create a
+`link:../../apidocs/io/vertx/ext/web/client/OAuth2WebClient.html[OAuth2WebClient]` for every user (session) and use it instead of the
+`link:../../apidocs/io/vertx/ext/web/client/WebClient.html[WebClient]`.
+
+=== Creating an Oauth2 Client
+
+You create a `link:../../apidocs/io/vertx/ext/web/client/OAuth2WebClient.html[OAuth2WebClient]` instance as follows
+
+[source,java]
+----
+WebClient client = WebClient.create(vertx);
+OAuth2WebClient oauth2 = OAuth2WebClient.create(
+    client,
+    OAuth2Auth.create(vertx, new OAuth2Options(/* enter IdP config */)))
+
+  // configure the initial credentials (needed to fetch if needed
+  // the access_token
+  .withCredentials(new TokenCredentials("some.jwt.token"));
+----
+
+Client's can also take advantage of OpenId Service discovery to fully configure the client, for example to connect to
+a real keycloak server one can just do:
+
+[source,java]
+----
+KeycloakAuth.discover(
+    vertx,
+    new OAuth2Options().setSite("https://keycloakserver.com"))
+  .onSuccess(oauth -> {
+    OAuth2WebClient client = OAuth2WebClient.create(
+        WebClient.create(vertx),
+        oauth)
+      // if your keycloak is configured for password_credentials_flow
+      .withCredentials(
+        new UsernamePasswordCredentials("bob", "s3cret"));
+  });
+----
+
+
+=== Making requests
+
+Once created, a `link:../../apidocs/io/vertx/ext/web/client/OAuth2WebClient.html[OAuth2WebClient]` can be used instead of a
+`link:../../apidocs/io/vertx/ext/web/client/WebClient.html[WebClient]` to do HTTP(s) requests and automatically manage any cookies received from the server(s)
+you are calling.
+
+=== Avoid expired tokens
+
+You can set token expiration leeway to every request as follows:
+
+[source,java]
+----
+OAuth2WebClient client = OAuth2WebClient.create(
+    baseClient,
+    oAuth2Auth,
+    new OAuth2WebClientOptions()
+      .setLeeway(5));
+----
+
+If a request is to be performed the current active user object is checked for expiration with the extra given leeway.
+This will allow the client to perform a token refresh if needed, instead of aborting the operation with an error.
+
+Request may still fail due to expired tokens since the expiration calculation will still be performed at the server
+side. To reduce the work on the user side, the client can be configured to perform a **single** retry on requests that
+return status code **401** (Forbidden). When the option flag: `refreshTokenOnForbidden` is set to `true`, then the
+client will perform a new token request retry the original request before passing the response to the user
+handler/promise.
+
+[source,java]
+----
+OAuth2WebClient client = OAuth2WebClient.create(
+  baseClient,
+  oAuth2Auth,
+  new OAuth2WebClientOptions()
+    // the client will attempt a single token request, if the request
+    // if the status code of the response is 401
+    // there will be only 1 attempt, so the second consecutive 401
+    // will be passed down to your handler/promise
+    .setRenewTokenOnForbidden(true));
+----
+
 
 ifeval::["java" == "java"]
 include::override/rxjava3.adoc[]
