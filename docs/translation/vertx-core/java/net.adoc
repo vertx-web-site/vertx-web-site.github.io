@@ -1110,7 +1110,8 @@ OpenSSL需要配置 `link:../../apidocs/io/vertx/core/net/TCPSSLOptions.html#set
 并在类路径上使用 http://netty.io/wiki/forked-tomcat-native.html[netty-tcnative] 的jar库。
 依赖于tcnative的实现，需要OpenSSL安装在您的操作系统中。
 
-=== Using a proxy for client connections
+[[_using_a_proxy_for_client_connections]]
+=== 客户端连接使用代理
 
 `link:../../apidocs/io/vertx/core/net/NetClient.html[NetClient]` 支持HTTP/1.x _CONNECT_、_SOCKS4a_ 或 _SOCKS5_ 代理。
 

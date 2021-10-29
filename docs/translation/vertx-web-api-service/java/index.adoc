@@ -62,7 +62,8 @@ dependencies {
 == 代理一个HTTP请求 到一个Web API服务
 
 您可以用 `link:../../apidocs/io/vertx/ext/web/api/service/RouteToEBServiceHandler.html[RouteToEBServiceHandler]` 来代理发送到事件总线的请求。
-这个处理器从 `link:../../apidocs/io/vertx/ext/web/api/service/ServiceRequest.html[ServiceRequest]` 内的 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html[RoutingContext]` 提取一些信息，并以 `link:../../apidocs/io/vertx/ext/web/api/service/ServiceResponse.html[ServiceResponse]` 作为响应对象。
+这个处理器从 `link:../../apidocs/io/vertx/ext/web/api/service/ServiceRequest.html[ServiceRequest]` 内的 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html[RoutingContext]` 提取一些信息，
+并以 `link:../../apidocs/io/vertx/ext/web/api/service/ServiceResponse.html[ServiceResponse]` 作为响应对象。
 
 [source,java]
 ----
@@ -88,8 +89,8 @@ router
   );
 ----
 
-IMPORTANT: 在挂载 `link:../../apidocs/io/vertx/ext/web/api/service/RouteToEBServiceHandler.html[RouteToEBServiceHandler]` 的时候，您 *必须* 同时挂载一个 `link:../../apidocs/io/vertx/ext/web/validation/ValidationHandler.html[ValidationHandler]` ，该验证处理器提取了请求中的参数。否则，不会发送任何请求参数。
-
+IMPORTANT: 在挂载 `link:../../apidocs/io/vertx/ext/web/api/service/RouteToEBServiceHandler.html[RouteToEBServiceHandler]` 的时候，您 *必须* 同时挂载一个
+`link:../../apidocs/io/vertx/ext/web/validation/ValidationHandler.html[ValidationHandler]` ，该验证处理器提取了请求中的参数。否则，不会发送任何请求参数。
 
 [[_define_your_web_api_service_interface]]
 == 定义您的Web API 服务接口
@@ -121,7 +122,8 @@ router.post("/api/transactions")
 
 `GET /api/transactions` 获取这样两个可选参数 `from` 和 `to` 。`POST /api/transactions` 从请求体获取一个 `link:../../apidocs/io/vertx/core/json/JsonObject.html[JsonObject]` 。
 
-现在我们可以构建用于处理那些终端（endpoint）的 *TransactionService* 接口。对于各个终端您在构建 `link:../../apidocs/io/vertx/ext/web/api/service/RouteToEBServiceHandler.html[RouteToEBServiceHandler]` 时需要写入一个方法，该方法名与指定的 `action` 相关联。
+现在我们可以构建用于处理那些终端（endpoint）的 *TransactionService* 接口。
+对于各个终端您在构建 `link:../../apidocs/io/vertx/ext/web/api/service/RouteToEBServiceHandler.html[RouteToEBServiceHandler]` 时需要写入一个方法，该方法名与指定的 `action` 相关联。
 对于方法参数，有如下几个规则：
 
 * 最后一个参数的类型必须是 `Handler<AsyncResult<ServiceResponse>>`
@@ -141,7 +143,8 @@ interface TransactionService {
 }
 ----
 
-当您从 `TransactionService#getTransactionsList` 方法中接收到一个请求，自动生成的服务处理器会从 `link:../../apidocs/io/vertx/ext/web/api/service/ServiceRequest.html[ServiceRequest]` 自动解析出 `from` 和 `to` 参数（如果存在）
+当您从 `TransactionService#getTransactionsList` 方法中接收到一个请求，自动生成的服务处理器会从 `link:../../apidocs/io/vertx/ext/web/api/service/ServiceRequest.html[ServiceRequest]`
+自动解析出 `from` 和 `to` 参数（如果存在）
 
 服务处理器也有自动转换 `JsonObject` 为Vert.x 数据对象的能力，例如，如果您有一个满足上述json schema的 `Transaction` 数据对象，您可以像如下重写 `putTransaction` 方法签名：
 
@@ -200,7 +203,6 @@ resultHandler.handle(
 * `link:../../apidocs/io/vertx/ext/web/api/service/ServiceRequest.html#getParams--[getParams]` ：包含 `routingContext.get("parsedParameters")`
 * `link:../../apidocs/io/vertx/ext/web/api/service/ServiceRequest.html#getUser--[getUser]`: Contains `routingContext.user().principal()` 如果没有用户被认证，则返回null
 * `link:../../apidocs/io/vertx/ext/web/api/service/ServiceRequest.html#getExtra--[getExtra]` ：包含额外的可配置的 payload
-
 
 您可以用 `link:../../apidocs/io/vertx/ext/web/api/service/RouteToEBServiceHandler.html#extraPayloadMapper-java.util.function.Function-[extraPayloadMapper]` 配置一个lambda表达式来构建额外的 payload
 
