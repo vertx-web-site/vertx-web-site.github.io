@@ -3,8 +3,8 @@
 [[_using_vert_x_mqtt]]
 == 使用 Vert.x MQTT
 
-这个组件已经在 Vertx 栈中正式发布了，现在只需要在构建描述符中添加如下内容即可使用：
-
+这个组件已经在 Vertx 栈中正式发布了，
+现在只需要在构建描述符中添加如下内容即可使用：
 
 * Maven （在 `pom.xml` 文件中）：
 
@@ -54,10 +54,6 @@ and CONNECT message properties (for MQTT version 5.0)等。
 最后，通过 `link:../../apidocs/io/vertx/mqtt/MqttServer.html#listen-io.vertx.core.Handler-[listen]`
 方法启动一个默认的服务端（运行在 localhost 上并且默认 MQTT 端口为 1883），
 这个方法同样允许指定一个 handler 来检查是否服务器是否已经正常启动。
-
-
-
-
 
 [source,java]
 ----
@@ -115,17 +111,17 @@ using `link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html#disconnect-io.vertx.mq
 [[_handling_client_connectiondisconnection_with_ssltls_support]]
 === 支持使用SSL / TLS 处理客户端连接/断开连接
 
-服务端支持通过 SSL/TLS 方式来授权和加密客户端的连接请求，为了做到这一点，`link:../../apidocs/io/vertx/mqtt/MqttServerOptions.html[MqttServerOptions]` 类提供了 `link:../../apidocs/io/vertx/mqtt/MqttServerOptions.html#setSsl-boolean-[setSsl]`
-方法来启用 SSL/TLS(值设为 true)，以及一些其他有用的方法来配置服务端证书和相关私钥（作为 java 键存储引用，PEM 或 PFX 格式），在下面的例子中，`link:../../apidocs/io/vertx/mqtt/MqttServerOptions.html#setKeyCertOptions-io.vertx.core.net.KeyCertOptions-[setKeyCertOptions]` 方法可以用来配置PEM格式的证书，
-这个方法需要一个 `link:../../apidocs/io/vertx/core/net/KeyCertOptions.html[KeyCertOptions]` 接口的实例作为参数传入。与此同时，`link:../../apidocs/io/vertx/core/net/PemKeyCertOptions.html[PemKeyCertOptions]` 类提供了
-`link:../../apidocs/io/vertx/core/net/PemKeyCertOptions.html#setCertPath-java.lang.String-[setCertPath]` 和 `link:../../apidocs/io/vertx/core/net/PemKeyCertOptions.html#setKeyPath-java.lang.String-[setKeyPath]` 来分别设置 服务端的证书和私钥的路径。
-MQTT 服务端需要一个 Vert.x 实例和一个上面提到的 MQTT 配置实例作为参数来启动。
-
-
-
-
-
-
+服务端支持通过 SSL/TLS 方式来授权和加密客户端的连接请求，
+为了做到这一点，`link:../../apidocs/io/vertx/mqtt/MqttServerOptions.html[MqttServerOptions]` 类提供了 `link:../../apidocs/io/vertx/mqtt/MqttServerOptions.html#setSsl-boolean-[setSsl]`
+方法来启用 SSL/TLS(值设为 true)，以及一些其他有用的方法来配置服务端证书和相关私钥
+（作为 java 键存储引用，PEM 或 PFX 格式），在下面的例子中，
+`link:../../apidocs/io/vertx/mqtt/MqttServerOptions.html#setKeyCertOptions-io.vertx.core.net.KeyCertOptions-[setKeyCertOptions]`
+方法可以用来配置PEM格式的证书， 这个方法需要一个
+`link:../../apidocs/io/vertx/core/net/KeyCertOptions.html[KeyCertOptions]` 接口的实例作为参数传入。与此同时，`link:../../apidocs/io/vertx/core/net/PemKeyCertOptions.html[PemKeyCertOptions]`
+类提供了
+`link:../../apidocs/io/vertx/core/net/PemKeyCertOptions.html#setCertPath-java.lang.String-[setCertPath]` 和
+`link:../../apidocs/io/vertx/core/net/PemKeyCertOptions.html#setKeyPath-java.lang.String-[setKeyPath]`
+来分别设置 服务端的证书和私钥的路径。MQTT 服务端需要一个 Vert.x 实例和一个上面提到的 MQTT 配置实例作为参数来启动。
 
 [source,java]
 ----
@@ -176,7 +172,8 @@ mqttServer.endpointHandler(endpoint -> {
 调用 `link:../../apidocs/io/vertx/mqtt/MqttServerOptions.html#setUseWebSocket-boolean-[setUseWebSocket]` 方法并设置参数为 `true` ，
 它将会监听 `/mqtt` 路径上所有的 websocket 连接。
 
-与其他连接的配置方式一样，这种方式下 endpoint 的连接创建以及连接断开与常规的连接管理方式相同。
+与其他连接的配置方式一样，
+这种方式下 endpoint 的连接创建以及连接断开与常规的连接管理方式相同。
 
 [source,java]
 ----
@@ -195,11 +192,8 @@ vertx.deployVerticle("com.mycompany.MyVerticle", options);
 Subscription options include QoS level and related flags and for MQTT version 5.0 also additional flags,
 such as `noLocal` and `retainAsPublished`.
 最后，这个 endpoint 实例提供了 `link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html#subscribeAcknowledge-int-java.util.List-[subscribeAcknowledge]`
-方法来回复一个包含原因代码的 SUBACK 消息给客户端。
-
-
-
-
+方法来回复一个包含原因代码 (which is either QoS level or error code - separate per each topic or pattern)
+and message properties的 SUBACK 消息给客户端。
 
 [source,java]
 ----
@@ -223,8 +217,6 @@ endpoint.subscribeHandler(subscribe -> {
 `link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html#unsubscribeAcknowledge-int-java.util.List-io.netty.handler.codec.mqtt.MqttProperties-[unsubscribeAcknowledge]`
 方法来回复客户端相关的UNSUBACK消息 - either simply acknowledging all unsubscriptions, or specifying
 the reasons per each topic and the properties in the UNSUBSCRIBE request (supported in MQTT v 5.0 or later)。
-
-
 
 [source,java]
 ----
@@ -262,10 +254,6 @@ access to MQTT version 5.0 extended capabilities (reason code, message propertie
 为了结束 QoS 等级为2的消息的传递，endpoint 可以使用 `link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html#publishComplete-int-[publishComplete]`
 或者 `link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html#publishComplete-int-io.vertx.mqtt.messages.codes.MqttPubCompReasonCode-io.netty.handler.codec.mqtt.MqttProperties-[publishComplete]` 方法发送一个 PUBCOMP 消息给客户端。
 
-
-
-
-
 [source,java]
 ----
 endpoint.publishHandler(message -> {
@@ -299,8 +287,7 @@ method instead which takes message ID and message properties in addition to the 
 如果 QoS 等级是 1（AT_LEAST_ONCE），endpoint 需要处理客户端的PUBACK消息，
 为了收到最后的确认消息，需要使用
 `link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html#publishAcknowledgeHandler-io.vertx.core.Handler-[publishAcknowledgeHandler]` 或者
-`link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html#publishAcknowledgeMessageHandler-io.vertx.core.Handler-[publishAcknowledgeMessageHandler]`
-指定一个handler来接收。
+`link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html#publishAcknowledgeMessageHandler-io.vertx.core.Handler-[publishAcknowledgeMessageHandler]` 指定一个handler来接收。
 
 如果 QoS 等级是 2（EXACTLY_ONCE），endpoint 需要处理客户端的PUBREC消息，
 可以通过 `link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html#publishReceivedHandler-io.vertx.core.Handler-[publishReceivedHandler]` 和
@@ -313,12 +300,6 @@ method instead which takes message ID and message properties in addition to the 
 `link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html#publishCompletionHandler-io.vertx.core.Handler-[publishCompletionHandler]` 或者
 `link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html#publishCompletionMessageHandler-io.vertx.core.Handler-[publishCompletionMessageHandler]`
 方法指定一个handler来处理最终接收到的 PUBCOMP 消息。
-
-
-
-
-
-
 
 [source,java]
 ----
@@ -346,15 +327,15 @@ endpoint.publishAcknowledgeHandler(messageId -> {
 [[_be_notified_by_client_keep_alive]]
 === 客户端保活通知
 
-MQTT 底层的保活机制是由服务端内部处理的。当接收到CONNECT消息，服务端解析消息中指定的保活超时时间以便于检查客户端在这段时间内是否有发送消息，
+MQTT 底层的保活机制是由服务端内部处理的。当接收到CONNECT消息，
+服务端解析消息中指定的保活超时时间以便于检查客户端在这段时间内是否有发送消息，
 与此同时，没收到一个 PINGREQ 消息，服务端都会回复一个相关的 PINGRESP 消息。
-尽管上层应用不需要处理这些，`link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html[MqttEndpoint]` 依然提供了 `link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html#pingHandler-io.vertx.core.Handler-[pingHandler]` 方法来选定一个handler
-来自客户端的 PINGREQ 消息。对于应用程序来说这只是一个通知，客户端只会发送一个用于检测保活的没有任何意义的 ping 消息。无论如何，PINGRESP 都会被服务端内部自动发送。
 
-
-
-
-
+尽管上层应用不需要处理这些，`link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html[MqttEndpoint]`
+依然提供了 `link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html#pingHandler-io.vertx.core.Handler-[pingHandler]` 方法来选定一个handler
+来自客户端的 PINGREQ 消息。对于应用程序来说这只是一个通知，
+客户端只会发送一个用于检测保活的没有任何意义的 ping 消息。
+无论如何，PINGRESP 都会被服务端内部自动发送。
 
 [source,java]
 ----
@@ -367,10 +348,10 @@ endpoint.pingHandler(v -> {
 [[_closing_the_server]]
 === 关闭服务端
 
-`link:../../apidocs/io/vertx/mqtt/MqttServer.html[MqttServer]` 提供了 `link:../../apidocs/io/vertx/mqtt/MqttServer.html#close-io.vertx.core.Handler-[close]` 方法来关闭服务。
-他会停止监听到来的连接以及关闭所有已经建立的连接，该方法是一个异步方法，并且可以指定一个成功回调 handler，这个 handler 会在服务端完全关闭后被调用
-
-
+`link:../../apidocs/io/vertx/mqtt/MqttServer.html[MqttServer]` 提供了 `link:../../apidocs/io/vertx/mqtt/MqttServer.html#close-io.vertx.core.Handler-[close]`
+方法来关闭服务。他会停止监听到来的连接以及关闭所有已经建立的连接，
+该方法是一个异步方法，并且可以指定一个成功回调 handler，
+这个 handler 会在服务端完全关闭后被调用
 
 [source,java]
 ----
@@ -388,11 +369,11 @@ mqttServer.close(v -> {
 [[_scaling_sharing_mqtt_servers]]
 === 扩展：共享 MQTT 服务器
 
-与MQTT服务器相关的 handler 总是在同一个 event loop 线程中执行。这意味着在一个多核系统中，仅有一个实例被部署，一个核被使用。
+与MQTT服务器相关的 handler 总是在同一个 event loop 线程中执行。
+这意味着在一个多核系统中，仅有一个实例被部署，一个核被使用。
 为了使用更多的核，可以部署更多的 MQTT 服务端实例
+
 可以通过编程方式实现：
-
-
 
 [source,java]
 ----
@@ -425,7 +406,6 @@ vertx.deployVerticle("com.mycompany.MyVerticle", options);
 = Vert.x MQTT 客户端
 
 这个组件提供了一个符合3.1.1版本规范的 link:http://mqtt.org/[MQTT] 客户端，它的 API 提供了一系列方法来处理连接建立/断开，发布消息（完整支持3种不同等级的 QoS）以及主题订阅
-
 
 WARNING: 这个模块还处于技术预览阶段，这意味着它的API在接下来的版本中可能会改变
 
@@ -489,8 +469,8 @@ client.publish("temperature",
 为了保持与服务端的连接，您需要时不时地发送一些数据到服务端，否则服务端可能会断开连接。
 使用 `link:../../apidocs/io/vertx/mqtt/MqttClient.html#ping--[ping]` 方法来保持连接是一个不错的选择。
 
-IMPORTANT: 您的客户端默认情况下会自动保持与服务端的连接，这也意味着您不需要调用 `link:../../apidocs/io/vertx/mqtt/MqttClient.html#ping--[ping]` 方法来保活，因为 `link:../../apidocs/io/vertx/mqtt/MqttClient.html[MqttClient]` 已经帮您做了这些事。
-
+IMPORTANT: 您的客户端默认情况下会自动保持与服务端的连接，这也意味着您不需要调用 `link:../../apidocs/io/vertx/mqtt/MqttClient.html#ping--[ping]` 方法来保活，
+因为 `link:../../apidocs/io/vertx/mqtt/MqttClient.html[MqttClient]` 已经帮您做了这些事。
 
 如果您不想要这个特性，您需要调用 `link:../../apidocs/io/vertx/mqtt/MqttClientOptions.html#setAutoKeepAlive-boolean-[setAutoKeepAlive]` 方法，设置参数为 `false` 即可。
 [source,java]
