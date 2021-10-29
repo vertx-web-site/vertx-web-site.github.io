@@ -15,7 +15,7 @@ To use Vert.x Web Proxy, add the following dependency to the _dependencies_ sect
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-web-proxy</artifactId>
- <version>4.1.5</version>
+ <version>4.2.0</version>
 </dependency>
 ----
 
@@ -24,7 +24,7 @@ To use Vert.x Web Proxy, add the following dependency to the _dependencies_ sect
 [source,groovy,subs="+attributes"]
 ----
 dependencies {
- compile 'io.vertx:vertx-web-proxy:4.1.5'
+ compile 'io.vertx:vertx-web-proxy:4.2.0'
 }
 ----
 

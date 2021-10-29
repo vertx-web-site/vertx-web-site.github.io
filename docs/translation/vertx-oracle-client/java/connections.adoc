@@ -1,0 +1,74 @@
+== Using connections
+
+=== Getting a connection
+
+When you need to execute sequential queries (without a transaction), you can create a new connection
+or borrow one from the pool. Remember that between acquiring the connection from the pool and returning it to the pool, you should take care of the connection because it might be closed by the server for some reason such as an idle time out.
+
+[source,java]
+----
+pool
+  .getConnection()
+  .compose(connection ->
+    connection
+      .preparedQuery("INSERT INTO Users (first_name,last_name) VALUES (?, ?)")
+      .executeBatch(Arrays.asList(
+        Tuple.of("Julien", "Viet"),
+        Tuple.of("Emad", "Alblueshi")
+      ))
+      .compose(res -> connection
+        // Do something with rows
+        .query("SELECT COUNT(*) FROM Users")
+        .execute()
+        .map(rows -> rows.iterator().next().getInteger(0)))
+      // Return the connection to the pool
+      .eventually(v -> connection.close())
+  ).onSuccess(count -> {
+  System.out.println("Insert users, now the number of users is " + count);
+});
+----
+
+Prepared queries can be created:
+
+[source,java]
+----
+connection
+  .prepare("SELECT * FROM users WHERE first_name LIKE ?")
+  .compose(pq ->
+    pq.query()
+      .execute(Tuple.of("Julien"))
+      .eventually(v -> pq.close())
+  ).onSuccess(rows -> {
+  // All rows
+});
+----
+
+=== Simplified connection API
+
+When you use a pool, you can call `link:../../apidocs/io/vertx/sqlclient/Pool.html#withConnection-java.util.function.Function-io.vertx.core.Handler-[withConnection]` to pass it a function executed
+within a connection.
+
+It borrows a connection from the pool and calls the function with this connection.
+
+The function must return a future of an arbitrary result.
+
+After the future completes, the connection is returned to the pool and the overall result is provided.
+
+[source,java]
+----
+pool.withConnection(connection ->
+  connection
+    .preparedQuery("INSERT INTO Users (first_name,last_name) VALUES (?, ?)")
+    .executeBatch(Arrays.asList(
+      Tuple.of("Julien", "Viet"),
+      Tuple.of("Emad", "Alblueshi")
+    ))
+    .compose(res -> connection
+      // Do something with rows
+      .query("SELECT COUNT(*) FROM Users")
+      .execute()
+      .map(rows -> rows.iterator().next().getInteger(0)))
+).onSuccess(count -> {
+  System.out.println("Insert users, now the number of users is " + count);
+});
+----

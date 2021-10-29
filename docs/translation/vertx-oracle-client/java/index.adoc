@@ -1,0 +1,269 @@
+= Reactive Oracle Client
+:PREPARED_PARAMS: `?`
+
+The Reactive Oracle Client is a client for Oracle with a straightforward API focusing on
+scalability and low overhead.
+
+*Features*
+
+* todo
+
+WARNING: this module is in tech preview
+
+== Usage
+
+To use the Reactive Oracle Client add the following dependency to the _dependencies_ section of your build descriptor:
+
+* Maven (in your `pom.xml`):
+
+[source,xml]
+----
+<dependency>
+ <groupId>io.vertx</groupId>
+ <artifactId>vertx-oracle-client</artifactId>
+ <version>4.2.0</version>
+</dependency>
+----
+* Gradle (in your `build.gradle` file):
+
+[source,groovy]
+----
+dependencies {
+ compile 'io.vertx:vertx-oracle-client:4.2.0'
+}
+----
+
+== Getting started
+
+Here is the simplest way to connect, query and disconnect
+
+[source,java]
+----
+OracleConnectOptions connectOptions = new OracleConnectOptions()
+  .setPort(1521)
+  .setHost("the-host")
+  .setDatabase("the-db")
+  .setUser("user")
+  .setPassword("secret");
+
+// Pool options
+PoolOptions poolOptions = new PoolOptions()
+  .setMaxSize(5);
+
+// Create the client pool
+OraclePool client = OraclePool.pool(connectOptions, poolOptions);
+
+// A simple query
+client
+  .query("SELECT * FROM users WHERE id='julien'")
+  .execute(ar -> {
+  if (ar.succeeded()) {
+    RowSet<Row> result = ar.result();
+    System.out.println("Got " + result.size() + " rows ");
+  } else {
+    System.out.println("Failure: " + ar.cause().getMessage());
+  }
+
+  // Now close the pool
+  client.close();
+});
+----
+
+== Connecting to Oracle
+
+Most of the time you will use a pool to connect to Oracle:
+
+[source,java]
+----
+OracleConnectOptions connectOptions = new OracleConnectOptions()
+  .setPort(1521)
+  .setHost("the-host")
+  .setDatabase("the-db")
+  .setUser("user")
+  .setPassword("secret");
+
+// Pool options
+PoolOptions poolOptions = new PoolOptions()
+  .setMaxSize(5);
+
+// Create the pooled client
+OraclePool client = OraclePool.pool(connectOptions, poolOptions);
+----
+
+The pooled client uses a connection pool and any operation will borrow a connection from the pool
+to execute the operation and release it to the pool.
+
+If you are running with Vert.x you can pass it your Vertx instance:
+
+[source,java]
+----
+OracleConnectOptions connectOptions = new OracleConnectOptions()
+  .setPort(1521)
+  .setHost("the-host")
+  .setDatabase("the-db")
+  .setUser("user")
+  .setPassword("secret");
+
+// Pool options
+PoolOptions poolOptions = new PoolOptions()
+  .setMaxSize(5);
+// Create the pooled client
+OraclePool client = OraclePool.pool(vertx, connectOptions, poolOptions);
+----
+
+You need to release the pool when you don't need it anymore:
+
+[source,java]
+----
+pool.close();
+----
+
+When you need to execute several operations on the same connection, you need to use a client
+`link:../../apidocs/io/vertx/sqlclient/SqlConnection.html[connection]`.
+
+You can easily get one from the pool:
+
+[source,java]
+----
+OracleConnectOptions connectOptions = new OracleConnectOptions()
+  .setPort(1521)
+  .setHost("the-host")
+  .setDatabase("the-db")
+  .setUser("user")
+  .setPassword("secret");
+
+// Pool options
+PoolOptions poolOptions = new PoolOptions()
+  .setMaxSize(5);
+
+// Create the pooled client
+OraclePool client = OraclePool.pool(vertx, connectOptions, poolOptions);
+
+// Get a connection from the pool
+client.getConnection().compose(conn -> {
+  System.out.println("Got a connection from the pool");
+
+  // All operations execute on the same connection
+  return conn
+    .query("SELECT * FROM users WHERE id='julien'")
+    .execute()
+    .compose(res -> conn
+      .query("SELECT * FROM users WHERE id='emad'")
+      .execute())
+    .onComplete(ar -> {
+      // Release the connection to the pool
+      conn.close();
+    });
+}).onComplete(ar -> {
+  if (ar.succeeded()) {
+
+    System.out.println("Done");
+  } else {
+    System.out.println("Something went wrong " + ar.cause().getMessage());
+  }
+});
+----
+
+Once you are done with the connection you must close it to release it to the pool, so it can be reused.
+
+== Configuration
+
+There are several alternatives for you to configure the client.
+
+=== Data Object
+
+A simple way to configure the client is to specify a `OracleConnectOptions` data object.
+
+[source,java]
+----
+OracleConnectOptions connectOptions = new OracleConnectOptions()
+  .setPort(1521)
+  .setHost("the-host")
+  .setDatabase("the-db")
+  .setUser("user")
+  .setPassword("secret");
+
+// Pool Options
+PoolOptions poolOptions = new PoolOptions().setMaxSize(5);
+
+// Create the pool from the data object
+OraclePool pool = OraclePool.pool(vertx, connectOptions, poolOptions);
+
+pool.getConnection(ar -> {
+  // Handling your connection
+});
+----
+
+== Connect retries
+
+You can configure the client to retry when a connection fails to be established.
+
+[source,java]
+----
+options
+  .setReconnectAttempts(2)
+  .setReconnectInterval(1000);
+----
+
+include::queries.adoc[leveloffset=1]
+
+include::connections.adoc[]
+
+include::transactions.adoc[]
+
+include::cursor.adoc[]
+
+== Tracing queries
+
+include::tracing.adoc[]
+
+== Collector queries
+
+You can use Java collectors with the query API:
+
+[source,java]
+----
+Collector<Row, ?, Map<Long, String>> collector = Collectors.toMap(
+  row -> row.getLong("id"),
+  row -> row.getString("last_name"));
+
+// Run the query with the collector
+client.query("SELECT * FROM users").collecting(collector).execute(ar -> {
+    if (ar.succeeded()) {
+      SqlResult<Map<Long, String>> result = ar.result();
+
+      // Get the map created by the collector
+      Map<Long, String> map = result.value();
+      System.out.println("Got " + map);
+    } else {
+      System.out.println("Failure: " + ar.cause().getMessage());
+    }
+  });
+----
+
+The collector processing must not keep a reference on the `link:../../apidocs/io/vertx/sqlclient/Row.html[Row]` as
+there is a single row used for processing the entire set.
+
+The Java `Collectors` provides many interesting predefined collectors, for example you can
+create easily create a string directly from the row set:
+
+[source,java]
+----
+Collector<Row, ?, String> collector = Collectors.mapping(
+  row -> row.getString("last_name"),
+  Collectors.joining(",", "(", ")")
+);
+
+// Run the query with the collector
+client.query("SELECT * FROM users").collecting(collector).execute(ar -> {
+    if (ar.succeeded()) {
+      SqlResult<String> result = ar.result();
+
+      // Get the string created by the collector
+      String list = result.value();
+      System.out.println("Got " + list);
+    } else {
+      System.out.println("Failure: " + ar.cause().getMessage());
+    }
+  });
+----

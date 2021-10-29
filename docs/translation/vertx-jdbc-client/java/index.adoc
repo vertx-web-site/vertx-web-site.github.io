@@ -14,7 +14,7 @@ To use this project, add the following dependency to the _dependencies_ section 
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-jdbc-client</artifactId>
- <version>4.1.5</version>
+ <version>4.2.0</version>
 </dependency>
 ----
 
@@ -22,7 +22,7 @@ To use this project, add the following dependency to the _dependencies_ section 
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-jdbc-client:4.1.5'
+compile 'io.vertx:vertx-jdbc-client:4.2.0'
 ----
 
 == Using the Sql Client API
@@ -172,6 +172,133 @@ pool
       });
   });
 ----
+
+=== Retrieving the generated keys
+
+Generated keys is a common feature of JDBC drivers. The pool allows you to retrieve the keys using a special property:
+`JDBCPool.GENERATED_KEYS`. For example:
+
+[source,java]
+----
+String sql = "INSERT INTO insert_table (FNAME, LNAME) VALUES (?, ?)";
+
+pool
+  .preparedQuery(sql)
+  .execute(Tuple.of("Paulo", "Lopes"))
+  .onSuccess(rows -> {
+    // the generated keys are returned as an extra row
+    Row lastInsertId = rows.property(JDBCPool.GENERATED_KEYS);
+    // just refer to the position as usual:
+    long newId = lastInsertId.getLong(0);
+  });
+----
+
+
+=== Working with Procedures and Functions
+
+Users that have used JDBC before are aware that in order to call either a function or a stored procedure, one must use
+the interface `CallableStatement`. This abstraction is, for most database engines, synthetic as popular engines like
+`PostgreSQL` or `MySQL` do not really have any special command to differentiate from callable statements from any other
+regular statement.
+
+The existing SQL client api was designed to be closed to what the reality of wire protocols shows, rather than adapt to
+the JDBC spec, therefore you will not find any specific way to deal with callable statements. This design choice
+introduces some complexities on the JDBC SQL client, as we need to adapt a regular call to respect the JDBC spec
+requirements and be compatible with clients out there.
+
+==== Simple IN mapping
+
+Mapping simple `IN` parameters is trivial. Consider the following procedure:
+
+[source,"sql"]
+----
+create procedure new_customer(firstname varchar(50), lastname varchar(50))
+ modifies sql data
+ insert into customers values (default, firstname, lastname, current_timestamp)
+----
+
+In order to call this procedure from the JDBC client, you would write some code as:
+
+[source,java]
+----
+String sql = "{call new_customer(?, ?)}";
+
+pool
+  .preparedQuery(sql)
+  // by default the "IN" argument types are extracted from the
+  // type of the data in the tuple, as well as the order
+  .execute(Tuple.of("Paulo", "Lopes"))
+  .onFailure(e -> {
+    // handle the failure
+  })
+  .onSuccess(rows -> {
+    // ... success handler
+  });
+----
+
+==== Complex IN / OUT mapping
+
+The previous example, showed how to create simple queries. However, there are some limitations with it. It will assume
+that arguments are always of type `IN` and that the argument type is the corresponding java type of the argument, which
+will not always work, for example, when dealing with `null`.
+
+In this case, the client has a helper `link:../../apidocs/io/vertx/jdbcclient/SqlOutParam.html[SqlOutParam]` that allows you to explicitly tag the
+desired type of the argument. Not only the data type but also if it is a `IN` or a `OUT`.
+
+Consider the following procedure:
+
+[source,"sql"]
+----
+create procedure customer_lastname(IN firstname varchar(50), OUT lastname varchar(50))
+ modifies sql data
+ select lastname into lastname from customers where firstname = firstname
+----
+
+This procedure will return all last names, from all customers, when looking for a first name. So we will need to map
+both `IN` parameters as well as `OUT` parameters.
+
+[source,java]
+----
+String sql = "{call customer_lastname(?, ?)}";
+
+pool
+  .preparedQuery(sql)
+  // by default the "IN" argument types are extracted from the
+  // type of the data in the tuple, as well as the order
+  //
+  // Note that we now also declare the output parameter and it's
+  // type. The type can be a "String", "int" or "JDBCType" constant
+  .execute(Tuple.of("John", SqlOutParam.OUT(JDBCType.VARCHAR)))
+  .onFailure(e -> {
+    // handle the failure
+  })
+  .onSuccess(rows -> {
+    // we can verify if there was a output received from the callable statement
+    if (rows.property(JDBCPool.OUTPUT)) {
+      // and then iterate the results
+      for (Row row : rows) {
+        System.out.println(row.getString(0));
+      }
+    }
+  });
+----
+
+Sometimes, you will need to map both `IN` and `OUT` parameters to the same variable. Again, it is all handled by the
+`link:../../apidocs/io/vertx/jdbcclient/SqlOutParam.html[SqlOutParam]` helper.
+
+[source,java]
+----
+SqlOutParam param;
+
+// map IN as "int" as well as "OUT" as VARCHAR
+param = SqlOutParam.INOUT(123456, JDBCType.VARCHAR);
+// or
+param = SqlOutParam.INOUT(123456, "VARCHAR");
+
+// and then just add to the tuple as usual:
+Tuple.of(param);
+----
+
 
 == Legacy JDBC Client API
 

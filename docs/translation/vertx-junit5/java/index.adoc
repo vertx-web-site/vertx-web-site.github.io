@@ -383,3 +383,54 @@ static class SomeTest {
 
 The same holds for the other `ArgumentSources`. See the section `Formal Parameter List` in the API doc of
 https://junit.org/junit5/docs/current/api/org.junit.jupiter.params/org/junit/jupiter/params/ParameterizedTest.html[ParameterizedTest]
+
+== Running tests on a Vert.x context
+
+By default the thread invoking the test methods is the JUnit thread.
+The `link:../../apidocs/io/vertx/junit5/RunTestOnContext.html[RunTestOnContext]` extension can be used to alter this behavior by running test methods on a Vert.x event-loop thread.
+
+CAUTION: Keep in mind that you must not block the event loop when using this extension.
+
+For this purpose, the extension needs a `link:../../apidocs/io/vertx/core/Vertx.html[Vertx]` instance.
+By default, it creates one automatically but you can provide options for configuration or a supplier method.
+
+The `link:../../apidocs/io/vertx/core/Vertx.html[Vertx]` instance can be retrieved when the test is running.
+
+[source,java]
+----
+class RunTestOnContextExampleTest {
+
+  @RegisterExtension
+  RunTestOnContext rtoc = new RunTestOnContext();
+
+  Vertx vertx;
+
+  @BeforeEach
+  void prepare(VertxTestContext testContext) {
+    vertx = rtoc.vertx();
+    // Prepare something on a Vert.x event-loop thread
+    // The thread changes with each test instance
+    testContext.completeNow();
+  }
+
+  @Test
+  void foo(VertxTestContext testContext) {
+    // Test something on the same Vert.x event-loop thread
+    // that called prepare
+    testContext.completeNow();
+  }
+
+  @AfterEach
+  void cleanUp(VertxTestContext testContext) {
+    // Clean things up on the same Vert.x event-loop thread
+    // that called prepare and foo
+    testContext.completeNow();
+  }
+}
+----
+
+When used as a `@RegisterExtension` instance field, a new `link:../../apidocs/io/vertx/core/Vertx.html[Vertx]` object and `link:../../apidocs/io/vertx/core/Context.html[Context]` are created for each tested method.
+`@BeforeEach` and `@AfterEach` methods are executed on this context.
+
+When used as a `@RegisterExtension` static field, a single `link:../../apidocs/io/vertx/core/Vertx.html[Vertx]` object and `link:../../apidocs/io/vertx/core/Context.html[Context]` are created for all the tested methods.
+`@BeforeAll` and `@AfterAll` methods are executed on this context too.

@@ -74,7 +74,7 @@ To use vert.x web, add the following dependency to the _dependencies_ section of
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-web</artifactId>
- <version>4.1.5</version>
+ <version>4.2.0</version>
 </dependency>
 ----
 
@@ -83,7 +83,7 @@ To use vert.x web, add the following dependency to the _dependencies_ section of
 [source,groovy,subs="+attributes"]
 ----
 dependencies {
- compile 'io.vertx:vertx-web:4.1.5'
+ compile 'io.vertx:vertx-web:4.2.0'
 }
 ----
 
@@ -1510,13 +1510,13 @@ Here's an example of querying and adding cookies:
 
 [source,java]
 ----
-Cookie someCookie = ctx.getCookie("mycookie");
+Cookie someCookie = ctx.request().getCookie("mycookie");
 String cookieValue = someCookie.getValue();
 
 // Do something with cookie...
 
 // Add a cookie - this will get written back in the response automatically
-ctx.addCookie(Cookie.cookie("othercookie", "somevalue"));
+ctx.response().addCookie(Cookie.cookie("othercookie", "somevalue"));
 ----
 
 == Handling sessions
@@ -1955,7 +1955,7 @@ router
 === JWT authentication
 
 With JWT authentication resources can be protected by means of permissions and users without enough rights are denied
-access. You need to add the `io.vertx:vertx-auth-jwt:4.1.5` dependency to use `JWTAuthProvider`
+access. You need to add the `io.vertx:vertx-auth-jwt:4.2.0` dependency to use `JWTAuthProvider`
 
 To use this handler there are 2 steps involved:
 
@@ -2339,7 +2339,7 @@ OAuth2AuthHandler githubOAuth2 = OAuth2AuthHandler.create(
   "https://myserver.com/github-callback");
 
 // setup the callback handler for receiving the GitHub callback
-githubOAuth2.setupCallback(router.route());
+githubOAuth2.setupCallback(router.route("/github-callback"));
 
 // create an OAuth2 provider, clientID and clientSecret
 // should be requested to Google
@@ -2358,7 +2358,7 @@ OAuth2AuthHandler googleOAuth2 = OAuth2AuthHandler.create(
   "https://myserver.com/google-callback");
 
 // setup the callback handler for receiving the Google callback
-googleOAuth2.setupCallback(router.route());
+googleOAuth2.setupCallback(router.route("/google-callback"));
 
 // At this point the 2 callbacks endpoints are registered:
 
@@ -2455,7 +2455,7 @@ router.getWithRegex(".+\\.hbs").handler(handler);
 === MVEL template engine
 
 To use MVEL, you need to add the following _dependency_ to your project:
-`io.vertx:vertx-web-templ-mvel:4.1.5`. Create an instance of the MVEL template engine using:
+`io.vertx:vertx-web-templ-mvel:4.2.0`. Create an instance of the MVEL template engine using:
 `io.vertx.ext.web.templ.mvel.MVELTemplateEngine#create(io.vertx.core.Vertx)`
 
 When using the MVEL template engine, it will by default look for
@@ -2481,7 +2481,7 @@ MVEL templates.
 === Jade template engine
 
 To use the Jade template engine, you need to add the following _dependency_ to your project:
-`io.vertx:vertx-web-templ-jade:4.1.5`. Create an instance of the Jade template engine using:
+`io.vertx:vertx-web-templ-jade:4.2.0`. Create an instance of the Jade template engine using:
 `io.vertx.ext.web.templ.jade.JadeTemplateEngine#create(io.vertx.core.Vertx)`.
 
 When using the Jade template engine, it will by default look for
@@ -2507,7 +2507,7 @@ Jade templates.
 === Handlebars template engine
 
 To use Handlebars, you need to add the following _dependency_ to your project:
-`io.vertx:vertx-web-templ-handlebars:4.1.5`. Create an instance of the Handlebars template engine
+`io.vertx:vertx-web-templ-handlebars:4.2.0`. Create an instance of the Handlebars template engine
 using: `io.vertx.ext.web.templ.handlebars.HandlebarsTemplateEngine#create(io.vertx.core.Vertx)`.
 
 When using the Handlebars template engine, it will by default look for
@@ -2542,7 +2542,7 @@ handlebars templates.
 === Thymeleaf template engine
 
 To use Thymeleaf, you need to add the following _dependency_ to your project:
-`io.vertx:vertx-web-templ-thymeleaf:4.1.5`. Create an instance of the Thymeleaf template engine
+`io.vertx:vertx-web-templ-thymeleaf:4.2.0`. Create an instance of the Thymeleaf template engine
 using: `io.vertx.ext.web.templ.thymeleaf.ThymeleafTemplateEngine#create(io.vertx.core.Vertx)`.
 
 When using the Thymeleaf template engine, it will by default look for
@@ -2570,7 +2570,7 @@ Thymeleaf templates.
 === Apache FreeMarker template engine
 
 To use Apache FreeMarker, you need to add the following _dependency_ to your project:
-`io.vertx:vertx-web-templ-freemarker:4.1.5`. Create an instance of the Apache FreeMarker template engine
+`io.vertx:vertx-web-templ-freemarker:4.2.0`. Create an instance of the Apache FreeMarker template engine
 using: `io.vertx.ext.web.templ.Engine#create()`.
 
 When using the Apache FreeMarker template engine, it will by default look for
@@ -2598,7 +2598,7 @@ Apache FreeMarker templates.
 === Pebble template engine
 
 To use Pebble, you need to add the following _dependency_ to your project:
-`io.vertx:vertx-web-templ-pebble:4.1.5`. Create an instance of the Pebble template engine
+`io.vertx:vertx-web-templ-pebble:4.2.0`. Create an instance of the Pebble template engine
 using: `io.vertx.ext.web.templ.pebble.PebbleTemplateEngine#create(vertx)`.
 
 When using the Pebble template engine, it will by default look for
@@ -2625,7 +2625,7 @@ Pebble templates.
 
 === Rocker template engine
 
-To use Rocker, then add `io.vertx:vertx-web-templ-rocker:4.1.5` as a dependency to your project.
+To use Rocker, then add `io.vertx:vertx-web-templ-rocker:4.2.0` as a dependency to your project.
 You can then create a Rocker template engine instance with `io.vertx.ext.web.templ.rocker#create()`.
 
 The values of the JSON context object passed to the `render` method are then exposed as template parameters.
@@ -2656,7 +2656,7 @@ Request path is @context.getString("path")
 === HTTL template engine
 
 To use HTTL, you need to add the following _dependency_ to your project:
-`io.vertx:vertx-web-templ-httl:4.1.5`. Create an instance of the HTTL template engine
+`io.vertx:vertx-web-templ-httl:4.2.0`. Create an instance of the HTTL template engine
 using: `io.vertx.ext.web.templ.httl.HTTLTemplateEngine#create(io.vertx.core.Vertx)`.
 
 When using the HTTL template engine, it will by default look for
@@ -2692,7 +2692,7 @@ HTTL templates.
 === Rythm template engine
 
 To use Rythm, you need to add the following _dependency_ to your project:
-`io.vertx:vertx-web-templ-rythm:4.1.5`. Create an instance of the Rythm template engine
+`io.vertx:vertx-web-templ-rythm:4.2.0`. Create an instance of the Rythm template engine
 using: `io.vertx.ext.web.templ.rythm.RythmTemplateEngine#create(io.vertx.core.Vertx)`.
 
 When using the Rythm template engine, it will by default look for
@@ -2953,6 +2953,12 @@ sock.close();
 === Configuring the SockJS handler
 
 The handler can be configured with various options using `link:../../apidocs/io/vertx/ext/web/handler/sockjs/SockJSHandlerOptions.html[SockJSHandlerOptions]`.
+
+NOTE: By default, the configuration does not include a default `Origin` property. To prevent Cross-Site WebSocket
+Hijacking attacks from web browsers, it is recommended to set this property to the internet facing origin of the
+application. This will enforce a check that web sockets origin is from this application. This check is important because
+WebSockets are not restrained by the same-origin policy, an attacker can easily initiate a WebSocket request from a
+malicious webpage targeting the `ws://` or `wss://` endpoint URL of the sockJS bridge.
 
 === Writing to a SockJS socket over the event bus
 
@@ -3255,6 +3261,7 @@ SOCKET_CREATED:: This event will occur when a new SockJS socket is created.
 SOCKET_IDLE:: This event will occur when SockJS socket is on idle for longer period of time than initially configured.
 SOCKET_PING:: This event will occur when the last ping timestamp is updated for the SockJS socket.
 SOCKET_CLOSED:: This event will occur when a SockJS socket is closed.
+SOCKET_ERROR:: This event will occur when an underlying transport errors.
 SEND:: This event will occur when a message is attempted to be sent from the client to the server.
 PUBLISH:: This event will occur when a message is attempted to be published from the client to the server.
 RECEIVE:: This event will occur when a message is attempted to be delivered from the server to the client.
@@ -3274,7 +3281,7 @@ The raw message is a JSON object with the following structure:
 }
 ----
 
-NOTE: `SOCKET_CLOSED` events may include a message. In this case inspecting the type property, may introduce a new kind
+NOTE: `SOCKET_ERROR` events may include a message. In this case inspecting the type property, may introduce a new kind
 of message. A `err` message. This is a synthetic message generated when there is a socket exception. The message will
 follow the bridge wire protocol and look like this:
 
@@ -3572,7 +3579,7 @@ OAuth2AuthHandler oauth2 = OAuth2AuthHandler
   .create(vertx, authProvider, "https://myserver.com/callback");
 
 // setup the callback handler for receiving the GitHub callback
-oauth2.setupCallback(router.route());
+oauth2.setupCallback(router.route("/callback"));
 
 // protect everything under /protected
 router.route("/protected/*").handler(oauth2);
@@ -3673,7 +3680,7 @@ OAuth2AuthHandler oauth2 = OAuth2AuthHandler
   .create(vertx, provider, "https://myserver.com:8447/callback");
 
 // now allow the handler to setup the callback url for you
-oauth2.setupCallback(router.route());
+oauth2.setupCallback(router.route("/callback"));
 ----
 
 In the example the route object is created inline by `Router.route()` however if you want to have full control of the
@@ -3700,7 +3707,10 @@ router.route()
   .handler(SessionHandler.create(LocalSessionStore.create(vertx)));
 // we now protect the resource under the path "/protected"
 router.route("/protected").handler(
-  OAuth2AuthHandler.create(vertx, authProvider)
+  OAuth2AuthHandler.create(
+    vertx,
+      authProvider,
+      "http://localhost:8080/callback")
     // we now configure the oauth2 handler, it will
     // setup the callback handler
     // as expected by your oauth2 provider.
@@ -4004,6 +4014,153 @@ must go over HTTPS.
 
 WARNING: WebAuthN requires HTTPS with a working TLS certificate, you can use self signed certiticates too during
 development.
+
+=== One Time Password (Multi-Factor Authentication)
+
+Vert.x also supports multi factor authentication. There are two options to work with MFA:
+
+* `HOTP` - Hash Based One Time Password
+* `TOTP` - Time Based One Time Password
+
+The usage is the same across providers, for this reason a single handler is present that allows you to select the
+desired mode at the constructor level.
+
+The behavior of this handler can be seen as:
+
+If there is no `link:../../apidocs/io/vertx/ext/auth/User.html[User]` in the current request, then it is assumed that no previous authentication has been
+performed. This implies that the request will be immediately terminated with status code 401.
+
+If a user is present and the object lacks the property `mfa` with a matching type (`hotp`/`totp`), the request will
+be redirected to the verification url (if provided), otherwise it will be terminated. Such url should provide a way
+to enter the code, for example:
+
+[source,html]
+----
+<html>
+<head>
+ <meta charset="UTF-8">
+ <title>OTP Authenticator Verification Example Page</title>
+</head>
+<body>
+<form action="/otp/verify" method="post" enctype="multipart/form-data">
+ <div>
+   <label>Code:</label>
+   <input type="text" name="code"/><br/>
+ </div>
+ <div>
+   <input type="submit" value="Submit"/>
+ </div>
+</form>
+</body>
+</html>
+
+----
+
+After the user enters the valid code, the request redirects to the initial url or to `/` if no original url is known.
+
+Of course this flow assumes that authenticator applications or devices have been already configured. In order to
+configure a new application/device, an example HTML page could be:
+
+[source,html]
+----
+<html>
+<head>
+ <title>OTP Authenticator Registration Example Page</title>
+</head>
+<body>
+ <p>Scan this QR Code in Google Authenticator</p>
+ <img id="qrcode">
+ <p>- or enter this key manually -</p>
+ <span id="url"></span>
+
+ <script>
+ const key = document.getElementById('url');
+ const qrcode = document.getElementById('qrcode');
+
+ fetch(
+   '/otp/register',
+   {
+     method: 'POST',
+     headers: {
+       'Accept': 'application/json'
+     }
+   })
+   .then(res => {
+     if (res.status === 200) {
+       return res;
+     }
+     throw new Error(res.statusText);
+   })
+   .catch(err => console.error(err))
+   .then(res => res.json())
+   .then(json => {
+     key.innerText = json.url;
+     qrcode.src =
+       'https://chart.googleapis.com/chart?chs=166x166&chld=L|0&cht=qr&chl=' +
+       encodeURIComponent(json.url);
+   });
+ </script>
+</body>
+</html>
+----
+
+The important bit in this example is that the script makes a `POST` request to the configured registration callback.
+Again this callback will return status code 401 if there is no user already authenticated in the request. On success a
+JSON document is returned with a url, and a few extra metadata. This url should be used to configure the authenticator,
+either by manually entering it on the application or by rendering a QR code. Rendering of QR codes can be done both on
+the backend or on the frontend. For the sake of simplicity, this example makes use of the google charts API to render
+it on the browser.
+
+Finally, this is how you would use the handler in your vert.x application:
+
+[source,java]
+----
+router.post()
+  .handler(BodyHandler.create());
+// add a session handler (OTP requires state)
+router.route()
+  .handler(SessionHandler
+    .create(LocalSessionStore.create(vertx))
+    .setCookieSameSite(CookieSameSite.STRICT));
+
+// add the first authentication mode, for example HTTP Basic Authentication
+router.route()
+  .handler(basicAuthHandler);
+
+final OtpAuthHandler otp = OtpAuthHandler
+  .create(TotpAuth.create()
+    .authenticatorFetcher(authr -> {
+      // fetch authenticators from a database
+      // ...
+      return Future.succeededFuture(new io.vertx.ext.auth.otp.Authenticator());
+    })
+    .authenticatorUpdater(authr -> {
+      // update or insert authenticators from a database
+      // ...
+      return Future.succeededFuture();
+    }));
+
+otp
+  // the issuer for the application
+  .issuer("Vert.x Demo")
+  // handle code verification responses
+  .verifyUrl("/verify-otp.html")
+  // handle registration of authenticators
+  .setupRegisterCallback(router.post("/otp/register"))
+  // handle verification of authenticators
+  .setupCallback(router.post("/otp/verify"));
+
+// secure the rest of the routes
+router.route()
+  .handler(otp);
+
+// To view protected details, user must be authenticated and
+// using 2nd factor authentication
+router.get("/protected")
+  .handler(ctx -> {
+    ctx.end("Super secret content");
+  });
+----
 
 === Handling HTTP Method overriding
 

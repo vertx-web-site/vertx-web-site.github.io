@@ -28,7 +28,7 @@ Maven users should add this to their project POM file:
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-micrometer-metrics</artifactId>
- <version>4.1.5</version>
+ <version>4.2.0</version>
 </dependency>
 <dependency>
  <groupId>io.micrometer</groupId>
@@ -41,7 +41,7 @@ And Gradle users, to their build file:
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-micrometer-metrics:4.1.5'
+compile 'io.vertx:vertx-micrometer-metrics:4.2.0'
 compile 'io.micrometer:micrometer-registry-influx:${micrometer.version}'
 ----
 
@@ -99,7 +99,7 @@ Maven users should add this to their project POM file:
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-micrometer-metrics</artifactId>
- <version>4.1.5</version>
+ <version>4.2.0</version>
 </dependency>
 <dependency>
  <groupId>io.micrometer</groupId>
@@ -112,7 +112,7 @@ And Gradle users, to their build file:
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-micrometer-metrics:4.1.5'
+compile 'io.vertx:vertx-micrometer-metrics:4.2.0'
 compile 'io.micrometer:micrometer-registry-prometheus:${micrometer.version}'
 ----
 
@@ -171,7 +171,7 @@ Maven users should add this to their project POM file:
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-micrometer-metrics</artifactId>
- <version>4.1.5</version>
+ <version>4.2.0</version>
 </dependency>
 <dependency>
  <groupId>io.micrometer</groupId>
@@ -184,7 +184,7 @@ And Gradle users, to their build file:
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-micrometer-metrics:4.1.5'
+compile 'io.vertx:vertx-micrometer-metrics:4.2.0'
 compile 'io.micrometer:micrometer-registry-jmx:${micrometer.version}'
 ----
 
@@ -489,6 +489,26 @@ registry.config().meterFilter(
 ----
 
 NOTE: Matchers use MeterFilters under the hood.
+
+=== Custom tags provider
+
+You can define a function that generates additional tags (or labels) for HTTP server metrics.
+Such function takes an `link:../../apidocs/io/vertx/core/spi/observability/HttpRequest.html[HttpRequest]` object as a parameter, and returns
+an Iterable of `link:../../apidocs/io/micrometer/core/instrument/Tag.html[Tag]`.
+
+As an example, here is how to map the _x-user_ header to a custom label _user_:
+
+[source,java]
+----
+Vertx vertx = Vertx.vertx(new VertxOptions().setMetricsOptions(
+  new MicrometerMetricsOptions()
+    .setPrometheusOptions(new VertxPrometheusOptions().setEnabled(true))
+    .setRequestsTagsProvider(req -> {
+      String user = req.headers().get("x-user");
+      return Collections.singletonList(Tag.of("user", user));
+    })
+    .setEnabled(true)));
+----
 
 === Snapshots
 

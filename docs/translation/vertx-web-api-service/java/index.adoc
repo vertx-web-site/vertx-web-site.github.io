@@ -20,13 +20,13 @@ To use Vert.x API Service, add the following dependency to the _dependencies_ se
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-codegen</artifactId>
- <version>4.1.5</version>
+ <version>4.2.0</version>
  <classifier>processor</classifier>
 </dependency>
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-web-api-service</artifactId>
- <version>4.1.5</version>
+ <version>4.2.0</version>
 </dependency>
 ----
 
@@ -35,8 +35,8 @@ To use Vert.x API Service, add the following dependency to the _dependencies_ se
 [source,groovy,subs="+attributes"]
 ----
 dependencies {
- compile 'io.vertx:vertx-codegen:4.1.5:processor'
- compile 'io.vertx:vertx-web-api-service:4.1.5'
+ compile 'io.vertx:vertx-codegen:4.2.0:processor'
+ compile 'io.vertx:vertx-web-api-service:4.2.0'
 }
 ----
 
@@ -45,9 +45,9 @@ dependencies {
 [source,groovy,subs="+attributes"]
 ----
 dependencies {
- annotationProcessor 'io.vertx:vertx-codegen:4.1.5:processor'
- annotationProcessor 'io.vertx:vertx-web-api-service:4.1.5'
- compile 'io.vertx:vertx-web-api-service:4.1.5'
+ annotationProcessor 'io.vertx:vertx-codegen:4.2.0:processor'
+ annotationProcessor 'io.vertx:vertx-web-api-service:4.2.0'
+ compile 'io.vertx:vertx-web-api-service:4.2.0'
 }
 ----
 
@@ -157,8 +157,9 @@ You can also use `link:../../apidocs/io/vertx/ext/web/validation/RequestParamete
 void putTransaction(RequestParameter body, ServiceRequest context, Handler<AsyncResult<ServiceResponse>> resultHandler);
 ----
 
-
 We encourage to extract with `link:../../apidocs/io/vertx/ext/web/validation/RequestParameter.html[RequestParameter]` type the parameters that uses json schema allOf/anyOf/oneOf/not keywords because the extraction can produce undefined behaviours.
+
+NOTE: When working with `DataObjects` by default `base64` strings are handled with the `base64url` alphabet, while OpenAPI does not mandate this alphabet so it assumes `basic`. To force a `DataObject` to use a specific alphabet this can be configured in the `@DataObject` annotation.
 
 == Implement your Web API Service
 

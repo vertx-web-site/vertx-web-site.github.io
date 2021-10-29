@@ -35,7 +35,7 @@ To use the Vert.x Redis client, add the following dependency to the _dependencie
 <dependency>
 <groupId>io.vertx</groupId>
 <artifactId>vertx-redis-client</artifactId>
-<version>4.1.5</version>
+<version>4.2.0</version>
 </dependency>
 ----
 
@@ -43,16 +43,17 @@ To use the Vert.x Redis client, add the following dependency to the _dependencie
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-redis-client:4.1.5'
+compile 'io.vertx:vertx-redis-client:4.2.0'
 ----
 
 == Connecting to Redis
 
-The Redis client can operate in 3 distinct modes:
+The Redis client can operate in 4 distinct modes:
 
 * Simple client (probably what most users need).
 * Sentinel (when working with Redis in High Availability mode).
 * Cluster (when working with Redis in Clustered mode).
+* Replication (single shard, one node write, multiple read).
 
 The connection mode is selected by the factory method on the Redis interface. Regardless of the mode the client can be
 configured using a `link:../../apidocs/io/vertx/redis/client/RedisOptions.html[RedisOptions]` data object. By default, some configuration values are
@@ -192,6 +193,34 @@ recommended to read redis manual in order to understand how clustering works. Th
 a best effort to identify which slot is used by the executed command in order to execute it on the right node. There
 could be cases where this isn't possible to identify and in that case as a best effort the command will be run on a
 random node.
+
+== Replication Mode
+
+Working with replication is transparent to the client. Acquiring a connection is an expensive operation. The client will loop the provided endpoints until the master node is found. Once the master node is identified (this is the node where all write commands will be executed) a best effort is done to connect to all replica nodes (the read nodes).
+
+With all node knowledge the client will now filter operations that perform read or writes to the right node type. Note that the `useReplica` configuration affects this choice. Just like with clustering, when the configuration states that the use of replica nodes is `ALWAYS` then any  read operation will be performed on a replica node, `SHARED` will randomly share the read between master and replicas and finally `NEVER` means that replicas are never to be used.
+
+The recommended usage of this mode, given the connection acquisition cost, is to re-use the connection as long as the application may need it.
+
+[source,java]
+----
+Redis.createClient(
+  vertx,
+  new RedisOptions()
+    .setType(RedisClientType.REPLICATION)
+    .addConnectionString("redis://localhost:7000")
+    .setMaxPoolSize(4)
+    .setMaxPoolWaiting(16))
+  .connect()
+  .onSuccess(conn -> {
+    // this is a replication client.
+    // write operations will end up in the master node
+    conn.send(Request.cmd(Command.SET).arg("key").arg("value"));
+    // and read operations will end up in the replica nodes if available
+    conn.send(Request.cmd(Command.GET).arg("key"));
+  });
+----
+
 
 == Pub/Sub mode
 
@@ -340,6 +369,9 @@ class RedisVerticle extends AbstractVerticle {
         });
         // allow further processing
         promise.complete(conn);
+      })
+      .onFailure(t -> {
+        promise.fail(t);
       });
 
     return promise.future();

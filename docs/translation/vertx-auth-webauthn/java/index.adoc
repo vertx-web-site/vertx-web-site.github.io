@@ -11,7 +11,7 @@ descriptor:
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-auth-webauthn</artifactId>
- <version>4.1.5</version>
+ <version>4.2.0</version>
 </dependency>
 ----
 
@@ -19,7 +19,7 @@ descriptor:
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-auth-webauthn:4.1.5'
+compile 'io.vertx:vertx-auth-webauthn:4.2.0'
 ----
 
 https://developer.mozilla.org/en-US/docs/Web/API/Web_Authentication_API[WebAuthn (Web Authentication)] is a web standard
@@ -73,7 +73,7 @@ To simplify the usage of the API a simple JavaScript client application is provi
  <artifactId>vertx-auth-webauthn</artifactId>
  <classifier>client</classifier>
  <type>js</type>
- <version>4.1.5</version>
+ <version>4.2.0</version>
 </dependency>
 ----
 
@@ -81,7 +81,7 @@ To simplify the usage of the API a simple JavaScript client application is provi
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-auth-webauthn:4.1.5:client@js'
+compile 'io.vertx:vertx-auth-webauthn:4.2.0:client@js'
 ----
 
 The script should be used in cooperation with vertx-web as it handles the API interaction between the web layer and the
@@ -309,18 +309,15 @@ final WebAuthnOptions webAuthnOptions = new WebAuthnOptions()
   // in order to fully trust the MDS tokens we should load the CRLs as
   // described on https://fidoalliance.org/metadata/
 
-  // here the content of: http://mds.fidoalliance.org/Root.crl
+  // here the content of: http://crl.globalsign.net/Root.crl
   .addRootCrl(
-    "MIIB1jCCAV0CAQEwCg...")
-  // here the content of: http://mds.fidoalliance.org/CA-1.crl
-  .addRootCrl(
-    "MIIB5DCCAYoCAQEwCg...");
+    "MIIB1jCCAV0CAQEwCg...");
 
 // create the webauthn security object like before
 final WebAuthn webAuthN = WebAuthn.create(vertx, webAuthnOptions);
 
 webAuthN.metaDataService()
-  .fetchTOC("https://mds2.fidoalliance.org/?token=your-access-token-string")
+  .fetchTOC()
   .onSuccess(allOk -> {
     // if all metadata was downloaded and parsed correctly allOk is true
     // the processing will not stop if a entry is corrupt, in that case that

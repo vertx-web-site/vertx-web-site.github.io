@@ -15,7 +15,7 @@ Add the following dependency to your maven project
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-rabbitmq-client</artifactId>
- <version>4.1.5</version>
+ <version>4.2.0</version>
 </dependency>
 ----
 
@@ -26,7 +26,7 @@ Add the following dependency to your gradle project
 [source,groovy,subs="+attributes"]
 ----
 dependencies {
- compile 'io.vertx:vertx-rabbitmq-client:4.1.5'
+ compile 'io.vertx:vertx-rabbitmq-client:4.2.0'
 }
 ----
 
