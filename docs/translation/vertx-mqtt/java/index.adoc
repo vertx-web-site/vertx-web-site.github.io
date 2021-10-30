@@ -31,7 +31,7 @@ compile io.vertx:vertx-mqtt:4.2.0
 它的API提供了一系列接收客户端原生协议消息的事件，
 并且提供了一些发送信息到客户端的功能。
 
-At the moment of writing, it supports all MQTT version 5.0 features except AUTH message which is yet to be implemented.
+在该文档编写时，该组件支持 MQTT 协议的 5.0 版本除 AUTH 消息外的所有消息类型（AUTH 消息还未实现）。
 
 它不是一个功能齐全的 MQTT broker，但可以用来建立类似的东西或者进行协议转换。
 
@@ -48,7 +48,7 @@ WARNING: 这个模块还处于技术预览阶段,这意味着它的API在接下�
 然后使用 endpointHandler 方法指定一个处理器来处理远程客户端发送的CONNECT信息，一个 `link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html[MqttEndpoint]`
 实例会作为 handler 的参数传入，它携带了所有与CONNECT消息相关联的主要信息，例如客户端标识符，
 用户名/密码，"will"信息，session 清除标志，协议版本,保活超时，
-and CONNECT message properties (for MQTT version 5.0)等。
+和 CONNECT 消息中的消息属性 (对应于 MQTT 协议的 5.0 版本)等。
 在 handler 内, _endpoint_ 实例提供 accept 方法以相应的 CONNACK 消息响应远程客户端，
 通过这种方式，成功建立连接。
 最后，通过 `link:../../apidocs/io/vertx/mqtt/MqttServer.html#listen-io.vertx.core.Handler-[listen]`
@@ -104,8 +104,8 @@ endpoint.disconnectMessageHandler(disconnectMessage -> {
 });
 ----
 
-If MQTT version 5.0 or newer is used server can send DISCONNECT message to client with the reason code and properties
-using `link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html#disconnect-io.vertx.mqtt.messages.codes.MqttDisconnectReasonCode-io.netty.handler.codec.mqtt.MqttProperties-[disconnect]`.
+如果您想使用 MQTT 协议的 5.0 或更高的版本中服务端可以发送 DISCONNECT 消息并指定断开连接的原因代码和属性给客户端的特性，
+可以使用 `link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html#disconnect-io.vertx.mqtt.messages.codes.MqttDisconnectReasonCode-io.netty.handler.codec.mqtt.MqttProperties-[disconnect]`。
 
 
 [[_handling_client_connectiondisconnection_with_ssltls_support]]
@@ -189,11 +189,11 @@ vertx.deployVerticle("com.mycompany.MyVerticle", options);
 `link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html#subscribeHandler-io.vertx.core.Handler-[subscribeHandler]`
 方法来指定一个 handler 处理到来的订阅请求，这个 handler 接收一个 `link:../../apidocs/io/vertx/mqtt/messages/MqttSubscribeMessage.html[MqttSubscribeMessage]` 类型的实例，
 该实例携带了主题列表以及客户端指定的订阅配置。
-Subscription options include QoS level and related flags and for MQTT version 5.0 also additional flags,
-such as `noLocal` and `retainAsPublished`.
+订阅消息的选项包括了 QoS 等级，其他标记位和 MQTT 协议 5.0 版本新添加的标记位，
+例如 `noLocal` 和 `retainAsPublished`。
 最后，这个 endpoint 实例提供了 `link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html#subscribeAcknowledge-int-java.util.List-[subscribeAcknowledge]`
-方法来回复一个包含原因代码 (which is either QoS level or error code - separate per each topic or pattern)
-and message properties的 SUBACK 消息给客户端。
+方法来回复一个包含原因代码 (可能是 QoS 等级或错误原因代码 - 每个主题或主题模式都有一个)
+和消息属性的 SUBACK 消息给客户端。
 
 [source,java]
 ----
@@ -215,8 +215,8 @@ endpoint.subscribeHandler(subscribe -> {
 `link:../../apidocs/io/vertx/mqtt/messages/MqttUnsubscribeMessage.html[MqttUnsubscribeMessage]` 类型实例作为参数。
 最后，这个 endpoint 实例提供了 `link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html#unsubscribeAcknowledge-int-[unsubscribeAcknowledge]` 和
 `link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html#unsubscribeAcknowledge-int-java.util.List-io.netty.handler.codec.mqtt.MqttProperties-[unsubscribeAcknowledge]`
-方法来回复客户端相关的UNSUBACK消息 - either simply acknowledging all unsubscriptions, or specifying
-the reasons per each topic and the properties in the UNSUBSCRIBE request (supported in MQTT v 5.0 or later)。
+方法来回复客户端相关的 UNSUBACK 消息 - 可能是简单地确认所有的取消订阅成功，或者根据每个
+主题或主题模式指定原因代码和 UNSUBSCRIBE 请求中的消息属性(在 MQTT 协议的 5.0 或更高版本中支持)。
 
 [source,java]
 ----
@@ -236,9 +236,9 @@ endpoint.unsubscribeHandler(unsubscribe -> {
 为了处理远程客户端发布的消息，`link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html[MqttEndpoint]` 接口提供了
 `link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html#publishHandler-io.vertx.core.Handler-[publishHandler]` 方法来指定一个 handler,
 这个handler接收一个 `link:../../apidocs/io/vertx/mqtt/messages/MqttPublishMessage.html[MqttPublishMessage]` 类型的实例作为参数，该实例
-包含了载荷信息，QoS 等级以及复制和保留标识，message properties。
+包含了载荷信息，QoS 等级，复制和保留标识和消息属性。
 
-If the QoS level is 0 (AT_MOST_ONCE), there is no need from the endpoint to reply the client.
+如果 QoS 等级是 0 (AT_MOST_ONCE), 那么服务端没有必要回复客户端。
 
 如果 QoS 等级是 1（AT_LEAST_ONCE），endpoint 需要使用
 `link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html#publishAcknowledge-int-[publishAcknowledge]` 或者
@@ -249,8 +249,8 @@ If the QoS level is 0 (AT_MOST_ONCE), there is no need from the endpoint to repl
 `link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html#publishReceived-int-io.vertx.mqtt.messages.codes.MqttPubRecReasonCode-io.netty.handler.codec.mqtt.MqttProperties-[publishReceived]` 方法回复一个PUBREC消息给客户端。 在这种情况下，
 这个 endpoint 同时也要通过
 `link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html#publishReleaseHandler-io.vertx.core.Handler-[publishReleaseHandler]` 或者
-`link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html#publishReleaseMessageHandler-io.vertx.core.Handler-[publishReleaseMessageHandler]` 指定一个 handler 来处理来自客户端的PUBREL（远程客户端接收到 endpoint 发送的 PUBREC 后发送的）消息 - depending on whether the server needs
-access to MQTT version 5.0 extended capabilities (reason code, message properties).
+`link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html#publishReleaseMessageHandler-io.vertx.core.Handler-[publishReleaseMessageHandler]` 指定一个 handler 来处理来自客户端的PUBREL（远程客户端接收到 endpoint 发送的 PUBREC 后发送的）消息 - 取决于服务端是否需要
+使用 MQTT 协议 5.0 版本扩充的内容 (原因代码和消息属性)。
 为了结束 QoS 等级为2的消息的传递，endpoint 可以使用 `link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html#publishComplete-int-[publishComplete]`
 或者 `link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html#publishComplete-int-io.vertx.mqtt.messages.codes.MqttPubCompReasonCode-io.netty.handler.codec.mqtt.MqttProperties-[publishComplete]` 方法发送一个 PUBCOMP 消息给客户端。
 
@@ -278,9 +278,9 @@ endpoint.publishHandler(message -> {
 可以使用 `link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html#publish-java.lang.String-io.vertx.core.buffer.Buffer-io.netty.handler.codec.mqtt.MqttQoS-boolean-boolean-[publish]`
 方法发布一个消息到远程客户端，
 该方法需要补充一下参数：发布主题，消息载荷，QoS 等级，复制和保留标识。
-If you're using MQTT version 5.0 or newer and you'd like to specify message properties you can use
+如果您使用了 MQTT 协议的 5.0 或更高版本，并且想要指定消息属性，那么可以使用
 `link:../../apidocs/io/vertx/mqtt/MqttEndpoint.html#publish-java.lang.String-io.vertx.core.buffer.Buffer-io.netty.handler.codec.mqtt.MqttQoS-boolean-boolean-int-io.netty.handler.codec.mqtt.MqttProperties-[publish]`
-method instead which takes message ID and message properties in addition to the previously described method.
+方法来代替，相比之前介绍的方法，它还可以指定消息 ID 和消息属性。
 
 如果 QoS 等级是 0（AT_MOST_ONCE），endpoint 就不会收到任何客户端的响应
 
