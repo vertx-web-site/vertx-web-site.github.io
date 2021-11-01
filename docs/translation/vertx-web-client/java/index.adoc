@@ -299,7 +299,7 @@ client
   });
 ----
 
-如果你想上传文件的同时发送属性，您可以创建一个 `link:../../apidocs/io/vertx/ext/web/multipart/MultipartForm.html[MultipartForm]` ，然后使用
+如果您想上传文件的同时发送属性，您可以创建一个 `link:../../apidocs/io/vertx/ext/web/multipart/MultipartForm.html[MultipartForm]` ，然后使用
 `link:../../apidocs/io/vertx/ext/web/client/HttpRequest.html#sendMultipartForm-io.vertx.ext.web.multipart.MultipartForm-io.vertx.core.Handler-[sendMultipartForm]` 。
 
 [source,java]
@@ -454,7 +454,7 @@ client
 [[_handling_http_responses]]
 == 处理HTTP响应
 
-Web Client请求发送之后，您总是在单个 `link:../../apidocs/io/vertx/ext/web/client/HttpResponse.html[HttpResponse]` 中处理单个异步结果 。
+Web Client 请求发送之后，您总是在单个 `link:../../apidocs/io/vertx/ext/web/client/HttpResponse.html[HttpResponse]` 中处理单个异步结果 。
 
 当响应被成功接收到之后，相应的回调函数将会被调用。
 
@@ -471,9 +471,9 @@ client
 
 [CAUTION]
 ====
-默认状况下，仅当在网络级别发生错误时，Vert.x Web Client请求才以错误结尾。
-换言之，`404 Not Found` 响应或错误content type的响应，*不* 被视为失败。
-Use <<response-predicates, 响应谓词>> if you want the Web Client to perform sanity checks automatically.
+默认状况下，仅当在网络级别发生错误时，Vert.x Web Client 请求才以错误结尾。
+换言之，`404 Not Found` 响应或错误 content type 的响应，*不* 被视为失败。
+如果您想要 Web Client 自动进行合理性检，可以使用 <<response-predicates, 响应谓词>> 。
 ====
 
 WARNING: 响应会被完全缓冲，请使用 `link:../../apidocs/io/vertx/ext/web/codec/BodyCodec.html#pipe-io.vertx.core.streams.WriteStream-[BodyCodec.pipe]`
@@ -539,7 +539,7 @@ client
     System.out.println("Something went wrong " + err.getMessage()));
 ----
 
-When large response are expected, use the `link:../../apidocs/io/vertx/ext/web/codec/BodyCodec.html#pipe-io.vertx.core.streams.WriteStream-[BodyCodec.pipe]`.
+如果返回数据非常大，则应该使用 `link:../../apidocs/io/vertx/ext/web/codec/BodyCodec.html#pipe-io.vertx.core.streams.WriteStream-[BodyCodec.pipe]` 方法。
 这个编码器将响应缓存泵入到  `link:../../apidocs/io/vertx/core/streams/WriteStream.html[WriteStream]` 中，
 并且在异步结果响应中，发出操作成功或失败的信号。
 
@@ -827,11 +827,13 @@ WebClient client = WebClient
 
 NOTE: 出于安全原因，客户端不会使用除了GET或HEAD的方法来跟随着重定向请求
 
-== HTTP response caching
+[[_http_response_caching]]
+== HTTP 响应缓存
 
-Vert.x web offers an HTTP response caching facility; to use it, you create a `link:../../apidocs/io/vertx/ext/web/client/CachingWebClient.html[CachingWebClient]`.
+Vert.x web 提供了一个可以缓存 HTTP 响应的实现， 您可以创建一个 `link:../../apidocs/io/vertx/ext/web/client/CachingWebClient.html[CachingWebClient]`。
 
-=== Creating a caching web client
+[[_creating_a_caching_web_client]]
+=== 创建一个带缓存的 web client
 
 [source,java]
 ----
@@ -839,12 +841,13 @@ WebClient client = WebClient.create(vertx);
 WebClient cachingWebClient = CachingWebClient.create(client);
 ----
 
-=== Configuring what is cached
+[[_configuring_what_is_cached]]
+=== 配置缓存内容
 
-By default, a caching web client will only cache a response from a `GET` method that has a status code of `200`, `301`, or `404`.
-Additionally, responses that contain a `Vary` header will not be cached by default.
+默认情况下，带缓存的 web client 指挥缓存通过 `GET` 方法返回的状态值为 `200`, `301`, 或 `404` 的响应内容。
+并且默认情况下，带有 `Vary` 头部的响应不会被缓存。
 
-This can be configured by passing `link:../../apidocs/io/vertx/ext/web/client/CachingWebClientOptions.html[CachingWebClientOptions]` during client creation.
+您可以在创建客户端时，通过传入一个 `link:../../apidocs/io/vertx/ext/web/client/CachingWebClientOptions.html[CachingWebClientOptions]` 实例来配置缓存策略。
 
 [source,java]
 ----
@@ -857,13 +860,14 @@ WebClient client = WebClient.create(vertx);
 WebClient cachingWebClient = CachingWebClient.create(client, options);
 ----
 
-Responses that contain the `private` directive in the `Cache-Control` header will not be cached unless the client is also
-a `link:../../apidocs/io/vertx/ext/web/client/WebClientSession.html[WebClientSession]`. See <<_handling_private_responses>>.
+如果响应的 `Cache-Control` 头部内容为 `private` 策略，那么该响应不会被缓存，除非
+该 web client 是一个 `link:../../apidocs/io/vertx/ext/web/client/WebClientSession.html[WebClientSession]`。 请参阅 <<_handling_private_responses>> 。
 
-=== Providing an external store
+[[_providing_an_external_store]]
+=== 使用别的储存实现
 
-When storing responses, the default caching client will use a local `Map`.You may provide your own store implementation to store responses.
-To do so, implement `link:../../apidocs/io/vertx/ext/web/client/spi/CacheStore.html[CacheStore]`, and then you can provide it when creating your client.
+默认情况下， 带缓存的客户端使用一个本地的 `Map` 来保存响应。 您也可以使用您自己的储存实现类来保存响应内容。
+您需要实现 `link:../../apidocs/io/vertx/ext/web/client/spi/CacheStore.html[CacheStore]` 接口，并且在创建客户端时指定使用您自己的实现类。
 
 [source,java]
 ----
@@ -872,16 +876,17 @@ CacheStore store = new NoOpCacheStore(); // or any store you like
 WebClient cachingWebClient = CachingWebClient.create(client, store);
 ----
 
-=== Handling private responses
+[[_handling_private_responses]]
+=== 处理私有响应
 
-To enable private response caching, the `link:../../apidocs/io/vertx/ext/web/client/CachingWebClient.html[CachingWebClient]` can be combined with the
-`link:../../apidocs/io/vertx/ext/web/client/WebClientSession.html[WebClientSession]`. When this is done, public responses, those with the `public` directive
-in the `Cache-Control` header, will be cached in the `link:../../apidocs/io/vertx/ext/web/client/spi/CacheStore.html[CacheStore]` the client was
-created with. Private responses, those with the `private` directive in the `Cache-Control` header, will be cached in
-with the session to ensure the cached response is not leaked to other users (sessions).
+为了缓存私有响应， `link:../../apidocs/io/vertx/ext/web/client/CachingWebClient.html[CachingWebClient]` 可以与
+`link:../../apidocs/io/vertx/ext/web/client/WebClientSession.html[WebClientSession]` 结合。执行以下代码，那些在 `Cache-Control` 头部中指定为 `public` 缓存策略的
+响应，会被缓存到和 web client 一起创建的 `link:../../apidocs/io/vertx/ext/web/client/spi/CacheStore.html[CacheStore]`
+中。 私有响应，也就是 `Cache-Control` 头部中指定为 `private` 缓存策略的响应，会被缓存到
+会话中，以确保缓存的响应不会被泄露给其他用户（会话）。
 
-To create a client that can cache private responses, pass a `link:../../apidocs/io/vertx/ext/web/client/CachingWebClient.html[CachingWebClient]` to
-a `link:../../apidocs/io/vertx/ext/web/client/WebClientSession.html[WebClientSession]`.
+要创建一个可以缓存私有响应的客户端，需要传入一个 `link:../../apidocs/io/vertx/ext/web/client/CachingWebClient.html[CachingWebClient]`
+给 `link:../../apidocs/io/vertx/ext/web/client/WebClientSession.html[WebClientSession]`。
 
 [source,java]
 ----
@@ -944,7 +949,7 @@ WebClientSession session = WebClientSession.create(client);
 === 发出请求
 
 一旦创建， `link:../../apidocs/io/vertx/ext/web/client/WebClientSession.html[WebClientSession]` 可以代替
-`link:../../apidocs/io/vertx/ext/web/client/WebClient.html[WebClient]` 去做HTTP(s) 请求并且自动管理你正在调用的，
+`link:../../apidocs/io/vertx/ext/web/client/WebClient.html[WebClient]` 去做HTTP(s) 请求并且自动管理您正在调用的，
 从服务器收到的所有cookie。
 
 [[_setting_session_level_headers]]
@@ -959,18 +964,20 @@ session.addHeader("my-jwt-token", jwtToken);
 ----
 
 然后headers将被添加到每个请求中； 注意 这些headers将发送给所有主机；
-如果你需要发送不同的headers到不同的主机， 您必须将它们手动添加到每个单个请求中，并且不添加到
+如果您需要发送不同的 headers 到不同的主机， 您必须将它们手动添加到每个单个请求中，并且不添加到
 `link:../../apidocs/io/vertx/ext/web/client/WebClientSession.html[WebClientSession]` 。
 
-== OAuth2 security
+[[_oauth2_security]]
+== OAuth2 安全
 
-Vert.x web offers a web session management facility; to use it, you create a
-`link:../../apidocs/io/vertx/ext/web/client/OAuth2WebClient.html[OAuth2WebClient]` for every user (session) and use it instead of the
-`link:../../apidocs/io/vertx/ext/web/client/WebClient.html[WebClient]`.
+Vert.x web 提供了 web 会话管理的功能； 您可以给每个用户（会话）创建一个
+`link:../../apidocs/io/vertx/ext/web/client/OAuth2WebClient.html[OAuth2WebClient]`，并且用其来替代
+`link:../../apidocs/io/vertx/ext/web/client/WebClient.html[WebClient]`。
 
-=== Creating an Oauth2 Client
+[[_creating_an_oauth2_client]]
+=== 创建一个 Oauth2 客户端
 
-You create a `link:../../apidocs/io/vertx/ext/web/client/OAuth2WebClient.html[OAuth2WebClient]` instance as follows
+您可以用以下代码创建一个 `link:../../apidocs/io/vertx/ext/web/client/OAuth2WebClient.html[OAuth2WebClient]` 的实例：
 
 [source,java]
 ----
@@ -984,8 +991,8 @@ OAuth2WebClient oauth2 = OAuth2WebClient.create(
   .withCredentials(new TokenCredentials("some.jwt.token"));
 ----
 
-Client's can also take advantage of OpenId Service discovery to fully configure the client, for example to connect to
-a real keycloak server one can just do:
+客户端也可以使用 OpenId 服务发现来进行配置，例如通过以下操作来
+连接一个 keycloak 服务器：
 
 [source,java]
 ----
@@ -1002,16 +1009,17 @@ KeycloakAuth.discover(
   });
 ----
 
+[[_making_requests_3]]
+=== 发送请求
 
-=== Making requests
+客户端创建完毕后， 就可以使用 `link:../../apidocs/io/vertx/ext/web/client/OAuth2WebClient.html[OAuth2WebClient]` 来代替
+`link:../../apidocs/io/vertx/ext/web/client/WebClient.html[WebClient]` 发送 HTTP(s) 请求，并且自动管理从正在请求的服务器接收
+到的所有 cookie。
 
-Once created, a `link:../../apidocs/io/vertx/ext/web/client/OAuth2WebClient.html[OAuth2WebClient]` can be used instead of a
-`link:../../apidocs/io/vertx/ext/web/client/WebClient.html[WebClient]` to do HTTP(s) requests and automatically manage any cookies received from the server(s)
-you are calling.
+[[_avoid_expired_tokens]]
+=== 避免过期的 token
 
-=== Avoid expired tokens
-
-You can set token expiration leeway to every request as follows:
+您可以使用以下代码来给每个请求设置 token 的过期时间：
 
 [source,java]
 ----
@@ -1022,14 +1030,14 @@ OAuth2WebClient client = OAuth2WebClient.create(
       .setLeeway(5));
 ----
 
-If a request is to be performed the current active user object is checked for expiration with the extra given leeway.
-This will allow the client to perform a token refresh if needed, instead of aborting the operation with an error.
+如果要发送一个请求，那么当前正在使用的用户对象会被检查是否到达了设置的过期时间。
+如果需要的话，客户端会刷新 token，否则中止请求并抛出异常。
 
-Request may still fail due to expired tokens since the expiration calculation will still be performed at the server
-side. To reduce the work on the user side, the client can be configured to perform a **single** retry on requests that
-return status code **401** (Forbidden). When the option flag: `refreshTokenOnForbidden` is set to `true`, then the
-client will perform a new token request retry the original request before passing the response to the user
-handler/promise.
+请求仍然可能因为 token 过期而失败，这是因为服务端也会验证一遍 token 是否
+过期。 为了减少用户端的工作， 客户端可以配置为当返回的状态码为 **401** （禁止访问）时
+只进行 **单次** 重试。 当 `refreshTokenOnForbidden` 被设置为 `true` 时， 客户端会
+用一个新的 token 重试一次，再给用户返回
+handler/promise 。
 
 [source,java]
 ----
@@ -1055,7 +1063,7 @@ endif::[]
 自3.7.1后， Web Client 支持domain sockets， 例如，您可以跟 https://docs.docker.com/engine/reference/commandline/dockerd/[local Docker daemon] 交流。
 
 为了达成这个目的， `link:../../apidocs/io/vertx/core/Vertx.html[Vertx]` 实例必须使用native transport创建，
-你可以阅读Vert.x核心文档，它清楚地说明了这一点。
+您可以阅读 Vert.x 核心文档，它清楚地说明了这一点。
 
 [source,java]
 ----
