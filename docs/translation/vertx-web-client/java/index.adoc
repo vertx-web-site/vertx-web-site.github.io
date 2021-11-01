@@ -830,7 +830,7 @@ NOTE: 出于安全原因，客户端不会使用除了GET或HEAD的方法来跟�
 [[_http_response_caching]]
 == HTTP 响应缓存
 
-Vert.x web 提供了一个可以缓存 HTTP 响应的实现， 您可以创建一个 `link:../../apidocs/io/vertx/ext/web/client/CachingWebClient.html[CachingWebClient]`。
+Vert.x web 提供了一个可以缓存 HTTP 响应的实现， 您可以创建一个 `link:../../apidocs/io/vertx/ext/web/client/CachingWebClient.html[CachingWebClient]` 实例。
 
 [[_creating_a_caching_web_client]]
 === 创建一个带缓存的 web client
@@ -844,8 +844,8 @@ WebClient cachingWebClient = CachingWebClient.create(client);
 [[_configuring_what_is_cached]]
 === 配置缓存内容
 
-默认情况下，带缓存的 web client 指挥缓存通过 `GET` 方法返回的状态值为 `200`, `301`, 或 `404` 的响应内容。
-并且默认情况下，带有 `Vary` 头部的响应不会被缓存。
+默认情况下，带缓存的 web client 只会缓存通过 `GET` 方法返回的状态值为 `200`, `301`, 或 `404` 的响应内容。
+带有 `Vary` 头部的响应默认情况下也不会被缓存。
 
 您可以在创建客户端时，通过传入一个 `link:../../apidocs/io/vertx/ext/web/client/CachingWebClientOptions.html[CachingWebClientOptions]` 实例来配置缓存策略。
 
@@ -861,13 +861,13 @@ WebClient cachingWebClient = CachingWebClient.create(client, options);
 ----
 
 如果响应的 `Cache-Control` 头部内容为 `private` 策略，那么该响应不会被缓存，除非
-该 web client 是一个 `link:../../apidocs/io/vertx/ext/web/client/WebClientSession.html[WebClientSession]`。 请参阅 <<_handling_private_responses>> 。
+该 web client 是一个 `link:../../apidocs/io/vertx/ext/web/client/WebClientSession.html[WebClientSession]` 的实例。 请参阅 <<_handling_private_responses>> 。
 
 [[_providing_an_external_store]]
 === 使用别的储存实现
 
 默认情况下， 带缓存的客户端使用一个本地的 `Map` 来保存响应。 您也可以使用您自己的储存实现类来保存响应内容。
-您需要实现 `link:../../apidocs/io/vertx/ext/web/client/spi/CacheStore.html[CacheStore]` 接口，并且在创建客户端时指定使用您自己的实现类。
+您需要自己实现 `link:../../apidocs/io/vertx/ext/web/client/spi/CacheStore.html[CacheStore]` 接口，并且在创建客户端时指定使用您的实现类。
 
 [source,java]
 ----
@@ -948,9 +948,9 @@ WebClientSession session = WebClientSession.create(client);
 [[_making_requests_2]]
 === 发出请求
 
-一旦创建， `link:../../apidocs/io/vertx/ext/web/client/WebClientSession.html[WebClientSession]` 可以代替
-`link:../../apidocs/io/vertx/ext/web/client/WebClient.html[WebClient]` 去做HTTP(s) 请求并且自动管理您正在调用的，
-从服务器收到的所有cookie。
+一旦创建， `link:../../apidocs/io/vertx/ext/web/client/WebClientSession.html[WebClientSession]` 就可以代替
+`link:../../apidocs/io/vertx/ext/web/client/WebClient.html[WebClient]` 去做 HTTP(s) 请求并且自动管理从您正在调用的
+服务器收到的所有cookie。
 
 [[_setting_session_level_headers]]
 === 设置会话级别headers
@@ -963,8 +963,8 @@ WebClientSession session = WebClientSession.create(client);
 session.addHeader("my-jwt-token", jwtToken);
 ----
 
-然后headers将被添加到每个请求中； 注意 这些headers将发送给所有主机；
-如果您需要发送不同的 headers 到不同的主机， 您必须将它们手动添加到每个单个请求中，并且不添加到
+然后 headers 将被添加到每个请求中； 注意 这些 headers 将发送给所有主机；
+如果您需要发送不同的 headers 到不同的主机， 您必须将它们手动添加到每个单个请求中，并且不能添加到
 `link:../../apidocs/io/vertx/ext/web/client/WebClientSession.html[WebClientSession]` 。
 
 [[_oauth2_security]]
