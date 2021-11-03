@@ -1009,6 +1009,7 @@ KeycloakAuth.discover(
   });
 ----
 
+
 [[_making_requests_3]]
 === 发送请求
 
