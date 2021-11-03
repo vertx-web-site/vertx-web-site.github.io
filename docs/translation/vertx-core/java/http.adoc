@@ -2339,8 +2339,8 @@ Hello from i.v.e.h.s.HttpServerVerticle@2
 您不需要像编写负载均衡器那样使用任何特殊技巧去编写，
 就可以在多核机器上扩展服务器。
 
-You can bind on a shared random ports using a negative port value, the first bind will pick a port randomly, subsequent binds
-on the same port value will share this random port.
+当您指定一个负数作为绑定端口号时，服务器会共享地绑定到一个随机端口上，第一次绑定会挑选一个随机端口，之后如果端口号是
+相同的负数，那么会共享地绑定到该随机端口上。
 
 .io.vertx.examples.http.sharing.HttpServerVerticle
 [source,java]

@@ -634,13 +634,13 @@ Core 为依赖，在项目中直接使用 Vert.x。
 您也可以从命令行直接运行 Vert.x 的 Verticle。
 
 为此，您需要下载并安装 Vert.x 的发行版，并且将安装的 `bin` 目录添加到您的
-`PATH` 环境变量中，并确保您的 `PATH` 中设置了Java 的JDK环境。
+`PATH` 环境变量中，并确保您的 `PATH` 中设置了 Java 的 JDK 环境。
 
-Vert.x supports Java from 8 to 17.
+Vert.x 支持从 8 到 17 的 Java 版本。
 
-NOTE: 在 `PATH` 设置JDK是为了支持Java代码的运行时编译（on the fly compilation）。
+NOTE: 在 `PATH` 设置 JDK 是为了支持 Java 代码的运行时编译（on the fly compilation）。
 
-现在您可以使用 `vertx run` 命令运行Verticle了，下面是一些例子：
+现在您可以使用 `vertx run` 命令运行 Verticle 了，下面是一些例子：
 
 ----
 # 运行JavaScript的Verticle
@@ -963,11 +963,11 @@ NOTE: 这些配置信息在 worker pool 创建的时候设置。
 
 `vertx` 命令用于在命令行中与 Vert.x 进行交互。主要用于运行 Vert.x Verticle。
 为此，您需要下载并安装Vert.x 发行版，并将安装位置的 `bin` 目录添加
-到 `PATH` 环境变量中，还要确保您的 `PATH` 上已配置了Java的JDK的路径。
+到 `PATH` 环境变量中，还要确保您的 `PATH` 上已配置了 Java 的 JDK 的路径。
 
-Vert.x supports Java from 8 to 17.
+Vert.x 支持从 8 到 17 的 Java 版本。
 
-NOTE: `PATH` 中的JDK是用于支持Java代码的快速编译。
+NOTE: `PATH` 中的 JDK 是用于支持 Java 代码的快速编译。
 
 [[_run_verticles]]
 === 运行 Verticles
@@ -993,8 +993,8 @@ vertx run MyVerticle.java                                (6)
 5. 部署一个已经打包成jar的Verticle，这个jar需要在类路径中
 6. 编译Java源代码并进行部署
 
-正如您在Java中可看到的，该Verticle的名称可以是class文件的全限定类名，
-也可以指定Java 源文件，Vert.x会为你编译它。
+正如您在 Java 中可看到的，该Verticle 的名称可以是 class 文件的全限定类名，
+也可以指定 Java 源文件，Vert.x 会为您编译它。
 
 您可以在Verticle的名称前添加其他语言名称作为前缀来进行部署。例如：
 若某个Verticle是Groovy编译的类，您可以使用语言前缀 `groovy:` ，让Vert.x 知道它是一个Groovy 类而不是Java 类。
@@ -1264,7 +1264,7 @@ java -jar build/libs/my-fat-jar.jar --redeploy="src/**/*.java" --on-redeploy='./
 
 "on-redeploy"选项指定在应用程序关闭后和重新启动之前调用的命令。
 因此，如果构建工具更新了某些运行时构件，则可以将其挂接。例如，您可以启动 `gulp`
-或 `grunt` 来更新您的资源。如果需要传递参数到你的应用程序中，不要忘记将
+或 `grunt` 来更新您的资源。如果需要传递参数到您的应用程序中，不要忘记将
 `--java-opts` 添加到命令参数里：
 
 [source]
@@ -1305,7 +1305,7 @@ https://docs.oracle.com/javase/8/docs/api/java/util/ServiceLoader.html[Service L
 若您在命令行中使用Vert.x并要使用集群，则应确保Vert.x安装路径的 `lib`
 目录包含您的集群管理器的jar包。
 
-若您在 Maven/Gradle 项目使用Vert.x，则只需将集群管理器jar作为依赖添加到你的项目中。
+若您在 Maven/Gradle 项目使用 Vert.x，则只需将集群管理器 jar 作为依赖添加到您的项目中。
 
 您也可以以编程的方式在嵌入Vert.x 时使用
 `link:../../apidocs/io/vertx/core/VertxOptions.html#setClusterManager-io.vertx.core.spi.cluster.ClusterManager-[setClusterManager]` 指定集群管理器。
@@ -1389,10 +1389,10 @@ SLF4J: Defaulting to no-operation (NOP) logger implementation
 SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
 ----
 
-这意味着您的类路径中有 SLF4J-API 却没绑定到具体的实例类中。使用SLF4J记录的消息将会丢失。
-您应该添加具体的实现到你的类路径下。参考 https://www.slf4j.org/manual.html#swapping 选择具体实现并配置。
+这意味着您的类路径中有 SLF4J-API 却没绑定到具体的实例类中。使用 SLF4J 记录的消息将会丢失。
+您应该添加具体的实现到您的类路径下。参考 https://www.slf4j.org/manual.html#swapping 选择具体实现并配置。
 
-请注意，Netty会寻找SLF4-API的jar，并在默认情况下使用它。
+请注意，Netty 会寻找 SLF4-API 的 jar，并在默认情况下使用它。
 
 [[_connection_reset_by_peer]]
 ==== 对等连接重置

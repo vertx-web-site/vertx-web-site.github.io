@@ -1095,19 +1095,19 @@ client.connect(1234, "localhost", "server.name", res -> {
 [[_application_layer_protocol_negotiation_alpn]]
 ==== 应用层协议协商
 
-ALPN(Application-Layer Protocol Negotiation)是应用层协议协商的TLS扩展，它被HTTP/2使用：
-在TLS握手期时，客户端给出其接受的应用协议列表，
+ALPN(Application-Layer Protocol Negotiation)是应用层协议协商的 TLS 扩展，它被 HTTP/2 使用：
+在 TLS 握手期时，客户端给出其接受的应用协议列表，
 之后服务器使用它所支持的协议响应。
 
-Java TLS supports ALPN (Java 8 with the most recent versions).
+Java TLS 支持 ALPN (需要最近的 Java 版本)。
 
 [[_openssl_alpn_support]]
 ===== OpenSSL ALPN支持
 
-OpenSSL also supports (native) ALPN.
+OpenSSL 也支持(原生的) ALPN。
 
-OpenSSL需要配置 `link:../../apidocs/io/vertx/core/net/TCPSSLOptions.html#setOpenSslEngineOptions-io.vertx.core.net.OpenSSLEngineOptions-[setOpenSslEngineOptions]`
-并在类路径上使用 http://netty.io/wiki/forked-tomcat-native.html[netty-tcnative] 的jar库。
+OpenSSL 需要配置 `link:../../apidocs/io/vertx/core/net/TCPSSLOptions.html#setOpenSslEngineOptions-io.vertx.core.net.OpenSSLEngineOptions-[setOpenSslEngineOptions]`
+并在类路径上使用 http://netty.io/wiki/forked-tomcat-native.html[netty-tcnative] 的 jar 库。
 依赖于tcnative的实现，需要OpenSSL安装在您的操作系统中。
 
 [[_using_a_proxy_for_client_connections]]
