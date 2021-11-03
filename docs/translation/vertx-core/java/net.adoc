@@ -1099,7 +1099,7 @@ ALPN(Application-Layer Protocol Negotiation)是应用层协议协商的 TLS 扩�
 在 TLS 握手期时，客户端给出其接受的应用协议列表，
 之后服务器使用它所支持的协议响应。
 
-Java TLS 支持 ALPN (需要最近的 Java 版本)。
+Java TLS 支持 ALPN (需要最近的 Java 8 版本)。
 
 [[_openssl_alpn_support]]
 ===== OpenSSL ALPN支持
