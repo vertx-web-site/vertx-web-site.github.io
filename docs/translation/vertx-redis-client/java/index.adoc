@@ -55,7 +55,7 @@ Redis 客户端可以在四种模式下操作：
 * 简易客户端 (大多数用户需要的)。
 * 哨兵 (在高可用模式下使用 Redis)。
 * 集群 (在集群模式下使用 Redis)。
-* Replication (single shard, one node write, multiple read).
+* 分片 (单节点共享， 单节点写入，多节点读取)。
 
 连接方式由 Redis 接口的工厂方法决定。无论客户端是哪种模式，
 都可以通过 `link:../../apidocs/io/vertx/redis/client/RedisOptions.html[RedisOptions]` 数据对象来配置。
@@ -196,13 +196,14 @@ final RedisOptions options = new RedisOptions()
 在此模式下操作的客户端会尽量识别执行的命令使用哪个槽（slot），以便在正确的节点上执行它。
 如果出现无法识别的情况，最好在随机节点上运行该命令。
 
-== Replication Mode
+[[_replication_mode]]
+== 分片模式
 
-Working with replication is transparent to the client. Acquiring a connection is an expensive operation. The client will loop the provided endpoints until the master node is found. Once the master node is identified (this is the node where all write commands will be executed) a best effort is done to connect to all replica nodes (the read nodes).
+服务器是否使用分片模式运行对客户端来说是透明的。获取一个连接是耗费很大的操作。客户端会遍历所有的节点，直到找到主节点。 一旦找到主节点 (所有的写命令都可以在主节点上执行)，那么客户端会尽力去连接到所有的分片节点 (读取节点)。
 
-With all node knowledge the client will now filter operations that perform read or writes to the right node type. Note that the `useReplica` configuration affects this choice. Just like with clustering, when the configuration states that the use of replica nodes is `ALWAYS` then any  read operation will be performed on a replica node, `SHARED` will randomly share the read between master and replicas and finally `NEVER` means that replicas are never to be used.
+当获取到所有的节点后，客户端现在会过滤所有的操作，并在恰当的节点上执行读操作或写操作。注意，由 `useReplica` 配置项控制节点的选择。就像集群模式一样，当分片节点的配置项状态是 `ALWAYS` 时，所有的读操作都会在该节点上执行，当状态是 `SHARED` 时，读操作会在主节点和分片节点上随机执行，而当状态是 `NEVER` 时，读操作不会在该节点上执行。
 
-The recommended usage of this mode, given the connection acquisition cost, is to re-use the connection as long as the application may need it.
+考虑到获取连接的开销是很大的，因此如果您需要使用分片模式，您的应用需要尽可能地考虑重用数据库连接。
 
 [source,java]
 ----
