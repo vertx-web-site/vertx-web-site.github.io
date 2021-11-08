@@ -174,10 +174,11 @@ pool
   });
 ----
 
-=== Retrieving the generated keys
+[[_retrieving_the_generated_keys]]
+=== 检索生成的主键
 
-Generated keys is a common feature of JDBC drivers. The pool allows you to retrieve the keys using a special property:
-`JDBCPool.GENERATED_KEYS`. For example:
+自动生成主键是 JDBC 驱动都有的一项特性。 连接池允许您使用一个特殊的属性：
+`JDBCPool.GENERATED_KEYS` 来检索生成的主键。例如：
 
 [source,java]
 ----
@@ -195,21 +196,23 @@ pool
 ----
 
 
-=== Working with Procedures and Functions
+[[_working_with_procedures_and_functions]]
+=== 使用存储过程和函数
 
-Users that have used JDBC before are aware that in order to call either a function or a stored procedure, one must use
-the interface `CallableStatement`. This abstraction is, for most database engines, synthetic as popular engines like
-`PostgreSQL` or `MySQL` do not really have any special command to differentiate from callable statements from any other
-regular statement.
+之前使用过 JDBC 的人知道，为了使用调用函数或存储过程， 用户必须
+使用 `CallableStatement` 接口。 对于大多数存储因此能够来说，这种抽象是合二为一的，因为像
+`PostgreSQL` or `MySQL` 这种流行的数据库并没有任何特殊的命令以区分普通的 SQL 语句和
+可调用的函数与存储过程。
 
-The existing SQL client api was designed to be closed to what the reality of wire protocols shows, rather than adapt to
-the JDBC spec, therefore you will not find any specific way to deal with callable statements. This design choice
-introduces some complexities on the JDBC SQL client, as we need to adapt a regular call to respect the JDBC spec
-requirements and be compatible with clients out there.
+现有的 SQL 客户端 api 被设计成跟网络协议类似的样子，而不是适配
+JDBC 规范，因此您找不到任何特殊的方法以处理可调用语句。选择这种设计
+给 JDBC SQL 客户端引入了一些复杂度，因为我们需要适配常规的 SQL 调用以遵守 JDBC 规范的要求
+并与客户端兼容。
 
-==== Simple IN mapping
+[[_simple_in_mapping]]
+==== 简单 IN 参数映射
 
-Mapping simple `IN` parameters is trivial. Consider the following procedure:
+映射简单的 `IN` 参数是很简单的。考虑下面的存储过程：
 
 [source,"sql"]
 ----
@@ -218,7 +221,7 @@ create procedure new_customer(firstname varchar(50), lastname varchar(50))
  insert into customers values (default, firstname, lastname, current_timestamp)
 ----
 
-In order to call this procedure from the JDBC client, you would write some code as:
+为了使用 JDBC 客户端调用该存储过程，您需要编写以下代码：
 
 [source,java]
 ----
@@ -237,16 +240,17 @@ pool
   });
 ----
 
-==== Complex IN / OUT mapping
+[[_complex_in_out_mapping]]
+==== 复杂的 IN / OUT 参数映射
 
-The previous example, showed how to create simple queries. However, there are some limitations with it. It will assume
-that arguments are always of type `IN` and that the argument type is the corresponding java type of the argument, which
-will not always work, for example, when dealing with `null`.
+之前的例子展示了如何使用简单的查询。然而，使用简单的查询是有一些限制条件的。客户端会假定
+所有的参数都是 `IN` 类型，并且参数类型也是相应传入参数的 Java 类型的对应类型，但这并不一定准确，
+例如，您传入了一个  `null` 参数时。
 
-In this case, the client has a helper `link:../../apidocs/io/vertx/jdbcclient/SqlOutParam.html[SqlOutParam]` that allows you to explicitly tag the
-desired type of the argument. Not only the data type but also if it is a `IN` or a `OUT`.
+在这种情况下，JDBC 客户都安可以使用一个叫做 `link:../../apidocs/io/vertx/jdbcclient/SqlOutParam.html[SqlOutParam]` 的帮助类，它可以帮您显式地
+指明参数的类型。不仅是参数是 `IN` 还是 `OUT`，还是参数的类型。
 
-Consider the following procedure:
+考虑以下的存储过程：
 
 [source,"sql"]
 ----
@@ -255,8 +259,8 @@ create procedure customer_lastname(IN firstname varchar(50), OUT lastname varcha
  select lastname into lastname from customers where firstname = firstname
 ----
 
-This procedure will return all last names, from all customers, when looking for a first name. So we will need to map
-both `IN` parameters as well as `OUT` parameters.
+这个存储过程会返回名字是某个值的所有客户的姓氏。所以我们既需要
+映射 `IN` 参数也需要映射 `OUT` 参数。
 
 [source,java]
 ----
@@ -284,8 +288,8 @@ pool
   });
 ----
 
-Sometimes, you will need to map both `IN` and `OUT` parameters to the same variable. Again, it is all handled by the
-`link:../../apidocs/io/vertx/jdbcclient/SqlOutParam.html[SqlOutParam]` helper.
+有时，您需要将同一个变量映射为 `IN` 和 `OUT` 参数。同样地，您也可以使用
+`link:../../apidocs/io/vertx/jdbcclient/SqlOutParam.html[SqlOutParam]` 帮助类进行处理。
 
 [source,java]
 ----
@@ -355,7 +359,7 @@ client.getConnection(res -> {
 2. 执行您的动作
 3. 关闭并将连接返回到连接池
 
-从`USERS`表中加载用户的示例如下：
+从 `USERS` 表中加载用户的示例如下：
 
 [source,java]
 ----
