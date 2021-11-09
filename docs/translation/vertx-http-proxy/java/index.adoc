@@ -1,15 +1,15 @@
 = Vert.x Http Proxy
 :toc: left
 
-Vert.x Http Proxy 是一个基于Vert.x的反向代理服务器，其目的是实现可重用的反向代理逻辑，
+Vert.x Http Proxy 是一个基于 Vert.x 的反向代理服务器，其目的是实现可重用的反向代理逻辑，
 这样，使用者就可以关注更高层面的问题了
 
-WARNING: 这个模块处于 _Tech Preview_ 阶段，这意味着在不同版本之间API可能会不太一样
+WARNING: 这个模块处于 _Tech Preview_ 阶段，这意味着在不同版本之间 API 可能会不太一样
 
 [[_using_vert_x_http_proxy]]
 == 使用 Vert.x Http Proxy
 
-使用 Vert.x Http Proxy之前，请把以下的依赖放到您的构建描述文件的 _依赖_ 部分中
+使用 Vert.x Http Proxy 之前，请把以下的依赖放到您的构建描述文件的 _依赖_ 部分中
 
 * Maven （在您的 `pom.xml` 文件中）：
 
@@ -32,9 +32,9 @@ dependencies {
 ----
 
 [[_basic_http_proxy]]
-== Http Proxy基础
+== Http Proxy 基础
 
-为了使用Vert.x Http Proxy实现一个反向代理，您需要了解这些名词：
+为了使用 Vert.x Http Proxy 实现一个反向代理，您需要了解这些名词：
 
 1. *代理服务器* 会处理出站请求，然后使用 `HttpProxy` 实例把他们转发到 *源服务器*
 2. *源服务器* 会处理从 *代理服务器* 来的请求，然后处理相对应的响应
@@ -81,7 +81,7 @@ proxyServer.requestHandler(proxy).listen(8080);
 [[_proxy_caching]]
 === 代理缓存
 
-大部分情况下，代理不会缓存响应内容，并且会忽视大部分的缓存指令，您也就而已使用缓存选项来开启缓存。
+大部分情况下，代理不会缓存响应内容，并且会忽视大部分的缓存指令，您也可以使用缓存选项来开启缓存。
 
 [source,java]
 ----
