@@ -37,7 +37,7 @@ dependencies {
 为了使用Vert.x Http Proxy实现一个反向代理，您需要了解这些名词：
 
 1. *代理服务器* 会处理出站请求，然后使用 `HttpProxy` 实例把他们转发到 *源服务器*
-2. *源服务器* 会处理从*代理服务器*来的请求，然后处理相对应的响应
+2. *源服务器* 会处理从 *代理服务器* 来的请求，然后处理相对应的响应
 
 现在，您已经了解了相应的整体概念。
 让我们来深入实现，先从 *源服务器* 再到使用 `HttpProxy` 的 *代理服务器* ：
@@ -78,9 +78,10 @@ proxyServer.requestHandler(proxy).listen(8080);
 
 最后，所有的出站请求都被轻松的反向代理转发到 *源服务器*
 
-=== Proxy caching
+[[_proxy_caching]]
+=== 代理缓存
 
-By default the proxy does not cache response and ignores most cache directives, you can enable caching by setting the cache options.
+大部分情况下，代理不会缓存响应内容，并且会忽视大部分的缓存指令，您也就而已使用缓存选项来开启缓存。
 
 [source,java]
 ----

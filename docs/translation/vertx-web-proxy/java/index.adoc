@@ -43,8 +43,8 @@ dependencies {
 [[_origin_server_backend]]
 == 源服务器 (后端)
 
-您可以简单地创建一个 *源服务器* 然后利用 Vert.x Web的 `Router` 处理请求,
-这个 *源服务器* 会监听 `7070`端口 
+您可以简单地创建一个 *源服务器* 然后利用 Vert.x Web 的 `Router` 处理请求,
+这个 *源服务器* 会监听 `7070` 端口 
 
 [source,java]
 ----
