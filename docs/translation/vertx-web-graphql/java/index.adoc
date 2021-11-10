@@ -106,17 +106,18 @@ router.route("/graphiql/*").handler(graphiQLHandler);
 
 请参考 `link:../../apidocs/io/vertx/ext/web/handler/graphql/GraphiQLHandlerOptions.html[GraphiQLHandlerOptions]` 文档以获取更多详细信息。
 
-=== GraphQL over WebSocket
+[[_graphql_over_websocket]]
+=== 基于 WebSocket 的 GraphQL
 
-Vert.x Web GraphQL is compatible with the https://github.com/enisdenjo/graphql-ws[GraphQL over Websocket protocol].
+Vert.x Web GraphQL 是兼容 https://github.com/enisdenjo/graphql-ws[基于 Websocket 协议的 GraphQL] 的。
 
-The websocket transport is specially useful when you need to add subscriptions to your GraphQL schema, but you can also use it for queries and mutations.
+当您需要给您的 GraphQL schema 添加订阅时使用 websocket 进行通信非常有用，当然您也可以用其来进行查询和变更操作。
 
-NOTE: By default, the configuration does not include a default `Origin` property. To prevent Cross-Site WebSocket
-Hijacking attacks from web browsers, it is recommended to set this property to the internet facing origin of the
-application. This will enforce a check that web sockets origin is from this application. This check is important because
-WebSockets are not restrained by the same-origin policy, an attacker can easily initiate a WebSocket request from a
-malicious webpage targeting the `ws://` or `wss://` endpoint URL of the GraphQL WS handler.
+NOTE: 默认情况下， 配置中并不包含一个默认的 `Origin` 属性。为了防御浏览器发送的 WebSocket
+跨域劫持攻击，我们建议您将 `Origin` 属性设置为您应用的
+网络源。这会强制服务器检查 WebSocket 的 `Origin` 以验证连接是否来自您的应用。这项检查非常重要，因为
+浏览器的同源策略并不限制 WebSocket 连接，因此一个攻击者可以轻松地从一个
+恶意网页连接您服务器上 GraphQL WS 处理器提供的 `ws://` 或 `wss://` 接口。
 
 [source,java]
 ----
@@ -125,8 +126,8 @@ router.route("/graphql").handler(GraphQLWSHandler.create(graphQL));
 
 [IMPORTANT]
 ====
-The client will ask for the `graphql-transport-ws` websocket subprotocol.
-Consequently, it has to be added to the list of supported subprotocols in the server configuration:
+客户端会要求支持 `graphql-transport-ws` websocket 子协议。
+因此，您需要在服务端的配置中将该协议加入到支持的子协议列表中：
 
 [source,java]
 ----
@@ -135,7 +136,7 @@ HttpServerOptions httpServerOptions = new HttpServerOptions()
 ----
 ====
 
-To support both HTTP and Websockets on the same URI, the `link:../../apidocs/io/vertx/ext/web/handler/graphql/ws/GraphQLWSHandler.html[GraphQLWSHandler]` must be installed to the `link:../../apidocs/io/vertx/ext/web/Router.html[Router]` before the `link:../../apidocs/io/vertx/ext/web/handler/graphql/GraphQLHandler.html[GraphQLHandler]`:
+为了让 HTTP 协议和 WebSocket 协议使用同一个 URI，您必须在 `link:../../apidocs/io/vertx/ext/web/handler/graphql/GraphQLHandler.html[GraphQLHandler]` 之前将 `link:../../apidocs/io/vertx/ext/web/handler/graphql/ws/GraphQLWSHandler.html[GraphQLWSHandler]` 注册到 `link:../../apidocs/io/vertx/ext/web/Router.html[Router]` 上：
 
 [source,java]
 ----
@@ -144,7 +145,7 @@ router.route("/graphql")
   .handler(GraphQLHandler.create(graphQL));
 ----
 
-IMPORTANT: A _subscription_ `DataFetcher` has to return a `org.reactivestreams.Publisher` instance.
+IMPORTANT: 一个 `DataFetcher` _订阅_  会返回一个 `org.reactivestreams.Publisher` 类型的实例。
 
 === Apollo WebSocketLink
 
