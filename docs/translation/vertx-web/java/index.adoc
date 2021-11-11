@@ -1557,31 +1557,31 @@ ctx.response().addCookie(Cookie.cookie("othercookie", "somevalue"));
 [[_handling_sessions]]
 == 处理session
 
-Vert.x-Web提供了开箱即用的session支持
+Vert.x-Web提供了开箱即用的 session 支持
 
-session存活在在浏览器会话周期的HTTP请求之间，
-它给予了您一个可以储存seession作用域信息的地方，比如购物车
+session 存活在在浏览器会话周期的 HTTP 请求之间，
+它给予了您一个可以储存 session 作用域信息的地方，比如购物车
 
-Vert.x-Web 使用session cookie来识别session
-这个session cookie是临时的，而且当其关闭的时候您的浏览器会将其删除
+Vert.x-Web 使用 session cookie 来识别 session
+这个 session cookie 是临时的，而且当其关闭的时候您的浏览器会将其删除
 
-我们并不会将您session中的真实数据放到session cookie中——这个cookie只是简单的使用标记符在服务器上寻找真实的session
-这个标记符是一个使用安全随机数生成的随机UUID
+我们并不会将您 session 中的真实数据放到 session cookie 中——这个 cookie 只是简单的使用标记符在服务器上寻找真实的 session
+这个标记符是一个使用安全随机数生成的随机 UUID
 所以它应该实际上是不可被推测出来的
 
-cookie在HTTP请求和响应中通过网络传递，因此确保在使用会话时使用HTTPS始终是明智的。
-如果您尝试通过直接HTTP使用会话，则Vert.x会警告您。
+cookie 在 HTTP 请求和响应中通过网络传递，因此确保在使用会话时使用 HTTPS 始终是明智的。
+如果您尝试通过直接 HTTP 使用会话，则 Vert.x 会警告您。
 
-为了启用您应用程序中session，
+为了启用您应用程序中 session，
 您必须在应用程序逻辑之前的匹配路由上具有一个 `link:../../apidocs/io/vertx/ext/web/handler/SessionHandler.html[SessionHandler]`
 
-这个session处理器会处理session cookie的生成和寻找对应session
+这个 session 处理器会处理 session cookie 的生成和寻找对应 session
 所以您无需自己去做这些事情
 
-在响应头发回给客户端之后，session中的数据会自动地保存在session储存器中
+在响应头发回给客户端之后，session 中的数据会自动地保存在 session 储存器中
 但是请注意，因为这个机制，
 它并不保证这个数据在客户端收到响应之前完全保留
-在这个场景中你可以强制刷新一下
+在这个场景中您可以强制刷新一下
 除非刷新操作失败，否则这将禁用自动保存过程。
 这样可以在完成响应之前控制状态，例如：
 
@@ -1797,14 +1797,14 @@ session处理器会确保您的session会从session储存器中被自动地找�
 [[_using_the_session]]
 === 使用session
 
-在您的处理器中您可以通过 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#session--[session]` 获取到session实例
+在您的处理器中，您可以通过 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#session--[session]` 获取到 session 实例
 
-您可以通过 `link:../../apidocs/io/vertx/ext/web/Session.html#put-java.lang.String-java.lang.Object-[put]`将数据放到session中
-您可以通过 `link:../../apidocs/io/vertx/ext/web/Session.html#get-java.lang.String-[get]` 从session中获取数据
-同时您也可以通过 `link:../../apidocs/io/vertx/ext/web/Session.html#remove-java.lang.String-[remove]` 从session移除数据。
+您可以通过 `link:../../apidocs/io/vertx/ext/web/Session.html#put-java.lang.String-java.lang.Object-[put]` 将数据放到 session 中，
+您可以通过 `link:../../apidocs/io/vertx/ext/web/Session.html#get-java.lang.String-[get]` 从 session 中获取数据
+同时您也可以通过 `link:../../apidocs/io/vertx/ext/web/Session.html#remove-java.lang.String-[remove]` 从 session 中移除数据。
 
-session中对象的键往往是字符串类型。
-对于本地session储存器其值可以是任何类型，对于集群session储存器中它可以是任何基础类型或 `link:../../apidocs/io/vertx/core/buffer/Buffer.html[Buffer]`, `link:../../apidocs/io/vertx/core/json/JsonObject.html[JsonObject]`,
+session 中对象的键往往是字符串类型。
+对于本地 session 储存器，其值可以是任何类型，对于集群 session 储存器中它可以是任何基础类型或 `link:../../apidocs/io/vertx/core/buffer/Buffer.html[Buffer]`, `link:../../apidocs/io/vertx/core/json/JsonObject.html[JsonObject]`,
 `link:../../apidocs/io/vertx/core/json/JsonArray.html[JsonArray]` 或者一个可序列化的对象，因为这些值必须在整个集群中序列化。
 
 这是一个操作session中数据的例子
@@ -1830,7 +1830,7 @@ router.route("/somepath/blah").handler(ctx -> {
 });
 ----
 
-在响应完成之后seession会被自动写回到储存器中
+在响应完成之后session会被自动写回到储存器中
 
 您通过 `link:../../apidocs/io/vertx/ext/web/Session.html#destroy--[destroy]` 手动销毁session
 它会将session从上下文和session储存器中移除
@@ -3036,11 +3036,11 @@ sock.close();
 
 可使用 `link:../../apidocs/io/vertx/ext/web/handler/sockjs/SockJSHandlerOptions.html[SockJSHandlerOptions]` 为处理器配置各种选项。
 
-NOTE: By default, the configuration does not include a default `Origin` property. To prevent Cross-Site WebSocket
-Hijacking attacks from web browsers, it is recommended to set this property to the internet facing origin of the
-application. This will enforce a check that web sockets origin is from this application. This check is important because
-WebSockets are not restrained by the same-origin policy, an attacker can easily initiate a WebSocket request from a
-malicious webpage targeting the `ws://` or `wss://` endpoint URL of the sockJS bridge.
+NOTE: 默认情况下， 配置中并不包含一个默认的 `Origin` 属性。为了防御浏览器发送的 WebSocket
+跨域劫持攻击，我们建议您将 `Origin` 属性设置为您应用的
+网络源。这会强制服务器检查 WebSocket 的 `Origin` 以验证连接是否来自您的应用。这项检查非常重要，因为
+浏览器的同源策略并不限制 WebSocket 连接，因此一个攻击者可以轻松地在一个
+恶意网页上创建一个请求并连接您服务器上 sockJS 桥接器提供的 `ws://` 或 `wss://` 接口。
 
 [[_writing_to_a_sockjs_socket_over_the_event_bus]]
 === 通过 event bus 写入 SockJS 套接字
@@ -3344,11 +3344,11 @@ router.mountSubRouter(
 
 事件可以是下面的类型中的一种：
 
-SOCKET_CREATED:: 创建新的SockJS套接字时，将发生此事件
-SOCKET_IDLE:: 当SockJS套接字闲置的时间比最初配置的时间长时，将发生此事件.
-SOCKET_PING:: 当为SockJS套接字更新最后的ping时间戳时，将发生此事件。.
-SOCKET_CLOSED:: 关闭SockJS套接字时，将发生此事件.
-SOCKET_ERROR:: This event will occur when an underlying transport errors.
+SOCKET_CREATED:: 创建新的 SockJS 套接字时，将发生此事件.
+SOCKET_IDLE:: 当 SockJS 套接字闲置的时间比最初配置的时间长时，将发生此事件.
+SOCKET_PING:: 当为 SockJS 套接字更新最后的 ping 时间戳时，将发生此事件.
+SOCKET_CLOSED:: 关闭 SockJS 套接字时，将发生此事件.
+SOCKET_ERROR:: 当底层传输出错时，将发生此事件.
 SEND:: 尝试将消息从客户端发送到服务器时，将发生此事件.
 PUBLISH:: 尝试将消息从客户端发布到服务器时，将发生此事件.
 RECEIVE:: 尝试将消息从服务器传递到客户端时，将发生此事件.
@@ -4105,30 +4105,31 @@ let getMakeCredentialsChallenge = (formBody) => {
 };
 ----
 
-WARNING: 由于API的安全性，浏览器将不允许您在纯文本HTTP上使用此API。
-所有请求都必须通过HTTPS。
+WARNING: 由于 API 的安全性，浏览器将不允许您在纯文本 HTTP 上使用此 API。
+所有请求都必须通过 HTTPS。
 
-WARNING: WebAuthN需要具有有效TLS证书的HTTPS，
+WARNING: WebAuthN 需要具有有效 TLS 证书的 HTTPS，
 您也可以在开发过程中使用自签名证书。
 
-=== One Time Password (Multi-Factor Authentication)
+[[_one_time_password_multi_factor_authentication]]
+=== 一次性密码 (多重因子身份验证)
 
-Vert.x also supports multi factor authentication. There are two options to work with MFA:
+Vert.x 也支持多重因子身份验证（译者注：简称 MFA）。有两种使用 MFA 的方式：
 
-* `HOTP` - Hash Based One Time Password
-* `TOTP` - Time Based One Time Password
+* `HOTP` - 基于哈希的一次性密码
+* `TOTP` - 基于时间的一次性密码
 
-The usage is the same across providers, for this reason a single handler is present that allows you to select the
-desired mode at the constructor level.
+这些使用 MFA 的方式用法相同，因此您可以在构造方法级别
+选择一个您需要的使用方式。
 
-The behavior of this handler can be seen as:
+T这个处理器的工作方式如下：
 
-If there is no `link:../../apidocs/io/vertx/ext/auth/User.html[User]` in the current request, then it is assumed that no previous authentication has been
-performed. This implies that the request will be immediately terminated with status code 401.
+如果当前请求中不包含 `link:../../apidocs/io/vertx/ext/auth/User.html[User]` ，那么处理器会假定用户之前没有经过
+身份认证。这意味着请求将立即终止，并且 HTTP 状态码为 401。
 
-If a user is present and the object lacks the property `mfa` with a matching type (`hotp`/`totp`), the request will
-be redirected to the verification url (if provided), otherwise it will be terminated. Such url should provide a way
-to enter the code, for example:
+如果当前请求中包含用户，但对象中缺少具有匹配类型(`hotp`/`totp`)的 `mfa` 属性，请求会
+被重定向至身份验证 url (如果提供了的话)，否则请求也会被立即终止。这个 url 应该提供一种方式
+以供用户输入验证码，例如：
 
 [source,html]
 ----
@@ -4152,10 +4153,10 @@ to enter the code, for example:
 
 ----
 
-After the user enters the valid code, the request redirects to the initial url or to `/` if no original url is known.
+用户输入完验证码后，请求会被重定向至初始的 url，如果不知道初始 url 的话，请求会被重定向至 `/`。
 
-Of course this flow assumes that authenticator applications or devices have been already configured. In order to
-configure a new application/device, an example HTML page could be:
+当然以上流程假定身份验证程序或设备已经配置好了。为了配置一个新的
+应用或设备，一个示例 HTML 网页代码如下：
 
 [source,html]
 ----
@@ -4200,14 +4201,14 @@ configure a new application/device, an example HTML page could be:
 </html>
 ----
 
-The important bit in this example is that the script makes a `POST` request to the configured registration callback.
-Again this callback will return status code 401 if there is no user already authenticated in the request. On success a
-JSON document is returned with a url, and a few extra metadata. This url should be used to configure the authenticator,
-either by manually entering it on the application or by rendering a QR code. Rendering of QR codes can be done both on
-the backend or on the frontend. For the sake of simplicity, this example makes use of the google charts API to render
-it on the browser.
+以上示例代码中的重点是脚本会发送一个 `POST` 请求给配置好的注册回调。
+如果请求中用户仍然没有通过身份验证，那么注册回调将再次返回 HTTP 状态码 401。而如果
+身份验证成功，程序会返回一段 JSON 数据，其包含有一个 url，和一些额外的元数据。这个 url 用于配置身份验证器，
+验证的方式可以是手动输入数据，也可以是在显示一个二维码。要显示的二维码可以在前端渲染，
+也可以在后端渲染。简单起见，以上示例使用了 google charts API 来在
+浏览器上渲染二维码
 
-Finally, this is how you would use the handler in your vert.x application:
+最后，这是您在 vert.x 应用程序中使用处理程序的方式：
 
 [source,java]
 ----
