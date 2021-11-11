@@ -1557,7 +1557,7 @@ ctx.response().addCookie(Cookie.cookie("othercookie", "somevalue"));
 [[_handling_sessions]]
 == 处理session
 
-Vert.x-Web提供了开箱即用的 session 支持
+Vert.x-Web 提供了开箱即用的 session 支持
 
 session 存活在在浏览器会话周期的 HTTP 请求之间，
 它给予了您一个可以储存 session 作用域信息的地方，比如购物车
@@ -1565,17 +1565,17 @@ session 存活在在浏览器会话周期的 HTTP 请求之间，
 Vert.x-Web 使用 session cookie 来识别 session
 这个 session cookie 是临时的，而且当其关闭的时候您的浏览器会将其删除
 
-我们并不会将您 session 中的真实数据放到 session cookie 中——这个 cookie 只是简单的使用标记符在服务器上寻找真实的 session
+我们并不会将您 session 中的真实数据放到 session cookie 中——cookie 只是简单的使用标记符在服务器上寻找实际的 session
 这个标记符是一个使用安全随机数生成的随机 UUID
 所以它应该实际上是不可被推测出来的
 
-cookie 在 HTTP 请求和响应中通过网络传递，因此确保在使用会话时使用 HTTPS 始终是明智的。
+cookie 在 HTTP 请求和响应中通过网络传递，因此明智的做法是在使用会话时始终使用 HTTPS 协议。
 如果您尝试通过直接 HTTP 使用会话，则 Vert.x 会警告您。
 
-为了启用您应用程序中 session，
+为了启用您应用程序中的 session，
 您必须在应用程序逻辑之前的匹配路由上具有一个 `link:../../apidocs/io/vertx/ext/web/handler/SessionHandler.html[SessionHandler]`
 
-这个 session 处理器会处理 session cookie 的生成和寻找对应 session
+这个 session 处理器用于处理 session cookie 的生成和寻找对应的 session
 所以您无需自己去做这些事情
 
 在响应头发回给客户端之后，session 中的数据会自动地保存在 session 储存器中
@@ -1805,7 +1805,7 @@ session处理器会确保您的session会从session储存器中被自动地找�
 
 session 中对象的键往往是字符串类型。
 对于本地 session 储存器，其值可以是任何类型，对于集群 session 储存器中它可以是任何基础类型或 `link:../../apidocs/io/vertx/core/buffer/Buffer.html[Buffer]`, `link:../../apidocs/io/vertx/core/json/JsonObject.html[JsonObject]`,
-`link:../../apidocs/io/vertx/core/json/JsonArray.html[JsonArray]` 或者一个可序列化的对象，因为这些值必须在整个集群中序列化。
+`link:../../apidocs/io/vertx/core/json/JsonArray.html[JsonArray]` 亦或者一个可序列化的类型，因为这些值为了在集群间传递必须进行序列化。
 
 这是一个操作session中数据的例子
 
@@ -1830,14 +1830,14 @@ router.route("/somepath/blah").handler(ctx -> {
 });
 ----
 
-在响应完成之后session会被自动写回到储存器中
+在响应完成之后 session 会被自动写回到储存器中
 
-您通过 `link:../../apidocs/io/vertx/ext/web/Session.html#destroy--[destroy]` 手动销毁session
-它会将session从上下文和session储存器中移除
-请注意，如果没有session，则将为通过session处理器的下一个来自浏览器的请求自动创建一个新会话。
+您通过 `link:../../apidocs/io/vertx/ext/web/Session.html#destroy--[destroy]` 手动销毁 session
+它会将 session 从上下文和 session 储存器中移除
+请注意，如果没有 session，则将为通过 session 处理器的下一个来自浏览器的请求自动创建一个新会话。
 
 [[_session_timeout]]
-=== session超时
+=== session 超时
 
 如果session的未访问时间超过超时时间，则session将自动超时。
 当一个session超时时，它将会被从储存中移除
@@ -4122,10 +4122,10 @@ Vert.x 也支持多重因子身份验证（译者注：简称 MFA）。有两种
 这些使用 MFA 的方式用法相同，因此您可以在构造方法级别
 选择一个您需要的使用方式。
 
-T这个处理器的工作方式如下：
+这个处理器的工作方式如下：
 
 如果当前请求中不包含 `link:../../apidocs/io/vertx/ext/auth/User.html[User]` ，那么处理器会假定用户之前没有经过
-身份认证。这意味着请求将立即终止，并且 HTTP 状态码为 401。
+身份认证。这意味着请求将立即终止，并且返回的 HTTP 状态码为 401。
 
 如果当前请求中包含用户，但对象中缺少具有匹配类型(`hotp`/`totp`)的 `mfa` 属性，请求会
 被重定向至身份验证 url (如果提供了的话)，否则请求也会被立即终止。这个 url 应该提供一种方式
@@ -4208,7 +4208,7 @@ T这个处理器的工作方式如下：
 也可以在后端渲染。简单起见，以上示例使用了 google charts API 来在
 浏览器上渲染二维码
 
-最后，这是您在 vert.x 应用程序中使用处理程序的方式：
+最后，这就是您在 vert.x 应用程序中使用处理程序的方式：
 
 [source,java]
 ----
