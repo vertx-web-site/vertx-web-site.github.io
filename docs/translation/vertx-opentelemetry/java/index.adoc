@@ -11,7 +11,7 @@ Vertx vertx = Vertx.vertx(new VertxOptions()
 );
 ----
 
-您还可以通过传递自定义的 `OpenTelemetry`对象，
+您还可以通过传递自定义的 `OpenTelemetry` 对象，
 以掌握在配置上更大的控制权。
 
 [source,java]
@@ -23,8 +23,8 @@ Vertx vertx = Vertx.vertx(new VertxOptions()
 );
 ----
 
-If you only add this library, it will give you access to OpenTelemetry API with a default `noop` Tracer,
-which gives dummy values (all zeroes) for trace and span ids. The OpenTelemetry SDK is needed to get proper values.
+如果您只是添加了这个库的依赖，那么您只能使用默认的 `noop` Tracer，
+它返回的活动轨迹（trace） id 和跨度（span） id 是虚拟值 (都是 0)。为了获取正确的值，您需要使用 OpenTelemetry SDK。
 
 [source,java]
 ----
