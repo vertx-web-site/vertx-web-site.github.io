@@ -162,14 +162,14 @@ void putTransaction(RequestParameter body, ServiceRequest context, Handler<Async
 
 我们建议用 `link:../../apidocs/io/vertx/ext/web/validation/RequestParameter.html[RequestParameter]` 类型来提取以json shcema（allOf/anyOf/oneOf/not）定义的参数，因为提取参数可能产生未定义的行为。
 
-NOTE: When working with `DataObjects` by default `base64` strings are handled with the `base64url` alphabet, while OpenAPI does not mandate this alphabet so it assumes `basic`. To force a `DataObject` to use a specific alphabet this can be configured in the `@DataObject` annotation.
+NOTE: 在默认情况下，当您使用 `DataObjects` 时， `base64` 字符串会使用 `base64url` 字母表处理，而 OpenAPI 并不强制使用这个字母表，因此它默认使用 `basic` 字母表进行处理。为了强制 `DataObject` 使用一个指定的字母表，您需要在 `@DataObject` 注解中配置对应的参数。
 
 [[_implement_your_web_api_service]]
 == 实现您自己的Web API服务
 
 现在您可以实现您自己的服务。切记 `link:../../apidocs/io/vertx/ext/web/api/service/ServiceRequest.html[ServiceRequest]` 对象包含了请求头以及请求参数的映射。
 
-要写一个请求 您必须调用包含了 `link:../../apidocs/io/vertx/ext/web/api/service/ServiceResponse.html[ServiceResponse]` 的 `resultHandler`
+要写一个请求，您必须调用包含了 `link:../../apidocs/io/vertx/ext/web/api/service/ServiceResponse.html[ServiceResponse]` 的 `resultHandler`
 创建一个 `link:../../apidocs/io/vertx/ext/web/api/service/ServiceResponse.html[ServiceResponse]` 实例，您可以用一些方便的方法，比如 `link:../../apidocs/io/vertx/ext/web/api/service/ServiceResponse.html#completedWithJson-io.vertx.core.buffer.Buffer-[ServiceResponse.completedWithJson]` 或者 `link:../../apidocs/io/vertx/ext/web/api/service/ServiceResponse.html#completedWithPlainText-io.vertx.core.buffer.Buffer-[ServiceResponse.completedWithPlainText]`
 
 例如 `TransactionService#getTransactionsList` 的实现看起来如下：
