@@ -25,7 +25,7 @@
 
 必须要在classpath下添加 _vertx-micrometer-metrics_ 和 _micrometer-registry-influx_ 模块。
 
-Maven 用户应在 pom文件中添加如下依赖：
+Maven 用户应在 pom 文件中添加如下依赖：
 
 [source,xml,subs="+attributes"]
 ----
@@ -52,7 +52,7 @@ compile 'io.micrometer:micrometer-registry-influx:${micrometer.version}'
 [[_configuration_examples]]
 === 配置示例
 
-Vert.x默认情况下不开启SPI的实现。您必需在Vert.x options中启用。
+Vert.x 默认情况下不开启 SPI 的实现。您必须在 Vert.x options 中启用。
 
 [source,java]
 ----
@@ -129,7 +129,7 @@ compile 'io.micrometer:micrometer-registry-prometheus:${micrometer.version}'
 [[_configuration_examples0]]
 === 配置示例
 
-Vert.x默认情况下不开启SPI的实现。您必需在Vert.x options中将其启用。
+Vert.x 默认情况下不开启 SPI 的实现。您必须在 Vert.x options 中将其启用。
 
 [source,java]
 ----
@@ -496,7 +496,7 @@ Matcher 对于通过配置来控制label尤为管用，
 ==== 使用 Micrometer 的 MeterFilter
 
 Micrometer 的 link:http://micrometer.io/docs/concepts#_meter_filters[MeterFilter API] 可以被直接获取，以便定义规则（rule）和标签（label）。
-相比于Matcher，他提供了更多操作标签的特性，但是不能从配置中定义他。
+相比于Matcher，它提供了更多操作标签的特性，但是不能从配置中定义它。
 所以，这两者各有优劣。
 
 以下为一个示例，使用正则表达式作为通用格式来替换HTTP请求中实际的 `path` 标签：
@@ -518,13 +518,14 @@ registry.config().meterFilter(
 
 NOTE: Matchers 在底层使用的是 MeterFilters。
 
-=== Custom tags provider
+[[_custom_tags_provider]]
+=== 自定义标签提供器
 
-You can define a function that generates additional tags (or labels) for HTTP server metrics.
-Such function takes an `link:../../apidocs/io/vertx/core/spi/observability/HttpRequest.html[HttpRequest]` object as a parameter, and returns
-an Iterable of `link:../../apidocs/io/micrometer/core/instrument/Tag.html[Tag]`.
+您可以自定义一个函数来给 HTTP 服务器指标生成额外的标签 (或 labels) 。
+这个函数接收一个 `link:../../apidocs/io/vertx/core/spi/observability/HttpRequest.html[HttpRequest]` 对象作为参数，并返回一个
+装有 `link:../../apidocs/io/micrometer/core/instrument/Tag.html[Tag]` 类型对象的 Iterable 接口实现类.
 
-As an example, here is how to map the _x-user_ header to a custom label _user_:
+以下是一个例子，展示了如何将 _x-user_ 头部转化为自定义的 label _user_ ：
 
 [source,java]
 ----
