@@ -35,9 +35,11 @@ jobs:
 
       # Remove more unnecessary tools. We should have about 52GB of free disk space after this.
       # See https://github.com/apache/flink/blob/master/tools/azure-pipelines/free_disk_space.sh
-      - name: Free up more disk space
-        run: |
-          .github/workflows/free_disk_space.sh
+      # NOT NEEDED AT THE MOMENT - DISK SIZE IS LARGE ENOUGH
+      # RE-ENABLE LATER IF NECESSARY
+      # - name: Free up more disk space
+      #   run: |
+      #     .github/workflows/free_disk_space.sh
 
       - name: Setup Node.js 12.x
         uses: actions/setup-node@v1
