@@ -109,7 +109,7 @@ async function getChecksum(version) {
 
 async function compileAsciiDoc(filename, version) {
   const cacache = require("cacache")
-  const cachePath = "./.cache/docs"
+  const cachePath = "./.cache/docs2"
 
   const asciidoctorOptions = {
     safe: "unsafe",
@@ -152,9 +152,31 @@ async function compileAsciiDoc(filename, version) {
     let title = doc.getDocumentTitle()
     let contents = doc.convert()
 
+    // parse generated HTML and extract table of contents
+    let documentFragment = parse5.parseFragment(contents, { sourceCodeLocationInfo: true })
+    let toc = undefined
+    for (let child of documentFragment.childNodes) {
+      if (child.tagName === "div") {
+        for (let attr of child.attrs) {
+          if (attr.name === "id" && attr.value === "toc") {
+            toc = contents.substring(child.sourceCodeLocation.startOffset,
+                child.sourceCodeLocation.endOffset)
+            contents = contents.substring(0, child.sourceCodeLocation.startOffset) +
+                contents.substring(child.sourceCodeLocation.endOffset)
+            break
+          }
+        }
+      }
+      if (typeof toc !== "undefined") {
+        break
+      }
+    }
+    toc = toc || ""
+
     let result = {
       title,
-      contents
+      contents,
+      toc
     }
 
     await cacache.put(cachePath, cacheKey, JSON.stringify(result))
@@ -194,30 +216,8 @@ export async function getStaticProps({ params }) {
     return cache[slug]
   }
 
-  let { title, contents } = await compileAsciiDoc(
+  let { title, contents, toc } = await compileAsciiDoc(
       path.join(extractedDocsPath, slug, "index.adoc"), version)
-
-  // parse generated HTML and extract table of contents
-  let documentFragment = parse5.parseFragment(contents, { sourceCodeLocationInfo: true })
-  let toc = undefined
-  for (let child of documentFragment.childNodes) {
-    if (child.tagName === "div") {
-      for (let attr of child.attrs) {
-        if (attr.name === "id" && attr.value === "toc") {
-          toc = contents.substring(child.sourceCodeLocation.startOffset,
-              child.sourceCodeLocation.endOffset)
-          contents = contents.substring(0, child.sourceCodeLocation.startOffset) +
-              contents.substring(child.sourceCodeLocation.endOffset)
-          break
-        }
-      }
-    }
-    if (typeof toc !== "undefined") {
-      break
-    }
-  }
-
-  toc = toc || ""
 
   // get metadata for this page
   let versionMetadata = getMetadataByVersion(version)
