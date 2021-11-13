@@ -106,16 +106,17 @@ jobs:
         env:
           DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
 
+      # clone pages repo but do not checkout anything - we will recreate
+      # everything from scratch anyhow
       - name: Clone current GitHub Pages repo
-        run: git clone --depth 1 --single-branch --branch master git@github.com:vertx-web-site/vertx-web-site.github.io.git
+        run: git clone --depth 1 --no-checkout git@github.com:vertx-web-site/vertx-web-site.github.io.git
       - run: |
           du -sh *
           df -h / /mnt
 
-      - name: Clean output directory
+      - name: Prepare output directory
         run: |
           cd vertx-web-site.github.io
-          git rm -r -q --ignore-unmatch *
           touch .nojekyll
           echo vertx.io > CNAME
           cd ..
