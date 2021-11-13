@@ -97,10 +97,10 @@ NOTE: 当一个共享客户端被关闭，如果存在同名客户端仍旧在�
 
 ==== Streaming
 
-当您需要以迭代的方式来处理查询结果（例如，您想处理结果集重的每一个元素），那么Streaming API是再合适不过了。
+当您需要以迭代的方式来处理查询结果（例如，您想处理结果集中的每一个元素），那么 Streaming API 是再合适不过了。
 特别是处理大量数据记录时，这样是非常高效的。
 
-为了给您一些使用这些API的灵感和思路，我们建议您参考如下示例：
+为了给您一些使用这些 API 的灵感和思路，我们建议您参考如下示例：
 
 [source,java]
 ----
@@ -179,7 +179,7 @@ cassandraClient.execute("SELECT * FROM users", listCollector, ar -> {
 [[_low_level_fetch]]
 ==== 低级别获取
 
-相比于stream 和bulk fetch，这个API更加底层，并对负载提供了更强大控制。
+相比于 stream 和bulk fetch，这个 API 更加底层，并对负载提供了更强大控制。
 
 [source,java]
 ----
@@ -274,24 +274,25 @@ cassandraClient.execute(batchStatement, result -> {
 });
 ----
 
-== Tracing queries
+[[_tracing_queries]]
+== 追踪查询
 
-The Cassandra Client can trace query execution when Vert.x has tracing enabled.
+当 Vert.x 开启了追踪（tracing）时，Cassandra 客户端也可以追踪执行的查询。
 
-The client reports the following _client_ spans:
+Cassandra 客户端会上报以下的 _客户端_ 跨度（span）：
 
-* `Query` operation name
-* tags
-** `peer.address`: list of nodes known to the driver, in the form `[127_0_0_1:9042,localhost:9042,myhost_mydomain:9042]`
+* `Query` 操作名
+* 标签
+** `peer.address`: 连接 Cassandra 的驱动已知的节点列表，格式类似 `[127_0_0_1:9042,localhost:9042,myhost_mydomain:9042]`
 ** `span.kind`: `client`
-** `db.instance`: the keyspace
-** `db.statement`: the CQL query
+** `db.instance`: keyspace 的名称
+** `db.statement`: CQL 的查询语句
 ** `db.type`: `cassandra`
 
-The default tracing policy is `link:../../apidocs/io/vertx/core/tracing/TracingPolicy.html#PROPAGATE[PROPAGATE]`, the client will only create a span when involved in an active trace.
+默认的追踪策略是 `link:../../apidocs/io/vertx/core/tracing/TracingPolicy.html#PROPAGATE[PROPAGATE]` ，客户端只会在参与活动跟踪时创建一个跨度。
 
-You can change the client policy with `link:../../apidocs/io/vertx/cassandra/CassandraClientOptions.html#setTracingPolicy-io.vertx.core.tracing.TracingPolicy-[setTracingPolicy]`.
-For example, you can set `link:../../apidocs/io/vertx/core/tracing/TracingPolicy.html#ALWAYS[ALWAYS]` to always report a span:
+您可以使用 `link:../../apidocs/io/vertx/cassandra/CassandraClientOptions.html#setTracingPolicy-io.vertx.core.tracing.TracingPolicy-[setTracingPolicy]` 方法来修改客户端的追踪策略。
+例如，您可以设置追踪策略为 `link:../../apidocs/io/vertx/core/tracing/TracingPolicy.html#ALWAYS[ALWAYS]` ，这样 Cassandra 客户端就会一直上报跨度：
 
 [source,java]
 ----
