@@ -2,14 +2,13 @@ import Docs from "../../components/layouts/Docs"
 import DocsIndex from "../../components/layouts/DocsIndex"
 import VersionContext from "../../components/contexts/VersionContext"
 import { metadata, latestRelease } from "../../docs/metadata/all"
-import parse5 from "parse5"
 import { useContext, useEffect } from "react"
 import { fetchGitHubStarsByUrl } from "../../components/lib/github-stars"
 
 const extractedDocsPath = "docs/extracted"
 const hashesPath = "docs/hashes"
 
-let asciidoctor
+let piscina
 let cache = {}
 let shas = {}
 
@@ -110,6 +109,7 @@ async function getChecksum(version) {
 async function compileAsciiDoc(filename, version) {
   const cacache = require("cacache")
   const cachePath = "./.cache/docs2"
+  const Piscina = require("piscina")
 
   const asciidoctorOptions = {
     safe: "unsafe",
@@ -135,49 +135,14 @@ async function compileAsciiDoc(filename, version) {
     let cachedDocument = await cacache.get(cachePath, cacheKey)
     return JSON.parse(cachedDocument.data.toString("utf-8"))
   } else {
-    // load asciidoctor if necessary
-    if (typeof asciidoctor === "undefined") {
-      asciidoctor = require("asciidoctor")()
-
-      // clean up any previously registered extension
-      asciidoctor.Extensions.unregisterAll()
-
-      // register highlight.js extension
-      const highlightJsExt = require("asciidoctor-highlight.js")
-      highlightJsExt.register(asciidoctor.Extensions)
+    // initialize Piscina if necessary
+    if (piscina === undefined) {
+      piscina = new Piscina({
+        filename: "components/lib/asciidoctor-worker.js"
+      })
     }
 
-    // render page (use loadFile so `include` directives work correctly)
-    let doc = asciidoctor.loadFile(filename, asciidoctorOptions)
-    let title = doc.getDocumentTitle()
-    let contents = doc.convert()
-
-    // parse generated HTML and extract table of contents
-    let documentFragment = parse5.parseFragment(contents, { sourceCodeLocationInfo: true })
-    let toc = undefined
-    for (let child of documentFragment.childNodes) {
-      if (child.tagName === "div") {
-        for (let attr of child.attrs) {
-          if (attr.name === "id" && attr.value === "toc") {
-            toc = contents.substring(child.sourceCodeLocation.startOffset,
-                child.sourceCodeLocation.endOffset)
-            contents = contents.substring(0, child.sourceCodeLocation.startOffset) +
-                contents.substring(child.sourceCodeLocation.endOffset)
-            break
-          }
-        }
-      }
-      if (typeof toc !== "undefined") {
-        break
-      }
-    }
-    toc = toc || ""
-
-    let result = {
-      title,
-      contents,
-      toc
-    }
+    let result = await piscina.run({ filename, asciidoctorOptions })
 
     await cacache.put(cachePath, cacheKey, JSON.stringify(result))
 
