@@ -11,6 +11,7 @@ const hashesPath = "docs/hashes"
 
 let asciidoctor
 let cache = {}
+let shas = {}
 
 async function readDirRecursive(dir, fs, path, result = []) {
   let files = await fs.readdir(dir)
@@ -80,11 +81,34 @@ export async function getStaticPaths() {
   }
 }
 
-async function compileAsciiDoc(filename, version) {
-  const cacache = require("cacache")
+async function getChecksum(version) {
   const fs = require("fs").promises
   const path = require("path")
 
+  let actualVersion = version || "latest"
+  if (shas[actualVersion] !== undefined) {
+    return shas[actualVersion]
+  }
+
+  let shaFile = path.join(hashesPath, `${actualVersion}.sha`)
+  let sha
+  try {
+    sha = await fs.readFile(shaFile, "utf-8")
+  } catch (e) {
+    console.error(
+      "\n\n**********************************************************\n" +
+          "ERROR: Could not read documentation checksum file.\n" +
+          "Please run `npm run update-docs'\n" +
+          "**********************************************************\n")
+    throw e
+  }
+
+  shas[actualVersion] = sha
+  return sha
+}
+
+async function compileAsciiDoc(filename, version) {
+  const cacache = require("cacache")
   const cachePath = "./.cache/docs"
 
   const asciidoctorOptions = {
@@ -98,18 +122,7 @@ async function compileAsciiDoc(filename, version) {
   }
 
   // load checksum for this version
-  let shaFile = path.join(hashesPath, `${version || "latest"}.sha`)
-  let sha
-  try {
-    sha = await fs.readFile(shaFile, "utf-8")
-  } catch (e) {
-    console.error(
-      "\n\n**********************************************************\n" +
-          "ERROR: Could not read documentation checksum file.\n" +
-          "Please run `npm run update-docs'\n" +
-          "**********************************************************\n")
-    throw e
-  }
+  let sha = getChecksum(version)
 
   let cacheKey = JSON.stringify({
     ...asciidoctorOptions,
