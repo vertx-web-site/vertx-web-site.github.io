@@ -21,7 +21,7 @@ async function readDirRecursive(dir, result = []) {
   return result
 }
 
-module.exports = async ({ version }) => {
+module.exports = async ({ version, progressPort }) => {
   let adoc = asciidoctor()
 
   // clean up any previously registered extensions
@@ -49,6 +49,8 @@ module.exports = async ({ version }) => {
   await fs.mkdir(compiledPath, { recursive: true })
 
   let files = await readDirRecursive(extractedPath)
+  let i = 0
+  let lastProgress = 0
   for (let f of files) {
     // render page (use loadFile so `include` directives work correctly)
     let doc = adoc.loadFile(f, asciidoctorOptions)
@@ -85,6 +87,17 @@ module.exports = async ({ version }) => {
       .replace(/\.adoc$/, ".json"))
     await fs.mkdir(path.dirname(destFile), { recursive: true })
     await fs.writeFile(destFile, JSON.stringify(result))
+
+    ++i
+    let progress = Math.round(i * 100 / files.length)
+    if (progress !== lastProgress) {
+      progressPort.postMessage(progress - lastProgress)
+      lastProgress = progress
+    }
+  }
+
+  if (lastProgress < 100) {
+    progressPort.postMessage(100 - lastProgress)
   }
 
   return memoryLogger.getMessages()
