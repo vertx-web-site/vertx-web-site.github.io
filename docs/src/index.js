@@ -12,6 +12,8 @@ const piscina = new Piscina({
 
 const multibar = new cliProgress.MultiBar({
   autopadding: true,
+  hideCursor: true,
+  stopOnComplete: true,
   format: function (options, params, payload) {
     if (payload.asciidoc) {
       return cliProgress.Format.Formatter({
@@ -64,9 +66,13 @@ async function main() {
       multibar.remove(bar)
     }
 
+    let lastProgress = 0
     let channel = new MessageChannel()
-    channel.port2.on("message", (message) => {
-      asciidoctorBar.increment(message)
+    channel.port2.on("message", (progress) => {
+      if (progress !== lastProgress) {
+        asciidoctorBar.increment(progress - lastProgress)
+        lastProgress = progress
+      }
     })
 
     let messages = await piscina.run({ version: version, progressPort: channel.port1 },
@@ -74,6 +80,10 @@ async function main() {
 
     channel.port1.close()
     channel.port2.close()
+
+    if (lastProgress < 100) {
+      asciidoctorBar.increment(100 - lastProgress)
+    }
 
     totalMessages += messages.length
     await asciidoctorLog.write(messages.join("\n"))
@@ -90,7 +100,6 @@ async function main() {
   }
 
   asciidoctorBar.stop()
-  multibar.remove(asciidoctorBar)
   multibar.stop()
 
   if (totalMessages > 0) {

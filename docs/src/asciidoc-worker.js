@@ -109,7 +109,7 @@ module.exports = async ({ version, progressPort }) => {
     ++i
     let progress = Math.round(i * 100 / files.length)
     if (progress !== lastProgress) {
-      progressPort.postMessage(progress - lastProgress)
+      progressPort.postMessage(progress)
       lastProgress = progress
     }
   }
@@ -119,7 +119,7 @@ module.exports = async ({ version, progressPort }) => {
   await fs.writeFile(destShaFile, sourceSha)
 
   if (lastProgress < 100) {
-    progressPort.postMessage(100 - lastProgress)
+    progressPort.postMessage(100)
   }
 
   return memoryLogger.getMessages()
