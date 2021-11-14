@@ -1,0 +1,5 @@
+compiled/
+download/
+extracted/
+dist/
+asciidoctor.log
