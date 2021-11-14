@@ -48,6 +48,24 @@ module.exports = async ({ version, progressPort }) => {
 
   await fs.mkdir(compiledPath, { recursive: true })
 
+  let sourceShaFile = `download/vertx-stack-docs-${version}-docs.zip.sha1`
+  let sourceSha = await fs.readFile(sourceShaFile, "utf-8")
+
+  let destShaFile = path.join(compiledPath, `${version}.sha1`)
+  let destSha
+  try {
+    destSha = await fs.readFile(destShaFile, "utf-8")
+  } catch (e) {
+    // there is no sha file, which means the documentation for this version
+    // has not been compiled before or compilation was incomplete
+  }
+
+  if (destSha === sourceSha) {
+    // documentation has already been compiled earlier
+    progressPort.postMessage(100)
+    return []
+  }
+
   let files = await readDirRecursive(extractedPath)
   let i = 0
   let lastProgress = 0
@@ -95,6 +113,10 @@ module.exports = async ({ version, progressPort }) => {
       lastProgress = progress
     }
   }
+
+  // write sha file to indicate that the documentation for this version
+  // has been completely compiled
+  await fs.writeFile(destShaFile, sourceSha)
 
   if (lastProgress < 100) {
     progressPort.postMessage(100 - lastProgress)

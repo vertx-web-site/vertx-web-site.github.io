@@ -6,17 +6,32 @@ const stream = require("stream")
 const unzipper = require("unzipper")
 const Writer = require("fstream").Writer
 
+const downloadPath = "download"
+
+async function downloadSha(url) {
+  let shaFilePath = path.join(downloadPath, url.substring(url.lastIndexOf("/")))
+  if (!fsSync.existsSync(shaFilePath)) {
+    let res = await fetch(url)
+    if (res.status !== 200) {
+      throw "Could not download `${url}'. Status code: ${res.status}"
+    }
+    let sha = await res.text()
+    await fs.writeFile(shaFilePath, sha)
+  }
+}
+
 async function download(version, progressListener) {
   // TODO handle snapshots
   let url = `https://repo1.maven.org/maven2/io/vertx/vertx-stack-docs/${version}/vertx-stack-docs-${version}-docs.zip`
 
   let extractedPath = `extracted/${version}`
   let publicDocsPath = `../public/docs/${version}`
-  let downloadPath = "download"
 
   await fs.mkdir(extractedPath, { recursive: true })
   await fs.mkdir(publicDocsPath, { recursive: true })
   await fs.mkdir(downloadPath, { recursive: true })
+
+  await downloadSha(`${url}.sha1`)
 
   let zipFilePath = path.join(downloadPath, `vertx-stack-docs-${version}-docs.zip`)
   let downloadFile = false
