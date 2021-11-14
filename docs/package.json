@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "cli-progress": "^3.9.1",
+    "fstream": "^1.0.12",
     "p-limit": "^4.0.0",
     "unzipper": "^0.10.11"
   },
