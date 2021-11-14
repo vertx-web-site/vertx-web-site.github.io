@@ -11,9 +11,11 @@ async function download(version, progressListener) {
   let url = `https://repo1.maven.org/maven2/io/vertx/vertx-stack-docs/${version}/vertx-stack-docs-${version}-docs.zip`
 
   let extractedPath = `extracted/${version}`
+  let publicDocsPath = `../public/docs/${version}`
   let downloadPath = "download"
 
   await fs.mkdir(extractedPath, { recursive: true })
+  await fs.mkdir(publicDocsPath, { recursive: true })
   await fs.mkdir(downloadPath, { recursive: true })
 
   let zipFilePath = path.join(downloadPath, `vertx-stack-docs-${version}-docs.zip`)
@@ -64,7 +66,12 @@ async function download(version, progressListener) {
           return entry.autodrain
         }
 
-        let destPath = path.join(extractedPath, entry.path)
+        let destPath
+        if (entry.path.startsWith("apidocs/")) {
+          destPath = path.join(publicDocsPath, entry.path)
+        } else {
+          destPath = path.join(extractedPath, entry.path)
+        }
 
         return fs.stat(destPath)
           .catch(_ => null)
