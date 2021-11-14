@@ -8,6 +8,7 @@
     "update-docs": "webpack && node dist/main.js"
   },
   "dependencies": {
+    "cli-progress": "^3.9.1",
     "p-limit": "^4.0.0",
     "unzipper": "^0.10.11"
   },
