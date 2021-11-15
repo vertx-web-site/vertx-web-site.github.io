@@ -1,8 +1,8 @@
 = Zookeeper 群集管理器
 
-`ZookeeperClusterManager` 是基于 http://zookeeper.apache.org/[Zookeeper] 来实现的Vert.x集群管理器。
+`ZookeeperClusterManager` 是基于 http://zookeeper.apache.org/[Zookeeper] 来实现的 Vert.x 集群管理器。
 
-它完全实现了vert.x集群的接口。因此，你可以根据你的需要使用它来代替vertx-hazelcast。
+它完全实现了 vert.x 集群的接口。因此，您可以根据需要使用它来代替 vertx-hazelcast。
 此实现需要引入以下依赖：
 
 * Maven (在 `pom.xml` 文件中):
@@ -59,8 +59,8 @@ Vert.x 能够从 classpath 路径的 jar 自动检测并使用出 `ClusterManage
 不过需要确保在 classpath 没有其他的 `ClusterManager` 实现。 否则Vert.x会
 选择错误的 ClusterManager
 
-如果你要嵌入指定的集群管理器，你也可以通过编程方式来指定。
-在创建Vert.x实例时，通过下面代码来配置集群管理器
+如果您要嵌入指定的集群管理器，也可以通过编程方式来指定。
+在创建 Vert.x 实例时，通过下面代码来配置集群管理器
 
 [source, java]
 ----
@@ -85,7 +85,7 @@ https://github.com/vert-x3/vertx-zookeeper/blob/master/src/main/resources/defaul
 如果要覆盖此配置，可以在 `classpath` 中添加一个 `zookeeper.json` 文件。
 如果想在 fat jar 中内嵌 `zookeeper.json` ，此文件必须在 fat jar 的根目录中。
 如果此文件是一个外部文件，则必须将其添加至 `classpath` 中。
-举个例子，如果你使用的是Vert.x的 _Launcher_ 类，则可以按以下方式实现：
+举个例子，如果您使用的是 Vert.x 的 _Launcher_ 类，则可以按以下方式实现：
 
 [source]
 ----
@@ -144,7 +144,7 @@ IMPORTANT: 通过系统变量 `vertx.zookeeper.hosts` 也可以达到配置 zook
 === 开启日志
 
 在排除故障时，开启 Zookeeper 日志，将会给予很大的帮助，
-通过日志查看集群管理器是否正常工作。你可以（使用默认的JUL日志记录时）通过
+如果想要通过日志查看集群管理器是否正常工作。您可以（使用默认的 JUL 日志记录时）通过
 在 `classpath` 中添加 `vertx-default-jul-logging.properties` 文件来配置日志，这是一个标准 java.util.loging（JUL） 配置文件。
 具体配置如下：
 

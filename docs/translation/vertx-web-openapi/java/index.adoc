@@ -188,7 +188,7 @@ routerBuilder
       .header(config.getString("name")));
 ----
 
-或者你可以配置更多复杂场景的情况，比如需要服务发现的OpenId Connect
+或者您可以配置更多复杂场景的情况，比如需要服务发现的 OpenId Connect
 
 ----
 openapi: 3.0.0
