@@ -1,19 +1,19 @@
 = Vert.x Junit 5 整合
 
-本模块提供了用 JUnit 5 编写Vert.x测试的相关整合以及支持。
+本模块提供了用 JUnit 5 编写 Vert.x 测试的相关整合以及支持。
 
 [[_use_it_in_your_build]]
 == 在您的构建脚本中使用它
 
 * `groupId`: `io.vertx`
 * `artifactId`: `vertx-junit5`
-* `version`: (current Vert.x release or SNAPSHOT)
+* `version`: (当前的 Vert.x 的发布版本或快照版本)
 
 [[_why_testing_asynchronous_code_is_different]]
 == 为什么测试异步代码与平常不同
 
-测试异步操作需要比JUnit之类的测试工具更多的工具。
-让我们考虑一个典型的例子，用Vert.x创建HTTP服务，并将它放入Junit测试：
+测试异步操作需要比 JUnit 之类的测试工具更多的工具。
+让我们考虑一个典型的例子，用 Vert.x 创建 HTTP 服务，并将它放入 Junit 测试：
 
 [source,java]
 ----
@@ -36,7 +36,7 @@ class ATest {
 我们不能按常规方式来断定在 `listen` 方法返回之后，服务就成功启动了。
 况且：
 
-1. 传到 `listen` 的回调函数是在 Vert.x event loop 线程上运行的，而不是在执行Junit 测试的线程上运行的，此外
+1. 传到 `listen` 的回调函数是在 Vert.x event loop 线程上运行的，而不是在执行 Junit 测试的线程上运行的，此外
 2. 调用 `listen` 方法之后，单元测试就退出了，并且已经被认为执行成功，此时HTTP服务有可能并没有启动完毕，而且
 3. 因为 `listen` 中的回调函数不是运行于单元测试线程上，而是运行于另一线程，所以类似于断言失败等等任何异常都不会被Junit执行器捕获到。
 
@@ -401,17 +401,18 @@ static class SomeTest {
 这同样适用于其它 `ArgumentSources` 。
 详见 https://junit.org/junit5/docs/current/api/org.junit.jupiter.params/org/junit/jupiter/params/ParameterizedTest.html[ParameterizedTest] 文档的 `Formal Parameter List` 一节。
 
-== Running tests on a Vert.x context
+[[_running_tests_on_a_vert_x_context]]
+== 在 Vert.x 的 context 中执行测试
 
-By default the thread invoking the test methods is the JUnit thread.
-The `link:../../apidocs/io/vertx/junit5/RunTestOnContext.html[RunTestOnContext]` extension can be used to alter this behavior by running test methods on a Vert.x event-loop thread.
+默认情况下，是由 JUnit 线程来调用测试方法。
+可以使用 `link:../../apidocs/io/vertx/junit5/RunTestOnContext.html[RunTestOnContext]` 扩展以选择使用一个 Vert.x event-loop 线程来执行测试方法。
 
-CAUTION: Keep in mind that you must not block the event loop when using this extension.
+CAUTION: 您需要注意在使用该扩展时不要阻塞事件循环。
 
-For this purpose, the extension needs a `link:../../apidocs/io/vertx/core/Vertx.html[Vertx]` instance.
-By default, it creates one automatically but you can provide options for configuration or a supplier method.
+为了使用 Vert.x 的线程来执行测试，扩展需要您提供一个 `link:../../apidocs/io/vertx/core/Vertx.html[Vertx]` 的实例。
+默认情况下，扩展会自动创建一个 `Vertx` 的实例，但您也可以提供配置参数，或是指定一个方法来提供其实例。
 
-The `link:../../apidocs/io/vertx/core/Vertx.html[Vertx]` instance can be retrieved when the test is running.
+这个 `link:../../apidocs/io/vertx/core/Vertx.html[Vertx]` 的实例可以在执行测试的方法中获取到。
 
 [source,java]
 ----
@@ -446,8 +447,8 @@ class RunTestOnContextExampleTest {
 }
 ----
 
-When used as a `@RegisterExtension` instance field, a new `link:../../apidocs/io/vertx/core/Vertx.html[Vertx]` object and `link:../../apidocs/io/vertx/core/Context.html[Context]` are created for each tested method.
-`@BeforeEach` and `@AfterEach` methods are executed on this context.
+使用 `@RegisterExtension` 注解修饰类的非静态属性时，会为每个测试方法创建新的 `link:../../apidocs/io/vertx/core/Vertx.html[Vertx]` 和 `link:../../apidocs/io/vertx/core/Context.html[Context]` 的对象。
+`@BeforeEach` 和 `@AfterEach` 注解修饰的方法会在该 context 中执行。
 
-When used as a `@RegisterExtension` static field, a single `link:../../apidocs/io/vertx/core/Vertx.html[Vertx]` object and `link:../../apidocs/io/vertx/core/Context.html[Context]` are created for all the tested methods.
-`@BeforeAll` and `@AfterAll` methods are executed on this context too.
+使用 `@RegisterExtension` 注解修饰类的静态属性时，会为所有的测试方法创建一个公用的 `link:../../apidocs/io/vertx/core/Vertx.html[Vertx]` 和 `link:../../apidocs/io/vertx/core/Context.html[Context]` 的对象。
+`@BeforeEach` 和 `@AfterEach` 注解修饰的方法也会在该 context 中执行。
