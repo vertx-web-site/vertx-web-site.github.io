@@ -1,13 +1,13 @@
-= OTP Auth provider
+= 一次性密码身份验证功能
 
-We provide an implementation of `link:../../apidocs/io/vertx/ext/auth/authentication/AuthenticationProvider.html[AuthenticationProvider]` which uses the one time passwords
-to perform authentication.
-The module supports the Google Authenticator, you can choose any convenient library for creating the QR code with key, or simply transfer key in the format base32.
+我们提供了一个 `link:../../apidocs/io/vertx/ext/auth/authentication/AuthenticationProvider.html[AuthenticationProvider]` 实现类，可以用一次性密码
+进行身份验证。
+这个模块支持 Google Authenticator，您可以使用任何方便的库来根据密钥来生成二维码，或者仅仅是对密钥进行 base32 编码。
 
-To use this project, add the following
-dependency to the _dependencies_ section of your build descriptor:
+要使用这个项目， 
+将下面的依赖添加到您构建描述里的 _dependencies_ 部分
 
-* Maven (in your `pom.xml`):
+* Maven (在您的 `pom.xml` 文件中):
 
 [source,xml,subs="+attributes"]
 ----
@@ -18,7 +18,7 @@ dependency to the _dependencies_ section of your build descriptor:
 </dependency>
 ----
 
-* Gradle (in your `build.gradle` file):
+* Gradle (在您的 `build.gradle` 文件中):
 
 [source,groovy,subs="+attributes"]
 ----
@@ -27,37 +27,43 @@ compile 'io.vertx:vertx-auth-otp:4.2.0'
 
 ---
 
-== HOTP Authentication
-To create an instance of the Hotp auth provider, use `link:../../apidocs/io/vertx/ext/auth/otp/hotp/HotpAuth.html#create-io.vertx.ext.auth.otp.hotp.HotpAuthOptions-[HotpAuth.create]` as follows:
+[[_hotp_authentication]]
+== HOTP 身份验证
+为了创建一个使用 HOTP（译者注：基于 Hash 的一次性密码） 进行验证的实例，参考以下代码使用 `link:../../apidocs/io/vertx/ext/auth/otp/hotp/HotpAuth.html#create-io.vertx.ext.auth.otp.hotp.HotpAuthOptions-[HotpAuth.create]` ：
 
-=== HOTP Configuration
+[[_hotp_configuration]]
+=== HOTP 配置
 
-The class `link:../../apidocs/io/vertx/ext/auth/otp/hotp/HotpAuthOptions.html[HotpAuthOptions]` is used to configure the Hotp authentication provider:
+`link:../../apidocs/io/vertx/ext/auth/otp/hotp/HotpAuthOptions.html[HotpAuthOptions]` 类用于配置 Hotp 身份验证功能：
 
-`passwordLength`:: the set otp code length, valid value between 6 and 8, default value equal 6.
+`passwordLength`:: 设置一次性密码的消息码的长度，有效值在 6 到 8 之间，默认为 6.
 
-`authAttemptsLimit`:: the limit auth attempts.
+`authAttemptsLimit`:: 设置最大允许的验证次数.
 
-`lookAheadWindow`:: the resynchronization mechanism usage.
+`lookAheadWindow`:: 用于设置再同步机制.
 
-=== Notes
+[[_notes]]
+=== 备注
 
-Note that when authenticating using this implementation, it assumes `identifier`, `key` and `counter` fields are present in the authentication info
+注意，当使用以上的身份认证方式时，代码假定身份验证信息中存在 `identifier`, `key` 和 `counter` 字段
 
-== TOTP Authentication
+[[_totp_authentication]]
+== TOTP 身份验证
 
-To create an instance of the Hotp auth provider, use `link:../../apidocs/io/vertx/ext/auth/otp/totp/TotpAuth.html#create-io.vertx.ext.auth.otp.totp.TotpAuthOptions-[TotpAuth.create]` as follows
+为了创建一个使用 TOTP（译者注：基于时间的一次性密码）进行验证的实例, 参考以下代码使用 `link:../../apidocs/io/vertx/ext/auth/otp/totp/TotpAuth.html#create-io.vertx.ext.auth.otp.totp.TotpAuthOptions-[TotpAuth.create]` ：
 
-=== TOTP Configuration
+[[_totp_configuration]]
+=== TOTP 配置
 
-The class `link:../../apidocs/io/vertx/ext/auth/otp/totp/TotpAuthOptions.html[TotpAuthOptions]` is used to configure the Totp authentication provider:
+`link:../../apidocs/io/vertx/ext/auth/otp/totp/TotpAuthOptions.html[TotpAuthOptions]` 类用于配置 Totp 身份验证功能：
 
-`passwordLength`:: the set otp code length, valid value between 6 and 8, default value equal 6.
+`passwordLength`:: 设置一次性密码的消息码的长度，有效值在 6 到 8 之间，默认为 6.
 
-`authAttemptsLimit`:: the limit auth attempts.
+`authAttemptsLimit`:: 设置最大允许的验证次数.
 
-`period`:: time period in seconds during which the authentication code is valid, default value equal 30.
+`period`:: 设置验证码的有效时间，单位为秒，默认值为 30.
 
-=== Notes
+[[_notes_2]]
+=== 备注
 
-Note that when authenticating using this implementation, it assumes `identifier`, `key` fields are present in the authentication info
+注意，当使用以上的身份认证方式时，代码假定身份验证信息中存在 `identifier` 和 `key` 字段
