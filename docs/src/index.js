@@ -1,6 +1,7 @@
 import cliProgress from "cli-progress"
 import fs from "fs/promises"
 import download from "./download"
+import extract from "./extract"
 import { metadata } from "../metadata/all"
 import Piscina from "piscina"
 import pLimit from "p-limit"
@@ -15,12 +16,12 @@ const multibar = new cliProgress.MultiBar({
   hideCursor: true,
   stopOnComplete: true,
   format: function (options, params, payload) {
-    if (payload.asciidoc) {
+    if (!payload.message.startsWith("Download")) {
       return cliProgress.Format.Formatter({
         ...options,
         format: "{bar} {percentage}% | {value}/{total} | {message}",
         formatValue: function (v, options, type) {
-          if (type === "total" || type === "value") {
+          if (payload.asciidoc && (type === "total" || type === "value")) {
             v = Math.floor(v / 100)
           }
           return cliProgress.Format.ValueFormat(v, options, type)
@@ -42,7 +43,8 @@ const multibar = new cliProgress.MultiBar({
 }, cliProgress.Presets.rect)
 
 async function main() {
-  const limit = pLimit(4)
+  const downloadLimit = pLimit(4)
+  const extractLimit = pLimit(4)
 
   let totalMessages = 0
   let asciidoctorLog = await fs.open("asciidoctor.log", "w")
@@ -50,22 +52,37 @@ async function main() {
     message: "Compile Asciidoc", asciidoc: true })
 
   async function run(version) {
-    let bar
-    await limit(() => {
-      return download(version, {
-        start: (total) => {
-          bar = multibar.create(total, 0, { message: version })
-        },
-        update: (value) => {
-          bar.update(value)
+    let progressListener = {
+      start(total, message) {
+        this.stop()
+        this.bar = multibar.create(total, 0, { message })
+      },
+
+      update(value) {
+        this.bar.update(value)
+      },
+
+      stop() {
+        if (this.bar !== undefined) {
+          this.bar.stop()
+          multibar.remove(this.bar)
         }
-      })
-    })
-    if (bar !== undefined) {
-      bar.stop()
-      multibar.remove(bar)
+      }
     }
 
+    // download artifact
+    await downloadLimit(() => {
+      return download(version, progressListener)
+    })
+    progressListener.stop()
+
+    // extract artifact
+    await extractLimit(() => {
+      return extract(version, progressListener)
+    })
+    progressListener.stop()
+
+    // compile asciidoc
     let lastProgress = 0
     let channel = new MessageChannel()
     channel.port2.on("message", (progress) => {

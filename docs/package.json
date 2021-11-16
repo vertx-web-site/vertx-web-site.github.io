@@ -5,13 +5,12 @@
   "private": true,
   "license": "Apache-2.0",
   "scripts": {
-    "update-docs": "webpack && node dist/main.js"
+    "update-docs": "webpack && node --no-warnings dist/main.js"
   },
   "dependencies": {
     "cli-progress": "^3.9.1",
-    "fstream": "^1.0.12",
     "p-limit": "^4.0.0",
-    "unzipper": "^0.10.11"
+    "yauzl": "^2.10.0"
   },
   "devDependencies": {
     "@babel/preset-react": "^7.16.0",
