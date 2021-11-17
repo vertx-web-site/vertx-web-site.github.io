@@ -1,16 +1,16 @@
-= Reactive Oracle Client
+= 响应式的 Oracle 数据库客户端
 :PREPARED_PARAMS: `?`
 
-The Reactive Oracle Client is a client for Oracle with a straightforward API focusing on
+响应式的 Oracle 数据库客户端是一个 a client for Oracle with a straightforward API focusing on
 scalability and low overhead.
 
-*Features*
+*特性*
 
 * todo
 
-WARNING: this module is in tech preview
+WARNING: 该模块处于 tech preview 阶段
 
-== Usage
+== 使用
 
 To use the Reactive Oracle Client add the following dependency to the _dependencies_ section of your build descriptor:
 

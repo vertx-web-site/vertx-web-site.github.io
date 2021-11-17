@@ -8,7 +8,7 @@ insert(docs, "vertx-mssql-client",
   {
     id: "vertx-oracle-client",
     name: "Oracle Client",
-    description: "The Reactive Oracle client.",
+    description: "响应式的 Oracle 数据库客户端。",
     category: "databases",
     href: "/vertx-oracle-client/java/",
     repository: "https://github.com/eclipse-vertx/vertx-sql-client",
