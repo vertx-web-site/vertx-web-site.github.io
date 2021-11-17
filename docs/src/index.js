@@ -2,12 +2,15 @@ import cliProgress from "cli-progress"
 import fs from "fs/promises"
 import download from "./download"
 import extract from "./extract"
+import { isAsciidocCompiled } from "./util"
 import { metadata, latestRelease } from "../metadata/all"
 import path from "path"
 import Piscina from "piscina"
 import pLimit from "p-limit"
 import { MessageChannel } from "worker_threads"
 
+const compiledPath = "compiled"
+const downloadPath = "download"
 const publicDocsPath = "../public/docs"
 
 const piscina = new Piscina({
@@ -79,9 +82,12 @@ async function main() {
     })
     progressListener.stop()
 
+    // check if asciidoc for this version has already been compiled
+    let asciidocCompiled = await isAsciidocCompiled(version, downloadPath, compiledPath)
+
     // extract artifact
     await extractLimit(() => {
-      return extract(version, progressListener)
+      return extract(version, progressListener, asciidocCompiled)
     })
     progressListener.stop()
 

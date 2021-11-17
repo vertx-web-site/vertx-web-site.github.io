@@ -3,6 +3,10 @@ const fs = require("fs/promises")
 const highlightJsExt = require("asciidoctor-highlight.js")
 const parse5 = require("parse5")
 const path = require("path")
+const { getSourceSha, isAsciidocCompiled } = require("./util")
+
+const compiledPath = "compiled"
+const downloadPath = "download"
 
 async function readDirRecursive(dir, result = []) {
   let files = await fs.readdir(dir)
@@ -44,23 +48,11 @@ module.exports = async ({ version, progressPort }) => {
   }
 
   let extractedPath = `extracted/${version}`
-  let compiledPath = `compiled/${version}`
+  let destVersionPath = path.join(compiledPath, version)
+  await fs.mkdir(destVersionPath, { recursive: true })
+  let destShaFile = path.join(destVersionPath, `${version}.sha1`)
 
-  await fs.mkdir(compiledPath, { recursive: true })
-
-  let sourceShaFile = `download/vertx-stack-docs-${version}-docs.zip.sha1`
-  let sourceSha = await fs.readFile(sourceShaFile, "utf-8")
-
-  let destShaFile = path.join(compiledPath, `${version}.sha1`)
-  let destSha
-  try {
-    destSha = await fs.readFile(destShaFile, "utf-8")
-  } catch (e) {
-    // there is no sha file, which means the documentation for this version
-    // has not been compiled before or compilation was incomplete
-  }
-
-  if (destSha === sourceSha) {
+  if (await isAsciidocCompiled(version, downloadPath, compiledPath)) {
     // documentation has already been compiled earlier
     progressPort.postMessage(100)
     return []
@@ -101,7 +93,7 @@ module.exports = async ({ version, progressPort }) => {
       contents,
       toc
     }
-    let destFile = path.join(compiledPath, f.substring(extractedPath.length + 1)
+    let destFile = path.join(destVersionPath, f.substring(extractedPath.length + 1)
       .replace(/\.adoc$/, ".json"))
     await fs.mkdir(path.dirname(destFile), { recursive: true })
     await fs.writeFile(destFile, JSON.stringify(result))
@@ -116,7 +108,7 @@ module.exports = async ({ version, progressPort }) => {
 
   // write sha file to indicate that the documentation for this version
   // has been completely compiled
-  await fs.writeFile(destShaFile, sourceSha)
+  await fs.writeFile(destShaFile, await getSourceSha(version, downloadPath))
 
   if (lastProgress < 100) {
     progressPort.postMessage(100)

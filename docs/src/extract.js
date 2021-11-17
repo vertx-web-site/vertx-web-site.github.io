@@ -7,11 +7,21 @@ const downloadPath = "download"
 const extractedPath = "extracted"
 const publicDocsPath = "../public/docs"
 
-async function extractEntry(zipfile, entry, extractedVersionPath, publicDocsVersionPath) {
+async function extractEntry(zipfile, entry, extractedVersionPath,
+    publicDocsVersionPath, apidocsOnly) {
+  if (entry.fileName.endsWith("/")) {
+    // skip directories
+    return
+  }
+
   let destPath
   if (entry.fileName.startsWith("apidocs/")) {
     destPath = path.join(publicDocsVersionPath, entry.fileName)
   } else {
+    if (apidocsOnly) {
+      // skip everything but apidocs
+      return
+    }
     destPath = path.join(extractedVersionPath, entry.fileName)
   }
 
@@ -48,7 +58,7 @@ async function extractEntry(zipfile, entry, extractedVersionPath, publicDocsVers
   await fs.utimes(destPath, entry.getLastModDate(), entry.getLastModDate())
 }
 
-async function extract(version, progressListener) {
+async function extract(version, progressListener, apidocsOnly = false) {
   let extractedVersionPath = path.join(extractedPath, version)
   let publicDocsVersionPath = path.join(publicDocsPath, version)
 
@@ -70,20 +80,13 @@ async function extract(version, progressListener) {
       zipfile.on("end", () => resolve())
 
       zipfile.on("entry", entry => {
-        if (entry.fileName.endsWith("/")) {
-          // skip directories
-          entriesRead++
-          progressListener?.update(entriesRead)
-          zipfile.readEntry()
-        } else {
-          extractEntry(zipfile, entry, extractedVersionPath, publicDocsVersionPath)
-            .then(() => {
-              entriesRead++
-              progressListener?.update(entriesRead)
-              zipfile.readEntry()
-            })
-            .catch(reject)
-        }
+        extractEntry(zipfile, entry, extractedVersionPath, publicDocsVersionPath, apidocsOnly)
+          .then(() => {
+            entriesRead++
+            progressListener?.update(entriesRead)
+            zipfile.readEntry()
+          })
+          .catch(reject)
       })
 
       zipfile.readEntry()
