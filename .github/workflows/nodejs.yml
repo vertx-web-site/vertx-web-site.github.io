@@ -12,10 +12,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    env:
-      # put gradle user home on another volume so we have more space on /
-      GRADLE_USER_HOME: /mnt/gradle
-
     steps:
       # Delete tools not needed for the build process
       # This saves about 4GB of disk space
@@ -25,11 +21,6 @@ jobs:
           sudo rm -rf /usr/local/share/boost
           sudo rm -rf $AGENT_TOOLSDIRECTORY
           df -h /
-
-      # Prepare gradle user home
-      - run: |
-          sudo mkdir $GRADLE_USER_HOME
-          sudo chmod uog+rwx $GRADLE_USER_HOME
 
       - uses: actions/checkout@v2
 
@@ -41,19 +32,16 @@ jobs:
       #   run: |
       #     .github/workflows/free_disk_space.sh
 
-      - name: Setup Node.js 12.x
+      - name: Setup Node.js 16.x
         uses: actions/setup-node@v1
         with:
-          node-version: 12.x
-
-      - name: Setup Java 11
-        uses: actions/setup-java@v1
-        with:
-          java-version: "11"
+          node-version: 16.x
 
       - uses: actions/cache@v2
         with:
-          path: .cache
+          path: |
+            .cache
+            docs/compiled
           key: ${{ runner.os }}-build-${{ github.sha }}
           restore-keys: |
             ${{ runner.os }}-build-
@@ -64,14 +52,30 @@ jobs:
 
       - run: npm ci
 
-      # Download and extract docs but only extract API docs of latest version.
-      # We will copy them to the target repository later. This saves disk
-      # space and time.
-      - run: npm run update-docs -- extractDocs extractApidocsLatest
+      # Download, extract, and compile docs
+      - run: npm run update-docs
       - run: |
           du -sh *
           df -h / /mnt
 
+      # Remove files that have been used while running 'update-docs' but that
+      # are not needed anymore for the remainder of the workflow. This is
+      # necessary to save disk space.
+      - name: Cleanup temporary files
+        run: |
+          rm -rf docs/download
+          rm -rf docs/extracted
+          rm -rf docs/node_modules
+      - run: |
+          du -sh *
+          df -h / /mnt
+
+      # Temporarily move apidocs out of the way
+      - run: |
+        mkdir .apidocs_temp
+        mv public/docs/* .apidocs_temp
+
+      # Build website
       - run: npm run build
         env:
           GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -84,9 +88,7 @@ jobs:
       # disk space.
       - name: Cleanup temporary files
         run: |
-          rm -rf docs/extracted
           rm -rf node_modules
-          rm -rf public/docs
       - run: |
           du -sh *
           df -h / /mnt
@@ -124,8 +126,8 @@ jobs:
       - name: Copy build to output directory
         run: mv out/* vertx-web-site.github.io
 
-      - name: Extract remaining API docs directly into output directory
-        run: npm run update-docs -- -PextractApidocsTargetDir=$(pwd)/vertx-web-site.github.io/docs extractApidocsVersions
+      - name: Copy API docs directly into output directory
+        run: mv .apidocs_temp/* vertx-web-site.github.io/docs
       - run: |
           du -sh *
           df -h / /mnt
