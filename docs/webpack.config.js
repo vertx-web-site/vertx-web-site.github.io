@@ -1,10 +1,12 @@
+const path = require("path")
 const webpack = require("webpack")
 
 module.exports = {
   target: "node",
   mode: "development",
   cache: {
-    type: "filesystem"
+    type: "filesystem",
+    cacheDirectory: path.resolve(__dirname, "../.cache/update-docs/webpack")
   },
   module: {
     rules: [{

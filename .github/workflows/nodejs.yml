@@ -41,6 +41,7 @@ jobs:
         with:
           path: |
             .cache
+            .next/cache
             docs/compiled
           key: ${{ runner.os }}-build-${{ github.sha }}
           restore-keys: |
