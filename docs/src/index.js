@@ -2,10 +2,13 @@ import cliProgress from "cli-progress"
 import fs from "fs/promises"
 import download from "./download"
 import extract from "./extract"
-import { metadata } from "../metadata/all"
+import { metadata, latestRelease } from "../metadata/all"
+import path from "path"
 import Piscina from "piscina"
 import pLimit from "p-limit"
 import { MessageChannel } from "worker_threads"
+
+const publicDocsPath = "../public/docs"
 
 const piscina = new Piscina({
   filename: "./src/asciidoc-worker.js"
@@ -81,6 +84,28 @@ async function main() {
       return extract(version, progressListener)
     })
     progressListener.stop()
+
+    // create symlink to latest apidocs
+    if (version === latestRelease.version) {
+      let relativeTargetPath = `${version}/apidocs`
+      let targetPath = path.join(publicDocsPath, relativeTargetPath)
+      let symlinkPath = path.join(publicDocsPath, "apidocs")
+      let skip = false
+      try {
+        let targetStat = await fs.stat(targetPath)
+        let symlinkStat = await fs.stat(symlinkPath)
+        if (targetStat.ino === symlinkStat.ino) {
+          skip = true
+        } else {
+          await fs.unlink(symlinkPath)
+        }
+      } catch (e) {
+        // ignore
+      }
+      if (!skip) {
+        await fs.symlink(relativeTargetPath, symlinkPath, "junction")
+      }
+    }
 
     // compile asciidoc
     let lastProgress = 0
