@@ -8,7 +8,9 @@
     "build": "npm run stylelint && next build && next export",
     "lint": "next lint && npm run stylelint",
     "stylelint": "stylelint \"**/*.scss\"",
-    "update-docs": "cd docs && ./gradlew"
+    "update-docs": "cd docs && ./gradlew",
+    "update-docs:install": "cd docs && npm i",
+    "postinstall": "npm run update-docs:install"
   },
   "repository": {
     "type": "git",
