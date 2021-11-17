@@ -62,10 +62,13 @@ async function main() {
       start(total, message) {
         this.stop()
         this.bar = multibar.create(total, 0, { message })
+        if (this.bar === undefined) {
+          console.log(message)
+        }
       },
 
       update(value) {
-        this.bar.update(value)
+        this.bar?.update(value)
       },
 
       stop() {
@@ -118,7 +121,7 @@ async function main() {
     let channel = new MessageChannel()
     channel.port2.on("message", (progress) => {
       if (progress !== lastProgress) {
-        asciidoctorBar.increment(progress - lastProgress)
+        asciidoctorBar?.increment(progress - lastProgress)
         lastProgress = progress
       }
     })
@@ -130,7 +133,7 @@ async function main() {
     channel.port2.close()
 
     if (lastProgress < 100) {
-      asciidoctorBar.increment(100 - lastProgress)
+      asciidoctorBar?.increment(100 - lastProgress)
     }
 
     totalMessages += messages.length
@@ -147,7 +150,7 @@ async function main() {
     await asciidoctorLog.close()
   }
 
-  asciidoctorBar.stop()
+  asciidoctorBar?.stop()
   multibar.stop()
 
   if (totalMessages > 0) {
