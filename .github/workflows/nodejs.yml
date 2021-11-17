@@ -72,8 +72,8 @@ jobs:
 
       # Temporarily move apidocs out of the way
       - run: |
-        mkdir .apidocs_temp
-        mv public/docs/* .apidocs_temp
+          mkdir .apidocs_temp
+          mv public/docs/* .apidocs_temp
 
       # Build website
       - run: npm run build
