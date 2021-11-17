@@ -7,6 +7,7 @@ import { metadata, latestRelease } from "../metadata/all"
 import path from "path"
 import Piscina from "piscina"
 import pLimit from "p-limit"
+import prettyMilliseconds from "pretty-ms"
 import { MessageChannel } from "worker_threads"
 
 const compiledPath = "compiled"
@@ -52,6 +53,7 @@ async function main() {
   const downloadLimit = pLimit(4)
   const extractLimit = pLimit(4)
 
+  let start = +new Date()
   let totalMessages = 0
   let asciidoctorLog = await fs.open("asciidoctor.log", "w")
   let asciidoctorBar = multibar.create(metadata.length * 100, 0, {
@@ -157,6 +159,8 @@ async function main() {
     console.log(`There were ${totalMessages} messages from Asciidoctor. ` +
       "Please review asciidoctor.log for more information.")
   }
+
+  console.log(`update-docs finished in ${prettyMilliseconds(+new Date() - start)}`)
 }
 
 main().catch(err => {
