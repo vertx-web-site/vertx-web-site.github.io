@@ -7,7 +7,7 @@ import util from "util"
 
 const pipeline = util.promisify(stream.pipeline)
 
-const repoUrl = "http://localhost:3005" // "https://repo1.maven.org/maven2"
+const repoUrl = "https://repo1.maven.org/maven2"
 const downloadPath = "download"
 
 async function downloadFile(url, dest, version, progressListener) {
