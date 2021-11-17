@@ -10,6 +10,7 @@
   "dependencies": {
     "cli-progress": "^3.9.1",
     "p-limit": "^4.0.0",
+    "piscina": "^3.1.0",
     "yauzl": "^2.10.0"
   },
   "devDependencies": {
