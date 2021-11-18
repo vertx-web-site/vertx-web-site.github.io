@@ -128,7 +128,9 @@ jobs:
         run: mv out/* vertx-web-site.github.io
 
       - name: Copy API docs into output directory
-        run: find .apidocs_temp -mindepth 1 -maxdepth 1 -type d -print0 | xargs -0 -n1 -I '{}' sh -c 'mv {}/* vertx-web-site.github.io/docs/$(basename {})/'
+        run: |
+          find .apidocs_temp -mindepth 1 -maxdepth 1 -type d -print0 | xargs -0 -n1 -I '{}' sh -xc 'mv {}/* vertx-web-site.github.io/docs/$(basename {})/'
+          mv .apidocs_temp/apidocs vertx-web-site.github.io/docs/
       - run: |
           du -sh *
           df -h / /mnt
