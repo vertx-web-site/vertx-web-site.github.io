@@ -7,7 +7,7 @@ const docs = clone(oldDocs)
 insert(docs, "vertx-mssql-client",
   {
     id: "vertx-oracle-client",
-    name: "Oracle Client",
+    name: "Oracle 客户端",
     description: "响应式的 Oracle 数据库客户端。",
     category: "databases",
     href: "/vertx-oracle-client/java/",
