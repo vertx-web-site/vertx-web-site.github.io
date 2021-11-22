@@ -1,5 +1,6 @@
 const asciidoctor = require("asciidoctor")
 const fs = require("fs/promises")
+const fsSync = require("fs")
 const highlightJsExt = require("asciidoctor-highlight.js")
 const parse5 = require("parse5")
 const path = require("path")
@@ -8,13 +9,13 @@ const { getSourceSha, isAsciidocCompiled } = require("./util")
 const compiledPath = "compiled"
 const downloadPath = "download"
 
-async function readDirRecursive(dir, result = []) {
+async function readDirRecursive(dir, result = [], isRoot = true) {
   let files = await fs.readdir(dir)
   for (let f of files) {
     let absolute = path.join(dir, f)
     if ((await fs.stat(absolute)).isDirectory()) {
-      if (f !== "apidocs" && f !== "jsdoc" && f !== "kdoc" && f !== "scaladocs") {
-        await readDirRecursive(absolute, result)
+      if (f !== "apidocs" && f !== "jsdoc" && f !== "kdoc" && f !== "scaladocs" && (!isRoot || f.startsWith("vertx-"))) {
+        await readDirRecursive(absolute, result, false)
       }
     } else {
       if (f === "index.adoc") {
@@ -25,7 +26,7 @@ async function readDirRecursive(dir, result = []) {
   return result
 }
 
-module.exports = async ({ version, progressPort }) => {
+module.exports = async ({ version, progressPort, latestReleaseVersion }) => {
   let adoc = asciidoctor()
 
   // clean up any previously registered extensions
@@ -53,6 +54,13 @@ module.exports = async ({ version, progressPort }) => {
   }
 
   let extractedPath = `extracted/${version}`
+  let translationPath = `translation/${version}`
+  let latest = version === latestReleaseVersion
+  if (latest) {
+    extractedPath = "translation"
+  } else if (fsSync.existsSync(translationPath)) {
+    extractedPath = translationPath
+  }
   let destVersionPath = path.join(compiledPath, version)
   await fs.mkdir(destVersionPath, { recursive: true })
   let destShaFile = path.join(destVersionPath, `${version}.sha1`)

@@ -128,7 +128,7 @@ async function main() {
       }
     })
 
-    let messages = await piscina.run({ version: version, progressPort: channel.port1 },
+    let messages = await piscina.run({ version: version, progressPort: channel.port1, latestReleaseVersion: latestRelease.version },
       { transferList: [channel.port1] })
 
     channel.port1.close()
