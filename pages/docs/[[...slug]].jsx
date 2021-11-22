@@ -2,26 +2,19 @@ import Docs from "../../components/layouts/Docs"
 import DocsIndex from "../../components/layouts/DocsIndex"
 import VersionContext from "../../components/contexts/VersionContext"
 import { metadata, latestRelease } from "../../docs/metadata/all"
-import parse5 from "parse5"
 import { useContext, useEffect } from "react"
 import { fetchGitHubStarsByUrl } from "../../components/lib/github-stars"
 
-const extractedDocsPath = "docs/extracted"
-const hashesPath = "docs/hashes"
-
-let asciidoctor
-let cache = {}
+const compiledDocsPath = "docs/compiled"
 
 async function readDirRecursive(dir, fs, path, result = []) {
   let files = await fs.readdir(dir)
   for (let f of files) {
     let absolute = path.join(dir, f)
     if ((await fs.stat(absolute)).isDirectory()) {
-      if (f !== "apidocs" && f !== "jsdoc" && f !== "kdoc" && f !== "scaladocs") {
-        await readDirRecursive(absolute, fs, path, result)
-      }
+      await readDirRecursive(absolute, fs, path, result)
     } else {
-      if (f === "index.adoc") {
+      if (f === "index.json") {
         result.push(absolute)
       }
     }
@@ -45,28 +38,33 @@ export async function getStaticPaths() {
     })
   }
 
-  // check if documentation source files exist
+  // check if compiled documentation files exist
   try {
-    await fs.access(extractedDocsPath)
+    await fs.access(compiledDocsPath)
   } catch (e) {
     console.warn(
-      "\n\n**********************************************************\n" +
-          "WARNING: AsciiDoc source files of documentation not found.\n" +
+      "\n\n************************************************************\n" +
+          "WARNING: Compiled AsciiDoc files of documentation not found.\n" +
           "Please run `npm run update-docs'\n" +
-          "**********************************************************\n")
+          "************************************************************\n")
     return {
       paths: [],
       fallback: false
     }
   }
 
-  let files = await readDirRecursive(extractedDocsPath, fs, path)
+  let files = await readDirRecursive(compiledDocsPath, fs, path)
   for (let f of files) {
-    let m = slash(f).match(new RegExp(`${extractedDocsPath}/(.+)index.adoc`))
+    let m = slash(f).match(new RegExp(`${compiledDocsPath}/(.+)index.json`))
     if (m) {
       let slug = m[1].split("/").slice(0, -1)
-      if (slug.length > 1) { // don't include index.adoc in parent directory
+      if (slug.length > 1) { // don't include index.json in parent directory
         paths.push({ params: { slug } })
+
+        if (latestRelease.version === slug[0]) {
+          // generate pages for latest version too
+          paths.push({ params: { slug: slug.slice(1) } })
+        }
       }
     }
   }
@@ -80,77 +78,8 @@ export async function getStaticPaths() {
   }
 }
 
-async function compileAsciiDoc(filename, version) {
-  const cacache = require("cacache")
-  const fs = require("fs").promises
-  const path = require("path")
-
-  const cachePath = "./.cache/docs"
-
-  const asciidoctorOptions = {
-    safe: "unsafe",
-    attributes: {
-      "source-highlighter": "highlightjs-ext",
-      "showtitle": true,
-      "toc": "left",
-      "sectanchors": true
-    }
-  }
-
-  // load checksum for this version
-  let shaFile = path.join(hashesPath, `${version || "latest"}.sha`)
-  let sha
-  try {
-    sha = await fs.readFile(shaFile, "utf-8")
-  } catch (e) {
-    console.error(
-      "\n\n**********************************************************\n" +
-          "ERROR: Could not read documentation checksum file.\n" +
-          "Please run `npm run update-docs'\n" +
-          "**********************************************************\n")
-    throw e
-  }
-
-  let cacheKey = JSON.stringify({
-    ...asciidoctorOptions,
-    filename,
-    sha
-  })
-
-  let info = await cacache.get.info(cachePath, cacheKey)
-  if (info !== null) {
-    let cachedDocument = await cacache.get(cachePath, cacheKey)
-    return JSON.parse(cachedDocument.data.toString("utf-8"))
-  } else {
-    // load asciidoctor if necessary
-    if (typeof asciidoctor === "undefined") {
-      asciidoctor = require("asciidoctor")()
-
-      // clean up any previously registered extension
-      asciidoctor.Extensions.unregisterAll()
-
-      // register highlight.js extension
-      const highlightJsExt = require("asciidoctor-highlight.js")
-      highlightJsExt.register(asciidoctor.Extensions)
-    }
-
-    // render page (use loadFile so `include` directives work correctly)
-    let doc = asciidoctor.loadFile(filename, asciidoctorOptions)
-    let title = doc.getDocumentTitle()
-    let contents = doc.convert()
-
-    let result = {
-      title,
-      contents
-    }
-
-    await cacache.put(cachePath, cacheKey, JSON.stringify(result))
-
-    return result
-  }
-}
-
 export async function getStaticProps({ params }) {
+  const fs = require("fs/promises")
   const path = require("path")
 
   // handle index page
@@ -175,36 +104,14 @@ export async function getStaticProps({ params }) {
     }
   }
 
-  // check if generated asciidoc file is in cache
   let slug = params.slug.join("/")
-  if (cache[slug]) {
-    return cache[slug]
+  let sourcePath
+  if (version === undefined) {
+    sourcePath = path.join(compiledDocsPath, latestRelease.version, slug, "index.json")
+  } else {
+    sourcePath = path.join(compiledDocsPath, slug, "index.json")
   }
-
-  let { title, contents } = await compileAsciiDoc(
-      path.join(extractedDocsPath, slug, "index.adoc"), version)
-
-  // parse generated HTML and extract table of contents
-  let documentFragment = parse5.parseFragment(contents, { sourceCodeLocationInfo: true })
-  let toc = undefined
-  for (let child of documentFragment.childNodes) {
-    if (child.tagName === "div") {
-      for (let attr of child.attrs) {
-        if (attr.name === "id" && attr.value === "toc") {
-          toc = contents.substring(child.sourceCodeLocation.startOffset,
-              child.sourceCodeLocation.endOffset)
-          contents = contents.substring(0, child.sourceCodeLocation.startOffset) +
-              contents.substring(child.sourceCodeLocation.endOffset)
-          break
-        }
-      }
-    }
-    if (typeof toc !== "undefined") {
-      break
-    }
-  }
-
-  toc = toc || ""
+  let { title, contents, toc } = JSON.parse(await fs.readFile(sourcePath, "utf-8"))
 
   // get metadata for this page
   let versionMetadata = getMetadataByVersion(version)
@@ -214,7 +121,7 @@ export async function getStaticProps({ params }) {
     fallbackGitHubStars = (await fetchGitHubStarsByUrl(pageMetadata.repository)) || null
   }
 
-  cache[slug] = {
+  return {
     props: {
       slug,
       title,
@@ -224,8 +131,6 @@ export async function getStaticProps({ params }) {
       ...(version && { version })
     }
   }
-
-  return cache[slug]
 }
 
 function findMetadataEntryBySlug(metadata, slug) {

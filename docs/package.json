@@ -1,0 +1,23 @@
+{
+  "name": "vertx-web-site-update-docs",
+  "version": "1.0.0",
+  "description": "This directory is for the AsciiDoc source files of the Vert.x documentation",
+  "private": true,
+  "license": "Apache-2.0",
+  "scripts": {
+    "update-docs": "webpack && node --no-warnings dist/main.js"
+  },
+  "dependencies": {
+    "cli-progress": "^3.9.1",
+    "p-limit": "^4.0.0",
+    "piscina": "^3.1.0",
+    "pretty-ms": "^7.0.1",
+    "yauzl": "^2.10.0"
+  },
+  "devDependencies": {
+    "@babel/preset-react": "^7.16.0",
+    "babel-loader": "^8.2.3",
+    "webpack": "^5.64.0",
+    "webpack-cli": "^4.9.1"
+  }
+}

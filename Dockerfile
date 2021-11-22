@@ -1,24 +1,16 @@
-# Download and extract docs
-FROM openjdk:11-jdk-slim AS docs
+FROM node:16-slim AS build
 
-RUN mkdir /vertx
-COPY docs/ /vertx/docs/
-
-WORKDIR /vertx/docs
-RUN ./gradlew
-
-# Build website
-FROM node:14-slim AS build
-
-RUN mkdir /vertx
+RUN mkdir -p /vertx/docs
 COPY package.json package-lock.json /vertx/
+COPY docs/package.json docs/package-lock.json /vertx/docs
 
 WORKDIR /vertx
 RUN npm i
 
+COPY docs /vertx/docs/
+RUN npm run update-docs
+
 COPY . /vertx/
-COPY --from=docs /vertx/docs/extracted/ /vertx/docs/extracted/
-COPY --from=docs /vertx/public/docs/ /vertx/public/docs/
 RUN npm run build
 
 # Setup NGINX
