@@ -1,0 +1,31 @@
+[[_server_load_balancing]]
+=== 数据库服务负载均衡
+
+您可以使用包含多个数据库服务的列表来配置连接池而不是单个数据库服务。
+
+[source,java]
+----
+MSSQLPool pool = MSSQLPool.pool(Arrays.asList(server1, server2, server3), options);
+----
+
+当一个连接创建时，连接池使用(round-robin)轮询调度算法做负载均衡以选择不同的数据库服务
+
+NOTE: 负载均衡是在创建连接时提供的，而不是在从连接池中获取连接时提供
+
+[[_pool_connection_initialization]]
+=== 连接初始化
+
+您可以使用 `link:../../apidocs/io/vertx/sqlclient/Pool.html#connectHandler-io.vertx.core.Handler-[connectHandler]`
+方法在连接创建后和连接释放回连接池之前来与数据库连接交互
+
+[source,java]
+----
+pool.connectHandler(conn -> {
+  conn.query(sql).execute().onSuccess(res -> {
+    //  将连接释放回连接池，以被该应用程序复用
+    conn.close();
+  });
+});
+----
+
+连接完成后，您应该释放该连接以通知连接池该数据库连接可以被使用
