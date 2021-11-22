@@ -5,6 +5,7 @@
   "private": true,
   "license": "Apache-2.0",
   "scripts": {
+    "copy-english": "webpack && node --no-warnings dist/copy-english.js",
     "update-docs": "webpack && node --no-warnings dist/main.js"
   },
   "dependencies": {

@@ -4,7 +4,7 @@ import path from "path"
 import yauzl from "yauzl"
 
 const downloadPath = "download"
-const extractedPath = "extracted"
+export const extractedPath = "extracted"
 const publicDocsPath = "../public/docs"
 
 async function extractEntry(zipfile, entry, extractedVersionPath,

@@ -2,6 +2,10 @@ const path = require("path")
 const webpack = require("webpack")
 
 module.exports = {
+  entry: {
+    main: "./src/index.js",
+    "copy-english": "./src/copy-english.js"
+  },
   target: "node",
   mode: "development",
   cache: {
