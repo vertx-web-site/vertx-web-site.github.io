@@ -1,0 +1,132 @@
+= Vert.x Web Proxy
+
+Vert.x Web Proxy 使用 https://github.com/eclipse-vertx/vertx-http-proxy[Vert.x Http Proxy]
+提供了一个用于处理反向代理逻辑的处理器
+
+WARNING: 这个模块处于 _Tech Preview_ 阶段，这意味着在不同版本之间API可能会不太一样
+
+[[_using_vert_x_web_proxy]]
+== 使用 Vert.x Web Proxy
+使用 Vert.x Web Proxy之前，请把以下的依赖放到您的构建描述文件的 _依赖_ 部分中
+
+* Maven (在您的 `pom.xml` 文件中):
+
+[source,xml,subs="+attributes"]
+----
+<dependency>
+ <groupId>io.vertx</groupId>
+ <artifactId>vertx-web-proxy</artifactId>
+ <version>4.2.0</version>
+</dependency>
+----
+
+* Gradle (在您的 `build.gradle` 文件中):
+
+[source,groovy,subs="+attributes"]
+----
+dependencies {
+ compile 'io.vertx:vertx-web-proxy:4.2.0'
+}
+----
+
+[[_basic_web_proxy]]
+== Web Proxy基础
+
+为了使用Vert.x Web Proxy实现一个本地反向代理，您需要了解这些名词
+
+1. *代理服务器* 使用 `ProxyHandler` 处理前端请求并把他们转发给 *源服务器* .
+2. *源服务器* 处理来自 *代理服务器* 的请求并处理相对应的响应.
+
+现在，您已经了解了相应的整体概念。
+让我们来深入实现，先从 *源服务器* 再到使用 `ProxyHandler` 的 *代理服务器* ：
+
+[[_origin_server_backend]]
+== 源服务器 (后端)
+
+您可以简单地创建一个 *源服务器* 然后利用 Vert.x Web 的 `Router` 处理请求,
+这个 *源服务器* 会监听 `7070` 端口 
+
+[source,java]
+----
+HttpServer backendServer = vertx.createHttpServer();
+
+Router backendRouter = Router.router(vertx);
+
+backendRouter.route(HttpMethod.GET, "/foo").handler(rc -> {
+  rc.response()
+    .putHeader("content-type", "text/html")
+    .end("<html><body><h1>I'm the target resource!</h1></body></html>");
+});
+
+backendServer.requestHandler(backendRouter).listen(7070);
+----
+
+[[_proxy_server]]
+== 代理服务器
+
+创建一个监听 `8080` 端口的 *代理服务器* 
+
+[source,java]
+----
+HttpServer proxyServer = vertx.createHttpServer();
+
+Router proxyRouter = Router.router(vertx);
+
+proxyServer.requestHandler(proxyRouter);
+
+proxyServer.listen(8080);
+----
+[[_using_proxyhandler]]
+== 使用 `ProxyHandler`
+
+最后一个有趣的部分就是将 *代理服务器* 的请求路由到 *源服务器*,
+因此您需要创建一个指定源服务器目标的 `HttpProxy` 和 `ProxyHandler` 
+
+[source,java]
+----
+HttpClient proxyClient = vertx.createHttpClient();
+
+HttpProxy httpProxy = HttpProxy.reverseProxy(proxyClient);
+httpProxy.origin(7070, "localhost");
+
+proxyRouter
+  .route(HttpMethod.GET, "/foo").handler(ProxyHandler.create(httpProxy));
+----
+
+或者您也可以在 `ProxyHandler` 中指定目标
+
+[source,java]
+----
+HttpClient proxyClient = vertx.createHttpClient();
+
+HttpProxy httpProxy = HttpProxy.reverseProxy(proxyClient);
+
+proxyRouter
+  .route(HttpMethod.GET, "/foo")
+  .handler(ProxyHandler.create(httpProxy, 7070, "localhost"));
+----
+
+最后， *代理服务器* 请求将作为反向代理被很方便地路由到 *源服务器*
+
+[[_using_proxyhandler_for_multiple_targets]]
+== 使用 `ProxyHandler` 请求多个目标
+
+为了将 *代理服务器* 请求路由到多个 *源服务器* ，
+您只需为每一个源服务器目标创建一个 `HttpProxy` 并且分别指定对应的目标
+
+[source,java]
+----
+HttpClient proxyClient = vertx.createHttpClient();
+
+HttpProxy httpProxy1 = HttpProxy.reverseProxy(proxyClient);
+httpProxy1.origin(7070, "localhost");
+
+HttpProxy httpProxy2 = HttpProxy.reverseProxy(proxyClient);
+httpProxy2.origin(6060, "localhost");
+
+proxyRouter
+  .route(HttpMethod.GET, "/foo").handler(ProxyHandler.create(httpProxy1));
+
+proxyRouter
+  .route(HttpMethod.GET, "/bar").handler(ProxyHandler.create(httpProxy2));
+----
