@@ -1,7 +1,9 @@
-**/.gradle/
+.cache/
 .next/
+docs/compiled/
+docs/download/
 docs/extracted/
-docs/hashes/
+docs/node_modules/
 node_modules/
 out/
 public/docs/

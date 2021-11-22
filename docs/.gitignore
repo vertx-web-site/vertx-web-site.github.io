@@ -1,0 +1,6 @@
+compiled/
+download/
+extracted/
+dist/
+asciidoctor.log
+hashes/

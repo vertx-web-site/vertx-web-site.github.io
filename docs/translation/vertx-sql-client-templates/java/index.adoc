@@ -15,7 +15,7 @@ SQL 客户端模版是一个用来方便执行SQL查询的库。
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-sql-client-templates</artifactId>
- <version>4.2.0</version>
+ <version>4.2.1</version>
 </dependency>
 ----
 * Gradle（在您的 `build.gradle` 文件中）：
@@ -23,7 +23,7 @@ SQL 客户端模版是一个用来方便执行SQL查询的库。
 [source,groovy]
 ----
 dependencies {
- implementation 'io.vertx:vertx-sql-client-templates:4.2.0'
+ implementation 'io.vertx:vertx-sql-client-templates:4.2.1'
 }
 ----
 
@@ -367,13 +367,13 @@ _codegen_ 注解执行器在编译期间生成这些类。
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-codegen</artifactId>
- <version>4.2.0</version>
+ <version>4.2.1</version>
  <classifier>processor</classifier>
 </dependency>
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-sql-client-templates</artifactId>
- <version>4.2.0</version>
+ <version>4.2.1</version>
 </dependency>
 ----
 
@@ -381,8 +381,8 @@ Gradle中依然可以使用此特性：
 
 [source]
 ----
-annotationProcessor "io.vertx:vertx-codegen:4.2.0:processor"
-compile "io.vertx:vertx-sql-client-templates:4.2.0"
+annotationProcessor "io.vertx:vertx-codegen:4.2.1:processor"
+compile "io.vertx:vertx-sql-client-templates:4.2.1"
 ----
 
 IDE都会对 annotation processors 提供支持

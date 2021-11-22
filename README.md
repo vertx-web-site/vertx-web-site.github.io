@@ -17,7 +17,7 @@ Initialize local copy:
 
     npm i
 
-Download and extract AsciiDoc source files of the Vert.x documentation:
+Download, extract and compile AsciiDoc source files of the Vert.x documentation:
 
     npm run update-docs
 
@@ -42,14 +42,14 @@ If you don't want to install Node.js, use Docker instead:
 
 ```
 # Initialize local copy
-rm -rf node_modules
-docker run -it -v $(pwd):/vertx node:14-slim sh -c "cd /vertx && npm i"
+rm -rf node_modules docs/node_modules
+docker run -it -v $(pwd):/vertx node:16-slim sh -c "cd /vertx && npm i"
 
-# Download and extract docs
-docker run -it -v $(pwd):/vertx openjdk:11-jdk-slim sh -c "cd /vertx/docs && ./gradlew"
+# Download, extract, and compile docs
+docker run -it -v $(pwd):/vertx node:16-slim sh -c "cd /vertx && npm run update-docs"
 
 # Start website in development mode
-docker run -it -v $(pwd):/vertx -p 3000:3000 node:14-slim \
+docker run -it -v $(pwd):/vertx -p 3000:3000 node:16-slim \
   sh -c "cd /vertx && npm run dev"
 ```
 

@@ -14,7 +14,7 @@
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-auth-ldap</artifactId>
- <version>4.2.0</version>
+ <version>4.2.1</version>
 </dependency>
 ----
 
@@ -22,7 +22,7 @@
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-auth-ldap:4.2.0'
+compile 'io.vertx:vertx-auth-ldap:4.2.1'
 ----
 
 

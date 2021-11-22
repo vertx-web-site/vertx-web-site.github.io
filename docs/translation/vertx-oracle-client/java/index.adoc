@@ -22,7 +22,7 @@ WARNING: 该模块处于 tech preview 阶段
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-oracle-client</artifactId>
- <version>4.2.0</version>
+ <version>4.2.1</version>
 </dependency>
 ----
 * Gradle (在您的 `build.gradle` 文件中):
@@ -30,7 +30,7 @@ WARNING: 该模块处于 tech preview 阶段
 [source,groovy]
 ----
 dependencies {
- compile 'io.vertx:vertx-oracle-client:4.2.0'
+ compile 'io.vertx:vertx-oracle-client:4.2.1'
 }
 ----
 
