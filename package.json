@@ -9,6 +9,7 @@
     "lint": "next lint && npm run stylelint",
     "stylelint": "stylelint \"**/*.scss\"",
     "update-docs": "cd docs && npm run update-docs",
+    "copy-english": "cd docs && npm run copy-english",
     "update-docs:install": "cd docs && npm i",
     "postinstall": "npm run update-docs:install"
   },
