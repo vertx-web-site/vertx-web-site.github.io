@@ -3,8 +3,6 @@
 ## 本地运行
 
 本项目运行环境为node 16, python 2.7
- 
-要在本地运行，如果是非windows系统，按[英文文档](README.md)里的步骤一步一步来跑，问题不是很大。
 
 ## 翻译说明
 ### 如何认领
@@ -81,9 +79,6 @@ english分支与master分支的区别是：`english分支` 的 translation目录
 english分支更新文档可合并 https://github.com/vertx-web-site/vertx-web-site 项目后，执行下面脚本来更新。
 
 ```shell
-# 非win 系统
-cd docs && ./gradlew copyEnglish
-# win 系统
-cd docs && gradlew.bat copyEnglish
+npm run copy-english
 ```
 
