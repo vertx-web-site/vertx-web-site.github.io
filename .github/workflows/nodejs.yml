@@ -163,8 +163,8 @@ jobs:
         run: |
           rm -rf vertx-china.github.io/.git
           rm vertx-china.github.io/.nojekyll
-          rm -rf vertx-china.github.io/docs/apidocs
           rm -rf vertx-china.github.io/docs/apidocs/*
+          rm -rf vertx-china.github.io/docs/apidocs
           rm -rf vertx-china.github.io/docs/**/apidocs/*
 
       - name: Deploy to ${{ matrix.step }}
