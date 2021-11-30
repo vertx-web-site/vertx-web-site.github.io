@@ -29,105 +29,111 @@
     border: none;
     border-top: 1px solid $gray-300;
   }
+}
 
-  .book-section {
-    display: flex;
+.book-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  h3 {
+    text-align: center;
+    margin-top: 3rem;
+    margin-bottom: 0;
+  }
+}
+
+.book-subtitle {
+  text-align: center;
+  font-size: 1.2rem;
+  max-width: 45rem;
+  margin-top: 1rem;
+  color: $gray-600;
+}
+
+.book-main {
+  display: flex;
+  flex-direction: row;
+  margin-top: $spacer * 2;
+  margin-bottom: $spacer;
+
+  @media (max-width: $md) {
     flex-direction: column;
     align-items: center;
+    margin-top: $spacer;
+  }
+}
 
-    h3 {
-      text-align: center;
-      margin-top: 3rem;
-      margin-bottom: 0;
-    }
+.book-left {
+  margin-right: $spacer * 1.5;
 
-    .book-subtitle {
-      text-align: center;
-      font-size: 1.2rem;
-      max-width: 45rem;
-      margin-top: 1rem;
-      color: $gray-600;
-    }
+  img {
+    box-shadow: $button-box-shadow;
 
-    .book-main {
-      display: flex;
-      flex-direction: row;
-      margin-top: $spacer * 2;
-      margin-bottom: $spacer;
-
-      .book-left {
-        margin-right: $spacer * 1.5;
-
-        img {
-          box-shadow: $button-box-shadow;
-
-          @media (max-width: $sm) {
-            width: 150px;
-          }
-        }
-
-        @media (max-width: $md) {
-          margin-right: 0;
-        }
-      }
-
-      .book-right {
-        position: relative;
-        margin-left: $spacer * 1.5;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-
-        .quote {
-          background-color: $gray-100;
-          padding: $spacer $spacer * 2;
-          width: 25rem;
-          border-top-right-radius: $border-radius;
-          border-bottom-right-radius: $border-radius;
-          border-left: 9px solid $gray-300;
-          animation: book-fade-in-fade-out 15s infinite;
-          opacity: 0;
-
-          .quote-name {
-            margin-top: math.div($spacer, 2);
-            text-align: right;
-
-            &::before {
-              content: "—— ";
-              letter-spacing: -5px;
-              margin-right: 15px;
-            }
-          }
-
-          &:not(:first-child) {
-            position: absolute;
-            top: 0;
-          }
-
-          &:nth-child(2) {
-            animation-delay: 5s;
-          }
-
-          &:nth-child(3) {
-            animation-delay: 10s;
-          }
-
-          @media (max-width: $md) {
-            margin: $spacer * 2 0;
-          }
-        }
-
-        @media (max-width: $md) {
-          margin-left: 0;
-          align-items: center;
-        }
-      }
-
-      @media (max-width: $md) {
-        flex-direction: column;
-        align-items: center;
-        margin-top: $spacer;
-      }
+    @media (max-width: $sm) {
+      width: 150px;
     }
   }
+
+  @media (max-width: $md) {
+    margin-right: 0;
+  }
+}
+
+.book-right {
+  position: relative;
+  margin-left: $spacer * 1.5;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  @media (max-width: $md) {
+    margin-left: 0;
+    align-items: center;
+  }
+}
+
+.quote {
+  background-color: $gray-100;
+  padding: $spacer $spacer * 2;
+  width: 25rem;
+  border-top-right-radius: $border-radius;
+  border-bottom-right-radius: $border-radius;
+  border-left: 9px solid $gray-300;
+  animation: book-fade-in-fade-out 15s infinite;
+  opacity: 0;
+
+  &:not(:first-child) {
+    position: absolute;
+    top: 0;
+  }
+
+  &:nth-child(2) {
+    animation-delay: 5s;
+  }
+
+  &:nth-child(3) {
+    animation-delay: 10s;
+  }
+
+  @media (max-width: $md) {
+    margin: $spacer * 2 0;
+  }
+}
+
+.quote-name {
+  margin-top: math.div($spacer, 2);
+  text-align: right;
+
+  .dash {
+    letter-spacing: -5px;
+    margin-right: 0.5em;
+  }
+
+  // alternative to .dash (seems to trigger a bug in SWC at the moment):
+  // &::before {
+  //   content: "—— ";
+  //   letter-spacing: -5px;
+  //   margin-right: 15px;
+  // }
 }

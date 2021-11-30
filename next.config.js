@@ -35,6 +35,10 @@ const config = {
   // create a folder for each page
   trailingSlash: true,
 
+  // opt-in to using SWC for minifying JavaScript
+  // (does not work with the docs search panel yet!)
+  // swcMinify: true,
+
   // configure base path
   basePath,
   assetPrefix: basePath,

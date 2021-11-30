@@ -1,4 +1,4 @@
-import styles from "./Book.scss?type=global"
+import styles from "./Book.scss"
 import Button from "../Button"
 
 const URL = "https://www.manning.com/books/vertx-in-action"
@@ -27,7 +27,7 @@ const Book = () => (
                 and resources.&rdquo;
               </div>
               <div className="quote-name">
-                Andrew Buttery
+                <span className="dash">——</span> Andrew Buttery
               </div>
             </div>
             <div className="quote">
@@ -37,7 +37,7 @@ const Book = () => (
                 messaging frameworks.&rdquo;
               </div>
               <div className="quote-name">
-                Earl B. Bingham
+                <span className="dash">——</span> Earl B. Bingham
               </div>
             </div>
             <div className="quote">
@@ -46,7 +46,7 @@ const Book = () => (
                 but reactive programming with Java in general.&rdquo;
               </div>
               <div className="quote-name">
-                Damian Esteban
+                <span className="dash">——</span> Damian Esteban
               </div>
             </div>
             <a href={URL} target="_blank" rel="noopener noreferrer">
