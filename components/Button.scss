@@ -1,5 +1,5 @@
+@use "sass:color";
 @use "sass:math";
-
 @import "../css/variables";
 
 .button {
@@ -16,14 +16,14 @@
   &:hover {
     color: #fff;
     text-decoration: none;
-    background-color: darken($gray-600, 10);
+    background-color: color.adjust($gray-600, $lightness: -10%);
   }
 
   &.primary {
     background-color: $primary;
 
     &:hover {
-      background-color: darken($primary, 10);
+      background-color: color.adjust($primary, $lightness: -10%);
     }
   }
 

@@ -1,6 +1,7 @@
+@use "sass:color";
 @import "./variables";
 
-.hljs {
+.hljs, %hljs {
   display: block;
   overflow-x: auto;
   padding: 0.5em;
@@ -16,7 +17,7 @@
 }
 
 pre {
-  @extend .hljs;
+  @extend %hljs;
 
   border-radius: $border-radius;
   padding: $spacer;
@@ -43,7 +44,7 @@ pre {
 .hljs-template-variable,
 .hljs-attribute,
 .hljs-literal {
-  color: lighten(#6cb9f0, 20);
+  color: color.adjust(#6cb9f0, $lightness: 20%);
 }
 
 // ???
@@ -66,12 +67,14 @@ pre {
   color: #d2a8e0;
 }
 
+/* stylelint-disable selector-class-pattern */
 .hljs-deletion,
 .hljs-string,
 .hljs-built_in,
 .hljs-builtin-name {
   color: #6cb9f0;
 }
+/* stylelint-enable selector-class-pattern */
 
 .hljs-addition,
 .hljs-comment,
