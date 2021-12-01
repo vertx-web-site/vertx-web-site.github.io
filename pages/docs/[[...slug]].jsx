@@ -4,7 +4,6 @@ import VersionContext from "../../components/contexts/VersionContext"
 import { metadata, latestRelease } from "../../docs/metadata/all"
 import { useContext, useEffect } from "react"
 import { fetchGitHubStarsByUrl } from "../../components/lib/github-stars"
-import snappy from "snappyjs"
 
 const compiledDocsPath = "docs/compiled"
 
@@ -128,7 +127,7 @@ export async function getStaticProps({ params }) {
       title,
       fallbackGitHubStars,
       toc,
-      contents: Buffer.from(snappy.compress(Buffer.from(contents, "utf-8"))).toString("base64"),
+      contents,
       ...(version && { version })
     }
   }
@@ -161,10 +160,6 @@ const DocsPage = ({ slug, title, fallbackGitHubStars, toc, contents, version }) 
   useEffect(() => {
     setVersion({ version })
   }, [setVersion, version])
-
-  if (contents !== undefined) {
-    contents = Buffer.from(snappy.uncompress(Buffer.from(contents, "base64"))).toString("utf-8")
-  }
 
   let m = getMetadataByVersion(version)
   if (contents === undefined) {
