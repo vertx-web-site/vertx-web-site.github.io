@@ -24,7 +24,7 @@
   "dependencies": {
     "@icons-pack/react-simple-icons": "^4.6.1",
     "@mdx-js/loader": "^1.6.21",
-    "@next/mdx": "^12.0.5-canary.11",
+    "@next/mdx": "^12.0.7",
     "@silvenon/remark-smartypants": "^1.0.0",
     "asciidoctor": "^2.2.5",
     "asciidoctor-highlight.js": "^0.4.0",
@@ -41,7 +41,7 @@
     "lodash": "^4.17.20",
     "lunr": "^2.3.9",
     "mini-svg-data-uri": "^1.4.3",
-    "next": "^12.0.5-canary.11",
+    "next": "^12.0.7",
     "next-compose-plugins": "^2.2.1",
     "next-mdx-remote": "^3.0.4",
     "normalize.css": "^8.0.1",
@@ -63,7 +63,7 @@
     "super-react-gist": "^1.0.4",
     "unist-util-visit": "^2.0.3",
     "unist-util-visit-parents": "^3.1.1",
-    "webpack": "^5.51.1"
+    "webpack": "^5.65.0"
   },
   "devDependencies": {
     "@octokit/rest": "^18.9.1",
