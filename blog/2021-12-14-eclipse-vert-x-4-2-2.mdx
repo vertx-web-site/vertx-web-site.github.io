@@ -1,0 +1,48 @@
+---
+title: Eclipse Vert.x 4.2.2 released!
+category: releases
+authors:
+  - name: Julien Viet
+    github_id: vietj
+summary: >-
+  Eclipse Vert.x version 4.2.2 has just been released.
+---
+
+We are extremely pleased to announce that Eclipse Vert.x version 4.2.2 has been released.
+
+Since the release of Vert.x 4.2.1, quite a few bugs have been reported. We would like to thank you all for reporting these issues.
+
+In addition this release upgrade its dependencies for a couple of CVE that were reported recently
+
+* Log4j 2.15.0 resolving [CVE-2021-44228](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-44228)
+* Netty 4.1.72.Final resolving [CVE-2021-43797](https://github.com/netty/netty/security/advisories/GHSA-wx5j-54mm-rqqq)
+
+Note that Vert.x is not affected out of the box by CVE-2021-44228 and applications using Log4j do it on their own and can
+take care of the upgrade independently of the version of Vert.x.
+
+In addition, a couple of small features have been implemented since the previous release
+
+- Client sharing which includes reference counting and event-loop pool size configuration
+  - [HTTP client sharing](https://vertx.io/docs/vertx-core/java/#_client_sharing)
+  - [SQL pool sharing](https://vertx.io/docs/vertx-pg-client/java/#_pool_sharing)
+- [PostgreSQL Money type support](https://github.com/eclipse-vertx/vertx-sql-client/pull/1078)
+- [HTTP Proxy WebSocket support](https://vertx.io/docs/vertx-http-proxy/java/#_websockets)
+- [SQLConnectOptions URI resolution](https://github.com/eclipse-vertx/vertx-sql-client/issues/767)
+
+The [4.2.2 release notes](https://github.com/vert-x3/wiki/wiki/4.2.2-Release-Notes) and the
+ [4.2.2 breaking changes](https://github.com/vert-x3/wiki/wiki/4.2.2-Breaking-Changes can be found on the wiki.
+
+You can bootstrap a Vert.x 4 project using [start.vertx.io](https://start.vertx.io).
+
+The release artifacts have been deployed to [Maven Central](https://search.maven.org/search?q=g:io.vertx%20AND%20v:4.2.2) and
+you can get the distribution on [Maven Central](https://repo1.maven.org/maven2/io/vertx/vertx-stack-manager/4.2.2/).
+
+The [Vert.x 4 eventbus JavaScript client library](https://www.npmjs.com/package/@vertx/eventbus-bridge-client.js) is now available
+in a single location and it now usable standalone or it can easily be integrated with any frontend build tool.
+
+The Vert.x distribution is available from [SDKMan](https://sdkman.io) and our
+[HomeBrew TAP](https://github.com/vertx-distrib/homebrew-tap).
+
+Docker images are available on [Docker Hub](https://hub.docker.com/u/vertx/).
+
+That's it! Happy coding and see you soon on our user or dev [channels](https://vertx.io/channels).
