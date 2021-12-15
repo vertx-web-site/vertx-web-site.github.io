@@ -28,7 +28,7 @@ Maven users should add this to their project POM file:
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-micrometer-metrics</artifactId>
- <version>4.2.1</version>
+ <version>4.2.2</version>
 </dependency>
 <dependency>
  <groupId>io.micrometer</groupId>
@@ -41,7 +41,7 @@ And Gradle users, to their build file:
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-micrometer-metrics:4.2.1'
+compile 'io.vertx:vertx-micrometer-metrics:4.2.2'
 compile 'io.micrometer:micrometer-registry-influx:${micrometer.version}'
 ----
 
@@ -99,7 +99,7 @@ Maven users should add this to their project POM file:
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-micrometer-metrics</artifactId>
- <version>4.2.1</version>
+ <version>4.2.2</version>
 </dependency>
 <dependency>
  <groupId>io.micrometer</groupId>
@@ -112,7 +112,7 @@ And Gradle users, to their build file:
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-micrometer-metrics:4.2.1'
+compile 'io.vertx:vertx-micrometer-metrics:4.2.2'
 compile 'io.micrometer:micrometer-registry-prometheus:${micrometer.version}'
 ----
 
@@ -171,7 +171,7 @@ Maven users should add this to their project POM file:
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-micrometer-metrics</artifactId>
- <version>4.2.1</version>
+ <version>4.2.2</version>
 </dependency>
 <dependency>
  <groupId>io.micrometer</groupId>
@@ -184,7 +184,7 @@ And Gradle users, to their build file:
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-micrometer-metrics:4.2.1'
+compile 'io.vertx:vertx-micrometer-metrics:4.2.2'
 compile 'io.micrometer:micrometer-registry-jmx:${micrometer.version}'
 ----
 
@@ -624,7 +624,7 @@ The actual names may vary depending on the metrics backend.
 |Gauge
 |Number of pending elements in queue.
 
-|`vertx_http_client_ active_requests`
+|`vertx_http_client_active_requests`
 |`local`, `remote`, `path`, `method`
 |Gauge
 |Number of requests being processed, waiting for a response.

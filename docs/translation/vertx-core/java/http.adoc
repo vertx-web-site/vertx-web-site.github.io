@@ -179,25 +179,17 @@ The URI is as defined in http://www.w3.org/Protocols/rfc2616/rfc2616-sec5.html[S
 
 Use `link:../../apidocs/io/vertx/core/http/HttpServerRequest.html#path--[path]` to return the path part of the URI
 
-For example, if the request URI was:
+For example, if the request URI was `a/b/c/page.html?param1=abc&param2=xyz
 
-a/b/c/page.html?param1=abc&param2=xyz
-
-Then the path would be
-
-/a/b/c/page.html
+Then the path would be `/a/b/c/page.html`
 
 ==== Request query
 
 Use `link:../../apidocs/io/vertx/core/http/HttpServerRequest.html#query--[query]` to return the query part of the URI
 
-For example, if the request URI was:
+For example, if the request URI was `a/b/c/page.html?param1=abc&param2=xyz`
 
-a/b/c/page.html?param1=abc&param2=xyz
-
-Then the query would be
-
-param1=abc&param2=xyz
+Then the query would be  `param1=abc&param2=xyz`
 
 ==== Request headers
 
@@ -232,9 +224,7 @@ Use `link:../../apidocs/io/vertx/core/http/HttpServerRequest.html#params--[param
 Just like `link:../../apidocs/io/vertx/core/http/HttpServerRequest.html#headers--[headers]` this returns an instance of `link:../../apidocs/io/vertx/core/MultiMap.html[MultiMap]`
 as there can be more than one parameter with the same name.
 
-Request parameters are sent on the request URI, after the path. For example if the URI was:
-
-/page.html?param1=abc&param2=xyz
+Request parameters are sent on the request URI, after the path. For example if the URI was `/page.html?param1=abc&param2=xyz`
 
 Then the parameters would contain the following:
 
@@ -2182,26 +2172,57 @@ Connection `link:../../apidocs/io/vertx/core/http/HttpConnection.html#close--[cl
 
 The `link:../../apidocs/io/vertx/core/http/HttpConnection.html#closeHandler-io.vertx.core.Handler-[closeHandler]` notifies when a connection is closed.
 
-=== HttpClient usage
+=== Client sharing
 
-The HttpClient can be used in a Verticle or embedded.
+You can share an HTTP client between multiple verticles or instances of the same verticle. Such client should be created outside
+of a verticle otherwise it will be closed when the verticle that created it is undeployed
 
-When used in a Verticle, the Verticle *should use its own client instance*.
-
-More generally a client should not be shared between different Vert.x contexts as it can lead to unexpected behavior.
-
-For example a keep-alive connection will call the client handlers on the context of the request that opened the connection, subsequent requests will use
-the same context.
-
-When this happen Vert.x detects it and log a warn:
-
+[source,java]
 ----
-Reusing a connection with a different context: an HttpClient is probably shared between different Verticles
+HttpClient client = vertx.createHttpClient(new HttpClientOptions().setShared(true));
+vertx.deployVerticle(() -> new AbstractVerticle() {
+  @Override
+  public void start() throws Exception {
+    // Use the client
+  }
+}, new DeploymentOptions().setInstances(4));
 ----
 
-The HttpClient can be embedded in a non Vert.x thread like a unit test or a plain java `main`: the client handlers
-will be called by different Vert.x threads and contexts, such contexts are created as needed. For production this
-usage is not recommended.
+You can also create a shared HTTP client in each verticle:
+
+[source,java]
+----
+vertx.deployVerticle(() -> new AbstractVerticle() {
+  HttpClient client;
+  @Override
+  public void start() {
+    // Get or create a shared client
+    // this actually creates a lease to the client
+    // when the verticle is undeployed, the lease will be released automaticaly
+    client = vertx.createHttpClient(new HttpClientOptions().setShared(true).setName("my-client"));
+  }
+}, new DeploymentOptions().setInstances(4));
+----
+
+The first time a shared client is created it will create and return a client. Subsequent calls will reuse this client and
+create a lease to this client. The client is closed after all leases have been disposed.
+
+By default, a client reuses the current event-loop when it needs to create a TCP connection. The HTTP client will
+therefore randomly use event-loops of verticles using it in a safe fashion.
+
+You can assign a number of event loop a client will use independently of the client using it
+
+[source,java]
+----
+vertx.deployVerticle(() -> new AbstractVerticle() {
+  HttpClient client;
+  @Override
+  public void start() {
+    // The client creates and use two event-loops for 4 instances
+    client = vertx.createHttpClient(new HttpClientOptions().setPoolEventLoopSize(2).setShared(true).setName("my-client"));
+  }
+}, new DeploymentOptions().setInstances(4));
+----
 
 === Server sharing
 

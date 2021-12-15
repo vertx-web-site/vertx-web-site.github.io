@@ -1,5 +1,5 @@
 = Reactive MSSQL Client
-:PREPARED_PARAMS: `@1`, `@2`, etc…​
+:PREPARED_PARAMS: `@p1`, `@p2`, etc…​
 
 The Reactive MSSQL Client is a client for Microsoft SQL Server with a straightforward API focusing on
 scalability and low overhead.
@@ -32,7 +32,7 @@ To use the Reactive MSSQL Client add the following dependency to the _dependenci
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-mssql-client</artifactId>
- <version>4.2.1</version>
+ <version>4.2.2</version>
 </dependency>
 ----
 * Gradle (in your `build.gradle` file):
@@ -40,7 +40,7 @@ To use the Reactive MSSQL Client add the following dependency to the _dependenci
 [source,groovy]
 ----
 dependencies {
- compile 'io.vertx:vertx-mssql-client:4.2.1'
+ compile 'io.vertx:vertx-mssql-client:4.2.2'
 }
 ----
 
@@ -462,6 +462,10 @@ MSSQLConnectOptions connectOptions = new MSSQLConnectOptions()
 ----
 
 For further details about SSL support in Vert.x, please refer to the https://vertx.io/docs/vertx-core/java/#ssl[Vert.x Core documentation].
+
+== Pool sharing
+
+include::pool_sharing.adoc[]
 
 == Advanced pool configuration
 

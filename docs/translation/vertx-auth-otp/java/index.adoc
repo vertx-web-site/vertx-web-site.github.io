@@ -14,7 +14,7 @@ dependency to the _dependencies_ section of your build descriptor:
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-auth-otp</artifactId>
- <version>4.2.1</version>
+ <version>4.2.2</version>
 </dependency>
 ----
 
@@ -22,7 +22,7 @@ dependency to the _dependencies_ section of your build descriptor:
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-auth-otp:4.2.1'
+compile 'io.vertx:vertx-auth-otp:4.2.2'
 ----
 
 ---
@@ -46,7 +46,7 @@ Note that when authenticating using this implementation, it assumes `identifier`
 
 == TOTP Authentication
 
-To create an instance of the Hotp auth provider, use `link:../../apidocs/io/vertx/ext/auth/otp/totp/TotpAuth.html#create-io.vertx.ext.auth.otp.totp.TotpAuthOptions-[TotpAuth.create]` as follows
+To create an instance of the Totp auth provider, use `link:../../apidocs/io/vertx/ext/auth/otp/totp/TotpAuth.html#create-io.vertx.ext.auth.otp.totp.TotpAuthOptions-[TotpAuth.create]` as follows
 
 === TOTP Configuration
 

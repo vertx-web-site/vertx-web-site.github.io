@@ -1,0 +1,49 @@
+You can share an pool between multiple verticles or instances of the same verticle. Such pool should be created outside
+a verticle otherwise it will be closed when the verticle that created it is undeployed
+
+[source,java]
+----
+DB2Pool pool = DB2Pool.pool(database, new PoolOptions().setMaxSize(maxSize));
+vertx.deployVerticle(() -> new AbstractVerticle() {
+  @Override
+  public void start() throws Exception {
+    // Use the pool
+  }
+}, new DeploymentOptions().setInstances(4));
+----
+
+You can also create a shared pool in each verticle:
+
+[source,java]
+----
+vertx.deployVerticle(() -> new AbstractVerticle() {
+  DB2Pool pool;
+  @Override
+  public void start() {
+    // Get or create a shared pool
+    // this actually creates a lease to the pool
+    // when the verticle is undeployed, the lease will be released automaticaly
+    pool = DB2Pool.pool(database, new PoolOptions()
+      .setMaxSize(maxSize)
+      .setShared(true)
+      .setName("my-pool"));
+  }
+}, new DeploymentOptions().setInstances(4));
+----
+
+The first time a shared pool is created it will create the resources for the pool. Subsequent calls will reuse this pool and create
+a lease to this pool. The resources are disposed after all leases have been closed.
+
+By default, a pool reuses the current event-loop when it needs to create a TCP connection. The shared pool will
+therefore randomly use event-loops of verticles using it.
+
+You can assign a number of event loop a pool will use independently of the context using it
+
+[source,java]
+----
+DB2Pool pool = DB2Pool.pool(database, new PoolOptions()
+  .setMaxSize(maxSize)
+  .setShared(true)
+  .setName("my-pool")
+  .setEventLoopSize(4));
+----

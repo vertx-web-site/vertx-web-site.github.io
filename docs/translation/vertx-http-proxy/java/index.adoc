@@ -17,7 +17,7 @@ To use Vert.x Http Proxy, add the following dependency to the _dependencies_ sec
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-http-proxy</artifactId>
- <version>4.2.1</version>
+ <version>4.2.2</version>
 </dependency>
 ----
 
@@ -26,7 +26,7 @@ To use Vert.x Http Proxy, add the following dependency to the _dependencies_ sec
 [source,groovy,subs="+attributes"]
 ----
 dependencies {
- compile 'io.vertx:vertx-http-proxy:4.2.1'
+ compile 'io.vertx:vertx-http-proxy:4.2.2'
 }
 ----
 
@@ -73,6 +73,15 @@ proxyServer.requestHandler(proxy).listen(8080);
 ----
 
 Finally, all outbound requests will be forwarded as a reverse proxy to the *origin server* conveniently.
+
+=== WebSockets
+
+The proxy supports WebSocket by default.
+
+WebSocket handshake requests  are forwarded to the origin server (including the `connection` header)  and the handshake
+happens between the user agent and the origin server.
+
+You can configure WebSocket support with `link:../../apidocs/io/vertx/httpproxy/ProxyOptions.html#setSupportWebSocket-boolean-[setSupportWebSocket]`.
 
 === Proxy caching
 

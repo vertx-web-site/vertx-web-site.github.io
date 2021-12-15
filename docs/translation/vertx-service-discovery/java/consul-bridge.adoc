@@ -24,7 +24,7 @@ descriptor:
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-service-discovery-bridge-consul</artifactId>
- <version>4.2.1</version>
+ <version>4.2.2</version>
 </dependency>
 ----
 
@@ -32,7 +32,7 @@ descriptor:
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-service-discovery-bridge-consul:4.2.1'
+compile 'io.vertx:vertx-service-discovery-bridge-consul:4.2.2'
 ----
 
 Then, when creating the service discovery registers this bridge as follows:
