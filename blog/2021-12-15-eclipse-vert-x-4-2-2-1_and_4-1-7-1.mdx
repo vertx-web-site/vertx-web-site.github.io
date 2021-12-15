@@ -1,11 +1,11 @@
 ---
-title: Eclipse Vert.x Webauthn 4.2.2.1 released!
+title: Eclipse Vert.x Webauthn 4.2.2.1 and 4.1.7.1 released!
 category: releases
 authors:
   - name: Paulo Lopes
     github_id: pmlopes
 summary: >-
-  Eclipse Vert.x Webauthn version 4.2.2.1 has just been released.
+  Eclipse Vert.x Webauthn version 4.2.2.1 and 4.1.7.1 has just been released.
 ---
 
 Users of the module `vertx-auth-webauthn` should have noticed that since `Dec 15, 2021 09:00 UTC`, you cannot start any
@@ -21,7 +21,7 @@ The root certificate has been replaced with:
 ```
 
 Users should only update this dependency until an upgrade to a regular next full stack release, for example, if you're
-using maven as your build tool:
+using maven as your build tool and on Vert.x 4.2.2, then:
 
 ```xml
   <dependencies>
@@ -41,7 +41,27 @@ using maven as your build tool:
   </dependencies>
 ```
 
-Extra measures have been taken to ensure that expired certificates will not block the start of applications in the
-future.
+The same applies for the previously maintained release 4.1.7:
+
+```xml
+  <dependencies>
+    <dependency>
+      <groupId>io.vertx</groupId>
+      <artifactId>vertx-core</artifactId>
+      <version>4.1.7</version>
+    </dependency>
+
+    <dependency>
+      <groupId>io.vertx</groupId>
+      <artifactId>vertx-auth-webauthn</artifactId>
+      <!-- only this dependency version should be updated -->
+      <version>4.1.7.1</version>
+    </dependency>
+
+  </dependencies>
+```
+
+No release was made for the 3.9 series because the `webauthn` module was just introduced with 4.x. Extra measures have
+been taken to ensure that expired certificates will not block the start of applications in the future.
 
 Happy coding and see you soon on our user or dev [channels](https://vertx.io/channels).
