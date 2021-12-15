@@ -1,5 +1,5 @@
-const optimizedImages = require("next-optimized-images")
 const mdxOptions = require("./components/lib/mdx-options")
+const svgToMiniDataURI = require("mini-svg-data-uri")
 
 const withPlugins = require("next-compose-plugins")
 
@@ -34,6 +34,10 @@ const config = {
 
   // create a folder for each page
   trailingSlash: true,
+
+  // opt-in to using SWC for minifying JavaScript
+  // (does not work with the docs search panel yet!)
+  // swcMinify: true,
 
   // configure base path
   basePath,
@@ -79,6 +83,24 @@ const config = {
       ]
     })
 
+    config.module.rules.push({
+      test: /\.(gif|png|jpe?g)$/i,
+      type: "asset",
+      use: "image-webpack-loader"
+    })
+
+    config.module.rules.push({
+      test: /\.svg$/i,
+      type: "asset",
+      use: "image-webpack-loader",
+      generator: {
+        dataUrl: content => {
+          content = content.toString()
+          return svgToMiniDataURI(content)
+        }
+      }
+    })
+
     if (dev) {
       config.module.rules.push({
         test: /\.jsx?$/,
@@ -96,6 +118,5 @@ const config = {
 }
 
 module.exports = withPlugins([
-  [optimizedImages],
   [mdx]
 ], config)

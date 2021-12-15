@@ -1,3 +1,4 @@
+@use "sass:color";
 @import "../css/variables";
 
 .navbar {
@@ -14,7 +15,7 @@
 
     &:hover {
       text-decoration: none;
-      color: lighten($gray-800, 30);
+      color: color.adjust($gray-800, $lightness: 30);
       transition: $button-color-transition;
     }
   }
@@ -75,7 +76,7 @@
       @media (max-width: $lg) {
         max-height: 0;
         transition: max-height 200ms ease-in-out;
-        box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.1);
+        box-shadow: 0 2px 5px 0 rgba(0 0 0 / 10%);
         flex-direction: column;
         position: absolute;
         top: 2.75rem;
