@@ -14,7 +14,7 @@ JDBC 客户端 API 接口描述请参考 `link:../../apidocs/io/vertx/ext/jdbc/J
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-jdbc-client</artifactId>
- <version>4.2.1</version>
+ <version>4.2.2</version>
 </dependency>
 ----
 
@@ -22,7 +22,7 @@ JDBC 客户端 API 接口描述请参考 `link:../../apidocs/io/vertx/ext/jdbc/J
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-jdbc-client:4.2.1'
+compile 'io.vertx:vertx-jdbc-client:4.2.2'
 ----
 
 [[_using_the_sql_client_api]]
@@ -953,21 +953,25 @@ JDBC驱动程序
 [[_data_types]]
 === 数据类型
 
-由于Vert.x使用JSON作为其标准消息格式，因此客户端接受的数据类型会有很多限制。
-您可以获取标准的：
+Since Vert.x supports many vendor SQL databases, we confide in https://docs.oracle.com/javase/8/docs/technotes/guides/jdbc/jdbc_42.html[JDBC 4.2 specification] to provide the best efforts in converting `Java type` to `SQL type` and vice versa
 
-* null
-* boolean
-* number
-* string
+If any limitations to the data types accepted in the specific SQL database, you will get out of the box the standard by overriding your owns:
 
+* The `encoder` `link:../../apidocs/io/vertx/ext/jdbc/spi/JDBCEncoder.html[JDBCEncoder]` to convert `Java input type` to `SQL type`. By default implementation, it is `io.vertx.ext.jdbc.spi.impl.JDBCEncoderImpl`
+* The `decoder` `link:../../apidocs/io/vertx/ext/jdbc/spi/JDBCDecoder.html[JDBCDecoder]` to convert `SQL result type` to `Java type`. By default implementation, it is `io.vertx.ext.jdbc.spi.impl.JDBCDecoderImpl`
 
-对于时态类型(时间、日期、时间戳)也有一个乐观强制转换，对于UUID也可以选择禁用。许多数据库支持uuid，但并非所有数据库都支持。
-例如MySQL不支持它，所以建议使用VARCHAR(36)列。
-对于其他引擎，可以使用客户端配置json启用UUID乐观强制转换，如下所示：
+You can include the overridden classes in the SPI file
+`META-INF/services/io.vertx.ext.jdbc.spi.JDBCEncoder` and `META-INF/services/io.vertx.ext.jdbc.spi.JDBCDecoder` to load in runtime. Or you can configure directly in the configuration with 2 properties:
 
+* encoderCls
+* decoderCls
+
+[source,java]
 ----
-{ "castUUID": true }
+`link:../../apidocs/examples/JDBCTypeExamples.html#createJDBCClient-io.vertx.core.Vertx-java.lang.Class-java.lang.Class-[createJDBCClient]`
 ----
 
-当此配置存在时，uuid将作为本机类型处理。
+[source,java]
+----
+`link:../../apidocs/examples/JDBCTypeExamples.html#createJDBCPool-io.vertx.core.Vertx-java.lang.Class-java.lang.Class-[createJDBCPool]`
+----

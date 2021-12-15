@@ -191,26 +191,18 @@ vertx.createHttpServer().requestHandler(request -> {
 
 使用 `link:../../apidocs/io/vertx/core/http/HttpServerRequest.html#path--[path]` 方法读取URI中的路径部分。
 
-例如，请求的URI为：
+例如，请求的URI为： `a/b/c/page.html?param1=abc&param2=xyz`
 
-a/b/c/page.html?param1=abc&param2=xyz
-
-请求路径是：
-
-/a/b/c/page.html
+请求路径是： `/a/b/c/page.html`
 
 [[_request_query]]
 ==== 请求查询
 
 使用 `link:../../apidocs/io/vertx/core/http/HttpServerRequest.html#query--[query]` 读取URI中的查询部分。
 
-例如，请求的URI为：
+例如，请求的URI为：  `a/b/c/page.html?param1=abc&param2=xyz`
 
-a/b/c/page.html?param1=abc&param2=xyz
-
-请求查询是：
-
-param1=abc&param2=xyz
+请求查询是：  `param1=abc&param2=xyz`
 
 [[_request_headers]]
 ==== 请求头部
@@ -248,9 +240,7 @@ System.out.println("User agent is " + headers.get("User-Agent"));
 像 `link:../../apidocs/io/vertx/core/http/HttpServerRequest.html#headers--[headers]` 方法一样，它也会返回一个 `link:../../apidocs/io/vertx/core/MultiMap.html[MultiMap]`
 实例，因为可以有多个具有相同名称的参数。
 
-请求参数在请求URI的 path 部分之后，例如URI是：
-
-/page.html?param1=abc&param2=xyz
+请求参数在请求URI的 path 部分之后，例如URI是： `/page.html?param1=abc&param2=xyz`
 
 那么参数将包含以下内容：
 
@@ -2259,27 +2249,57 @@ NOTE: 此功能仅适用于HTTP/2协议。
 
 连接关闭时 `link:../../apidocs/io/vertx/core/http/HttpConnection.html#closeHandler-io.vertx.core.Handler-[closeHandler]` 将发出通知。
 
-[[_httpclient_usage]]
-=== HttpClient 使用说明
+=== Client sharing
 
-HttpClient可以在一个 Verticle 中使用或者嵌入使用。
+You can share an HTTP client between multiple verticles or instances of the same verticle. Such client should be created outside
+of a verticle otherwise it will be closed when the verticle that created it is undeployed
 
-在 Verticle 中使用时，Verticle *应该使用自己的客户端实例* 。
-
-一般来说，不应该在不同的 Vert.x 上下文环境之间共享客户端，因为它可能导致不可预知的意外。
-
-例如：keep-alive的连接将在打开连接的请求上下文环境调用客户端处理器，后续请求将使用
-相同上下文环境。
-
-当这种情况发生时，Vert.x会检测到并记录以下警告：
-
+[source,java]
 ----
-Reusing a connection with a different context: an HttpClient is probably shared between different Verticles
+HttpClient client = vertx.createHttpClient(new HttpClientOptions().setShared(true));
+vertx.deployVerticle(() -> new AbstractVerticle() {
+  @Override
+  public void start() throws Exception {
+    // Use the client
+  }
+}, new DeploymentOptions().setInstances(4));
 ----
 
-HttpClient可以嵌套在非 Vert.x 线程中，如单元测试或纯Java的 `main` 线程中：
-客户端处理器将被不同的 Vert.x 线程和上下文调用，这样的上下文会根据需要创建。
-对于生产环境，不推荐这样使用。
+You can also create a shared HTTP client in each verticle:
+
+[source,java]
+----
+vertx.deployVerticle(() -> new AbstractVerticle() {
+  HttpClient client;
+  @Override
+  public void start() {
+    // Get or create a shared client
+    // this actually creates a lease to the client
+    // when the verticle is undeployed, the lease will be released automaticaly
+    client = vertx.createHttpClient(new HttpClientOptions().setShared(true).setName("my-client"));
+  }
+}, new DeploymentOptions().setInstances(4));
+----
+
+The first time a shared client is created it will create and return a client. Subsequent calls will reuse this client and
+create a lease to this client. The client is closed after all leases have been disposed.
+
+By default, a client reuses the current event-loop when it needs to create a TCP connection. The HTTP client will
+therefore randomly use event-loops of verticles using it in a safe fashion.
+
+You can assign a number of event loop a client will use independently of the client using it
+
+[source,java]
+----
+vertx.deployVerticle(() -> new AbstractVerticle() {
+  HttpClient client;
+  @Override
+  public void start() {
+    // The client creates and use two event-loops for 4 instances
+    client = vertx.createHttpClient(new HttpClientOptions().setPoolEventLoopSize(2).setShared(true).setName("my-client"));
+  }
+}, new DeploymentOptions().setInstances(4));
+----
 
 [[_server_sharing]]
 === 水平扩展 - 服务端共享

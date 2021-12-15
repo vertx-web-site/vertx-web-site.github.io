@@ -252,8 +252,12 @@ vertx.fileSystem().open("target/classes/les_miserables.txt", new OpenOptions(), 
 方法进行设定。如果系统属性中没有预先设置 `vertx.disableFileCaching`
 ，则其默认值为 `true`。
 
-文件缓存的路径默认为 `.vertx`，它可以通过设置系统属性
-`vertx.cacheDirBase` 进行自定义。
+文件缓存的路径默认为 `/tmp/vertx-cache-UUID`，它可以通过设置系统属性
+`vertx.cacheDirBase` 进行自定义。When using this property, note that it should refer to a directory prefix in a process
+read/writeable location, for example: `-Dvertx.cacheDirBase=/tmp/my-vertx-cache` (Note that there's no UUID).
+
+Each vert.x process will append it's own UUID in order to keep caches independently of different applications running
+on the same machine.
 
 如果想在系统级禁用整个classpath解析功能，可以将系统属性
 `vertx.disableFileCPResolving` 设置为 `true`。

@@ -1,8 +1,5 @@
 {
-  "extends": "stylelint-config-standard",
-  "plugins": [
-    "stylelint-scss"
-  ],
+  "extends": "stylelint-config-standard-scss",
   "ignoreFiles": ["**/*.mdx"],
   "rules": {
     "at-rule-no-unknown": null,
@@ -15,6 +12,8 @@
       {
         "ignorePseudoClasses": ["global"]
       }
-    ]
+    ],
+    "shorthand-property-no-redundant-values": null,
+    "scss/dollar-variable-empty-line-before": null
   }
 }

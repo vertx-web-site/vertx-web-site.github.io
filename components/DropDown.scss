@@ -1,5 +1,4 @@
 @use "sass:math";
-
 @import "../css/variables";
 
 .dropdown {
@@ -15,7 +14,7 @@
   .dropdown-menu {
     position: absolute;
     background-color: $gray-100;
-    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 5px 0 rgba(0 0 0 / 10%);
     border-radius: $border-radius;
     list-style-type: none;
     padding: math.div($spacer, 1.5) 0;

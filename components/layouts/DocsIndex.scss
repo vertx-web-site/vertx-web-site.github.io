@@ -1,5 +1,4 @@
 @use "sass:math";
-
 @import "../../css/variables";
 
 .docs-index-main {
@@ -228,10 +227,7 @@
     margin-right: auto;
 
     @media (min-width: $lg) {
-      margin-top: 0;
-      margin-left: 2rem;
-      margin-right: 0;
-      margin-bottom: -2rem;
+      margin: 0 0 -2rem 2rem;
     }
 
     img {

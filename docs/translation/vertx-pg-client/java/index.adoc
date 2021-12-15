@@ -33,7 +33,7 @@
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-pg-client</artifactId>
- <version>4.2.1</version>
+ <version>4.2.2</version>
 </dependency>
 ----
 * Gradle（在您的 `build.gradle` 文件里）：
@@ -41,7 +41,7 @@
 [source,groovy]
 ----
 dependencies {
- compile 'io.vertx:vertx-pg-client:4.2.1'
+ compile 'io.vertx:vertx-pg-client:4.2.2'
 }
 ----
 
@@ -202,6 +202,10 @@ Future<RowSet<Row>> res2 = pool.query(sql).execute();
 
 - 连接池操作并非流水线操作（pipelined），只有连接客户端是流水线操作
 - 池化的客户端操作是流水线操作
+
+== Pool sharing
+
+include::pool_sharing.adoc[]
 
 == Unix domain sockets
 
@@ -488,6 +492,7 @@ include::tracing.adoc[]
 * TSVECTOR (`java.lang.String`)
 * TSQUERY (`java.lang.String`)
 * INET (`io.vertx.pgclient.data.Inet`)
+* MONEY (`io.vertx.pgclient.data.Money`)
 
 Tuple（元组）在解码时使用上述类型映射关系存储解码出的值，并且在合法的条件下可以动态转换为实际类型的值：
 

@@ -32,7 +32,7 @@ Maven 用户应在 pom 文件中添加如下依赖：
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-micrometer-metrics</artifactId>
- <version>4.2.1</version>
+ <version>4.2.2</version>
 </dependency>
 <dependency>
  <groupId>io.micrometer</groupId>
@@ -45,7 +45,7 @@ Gradle 用户，添加如下依赖：
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-micrometer-metrics:4.2.1'
+compile 'io.vertx:vertx-micrometer-metrics:4.2.2'
 compile 'io.micrometer:micrometer-registry-influx:${micrometer.version}'
 ----
 
@@ -109,7 +109,7 @@ Maven用户在pom文件中添加如下依赖：
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-micrometer-metrics</artifactId>
- <version>4.2.1</version>
+ <version>4.2.2</version>
 </dependency>
 <dependency>
  <groupId>io.micrometer</groupId>
@@ -122,7 +122,7 @@ Gradle 用户，添加如下依赖：
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-micrometer-metrics:4.2.1'
+compile 'io.vertx:vertx-micrometer-metrics:4.2.2'
 compile 'io.micrometer:micrometer-registry-prometheus:${micrometer.version}'
 ----
 
@@ -185,7 +185,7 @@ Maven用户在pom文件中添加如下依赖：
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-micrometer-metrics</artifactId>
- <version>4.2.1</version>
+ <version>4.2.2</version>
 </dependency>
 <dependency>
  <groupId>io.micrometer</groupId>
@@ -198,7 +198,7 @@ Gradle 用户，添加如下依赖：
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-micrometer-metrics:4.2.1'
+compile 'io.vertx:vertx-micrometer-metrics:4.2.2'
 compile 'io.micrometer:micrometer-registry-jmx:${micrometer.version}'
 ----
 
@@ -655,7 +655,7 @@ NOTE: 指标后台可能存在不同的约定或规则来命名指标
 |Gauge
 |队列中挂起状态的元素数量。
 
-|`vertx_http_client_ active_requests`
+|`vertx_http_client_active_requests`
 |`local`, `remote`, `path`, `method`
 |Gauge
 |当前正在执行且正等待响应的请求数量。

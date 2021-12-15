@@ -9,6 +9,7 @@
     "lint": "next lint && npm run stylelint",
     "stylelint": "stylelint \"**/*.scss\"",
     "update-docs": "cd docs && npm run update-docs",
+    "copy-english": "cd docs && npm run copy-english",
     "update-docs:install": "cd docs && npm i",
     "postinstall": "npm run update-docs:install"
   },
@@ -24,7 +25,7 @@
   "dependencies": {
     "@icons-pack/react-simple-icons": "^4.6.1",
     "@mdx-js/loader": "^1.6.21",
-    "@next/mdx": "^11.1.0",
+    "@next/mdx": "^12.0.7",
     "@silvenon/remark-smartypants": "^1.0.0",
     "asciidoctor": "^2.2.5",
     "asciidoctor-highlight.js": "^0.4.0",
@@ -35,14 +36,15 @@
     "feed": "^4.2.1",
     "gray-matter": "^4.0.2",
     "hyphenopoly": "^4.12.0",
+    "image-webpack-loader": "^8.0.1",
     "imagemin-svgo": "^9.0.0",
     "lazysizes": "^5.2.2",
     "lodash": "^4.17.20",
     "lunr": "^2.3.9",
-    "next": "^11.1.0",
+    "mini-svg-data-uri": "^1.4.3",
+    "next": "^12.0.7",
     "next-compose-plugins": "^2.2.1",
     "next-mdx-remote": "^3.0.4",
-    "next-optimized-images": "^2.6.2",
     "normalize.css": "^8.0.1",
     "nprogress": "^0.2.0",
     "p-map": "^4.0.0",
@@ -56,13 +58,13 @@
     "rehype-autolink-headings": "^5.0.1",
     "rehype-highlight": "^4.0.0",
     "rehype-slug": "^4.0.1",
-    "sass": "^1.38.0",
+    "sass": "^1.44.0",
     "sass-loader": "^12.3.0",
     "serve": "^12.0.0",
     "super-react-gist": "^1.0.4",
     "unist-util-visit": "^2.0.3",
     "unist-util-visit-parents": "^3.1.1",
-    "webpack": "^5.51.1"
+    "webpack": "^5.65.0"
   },
   "devDependencies": {
     "@octokit/rest": "^18.9.1",
@@ -71,8 +73,7 @@
     "favicons": "^6.2.2",
     "natural": "^5.0.4",
     "node-fetch": "^2.6.1",
-    "stylelint": "^13.13.1",
-    "stylelint-config-standard": "^22.0.0",
-    "stylelint-scss": "^3.20.1"
+    "stylelint": "^14.1.0",
+    "stylelint-config-standard-scss": "^3.0.0"
   }
 }

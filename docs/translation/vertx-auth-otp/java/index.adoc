@@ -4,7 +4,7 @@
 进行身份验证。
 这个模块支持 Google Authenticator，您可以使用任何方便的库来根据密钥来生成二维码，或者仅仅是对密钥进行 base32 编码。
 
-要使用这个项目， 
+要使用这个项目，
 将下面的依赖添加到您构建描述里的 _dependencies_ 部分
 
 * Maven (在您的 `pom.xml` 文件中):
@@ -14,7 +14,7 @@
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-auth-otp</artifactId>
- <version>4.2.1</version>
+ <version>4.2.2</version>
 </dependency>
 ----
 
@@ -22,7 +22,7 @@
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-auth-otp:4.2.1'
+compile 'io.vertx:vertx-auth-otp:4.2.2'
 ----
 
 ---

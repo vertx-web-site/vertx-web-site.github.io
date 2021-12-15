@@ -23,9 +23,9 @@ Vert.x提供了自己的机制来处理数据流，实现了一个流可以使�
 [source,xml,subs="+attributes"]
 ----
 <dependency>
- <groupId>io.vertx</groupId>
- <artifactId>vertx-reactive-streams</artifactId>
- <version>4.2.1</version>
+  <groupId>io.vertx</groupId>
+  <artifactId>vertx-reactive-streams</artifactId>
+  <version>4.2.2</version>
 </dependency>
 ----
 
@@ -33,7 +33,7 @@ Vert.x提供了自己的机制来处理数据流，实现了一个流可以使�
 
 [source,groovy,subs="+attributes"]
 ----
-compile io.vertx:vertx-reactive-streams:4.2.1
+compile io.vertx:vertx-reactive-streams:4.2.2
 ----
 
 [[_reactive_read_stream]]

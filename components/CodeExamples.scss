@@ -1,5 +1,5 @@
+@use "sass:color";
 @use "sass:math";
-
 @import "../css/variables";
 
 .code-examples {
@@ -34,7 +34,7 @@
       }
 
       &:not(.active):hover {
-        background-color: lighten($code-bg, 5);
+        background-color: color.adjust($code-bg, $lightness: -5%);
       }
     }
   }

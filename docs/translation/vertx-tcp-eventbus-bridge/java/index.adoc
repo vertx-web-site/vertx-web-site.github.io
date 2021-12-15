@@ -11,7 +11,7 @@ Maven（在您的 `pom.xml`）：
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-tcp-eventbus-bridge</artifactId>
- <version>4.2.1</version>
+ <version>4.2.2</version>
 </dependency>
 ----
 
@@ -19,7 +19,7 @@ Gradle（在您的 `build.gradle` 文件中）：
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-tcp-eventbus-bridge:4.2.1'
+compile 'io.vertx:vertx-tcp-eventbus-bridge:4.2.2'
 ----
 
 TCP EventBus bridge建立在TCP之上，

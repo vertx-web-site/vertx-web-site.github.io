@@ -18,7 +18,7 @@ WARNING: 这个模块处于 _Tech Preview_ 阶段，这意味着在不同版本�
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-http-proxy</artifactId>
- <version>4.2.1</version>
+ <version>4.2.2</version>
 </dependency>
 ----
 
@@ -27,7 +27,7 @@ WARNING: 这个模块处于 _Tech Preview_ 阶段，这意味着在不同版本�
 [source,groovy,subs="+attributes"]
 ----
 dependencies {
- compile 'io.vertx:vertx-http-proxy:4.2.1'
+ compile 'io.vertx:vertx-http-proxy:4.2.2'
 }
 ----
 
@@ -77,6 +77,15 @@ proxyServer.requestHandler(proxy).listen(8080);
 ----
 
 最后，所有的出站请求都被轻松的反向代理转发到 *源服务器*
+
+=== WebSockets
+
+The proxy supports WebSocket by default.
+
+WebSocket handshake requests  are forwarded to the origin server (including the `connection` header)  and the handshake
+happens between the user agent and the origin server.
+
+You can configure WebSocket support with `link:../../apidocs/io/vertx/httpproxy/ProxyOptions.html#setSupportWebSocket-boolean-[setSupportWebSocket]`.
 
 [[_proxy_caching]]
 === 代理缓存

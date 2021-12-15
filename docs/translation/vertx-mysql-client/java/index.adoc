@@ -33,7 +33,7 @@
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-mysql-client</artifactId>
- <version>4.2.1</version>
+ <version>4.2.2</version>
 </dependency>
 ----
 * Gradle (在您的 `build.gradle` 文件中):
@@ -41,7 +41,7 @@
 [source,groovy]
 ----
 dependencies {
- compile 'io.vertx:vertx-mysql-client:4.2.1'
+ compile 'io.vertx:vertx-mysql-client:4.2.2'
 }
 ----
 
@@ -179,6 +179,10 @@ client.getConnection().compose(conn -> {
 ----
 
 连接完成后，您必须关闭它以释放到连接池中，以便可以重复使用。
+
+== Pool sharing
+
+include::pool_sharing.adoc[]
 
 [[_unix_domain_socket]]
 === Unix 域套接字
@@ -791,7 +795,7 @@ client.query("SELECT * FROM users").collecting(collector).execute(ar -> {
 [[_mysql_stored_procedure]]
 == MySQL 存储过程
 
-您可以在查询中运行存储过程。结果将按照 https://dev.mysql.com/doc/dev/mysql-server/8.0.12/page_protocol_command_phase_sp.html[MySQL 协议] 从服务器获取，无需任何魔法。
+您可以在查询中运行存储过程。结果将按照 https://dev.mysql.com/doc/dev/mysql-server/latest/page_protocol_command_phase_sp.html[MySQL 协议] 从服务器获取，无需任何魔法。
 
 [source,java]
 ----
@@ -928,7 +932,8 @@ MySQLConnection.connect(vertx, options, res -> {
 [[_mysql_utility_command]]
 == MySQL 实用程序命令
 
-有时您希望使用 MySQL 实用程序命令，我们为此提供支持。有关更多信息，请参阅 https://dev.mysql.com/doc/dev/mysql-server/8.0.12/page_protocol_command_phase_utility.html[MySQL 实用程序命令].
+有时您希望使用 MySQL 实用程序命令，我们为此提供支持。
+有关更多信息，请参阅 https://dev.mysql.com/doc/dev/mysql-server/latest/page_protocol_command_phase_utility.html[MySQL 实用程序命令].
 
 [[_com_ping]]
 === COM_PING
