@@ -53,6 +53,7 @@ const Footer = () => {
               <li><Link href="/blog/"><a>Blog</a></Link></li>
               <li><Link href="/community/"><a>Community</a></Link></li>
               <li><a href="https://github.com/eclipse-vertx/vert.x">GitHub</a></li>
+              <li><a href="/.well-known/security.txt">security.txt</a></li>
             </ul>
           </div>
           <div className="footer-nav-list">
