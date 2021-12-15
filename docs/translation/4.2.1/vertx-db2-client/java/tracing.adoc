@@ -1,0 +1,22 @@
+当Vert.x启用tracing功能时，SQL客户端可以跟踪查询的执行情况。
+
+客户端会上报下列这些 _client_ spans：
+
+- `Query` 操作名称
+- tags
+ - `db.user` ：数据库用户名
+ - `db.instance` ：数据库实例
+ - `db.statement` ：SQL语句
+ - `db.type` ：_sql_
+
+默认的 tracing 策略时 `link:../../apidocs/io/vertx/core/tracing/TracingPolicy.html#PROPAGATE[PROPAGATE]`，客户端
+在一个活跃trace里只创建一个span。
+
+您可以通过 `link:../../apidocs/io/vertx/sqlclient/SqlConnectOptions.html#setTracingPolicy-io.vertx.core.tracing.TracingPolicy-[setTracingPolicy]` 方法来调整tracing策略，
+例如您可以设置为 `link:../../apidocs/io/vertx/core/tracing/TracingPolicy.html#ALWAYS[ALWAYS]`，
+客户端将始终上报span：
+
+[source,java]
+----
+options.setTracingPolicy(TracingPolicy.ALWAYS);
+----

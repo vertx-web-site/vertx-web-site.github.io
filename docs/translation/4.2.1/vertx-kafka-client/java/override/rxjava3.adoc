@@ -1,0 +1,20 @@
+[[_rxjava_3_api]]
+== RxJava 3 接口
+
+Kafka 客户端提供了在原有 API 基础上的响应式接口
+
+[source,java]
+----
+Observable<KafkaConsumerRecord<String, Long>> observable = consumer.toObservable();
+
+observable
+  .map(record -> record.value())
+  .buffer(256)
+  .map(
+  list -> list.stream().mapToDouble(n -> n).average()
+).subscribe(val -> {
+
+  // 获取平均值
+
+});
+----

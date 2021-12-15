@@ -1,0 +1,277 @@
+= 响应式的 Oracle 数据库客户端
+:PREPARED_PARAMS: `?`
+
+响应式的 Oracle 数据库客户端是一个以可扩展性和低开销为目标而专门为 Oracle 数据库设计的
+客户端。
+
+*特性*
+
+* todo
+
+WARNING: 该模块处于 tech preview 阶段
+
+[[_usage]]
+== 使用
+
+在您构建描述文件的 _dependencies_ 里添加如下依赖来引入响应式 Oracle 客户端：
+
+* Maven (在您的 `pom.xml` 文件中):
+
+[source,xml]
+----
+<dependency>
+ <groupId>io.vertx</groupId>
+ <artifactId>vertx-oracle-client</artifactId>
+ <version>4.2.1</version>
+</dependency>
+----
+* Gradle (在您的 `build.gradle` 文件中):
+
+[source,groovy]
+----
+dependencies {
+ compile 'io.vertx:vertx-oracle-client:4.2.1'
+}
+----
+
+[[_getting_started]]
+== 开始使用
+
+如下是一种最为简单的连接、查询、关闭连接的方式
+
+[source,java]
+----
+OracleConnectOptions connectOptions = new OracleConnectOptions()
+  .setPort(1521)
+  .setHost("the-host")
+  .setDatabase("the-db")
+  .setUser("user")
+  .setPassword("secret");
+
+// Pool options
+PoolOptions poolOptions = new PoolOptions()
+  .setMaxSize(5);
+
+// Create the client pool
+OraclePool client = OraclePool.pool(connectOptions, poolOptions);
+
+// A simple query
+client
+  .query("SELECT * FROM users WHERE id='julien'")
+  .execute(ar -> {
+  if (ar.succeeded()) {
+    RowSet<Row> result = ar.result();
+    System.out.println("Got " + result.size() + " rows ");
+  } else {
+    System.out.println("Failure: " + ar.cause().getMessage());
+  }
+
+  // Now close the pool
+  client.close();
+});
+----
+
+[[_connecting_to_oracle]]
+== 连接 Oracle 数据库
+
+大多数情况下，您将使用连接池连接到 Oracle 数据库：
+
+[source,java]
+----
+OracleConnectOptions connectOptions = new OracleConnectOptions()
+  .setPort(1521)
+  .setHost("the-host")
+  .setDatabase("the-db")
+  .setUser("user")
+  .setPassword("secret");
+
+// Pool options
+PoolOptions poolOptions = new PoolOptions()
+  .setMaxSize(5);
+
+// Create the pooled client
+OraclePool client = OraclePool.pool(connectOptions, poolOptions);
+----
+
+池化的 Oracle 数据库客户端使用连接池去执行数据库操作，
+所有操作都遵循从连接池里拿到连接、执行、释放连接到池里这三个步骤。
+
+您可以传入一个连接池到正在运行的 Vert.x 实例里：
+
+[source,java]
+----
+OracleConnectOptions connectOptions = new OracleConnectOptions()
+  .setPort(1521)
+  .setHost("the-host")
+  .setDatabase("the-db")
+  .setUser("user")
+  .setPassword("secret");
+
+// Pool options
+PoolOptions poolOptions = new PoolOptions()
+  .setMaxSize(5);
+// Create the pooled client
+OraclePool client = OraclePool.pool(vertx, connectOptions, poolOptions);
+----
+
+如果不再需要连接池，您需要将其释放：
+
+[source,java]
+----
+pool.close();
+----
+
+当您想要在同一条连接上执行多个操作时，您需要使用一个客户端的
+`link:../../apidocs/io/vertx/sqlclient/SqlConnection.html[connection]`.
+
+您可以很方便地从连接池里获取到一条数据库连接：
+
+[source,java]
+----
+OracleConnectOptions connectOptions = new OracleConnectOptions()
+  .setPort(1521)
+  .setHost("the-host")
+  .setDatabase("the-db")
+  .setUser("user")
+  .setPassword("secret");
+
+// Pool options
+PoolOptions poolOptions = new PoolOptions()
+  .setMaxSize(5);
+
+// Create the pooled client
+OraclePool client = OraclePool.pool(vertx, connectOptions, poolOptions);
+
+// Get a connection from the pool
+client.getConnection().compose(conn -> {
+  System.out.println("Got a connection from the pool");
+
+  // All operations execute on the same connection
+  return conn
+    .query("SELECT * FROM users WHERE id='julien'")
+    .execute()
+    .compose(res -> conn
+      .query("SELECT * FROM users WHERE id='emad'")
+      .execute())
+    .onComplete(ar -> {
+      // Release the connection to the pool
+      conn.close();
+    });
+}).onComplete(ar -> {
+  if (ar.succeeded()) {
+
+    System.out.println("Done");
+  } else {
+    System.out.println("Something went wrong " + ar.cause().getMessage());
+  }
+});
+----
+
+为了连接可以重用，一旦当前连接上的操作已经完成，您需要将数据库连接关闭并释放到连接池里。
+
+[[_configuration]]
+== 配置
+
+您有如下几种配置客户端的可选方案。
+
+[[_data_object]]
+=== Data Object
+
+通过指定 `OracleConnectOptions` 数据对象是一种简单的客户端的配置方式。
+
+[source,java]
+----
+OracleConnectOptions connectOptions = new OracleConnectOptions()
+  .setPort(1521)
+  .setHost("the-host")
+  .setDatabase("the-db")
+  .setUser("user")
+  .setPassword("secret");
+
+// Pool Options
+PoolOptions poolOptions = new PoolOptions().setMaxSize(5);
+
+// Create the pool from the data object
+OraclePool pool = OraclePool.pool(vertx, connectOptions, poolOptions);
+
+pool.getConnection(ar -> {
+  // Handling your connection
+});
+----
+
+[[_connect_retries]]
+== 重连
+
+您可以配置客户端在建立连接失败的时候的重试策略。
+
+[source,java]
+----
+options
+  .setReconnectAttempts(2)
+  .setReconnectInterval(1000);
+----
+
+include::queries.adoc[leveloffset=1]
+
+include::connections.adoc[]
+
+include::transactions.adoc[]
+
+include::cursor.adoc[]
+
+[[_tracing_queries]]
+== 跟踪查询
+
+include::tracing.adoc[]
+
+[[_collector_queries]]
+== Collector 式查询
+
+您可以将 Java 的 collector 与查询 API 结合使用：
+
+[source,java]
+----
+Collector<Row, ?, Map<Long, String>> collector = Collectors.toMap(
+  row -> row.getLong("id"),
+  row -> row.getString("last_name"));
+
+// Run the query with the collector
+client.query("SELECT * FROM users").collecting(collector).execute(ar -> {
+    if (ar.succeeded()) {
+      SqlResult<Map<Long, String>> result = ar.result();
+
+      // Get the map created by the collector
+      Map<Long, String> map = result.value();
+      System.out.println("Got " + map);
+    } else {
+      System.out.println("Failure: " + ar.cause().getMessage());
+    }
+  });
+----
+
+collector 式查询获取的结果集处理过程中不能再拿到 `link:../../apidocs/io/vertx/sqlclient/Row.html[Row]` 的引用，因为
+oracle 数据库客户端在处理 collector 时，只会用一个 row 用于处理整个集合。
+
+Java 的 `Collectors` 类提供了很多有趣的预定义的 collector，比如您可以很容易
+从 row 集合里得到一个字符串：
+
+[source,java]
+----
+Collector<Row, ?, String> collector = Collectors.mapping(
+  row -> row.getString("last_name"),
+  Collectors.joining(",", "(", ")")
+);
+
+// Run the query with the collector
+client.query("SELECT * FROM users").collecting(collector).execute(ar -> {
+    if (ar.succeeded()) {
+      SqlResult<String> result = ar.result();
+
+      // Get the string created by the collector
+      String list = result.value();
+      System.out.println("Got " + list);
+    } else {
+      System.out.println("Failure: " + ar.cause().getMessage());
+    }
+  });
+----

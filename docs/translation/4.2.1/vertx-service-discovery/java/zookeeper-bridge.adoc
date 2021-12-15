@@ -1,0 +1,65 @@
+[[_zookeeper_bridge]]
+=== Zookeeper 桥
+
+该发现桥将服务从 https://zookeeper.apache.org/[Apache Zookeeper] 导入到 Vert.x 服务发现中。
+该桥使用 http://curator.apache.org/curator-x-discovery/[用于服务发现的 Curator 扩展]。
+
+服务描述可被读取为 JSON 对象（该对象合并在 Vert.x 服务记录元数据中）。
+可通过阅读 `service-type` 从该描述中推断出服务类型。
+
+[[_using_the_bridge_3]]
+==== 使用该桥
+
+要使用这个 Vert.x 发现桥，
+请将以下依赖项添加到构建描述符的 _dependencies_ 部分：
+
+* Maven（在您的 `pom.xml`）：
+
+[source,xml,subs="+attributes"]
+----
+<dependency>
+ <groupId>io.vertx</groupId>
+ <artifactId>vertx-service-discovery-bridge-zookeeper</artifactId>
+ <version>4.2.1</version>
+</dependency>
+----
+
+* Gradle（在您的 `build.gradle` 文件中）：
+
+[source,groovy,subs="+attributes"]
+----
+compile 'io.vertx:vertx-service-discovery-bridge-zookeeper:4.2.1'
+----
+
+然后，在创建服务发现时按如下方式注册此桥：
+
+[source, java]
+----
+ServiceDiscovery.create(vertx)
+    .registerServiceImporter(new ZookeeperServiceImporter(),
+        new JsonObject()
+            .put("connection", "127.0.0.1:2181"));
+----
+
+只有 `connection` 配置是强制的。它是 Zookeeper 服务器连接的 _字符串_。
+
+此外，您亦可配置：
+
+* `maxRetries`：尝试连接次数，默认为3
+* `baseSleepTimeBetweenRetries`：重试之间等待的毫秒数（指数退避策略）。
+默认为 1000 毫秒。
+* `basePath`：存储服务的 Zookeeper 路径。默认为`/discovery`。
+* `connectionTimeoutMs`：以毫秒为单位的连接超时。默认为 1000。
+* `canBeReadOnly`：后端是否支持 _只读_ 模式（默认为true）
+
+[source,java]
+----
+ServiceDiscovery.create(vertx)
+    .registerServiceImporter(new ZookeeperServiceImporter(),
+        new JsonObject()
+            .put("connection", "127.0.0.1:2181")
+            .put("maxRetries", 5)
+            .put("baseSleepTimeBetweenRetries", 2000)
+            .put("basePath", "/services")
+    );
+----
