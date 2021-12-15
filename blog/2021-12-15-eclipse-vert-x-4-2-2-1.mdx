@@ -8,8 +8,8 @@ summary: >-
   Eclipse Vert.x Webauthn version 4.2.2.1 has just been released.
 ---
 
-Users of the module `vertx-auth-webauthn` should have noticed that since this morning, you cannot start any webauthn
-application. The reason is that the root certificate for Android safety net attestation has expired.
+Users of the module `vertx-auth-webauthn` should have noticed that since `Dec 15, 2021 09:00 UTC`, you cannot start any
+webauthn application. The reason is that the root certificate for Android safety net attestation has **expired**.
 
 The root certificate has been replaced with:
 
@@ -20,6 +20,28 @@ The root certificate has been replaced with:
   Valid Until 	28 January 2028
 ```
 
-Users should only update this dependency until an upgrade to a regular next full stack release.
+Users should only update this dependency until an upgrade to a regular next full stack release, for example, if you're
+using maven as your build tool:
+
+```xml
+  <dependencies>
+    <dependency>
+      <groupId>io.vertx</groupId>
+      <artifactId>vertx-core</artifactId>
+      <version>4.2.2</version>
+    </dependency>
+
+    <dependency>
+      <groupId>io.vertx</groupId>
+      <artifactId>vertx-auth-webauthn</artifactId>
+      <!-- only this dependency version should be updated -->
+      <version>4.2.2.1</version>
+    </dependency>
+
+  </dependencies>
+```
+
+Extra measures have been taken to ensure that expired certificates will not block the start of applications in the
+future.
 
 Happy coding and see you soon on our user or dev [channels](https://vertx.io/channels).
