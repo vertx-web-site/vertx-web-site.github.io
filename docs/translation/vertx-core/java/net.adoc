@@ -530,8 +530,8 @@ SSL/TLS 服务端可以使用证书颁发机构来验证客户端的身份。
 
 证书颁发机构可通过多种方式为服务端配置。
 
-可使用JDK随附的 http://docs.oracle.com/javase/6/docs/technotes/tools/solaris/keytool.html[keytool]
-实用程序来管理Java 受信存储。
+可使用 JDK 附带的 http://docs.oracle.com/javase/6/docs/technotes/tools/solaris/keytool.html[keytool]
+实用程序来管理 Java 受信存储。
 
 还应提供受信存储的密码：
 
@@ -548,7 +548,7 @@ NetServerOptions options = new NetServerOptions().
 NetServer server = vertx.createNetServer(options);
 ----
 
-或者您可以自己读取受信存储到Buffer，并将它直接提供：
+或者您可以自己读取受信存储到 Buffer，并将它直接提供：
 
 [source,java]
 ----
@@ -564,8 +564,8 @@ NetServerOptions options = new NetServerOptions().
 NetServer server = vertx.createNetServer(options);
 ----
 
-PKCS＃12格式的密钥/证书（ http://en.wikipedia.org/wiki/PKCS_12 ，通常为 `.pfx` 或 `.p12` 扩展名），
-也可以用与JKS密钥存储相似的方式加载：
+PKCS#12 格式的密钥/证书（ http://en.wikipedia.org/wiki/PKCS_12 ，通常为 `.pfx` 或 `.p12` 扩展名），
+也可以用与 JKS 密钥存储相似的方式加载：
 
 [source,java]
 ----
@@ -698,7 +698,7 @@ NetClientOptions options = new NetClientOptions().
 NetClient client = vertx.createNetClient(options);
 ----
 
-PKCS＃12格式的密钥/证书（ http://en.wikipedia.org/wiki/PKCS_12 ，通常为 `.pfx` 或 `.p12` 扩展名），
+PKCS#12 格式的密钥/证书（ http://en.wikipedia.org/wiki/PKCS_12 ，通常为 `.pfx` 或 `.p12` 扩展名），
 也可以用与JKS密钥存储相似的方式加载：
 
 [source,java]
@@ -1021,21 +1021,21 @@ TLS握手开始时客户端提供要连接的服务器名称，服务端根据�
 
 当SNI可用时，服务器使用以下规则匹配证书：
 
-* 服务器名称完全匹配的证书CN（Common Name，通用名称）或SAN DNS（带有DNS的主题备用名称），例如 `www.example.com`
-* 带匹配通配符的服务器名称匹配的证书CN或SAN DNS证书，例如 `* .example.com`
+* 服务器名称完全匹配的证书 CN（Common Name，通用名称）或 SAN DNS（带有 DNS 的主题备用名称），例如 `www.example.com`
+* 带匹配通配符的服务器名称匹配的证书 CN 或 SAN DNS 证书，例如 `*.example.com`
 * 否则，当客户端不提供服务器名称或提供的服务器名称无法匹配时，返回第一个证书
 
 当服务器另外要求客户端身份验证时：
 
-*如果使用 `link:../../apidocs/io/vertx/core/net/JksOptions.html[JksOptions]` 设置信任选项
+* 如果使用 `link:../../apidocs/io/vertx/core/net/JksOptions.html[JksOptions]` 设置信任选项
 （ `link:../../apidocs/io/vertx/core/net/NetServerOptions.html#setTrustOptions-io.vertx.core.net.TrustOptions-[options]` ），
 则将与信任库别名完全匹配
-*否则，将使用无SNI的方式处理可用的CA证书
+* 否则，将使用无 SNI 的方式处理可用的 CA 证书
 
-通过设置 `link:../../apidocs/io/vertx/core/net/NetServerOptions.html#setSni-boolean-[setSni]` 为 `true`，可以在服务器上启用SNI，
+通过设置 `link:../../apidocs/io/vertx/core/net/NetServerOptions.html#setSni-boolean-[setSni]` 为 `true`，可以在服务器上启用 SNI，
 并为服务器配置多个密钥/证书对。
 
-Java KeyStore文件，或PKCS12文件可以开箱即用地存储多个密钥/证书对。
+Java KeyStore 文件，或 PKCS12 文件可以开箱即用地存储多个密钥/证书对。
 
 [source,java]
 ----
@@ -1064,9 +1064,9 @@ NetServer netServer = vertx.createNetServer(new NetServerOptions()
 );
 ----
 
-客户端默认使用连接的主机名的完全限定域名（Fully Qualified Domain Name，缩写：FQDN）作为SNI服务器名称。
+客户端默认使用连接的主机名的完全限定域名（Fully Qualified Domain Name，缩写：FQDN）作为 SNI 服务器名称。
 
-您可以在连接socket时，提供明确的服务器名称。
+您可以在连接 socket 时，提供明确的服务器名称。
 
 [source,java]
 ----
@@ -1113,7 +1113,7 @@ OpenSSL 需要配置 `link:../../apidocs/io/vertx/core/net/TCPSSLOptions.html#se
 [[_using_a_proxy_for_client_connections]]
 === 客户端连接使用代理
 
-`link:../../apidocs/io/vertx/core/net/NetClient.html[NetClient]` 支持HTTP/1.x _CONNECT_、_SOCKS4a_ 或 _SOCKS5_ 代理。
+`link:../../apidocs/io/vertx/core/net/NetClient.html[NetClient]` 支持 HTTP/1.x _CONNECT_、_SOCKS4a_ 或 _SOCKS5_ 代理。
 
 代理可以在 `link:../../apidocs/io/vertx/core/net/NetClientOptions.html[NetClientOptions]` 内设置
 `link:../../apidocs/io/vertx/core/net/ProxyOptions.html[ProxyOptions]` 来配置代理类型、主机名、端口、可选的用户名和密码。

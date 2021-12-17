@@ -1016,15 +1016,15 @@ TLS握手开始时客户端提供要连接的服务器名称，服务端根据�
 当SNI可用时，服务器使用以下规则匹配证书：
 
 * 服务器名称完全匹配的证书CN（Common Name，通用名称）或SAN DNS（带有DNS的主题备用名称），例如 `www.example.com`
-* 带匹配通配符的服务器名称匹配的证书CN或SAN DNS证书，例如 `*.example.com`
+* 带匹配通配符的服务器名称匹配的证书CN或SAN DNS证书，例如 `* .example.com`
 * 否则，当客户端不提供服务器名称或提供的服务器名称无法匹配时，返回第一个证书
 
 当服务器另外要求客户端身份验证时：
 
-* 如果使用 `link:../../apidocs/io/vertx/core/net/JksOptions.html[JksOptions]` 设置信任选项
+*如果使用 `link:../../apidocs/io/vertx/core/net/JksOptions.html[JksOptions]` 设置信任选项
 （ `link:../../apidocs/io/vertx/core/net/NetServerOptions.html#setTrustOptions-io.vertx.core.net.TrustOptions-[options]` ），
 则将与信任库别名完全匹配
-* 否则，将使用无 SNI 的方式处理可用的 CA 证书
+*否则，将使用无SNI的方式处理可用的CA证书
 
 通过设置 `link:../../apidocs/io/vertx/core/net/NetServerOptions.html#setSni-boolean-[setSni]` 为 `true`，可以在服务器上启用SNI，
 并为服务器配置多个密钥/证书对。
