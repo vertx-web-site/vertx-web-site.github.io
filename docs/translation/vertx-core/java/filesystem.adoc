@@ -3,7 +3,7 @@
 
 Vert.x的 `link:../../apidocs/io/vertx/core/file/FileSystem.html[FileSystem]` 对象提供了许多操作文件系统的方法。
 
-每个Vert.x 实例有一个文件系统对象，您可以使用 `link:../../apidocs/io/vertx/core/Vertx.html#fileSystem--[fileSystem]` 方法获取它。
+每个 Vert.x 实例有一个文件系统对象，您可以使用 `link:../../apidocs/io/vertx/core/Vertx.html#fileSystem--[fileSystem]` 方法获取它。
 
 每个操作都提供了阻塞和非阻塞版本，其中非阻塞版本接受一个处理器（Handler），
 当操作完成或发生错误时调用该处理器。
@@ -28,7 +28,7 @@ fs.copy("foo.txt", "bar.txt", res -> {
 这就是我们为什么提供它。但是强烈建议您在event-loop中使用它之前测试使用它们究竟需要耗费多长时间，
 以避免打破黄金法则。
 
-以下是使用阻塞 API的拷贝示例：
+以下是使用阻塞 API 的拷贝示例：
 
 [source,java]
 ----
@@ -230,13 +230,13 @@ vertx.fileSystem().open("target/classes/les_miserables.txt", new OpenOptions(), 
 });
 ----
 
-您还可以使用 _管道_ 将文件内容写入到HTTP 响应中，或者写入任意
+您还可以使用 _管道_ 将文件内容写入到 HTTP 响应中，或者写入任意
 `WriteStream`。
 
 [[classpath]]
 ==== 从 Classpath 访问文件
 
-当Vert.x找不到文件系统上的文件时，它尝试从类路径中解析该文件。
+当 Vert.x 找不到文件系统上的文件时，它尝试从类路径中解析该文件。
 请注意，类路径的资源路径不以
 `/` 开头。
 
@@ -253,17 +253,17 @@ vertx.fileSystem().open("target/classes/les_miserables.txt", new OpenOptions(), 
 ，则其默认值为 `true`。
 
 文件缓存的路径默认为 `/tmp/vertx-cache-UUID`，它可以通过设置系统属性
-`vertx.cacheDirBase` 进行自定义。When using this property, note that it should refer to a directory prefix in a process
-read/writeable location, for example: `-Dvertx.cacheDirBase=/tmp/my-vertx-cache` (Note that there's no UUID).
+`vertx.cacheDirBase` 进行自定义。当您使用该属性时，请记住它应该指向一个进程可以进行读/写操作的
+文件夹前缀，举个例子: `-Dvertx.cacheDirBase=/tmp/my-vertx-cache` (可以看到路径中不包含 UUID)。
 
-Each vert.x process will append it's own UUID in order to keep caches independently of different applications running
-on the same machine.
+每个 vert.x 进程会将自己的 UUID 附加到该文件路径前缀之后，以保证同一机器上运行的每个程序的 Vert.x 
+进程的缓存是独立的。
 
-如果想在系统级禁用整个classpath解析功能，可以将系统属性
+如果想在系统级禁用整个 classpath 解析功能，可以将系统属性
 `vertx.disableFileCPResolving` 设置为 `true`。
 
 NOTE: 当加载 `io.vertx.core.file.FileSystemOptions` 类时，这些系统属性将被加载一次。
-因此，在加载此类之前应该设置这些属性，或者在启动它时作为JVM系统属性来设置。
+因此，在加载此类之前应该设置这些属性，或者在启动它时作为 JVM 系统属性来设置。
 
 如果要禁用特定应用程序的类路径解析，但默认情况下在系统范围内将其保持启用状态，
 则可以通过 `link:../../apidocs/io/vertx/core/file/FileSystemOptions.html#setClassPathResolvingEnabled-boolean-[setClassPathResolvingEnabled]` 选项设置。
@@ -272,4 +272,4 @@ NOTE: 当加载 `io.vertx.core.file.FileSystemOptions` 类时，这些系统属�
 ==== 关闭 AsyncFile
 
 您可调用 `link:../../apidocs/io/vertx/core/file/AsyncFile.html#close--[close]` 方法来关闭 `AsyncFile`。
-关闭是异步的，如果希望在关闭过后收到通知，您可指定一个处理器作为函数 `close` 的参数。。
+关闭是异步的，如果希望在关闭过后收到通知，您可以指定一个处理器作为函数 `close` 的参数。

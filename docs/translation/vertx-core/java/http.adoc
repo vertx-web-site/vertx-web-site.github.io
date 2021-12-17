@@ -2249,10 +2249,11 @@ NOTE: 此功能仅适用于HTTP/2协议。
 
 连接关闭时 `link:../../apidocs/io/vertx/core/http/HttpConnection.html#closeHandler-io.vertx.core.Handler-[closeHandler]` 将发出通知。
 
-=== Client sharing
+[[_client_sharing]]
+=== 水平扩展 - 客户端共享
 
-You can share an HTTP client between multiple verticles or instances of the same verticle. Such client should be created outside
-of a verticle otherwise it will be closed when the verticle that created it is undeployed
+您可以在多个 verticle 或同一个 verticle 的多个实例间共享一个 HTTP 客户端。这样的客户端应该在
+ verticle 的外部创建，否则当创建它的 verticle 被释放时它会被关闭
 
 [source,java]
 ----
@@ -2265,7 +2266,7 @@ vertx.deployVerticle(() -> new AbstractVerticle() {
 }, new DeploymentOptions().setInstances(4));
 ----
 
-You can also create a shared HTTP client in each verticle:
+您也可以在每个 verticle 中创建一个可以共享的 HTTP 客户端:
 
 [source,java]
 ----
@@ -2281,13 +2282,13 @@ vertx.deployVerticle(() -> new AbstractVerticle() {
 }, new DeploymentOptions().setInstances(4));
 ----
 
-The first time a shared client is created it will create and return a client. Subsequent calls will reuse this client and
-create a lease to this client. The client is closed after all leases have been disposed.
+第一次创建可共享的客户端时，会创建并返回一个 HTTP 客户端实例。之后的调用会重用该客户端实例并
+创建一个对该客户端的借用。当所有的借用都被舍弃，该客户端会被关系。
 
-By default, a client reuses the current event-loop when it needs to create a TCP connection. The HTTP client will
-therefore randomly use event-loops of verticles using it in a safe fashion.
+默认情况下，客户端需要创建一个 TCP 连接时，会复用当前的 event-loop 。 这个可共享的 HTTP 客户端会
+以一种安全的模式，在使用它的 verticle 中随机选中一个 verticle，并使用它的 event-loop 。
 
-You can assign a number of event loop a client will use independently of the client using it
+您可以手动设置一个客户端可以使用的 event-loop 的数量。
 
 [source,java]
 ----
