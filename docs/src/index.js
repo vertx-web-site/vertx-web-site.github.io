@@ -1,5 +1,5 @@
 import cliProgress from "cli-progress"
-import fs from "fs/promises"
+import fs from "fs-extra"
 import download from "./download"
 import extract from "./extract"
 import { isAsciidocCompiled } from "./util"
@@ -49,7 +49,7 @@ const multibar = new cliProgress.MultiBar({
   }
 }, cliProgress.Presets.rect)
 
-async function main() {
+async function main() {
   const downloadLimit = pLimit(4)
   const extractLimit = pLimit(4)
 
@@ -59,7 +59,7 @@ async function main() {
   let asciidoctorBar = multibar.create(metadata.length * 100, 0, {
     message: "Compile Asciidoc", asciidoc: true })
 
-  async function run(version) {
+  async function run(version, artifactVersion) {
     let progressListener = {
       start(total, message) {
         this.stop()
@@ -83,16 +83,25 @@ async function main() {
 
     // download artifact
     await downloadLimit(() => {
-      return download(version, progressListener)
+      return download(artifactVersion, progressListener)
     })
     progressListener.stop()
 
     // check if asciidoc for this version has already been compiled
-    let asciidocCompiled = await isAsciidocCompiled(version, downloadPath, compiledPath)
+    let asciidocCompiled = await isAsciidocCompiled(version, artifactVersion,
+      downloadPath, compiledPath)
+
+    // delete compiled files and extracted apidocs if SHA was different
+    if (!asciidocCompiled) {
+      let compiledVersionPath = path.join(compiledPath, version)
+      let publicDocsVersionPath = path.join(publicDocsPath, version)
+      await fs.remove(compiledVersionPath)
+      await fs.remove(publicDocsVersionPath)
+    }
 
     // extract artifact
     await extractLimit(() => {
-      return extract(version, progressListener, asciidocCompiled)
+      return extract(version, artifactVersion, progressListener, asciidocCompiled)
     })
     progressListener.stop()
 
@@ -128,7 +137,7 @@ async function main() {
       }
     })
 
-    let messages = await piscina.run({ version: version, progressPort: channel.port1 },
+    let messages = await piscina.run({ version, artifactVersion, progressPort: channel.port1 },
       { transferList: [channel.port1] })
 
     channel.port1.close()
@@ -139,17 +148,17 @@ async function main() {
     }
 
     totalMessages += messages.length
-    await asciidoctorLog.write(messages.join("\n"))
+    await fs.write(asciidoctorLog, messages.join("\n"))
   }
 
   try {
     let promises = []
     for (let m of metadata) {
-      promises.push(run(m.version))
+      promises.push(run(m.version, m.metadata.artifactVersion || m.version))
     }
     await Promise.all(promises)
   } finally {
-    await asciidoctorLog.close()
+    await fs.close(asciidoctorLog)
   }
 
   asciidoctorBar?.stop()
