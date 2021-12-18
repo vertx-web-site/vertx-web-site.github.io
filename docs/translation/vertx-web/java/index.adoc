@@ -1057,16 +1057,17 @@ router.get("/some/path/other").handler(ctx -> {
 });
 ----
 
-您也可以使用 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#data--[data]` 获取全部的上下文数据map
+您也可以使用 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#data--[data]` 获取全部的上下文数据 map
 
-== Metadata
+[[_metadata]]
+== 元数据
 
-While the context allows you to store data during the request-response lifecycle, there are times it is important to
-have runtime metadata available. For example, to build API documentation, or to hold specific configuration for a given
-route.
+虽然上下文数据已经允许您在请求-响应生命周期内存储数据，但有时重要的是能获取
+运行时的元数据。例如，为了构建 API 文档，或保存一个给定的路由规则
+的特定配置。
 
-The metadata functionality works similarly to the context data. You can either access the holding `Map` or use the
-dedicated getter and setter defined both on the `Router` and `Route` interfaces:
+元数据的作用方式与上下文数据类似。你可以通过其 `Map` 类型接口或使用
+ `Router` and `Route` 接口上的特定 getter 和 setter 来获取数据
 
 [source,java]
 ----
