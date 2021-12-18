@@ -1066,8 +1066,8 @@ router.get("/some/path/other").handler(ctx -> {
 运行时的元数据。例如，为了构建 API 文档，或保存一个给定的路由规则
 的特定配置。
 
-元数据的作用方式与上下文数据类似。你可以通过其 `Map` 类型接口或使用
- `Router` and `Route` 接口上的特定 getter 和 setter 来获取数据
+元数据的作用方式与上下文数据类似。您可以通过其 `Map` 类型接口或使用
+ `Router` 和 `Route` 接口上的特定 getter 和 setter 来获取数据
 
 [source,java]
 ----
@@ -1077,7 +1077,7 @@ router
   .handler(ctx -> {
     Route route = ctx.currentRoute();
     String value = route.getMetadata("metadata-key"); // 123
-    // will end the request with the value 123
+    // 结束请求，并返回 123
     ctx.end(value);
   });
 ----
@@ -1513,7 +1513,7 @@ NOTE: 上传可能是DDoS攻击的来源，为了减少攻击面，建议
 [[_merging_form_attributes]]
 === 合并表单属性
 
-默认情况下，请求体处理器会将所有表单属性合并到请求参数中
+默认情况下，请求体处理器会将所有表单属性合并到请求参数中。
 如果您不想这样做，您可以通过 `link:../../apidocs/io/vertx/ext/web/handler/BodyHandler.html#setMergeFormAttributes-boolean-[setMergeFormAttributes]` 关闭这个功能
 
 [[_handling_file_uploads]]
@@ -1522,7 +1522,7 @@ NOTE: 上传可能是DDoS攻击的来源，为了减少攻击面，建议
 请求体处理器还用于处理多部分文件的上传。
 
 如果请求体处理器处于与请求匹配的路由上，
-则任何文件上传将自动流式传输到uploads目录，默认情况下为 `file-uploads`。
+则任何文件上传将自动流式传输到文件上传目录，该目录默认情况下为 `file-uploads`。
 
 每一个文件都会自动生成一个文件名，而且文件上传将通过 `link:../../apidocs/io/vertx/ext/web/RoutingContext.html#fileUploads--[fileUploads]`
 在路由上下文中可用。
@@ -1651,11 +1651,11 @@ router.route()
 举个例子，给出一个路径 `http://localhost:2677/WebSite1/(S(3abhbgwjg33aqrt3uat2kh4d))/api/` ,
 session ID在这种情况下，是 `3abhbgwjg33aqrt3uat2kh4d`
 
-如果两个用户共享一个相同的session ID，
-他们也将共享同样的session变量，而且网站会将其认为是同一个访问者
-如果session被用于储存私密或者敏感的数据将是一个安全危机，或允许访问网站的受限区域
-当cookie被使用时，session ID可以通过SSL和标记cookie为secure进行保护。
-但是在无cookie session的情况下，session id是URL的一部分，而且这非常容易受到攻击
+如果两个用户共享一个相同的 session ID，
+他们也将共享同样的 session 变量，而且网站会将其认为是同一个访问者。
+如果 session 被用于储存私密或敏感的数据，或者允许访问网站的受限区域，这将是一个安全危机，
+当使用 cookie 时，session ID可以通过 SSL 和标记 cookie 为 secure 进行保护。
+但是在无 cookie session的情况下，session id 是 URL 的一部分，而且这非常容易受到攻击
 
 
 [[_session_stores]]
