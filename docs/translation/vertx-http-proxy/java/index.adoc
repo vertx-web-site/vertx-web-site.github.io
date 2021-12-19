@@ -78,14 +78,15 @@ proxyServer.requestHandler(proxy).listen(8080);
 
 最后，所有的出站请求都被轻松的反向代理转发到 *源服务器*
 
+[[_websockets]]
 === WebSockets
 
-The proxy supports WebSocket by default.
+该 HTTP 代理默认支持 WebSocket 协议。
 
-WebSocket handshake requests  are forwarded to the origin server (including the `connection` header)  and the handshake
-happens between the user agent and the origin server.
+WebSocket 的握手请求会被转发到源服务器 (包含 `connection` 头部) ，并且用户端
+和源服务器间会发生握手。
 
-You can configure WebSocket support with `link:../../apidocs/io/vertx/httpproxy/ProxyOptions.html#setSupportWebSocket-boolean-[setSupportWebSocket]`.
+您可以通过 `link:../../apidocs/io/vertx/httpproxy/ProxyOptions.html#setSupportWebSocket-boolean-[setSupportWebSocket]` 方法来设置其是否支持 WebSocket 协议。
 
 [[_proxy_caching]]
 === 代理缓存
