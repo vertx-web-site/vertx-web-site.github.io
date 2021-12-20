@@ -1,11 +1,11 @@
 = Vert.x JDBC 客户端
 
-Verx.x JDBC 客户端允许您使用 Vert.x 应用程序中的异步API
-与任何符合JDBC协议的数据库进行交互。
+Verx.x JDBC 客户端允许您使用 Vert.x 应用程序中的异步 API
+与任何符合 JDBC 协议的数据库进行交互。
 
 JDBC 客户端 API 接口描述请参考 `link:../../apidocs/io/vertx/ext/jdbc/JDBCClient.html[JDBCClient]`。
 
-如需使用Vert.x JDBC Client，请先将以下依赖添加到您的构建描述中的 _依赖_ 部分 ：
+如需使用 Vert.x JDBC Client，请先将以下依赖添加到您的构建描述中的 _依赖_ 部分 ：
 
 * Maven（在您的 `pom.xml` 文件中添加）：
 
@@ -26,12 +26,12 @@ compile 'io.vertx:vertx-jdbc-client:4.2.2'
 ----
 
 [[_using_the_sql_client_api]]
-== 使用Sql 客户端 API
+== 使用 Sql 客户端 API
 
-SQL客户端是使用SQL数据库通信的vert.x响应式API，
-已经实现了MySQL、PostgreSQL、MSSQL和IBM DB2等多个流行数据的异步驱动程序。
+SQL 客户端是使用 SQL 数据库通信的 vert.x 响应式 API，
+已经实现了 MySQL、PostgreSQL、MSSQL 和 IBM DB2 等多个流行数据的异步驱动程序。
 但是，由于还有许多其他数据库没有异步驱动程序，
-因此JDBC客户端实现了相同的API，直接使用JDBC驱动，以实现数据库的异步支持。
+因此 JDBC 客户端实现了相同的 API，直接使用 JDBC 驱动，以实现数据库的异步支持。
 
 [[_creating_a_db_pool]]
 === 创建一个数据库连接池
@@ -42,12 +42,12 @@ SQL客户端是使用SQL数据库通信的vert.x响应式API，
 JDBCPool pool = JDBCPool.pool(vertx, config);
 ----
 
-在这种情况下，我们将重用JDBC client 的 API 来创建池。
+在这种情况下，我们将重用 JDBC client 的 API 来创建池。
 该配置为自由格式，用户需要查找对应JDBC连接池所需的属性。
 
-对于类型安全的替代方案， 存在第二种工厂方法。
+对于类型安全的替代方案，存在第二种工厂方法。
 第二种工厂方法可确保配置正确(因为其属性和类型已由编译器验证)，
-但当前仅适用于Agroal连接池。
+但当前仅适用于 Agroal 连接池。
 
 [source,java]
 ----
@@ -652,7 +652,7 @@ connection.updateWithParams(update, params, res -> {
 ----
 
 [[_callable_statements]]
-==== 可赎回声明
+==== 可调用语句
 
 要执行可调用语句(SQL函数或SQL过程)，可以使用
 `link:../../apidocs/io/vertx/ext/sql/SQLConnection.html#callWithParams-java.lang.String-io.vertx.core.json.JsonArray-io.vertx.core.json.JsonArray-io.vertx.core.Handler-[callWithParams]`。
@@ -953,15 +953,15 @@ JDBC驱动程序
 [[_data_types]]
 === 数据类型
 
-Since Vert.x supports many vendor SQL databases, we confide in https://docs.oracle.com/javase/8/docs/technotes/guides/jdbc/jdbc_42.html[JDBC 4.2 specification] to provide the best efforts in converting `Java type` to `SQL type` and vice versa
+由于 Vert.x 支持许多不同的 SQL 数据库，因此我们依赖 https://docs.oracle.com/javase/8/docs/technotes/guides/jdbc/jdbc_42.html[JDBC 4.2 specification] 来把 `Java 数据类型` 最好地转化为 `SQL 类型` ，反之亦然
 
-If any limitations to the data types accepted in the specific SQL database, you will get out of the box the standard by overriding your owns:
+如果特定 SQL 数据库中能接受的数据类型存在限制，那么您可以通过重写您自己的实现类来覆盖默认的标准：
 
-* The `encoder` `link:../../apidocs/io/vertx/ext/jdbc/spi/JDBCEncoder.html[JDBCEncoder]` to convert `Java input type` to `SQL type`. By default implementation, it is `io.vertx.ext.jdbc.spi.impl.JDBCEncoderImpl`
-* The `decoder` `link:../../apidocs/io/vertx/ext/jdbc/spi/JDBCDecoder.html[JDBCDecoder]` to convert `SQL result type` to `Java type`. By default implementation, it is `io.vertx.ext.jdbc.spi.impl.JDBCDecoderImpl`
+* `encoder` `link:../../apidocs/io/vertx/ext/jdbc/spi/JDBCEncoder.html[JDBCEncoder]` 用于将 `Java 输入数据类型` 转化为 `SQL 数据类型` 。默认的实现类是 `io.vertx.ext.jdbc.spi.impl.JDBCEncoderImpl`
+* `decoder` `link:../../apidocs/io/vertx/ext/jdbc/spi/JDBCDecoder.html[JDBCDecoder]` 用于将 `SQL 结果类型` 转化为 `Java 数据类型` 。默认的实现类是 `io.vertx.ext.jdbc.spi.impl.JDBCDecoderImpl`
 
-You can include the overridden classes in the SPI file
-`META-INF/services/io.vertx.ext.jdbc.spi.JDBCEncoder` and `META-INF/services/io.vertx.ext.jdbc.spi.JDBCDecoder` to load in runtime. Or you can configure directly in the configuration with 2 properties:
+您可以在以下的 SPI 文件中包含您重写的实现类
+`META-INF/services/io.vertx.ext.jdbc.spi.JDBCEncoder` 和 `META-INF/services/io.vertx.ext.jdbc.spi.JDBCDecoder` 将在运行时被加载，或者您也可以直接通过配置以下的两个属性来设置:
 
 * encoderCls
 * decoderCls
