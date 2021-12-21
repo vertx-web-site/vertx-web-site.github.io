@@ -170,7 +170,7 @@ client.getConnection().compose(conn -> {
 为了连接可以重用，一旦当前连接上的操作已经完成，您需要将数据库连接关闭并释放到连接池里。
 
 [[_pool_sharing]]
-== 分享数据库连接池
+== 可共享连接池
 
 include::pool_sharing.adoc[]
 
