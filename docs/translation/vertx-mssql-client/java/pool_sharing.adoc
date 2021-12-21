@@ -1,5 +1,5 @@
-You can share an pool between multiple verticles or instances of the same verticle. Such pool should be created outside
-a verticle otherwise it will be closed when the verticle that created it is undeployed
+您可以在多个 Verticle 间或同一 Verticle 的多个实例间共享一个连接池。这样的连接池应该在 Verticle 外面创建，
+否则这个连接池将在创建它的 Verticle 被取消部署时关闭
 
 [source,java]
 ----
@@ -7,12 +7,12 @@ MSSQLPool pool = MSSQLPool.pool(database, new PoolOptions().setMaxSize(maxSize))
 vertx.deployVerticle(() -> new AbstractVerticle() {
   @Override
   public void start() throws Exception {
-    // Use the pool
+    // 使用连接池
   }
 }, new DeploymentOptions().setInstances(4));
 ----
 
-You can also create a shared pool in each verticle:
+您也可以用以下方式在每个 Verticle 中创建可共享的连接池：
 
 [source,java]
 ----
@@ -20,9 +20,9 @@ vertx.deployVerticle(() -> new AbstractVerticle() {
   MSSQLPool pool;
   @Override
   public void start() {
-    // Get or create a shared pool
-    // this actually creates a lease to the pool
-    // when the verticle is undeployed, the lease will be released automaticaly
+    // 创建一个可共享的连接池
+    // 或获取已有的可共享连接池，并创建对原连接池的借用
+    // 当 verticle 被取消部署时，借用会被自动释放
     pool = MSSQLPool.pool(database, new PoolOptions()
       .setMaxSize(maxSize)
       .setShared(true)
@@ -31,13 +31,13 @@ vertx.deployVerticle(() -> new AbstractVerticle() {
 }, new DeploymentOptions().setInstances(4));
 ----
 
-The first time a shared pool is created it will create the resources for the pool. Subsequent calls will reuse this pool and create
-a lease to this pool. The resources are disposed after all leases have been closed.
+第一次创建可共享的连接池时，会创建新连接池所需的资源。之后再调用该创建方法时，会复用之前的连接池，并创建
+对原有连接池的借用。当所有的借用都被关闭时，该连接池的资源也会被释放。
 
-By default, a pool reuses the current event-loop when it needs to create a TCP connection. The shared pool will
-therefore randomly use event-loops of verticles using it.
+默认情况下，客户端需要创建一个 TCP 连接时，会复用当前的 event-loop 。 这个可共享的 HTTP 客户端会
+以一种安全的模式，在使用它的 verticle 中随机选中一个 verticle，并使用它的 event-loop。
 
-You can assign a number of event loop a pool will use independently of the context using it
+您可以手动设置一个客户端可以使用的 event-loop 的数量
 
 [source,java]
 ----

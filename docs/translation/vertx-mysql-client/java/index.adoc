@@ -180,7 +180,8 @@ client.getConnection().compose(conn -> {
 
 连接完成后，您必须关闭它以释放到连接池中，以便可以重复使用。
 
-== Pool sharing
+[[_pool_sharing]]
+== 可共享的连接池
 
 include::pool_sharing.adoc[]
 

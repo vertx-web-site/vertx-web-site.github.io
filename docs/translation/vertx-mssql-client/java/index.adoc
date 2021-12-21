@@ -1,5 +1,5 @@
 = 响应式 MSSQL 客户端
-:PREPARED_PARAMS: `@p1`, `@p2`, etc…​
+:PREPARED_PARAMS: `@p1`, `@p2`, etc…
 
 Reactive MSSQL 客户端是微软 SQL Server 的客户端，
 具有简单直接专注于可扩展性和低开销的 API。
@@ -24,7 +24,7 @@ Reactive MSSQL 客户端是微软 SQL Server 的客户端，
 [[_usage]]
 == 用法
 
-要使用反应式 MSSQL 客户端，请将以下依赖项添加到构建描述文件中的 _dependencies_ 部分：
+要使用响应式 MSSQL 客户端，请将以下依赖项添加到构建描述文件中的 _dependencies_ 部分：
 
 * Maven (in your `pom.xml`):
 
@@ -135,7 +135,7 @@ pool.close();
 当您需要在同一个连接上执行多个操作时，需要使用客户端
 `link:../../apidocs/io/vertx/mssqlclient/MSSQLConnection.html[连接]`。
 
-您可以轻松地从池中获取一个：
+您可以轻松地从池中获取一个连接：
 
 [source,java]
 ----
@@ -478,7 +478,8 @@ MSSQLConnectOptions connectOptions = new MSSQLConnectOptions()
 
 对于 Vert.x 中更高级的 SSL 支持，请参考 https://vertx.io/docs/vertx-core/java/#ssl[Vert.x Core 文档]。
 
-== Pool sharing
+[[_pool_sharing]]
+== 可共享的连接池
 
 include::pool_sharing.adoc[]
 

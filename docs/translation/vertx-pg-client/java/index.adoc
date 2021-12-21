@@ -203,7 +203,8 @@ Future<RowSet<Row>> res2 = pool.query(sql).execute();
 - 连接池操作并非流水线操作（pipelined），只有连接客户端是流水线操作
 - 池化的客户端操作是流水线操作
 
-== Pool sharing
+[[_pool_sharing]]
+== 可共享的连接池
 
 include::pool_sharing.adoc[]
 
@@ -770,11 +771,11 @@ client.query("SELECT * FROM users")
 });
 ----
 
-collector式查询的结果集处理过程中不能再拿到 `link:../../apidocs/io/vertx/sqlclient/Row.html[Row]` 的引用，因为
-pg客户端在处理collector时，只会用一个row用于处理整个集合。
+collector 式查询的结果集处理过程中不能再拿到 `link:../../apidocs/io/vertx/sqlclient/Row.html[Row]` 的引用，因为
+pg 客户端在处理 collector 时，只会用一个 row 处理整个集合。
 
-Java的 `Collectors` 类提供了很多很有趣的预定义的collector，比如您可以很容易
-从row集合里得到一个字符串：
+Java的 `Collectors` 类提供了很多很有趣的预定义的 collector，比如您可以很容易
+从 row 集合里得到一个字符串：
 
 [source,java]
 ----
