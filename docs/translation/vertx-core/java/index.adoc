@@ -27,7 +27,7 @@ Vert.x Core 中的功能相当底层，不包含诸如数据库访问、授权�
 它可整体嵌入现存应用中。
 Vert.x没有强制要求使用特定的方式构造应用。
 
-Vert.x也支持在其他语言中使用Vert.x Core，
+Vert.x 也支持在其他语言中使用Vert.x Core，
 而且在使用诸如 JavaScript 或 Ruby 等语言编写Vert.x代码时，无需直接调用 Java的API；毕竟不同的语言有不同的代码风格，
 若强行让 Ruby 开发人员遵循 Java 的代码风格会很怪异，
 所以我们根据 Java API 自动生成了适应不同语言代码风格的 API。
