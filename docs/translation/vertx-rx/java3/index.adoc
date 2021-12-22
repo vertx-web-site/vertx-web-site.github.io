@@ -19,7 +19,7 @@ To use Vert.x API for RxJava3, add the following dependency to the _dependencies
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-rx-java3</artifactId>
- <version>4.2.2</version>
+ <version>4.2.3</version>
 </dependency>
 ----
 
@@ -27,7 +27,7 @@ To use Vert.x API for RxJava3, add the following dependency to the _dependencies
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-rx-java3:4.2.2'
+compile 'io.vertx:vertx-rx-java3:4.2.3'
 ----
 
 There are two ways for using the RxJava 3 API with Vert.x:

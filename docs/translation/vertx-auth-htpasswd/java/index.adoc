@@ -14,7 +14,7 @@ dependency to the _dependencies_ section of your build descriptor:
 <dependency>
 <groupId>io.vertx</groupId>
 <artifactId>vertx-auth-htpasswd</artifactId>
-<version>4.2.2</version>
+<version>4.2.3</version>
 </dependency>
 ----
 
@@ -22,7 +22,7 @@ dependency to the _dependencies_ section of your build descriptor:
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-auth-htpasswd:4.2.2'
+compile 'io.vertx:vertx-auth-htpasswd:4.2.3'
 ----
 
 To create an instance you first need an htpasswd file. This file is created using the apache htpasswd tool.

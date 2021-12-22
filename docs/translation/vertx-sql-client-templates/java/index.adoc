@@ -14,7 +14,7 @@ To use SQL Client Templates add the following dependency to the _dependencies_ s
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-sql-client-templates</artifactId>
- <version>4.2.2</version>
+ <version>4.2.3</version>
 </dependency>
 ----
 * Gradle (in your `build.gradle` file):
@@ -22,7 +22,7 @@ To use SQL Client Templates add the following dependency to the _dependencies_ s
 [source,groovy]
 ----
 dependencies {
- implementation 'io.vertx:vertx-sql-client-templates:4.2.2'
+ implementation 'io.vertx:vertx-sql-client-templates:4.2.3'
 }
 ----
 
@@ -356,13 +356,13 @@ Here a configuration example for Maven:
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-codegen</artifactId>
- <version>4.2.2</version>
+ <version>4.2.3</version>
  <classifier>processor</classifier>
 </dependency>
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-sql-client-templates</artifactId>
- <version>4.2.2</version>
+ <version>4.2.3</version>
 </dependency>
 ----
 
@@ -370,8 +370,8 @@ This feature can also be used in Gradle:
 
 [source]
 ----
-annotationProcessor "io.vertx:vertx-codegen:4.2.2:processor"
-compile "io.vertx:vertx-sql-client-templates:4.2.2"
+annotationProcessor "io.vertx:vertx-codegen:4.2.3:processor"
+compile "io.vertx:vertx-sql-client-templates:4.2.3"
 ----
 
 IDEs usually provide usually support for annotation processors.

@@ -32,7 +32,7 @@ To use the Reactive MSSQL Client add the following dependency to the _dependenci
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-mssql-client</artifactId>
- <version>4.2.2</version>
+ <version>4.2.3</version>
 </dependency>
 ----
 * Gradle (in your `build.gradle` file):
@@ -40,7 +40,7 @@ To use the Reactive MSSQL Client add the following dependency to the _dependenci
 [source,groovy]
 ----
 dependencies {
- compile 'io.vertx:vertx-mssql-client:4.2.2'
+ compile 'io.vertx:vertx-mssql-client:4.2.3'
 }
 ----
 
@@ -290,6 +290,7 @@ Currently, the client supports the following SQL Server types:
 * BINARY/VARBINARY(`io.vertx.core.buffer.Buffer`)
 * MONEY (``link:../../apidocs/java/math/BigDecimal.html[BigDecimal]``)
 * SMALLMONEY (``link:../../apidocs/java/math/BigDecimal.html[BigDecimal]``)
+* GUID (``link:../../apidocs/java/util/UUID.html[UUID]``)
 
 Tuple decoding uses the above types when storing values.
 

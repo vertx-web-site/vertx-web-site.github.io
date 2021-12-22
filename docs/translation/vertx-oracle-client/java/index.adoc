@@ -21,7 +21,7 @@ To use the Reactive Oracle Client add the following dependency to the _dependenc
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-oracle-client</artifactId>
- <version>4.2.2</version>
+ <version>4.2.3</version>
 </dependency>
 ----
 * Gradle (in your `build.gradle` file):
@@ -29,7 +29,7 @@ To use the Reactive Oracle Client add the following dependency to the _dependenc
 [source,groovy]
 ----
 dependencies {
- compile 'io.vertx:vertx-oracle-client:4.2.2'
+ compile 'io.vertx:vertx-oracle-client:4.2.3'
 }
 ----
 
@@ -200,7 +200,7 @@ pool.getConnection(ar -> {
 
 === Connection URI
 
-Apart from configuring with a `link:../../apidocs/io/vertx/oracleclient/OracleConnectOptions.html[OracleConnectOptions]` data object, ww also provide you with an alternative way to connect when you want to configure with a connection URI:
+Apart from configuring with a `link:../../apidocs/io/vertx/oracleclient/OracleConnectOptions.html[OracleConnectOptions]` data object, we also provide you with an alternative way to connect when you want to configure with a connection URI:
 
 [source,java]
 ----
