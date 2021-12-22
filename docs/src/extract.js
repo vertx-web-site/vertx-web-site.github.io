@@ -58,7 +58,7 @@ async function extractEntry(zipfile, entry, extractedVersionPath,
   await fs.utimes(destPath, entry.getLastModDate(), entry.getLastModDate())
 }
 
-async function extract(version, progressListener, apidocsOnly = false) {
+async function extract(version, artifactVersion, progressListener, apidocsOnly = false) {
   let extractedVersionPath = path.join(extractedPath, version)
   let publicDocsVersionPath = path.join(publicDocsPath, version)
 
@@ -66,7 +66,7 @@ async function extract(version, progressListener, apidocsOnly = false) {
   await fs.mkdir(publicDocsVersionPath, { recursive: true })
 
   await new Promise((resolve, reject) => {
-    let zipFilePath = path.join(downloadPath, `vertx-stack-docs-${version}-docs.zip`)
+    let zipFilePath = path.join(downloadPath, `vertx-stack-docs-${artifactVersion}-docs.zip`)
     yauzl.open(zipFilePath, { lazyEntries: true }, (err, zipfile) => {
       if (err) {
         reject(err)

@@ -7,8 +7,8 @@ async function getSourceSha(version, downloadPath) {
   return sourceSha
 }
 
-async function isAsciidocCompiled(version, downloadPath, compiledPath) {
-  let sourceSha = await getSourceSha(version, downloadPath)
+async function isAsciidocCompiled(version, artifactVersion, downloadPath, compiledPath) {
+  let sourceSha = await getSourceSha(artifactVersion, downloadPath)
 
   let destShaFile = path.join(compiledPath, version, `${version}.sha1`)
   let destSha

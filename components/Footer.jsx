@@ -63,6 +63,7 @@ const Footer = () => {
               <li><Link href="/channels/"><a>Channels</a></Link></li>
               <li><a href="https://how-to.vertx.io/">How-To’s</a></li>
               <li><a href="https://start.vertx.io/">App Generator</a></li>
+              <li><a href="/.well-known/security.txt">security.txt</a></li>
             </ul>
           </div>
           <div className="footer-nav-list">

@@ -11,26 +11,26 @@ function clone(docs) {
   })
 }
 
-function find(docs, name) {
-  return docs.entries.find(e => e.id === name)
+function find(docs, id) {
+  return docs.entries.find(e => e.id === id)
 }
 
-function findCategory(docs, name) {
-  return docs.categories.find(c => c.id === name)
+function findCategory(docs, id) {
+  return docs.categories.find(c => c.id === id)
 }
 
-function insert(docs, beforeEntryName, ...newEntries) {
-  docs.entries.splice(docs.entries.findIndex(e => e.id === beforeEntryName), 0, ...newEntries)
+function insert(docs, beforeEntryId, ...newEntries) {
+  docs.entries.splice(docs.entries.findIndex(e => e.id === beforeEntryId), 0, ...newEntries)
 }
 
-function move(docs, entryName, beforeEntryName) {
-  let entry = docs.entries.find(e => e.id === entryName)
+function move(docs, entryId, beforeEntryId) {
+  let entry = docs.entries.find(e => e.id === entryId)
   pull(docs.entries, entry)
-  docs.entries.splice(docs.entries.findIndex(e => e.id === beforeEntryName), 0, entry)
+  docs.entries.splice(docs.entries.findIndex(e => e.id === beforeEntryId), 0, entry)
 }
 
-function remove(docs, entryName) {
-  _remove(docs.entries, e => e.id === entryName)
+function remove(docs, entryId) {
+  _remove(docs.entries, e => e.id === entryId)
 }
 
 function parseVersion(v) {
