@@ -65,6 +65,7 @@ const Footer = () => {
               <li><Link href="/channels/"><a>联系渠道</a></Link></li>
               <li><a href="https://how-to.vertx.io/">操作指南</a></li>
               <li><a href="https://start.vertx.io/">应用生成器</a></li>
+              <li><a href="/.well-known/security.txt">security.txt</a></li>
             </ul>
           </div>
           <div className="footer-nav-list">

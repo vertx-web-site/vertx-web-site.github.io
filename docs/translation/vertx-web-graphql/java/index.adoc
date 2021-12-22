@@ -16,7 +16,7 @@ TIP: 这是一个 Vert.x Web GraphQL 的参考文档。
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-web-graphql</artifactId>
- <version>4.2.2</version>
+ <version>4.2.3</version>
 </dependency>
 ----
 
@@ -24,7 +24,7 @@ TIP: 这是一个 Vert.x Web GraphQL 的参考文档。
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-web-graphql:4.2.2'
+compile 'io.vertx:vertx-web-graphql:4.2.3'
 ----
 
 [[_handlers_setup]]

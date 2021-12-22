@@ -33,7 +33,7 @@ Reactive MSSQL 客户端是微软 SQL Server 的客户端，
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-mssql-client</artifactId>
- <version>4.2.2</version>
+ <version>4.2.3</version>
 </dependency>
 ----
 * Gradle (in your `build.gradle` file):
@@ -41,7 +41,7 @@ Reactive MSSQL 客户端是微软 SQL Server 的客户端，
 [source,groovy]
 ----
 dependencies {
- compile 'io.vertx:vertx-mssql-client:4.2.2'
+ compile 'io.vertx:vertx-mssql-client:4.2.3'
 }
 ----
 
@@ -299,6 +299,7 @@ include::tracing.adoc[]
 * BINARY/VARBINARY(`io.vertx.core.buffer.Buffer`)
 * MONEY (``link:../../apidocs/java/math/BigDecimal.html[BigDecimal]``)
 * SMALLMONEY (``link:../../apidocs/java/math/BigDecimal.html[BigDecimal]``)
+* GUID (``link:../../apidocs/java/util/UUID.html[UUID]``)
 
 元组（Tuple）解码在存储值时使用上述类型。
 

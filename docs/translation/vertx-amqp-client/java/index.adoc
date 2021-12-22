@@ -28,7 +28,7 @@ Vert.x AMQP 客户端基于 Vert.x Proton 实现。如果您需要更细粒度�
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-amqp-client</artifactId>
- <version>4.2.2</version>
+ <version>4.2.3</version>
 </dependency>
 ----
 
@@ -36,7 +36,7 @@ Vert.x AMQP 客户端基于 Vert.x Proton 实现。如果您需要更细粒度�
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-amqp-client:4.2.2'
+compile 'io.vertx:vertx-amqp-client:4.2.3'
 ----
 
 [[_creating_an_amqp_client]]

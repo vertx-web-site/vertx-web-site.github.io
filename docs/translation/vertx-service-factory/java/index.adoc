@@ -54,7 +54,7 @@ Vert.x 从类路径中获取 `VerticleFactory` 的实现，因此您必须保证
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-service-factory</artifactId>
- <version>4.2.2</version>
+ <version>4.2.3</version>
 </dependency>
 ----
 
@@ -62,7 +62,7 @@ Vert.x 从类路径中获取 `VerticleFactory` 的实现，因此您必须保证
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-service-factory:4.2.2'
+compile 'io.vertx:vertx-service-factory:4.2.3'
 ----
 
 您也可以通过编程方式使用 `link:../../apidocs/io/vertx/core/Vertx.html#registerVerticleFactory-io.vertx.core.spi.VerticleFactory-[registerVerticleFactory]` 

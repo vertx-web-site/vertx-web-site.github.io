@@ -16,7 +16,7 @@ Vert.x邮件客户端通过本地邮件服务器（例如： postfix）或者外
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-mail-client</artifactId>
- <version>4.2.2</version>
+ <version>4.2.3</version>
 </dependency>
 ----
 
@@ -24,7 +24,7 @@ Vert.x邮件客户端通过本地邮件服务器（例如： postfix）或者外
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-mail-client:4.2.2'
+compile 'io.vertx:vertx-mail-client:4.2.3'
 ----
 
 [[_creating_a_client]]

@@ -26,7 +26,7 @@ async function readDirRecursive(dir, result = [], isRoot = true) {
   return result
 }
 
-module.exports = async ({ version, progressPort, latestReleaseVersion }) => {
+module.exports = async ({ version, artifactVersion, progressPort, latestReleaseVersion }) => {
   let adoc = asciidoctor()
 
   // clean up any previously registered extensions
@@ -65,7 +65,7 @@ module.exports = async ({ version, progressPort, latestReleaseVersion }) => {
   await fs.mkdir(destVersionPath, { recursive: true })
   let destShaFile = path.join(destVersionPath, `${version}.sha1`)
 
-  if (await isAsciidocCompiled(version, downloadPath, compiledPath)) {
+  if (await isAsciidocCompiled(version, artifactVersion, downloadPath, compiledPath)) {
     // documentation has already been compiled earlier
     progressPort.postMessage(100)
     return []
@@ -121,7 +121,7 @@ module.exports = async ({ version, progressPort, latestReleaseVersion }) => {
 
   // write sha file to indicate that the documentation for this version
   // has been completely compiled
-  await fs.writeFile(destShaFile, await getSourceSha(version, downloadPath))
+  await fs.writeFile(destShaFile, await getSourceSha(artifactVersion, downloadPath))
 
   if (lastProgress < 100) {
     progressPort.postMessage(100)

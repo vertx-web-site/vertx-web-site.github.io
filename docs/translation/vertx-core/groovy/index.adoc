@@ -10,12 +10,12 @@
 <dependency>
 <groupId>io.vertx</groupId>
 <artifactId>vertx-core</artifactId>
-<version>4.2.2</version>
+<version>4.2.3</version>
 </dependency>
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-lang-groovy</artifactId>
- <version>4.2.2</version>
+ <version>4.2.3</version>
 </dependency>
 ----
 
@@ -23,8 +23,8 @@
 
 [source,groovy,subs="+attributes"]
 ----
-compile "io.vertx:vertx-core:4.2.2"
-compile "io.vertx:vertx-lang-groovy:4.2.2"
+compile "io.vertx:vertx-core:4.2.3"
+compile "io.vertx:vertx-lang-groovy:4.2.3"
 ----
 
 [[_verticles]]

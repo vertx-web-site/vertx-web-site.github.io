@@ -14,7 +14,7 @@
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-auth-otp</artifactId>
- <version>4.2.2</version>
+ <version>4.2.3</version>
 </dependency>
 ----
 
@@ -22,7 +22,7 @@
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-auth-otp:4.2.2'
+compile 'io.vertx:vertx-auth-otp:4.2.3'
 ----
 
 ---
