@@ -1,0 +1,94 @@
+= Vertx OpenTelemetry
+
+Vert.x 与 OpenTelemetry 的集成。
+
+[source,java]
+----
+Vertx vertx = Vertx.vertx(new VertxOptions()
+  .setTracingOptions(
+    new OpenTelemetryOptions()
+  )
+);
+----
+
+您还可以通过传递自定义的 `OpenTelemetry` 对象，
+以掌握在配置上更大的控制权。
+
+[source,java]
+----
+Vertx vertx = Vertx.vertx(new VertxOptions()
+  .setTracingOptions(
+    new OpenTelemetryOptions(openTelemetry)
+  )
+);
+----
+
+如果您只是添加了这个库的依赖，那么您只能使用默认的 `noop` Tracer，
+它返回的活动轨迹（trace） id 和跨度（span） id 是虚拟值 (都是 0)。为了获取正确的值，您需要使用 OpenTelemetry SDK。
+
+[source,java]
+----
+SdkTracerProvider sdkTracerProvider = SdkTracerProvider.builder().build();
+OpenTelemetry openTelemetry = OpenTelemetrySdk.builder()
+  .setTracerProvider(sdkTracerProvider)
+  .setPropagators(ContextPropagators.create(W3CTraceContextPropagator.getInstance()))
+  .buildAndRegisterGlobal();
+
+vertxOptions.setTracingOptions(new OpenTelemetryOptions(openTelemetry));
+----
+
+[[_tracing_policy]]
+== 追踪政策
+
+当启用跟踪时，跟踪策略定义组件的行为：
+
+- `link:../../apidocs/io/vertx/core/tracing/TracingPolicy.html#PROPAGATE[PROPAGATE]`：该组件报告活动跟踪中的跨度
+- `link:../../apidocs/io/vertx/core/tracing/TracingPolicy.html#ALWAYS[ALWAYS]`：该组件报告活动轨迹中的跨度或创建新的活动轨迹
+- `link:../../apidocs/io/vertx/core/tracing/TracingPolicy.html#IGNORE[IGNORE]`：该组件不会参与任何跟踪。
+
+跟踪策略通常在组件选项中配置。
+
+[[_http_tracing]]
+== HTTP 跟踪
+
+Vert.x HTTP 服务器和客户端报告涵盖了 HTTP 请求：
+
+- `name`：HTTP 方法
+- 标签
+ - `http.method`：HTTP 方法
+ - `http.url`：请求地址链接
+ - `http.status_code`：HTTP 状态代码（作为 `String字符串`）
+
+默认的 HTTP 服务器跟踪策略是 `ALWAYS`，
+您可使用 `link:../../apidocs/io/vertx/core/http/HttpServerOptions.html#setTracingPolicy-io.vertx.core.tracing.TracingPolicy-[setTracingPolicy]` 配置策略
+
+[source,java]
+----
+HttpServer server = vertx.createHttpServer(new HttpServerOptions()
+  .setTracingPolicy(TracingPolicy.IGNORE)
+);
+----
+
+默认的 HTTP 客户端跟踪策略是 `PROPAGATE`，
+您可使用 `link:../../apidocs/io/vertx/core/http/HttpClientOptions.html#setTracingPolicy-io.vertx.core.tracing.TracingPolicy-[setTracingPolicy]` 配置策略
+
+[source,java]
+----
+HttpClient client = vertx.createHttpClient(new HttpClientOptions()
+  .setTracingPolicy(TracingPolicy.IGNORE)
+);
+----
+
+[[_eventbus_tracing]]
+== EventBus 追踪
+
+Vert.x EventBus 报告涵盖了事件总线上交换和传递的消息。
+
+默认发送策略是 `PROPAGATE`，
+您可使用 `link:../../apidocs/io/vertx/core/eventbus/DeliveryOptions.html#setTracingPolicy-io.vertx.core.tracing.TracingPolicy-[setTracingPolicy]` 配置策略。
+
+[source,java]
+----
+DeliveryOptions options = new DeliveryOptions().setTracingPolicy(TracingPolicy.ALWAYS);
+vertx.eventBus().send("the-address", "foo", options);
+----
