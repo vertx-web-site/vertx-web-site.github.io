@@ -1,0 +1,56 @@
+== RxJava 3 API
+
+Cassandra 客户端为原来的API提供了一个Rx版本。
+
+[[_creating_an_rxfied_client]]
+=== 创建Rx版客户端
+
+想要创建Rx版 Cassandra 客户端，您需要引入 `link:../../apidocs/io/vertx/rxjava3/cassandra/CassandraClient.html[CassandraClient]` 类。
+然后用 `create` 方法获取一个实例：
+
+[source,java]
+----
+CassandraClientOptions options = new CassandraClientOptions()
+  .addContactPoint("node1.corp.int", 7000)
+  .addContactPoint("node2.corp.int", 7000)
+  .addContactPoint("node3.corp.int", 7000);
+CassandraClient cassandraClient = CassandraClient.createShared(vertx, options);
+----
+
+[[_querying]]
+=== 查询
+
+在本节，我们会回顾之前的一些 Rx-API 用例。
+
+==== Streaming
+
+一个 `link:../../apidocs/io/vertx/rxjava3/cassandra/CassandraRowStream.html[CassandraRowStream]` 可以转换成 `link:../../apidocs/io/reactivex/rxjava3/core/Flowable.html[Flowable]` ，这样会方便您处理大容量数据集合:
+
+[source,java]
+----
+cassandraClient.rxQueryStream("SELECT my_key FROM my_keyspace.my_table where my_key = my_value")
+  // 将stream转换成Flowable
+  .flatMapPublisher(CassandraRowStream::toFlowable)
+  .subscribe(row -> {
+    // 处理单行
+  }, t -> {
+    // 处理失败
+  }, () -> {
+    // stream 末尾
+  });
+----
+
+[[_bulk_fetching]]
+==== 获取 Bulk
+
+当您的结果集数据量很少，您可以一次性获取所有结果；
+
+[source,java]
+----
+cassandraClient.rxExecuteWithFullFetch("SELECT my_key FROM my_keyspace.my_table where my_key = my_value")
+  .subscribe(rows -> {
+    // 处理结果集
+  }, throwable -> {
+    // 处理失败
+  });
+----

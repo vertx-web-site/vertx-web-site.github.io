@@ -1,0 +1,514 @@
+= 响应式 DB2 客户端
+:PREPARED_PARAMS: `?` ​
+
+响应式的DB2客户端具有直接简单的API，
+专注于可伸缩性和低开销。
+
+该客户端是响应式的、非阻塞的，可以用单个线程处理多个数据库连接。
+
+*特性*
+
+* 支持Linux、Unix，及Windows上的DB2
+* 对z/OS上的DB2提供有限支持
+* 事件驱动
+* 轻量级
+* 内置连接池
+* 预处理查询（Prepared query）缓存
+* 批处理及游标支持
+* 流式行处理
+* RxJava API 支持
+* 支持内存直接映射到对象，避免了不必要的复制
+* 支持Java 8的日期和时间类型
+* 支持 SSL/TLS
+* 支持 HTTP/1.x 连接，SOCKS4a 及 SOCKS5 等代理
+
+*当前限制*
+
+* 不支持存储过程
+* 不支持某些列类型（例如BLOB和CLOB）
+
+[[_usage]]
+== 使用方法
+
+使用响应式 DB2 客户端，需要将以下依赖项添加到项目构建工具的 _依赖_ 配置中：
+
+* Maven (在您的 `pom.xml`):
+
+[source,xml]
+----
+<dependency>
+ <groupId>io.vertx</groupId>
+ <artifactId>vertx-db2-client</artifactId>
+ <version>4.1.8</version>
+</dependency>
+----
+* Gradle (在您的 `build.gradle` 文件中):
+
+[source,groovy]
+----
+dependencies {
+ compile 'io.vertx:vertx-db2-client:4.1.8'
+}
+----
+
+[[_getting_started]]
+== 开始
+
+以下是最简单的连接，查询和断开连接方法
+
+[source,java]
+----
+DB2ConnectOptions connectOptions = new DB2ConnectOptions()
+  .setPort(50000)
+  .setHost("the-host")
+  .setDatabase("the-db")
+  .setUser("user")
+  .setPassword("secret");
+
+// 连接池选项
+PoolOptions poolOptions = new PoolOptions()
+  .setMaxSize(5);
+
+// 创建客户端池
+DB2Pool client = DB2Pool.pool(connectOptions, poolOptions);
+
+// 简单查询
+client
+  .query("SELECT * FROM users WHERE id='julien'")
+  .execute(ar -> {
+  if (ar.succeeded()) {
+    RowSet<Row> result = ar.result();
+    System.out.println("Got " + result.size() + " rows ");
+  } else {
+    System.out.println("Failure: " + ar.cause().getMessage());
+  }
+
+  // 现在关闭客户端池
+  client.close();
+});
+----
+
+[[_connecting_to_db2]]
+== 连接 DB2
+
+大多数时候，您将使用连接池连接 DB2：
+
+[source,java]
+----
+DB2ConnectOptions connectOptions = new DB2ConnectOptions()
+  .setPort(50000)
+  .setHost("the-host")
+  .setDatabase("the-db")
+  .setUser("user")
+  .setPassword("secret");
+
+// 连接池配置
+PoolOptions poolOptions = new PoolOptions()
+  .setMaxSize(5);
+
+// 创建池化的客户端
+SqlClient client = DB2Pool.client(connectOptions, poolOptions);
+----
+
+池化的客户端使用连接池，任何操作都将借用连接池中的连接来执行该操作，
+并将连接释放回连接池中。
+
+如果您使用 Vert.x 运行，您可以将 Vertx 实例传递给它：
+
+[source,java]
+----
+DB2ConnectOptions connectOptions = new DB2ConnectOptions()
+  .setPort(50000)
+  .setHost("the-host")
+  .setDatabase("the-db")
+  .setUser("user")
+  .setPassword("secret");
+
+// 连接池配置
+PoolOptions poolOptions = new PoolOptions()
+  .setMaxSize(5);
+// 创建池化的客户端
+SqlClient client = DB2Pool.client(vertx, connectOptions, poolOptions);
+----
+
+当您不再需要客户端时，您需要将其释放：
+
+[source,java]
+----
+client.close();
+----
+
+当您需要在同一连接上执行多个操作时，您需要从连接池中获取
+`link:../../apidocs/io/vertx/db2client/DB2Connection.html[connection]` 连接。
+
+您可以轻松地从连接池中获取一个：
+
+[source,java]
+----
+DB2ConnectOptions connectOptions = new DB2ConnectOptions()
+  .setPort(50000)
+  .setHost("the-host")
+  .setDatabase("the-db")
+  .setUser("user")
+  .setPassword("secret");
+
+// 连接池配置
+PoolOptions poolOptions = new PoolOptions()
+  .setMaxSize(5);
+
+// 创建池化的客户端
+DB2Pool client = DB2Pool.pool(vertx, connectOptions, poolOptions);
+
+// 从连接池获取一个连接
+client.getConnection().compose(conn -> {
+  System.out.println("Got a connection from the pool");
+
+  // 以下所有操作都在同一个连接上执行
+  return conn
+    .query("SELECT * FROM users WHERE id='julien'")
+    .execute()
+    .compose(res -> conn
+      .query("SELECT * FROM users WHERE id='emad'")
+      .execute())
+    .onComplete(ar -> {
+      // 将连接释放回连接池
+      conn.close();
+    });
+}).onComplete(ar -> {
+  if (ar.succeeded()) {
+
+    System.out.println("Done");
+  } else {
+    System.out.println("Something went wrong " + ar.cause().getMessage());
+  }
+});
+----
+
+连接使用完后，您必须关闭它以释放到连接池中，以便可以重复使用。
+
+[[_pool_versus_pooled_client]]
+== 连接池与池化的客户端
+
+`link:../../apidocs/io/vertx/db2client/DB2Pool.html[DB2Pool]` 允许您创建连接池或池化客户端
+
+[source,java]
+----
+SqlClient pooledClient = DB2Pool.client(vertx, connectOptions, poolOptions);
+
+// 流水线操作（Pipelined）
+Future<RowSet<Row>> res1 = pooledClient.query(sql).execute();
+
+// 连接池
+DB2Pool pool = DB2Pool.pool(vertx, connectOptions, poolOptions);
+
+// 不是流水线操作
+Future<RowSet<Row>> res2 = pool.query(sql).execute();
+----
+
+- 连接池操作并非流水线操作（pipelined），只有连接客户端是流水线操作
+- 池化的客户端操作是流水线操作
+
+[[_configuration]]
+== 配置
+
+有几个选项供您配置客户端。
+
+[[_data_object]]
+=== 数据对象
+
+配置客户端的简单方法就是指定 `DB2ConnectOptions` 数据对象。
+
+[source,java]
+----
+DB2ConnectOptions connectOptions = new DB2ConnectOptions()
+  .setPort(50000)
+  .setHost("the-host")
+  .setDatabase("the-db")
+  .setUser("user")
+  .setPassword("secret");
+
+// 连接池配置
+PoolOptions poolOptions = new PoolOptions().setMaxSize(5);
+
+// 从数据对象创建连接池
+DB2Pool pool = DB2Pool.pool(vertx, connectOptions, poolOptions);
+
+pool.getConnection(ar -> {
+  // 使用连接进行处理
+});
+----
+
+您也可以使用 `setProperties` 及 `addProperty` 方法配置通用配置项。但请注意调用 `setProperties` 方法会覆盖默认的客户端配置。
+
+[[_connection_uri]]
+=== 连接 URI
+
+除了使用 `DB2ConnectOptions` 数据对象进行配置外，我们还为您提供了另外一种使用连接URI进行配置的方法：
+
+[source,java]
+----
+String connectionUri = "db2://dbuser:secretpassword@database.server.com:50000/mydb";
+
+// 从连接URI创建连接池
+DB2Pool pool = DB2Pool.pool(connectionUri);
+
+// 从连接URI创建连接
+DB2Connection.connect(vertx, connectionUri, res -> {
+  // 使用连接进行处理
+});
+----
+
+连接字符串的URI格式为：
+
+----
+db2://<USERNAME>:<PASSWORD>@<HOSTNAME>:<PORT>/<DBNAME>
+----
+
+目前，客户端支持以下的连接 uri 参数关键字：
+
+* host
+* port
+* user
+* password
+* dbname
+
+Note: 连接URI中配置的配置项会覆盖默认配置。
+
+[[_connect_retries]]
+== 连接重试
+
+您可以将客户端配置为在连接无法建立时重试。
+
+[source,java]
+----
+options
+  .setReconnectAttempts(2)
+  .setReconnectInterval(1000);
+----
+
+include::queries.adoc[leveloffset=1]
+
+通过将查询包装在 `SELECT <COLUMNS> FROM FINAL TABLE ( <SQL> )`，可以获取生成的键，例如：
+
+[source,java]
+----
+client
+  .preparedQuery("SELECT color_id FROM FINAL TABLE ( INSERT INTO color (color_name) VALUES (?), (?), (?) )")
+  .execute(Tuple.of("white", "red", "blue"), ar -> {
+  if (ar.succeeded()) {
+    RowSet<Row> rows = ar.result();
+    System.out.println("Inserted " + rows.rowCount() + " new rows.");
+    for (Row row : rows) {
+      System.out.println("generated key: " + row.getInteger("color_id"));
+    }
+  } else {
+    System.out.println("Failure: " + ar.cause().getMessage());
+  }
+});
+----
+
+include::connections.adoc[]
+
+include::transactions.adoc[]
+
+include::cursor.adoc[]
+
+[[_tracing_queries]]
+== 追踪查询
+
+include::tracing.adoc[]
+
+[[_db2_type_mapping]]
+== DB2 类型映射
+
+当前客户端支持以下 DB2 类型
+
+* BOOLEAN (`java.lang.Boolean`) （只针对DB2 LUW）
+* SMALLINT (`java.lang.Short`)
+* INTEGER (`java.lang.Integer`)
+* BIGINT (`java.lang.Long`)
+* REAL (`java.lang.Float`)
+* DOUBLE (`java.lang.Double`)
+* DECIMAL (`io.vertx.sqlclient.data.Numeric`)
+* CHAR (`java.lang.String`)
+* VARCHAR (`java.lang.String`)
+* ENUM (`java.lang.String`)
+* DATE (`java.time.LocalDate`)
+* TIME (`java.time.LocalTime`)
+* TIMESTAMP (`java.time.LocalDateTime`)
+* BINARY (`byte[]`)
+* VARBINARY (`byte[]`)
+* ROWID (`io.vertx.db2client.impl.drda.DB2RowId` 或 `java.sql.RowId`) （只针对DB2 z/OS）
+
+以下类型目前不支持：
+
+* XML
+* BLOB
+* CLOB
+* DBCLOB
+* GRAPHIC / VARGRAPHIC
+
+有关进一步介绍DB2数据类型的文档，请参考以下资源：
+
+* https://www.ibm.com/support/knowledgecenter/SSEPGG_11.5.0/com.ibm.db2.luw.sql.ref.doc/doc/r0008483.html[DB2 for LUW 11.5 data types]
+* https://www.ibm.com/support/knowledgecenter/SSEPEK_12.0.0/sqlref/src/tpc/db2z_datatypesintro.html[DB2 for z/OS 12.0 data types]
+
+元组解码在存储值时使用上述类型，并且在可能的情况下还对实际值进行即时转换：
+
+[source,java]
+----
+pool
+  .query("SELECT an_int_column FROM exampleTable")
+  .execute(ar -> {
+  RowSet<Row> rowSet = ar.result();
+  Row row = rowSet.iterator().next();
+
+  // INTEGER 类型字段读取出来是 java.lang.Integer
+  Object value = row.getValue(0);
+
+  // 转换为 java.lang.Long
+  Long longValue = row.getLong(0);
+});
+----
+
+[[_using_java_enum_types]]
+== 使用 Java 枚举类型
+
+您可以将Java的 https://docs.oracle.com/javase/tutorial/java/javaOO/enum.html[枚举类型]
+映射为下面的列类型：
+
+- Strings (VARCHAR, TEXT)
+- Numbers (SMALLINT, INTEGER, BIGINT)
+
+[source,java]
+----
+client.preparedQuery("SELECT day_name FROM FINAL TABLE ( INSERT INTO days (day_name) VALUES (?), (?), (?) )")
+.execute(Tuple.of(Days.FRIDAY, Days.SATURDAY, Days.SUNDAY), ar -> {
+ if (ar.succeeded()) {
+  RowSet<Row> rows = ar.result();
+  System.out.println("Inserted " + rows.rowCount() + " new rows");
+  for (Row row : rows) {
+	  System.out.println("Day: " + row.get(Days.class, "day_name"));
+  }
+ } else {
+  System.out.println("Failure: " + ar.cause().getMessage());
+ }
+});
+client.preparedQuery("SELECT day_num FROM FINAL TABLE ( INSERT INTO days (day_num) VALUES (?), (?), (?) )")
+   .execute(Tuple.of(Days.FRIDAY.ordinal(), Days.SATURDAY.ordinal(), Days.SUNDAY.ordinal()), ar -> {
+   	if (ar.succeeded()) {
+   		RowSet<Row> rows = ar.result();
+   		System.out.println("Inserted " + rows.rowCount() + " new rows");
+   		for (Row row : rows) {
+   			System.out.println("Day: " + row.get(Days.class, "day_num"));
+   		}
+   	} else {
+   		System.out.println("Failure: " + ar.cause().getMessage());
+   	}
+   });
+----
+
+String类型使用Java枚举 `name()` 方法返回的名字进行匹配。
+
+数值类型使用Java枚举 `ordinal()` 方法返回的序数进行匹配，row.get() 方法获取到的是整型值对应Java枚举序数的枚举值的 `name()` 值。
+
+[[_collector_queries]]
+== 集合类查询
+
+您可以将查询API与Java集合类结合使用：
+
+[source,java]
+----
+Collector<Row, ?, Map<Long, String>> collector = Collectors.toMap(
+  row -> row.getLong("id"),
+  row -> row.getString("last_name"));
+
+// 运行查询使用集合类
+client.query("SELECT * FROM users")
+  .collecting(collector)
+  .execute(ar -> {
+  if (ar.succeeded()) {
+    SqlResult<Map<Long, String>> result = ar.result();
+
+    // 获取用集合类创建的map
+    Map<Long, String> map = result.value();
+    System.out.println("Got " + map);
+  } else {
+    System.out.println("Failure: " + ar.cause().getMessage());
+  }
+});
+----
+
+集合类处理不能保留 `link:../../apidocs/io/vertx/sqlclient/Row.html[Row]`
+的引用，因为只有一个 Row 对象用于处理整个集合。
+
+Java `Collectors` 提供了许多有趣的预定义集合类，例如，
+您可以直接用 Row 中的集合轻松拼接成一个字符串：
+
+[source,java]
+----
+Collector<Row, ?, String> collector = Collectors.mapping(
+  row -> row.getString("last_name"),
+  Collectors.joining(",", "(", ")")
+);
+
+// 运行查询使用集合类
+client.query("SELECT * FROM users").collecting(collector).execute(ar -> {
+    if (ar.succeeded()) {
+      SqlResult<String> result = ar.result();
+
+      // 获取用集合类创建的String
+      String list = result.value();
+      System.out.println("Got " + list);
+    } else {
+      System.out.println("Failure: " + ar.cause().getMessage());
+    }
+  });
+----
+
+[[_using_ssltls]]
+== 使用 SSL/TLS
+
+配置客户端使用SSL连接, 您可以像 Vert.x `NetClient` 一样配置
+`link:../../apidocs/io/vertx/db2client/DB2ConnectOptions.html[DB2ConnectOptions]` 。
+
+[source,java]
+----
+DB2ConnectOptions options = new DB2ConnectOptions()
+  .setPort(50001)
+  .setHost("the-host")
+  .setDatabase("the-db")
+  .setUser("user")
+  .setPassword("secret")
+  .setSsl(true)
+  .setTrustStoreOptions(new JksOptions()
+      .setPath("/path/to/keystore.p12")
+      .setPassword("keystoreSecret"));
+
+DB2Connection.connect(vertx, options, res -> {
+  if (res.succeeded()) {
+    // 使用SSL进行连接
+  } else {
+    System.out.println("Could not connect " + res.cause());
+  }
+});
+----
+
+更多详细信息，请参阅 http://vertx.io/docs/vertx-core/java/#ssl[Vert.x 文档].
+
+
+[[_using_a_proxy]]
+== 使用代理
+
+您可以配置客户端使用  HTTP/1.x 连接、SOCKS4a 或 SOCKS5 代理。
+
+更多详细信息，请参阅 http://vertx.io/docs/vertx-core/java/#_using_a_proxy_for_client_connections[Vert.x 文档]。
+
+[[_advanced_pool_configuration]]
+== 高级连接池配置
+
+include::pool_config.adoc[]
+
+ifeval::["java" == "java"]
+include::override/rxjava3.adoc[]
+endif::[]
