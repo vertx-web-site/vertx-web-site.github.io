@@ -124,7 +124,9 @@ jobs:
           cd ..
 
       - name: Copy build to output directory
-        run: mv out/* vertx-china.github.io
+        run: |
+          shopt -s dotglob                   # include dot files
+          mv out/* vertx-china.github.io
 
       - name: Copy API docs into output directory
         run: |
