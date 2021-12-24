@@ -8,8 +8,6 @@
 ### 如何认领
 Issues 里面带 `待认领` 标签的都是 [需要翻译的文档](https://github.com/vertx-china/vertx-web-site/issues?q=is%3Aopen+is%3Aissue+label%3A%E5%BE%85%E8%AE%A4%E9%A2%86)。 
 
-也可以在 [V4.0.2文档翻译计划](https://github.com/vertx-china/vertx-web-site/projects/1) 的左侧 `未翻译` 列中找到需要翻译的文档。
-
 请在想翻译的文档对应 issue 下面留言认领，我们会Assign给你，并修改issue标签等。
 
 ### 翻译注意事项
@@ -33,7 +31,13 @@ Issues 里面带 `待认领` 标签的都是 [需要翻译的文档](https://git
 > 精确定位。同时，为了确保中英文一致，建议这里的id使用官网上的id，具体方法就是点击官网上（或者在未翻译时在本地执行）的链接跳转后
 > 使用地址栏#后面的内容，比如上面的示例，在地址栏中的链接应该是 http://localhost:3000/docs/xxx/#id
 
-如果是通过 `npm run dev` 来预览的话，翻译完成后，刷新即可看到翻译后的文档。
+~~如果是通过 `npm run dev` 来预览的话，翻译完成后，刷新即可看到翻译后的文档。~~
+
+新版本是预编译*.adoc文件的，因此翻译完成后，本地预览需要执行 `npm run update-docs`。
+
+网络不好的情况下，可以修改 `download.js` 第 10 行 `repoUrl` 为阿里云（其他也可以）的镜像地址：`https://maven.aliyun.com/repository/central`
+
+> 因为是以 index.adoc 文件来计算缓存的key，非 index.adoc 文件翻译后，如果不修改 index.adoc 文件，则不会更新缓存，页面也不会更新，需要在 index.adoc中进行小的修改
 
 ### 如何提交
 提交翻译通过PR（Pull Request）进行。请在自己Fork的项目中发起PR，而不是本项目（本项目Fork了官方项目，若在本项目发起PR，默认会提交到官方项目）。
@@ -81,4 +85,5 @@ english分支更新文档可合并 https://github.com/vertx-web-site/vertx-web-s
 ```shell
 npm run copy-english
 ```
+> 执行本命令前，请确保已经执行 npm run update-docs 更新了文档 
 
