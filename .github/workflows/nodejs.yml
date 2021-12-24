@@ -125,7 +125,9 @@ jobs:
           cd ..
 
       - name: Copy build to output directory
-        run: mv out/* vertx-web-site.github.io
+        run: |
+          shopt -s dotglob                   # include dot files
+          mv out/* vertx-web-site.github.io
 
       - name: Copy API docs into output directory
         run: |
