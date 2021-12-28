@@ -13,7 +13,7 @@ insert(docs, "vertx-mssql-client",
     href: "/vertx-oracle-client/java/",
     repository: "https://github.com/eclipse-vertx/vertx-sql-client",
     edit: "https://github.com/eclipse-vertx/vertx-sql-client/tree/master/vertx-oracle-client/src/main/asciidoc",
-    label: "Technical Preview"
+    label: "技术预览"
   }
 )
 
