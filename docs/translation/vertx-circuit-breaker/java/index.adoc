@@ -16,7 +16,7 @@ Circuit Breaker 是Vert.x 断路 _模式_ 的实现。
 == 准备工作
 
 使用Vert.x Circuit Breaker之前，
-你必须在你的项目中添加如下  _依赖_ ：
+您必须在您的项目中添加如下 _依赖_ ：
 
 * Maven（在您的 `pom.xml` 文件中）：
 
@@ -41,11 +41,11 @@ compile 'io.vertx:vertx-circuit-breaker:4.2.3'
 
 使用断路器需要按以下步骤进行：
 
-1. 创建一个断路器，并配置成你所需要的超时，最大故障次数等参数
+1. 创建一个断路器，并配置您所需要的超时，最大故障次数等参数
 
 2. 使用断路器执行代码
 
-**重要！！！** 断路器应该是稳定的单例，而不是每次使用就重新创建它。推荐将该单例存放在某个领域中。
+**重要！！！** 断路器应该是稳定的单例，而不是每次使用就重新创建它。推荐将该单例存放在某个字段中。
 
 例子:
 
@@ -60,7 +60,7 @@ CircuitBreaker breaker = CircuitBreaker.create("my-circuit-breaker", vertx,
 );
 
 // ---
-// 将断路器存放在某个领域中并像如下方式使用
+// 将断路器存放在某个字段中并像如下方式使用
 // ---
 
 breaker.execute(promise -> {
@@ -72,10 +72,10 @@ breaker.execute(promise -> {
 });
 ----
 
-execute代码块接收 `link:../../apidocs/io/vertx/core/Future.html[Future]` 
+execute 代码块接收 `link:../../apidocs/io/vertx/core/Future.html[Future]` 
 对象参数，以标识该操作以及结果的失败或成功。
 例如:在下面的例子中，
-对应的结果就是REST调用的输出：
+对应的结果就是 REST 调用的输出：
 
 [source,java]
 ----
@@ -84,7 +84,7 @@ CircuitBreaker breaker = CircuitBreaker.create("my-circuit-breaker", vertx,
 );
 
 // ---
-// Store the circuit breaker in a field and access it as follows
+// 将断路器存放在某个字段中并像如下方式使用
 // ---
 
 breaker.<String>execute(promise -> {
@@ -250,11 +250,11 @@ breaker.<String>execute(
 == 事件总线通知
 
 每当断路器发生状态改变的时候，断路器都会在事件总线上推送通知，总线通默认地址为：`vertx.circuit-breaker`。
-当然这个也是可以配置的，调用方法
-`link:../../apidocs/io/vertx/circuitbreaker/CircuitBreakerOptions.html#setNotificationAddress-java.lang.String-[setNotificationAddress]`. If `null` is
-你可以设置总线通知地址。如果设置为 `null` 那么总线通知将被禁用。
+当然这个也是可以配置的，您可以调用方法
+`link:../../apidocs/io/vertx/circuitbreaker/CircuitBreakerOptions.html#setNotificationAddress-java.lang.String-[setNotificationAddress]` 
+来设置总线通知地址。如果您设置为 `null` ，那么总线通知将被禁用。
 
-每个总线通知都会包含一个 Json Object对象，该对象包括以下字段：
+每个总线通知都会包含一个 Json Object 对象，该对象包括以下字段：
 
 * `state` : 断路器最新的状态（`OPEN`, `CLOSED`, `HALF_OPEN`）
 * `name` : 断路器的名称
@@ -281,7 +281,7 @@ breaker.<String>execute(
 [[_pushing_circuit_breaker_metrics_to_the_hystrix_dashboard]]
 == 将断路器指标推送到Hystrix看板（Dashboard）
 
-Netflix Hystrix带有一个看板（dashboard），用于显示断路器的当前状态。 Vert.x 断路器可以发布其指标（metric），以供Hystrix 仪表板使用。 Hystrix 仪表板需要一个发送指标的SSE流，
+Netflix Hystrix 带有一个看板（dashboard），用于显示断路器的当前状态。 Vert.x 断路器可以发布其指标（metric），以供 Hystrix 仪表板使用。 Hystrix 仪表板需要一个发送指标的 SSE 流，
 此流由 `link:../../apidocs/io/vertx/circuitbreaker/HystrixMetricHandler.html[HystrixMetricHandler]`
 该 Vert.x Web 处理器所提供：
 
@@ -313,7 +313,7 @@ vertx.createHttpServer()
 https://github.com/Netflix/Hystrix[Hystrix] 提供了断路器模式的实现。可以在Vert.x中使用Hystrix提供的断路器或组合使用。
 本节介绍在Vert.x应用程序中使用Hystrix的技巧。
 
-首先，您需要将Hystrix添加到你的依赖中。
+首先，您需要将Hystrix添加到您的依赖中。
 详细信息请参阅Hystrix页面。然后，您需要使用 Command 隔离“受保护的”调用。
 您可以这样执行之：
 
@@ -338,7 +338,7 @@ String result = ar.result();
 );
 ----
 
-如果你使用了Hystrix异步方法, 对应回调函数是不会在Vert.x的线程中执行的,因此我们必须在执行前保持上下的引用,
+如果您使用了Hystrix异步方法, 对应回调函数是不会在 Vert.x 的线程中执行的,因此我们必须在执行前保持上下的引用,
 （使用 `link:../../apidocs/io/vertx/core/Vertx.html#getOrCreateContext--[getOrCreateContext]` 方法），
 执行
 `link:../../apidocs/io/vertx/core/Vertx.html#runOnContext-io.vertx.core.Handler-[runOnContext]` 方法将当前线程切换回Event Loop线程。
