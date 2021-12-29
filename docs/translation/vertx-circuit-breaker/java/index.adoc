@@ -302,7 +302,7 @@ vertx.createHttpServer()
   .listen(8080);
 ----
 
-在Hystrix 看板, 配置 stream url 地址,例如: `http://localhost:8080/metrics`. 现在就可以获取Vert.x的断路器指标了。
+在 Hystrix 看板, 配置 stream url 地址,例如: `http://localhost:8080/metrics`. 现在就可以获取 Vert.x 的断路器指标了。
 
 *注意*：这些指标量是由 Vert.x Web Handler 使用 Event Bus 事件通知收集。
 如您不想使用默认的通知地址，请在创建的时候设置。
@@ -310,11 +310,11 @@ vertx.createHttpServer()
 [[_using_netflix_hystrix]]
 == 使用 Netflix Hystrix
 
-https://github.com/Netflix/Hystrix[Hystrix] 提供了断路器模式的实现。可以在Vert.x中使用Hystrix提供的断路器或组合使用。
-本节介绍在Vert.x应用程序中使用Hystrix的技巧。
+https://github.com/Netflix/Hystrix[Hystrix] 提供了断路器模式的实现。可以在 Vert.x 中使用 Hystrix 提供的断路器或组合使用。
+本节介绍在 Vert.x 应用程序中使用 Hystrix 的技巧。
 
-首先，您需要将Hystrix添加到您的依赖中。
-详细信息请参阅Hystrix页面。然后，您需要使用 Command 隔离“受保护的”调用。
+首先，您需要将 Hystrix 添加到您的依赖中。
+详细信息请参阅 Hystrix 页面。然后，您需要使用 Command 隔离“受保护的”调用。
 您可以这样执行之：
 
 [source, java]
@@ -324,7 +324,7 @@ String result = someCommand.execute();
 ----
 
 但是，代码执行是阻塞的，所以需要使用 `executeBlocking` 方法执行，
-或在Worker Verticle中调用：
+或在 Worker Verticle 中调用：
 
 [source, java]
 ----
@@ -338,7 +338,7 @@ String result = ar.result();
 );
 ----
 
-如果您使用了Hystrix异步方法, 对应回调函数是不会在 Vert.x 的线程中执行的,因此我们必须在执行前保持上下的引用,
+如果您使用了 Hystrix 异步方法, 对应回调函数是不会在 Vert.x 的线程中执行的,因此我们必须在执行前保持上下的引用,
 （使用 `link:../../apidocs/io/vertx/core/Vertx.html#getOrCreateContext--[getOrCreateContext]` 方法），
 执行
 `link:../../apidocs/io/vertx/core/Vertx.html#runOnContext-io.vertx.core.Handler-[runOnContext]` 方法将当前线程切换回Event Loop线程。
@@ -351,7 +351,7 @@ vertx.runOnContext(v -> {
     HystrixCommand<String> command = getSomeCommandInstance();
     command.observe().subscribe(result -> {
         context.runOnContext(v2 -> {
-            // 回到Vert.x Context下(Event Loop线程或Worker线程)
+            // 回到 Vert.x Context 下(Event Loop线程或Worker线程)
             String r = result;
         });
     });
