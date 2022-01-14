@@ -114,12 +114,11 @@ WARNING: 与 `succeedingThenComplete` 和 `failingThenComplete` 不同，调用 
 在一些特定的执行点调用 `link:../../apidocs/io/vertx/junit5/VertxTestContext.html#completeNow--[completeNow]` 可以轻松的将许多测试标记为通过。
 也就是说基于不同的异步结果，一个测试用例在很多种情况下都可以视为成功。
 
-You can use checkpoints to flag some execution points to be passed.
 您可以用 checkpoint 以标记某些执行点为通过。
 一个 `link:../../apidocs/io/vertx/junit5/Checkpoint.html[Checkpoint]` 可以由单个标记或多个标记来控制。
-当所有的checkpoint被标记后， `link:../../apidocs/io/vertx/junit5/VertxTestContext.html[VertxTestContext]` 将通过测试用例。
+当所有的 checkpoint 被标记后， `link:../../apidocs/io/vertx/junit5/VertxTestContext.html[VertxTestContext]` 将通过测试用例。
 
-以下是一个结合checkpoint启动HTTP服务、创建10个HTTP客户端请求并响应10个HTTP请求的示例：
+以下是一个结合 checkpoint 启动 HTTP 服务、创建 10 个 HTTP 客户端请求并响应 10 个 HTTP 请求的示例：
 
 [source,java]
 ----
@@ -426,22 +425,22 @@ class RunTestOnContextExampleTest {
   @BeforeEach
   void prepare(VertxTestContext testContext) {
     vertx = rtoc.vertx();
-    // Prepare something on a Vert.x event-loop thread
-    // The thread changes with each test instance
+    // 在 Vert.x 的 event-loop 线程上准备测试资源
+    // 每次执行测试时该线程都不一样
     testContext.completeNow();
   }
 
   @Test
   void foo(VertxTestContext testContext) {
-    // Test something on the same Vert.x event-loop thread
-    // that called prepare
+    // 在同一个 Vert.x 的 event-loop 线程上执行测试
+    // 该测试方法和 prepare 方法使用的是同一个线程
     testContext.completeNow();
   }
 
   @AfterEach
   void cleanUp(VertxTestContext testContext) {
-    // Clean things up on the same Vert.x event-loop thread
-    // that called prepare and foo
+    // 在同一个 Vert.x 的 event-loop 线程上清理资源
+    // 该方法和 prepare 与 foo 方法使用的是同一个线程
     testContext.completeNow();
   }
 }
