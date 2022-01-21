@@ -19,7 +19,7 @@ To use this component, add the following dependency to the dependencies section 
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-kafka-client</artifactId>
- <version>4.2.3</version>
+ <version>4.2.4</version>
 </dependency>
 ----
 
@@ -27,7 +27,7 @@ To use this component, add the following dependency to the dependencies section 
 
 [source,groovy,subs="+attributes"]
 ----
-compile io.vertx:vertx-kafka-client:4.2.3
+compile io.vertx:vertx-kafka-client:4.2.4
 ----
 
 == Creating Kafka clients
@@ -246,7 +246,7 @@ consumer
 == Receiving messages from a topic requesting specific partitions
 
 Besides being part of a consumer group for receiving messages from a topic, a consumer can ask for a specific
-topic partition. When the consumer is not part part of a consumer group the overall application cannot
+topic partition. When the consumer is not part of a consumer group the overall application cannot
 rely on the re-balancing feature.
 
 You can use `link:../../apidocs/io/vertx/kafka/client/consumer/KafkaConsumer.html#assign-java.util.Set-io.vertx.core.Handler-[assign]`
