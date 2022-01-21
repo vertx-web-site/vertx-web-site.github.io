@@ -1,0 +1,73 @@
+[[_cursors_and_streaming]]
+== 游标和流
+
+默认情况下，执行预处理查询将获取所有行，您可以使用 `link:../../apidocs/io/vertx/sqlclient/Cursor.html[Cursor]` 控制想读取的行数：
+
+[source,java]
+----
+connection.prepare("SELECT * FROM users WHERE age > ?", ar1 -> {
+  if (ar1.succeeded()) {
+    PreparedStatement pq = ar1.result();
+
+    // 创建游标
+    Cursor cursor = pq.cursor(Tuple.of(18));
+
+    // 读取50行
+    cursor.read(50, ar2 -> {
+      if (ar2.succeeded()) {
+        RowSet<Row> rows = ar2.result();
+
+        // 检查更多 ?
+        if (cursor.hasMore()) {
+          // 重复这个过程...
+        } else {
+          // 没有更多行-关闭游标
+          cursor.close();
+        }
+      }
+    });
+  }
+});
+----
+
+游标提前释放时应将其关闭：
+
+[source,java]
+----
+cursor.read(50, ar2 -> {
+  if (ar2.succeeded()) {
+    // 关闭游标
+    cursor.close();
+  }
+});
+----
+
+游标还可以使用流式API，这可以更加方便，尤其是在Rx化的版本中。
+
+[source,java]
+----
+connection.prepare("SELECT * FROM users WHERE age > ?", ar1 -> {
+  if (ar1.succeeded()) {
+    PreparedStatement pq = ar1.result();
+
+    // 一次获取50行
+    RowStream<Row> stream = pq.createStream(50, Tuple.of(18));
+
+    // 使用流
+    stream.exceptionHandler(err -> {
+      System.out.println("Error: " + err.getMessage());
+    });
+    stream.endHandler(v -> {
+      System.out.println("End of stream");
+    });
+    stream.handler(row -> {
+      System.out.println("User: " + row.getString("last_name"));
+    });
+  }
+});
+----
+
+当这些行已传递给处理程序时，该流将批量读取 `50` 行并将其流化。
+然后读取新一批的 `50` 行数据，依此类推。
+
+流可以恢复或暂停，已加载的行将保留在内存中，直到被送达，游标将停止迭代。
