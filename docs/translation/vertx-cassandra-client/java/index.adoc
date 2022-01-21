@@ -12,7 +12,7 @@ Vert.x 客户端可以访问 http://cassandra.apache.org/[Apache Cassandra] 服�
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-cassandra-client</artifactId>
- <version>4.2.3</version>
+ <version>4.2.4</version>
 </dependency>
 ----
 
@@ -20,7 +20,7 @@ Vert.x 客户端可以访问 http://cassandra.apache.org/[Apache Cassandra] 服�
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-cassandra-client:4.2.3'
+compile 'io.vertx:vertx-cassandra-client:4.2.4'
 ----
 
 [[_creating_a_client]]

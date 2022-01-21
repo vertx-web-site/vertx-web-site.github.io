@@ -12,7 +12,7 @@
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-auth-sql-client</artifactId>
- <version>4.2.3</version>
+ <version>4.2.4</version>
 </dependency>
 ----
 
@@ -20,7 +20,7 @@
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-auth-sql-client:4.2.3'
+compile 'io.vertx:vertx-auth-sql-client:4.2.4'
 ----
 
 要创建一个权限管理器对象，您首先需要一个 `link:../../apidocs/io/vertx/sqlclient/SqlClient.html[SqlClient]` 对象。

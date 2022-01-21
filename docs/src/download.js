@@ -17,7 +17,7 @@ async function downloadFile(url, dest, version, progressListener) {
 
   let res = await fetch(url)
   if (res.status !== 200) {
-    throw "Could not download `${url}'. Status code: ${res.status}"
+    throw `Could not download "${url}". Status code: ${res.status}`
   }
 
   let lastProgress = 0
