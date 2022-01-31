@@ -4,11 +4,15 @@ import download from "./download"
 import extract from "./extract"
 import { isAsciidocCompiled } from "./util"
 import { metadata, latestRelease } from "../metadata/all"
+import restoreCursor from "restore-cursor"
 import path from "path"
 import Piscina from "piscina"
 import pLimit from "p-limit"
 import prettyMilliseconds from "pretty-ms"
 import { MessageChannel } from "worker_threads"
+
+// make sure CLI cursor is restored on exit
+restoreCursor()
 
 const compiledPath = "compiled"
 const downloadPath = "download"
