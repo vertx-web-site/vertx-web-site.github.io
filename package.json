@@ -48,7 +48,7 @@
     "nprogress": "^0.2.0",
     "p-map": "^4.0.0",
     "parse5": "^6.0.1",
-    "postcss": "^8.4.5",
+    "postcss": "^8.4.6",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-feather": "^2.0.9",
@@ -57,8 +57,8 @@
     "rehype-autolink-headings": "^5.0.1",
     "rehype-highlight": "^4.0.0",
     "rehype-slug": "^4.0.1",
-    "sass": "^1.49.4",
-    "sass-loader": "^12.4.0",
+    "sass": "^1.49.7",
+    "sass-loader": "^12.5.0",
     "serve": "^13.0.2",
     "super-react-gist": "^1.0.4",
     "unist-util-visit": "^2.0.3",
@@ -67,12 +67,12 @@
   },
   "devDependencies": {
     "@octokit/rest": "^18.12.0",
-    "cacache": "^15.2.0",
-    "eslint": "^8.8.0",
+    "cacache": "^15.3.0",
+    "eslint": "^8.9.0",
     "favicons": "^6.2.2",
-    "natural": "^5.0.4",
+    "natural": "^5.1.13",
     "node-fetch": "^2.6.1",
-    "stylelint": "^14.3.0",
+    "stylelint": "^14.5.0",
     "stylelint-config-standard-scss": "^3.0.0"
   }
 }
