@@ -52,7 +52,7 @@ HttpServer proxyServer = vertx.createHttpServer();
 proxyServer.requestHandler(proxy).listen(8080);
 ----
 
-所有的（user-agent）用户代理请求都方便地转发到 （*origin server*）源服务器 。
+所有的（user-agent）用户代理请求都方便地转发到 *origin server* 。
 
 [[_websockets]]
 === WebSockets
@@ -114,7 +114,7 @@ proxy.addInterceptor(new ProxyInterceptor() {
 
 ==== Body 过滤
 
-You can filter body by simply replacing the original `link:../../apidocs/io/vertx/httpproxy/Body.html[Body]` with a new one
+你可以简单地用一个新的Body替换原来的 `link:../../apidocs/io/vertx/httpproxy/Body.html[Body]` 来过滤body
 
 [source,java]
 ----
@@ -123,7 +123,7 @@ proxy.addInterceptor(new ProxyInterceptor() {
   public Future<Void> handleProxyResponse(ProxyContext context) {
     ProxyResponse proxyResponse = context.response();
 
-    // 创建一个 filtered body
+    // 创建一个Body
     Body filteredBody = filter(proxyResponse.getBody());
 
     // 然后使用它
