@@ -25,7 +25,7 @@ Circuit Breaker 是Vert.x 断路 _模式_ 的实现。
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-circuit-breaker</artifactId>
- <version>4.2.4</version>
+ <version>4.2.5</version>
 </dependency>
 ----
 
@@ -33,7 +33,7 @@ Circuit Breaker 是Vert.x 断路 _模式_ 的实现。
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-circuit-breaker:4.2.4'
+compile 'io.vertx:vertx-circuit-breaker:4.2.5'
 ----
 
 [[_using_the_circuit_breaker]]

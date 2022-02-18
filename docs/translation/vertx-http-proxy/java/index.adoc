@@ -18,7 +18,7 @@ WARNING: 这个模块处于 _Tech Preview_ 阶段，这意味着在不同版本�
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-http-proxy</artifactId>
- <version>4.2.4</version>
+ <version>4.2.5</version>
 </dependency>
 ----
 
@@ -27,42 +27,18 @@ WARNING: 这个模块处于 _Tech Preview_ 阶段，这意味着在不同版本�
 [source,groovy,subs="+attributes"]
 ----
 dependencies {
- compile 'io.vertx:vertx-http-proxy:4.2.4'
+ compile 'io.vertx:vertx-http-proxy:4.2.5'
 }
 ----
 
-[[_basic_http_proxy]]
-== Http Proxy 基础
+== Reverse proxy server
 
 为了使用 Vert.x Http Proxy 实现一个反向代理，您需要了解这些名词：
 
-1. *代理服务器* 会处理出站请求，然后使用 `HttpProxy` 实例把他们转发到 *源服务器*
-2. *源服务器* 会处理从 *代理服务器* 来的请求，然后处理相对应的响应
+1. *Proxy Server* that handles user-agent requests and forward them to the *origin server*
+2. *Origin Server* that handles requests from the *proxy server* and respond accordingly
 
-现在，您已经了解了相应的整体概念。
-让我们来深入实现，先从 *源服务器* 再到使用 `HttpProxy` 的 *代理服务器* ：
-
-[[_origin_server]]
-== 源服务器
-
-我们先简单创建一个监听 `7070` 端口的 *源服务器*
-
-[source,java]
-----
-HttpServer originServer = vertx.createHttpServer();
-
-originServer.requestHandler(req -> {
-  req.response()
-    .putHeader("content-type", "text/html")
-    .end("<html><body><h1>I'm the target resource!</h1></body></html>");
-}).listen(7070);
-----
-
-[[_proxy_server_with_httpproxy]]
-== 使用 `HttpProxy` 的 *代理服务器*
-
-创建一个监听在 `8080` 端口的使用 `HttpProxy` 实例的 *代理服务器*
-处理相应的反向代理逻辑
+You can create a *proxy server* that listens to port `8080` and implement reverse proxy logic
 
 [source,java]
 ----
@@ -76,7 +52,7 @@ HttpServer proxyServer = vertx.createHttpServer();
 proxyServer.requestHandler(proxy).listen(8080);
 ----
 
-最后，所有的出站请求都被轻松的反向代理转发到 *源服务器*
+All user-agent requests are forwarded to the *origin server* conveniently.
 
 [[_websockets]]
 === WebSockets
@@ -96,4 +72,94 @@ WebSocket 的握手请求会被转发到源服务器 (包含 `connection` 头部
 [source,java]
 ----
 HttpProxy proxy = HttpProxy.reverseProxy(new ProxyOptions().setCacheOptions(new CacheOptions()), proxyClient);
+----
+
+=== Proxy interception
+
+Interception is a powerful way to extend the proxy withg new features.
+
+You can implement `link:../../apidocs/io/vertx/httpproxy/ProxyInterceptor.html#handleProxyRequest-io.vertx.httpproxy.ProxyContext-[handleProxyRequest]` to perform any operation on the proxy request
+
+[source,java]
+----
+proxy.addInterceptor(new ProxyInterceptor() {
+  @Override
+  public Future<ProxyResponse> handleProxyRequest(ProxyContext context) {
+    ProxyRequest proxyRequest = context.request();
+
+    filter(proxyRequest.headers());
+
+    // Continue the interception chain
+    return context.sendRequest();
+  }
+});
+----
+
+Likewise with the proxy response
+
+[source,java]
+----
+proxy.addInterceptor(new ProxyInterceptor() {
+  @Override
+  public Future<Void> handleProxyResponse(ProxyContext context) {
+    ProxyResponse proxyResponse = context.response();
+
+    filter(proxyResponse.headers());
+
+    // Continue the interception chain
+    return context.sendResponse();
+  }
+});
+----
+
+==== Body filtering
+
+You can filter body by simply replacing the original `link:../../apidocs/io/vertx/httpproxy/Body.html[Body]` with a new one
+
+[source,java]
+----
+proxy.addInterceptor(new ProxyInterceptor() {
+  @Override
+  public Future<Void> handleProxyResponse(ProxyContext context) {
+    ProxyResponse proxyResponse = context.response();
+
+    // Create a filtered body
+    Body filteredBody = filter(proxyResponse.getBody());
+
+    // And then let the response use it
+    proxyResponse.setBody(filteredBody);
+
+    // Continue the interception chain
+    return context.sendResponse();
+  }
+});
+----
+
+==== Interception control
+
+`link:../../apidocs/io/vertx/httpproxy/ProxyContext.html#sendRequest--[sendRequest]` and `link:../../apidocs/io/vertx/httpproxy/ProxyContext.html#sendResponse--[sendResponse]` continue the
+current interception chain and then send the result to the origin server or the user-agent.
+
+You can change the control, e.g you can send a response immediately to the user-agent without even requesting the origin server
+
+[source,java]
+----
+proxy.addInterceptor(new ProxyInterceptor() {
+  @Override
+  public Future<ProxyResponse> handleProxyRequest(ProxyContext context) {
+
+    ProxyRequest proxyRequest = context.request();
+
+    // Release the underlying resources
+    proxyRequest.release();
+
+    // Create a response and populate it
+    ProxyResponse proxyResponse = proxyRequest.response()
+      .setStatusCode(200)
+      .putHeader("content-type", "text/plain")
+      .setBody(Body.body(Buffer.buffer("Hello World")));
+
+    return Future.succeededFuture(proxyResponse);
+  }
+});
 ----

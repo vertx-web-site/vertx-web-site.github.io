@@ -1504,10 +1504,10 @@ vertx run yet-another-verticle.js -ha -hagroup g2
 如果杀掉第三个终端里的实例，则不会发生故障转移操作，
 因为此终端里的 vert.x 实例被分配了不同的高可用组。
 
-[[_dealing_with_network_partitions_quora]]
-=== 处理网络分区 - Quora
+[[_dealing_with_network_partitions_quorum]]
+=== 处理网络分区 - Quorum
 
-高可用实现也支持 `quora` （一种多数派机制）。在分布式系统中， Quorum 是指一种投票机制，在这种投票机制之下，
+高可用实现也支持 `quorum` （一种多数派机制）。在分布式系统中， Quorum 是指一种投票机制，在这种投票机制之下，
 某个分布式事务只有获得不少于指定投票数量的票数，才允许执行某个操作。
 
 启动 Vert.x 实例的时候，您可以将其设置成在进行高可用（HA）部署之前需要一个 `quorum` 。
@@ -1516,7 +1516,7 @@ vertx run yet-another-verticle.js -ha -hagroup g2
 那么如果集群中少于 `Q` 个节点的情况下，该高可用（HA）部署将被取消，待到节点数量达到这个 Q 数值的时候，会再次进行部署。
 这种机制可以防止出现网络分区（亦称 _脑裂_）。
 
-关于 `quora` 的更多信息请参考 http://en.wikipedia.org/wiki/Quorum_(distributed_computing)[这里] 。
+关于 `quorum` 的更多信息请参考 http://en.wikipedia.org/wiki/Quorum_(distributed_computing)[这里] 。
 
 要在运行 vert.x 实例的时候启用 `quorum` ，您只需要在命令行中指定 `-quorum` 参数，例如
 
@@ -1551,7 +1551,7 @@ vertx run yet-another-verticle.js -ha -quorum 3
 如果我们关闭或者强行杀死其中一个节点，那么这些模块将会被自动卸载，
 因为节点数量已经不满足 `quorum` 数值条件。
 
-Quora 也可以和高可用分组联合使用，此时 quora
+Quorum 也可以和高可用分组联合使用，此时 quorum
 仅在指定的分组中起作用。
 
 [[_native_transports]]

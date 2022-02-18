@@ -29,7 +29,7 @@ Vert.x 集群管理器是可插拔的组件，您可以选择您想用的或最�
 [[_using_vertx_from_command_line]]
 === Vert.x 命令行模式
 
-请将 `vertx-ignite-4.2.4.jar` 放入 Vert.x 中安装路径的 `lib` 目录中。
+请将 `vertx-ignite-4.2.5.jar` 放入 Vert.x 中安装路径的 `lib` 目录中。
 
 [[_using_vertx_in_maven_or_gradle_project]]
 === 在 Maven 或 Gradle 项目中使用 Vert.x
@@ -43,7 +43,7 @@ Vert.x 集群管理器是可插拔的组件，您可以选择您想用的或最�
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-ignite</artifactId>
- <version>4.2.4</version>
+ <version>4.2.5</version>
 </dependency>
 ----
 
@@ -51,7 +51,7 @@ Vert.x 集群管理器是可插拔的组件，您可以选择您想用的或最�
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-ignite:4.2.4'
+compile 'io.vertx:vertx-ignite:4.2.5'
 ----
 
 [[_programmatically_specifying_cluster_manager]]

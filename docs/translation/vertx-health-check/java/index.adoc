@@ -20,7 +20,7 @@
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-health-check</artifactId>
- <version>4.2.4</version>
+ <version>4.2.5</version>
 </dependency>
 ----
 
@@ -28,7 +28,7 @@
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-health-check:4.2.4'
+compile 'io.vertx:vertx-health-check:4.2.5'
 ----
 
 [[_creating_the_health_check_object]]
