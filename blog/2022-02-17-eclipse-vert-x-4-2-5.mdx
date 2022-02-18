@@ -1,0 +1,61 @@
+---
+title: Eclipse Vert.x 4.2.5 released!
+category: releases
+authors:
+  - name: Julien Viet
+    github_id: vietj
+summary: >-
+  Eclipse Vert.x version 4.2.5 has just been released. It fixes quite a few bugs
+  that have been reported by the community and provides a couple of features
+---
+
+We are extremely pleased to announce that Eclipse Vert.x version 4.2.5 has been released.
+
+Since the release of Vert.x 4.2.4, quite a few bugs have been reported. We would like to thank you all for reporting these issues.
+
+In addition a couple of small features have been added.
+
+## HTTP Proxy interceptors
+
+The `HttpProxy` has now an [interception API](https://vertx.io/docs/vertx-http-proxy/java/#_proxy_interception) to implement use cases such as caching or filtering.
+
+```java
+proxy.addInterceptor(new ProxyInterceptor() {
+  @Override
+  public Future<Void> handleProxyResponse(ProxyContext context) {
+    ProxyResponse proxyResponse = context.response();
+
+    // Create a filtered body
+    Body filteredBody = filter(proxyResponse.getBody());
+
+    // And then let the response use it
+    proxyResponse.setBody(filteredBody);
+
+    // Continue the interception chain
+    return context.sendResponse();
+  }
+});
+```
+
+## Oracle client pooling
+
+Our Oracle client now gets a proper pool implementation based on the same common pool used by other clients.
+
+The [4.2.5 release notes](https://github.com/vert-x3/wiki/wiki/4.2.4-Release-Notes) as well as
+[deprecations and breaking changes](https://github.com/vert-x3/wiki/wiki/4.2.5-Deprecations-and-breaking-changes)
+ can be found on the wiki.
+
+You can bootstrap a Vert.x 4 project using [start.vertx.io](https://start.vertx.io).
+
+The release artifacts have been deployed to [Maven Central](https://search.maven.org/search?q=g:io.vertx%20AND%20v:4.2.5) and
+you can get the distribution on [Maven Central](https://repo1.maven.org/maven2/io/vertx/vertx-stack-manager/4.2.5/).
+
+The [Vert.x 4 eventbus JavaScript client library](https://www.npmjs.com/package/@vertx/eventbus-bridge-client.js) is now available
+in a single location and it now usable standalone or it can easily be integrated with any frontend build tool.
+
+The Vert.x distribution is available from [SDKMan](https://sdkman.io) and our
+[HomeBrew TAP](https://github.com/vertx-distrib/homebrew-tap).
+
+Docker images are available on [Docker Hub](https://hub.docker.com/u/vertx/).
+
+That's it! Happy coding and see you soon on our user or dev [channels](https://vertx.io/channels).
