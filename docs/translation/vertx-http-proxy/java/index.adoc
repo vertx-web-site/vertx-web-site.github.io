@@ -31,14 +31,14 @@ dependencies {
 }
 ----
 
-== Reverse proxy server
+== 反向代理服务器
 
 为了使用 Vert.x Http Proxy 实现一个反向代理，您需要了解这些名词：
 
-1. *Proxy Server* that handles user-agent requests and forward them to the *origin server*
-2. *Origin Server* that handles requests from the *proxy server* and respond accordingly
+1. *Proxy Server* 处理用户代理请求并将它们转发到 *origin server*
+2. *Origin Server* 处理来自 *proxy server* 的请求并做出相应响应
 
-You can create a *proxy server* that listens to port `8080` and implement reverse proxy logic
+您可以创建一个 *proxy server*，监听 `8080` 端口并实现反向代理逻辑
 
 [source,java]
 ----
@@ -52,7 +52,7 @@ HttpServer proxyServer = vertx.createHttpServer();
 proxyServer.requestHandler(proxy).listen(8080);
 ----
 
-All user-agent requests are forwarded to the *origin server* conveniently.
+所有的（user-agent）用户代理请求都方便地转发到 （*origin server*）源服务器 。
 
 [[_websockets]]
 === WebSockets
@@ -74,11 +74,11 @@ WebSocket 的握手请求会被转发到源服务器 (包含 `connection` 头部
 HttpProxy proxy = HttpProxy.reverseProxy(new ProxyOptions().setCacheOptions(new CacheOptions()), proxyClient);
 ----
 
-=== Proxy interception
+=== 代理拦截
 
-Interception is a powerful way to extend the proxy withg new features.
+拦截是使用新功能扩展代理的强大方法。
 
-You can implement `link:../../apidocs/io/vertx/httpproxy/ProxyInterceptor.html#handleProxyRequest-io.vertx.httpproxy.ProxyContext-[handleProxyRequest]` to perform any operation on the proxy request
+你可以实现 `link:../../apidocs/io/vertx/httpproxy/ProxyInterceptor.html#handleProxyRequest-io.vertx.httpproxy.ProxyContext-[handleProxyRequest]` 对代理请求执行的任何操作
 
 [source,java]
 ----
@@ -89,13 +89,13 @@ proxy.addInterceptor(new ProxyInterceptor() {
 
     filter(proxyRequest.headers());
 
-    // Continue the interception chain
+    // 继续拦截链
     return context.sendRequest();
   }
 });
 ----
 
-Likewise with the proxy response
+代理响应也是如此
 
 [source,java]
 ----
@@ -106,13 +106,13 @@ proxy.addInterceptor(new ProxyInterceptor() {
 
     filter(proxyResponse.headers());
 
-    // Continue the interception chain
+    //  继续拦截链
     return context.sendResponse();
   }
 });
 ----
 
-==== Body filtering
+==== Body 过滤
 
 You can filter body by simply replacing the original `link:../../apidocs/io/vertx/httpproxy/Body.html[Body]` with a new one
 
@@ -123,24 +123,23 @@ proxy.addInterceptor(new ProxyInterceptor() {
   public Future<Void> handleProxyResponse(ProxyContext context) {
     ProxyResponse proxyResponse = context.response();
 
-    // Create a filtered body
+    // 创建一个 filtered body
     Body filteredBody = filter(proxyResponse.getBody());
 
-    // And then let the response use it
+    // 然后使用它
     proxyResponse.setBody(filteredBody);
 
-    // Continue the interception chain
+    // 继续拦截链
     return context.sendResponse();
   }
 });
 ----
 
-==== Interception control
+==== 拦截控制
 
-`link:../../apidocs/io/vertx/httpproxy/ProxyContext.html#sendRequest--[sendRequest]` and `link:../../apidocs/io/vertx/httpproxy/ProxyContext.html#sendResponse--[sendResponse]` continue the
-current interception chain and then send the result to the origin server or the user-agent.
+`link:../../apidocs/io/vertx/httpproxy/ProxyContext.html#sendRequest--[sendRequest]` 和 `link:../../apidocs/io/vertx/httpproxy/ProxyContext.html#sendResponse--[sendResponse]` 继续当前拦截链，然后将结果发到（origin server）源服务器或者（user-agent）用户代理。
 
-You can change the control, e.g you can send a response immediately to the user-agent without even requesting the origin server
+你可以更改控制器, 例如， 您可以立即向（user-agent）用户代理发送响应，而无需请求（origin server）源服务器
 
 [source,java]
 ----
@@ -150,10 +149,10 @@ proxy.addInterceptor(new ProxyInterceptor() {
 
     ProxyRequest proxyRequest = context.request();
 
-    // Release the underlying resources
+    // 释放资源
     proxyRequest.release();
 
-    // Create a response and populate it
+    // 创建一个响应并设置参数
     ProxyResponse proxyResponse = proxyRequest.response()
       .setStatusCode(200)
       .putHeader("content-type", "text/plain")
