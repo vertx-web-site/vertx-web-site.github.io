@@ -3,6 +3,7 @@
   "version": "4.0.0",
   "description": "The Vert.x website",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next",
     "build": "npm run stylelint && next build && next export",

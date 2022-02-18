@@ -42,10 +42,10 @@ async function compileAllPosts() {
   const fs = require("fs").promises
   const readdir = require("recursive-readdir")
   const readingTime = require("reading-time")
-  const mdxOptions = require("../../components/lib/mdx-options")
-  const AutoBasePath = require("../../components/lib/remark-auto-basepath")
-  const TermFrequency = require("../../components/lib/remark-term-frequency")
-  const { slash } = require("../../components/lib/path-utils")
+  const { mdxOptions } = await import("../../components/lib/mdx-options")
+  const { AutoBasePath } = await import("../../components/lib/remark-auto-basepath")
+  const { TermFrequency } = await import("../../components/lib/remark-term-frequency")
+  const { slash } = await import("../../components/lib/path-utils")
 
   const cachePath = "./.cache/blog2"
 

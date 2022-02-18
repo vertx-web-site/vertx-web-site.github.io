@@ -1,9 +1,9 @@
-const { WordTokenizer, stopwords, PorterStemmer } = require("natural")
-const visit = require("unist-util-visit")
+import { WordTokenizer, stopwords, PorterStemmer } from "natural"
+import visit from "unist-util-visit"
 
 const MAX_TERMS = 25
 
-class TermFrequency {
+export class TermFrequency {
   apply() {
     let that = this
 
@@ -44,5 +44,3 @@ class TermFrequency {
     }
   }
 }
-
-module.exports = TermFrequency

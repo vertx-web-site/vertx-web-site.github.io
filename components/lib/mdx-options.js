@@ -1,11 +1,11 @@
-const autolinkHeadings = require("rehype-autolink-headings")
-const betterShell = require("./rehype-highlight-better-shell")
-const highlight = require("rehype-highlight")
-const hyphenate = require("./remark-hyphenate")
-const smartypants = require("@silvenon/remark-smartypants")
-const slug = require("rehype-slug")
+import autolinkHeadings from "rehype-autolink-headings"
+import betterShell from "./rehype-highlight-better-shell.js"
+import highlight from "rehype-highlight"
+import hyphenate from "./remark-hyphenate.js"
+import smartypants from "@silvenon/remark-smartypants"
+import slug from "rehype-slug"
 
-const options = {
+export const mdxOptions = {
   remarkPlugins: [hyphenate, smartypants],
   rehypePlugins: [[highlight, {
     languages: {
@@ -16,5 +16,3 @@ const options = {
     content: {}
   }]]
 }
-
-module.exports = options

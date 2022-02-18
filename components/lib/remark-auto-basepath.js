@@ -1,4 +1,4 @@
-const visit = require("unist-util-visit")
+import visit from "unist-util-visit"
 
 function shouldBeConverted(node) {
   return node.url.startsWith("http://vertx.io") ||
@@ -14,7 +14,7 @@ function makeRelative(url) {
   return url
 }
 
-class AutoBasePath {
+export class AutoBasePath {
   constructor(basePath) {
     this.basePath = basePath
   }
@@ -58,5 +58,3 @@ class AutoBasePath {
     }
   }
 }
-
-module.exports = AutoBasePath

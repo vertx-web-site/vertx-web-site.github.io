@@ -1,11 +1,13 @@
-const mdxOptions = require("./components/lib/mdx-options")
-const svgToMiniDataURI = require("mini-svg-data-uri")
+import { mdxOptions } from "./components/lib/mdx-options.js"
+import styledJsx from "styled-jsx/webpack.js"
+import svgToMiniDataURI from "mini-svg-data-uri"
 
-const withPlugins = require("next-compose-plugins")
+import withPlugins from "next-compose-plugins"
 
 const isProd = process.env.NODE_ENV === "production"
 
-const mdx = require("@next/mdx")({
+import MDX from "@next/mdx"
+const mdx = MDX({
   options: mdxOptions
 })
 
@@ -74,7 +76,7 @@ const config = {
       use: [
         defaultLoaders.babel,
         {
-          loader: require("styled-jsx/webpack").loader,
+          loader: styledJsx.loader,
           options: {
             type: (fileName, options) => options.query.type || "scoped"
           }
@@ -117,6 +119,8 @@ const config = {
   }
 }
 
-module.exports = withPlugins([
+const configWithPlugins = withPlugins([
   [mdx]
 ], config)
+
+export default configWithPlugins
