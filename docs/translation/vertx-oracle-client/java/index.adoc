@@ -6,7 +6,17 @@ scalability and low overhead.
 
 *Features*
 
-* todo
+* Event driven
+* Built-in connection pooling
+* Java 8 Date and Time
+
+*Not supported yet*
+
+* RxJava API
+* Prepared queries caching
+* Cursor
+* Row streaming
+* Stored Procedures
 
 WARNING: this module is in tech preview
 
@@ -21,7 +31,7 @@ To use the Reactive Oracle Client add the following dependency to the _dependenc
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-oracle-client</artifactId>
- <version>4.2.4</version>
+ <version>4.2.5</version>
 </dependency>
 ----
 * Gradle (in your `build.gradle` file):
@@ -29,7 +39,7 @@ To use the Reactive Oracle Client add the following dependency to the _dependenc
 [source,groovy]
 ----
 dependencies {
- compile 'io.vertx:vertx-oracle-client:4.2.4'
+ compile 'io.vertx:vertx-oracle-client:4.2.5'
 }
 ----
 
@@ -278,6 +288,19 @@ include::connections.adoc[]
 include::transactions.adoc[]
 
 include::cursor.adoc[]
+
+== Data types supported
+
+Currently, the client supports the following Oracle data types:
+
+* CHAR/VARCHAR2(`java.lang.String`)
+* NCHAR/NVARCHAR2(`java.lang.String`)
+* NUMBER(``link:../../apidocs/java/math/BigDecimal.html[BigDecimal]``)
+* FLOAT(`java.lang.Double`)
+* DATE(`java.time.LocalDate`)
+* TIMESTAMP(`java.time.LocalDateTime`)
+
+Tuple decoding uses the above types when storing values.
 
 == Tracing queries
 

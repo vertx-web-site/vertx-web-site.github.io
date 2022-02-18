@@ -32,7 +32,7 @@ To use the Reactive PostgreSQL Client add the following dependency to the _depen
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-pg-client</artifactId>
- <version>4.2.4</version>
+ <version>4.2.5</version>
 </dependency>
 ----
 * Gradle (in your `build.gradle` file):
@@ -40,7 +40,7 @@ To use the Reactive PostgreSQL Client add the following dependency to the _depen
 [source,groovy]
 ----
 dependencies {
- compile 'io.vertx:vertx-pg-client:4.2.4'
+ compile 'io.vertx:vertx-pg-client:4.2.5'
 }
 ----
 

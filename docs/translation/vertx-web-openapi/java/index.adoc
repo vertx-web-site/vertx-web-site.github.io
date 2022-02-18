@@ -23,7 +23,7 @@ To use Vert.x OpenAPI, add the following dependency to the _dependencies_ sectio
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-web-openapi</artifactId>
- <version>4.2.4</version>
+ <version>4.2.5</version>
 </dependency>
 ----
 
@@ -32,7 +32,7 @@ To use Vert.x OpenAPI, add the following dependency to the _dependencies_ sectio
 [source,groovy,subs="+attributes"]
 ----
 dependencies {
- compile 'io.vertx:vertx-web-openapi:4.2.4'
+ compile 'io.vertx:vertx-web-openapi:4.2.5'
 }
 ----
 

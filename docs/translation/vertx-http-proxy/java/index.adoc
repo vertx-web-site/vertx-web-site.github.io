@@ -17,7 +17,7 @@ To use Vert.x Http Proxy, add the following dependency to the _dependencies_ sec
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-http-proxy</artifactId>
- <version>4.2.4</version>
+ <version>4.2.5</version>
 </dependency>
 ----
 
@@ -26,39 +26,18 @@ To use Vert.x Http Proxy, add the following dependency to the _dependencies_ sec
 [source,groovy,subs="+attributes"]
 ----
 dependencies {
- compile 'io.vertx:vertx-http-proxy:4.2.4'
+ compile 'io.vertx:vertx-http-proxy:4.2.5'
 }
 ----
 
-== Basic Http Proxy
+== Reverse proxy server
 
 In order to accomplish a reverse proxy with Vert.x Http Proxy you need the following:
 
-1. *Proxy Server* that handles outbound requests and forward them to the *origin server* using `HttpProxy` instance.
-2. *Origin Server* that handles requests from the *proxy server* and handles responses accordingly.
+1. *Proxy Server* that handles user-agent requests and forward them to the *origin server*
+2. *Origin Server* that handles requests from the *proxy server* and respond accordingly
 
-Now, you have the overall concept so let's dive in implementation and begin with *origin server* then
-the *proxy server* with `HttpProxy`:
-
-== Origin Server
-
-You simply create the *origin server* that listens to port `7070`
-
-[source,java]
-----
-HttpServer originServer = vertx.createHttpServer();
-
-originServer.requestHandler(req -> {
-  req.response()
-    .putHeader("content-type", "text/html")
-    .end("<html><body><h1>I'm the target resource!</h1></body></html>");
-}).listen(7070);
-----
-
-== Proxy Server With `HttpProxy`
-
-Create the *proxy server* that listens to port `8080` with `HttpProxy` instance that handles reverse proxy logic
-accordingly.
+You can create a *proxy server* that listens to port `8080` and implement reverse proxy logic
 
 [source,java]
 ----
@@ -72,7 +51,7 @@ HttpServer proxyServer = vertx.createHttpServer();
 proxyServer.requestHandler(proxy).listen(8080);
 ----
 
-Finally, all outbound requests will be forwarded as a reverse proxy to the *origin server* conveniently.
+All user-agent requests are forwarded to the *origin server* conveniently.
 
 === WebSockets
 
@@ -90,4 +69,94 @@ By default the proxy does not cache response and ignores most cache directives, 
 [source,java]
 ----
 HttpProxy proxy = HttpProxy.reverseProxy(new ProxyOptions().setCacheOptions(new CacheOptions()), proxyClient);
+----
+
+=== Proxy interception
+
+Interception is a powerful way to extend the proxy withg new features.
+
+You can implement `link:../../apidocs/io/vertx/httpproxy/ProxyInterceptor.html#handleProxyRequest-io.vertx.httpproxy.ProxyContext-[handleProxyRequest]` to perform any operation on the proxy request
+
+[source,java]
+----
+proxy.addInterceptor(new ProxyInterceptor() {
+  @Override
+  public Future<ProxyResponse> handleProxyRequest(ProxyContext context) {
+    ProxyRequest proxyRequest = context.request();
+
+    filter(proxyRequest.headers());
+
+    // Continue the interception chain
+    return context.sendRequest();
+  }
+});
+----
+
+Likewise with the proxy response
+
+[source,java]
+----
+proxy.addInterceptor(new ProxyInterceptor() {
+  @Override
+  public Future<Void> handleProxyResponse(ProxyContext context) {
+    ProxyResponse proxyResponse = context.response();
+
+    filter(proxyResponse.headers());
+
+    // Continue the interception chain
+    return context.sendResponse();
+  }
+});
+----
+
+==== Body filtering
+
+You can filter body by simply replacing the original `link:../../apidocs/io/vertx/httpproxy/Body.html[Body]` with a new one
+
+[source,java]
+----
+proxy.addInterceptor(new ProxyInterceptor() {
+  @Override
+  public Future<Void> handleProxyResponse(ProxyContext context) {
+    ProxyResponse proxyResponse = context.response();
+
+    // Create a filtered body
+    Body filteredBody = filter(proxyResponse.getBody());
+
+    // And then let the response use it
+    proxyResponse.setBody(filteredBody);
+
+    // Continue the interception chain
+    return context.sendResponse();
+  }
+});
+----
+
+==== Interception control
+
+`link:../../apidocs/io/vertx/httpproxy/ProxyContext.html#sendRequest--[sendRequest]` and `link:../../apidocs/io/vertx/httpproxy/ProxyContext.html#sendResponse--[sendResponse]` continue the
+current interception chain and then send the result to the origin server or the user-agent.
+
+You can change the control, e.g you can send a response immediately to the user-agent without even requesting the origin server
+
+[source,java]
+----
+proxy.addInterceptor(new ProxyInterceptor() {
+  @Override
+  public Future<ProxyResponse> handleProxyRequest(ProxyContext context) {
+
+    ProxyRequest proxyRequest = context.request();
+
+    // Release the underlying resources
+    proxyRequest.release();
+
+    // Create a response and populate it
+    ProxyResponse proxyResponse = proxyRequest.response()
+      .setStatusCode(200)
+      .putHeader("content-type", "text/plain")
+      .setBody(Body.body(Buffer.buffer("Hello World")));
+
+    return Future.succeededFuture(proxyResponse);
+  }
+});
 ----

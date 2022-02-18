@@ -19,7 +19,7 @@ To use this component, add the following dependency to the dependencies section 
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-kafka-client</artifactId>
- <version>4.2.4</version>
+ <version>4.2.5</version>
 </dependency>
 ----
 
@@ -27,7 +27,7 @@ To use this component, add the following dependency to the dependencies section 
 
 [source,groovy,subs="+attributes"]
 ----
-compile io.vertx:vertx-kafka-client:4.2.4
+compile io.vertx:vertx-kafka-client:4.2.5
 ----
 
 == Creating Kafka clients
@@ -73,6 +73,8 @@ config.put("acks", "1");
 // use producer for interacting with Apache Kafka
 KafkaProducer<String, String> producer = KafkaProducer.create(vertx, config);
 ----
+
+NOTE: The event loop that creates the `link:../../apidocs/io/vertx/kafka/client/consumer/KafkaConsumer.html[KafkaConsumer]` will be the one to handle its messages. For example if you want messages to be handled on a Verticle's event loop, create the Kafka Consumer within the Verticle's start method.
 
 ifdef::java,groovy,kotlin[]
 Another way is to use a `link:../../apidocs/java/util/Properties.html[Properties]` instance instead of the map.
@@ -882,5 +884,7 @@ span tags are:
 - `peer.port` is parsed from `peer.address`
 - `peer.service` is always `kafka`
 - `message_bus.destination`, which is set to the topic in use
+
+NOTE: If Vert.x is _not_ configured with Tracing enabled, messages consumed by a Kafka Consumer will _not_ have a unique local context. Keep this in mind if you want to use a context's local data between handlers.
 
 include::admin.adoc[]
