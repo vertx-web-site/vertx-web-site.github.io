@@ -1242,12 +1242,10 @@ _监视_ 的文件集，这个集合可使用 Ant样式模式（使用 `\**`，`
 也可以在IDE中使用重部署功能：
 
 * Eclipse - 创建一个 _Run_ 配置，使用 `io.vertx.core.Launcher` 类作为 _主类_ 。在 _Program Arguments_
-区域（ _Arguments_ 选项卡中），写入 `run your-verticle-fully-qualified-name --redeploy=*/*.java
---launcher-class=io.vertx.core.Launcher` ，您还可以添加其他参数。随着 Eclipse
+区域（ _Arguments_ 选项卡中），写入 `run your-verticle-fully-qualified-name --redeploy=\**/*.java --launcher-class=io.vertx.core.Launcher` ，您还可以添加其他参数。随着 Eclipse
 在保存时增量编译您的文件，重部署工作会顺利进行。
 * IntelliJ - 创建一个 _Run_ 配置（_Application_）,将主类设置为 `io.vertx.core.Launcher`。在
-程序参数中写：`run your-verticle-fully-qualified-name --redeploy=*/*.class
---launcher-class=io.vertx.core.Launcher` 。要触发重新部署，您需要显式 _构造_
+程序参数中写：`run your-verticle-fully-qualified-name --redeploy=\**/*.class --launcher-class=io.vertx.core.Launcher` 。要触发重新部署，您需要显式 _构造_
 项目或模块（_Build_ -> _Make project_）。
 
 要调试应用程序，请将运行配置创建为远程应用程序，
