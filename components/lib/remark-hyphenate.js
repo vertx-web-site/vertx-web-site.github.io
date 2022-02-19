@@ -1,5 +1,5 @@
 import hyphenopoly from "hyphenopoly"
-import visit from "unist-util-visit-parents"
+import { visitParents } from "unist-util-visit-parents"
 
 const hyphenateText = hyphenopoly.config({
   "require": ["en-us"],
@@ -12,7 +12,7 @@ const hyphenateText = hyphenopoly.config({
 
 function hyphenate() {
   return tree => {
-    visit(tree, "text", (node, ancestors) => {
+    visitParents(tree, "text", (node, ancestors) => {
       if (node.value) {
         if (ancestors.findIndex(e => e.type === "heading") === -1) {
           node.value = hyphenateText(node.value)

@@ -1,5 +1,5 @@
 import { WordTokenizer, stopwords, PorterStemmer } from "natural"
-import visit from "unist-util-visit"
+import { visit } from "unist-util-visit"
 
 const MAX_TERMS = 25
 

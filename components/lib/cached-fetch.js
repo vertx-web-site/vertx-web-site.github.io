@@ -1,5 +1,5 @@
-const cacache = require("cacache")
-const nodeFetch = require("node-fetch")
+import cacache from "cacache"
+import nodeFetch, { Response } from "node-fetch"
 
 export function CachedFetch({ cachePath, cacheTimeoutSeconds }) {
   return async function fetch(url, opts) {
@@ -44,7 +44,7 @@ export function CachedFetch({ cachePath, cacheTimeoutSeconds }) {
           await cacache.put(cachePath, url, body, { metadata: { headers } })
         }
 
-        return new nodeFetch.Response(body, { status: 200, headers })
+        return new Response(body, { status: 200, headers })
       }
     }
 
@@ -58,7 +58,7 @@ export function CachedFetch({ cachePath, cacheTimeoutSeconds }) {
       await cacache.put(cachePath, url, body, { metadata: { headers } })
 
       // create a new in-memory response because we already consumed the read stream
-      response = new nodeFetch.Response(body, response)
+      response = new Response(body, response)
     }
 
     return response
