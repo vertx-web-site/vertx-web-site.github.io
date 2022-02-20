@@ -2,14 +2,7 @@ import { mdxOptions } from "./components/lib/mdx-options.js"
 import styledJsx from "styled-jsx/webpack.js"
 import svgToMiniDataURI from "mini-svg-data-uri"
 
-import withPlugins from "next-compose-plugins"
-
 const isProd = process.env.NODE_ENV === "production"
-
-import MDX from "@next/mdx"
-const mdx = MDX({
-  options: mdxOptions
-})
 
 // configure base path based on environment variable `VERTX_WEBSITE_BASEPATH`
 const basePath = (() => {
@@ -103,6 +96,17 @@ const config = {
       }
     })
 
+    config.module.rules.push({
+      test: /\.mdx?$/,
+      use: [
+        defaultLoaders.babel,
+        {
+          loader: "@mdx-js/loader",
+          options: mdxOptions
+        }
+      ]
+    })
+
     if (dev) {
       config.module.rules.push({
         test: /\.jsx?$/,
@@ -119,8 +123,4 @@ const config = {
   }
 }
 
-const configWithPlugins = withPlugins([
-  [mdx]
-], config)
-
-export default configWithPlugins
+export default config
