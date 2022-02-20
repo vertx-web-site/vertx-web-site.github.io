@@ -1,4 +1,5 @@
 import { mdxOptions } from "./components/lib/mdx-options.js"
+import ESLintPlugin from "eslint-webpack-plugin"
 import styledJsx from "styled-jsx/webpack.js"
 import svgToMiniDataURI from "mini-svg-data-uri"
 
@@ -104,15 +105,9 @@ const config = {
     })
 
     if (dev) {
-      config.module.rules.push({
-        test: /\.jsx?$/,
-        loader: "eslint-loader",
-        exclude: [/node_modules/, /\.next/, /out/],
-        enforce: "pre",
-        options: {
-          emitWarning: true
-        }
-      })
+      config.plugins.push(new ESLintPlugin({
+        extensions: ["js", "jsx"]
+      }))
     }
 
     return config
