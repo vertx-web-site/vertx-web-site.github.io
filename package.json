@@ -24,7 +24,7 @@
   "homepage": "https://github.com/vertx-web-site/vertx-web-site#readme",
   "dependencies": {
     "@icons-pack/react-simple-icons": "^4.6.1",
-    "@mdx-js/loader": "^1.6.21",
+    "@mdx-js/loader": "^2.0.0",
     "@next/mdx": "^12.1.0",
     "@silvenon/remark-smartypants": "^2.0.0",
     "asciidoctor": "^2.2.6",
@@ -43,7 +43,6 @@
     "lunr": "^2.3.9",
     "mini-svg-data-uri": "^1.4.3",
     "next": "^12.1.0",
-    "next-compose-plugins": "^2.2.1",
     "next-mdx-remote": "^3.0.8",
     "normalize.css": "^8.0.1",
     "nprogress": "^0.2.0",

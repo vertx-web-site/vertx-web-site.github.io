@@ -1,6 +1,6 @@
 import DropDown from "../DropDown"
 import DropDownItem from "../DropDownItem"
-import Layout from "./Page"
+import Page from "./Page"
 import ReadMoreLink from "../ReadMoreLink"
 import ScrollLink from "../ScrollLink"
 import Label from "../Label"
@@ -79,7 +79,7 @@ const Docs = ({ metadata, version }) => {
       .metadata.title || activeVersion
 
   return (
-    <Layout meta={{ title: "Documentation" }}>
+    <Page title="Documentation">
       <div className="docs-index-main">
         <aside>
           <div className="docs-index-aside-main">
@@ -148,7 +148,7 @@ const Docs = ({ metadata, version }) => {
         </div>
       </div>
       <style jsx>{styles}</style>
-    </Layout>
+    </Page>
   )
 }
 

@@ -399,7 +399,7 @@ const BlogPage = ({ post, prevPost, nextPost, relatedPosts, category, categories
     }
 
     return (
-      <Blog meta={{ title }} categories={categories}>
+      <Blog title={title} categories={categories}>
         <div className="blog-entries">
           {entries}
         </div>
@@ -411,7 +411,7 @@ const BlogPage = ({ post, prevPost, nextPost, relatedPosts, category, categories
   let url = `${process.env.baseUrl}/blog/${post.slug}`
 
   return (
-    <BlogPost meta={{ title: `${post.meta.title} | Blog` }} categories={categories}>
+    <BlogPost title={`${post.meta.title} | Blog`} categories={categories}>
       <div className="blog-post-main">
         <div className="blog-post-content">
           <h1>{post.meta.title}</h1>

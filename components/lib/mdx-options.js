@@ -23,6 +23,7 @@ import yaml from "highlight.js/lib/languages/yaml"
 import xml from "highlight.js/lib/languages/xml"
 
 export const mdxOptions = {
+  jsx: true, // Forward JSX elements as is. We need this for styled-jsx.
   remarkPlugins: [hyphenate, smartypants],
   rehypePlugins: [[highlight, {
     languages: {
@@ -46,6 +47,6 @@ export const mdxOptions = {
     }
   }], slug, [autolinkHeadings, {
     properties: { ariaHidden: true, tabIndex: -1, className: "heading-anchor" },
-    content: {}
+    content: []
   }]]
 }

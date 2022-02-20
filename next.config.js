@@ -3,14 +3,7 @@ import ESLintPlugin from "eslint-webpack-plugin"
 import styledJsx from "styled-jsx/webpack.js"
 import svgToMiniDataURI from "mini-svg-data-uri"
 
-import withPlugins from "next-compose-plugins"
-
 const isProd = process.env.NODE_ENV === "production"
-
-import MDX from "@next/mdx"
-const mdx = MDX({
-  options: mdxOptions
-})
 
 // configure base path based on environment variable `VERTX_WEBSITE_BASEPATH`
 const basePath = (() => {
@@ -104,6 +97,17 @@ const config = {
       }
     })
 
+    config.module.rules.push({
+      test: /\.mdx?$/,
+      use: [
+        defaultLoaders.babel,
+        {
+          loader: "@mdx-js/loader",
+          options: mdxOptions
+        }
+      ]
+    })
+
     if (dev) {
       config.plugins.push(new ESLintPlugin({
         extensions: ["js", "jsx"]
@@ -114,8 +118,4 @@ const config = {
   }
 }
 
-const configWithPlugins = withPlugins([
-  [mdx]
-], config)
-
-export default configWithPlugins
+export default config

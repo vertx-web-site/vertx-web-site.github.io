@@ -1,16 +1,12 @@
-import Layout from "../components/layouts/Page"
+import Page from "../components/layouts/Page"
 import Question from "../components/faq/Question"
 import Link from "next/link"
 
-export default Layout
-
-export const meta = {
-  title: "Frequently asked questions"
-}
+<Page title="Frequently asked questions">
 
 <h2>Frequently asked questions</h2>
 
-<Question question={<React.Fragment>The <code>logActivity</code> option is enabled, but nothing is logged</React.Fragment>}>
+<Question question={<>The <code>logActivity</code> option is enabled, but nothing is logged</>}>
 
 Most Vert.x network clients or servers have a `logActivity` option which enables network activity logging.
 When active, Netty's pipeline is configured for logging on Netty's logger, at `DEBUG` level
@@ -63,3 +59,5 @@ To do so, start the JVM with the `vertx.disableDnsResolver` system property set 
 ```
 
 </Question>
+
+</Page>
