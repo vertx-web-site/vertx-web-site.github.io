@@ -17,6 +17,7 @@
     "yauzl": "^2.10.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.17.5",
     "@babel/preset-react": "^7.16.0",
     "babel-loader": "^8.2.3",
     "webpack": "^5.64.0",
