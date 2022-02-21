@@ -31,6 +31,7 @@ dependencies {
 }
 ----
 
+[[_reverse_proxy_server]]
 == 反向代理服务器
 
 为了使用 Vert.x Http Proxy 实现一个反向代理，您需要了解这些名词：
