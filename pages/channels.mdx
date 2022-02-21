@@ -1,6 +1,8 @@
 import Card from "../components/Card"
+import CustomCard from "../components/CustomCard"
 import Cards from "../components/Cards"
 import Guide from "../components/layouts/Guide"
+import TencentQQGuild from "../components/TencentQQGuild"
 import { Discord, Googlemessages, Tencentqq, Stackoverflow } from "@icons-pack/react-simple-icons"
 
 <Guide title="联系渠道">
@@ -11,7 +13,10 @@ import { Discord, Googlemessages, Tencentqq, Stackoverflow } from "@icons-pack/r
 为什么不参与其中呢？
 
 <Cards columns={2}>
-  <Card title="Vert.x中国用户组QQ群" icon={<Tencentqq />} href="https://shang.qq.com/wpa/qunwpa?idkey=587f58cacb9557e3291b46098e0fe09427b98a1c0f866da23c04c2762bc7e2ad">
+  <CustomCard title="Vert.x中国用户组QQ频道" icon={<TencentQQGuild />} img={require("../assets/qq_guild.jpg")} href="https://qun.qq.com/qqweb/qunpro/share?_wv=3&_wwv=128&inviteCode=ZT8jW&from=246611">
+    Vert.x中国用户组QQ频道
+  </CustomCard>
+  <Card title="Vert.x中国用户组QQ群" icon={<Tencentqq />} href="https://qm.qq.com/cgi-bin/qm/qr?k=QFrKfwIVTuShDdh7puvfJWjqOx4C014c&jump_from=webapi">
     Vert.x中国用户组QQ群
   </Card>
   <Card title="用户组" icon={<Googlemessages />} href="https://groups.google.com/forum/?fromgroups#!forum/vertx">

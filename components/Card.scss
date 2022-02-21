@@ -31,3 +31,14 @@ a.card-link {
     border-color: $primary;
   }
 }
+
+.card-content {
+  position: relative;
+}
+.custom-card-img {
+  position: absolute;
+  z-index: 100;
+  //left: 0;
+  right: 0;
+  border-radius: 15px;
+}

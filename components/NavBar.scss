@@ -140,6 +140,33 @@
         padding: 0 $spacer $spacer 0;
         font-size: 1rem;
       }
+
+      .qq-guild-parent {
+        position: relative;
+
+        $qqGuildWidth: 394.8px;
+        $qqGuildHeight: 519.6px;
+        .qq-guild {
+          position: absolute;
+          right: 0;
+          top: 20px;
+          width: $qqGuildWidth;
+          height: $qqGuildHeight;
+          box-shadow: 1px 1px 3px 0 #868686;
+          border-radius: 10px;
+
+          @media (max-width: $lg) {
+            display: none;
+          }
+
+          img {
+            width: $qqGuildWidth;
+            height: $qqGuildHeight;
+            border-radius: 15px;
+          }
+        }
+      }
+
     }
   }
 

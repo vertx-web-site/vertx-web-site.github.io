@@ -2,6 +2,7 @@ import DropDown from "./DropDown"
 import DropDownItem from "./DropDownItem"
 import NavBarContext from "./contexts/NavBarContext"
 import VersionContext from "./contexts/VersionContext"
+import TencentQQGuild from "../components/TencentQQGuild"
 import classNames from "classnames"
 import Link from "next/link"
 import styles from "./NavBar.scss?type=global"
@@ -48,6 +49,15 @@ const NavBar = () => {
       setCollapse(true)
       setRightMaxHeight(height)
     }
+  }
+
+  const [showQRCode, setShowQRCode] = useState(false)
+
+  function onMouseOver() {
+    setShowQRCode(true)
+  }
+  function onMouseLeave() {
+    setShowQRCode(false)
   }
 
   return (
@@ -142,6 +152,16 @@ const NavBar = () => {
             </a>
             <a href="https://qm.qq.com/cgi-bin/qm/qr?k=QFrKfwIVTuShDdh7puvfJWjqOx4C014c&jump_from=webapi" className="navbar-social-link" title="Vert.x中国用户组QQ群" target="_blank" rel="noopener noreferrer">
               <Tencentqq aria-label="Vert.x中国用户组QQ群" title="Vert.x中国用户组QQ群" />
+            </a>
+            <a href="https://qun.qq.com/qqweb/qunpro/share?_wv=3&_wwv=128&inviteCode=ZT8jW&from=246611" className="navbar-social-link qq-guild-parent" title="Vert.x中国用户组QQ群" target="_blank" rel="noopener noreferrer" onMouseOver={onMouseOver} onMouseLeave={onMouseLeave}>
+              <TencentQQGuild />
+              {
+                showQRCode ?
+                    (<div className='qq-guild'>
+                      <img src={require("../assets/qq_guild.jpg")} alt="qq频道二维码"/>
+                    </div>)
+                    : null
+              }
             </a>
           </div>
         </div>
