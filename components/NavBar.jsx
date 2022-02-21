@@ -140,7 +140,7 @@ const NavBar = () => {
             <a href="https://groups.google.com/forum/?fromgroups#!forum/vertx" className="navbar-social-link" title="Vert.x 用户组" target="_blank" rel="noopener noreferrer">
               <Googlemessages aria-label="A Google group for Vert.x users" title="Vert.x 用户组" />
             </a>
-            <a href="https://shang.qq.com/wpa/qunwpa?idkey=587f58cacb9557e3291b46098e0fe09427b98a1c0f866da23c04c2762bc7e2ad" className="navbar-social-link" title="Vert.x中国用户组QQ群" target="_blank" rel="noopener noreferrer">
+            <a href="https://qm.qq.com/cgi-bin/qm/qr?k=QFrKfwIVTuShDdh7puvfJWjqOx4C014c&jump_from=webapi" className="navbar-social-link" title="Vert.x中国用户组QQ群" target="_blank" rel="noopener noreferrer">
               <Tencentqq aria-label="Vert.x中国用户组QQ群" title="Vert.x中国用户组QQ群" />
             </a>
           </div>
