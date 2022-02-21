@@ -75,6 +75,7 @@ WebSocket 的握手请求会被转发到源服务器 (包含 `connection` 头部
 HttpProxy proxy = HttpProxy.reverseProxy(new ProxyOptions().setCacheOptions(new CacheOptions()), proxyClient);
 ----
 
+[[_proxy_interception]]
 === 代理拦截
 
 拦截是使用新功能扩展代理的强大方法。
