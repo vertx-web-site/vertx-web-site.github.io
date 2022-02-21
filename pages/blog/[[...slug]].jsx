@@ -42,10 +42,10 @@ async function compileAllPosts() {
   const fs = require("fs").promises
   const readdir = require("recursive-readdir")
   const readingTime = require("reading-time")
-  const mdxOptions = require("../../components/lib/mdx-options")
-  const AutoBasePath = require("../../components/lib/remark-auto-basepath")
-  const TermFrequency = require("../../components/lib/remark-term-frequency")
-  const { slash } = require("../../components/lib/path-utils")
+  const { mdxOptions } = await import("../../components/lib/mdx-options")
+  const { AutoBasePath } = await import("../../components/lib/remark-auto-basepath")
+  const { TermFrequency } = await import("../../components/lib/remark-term-frequency")
+  const { slash } = await import("../../components/lib/path-utils")
 
   const cachePath = "./.cache/blog2"
 
@@ -399,7 +399,7 @@ const BlogPage = ({ post, prevPost, nextPost, relatedPosts, category, categories
     }
 
     return (
-      <Blog meta={{ title }} categories={categories}>
+      <Blog title={title} categories={categories}>
         <div className="blog-entries">
           {entries}
         </div>
@@ -411,7 +411,7 @@ const BlogPage = ({ post, prevPost, nextPost, relatedPosts, category, categories
   let url = `${process.env.baseUrl}/blog/${post.slug}`
 
   return (
-    <BlogPost meta={{ title: `${post.meta.title} | 博客` }} categories={categories}>
+    <BlogPost title={`${post.meta.title} | 博客`} categories={categories}>
       <div className="blog-post-main">
         <div className="blog-post-content">
           <h1>{post.meta.title}</h1>

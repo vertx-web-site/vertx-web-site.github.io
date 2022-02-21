@@ -25,7 +25,7 @@ async function readDirRecursive(dir, fs, path, result = []) {
 export async function getStaticPaths() {
   const fs = require("fs").promises
   const path = require("path")
-  const { slash } = require("../../components/lib/path-utils")
+  const { slash } = await import("../../components/lib/path-utils")
 
   let paths = []
 

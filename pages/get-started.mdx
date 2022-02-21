@@ -1,18 +1,14 @@
 import Card from "../components/Card"
 import Cards from "../components/Cards"
 import { Fragment } from "react"
-import Layout from "../components/layouts/Guide"
+import Guide from "../components/layouts/Guide"
 import Link from "next/link"
 import CodeExample from "../components/CodeExample"
 import CodeExamples from "../components/CodeExamples"
 import { latestRelease } from "../docs/metadata/all"
 import styles from "./get-started.scss"
 
-export default Layout
-
-export const meta = {
-  title: "开始"
-}
+<Guide title="开始">
 
 # 开始使用 Vert.x
 
@@ -310,3 +306,5 @@ $ curl -v http://localhost:8888\?name\="Francesco"
     Vert.x How-tos：获取特定主题的实用指南
   </Card>
 </Cards>
+
+</Guide>

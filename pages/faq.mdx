@@ -1,16 +1,12 @@
-import Layout from "../components/layouts/Page"
+import Page from "../components/layouts/Page"
 import Question from "../components/faq/Question"
 import Link from "next/link"
 
-export default Layout
-
-export const meta = {
-  title: "常见问题"
-}
+<Page title="常见问题">
 
 <h2>常见问题</h2>
 
-<Question question={<React.Fragment>已启用 <code>logActivity</code> 配置，但仍未有日志输出</React.Fragment>}>
+<Question question={<>已启用 <code>logActivity</code> 配置，但仍未有日志输出</>}>
 
 大部分 Vert.x 的网络客户端支持 `logActivity` 配置，用于激活网络活动的日志。
 如果启用了该配置，Netty 的 pipeline 将以 `DEBUG` 级别输出日志到 Netty 的日志框架。
@@ -63,3 +59,5 @@ Vert.x 已经有这些消息队列解决方案的客户端： [Vert.x AMQP Clien
 ```
 
 </Question>
+
+</Page>

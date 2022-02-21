@@ -79,7 +79,7 @@ jobs:
       # Build website
       - run: npm run build
         env:
-          GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_ACCESS_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
       - run: |
           du -sh *
           df -h / /mnt
