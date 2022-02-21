@@ -1,13 +1,9 @@
-const mdxOptions = require("./components/lib/mdx-options")
-const svgToMiniDataURI = require("mini-svg-data-uri")
-
-const withPlugins = require("next-compose-plugins")
+import { mdxOptions } from "./components/lib/mdx-options.js"
+import ESLintPlugin from "eslint-webpack-plugin"
+import styledJsx from "styled-jsx/webpack.js"
+import svgToMiniDataURI from "mini-svg-data-uri"
 
 const isProd = process.env.NODE_ENV === "production"
-
-const mdx = require("@next/mdx")({
-  options: mdxOptions
-})
 
 // configure base path based on environment variable `VERTX_WEBSITE_BASEPATH`
 const basePath = (() => {
@@ -74,7 +70,7 @@ const config = {
       use: [
         defaultLoaders.babel,
         {
-          loader: require("styled-jsx/webpack").loader,
+          loader: styledJsx.loader,
           options: {
             type: (fileName, options) => options.query.type || "scoped"
           }
@@ -101,22 +97,25 @@ const config = {
       }
     })
 
-    if (dev) {
-      config.module.rules.push({
-        test: /\.jsx?$/,
-        loader: "eslint-loader",
-        exclude: [/node_modules/, /\.next/, /out/],
-        enforce: "pre",
-        options: {
-          emitWarning: true
+    config.module.rules.push({
+      test: /\.mdx?$/,
+      use: [
+        defaultLoaders.babel,
+        {
+          loader: "@mdx-js/loader",
+          options: mdxOptions
         }
-      })
+      ]
+    })
+
+    if (dev) {
+      config.plugins.push(new ESLintPlugin({
+        extensions: ["js", "jsx"]
+      }))
     }
 
     return config
   }
 }
 
-module.exports = withPlugins([
-  [mdx]
-], config)
+export default config

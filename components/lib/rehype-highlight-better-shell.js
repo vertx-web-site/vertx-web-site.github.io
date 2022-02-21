@@ -1,6 +1,6 @@
 // similar to the "shell" language but only highlights lines that start
 // with a $ character
-module.exports = function () {
+function betterShell() {
   return {
     aliases: ["console"],
     contains: [
@@ -14,3 +14,5 @@ module.exports = function () {
     ]
   }
 }
+
+export default betterShell
