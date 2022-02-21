@@ -32,19 +32,23 @@ export class AutoBasePath {
           // remove URL from original link. <Link> will replace it with the correct value.
           node.url = ""
 
-          // wrap <Link> around the original link
-          let nodes = [{
-            type: "jsx",
-            value: `<Link href="${url}" passHref={true}>`
-          }, node, {
-            type: "jsx",
-            value: "</Link>"
-          }]
+          // replace original link in parent with new node
+          parent.children[index] = {
+            type: "mdxJsxFlowElement",
+            name: "Link",
+            attributes: [{
+              type: "mdxJsxAttribute",
+              name: "href",
+              value: url
+            }, {
+              type: "mdxJsxAttribute",
+              name: "passHref",
+              value: null
+            }],
+            children: [node]
+          }
 
-          // replace original link in parent by new nodes
-          parent.children.splice(index, 1, ...nodes)
-
-          return [visit.SKIP, index + nodes.length]
+          return [visit.SKIP, index + 1]
         }
       })
 
