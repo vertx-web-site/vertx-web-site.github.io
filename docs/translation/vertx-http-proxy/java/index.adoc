@@ -114,6 +114,7 @@ proxy.addInterceptor(new ProxyInterceptor() {
 });
 ----
 
+[[_body_filtering]]
 ==== Body 过滤
 
 你可以简单地用一个新的Body替换原来的 `link:../../apidocs/io/vertx/httpproxy/Body.html[Body]` 来过滤body
