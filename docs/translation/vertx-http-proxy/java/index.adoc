@@ -138,6 +138,7 @@ proxy.addInterceptor(new ProxyInterceptor() {
 });
 ----
 
+[[_interception_control]]
 ==== 拦截控制
 
 `link:../../apidocs/io/vertx/httpproxy/ProxyContext.html#sendRequest--[sendRequest]` 和 `link:../../apidocs/io/vertx/httpproxy/ProxyContext.html#sendResponse--[sendResponse]` 继续当前拦截链，然后将结果发到（origin server）源服务器或者（user-agent）用户代理。
