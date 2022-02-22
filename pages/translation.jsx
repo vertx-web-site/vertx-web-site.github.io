@@ -114,7 +114,7 @@ export async function getStaticProps() {
   const CACHE_PATH = "./.cache/community"
 
   const { Octokit } = require("@octokit/rest")
-  const { CachedFetch } = require("../components/lib/cached-fetch")
+  const { CachedFetch } = await import("../components/lib/cached-fetch")
 
   const fetch = CachedFetch({
     cacheTimeoutSeconds: CACHE_TIMEOUT_SECONDS,
