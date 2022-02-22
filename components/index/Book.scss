@@ -9,6 +9,7 @@
 
   5% {
     opacity: 1;
+    z-index: 100;
   }
 
   50% {
@@ -17,7 +18,17 @@
 
   100% {
     opacity: 0;
-    z-index: 1;
+    z-index: -100;
+  }
+}
+
+@keyframes progress-bar {
+  0% {
+    width: 0%;
+  }
+
+  100% {
+    width: 100%;
   }
 }
 
@@ -80,7 +91,6 @@
 }
 
 .book-right {
-  position: relative;
   margin-left: $spacer * 1.5;
   display: flex;
   flex-direction: column;
@@ -92,6 +102,10 @@
   }
 }
 
+.quote-container {
+  position: relative;
+}
+
 .quote {
   background-color: $gray-100;
   padding: $spacer $spacer * 2;
@@ -101,6 +115,7 @@
   border-left: 9px solid $gray-300;
   animation: book-fade-in-fade-out 15s infinite;
   opacity: 0;
+  z-index: -100;
 
   &:not(:first-child) {
     position: absolute;
@@ -110,7 +125,7 @@
   &:nth-child(2) {
     animation-delay: 5s;
   }
-
+  
   &:nth-child(3) {
     animation-delay: 10s;
   }
@@ -135,4 +150,25 @@
   //   letter-spacing: -5px;
   //   margin-right: 15px;
   // }
+}
+
+.progress {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  height: $border-radius;
+  z-index: 100;
+  border-bottom-right-radius: $border-radius;
+  overflow: hidden;
+  opacity: 0.5;
+
+  .bar {
+    width: 0%;
+    height: 5px;
+    position: absolute;
+    bottom: 0;
+    background-color: $gray-500;
+    animation: 5s linear infinite progress-bar ;
+  }
 }

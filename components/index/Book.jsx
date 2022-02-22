@@ -20,33 +20,38 @@ const Book = () => (
             </a>
           </div>
           <div className="book-right">
-            <div className="quote">
-              <div className="quote-content">
-                &ldquo;Fantastic introduction into Vert.x written for developers
-                looking to develop services more efficiently in terms of time
-                and resources.&rdquo;
+            <div className="quote-container">
+              <div className="quote">
+                <div className="quote-content">
+                  &ldquo;Fantastic introduction into Vert.x written for developers
+                  looking to develop services more efficiently in terms of time
+                  and resources.&rdquo;
+                </div>
+                <div className="quote-name">
+                  <span className="dash">——</span> Andrew Buttery
+                </div>
               </div>
-              <div className="quote-name">
-                <span className="dash">——</span> Andrew Buttery
+              <div className="quote">
+                <div className="quote-content">
+                  &ldquo;A great book to add to your personal library of books
+                  that discuss the major architectural challenges of writing
+                  messaging frameworks.&rdquo;
+                </div>
+                <div className="quote-name">
+                  <span className="dash">——</span> Earl B. Bingham
+                </div>
               </div>
-            </div>
-            <div className="quote">
-              <div className="quote-content">
-                &ldquo;A great book to add to your personal library of books
-                that discuss the major architectural challenges of writing
-                messaging frameworks.&rdquo;
+              <div className="quote">
+                <div className="quote-content">
+                  &ldquo;Provides not only an excellent introduction to Vert.x,
+                  but reactive programming with Java in general.&rdquo;
+                </div>
+                <div className="quote-name">
+                  <span className="dash">——</span> Damian Esteban
+                </div>
               </div>
-              <div className="quote-name">
-                <span className="dash">——</span> Earl B. Bingham
-              </div>
-            </div>
-            <div className="quote">
-              <div className="quote-content">
-                &ldquo;Provides not only an excellent introduction to Vert.x,
-                but reactive programming with Java in general.&rdquo;
-              </div>
-              <div className="quote-name">
-                <span className="dash">——</span> Damian Esteban
+              <div className="progress">
+                <div className="bar"></div>
               </div>
             </div>
             <a href={URL} target="_blank" rel="noopener noreferrer">
