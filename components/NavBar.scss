@@ -144,14 +144,15 @@
       .qq-guild-parent {
         position: relative;
 
-        $qqGuildWidth: 394.8px;
-        $qqGuildHeight: 519.6px;
+        $qq-guild-width: 394.8px;
+        $qq-guild-height: 519.6px;
+
         .qq-guild {
           position: absolute;
           right: 0;
           top: 20px;
-          width: $qqGuildWidth;
-          height: $qqGuildHeight;
+          width: $qq-guild-width;
+          height: $qq-guild-height;
           box-shadow: 1px 1px 3px 0 #868686;
           border-radius: 10px;
 
@@ -160,13 +161,12 @@
           }
 
           img {
-            width: $qqGuildWidth;
-            height: $qqGuildHeight;
+            width: $qq-guild-width;
+            height: $qq-guild-height;
             border-radius: 15px;
           }
         }
       }
-
     }
   }
 
