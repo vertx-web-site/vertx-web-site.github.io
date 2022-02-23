@@ -1779,7 +1779,7 @@ public class HelloCommandFactory extends DefaultCommandFactory<HelloCommand> {
 io.vertx.core.launcher.example.HelloCommandFactory
 ----
 
-构建包含命令的jar。确保包含了SPI文件
+构建包含命令的 jar 。确保包含了 SPI 文件
 (`META-INF/services/io.vertx.core.spi.launcher.CommandFactory`)。
 
 然后，将包含该命令的jar放入fat-jar（或包含在其中）的类路径中，或放在Vert.x发行版的 `lib`
@@ -1862,4 +1862,3 @@ IMPORTANT: 该目录必须是 **可写的** 。
 最后，您可以使用 `-Dvertx.disableFileCPResolving=true` 完全禁用缓存。
 这个设置的副作用是：Vert.x将无法从类路径中读取任何文件（仅从文件系统中读取）。
 使用此设置时要非常小心。
-
