@@ -6,17 +6,17 @@
 
 *特性*
 
-* Event driven
-* Built-in connection pooling
-* Java 8 Date and Time
+* 事件驱动
+* 内置连接池
+* Java 8 Date 和 Time
 
-*Not supported yet*
+*暂不支持*
 
 * RxJava API
-* Prepared queries caching
-* Cursor
-* Row streaming
-* Stored Procedures
+* 预查询缓存
+* 指针
+* 行串流
+* 存储过程
 
 WARNING: 该模块处于 tech preview 阶段
 
@@ -298,9 +298,10 @@ include::transactions.adoc[]
 
 include::cursor.adoc[]
 
-== Data types supported
+[[_data_types_supported]]
+== 支持的数据类型
 
-Currently, the client supports the following Oracle data types:
+目前，客户端支持以下Oracle数据类型：
 
 * CHAR/VARCHAR2(`java.lang.String`)
 * NCHAR/NVARCHAR2(`java.lang.String`)
@@ -309,7 +310,7 @@ Currently, the client supports the following Oracle data types:
 * DATE(`java.time.LocalDate`)
 * TIMESTAMP(`java.time.LocalDateTime`)
 
-Tuple decoding uses the above types when storing values.
+Tuple（元组）解码在存储值时使用上述类型。
 
 [[_tracing_queries]]
 == 跟踪查询

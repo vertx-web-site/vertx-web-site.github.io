@@ -374,7 +374,7 @@ NetServerOptions options = new NetServerOptions().setLogActivity(true);
 NetServer server = vertx.createNetServer(options);
 ----
 
-Here is the output of a simple HTTP server
+这是一个简单的 HTTP 服务器的输出
 
 [literal]
 ----
@@ -401,9 +401,9 @@ id: 0x359e3df6, L:/127.0.0.1:8080 - R:/127.0.0.1:65351] READ: 78B
 [id: 0x359e3df6, L:/127.0.0.1:8080 - R:/127.0.0.1:65351] FLUSH
 ----
 
-By default, binary data is logged in hex format.
+默认情况下，二进制的数据是以十六进制的格式进行记录。
 
-You can reduce the data format verbosity to only print the buffer length instead of the entire data
+您可以减少数据格式的详细程度，只打印buffer（缓冲区）的长度而不是整个数据
 
 [source,java]
 ----
@@ -412,7 +412,7 @@ NetServerOptions options = new NetServerOptions().setLogActivity(true);
 NetServer server = vertx.createNetServer(options);
 ----
 
-Here is the same output with simple buffer format
+以下是使用简单buffer（缓冲区）格式的相同输出
 
 [literal]
 ----
@@ -425,7 +425,7 @@ Here is the same output with simple buffer format
 [id: 0xda8d41dc, L:/127.0.0.1:8080 ! R:/127.0.0.1:65399] UNREGISTERED
 ----
 
-Clients can also log network activity
+客户端还可以记录网络活动
 
 [source,java]
 ----
