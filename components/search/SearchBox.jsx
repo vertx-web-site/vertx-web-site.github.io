@@ -6,7 +6,7 @@ import debounce from "lodash/debounce"
 
 const SearchBox = ({ onChange, onSubmit, onNext, onPrev }) => {
   const [content, setContent] = useState("")
-  const debounceOnChange = useRef(onChange ? debounce(onChange, 300) : undefined)
+  const debounceOnChange = useRef(onChange ? debounce(onChange, 10) : undefined)
   const inputRef = useRef()
 
   const doSetContent = (value) => {
