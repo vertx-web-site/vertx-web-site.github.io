@@ -168,6 +168,7 @@ const SearchPanel = forwardRef(({ contentRef, onHasResults }, ref) => {
   const index = useRef()
   const [searchResults, setSearchResults] = useState()
   const [activeResultId, setActiveResultId] = useState()
+  const [autoSuggest, setAutoSuggest] = useState()
 
   // Iterate through all sections on the current page and extract the contents.
   // Save the contents in the `metadata' ref.
@@ -269,11 +270,39 @@ const SearchPanel = forwardRef(({ contentRef, onHasResults }, ref) => {
   const onSearch = (value) => {
     if (!value) {
       doSetSearchResults(undefined)
+      setAutoSuggest(undefined)
       return
     }
 
     // make sure the index is ready
     ensureIndex()
+
+    // calculate auto-suggest
+    let auto
+    try {
+      auto = index.current.autoSuggest(value)
+    } catch (e) {
+      auto = undefined
+    }
+    if (auto && auto.length > 0) {
+      auto = auto.filter(a => a.terms.join(" ").startsWith(value))
+      if (auto.length > 0) {
+        let s = ""
+        let i = 0
+        while (i < auto[0].terms.length && s.length < value.length) {
+          if (i > 0) {
+            s += " "
+          }
+          s += auto[0].terms[i]
+          ++i
+        }
+        setAutoSuggest(s)
+      } else {
+        setAutoSuggest(undefined)
+      }
+    } else {
+      setAutoSuggest(undefined)
+    }
 
     // query the index
     let matches
@@ -380,7 +409,8 @@ const SearchPanel = forwardRef(({ contentRef, onHasResults }, ref) => {
     <>
       <div className="search-panel">
         <SearchBox onChange={onSearch} onSubmit={onSubmit}
-          onNext={onNextSearchResult} onPrev={onPrevSearchResult} />
+          onNext={onNextSearchResult} onPrev={onPrevSearchResult}
+          autoSuggest={autoSuggest} />
         <SearchResults results={searchResults} activeId={activeResultId}
           onHover={onResultHover} onClick={(id) => pushRouter(id)} ref={ref} />
       </div>

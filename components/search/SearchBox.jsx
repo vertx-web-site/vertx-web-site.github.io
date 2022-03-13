@@ -4,10 +4,11 @@ import { Search, XCircle } from "react-feather"
 import styles from "./SearchBox.scss?type=global"
 import debounce from "lodash/debounce"
 
-const SearchBox = ({ onChange, onSubmit, onNext, onPrev }) => {
+const SearchBox = ({ onChange, onSubmit, onNext, onPrev, autoSuggest }) => {
   const [content, setContent] = useState("")
   const debounceOnChange = useRef(onChange ? debounce(onChange, 10) : undefined)
   const inputRef = useRef()
+  const [focus, setFocus] = useState()
 
   const doSetContent = (value) => {
     setContent(value)
@@ -50,8 +51,10 @@ const SearchBox = ({ onChange, onSubmit, onNext, onPrev }) => {
 
   return (
     <div className={classNames("search", { "has-content": content !== "" })}>
+      <input type="text" placeholder={focus && autoSuggest} className="autosuggest" disabled />
       <input type="text" placeholder="Search..." value={content}
-          onChange={internalOnChange} onKeyDown={onKeyDown} ref={inputRef} />
+          onChange={internalOnChange} onKeyDown={onKeyDown} onFocus={() => setFocus(true)}
+          onBlur={() => setFocus(false)} ref={inputRef} />
       <Search className="search-icon" />
       <XCircle className="search-icon-delete" onClick={() => onDelete()} />
       <style jsx>{styles}</style>
