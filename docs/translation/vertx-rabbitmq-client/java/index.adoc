@@ -16,7 +16,7 @@
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-rabbitmq-client</artifactId>
- <version>4.2.5</version>
+ <version>4.2.6</version>
 </dependency>
 ----
 
@@ -27,7 +27,7 @@
 [source,groovy,subs="+attributes"]
 ----
 dependencies {
- compile 'io.vertx:vertx-rabbitmq-client:4.2.5'
+ compile 'io.vertx:vertx-rabbitmq-client:4.2.6'
 }
 ----
 

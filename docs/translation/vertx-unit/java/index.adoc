@@ -21,7 +21,7 @@ Vert.x Unit 借鉴了已有的测试框架，例如 http://junit.org[JUnit] or h
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-unit</artifactId>
- <version>4.2.5</version>
+ <version>4.2.6</version>
  <scope>test</scope>
 </dependency>
 ----
@@ -30,7 +30,7 @@ Vert.x Unit 借鉴了已有的测试框架，例如 http://junit.org[JUnit] or h
 
 [source,groovy,subs="+attributes"]
 ----
-testCompile ${io.vertx}:${vertx-unit}:4.2.5
+testCompile ${io.vertx}:${vertx-unit}:4.2.6
 ----
 
 Vert.x Unit 能够以各种方式使用并可以在您代码中任何位置运行，它仅以正确的方式报告执行结果。

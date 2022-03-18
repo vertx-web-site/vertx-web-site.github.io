@@ -24,7 +24,7 @@ Vert.x 提供了一个相当易用的API接口 `link:../../apidocs/io/vertx/core
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-dropwizard-metrics</artifactId>
- <version>4.2.5</version>
+ <version>4.2.6</version>
 </dependency>
 ----
 
@@ -32,7 +32,7 @@ Vert.x 提供了一个相当易用的API接口 `link:../../apidocs/io/vertx/core
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-dropwizard-metrics:4.2.5'
+compile 'io.vertx:vertx-dropwizard-metrics:4.2.6'
 ----
 
 创建 Vertx 实例时通过 `link:../../apidocs/io/vertx/ext/dropwizard/DropwizardMetricsOptions.html[DropwizardMetricsOptions]` 启用指标监控：

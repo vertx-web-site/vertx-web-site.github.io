@@ -75,7 +75,7 @@ Vert.x Web 的大部分特性是使用Handler实现的， 而且您随时可以�
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-web</artifactId>
- <version>4.2.5</version>
+ <version>4.2.6</version>
 </dependency>
 ----
 
@@ -84,7 +84,7 @@ Vert.x Web 的大部分特性是使用Handler实现的， 而且您随时可以�
 [source,groovy,subs="+attributes"]
 ----
 dependencies {
- compile 'io.vertx:vertx-web:4.2.5'
+ compile 'io.vertx:vertx-web:4.2.6'
 }
 ----
 
@@ -2028,7 +2028,7 @@ router
 === JWT 认证
 
 使用JWT身份认证可以通过权限保护资源，并且拒绝没有足够权限的用户访问。
-您需要添加 `io.vertx：vertx-auth-jwt：4.2.5` 依赖项才能使用 `JWTAuthProvider`。
+您需要添加 `io.vertx：vertx-auth-jwt：4.2.6` 依赖项才能使用 `JWTAuthProvider`。
 
 使用这个处理器需要包含两步
 
@@ -2541,7 +2541,7 @@ router.getWithRegex(".+\\.hbs").handler(handler);
 === MVEL 模版引擎
 
 您需要在项目中添加以下 _依赖_ 以使用 MVEL 模板引擎：
-`io.vertx:vertx-web-templ-mvel:4.2.5`。 并通过此方法以创建 MVEL 模板引擎实例：
+`io.vertx:vertx-web-templ-mvel:4.2.6`。 并通过此方法以创建 MVEL 模板引擎实例：
 `io.vertx.ext.web.templ.mvel.MVELTemplateEngine#create(io.vertx.core.Vertx)`。
 
 在使用 MVEL 模板引擎时，如果不指定模板文件的扩展名，
@@ -2568,7 +2568,7 @@ The value 'bar' from the context data is @{context.get('bar')}
 === Jade 模版引擎（译者注：Jade 已更名为 Pug)
 
 您需要在项目中添加以下 _依赖_ 以使用 Jade 模板引擎：
-`io.vertx:vertx-web-templ-jade:4.2.5`。 并通过此方法以创建 Jade 模板引擎实例：
+`io.vertx:vertx-web-templ-jade:4.2.6`。 并通过此方法以创建 Jade 模板引擎实例：
 `io.vertx.ext.web.templ.jade.JadeTemplateEngine#create(io.vertx.core.Vertx)`。
 
 在使用 Jade 模板引擎时，如果不指定模板文件的扩展名，
@@ -2595,7 +2595,7 @@ html
 === Handlebars 模板引擎
 
 您需要在项目中添加以下 _依赖_ 以使用 Handlebars 模板引擎：
-`io.vertx:vertx-web-templ-handlebars:4.2.5`。 并通过此方法以创建 Handlebars 模板引擎实例：
+`io.vertx:vertx-web-templ-handlebars:4.2.6`。 并通过此方法以创建 Handlebars 模板引擎实例：
 `io.vertx.ext.web.templ.handlebars.HandlebarsTemplateEngine#create(io.vertx.core.Vertx)`。
 
 在使用 Handlebars 模板引擎时，如果不指定模板文件的扩展名，
@@ -2631,7 +2631,7 @@ router.get("/dynamic/").handler(handler);
 === Thymeleaf 模板引擎
 
 您需要在项目中添加以下 _依赖_ 以使用 Thymeleaf 模板引擎：
-`io.vertx:vertx-web-templ-thymeleaf:4.2.5`。 并通过此方法以创建 Thymeleaf 模板引擎实例：
+`io.vertx:vertx-web-templ-thymeleaf:4.2.6`。 并通过此方法以创建 Thymeleaf 模板引擎实例：
 `io.vertx.ext.web.templ.thymeleaf.ThymeleafTemplateEngine#create(io.vertx.core.Vertx)`。
 
 在使用 Thymeleaf 模板引擎时，如果不指定模板文件的扩展名，
@@ -2660,7 +2660,7 @@ router.get("/dynamic/").handler(handler);
 === Apache FreeMarker 模版引擎
 
 您需要在项目中添加以下 _依赖_ 以使用 Apache FreeMarker ：
-`io.vertx:vertx-web-templ-freemarker:4.2.5`。 并通过此方法以创建 Apache FreeMarker 模板引擎实例：
+`io.vertx:vertx-web-templ-freemarker:4.2.6`。 并通过此方法以创建 Apache FreeMarker 模板引擎实例：
 `io.vertx.ext.web.templ.Engine#create()`。
 
 在使用 Apache FreeMarker 模板引擎时，如果不指定模板文件的扩展名，
@@ -2689,7 +2689,7 @@ router.get("/dynamic/").handler(handler);
 === Pebble 模版引擎
 
 您需要在项目中添加以下 _依赖_ 以使用 Pebble ：
-`io.vertx:vertx-web-templ-pebble:4.2.5`。 并通过此方法以创建 Pebble 模板引擎实例：
+`io.vertx:vertx-web-templ-pebble:4.2.6`。 并通过此方法以创建 Pebble 模板引擎实例：
 `io.vertx.ext.web.templ.pebble.PebbleTemplateEngine#create(vertx)`。
 
 在使用 Pebble 模板引擎时，如果不指定模板文件的扩展名，
@@ -2717,7 +2717,7 @@ router.get("/dynamic/").handler(handler);
 [[_rocker_template_engine]]
 === Rocker 模版引擎
 
-您需要在项目中添加以下 _依赖_ 以使用 Rocker：`io.vertx:vertx-web-templ-rocker:4.2.5`。
+您需要在项目中添加以下 _依赖_ 以使用 Rocker：`io.vertx:vertx-web-templ-rocker:4.2.6`。
 并通过此方法以创建 Rocker 模板引擎实例：`io.vertx.ext.web.templ.rocker#create()`。
 
 Rocker会将JSON上下文对象的值传递给 `render` 方法作为模版的参数。
@@ -2749,7 +2749,7 @@ Request path is @context.getString("path")
 === HTTL 模版引擎
 
 您需要在项目中添加以下 _依赖_ 以使用 HTTL ：
-`io.vertx:vertx-web-templ-httl:4.2.5`。 并通过此方法以创建 HTTL 模板引擎实例：
+`io.vertx:vertx-web-templ-httl:4.2.6`。 并通过此方法以创建 HTTL 模板引擎实例：
 `io.vertx.ext.web.templ.httl.HTTLTemplateEngine#create(io.vertx.core.Vertx)`。
 
 在使用 HTTL 模板引擎时，如果不指定模板文件的扩展名，
@@ -2786,7 +2786,7 @@ Hello ${foo} and ${bar}
 === Rythm 模版引擎
 
 您需要在项目中添加以下 _依赖_ 以使用 Rythm ：
-`io.vertx:vertx-web-templ-rythm:4.2.5`。 并通过此方法以创建 Rythm 模板引擎实例：
+`io.vertx:vertx-web-templ-rythm:4.2.6`。 并通过此方法以创建 Rythm 模板引擎实例：
 `io.vertx.ext.web.templ.rythm.RythmTemplateEngine#create(io.vertx.core.Vertx)`。
 
 在使用 Rythm 模板引擎时，如果不指定模板文件的扩展名，

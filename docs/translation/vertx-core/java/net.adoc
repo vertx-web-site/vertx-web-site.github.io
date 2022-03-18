@@ -403,11 +403,13 @@ id: 0x359e3df6, L:/127.0.0.1:8080 - R:/127.0.0.1:65351] READ: 78B
 
 默认情况下，二进制的数据是以十六进制的格式进行记录。
 
-您可以减少数据格式的详细程度，只打印buffer（缓冲区）的长度而不是整个数据
+您可以通过设置日志数据格式来减少数据格式的详细程度，只打印buffer（缓冲区）的长度而不是整个数据
 
 [source,java]
 ----
-NetServerOptions options = new NetServerOptions().setLogActivity(true);
+NetServerOptions options = new NetServerOptions()
+  .setLogActivity(true)
+  .setActivityLogDataFormat(ByteBufFormat.SIMPLE);
 
 NetServer server = vertx.createNetServer(options);
 ----

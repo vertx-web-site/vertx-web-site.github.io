@@ -2472,7 +2472,7 @@ server.webSocketHandler(webSocket -> {
     if (ar.succeeded()) {
       // 用101状态码（协议切换）结束握手
       // 或用401状态码（未鉴权）拒绝握手
-      promise.complete(ar.succeeded() ? 101 : 401);
+      promise.complete(ar.result() ? 101 : 401);
     } else {
       // 发送500错误状态码
       promise.fail(ar.cause());

@@ -1,6 +1,14 @@
 = Vert.x RxJava
 :toc: left
 
+[WARNING]
+====
+RxJava1 is end-of-life as of March 31, 2018.
+Bindings for new Vert.x modules will not be generated.
+Consider migrating to https://vertx.io/docs/vertx-rx/java3/[Vert.x RxJava3].
+====
+
+
 [[_vert_x_api_for_rxjava]]
 == 用于 RxJava 的 Vert.x API
 
@@ -20,7 +28,7 @@ Vert.x 与 RxJava 集成起来很自然：
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-rx-java</artifactId>
- <version>4.2.5</version>
+ <version>4.2.6</version>
 </dependency>
 ----
 
@@ -28,7 +36,7 @@ Vert.x 与 RxJava 集成起来很自然：
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-rx-java:4.2.5'
+compile 'io.vertx:vertx-rx-java:4.2.6'
 ----
 
 要使用 Vert.x 的 RxJava API，有两种方式：

@@ -72,6 +72,7 @@ class BTest {
   }
 }
 ----
+
 <1> `link:../../apidocs/io/vertx/junit5/VertxTestContext.html#succeedingThenComplete--[succeedingThenComplete]` 返回一个异步结果处理器，该处理器期望成功结果并使 test context 通过。
 <2> `link:../../apidocs/io/vertx/junit5/VertxTestContext.html#awaitCompletion-long-java.util.concurrent.TimeUnit-[awaitCompletion]` 具有 `java.util.concurrent.CountDownLatch` 的语义，并且，如果测试通过之前超时了，会返回 `false` 值。
 <3> 如果 context 捕获到了一个错误（潜在的异步错误），那么在测试完成之后，我们必须抛出该异常并让测试用例失败。
@@ -171,7 +172,8 @@ class SomeTest {
 }
 ----
 
-NOTE: `Vertx` 实例默认配置下并非集群模式。如果您需要做一些其他事情，那么请不要使用注入的 `Vertx` 参数，需要您自己提供 `Vertx` 对象。
+NOTE: `Vertx` 实例默认配置下并非集群模式。
+如果您需要做一些其他事情，那么请不要使用注入的 `Vertx` 参数，需要您自己提供 `Vertx` 对象。
 
 测试用例会被自动的包装到 `link:../../apidocs/io/vertx/junit5/VertxTestContext.html[VertxTestContext]` 生命周期，所以您无需自行注入 `link:../../apidocs/io/vertx/junit5/VertxTestContext.html#awaitCompletion-long-java.util.concurrent.TimeUnit-[awaitCompletion]` ：
 
@@ -302,8 +304,10 @@ class LifecycleExampleTest {
 [[_configuring_vertx_instances]]
 ==== 配置 `Vertx` 实例
 
-默认情况下，`Vertx` 对象使用 `Vertx.vertx()` 创建，并使用 `Vertx` 的默认设置。但是，您可以配置 `VertxOptions` 以满足您的需要。
-一个典型的应用场景是“扩展调试时阻塞超时警告”。为配置 `Vertx` 对象，您必须：
+默认情况下，`Vertx` 对象使用 `Vertx.vertx()` 创建，并使用 `Vertx` 的默认设置。
+但是，您可以配置 `VertxOptions` 以满足您的需要。
+一个典型的应用场景是“扩展调试时阻塞超时警告”。
+为配置 `Vertx` 对象，您必须：
 
 1. 创建一个带有 https://vertx.io/docs/apidocs/io/vertx/core/VertxOptions.html#VertxOptions-io.vertx.core.json.JsonObject-[json 格式] 的 `VertxOptions` 的 json 文件
 2. 创建一个环境变量 `vertx.parameter.filename` 指向该文件
@@ -336,7 +340,8 @@ JUnit 5 允许同一个生命周期事件之下存在多个方法。
 例如，同一个测试可以定义3个 `@BeforeEach` 方法。
 因为是异步操作，这些方法更可能是并行执行而不是串行执行，这有可能引起不确定的结果状态。
 
-这是JUnit 5本身就存在的问题，而不属于 Vert.x JUnit5 模块范畴。如有疑问，也许您一直想知道的是，为什么单个方法不比多个方法更好。
+这是JUnit 5本身就存在的问题，而不属于 Vert.x JUnit5 模块范畴。
+如有疑问，也许您一直想知道的是，为什么单个方法不比多个方法更好。
 
 [[_support_for_additional_parameter_types]]
 == 对于其他额外参数类型的支持
@@ -373,8 +378,7 @@ Vert.x Unit 5 模块是可扩展的：
 [[_parameterized_tests_with_methodsource]]
 == 用 `@MethodSource` 做参数化测试
 
-您可以结合vertx-junit5，用 `@MethodSource` 做参数化测试。
-因此，您需要在方法定义的vertx测试参数之前声明 method source 参数。
+您可以结合vertx-junit5，用 `@MethodSource` 做参数化测试。因此，您需要在方法定义的vertx测试参数之前声明 method source 参数。
 
 [source,java]
 ----
@@ -390,7 +394,7 @@ static class SomeTest {
 
   @ParameterizedTest
   @MethodSource("testData")
-   void test2(String obj, int count, Vertx vertx, VertxTestContext testContext) {
+  void test2(String obj, int count, Vertx vertx, VertxTestContext testContext) {
     // your test code
     testContext.completeNow();
   }
@@ -398,7 +402,8 @@ static class SomeTest {
 ----
 
 这同样适用于其它 `ArgumentSources` 。
-详见 https://junit.org/junit5/docs/current/api/org.junit.jupiter.params/org/junit/jupiter/params/ParameterizedTest.html[ParameterizedTest] 文档的 `Formal Parameter List` 一节。
+详见 https://junit.org/junit5/docs/current/api/org.junit.jupiter.params/org/junit/jupiter/params/ParameterizedTest.html[ParameterizedTest]
+文档的 `Formal Parameter List` 一节。
 
 [[_running_tests_on_a_vert_x_context]]
 == 在 Vert.x 的 context 中执行测试
@@ -415,6 +420,7 @@ CAUTION: 您需要注意在使用该扩展时不要阻塞事件循环。
 
 [source,java]
 ----
+@ExtendWith(VertxExtension.class)
 class RunTestOnContextExampleTest {
 
   @RegisterExtension

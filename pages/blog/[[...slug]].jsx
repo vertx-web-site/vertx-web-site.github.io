@@ -10,10 +10,11 @@ import Gist from "super-react-gist"
 import Link from "next/link"
 import Label from "../../components/Label"
 import ScrollLink from "../../components/ScrollLink"
+import { compile, run } from "@mdx-js/mdx"
 import capitalize from "lodash/capitalize"
-import { serialize } from "next-mdx-remote/serialize"
-import { MDXRemote } from "next-mdx-remote"
 import matter from "gray-matter"
+import * as runtime from "react/jsx-runtime.js"
+import { useEffect, useState } from "react"
 
 import { Clock } from "react-feather"
 import { Facebook, Linkedin, Twitter } from "@icons-pack/react-simple-icons"
@@ -47,7 +48,7 @@ async function compileAllPosts() {
   const { TermFrequency } = await import("../../components/lib/remark-term-frequency")
   const { slash } = await import("../../components/lib/path-utils")
 
-  const cachePath = "./.cache/blog2"
+  const cachePath = "./.cache/blog3"
 
   let files = (await readdir("blog")).filter(f => {
     let e = slash(f).match(/.\/([0-9]+-[0-9]+-[0-9]+)-(.*)\.mdx/)
@@ -93,16 +94,21 @@ async function compileAllPosts() {
       // render post
       let autoBasePath = new AutoBasePath(process.env.basePath)
       let tf = new TermFrequency()
-      post.content = await serialize(content, {
-        mdxOptions: {
+      try {
+        post.content = String(await compile(content, {
           ...mdxOptions,
+          outputFormat: "function-body",
+          jsx: false, // jsx cannot be eval'd
           remarkPlugins: [
             tf.apply(),
             autoBasePath.apply(),
             ...mdxOptions.remarkPlugins
           ]
-        }
-      })
+        }))
+      } catch (e) {
+        console.error(`Failed to compile "${f}"`)
+        throw e
+      }
       post.tfIdfTerms = tf.result
 
       await cacache.put(cachePath, cacheKey, JSON.stringify(post))
@@ -387,6 +393,16 @@ export async function getStaticProps({ params }) {
 
 const BlogPage = ({ post, prevPost, nextPost, relatedPosts, category, categories,
     page, posts, numPages }) => {
+  const [mdxModule, setMdxModule] = useState()
+
+  useEffect(() => {
+    (async () => {
+      if (post?.content !== undefined) {
+        setMdxModule(await run(post.content, runtime))
+      }
+    })()
+  }, [post?.content])
+
   if (post === undefined) {
     let entries = posts.map(p => <BlogEntry key={p.slug} post={p} />)
 
@@ -415,7 +431,7 @@ const BlogPage = ({ post, prevPost, nextPost, relatedPosts, category, categories
       <div className="blog-post-main">
         <div className="blog-post-content">
           <h1>{post.meta.title}</h1>
-          <MDXRemote {...post.content} components={COMPONENTS} />
+          {mdxModule?.default && <mdxModule.default components={COMPONENTS} /> || <></>}
         </div>
 
         <div className="blog-post-sidebar">

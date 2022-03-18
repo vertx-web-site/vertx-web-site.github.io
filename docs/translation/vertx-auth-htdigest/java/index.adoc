@@ -14,7 +14,7 @@ Vert.x提供了 `link:../../apidocs/io/vertx/ext/auth/authentication/Authenticat
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-auth-htdigest</artifactId>
- <version>4.2.5</version>
+ <version>4.2.6</version>
 </dependency>
 ----
 
@@ -22,7 +22,7 @@ Vert.x提供了 `link:../../apidocs/io/vertx/ext/auth/authentication/Authenticat
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-auth-htdigest:4.2.5'
+compile 'io.vertx:vertx-auth-htdigest:4.2.6'
 ----
 
 要创建一个实例，您首先需要一份.htdigest文件。该文件可使用apache htdigest工具生成。

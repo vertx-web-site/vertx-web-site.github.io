@@ -21,13 +21,13 @@ Vert.x Web API 服务通过事件总线帮助您处理HTTP请求
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-codegen</artifactId>
- <version>4.2.5</version>
+ <version>4.2.6</version>
  <classifier>processor</classifier>
 </dependency>
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-web-api-service</artifactId>
- <version>4.2.5</version>
+ <version>4.2.6</version>
 </dependency>
 ----
 
@@ -36,8 +36,8 @@ Vert.x Web API 服务通过事件总线帮助您处理HTTP请求
 [source,groovy,subs="+attributes"]
 ----
 dependencies {
- compile 'io.vertx:vertx-codegen:4.2.5:processor'
- compile 'io.vertx:vertx-web-api-service:4.2.5'
+ compile 'io.vertx:vertx-codegen:4.2.6:processor'
+ compile 'io.vertx:vertx-web-api-service:4.2.6'
 }
 ----
 
@@ -46,9 +46,9 @@ dependencies {
 [source,groovy,subs="+attributes"]
 ----
 dependencies {
- annotationProcessor 'io.vertx:vertx-codegen:4.2.5:processor'
- annotationProcessor 'io.vertx:vertx-web-api-service:4.2.5'
- compile 'io.vertx:vertx-web-api-service:4.2.5'
+ annotationProcessor 'io.vertx:vertx-codegen:4.2.6:processor'
+ annotationProcessor 'io.vertx:vertx-web-api-service:4.2.6'
+ compile 'io.vertx:vertx-web-api-service:4.2.6'
 }
 ----
 

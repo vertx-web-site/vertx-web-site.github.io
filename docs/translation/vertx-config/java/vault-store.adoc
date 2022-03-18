@@ -19,12 +19,12 @@ Vault配置中心扩展了 Vert.x Configuration Retriever 并提供了从 Vault 
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-config-vault</artifactId>
- <version>4.2.5</version>
+ <version>4.2.6</version>
 </dependency>
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-config</artifactId>
- <version>4.2.5</version>
+ <version>4.2.6</version>
 </dependency>
 ----
 
@@ -32,8 +32,8 @@ Vault配置中心扩展了 Vert.x Configuration Retriever 并提供了从 Vault 
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-config:4.2.5'
-compile 'io.vertx:vertx-config-vault:4.2.5'
+compile 'io.vertx:vertx-config:4.2.6'
+compile 'io.vertx:vertx-config-vault:4.2.6'
 ----
 
 ==== 指定配置中心
