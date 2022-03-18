@@ -3,9 +3,9 @@
 
 [WARNING]
 ====
-RxJava1 is end-of-life as of March 31, 2018.
-Bindings for new Vert.x modules will not be generated.
-Consider migrating to https://vertx.io/docs/vertx-rx/java3/[Vert.x RxJava3].
+RxJava1 的生命周期已于 2018 年 3 月 31 日结束。
+不会生成新版本 Vert.x 模块的绑定。
+考虑迁移到 https://vertx.io/docs/vertx-rx/java3/[Vert.x RxJava3].
 ====
 
 

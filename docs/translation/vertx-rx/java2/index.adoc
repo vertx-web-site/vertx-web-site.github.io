@@ -3,9 +3,9 @@
 
 [WARNING]
 ====
-RxJava2 is end-of-life as of February 28, 2021.
-Bindings for new Vert.x modules will not be generated.
-Consider migrating to https://vertx.io/docs/vertx-rx/java3/[Vert.x RxJava3].
+RxJava2 的生命周期已于 2021 年 2 月 28 日结束。
+不会生成新版本 Vert.x 模块的绑定。
+考虑迁移到 https://vertx.io/docs/vertx-rx/java3/[Vert.x RxJava3].
 ====
 
 [[_vert_x_api_for_rxjava2]]
