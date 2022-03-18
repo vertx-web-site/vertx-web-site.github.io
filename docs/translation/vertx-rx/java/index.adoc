@@ -1,6 +1,14 @@
 = Vert.x RxJava
 :toc: left
 
+[WARNING]
+====
+RxJava1 is end-of-life as of March 31, 2018.
+Bindings for new Vert.x modules will not be generated.
+Consider migrating to https://vertx.io/docs/vertx-rx/java3/[Vert.x RxJava3].
+====
+
+
 == Vert.x API for RxJava
 
 https://github.com/ReactiveX/RxJava[RxJava] is a popular library for composing asynchronous and event based programs using
@@ -18,7 +26,7 @@ To use Vert.x API for RxJava1, add the following dependency to the _dependencies
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-rx-java</artifactId>
- <version>4.2.5</version>
+ <version>4.2.6</version>
 </dependency>
 ----
 
@@ -26,7 +34,7 @@ To use Vert.x API for RxJava1, add the following dependency to the _dependencies
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-rx-java:4.2.5'
+compile 'io.vertx:vertx-rx-java:4.2.6'
 ----
 
 There are two ways for using the RxJava API with Vert.x:

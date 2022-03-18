@@ -18,7 +18,7 @@ descriptor:
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-service-discovery-bridge-kubernetes</artifactId>
- <version>4.2.5</version>
+ <version>4.2.6</version>
 </dependency>
 ----
 
@@ -26,7 +26,7 @@ descriptor:
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-service-discovery-bridge-kubernetes:4.2.5'
+compile 'io.vertx:vertx-service-discovery-bridge-kubernetes:4.2.6'
 ----
 
 Then, when creating the service discovery, register this bridge as follows:

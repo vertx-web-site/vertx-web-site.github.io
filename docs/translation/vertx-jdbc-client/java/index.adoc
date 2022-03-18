@@ -14,7 +14,7 @@ To use this project, add the following dependency to the _dependencies_ section 
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-jdbc-client</artifactId>
- <version>4.2.5</version>
+ <version>4.2.6</version>
 </dependency>
 ----
 
@@ -22,7 +22,7 @@ To use this project, add the following dependency to the _dependencies_ section 
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-jdbc-client:4.2.5'
+compile 'io.vertx:vertx-jdbc-client:4.2.6'
 ----
 
 == Using the Sql Client API
@@ -940,10 +940,23 @@ You can include the overridden classes in the SPI file
 
 [source,java]
 ----
-`link:../../apidocs/examples/JDBCTypeExamples.html#createJDBCClient-io.vertx.core.Vertx-java.lang.Class-java.lang.Class-[createJDBCClient]`
+JsonObject options = new JsonObject().put("url", "your_jdbc_url")
+  .put("user", "your_database_user")
+  .put("password", "your_database_password")
+  .put("encoderCls", encoderClass.getName())
+  .put("decoderCls", decoderClass.getName());
+return JDBCClient.createShared(vertx, options);
 ----
 
 [source,java]
 ----
-`link:../../apidocs/examples/JDBCTypeExamples.html#createJDBCPool-io.vertx.core.Vertx-java.lang.Class-java.lang.Class-[createJDBCPool]`
+JsonObject extraOptions = new JsonObject()
+  .put("encoderCls", encoderClass.getName())
+  .put("decoderCls", decoderClass.getName());
+JDBCConnectOptions options = new JDBCConnectOptions().setJdbcUrl("your_jdbc_url")
+  .setUser("your_database_user")
+  .setPassword("your_database_password");
+PoolOptions poolOptions = new PoolOptions().setMaxSize(1);
+DataSourceProvider provider = new AgroalCPDataSourceProvider(options, poolOptions).init(extraOptions);
+return JDBCPool.pool(vertx, provider);
 ----

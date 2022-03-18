@@ -27,7 +27,7 @@ descriptor:
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-amqp-client</artifactId>
- <version>4.2.5</version>
+ <version>4.2.6</version>
 </dependency>
 ----
 
@@ -35,7 +35,7 @@ descriptor:
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-amqp-client:4.2.5'
+compile 'io.vertx:vertx-amqp-client:4.2.6'
 ----
 
 == Creating an AMQP client
