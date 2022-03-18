@@ -32,8 +32,7 @@ const config = {
   trailingSlash: true,
 
   // opt-in to using SWC for minifying JavaScript
-  // (does not work with the docs search panel yet!)
-  // swcMinify: true,
+  swcMinify: true,
 
   // configure base path
   basePath,

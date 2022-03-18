@@ -1,6 +1,8 @@
 @import "../../css/variables";
 
 .search {
+  position: relative;
+
   input {
     color: $gray-500;
     border: 1px solid $gray-300;
@@ -9,11 +11,20 @@
     padding: 0.25rem 1.8rem 0.35rem 1.8rem;
     width: 100%;
     transition: $button-color-transition, $button-border-color-transition;
+    background-color: transparent;
 
     &:focus {
       border-color: $gray-500;
       color: $gray-800;
     }
+  }
+
+  .autosuggest {
+    position: absolute;
+    top: 0;
+    user-select: none;
+    z-index: -100;
+    opacity: 0.5;
   }
 
   .search-icon, .search-icon-delete {

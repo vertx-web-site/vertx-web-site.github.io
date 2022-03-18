@@ -2,6 +2,7 @@ import autolinkHeadings from "rehype-autolink-headings"
 import betterShell from "./rehype-highlight-better-shell.js"
 import highlight from "rehype-highlight"
 import hyphenate from "./remark-hyphenate.js"
+import remarkGfm from "remark-gfm"
 import smartypants from "@silvenon/remark-smartypants"
 import slug from "rehype-slug"
 
@@ -24,7 +25,7 @@ import xml from "highlight.js/lib/languages/xml"
 
 export const mdxOptions = {
   jsx: true, // Forward JSX elements as is. We need this for styled-jsx.
-  remarkPlugins: [hyphenate, smartypants],
+  remarkPlugins: [remarkGfm, hyphenate, smartypants],
   rehypePlugins: [[highlight, {
     languages: {
       bash,

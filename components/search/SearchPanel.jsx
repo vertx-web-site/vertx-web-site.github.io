@@ -2,7 +2,7 @@ import { forwardRef, useRef, useState } from "react"
 import Router from "next/router"
 import SearchBox from "./SearchBox"
 import SearchResults from "./SearchResults"
-import lunr from "lunr"
+import MiniSearch from "minisearch"
 import styles from "./SearchPanel.scss?type=global"
 
 const MAX_EXCERPT_LENGTH = 100
@@ -99,17 +99,32 @@ function highlight(str, positions) {
   return <span>{tokens}</span>
 }
 
-// extract all positions from all Lunr search results
-function extractPositions(metadata, attr) {
+// extract all matched terms for a given field from the given search result
+function extractMatchedTerms(searchResult, field) {
   let result = []
-  Object.keys(metadata).forEach(k => {
-    if (metadata[k][attr]) {
-      for (let p of metadata[k][attr].position) {
-        result.push(p)
-      }
+  for (let term of Object.keys(searchResult.match)) {
+    let locations = searchResult.match[term]
+    if (locations.indexOf(field) !== -1) {
+      result.push(term)
     }
-  })
+  }
   return result
+}
+
+// search for the given terms in the given string and return their locations
+function termsToPositions(str, terms) {
+  let result = []
+  for (let term of terms) {
+    let i = str.toLowerCase().indexOf(term)
+    if (i >= 0) {
+      result.push([i, i + term.length])
+    }
+  }
+  return result
+}
+
+function extractPositions(str, searchResult, field) {
+  return termsToPositions(str, extractMatchedTerms(searchResult, field))
 }
 
 // coalesce the given positions (i.e. recursively merge overlapping ranges)
@@ -143,15 +158,9 @@ function sortPositions(positions) {
   return positions
 }
 
-// normalize Lunr positions:
-// * converting them to proper ranges
-// * coalesce and sort them
+// coalesce and sort positions
 function normalizePositions(positions) {
-  let result = []
-  for (let p of positions) {
-    result.push([p[0], p[0] + p[1]])
-  }
-  return sortPositions(coalescePositions(result))
+  return sortPositions(coalescePositions(positions))
 }
 
 const SearchPanel = forwardRef(({ contentRef, onHasResults }, ref) => {
@@ -159,6 +168,7 @@ const SearchPanel = forwardRef(({ contentRef, onHasResults }, ref) => {
   const index = useRef()
   const [searchResults, setSearchResults] = useState()
   const [activeResultId, setActiveResultId] = useState()
+  const [autoSuggest, setAutoSuggest] = useState()
 
   // Iterate through all sections on the current page and extract the contents.
   // Save the contents in the `metadata' ref.
@@ -219,7 +229,7 @@ const SearchPanel = forwardRef(({ contentRef, onHasResults }, ref) => {
     }
   }
 
-  // use the metadata collected in `ensureMetadata' and create a Lunr index
+  // use the metadata collected in `ensureMetadata' and create a search index
   const ensureIndex = () => {
     if (index.current) {
       return
@@ -227,16 +237,18 @@ const SearchPanel = forwardRef(({ contentRef, onHasResults }, ref) => {
 
     ensureMetadata()
 
-    index.current = lunr(function () {
-      this.ref("id")
-      this.field("title", { boost: 10 })
-      this.field("content")
-      this.metadataWhitelist = ["position"]
-
-      for (let m of Object.keys(metadata.current)) {
-        this.add(metadata.current[m])
+    index.current = new MiniSearch({
+      fields: ["title", "content"],
+      searchOptions: {
+        boost: {
+          title: 10
+        },
+        fuzzy: 0.2
       }
     })
+    for (let m of Object.keys(metadata.current)) {
+      index.current.add(metadata.current[m])
+    }
   }
 
   // set the current search results
@@ -258,16 +270,44 @@ const SearchPanel = forwardRef(({ contentRef, onHasResults }, ref) => {
   const onSearch = (value) => {
     if (!value) {
       doSetSearchResults(undefined)
+      setAutoSuggest(undefined)
       return
     }
 
     // make sure the index is ready
     ensureIndex()
 
+    // calculate auto-suggest
+    let auto
+    try {
+      auto = index.current.autoSuggest(value)
+    } catch (e) {
+      auto = undefined
+    }
+    if (auto && auto.length > 0) {
+      auto = auto.filter(a => a.terms.join(" ").startsWith(value))
+      if (auto.length > 0) {
+        let s = ""
+        let i = 0
+        while (i < auto[0].terms.length && s.length < value.length) {
+          if (i > 0) {
+            s += " "
+          }
+          s += auto[0].terms[i]
+          ++i
+        }
+        setAutoSuggest(s)
+      } else {
+        setAutoSuggest(undefined)
+      }
+    } else {
+      setAutoSuggest(undefined)
+    }
+
     // query the index
     let matches
     try {
-      matches = index.current.search(value).sort((a, b) => b.score - a.score)
+      matches = index.current.search(value)
     } catch (e) {
       matches = []
     }
@@ -276,14 +316,13 @@ const SearchPanel = forwardRef(({ contentRef, onHasResults }, ref) => {
     // results we can display
     let results = []
     for (let r of matches.slice(0, 10)) {
-      let ref = r.ref
-      let current = metadata.current[ref]
-      let id = current.id
+      let id = r.id
+      let current = metadata.current[id]
       let title = current.title
       let text = current.content
 
       // highlight matched token in the title
-      let titlePositions = normalizePositions(extractPositions(r.matchData.metadata, "title"))
+      let titlePositions = normalizePositions(extractPositions(title, r, "title"))
       if (titlePositions.length > 0) {
         title = highlight(title, titlePositions)
       }
@@ -291,7 +330,7 @@ const SearchPanel = forwardRef(({ contentRef, onHasResults }, ref) => {
       // create an excerpt from the matched section contents and highlight
       // matched tokens
       let result
-      let contentPositions = normalizePositions(extractPositions(r.matchData.metadata, "content"))
+      let contentPositions = normalizePositions(extractPositions(text, r, "content"))
       if (contentPositions.length > 0) {
         // create excerpt
         let [start, end] = excerpt(text, contentPositions, MAX_EXCERPT_LENGTH)
@@ -370,7 +409,8 @@ const SearchPanel = forwardRef(({ contentRef, onHasResults }, ref) => {
     <>
       <div className="search-panel">
         <SearchBox onChange={onSearch} onSubmit={onSubmit}
-          onNext={onNextSearchResult} onPrev={onPrevSearchResult} />
+          onNext={onNextSearchResult} onPrev={onPrevSearchResult}
+          autoSuggest={autoSuggest} />
         <SearchResults results={searchResults} activeId={activeResultId}
           onHover={onResultHover} onClick={(id) => pushRouter(id)} ref={ref} />
       </div>
