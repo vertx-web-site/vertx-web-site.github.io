@@ -1,0 +1,69 @@
+= 一次性密码身份验证功能
+
+我们提供了一个 `link:../../apidocs/io/vertx/ext/auth/authentication/AuthenticationProvider.html[AuthenticationProvider]` 实现类，可以用一次性密码
+进行身份验证。
+这个模块支持 Google Authenticator，您可以使用任何方便的库来根据密钥来生成二维码，或者仅仅是对密钥进行 base32 编码。
+
+要使用这个项目，
+将下面的依赖添加到您构建描述里的 _dependencies_ 部分
+
+* Maven (在您的 `pom.xml` 文件中):
+
+[source,xml,subs="+attributes"]
+----
+<dependency>
+ <groupId>io.vertx</groupId>
+ <artifactId>vertx-auth-otp</artifactId>
+ <version>4.2.5</version>
+</dependency>
+----
+
+* Gradle (在您的 `build.gradle` 文件中):
+
+[source,groovy,subs="+attributes"]
+----
+compile 'io.vertx:vertx-auth-otp:4.2.5'
+----
+
+---
+
+[[_hotp_authentication]]
+== HOTP 身份验证
+为了创建一个使用 HOTP（译者注：基于 Hash 的一次性密码） 进行验证的实例，参考以下代码使用 `link:../../apidocs/io/vertx/ext/auth/otp/hotp/HotpAuth.html#create-io.vertx.ext.auth.otp.hotp.HotpAuthOptions-[HotpAuth.create]` ：
+
+[[_hotp_configuration]]
+=== HOTP 配置
+
+`link:../../apidocs/io/vertx/ext/auth/otp/hotp/HotpAuthOptions.html[HotpAuthOptions]` 类用于配置 Hotp 身份验证功能：
+
+`passwordLength`:: 设置一次性密码的消息码的长度，有效值在 6 到 8 之间，默认为 6.
+
+`authAttemptsLimit`:: 设置最大允许的验证次数.
+
+`lookAheadWindow`:: 用于设置再同步机制.
+
+[[_notes]]
+=== 备注
+
+注意，当使用以上的身份认证方式时，代码假定身份验证信息中存在 `identifier`, `key` 和 `counter` 字段
+
+[[_totp_authentication]]
+== TOTP 身份验证
+
+为了创建一个使用 TOTP（译者注：基于时间的一次性密码）进行验证的实例, 参考以下代码使用 `link:../../apidocs/io/vertx/ext/auth/otp/totp/TotpAuth.html#create-io.vertx.ext.auth.otp.totp.TotpAuthOptions-[TotpAuth.create]` ：
+
+[[_totp_configuration]]
+=== TOTP 配置
+
+`link:../../apidocs/io/vertx/ext/auth/otp/totp/TotpAuthOptions.html[TotpAuthOptions]` 类用于配置 Totp 身份验证功能：
+
+`passwordLength`:: 设置一次性密码的消息码的长度，有效值在 6 到 8 之间，默认为 6.
+
+`authAttemptsLimit`:: 设置最大允许的验证次数.
+
+`period`:: 设置验证码的有效时间，单位为秒，默认值为 30.
+
+[[_notes_2]]
+=== 备注
+
+注意，当使用以上的身份认证方式时，代码假定身份验证信息中存在 `identifier` 和 `key` 字段

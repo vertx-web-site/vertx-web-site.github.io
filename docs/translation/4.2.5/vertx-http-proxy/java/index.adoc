@@ -1,0 +1,168 @@
+= Vert.x Http Proxy
+:toc: left
+
+Vert.x Http Proxy 是一个基于 Vert.x 的反向代理服务器，其目的是实现可重用的反向代理逻辑，
+这样，使用者就可以关注更高层面的问题了
+
+WARNING: 这个模块处于 _Tech Preview_ 阶段，这意味着在不同版本之间 API 可能会不太一样
+
+[[_using_vert_x_http_proxy]]
+== 使用 Vert.x Http Proxy
+
+使用 Vert.x Http Proxy 之前，请把以下的依赖放到您的构建描述文件的 _依赖_ 部分中
+
+* Maven （在您的 `pom.xml` 文件中）：
+
+[source,xml,subs="+attributes"]
+----
+<dependency>
+ <groupId>io.vertx</groupId>
+ <artifactId>vertx-http-proxy</artifactId>
+ <version>4.2.5</version>
+</dependency>
+----
+
+* Gradle （在您的 `build.gradle` 文件中）：
+
+[source,groovy,subs="+attributes"]
+----
+dependencies {
+ compile 'io.vertx:vertx-http-proxy:4.2.5'
+}
+----
+
+[[_reverse_proxy_server]]
+== 反向代理服务器
+
+为了使用 Vert.x Http Proxy 实现一个反向代理，您需要了解这些名词：
+
+1. *Proxy Server* 处理用户代理请求并将它们转发到 *origin server*
+2. *Origin Server* 处理来自 *proxy server* 的请求并做出相应响应
+
+您可以创建一个 *proxy server*，监听 `8080` 端口并实现反向代理逻辑
+
+[source,java]
+----
+HttpClient proxyClient = vertx.createHttpClient();
+
+HttpProxy proxy = HttpProxy.reverseProxy(proxyClient);
+proxy.origin(7070, "origin");
+
+HttpServer proxyServer = vertx.createHttpServer();
+
+proxyServer.requestHandler(proxy).listen(8080);
+----
+
+所有的（user-agent）用户代理请求都方便地转发到 *origin server* 。
+
+[[_websockets]]
+=== WebSockets
+
+该 HTTP 代理默认支持 WebSocket 协议。
+
+WebSocket 的握手请求会被转发到源服务器 (包含 `connection` 头部) ，并且用户端
+和源服务器间会发生握手。
+
+您可以通过 `link:../../apidocs/io/vertx/httpproxy/ProxyOptions.html#setSupportWebSocket-boolean-[setSupportWebSocket]` 方法来设置其是否支持 WebSocket 协议。
+
+[[_proxy_caching]]
+=== 代理缓存
+
+大部分情况下，代理不会缓存响应内容，并且会忽视大部分的缓存指令，您也可以使用缓存选项来开启缓存。
+
+[source,java]
+----
+HttpProxy proxy = HttpProxy.reverseProxy(new ProxyOptions().setCacheOptions(new CacheOptions()), proxyClient);
+----
+
+[[_proxy_interception]]
+=== 代理拦截
+
+拦截是使用新功能扩展代理的强大方法。
+
+你可以实现 `link:../../apidocs/io/vertx/httpproxy/ProxyInterceptor.html#handleProxyRequest-io.vertx.httpproxy.ProxyContext-[handleProxyRequest]` 对代理请求执行的任何操作
+
+[source,java]
+----
+proxy.addInterceptor(new ProxyInterceptor() {
+  @Override
+  public Future<ProxyResponse> handleProxyRequest(ProxyContext context) {
+    ProxyRequest proxyRequest = context.request();
+
+    filter(proxyRequest.headers());
+
+    // 继续拦截链
+    return context.sendRequest();
+  }
+});
+----
+
+代理响应也是如此
+
+[source,java]
+----
+proxy.addInterceptor(new ProxyInterceptor() {
+  @Override
+  public Future<Void> handleProxyResponse(ProxyContext context) {
+    ProxyResponse proxyResponse = context.response();
+
+    filter(proxyResponse.headers());
+
+    //  继续拦截链
+    return context.sendResponse();
+  }
+});
+----
+
+[[_body_filtering]]
+==== Body 过滤
+
+你可以简单地用一个新的Body替换原来的 `link:../../apidocs/io/vertx/httpproxy/Body.html[Body]` 来过滤body
+
+[source,java]
+----
+proxy.addInterceptor(new ProxyInterceptor() {
+  @Override
+  public Future<Void> handleProxyResponse(ProxyContext context) {
+    ProxyResponse proxyResponse = context.response();
+
+    // 创建一个Body
+    Body filteredBody = filter(proxyResponse.getBody());
+
+    // 然后使用它
+    proxyResponse.setBody(filteredBody);
+
+    // 继续拦截链
+    return context.sendResponse();
+  }
+});
+----
+
+[[_interception_control]]
+==== 拦截控制
+
+`link:../../apidocs/io/vertx/httpproxy/ProxyContext.html#sendRequest--[sendRequest]` 和 `link:../../apidocs/io/vertx/httpproxy/ProxyContext.html#sendResponse--[sendResponse]` 继续当前拦截链，然后将结果发到（origin server）源服务器或者（user-agent）用户代理。
+
+你可以更改控制器, 例如， 您可以立即向（user-agent）用户代理发送响应，而无需请求（origin server）源服务器
+
+[source,java]
+----
+proxy.addInterceptor(new ProxyInterceptor() {
+  @Override
+  public Future<ProxyResponse> handleProxyRequest(ProxyContext context) {
+
+    ProxyRequest proxyRequest = context.request();
+
+    // 释放资源
+    proxyRequest.release();
+
+    // 创建一个响应并设置参数
+    ProxyResponse proxyResponse = proxyRequest.response()
+      .setStatusCode(200)
+      .putHeader("content-type", "text/plain")
+      .setBody(Body.body(Buffer.buffer("Hello World")));
+
+    return Future.succeededFuture(proxyResponse);
+  }
+});
+----
