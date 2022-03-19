@@ -26,6 +26,7 @@
     "@icons-pack/react-simple-icons": "^4.6.1",
     "@mdx-js/loader": "^2.0.0",
     "@mdx-js/mdx": "^2.0.0",
+    "@popperjs/core": "^2.11.4",
     "@silvenon/remark-smartypants": "^2.0.0",
     "asciidoctor": "^2.2.6",
     "asciidoctor-highlight.js": "^0.4.0",
