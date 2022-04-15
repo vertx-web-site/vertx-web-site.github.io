@@ -1,6 +1,7 @@
 import DropDown from "./DropDown"
 import DropDownItem from "./DropDownItem"
 import NavBarContext from "./contexts/NavBarContext"
+import Tooltip from "./Tooltip"
 import VersionContext from "./contexts/VersionContext"
 import classNames from "classnames"
 import Link from "next/link"
@@ -122,21 +123,31 @@ const NavBar = () => {
           </div>
 
           <div className="navbar-social">
-            <a href="https://github.com/vert-x3/vertx-awesome" className="navbar-social-link" title="Awesome Vert.x" target="_blank" rel="noopener noreferrer">
-              <Awesomelists aria-label="List of awesome Vert.x projects" title="Awesome Vert.x" />
-            </a>
-            <a href="https://stackoverflow.com/questions/tagged/vert.x" className="navbar-social-link" title="Stack Overflow" target="_blank" rel="noopener noreferrer">
-              <Stackoverflow aria-label="Stack Overflow questions related to Vert.x" />
-            </a>
-            <a href="https://www.youtube.com/channel/UCGN6L3tRhs92Uer3c6VxOSA" className="navbar-social-link" title="YouTube" target="_blank" rel="noopener noreferrer">
-              <Youtube aria-label="YouTube channel of Vert.x" />
-            </a>
-            <a href="https://discord.gg/KzEMwP2" className="navbar-social-link" title="Discord" target="_blank" rel="noopener noreferrer">
-              <Discord aria-label="Eclipse Vert.x channel on Discord" />
-            </a>
-            <a href="https://groups.google.com/forum/?fromgroups#!forum/vertx" className="navbar-social-link" title="Vert.x User Group" target="_blank" rel="noopener noreferrer">
-              <Googlemessages aria-label="A Google group for Vert.x users" title="Vert.x User Group" />
-            </a>
+            <Tooltip title="Awesome Vert.x">
+              <a href="https://github.com/vert-x3/vertx-awesome" className="navbar-social-link" target="_blank" rel="noopener noreferrer">
+                <Awesomelists aria-label="List of awesome Vert.x projects" title="" />
+              </a>
+            </Tooltip>
+            <Tooltip title="Stack Overflow">
+              <a href="https://stackoverflow.com/questions/tagged/vert.x" className="navbar-social-link" target="_blank" rel="noopener noreferrer">
+                <Stackoverflow aria-label="Stack Overflow questions related to Vert.x" title="" />
+              </a>
+            </Tooltip>
+            <Tooltip title="YouTube">
+              <a href="https://www.youtube.com/channel/UCGN6L3tRhs92Uer3c6VxOSA" className="navbar-social-link" target="_blank" rel="noopener noreferrer">
+                <Youtube aria-label="YouTube channel of Vert.x" title="" />
+              </a>
+            </Tooltip>
+            <Tooltip title="Discord">
+              <a href="https://discord.gg/KzEMwP2" className="navbar-social-link" target="_blank" rel="noopener noreferrer">
+                <Discord aria-label="Eclipse Vert.x channel on Discord" title="" />
+              </a>
+            </Tooltip>
+            <Tooltip title="Vert.x User Group">
+              <a href="https://groups.google.com/forum/?fromgroups#!forum/vertx" className="navbar-social-link" target="_blank" rel="noopener noreferrer">
+                <Googlemessages aria-label="A Google group for Vert.x users" title="" />
+              </a>
+            </Tooltip>
           </div>
         </div>
       </div>
