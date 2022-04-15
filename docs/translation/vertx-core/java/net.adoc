@@ -409,6 +409,7 @@ id: 0x359e3df6, L:/127.0.0.1:8080 - R:/127.0.0.1:65351] READ: 78B
 
 您可以通过设置日志数据格式来减少数据格式的详细程度，只打印buffer（缓冲区）的长度而不是整个数据
 
+
 [source,java]
 ----
 NetServerOptions options = new NetServerOptions()
@@ -1203,6 +1204,7 @@ NetClientOptions options = new NetClientOptions()
   .addNonProxyHost("localhost");
 NetClient client = vertx.createNetClient(options);
 ----
+
 
 [[_using_ha_proxy_protocol]]
 === 使用HA PROXY协议
