@@ -17,12 +17,12 @@ Yaml 配置格式扩展了 Vert.x Configuration Retriever
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-config-yaml</artifactId>
- <version>4.2.6</version>
+ <version>4.2.7</version>
 </dependency>
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-config</artifactId>
- <version>4.2.6</version>
+ <version>4.2.7</version>
 </dependency>
 ----
 
@@ -30,8 +30,8 @@ Yaml 配置格式扩展了 Vert.x Configuration Retriever
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-config:4.2.6'
-compile 'io.vertx:vertx-config-yaml:4.2.6'
+compile 'io.vertx:vertx-config:4.2.7'
+compile 'io.vertx:vertx-config-yaml:4.2.7'
 ----
 
 [[_configuring_the_store_to_use_yaml]]

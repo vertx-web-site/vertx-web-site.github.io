@@ -24,7 +24,7 @@ _依赖_ 中：
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-camel-bridge</artifactId>
- <version>4.2.6</version>
+ <version>4.2.7</version>
 </dependency>
 ----
 
@@ -32,7 +32,7 @@ _依赖_ 中：
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-camel-bridge:4.2.6'
+compile 'io.vertx:vertx-camel-bridge:4.2.7'
 ----
 
 [[_bridge_configuration]]

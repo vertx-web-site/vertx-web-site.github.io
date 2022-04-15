@@ -19,12 +19,12 @@ Hocon 配置格式扩展了 Vert.x Configuration Retriever 并提供了对 HOCON
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-config-hocon</artifactId>
- <version>4.2.6</version>
+ <version>4.2.7</version>
 </dependency>
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-config</artifactId>
- <version>4.2.6</version>
+ <version>4.2.7</version>
 </dependency>
 ----
 
@@ -32,8 +32,8 @@ Hocon 配置格式扩展了 Vert.x Configuration Retriever 并提供了对 HOCON
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-config:4.2.6'
-compile 'io.vertx:vertx-config-hocon:4.2.6'
+compile 'io.vertx:vertx-config:4.2.7'
+compile 'io.vertx:vertx-config-hocon:4.2.7'
 ----
 
 [[_configuring_the_store_to_use_hocon]]

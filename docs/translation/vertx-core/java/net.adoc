@@ -257,29 +257,33 @@ server.close(res -> {
 
 [source,java]
 ----
-for (int i = 0; i < 10; i++) {
-  NetServer server = vertx.createNetServer();
-  server.connectHandler(socket -> {
-    socket.handler(buffer -> {
-      // Just echo back the data
-      socket.write(buffer);
+class MyVerticle extends AbstractVerticle {
+
+  NetServer server;
+
+  @Override
+  public void start() throws Exception {
+    server = vertx.createNetServer();
+    server.connectHandler(socket -> {
+      socket.handler(buffer -> {
+        // Just echo back the data
+        socket.write(buffer);
+      });
     });
-  });
-  server.listen(1234, "localhost");
+    server.listen(1234, "localhost");
+  }
 }
+
+// Create a few instances so we can utilise cores
+vertx.deployVerticle(MyVerticle.class, new DeploymentOptions().setInstances(10));
 ----
 
-如果您使用的是 Verticle，您可以通过在命令行上使用 `-instances`
+您可以通过在命令行上使用 `-instances`
 选项来简单部署更多的服务器实例：
 
-vertx run com.mycompany.MyVerticle -instances 10
-
-或者使用编程方式部署您的 Verticle 时：
-
-[source,java]
+[source]
 ----
-DeploymentOptions options = new DeploymentOptions().setInstances(10);
-vertx.deployVerticle("com.mycompany.MyVerticle", options);
+>  vertx run com.mycompany.MyVerticle -instances 10
 ----
 
 一旦您这样做，您将发现echo服务器在功能上与之前相同，

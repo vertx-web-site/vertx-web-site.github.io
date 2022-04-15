@@ -1,6 +1,7 @@
 import DropDown from "./DropDown"
 import DropDownItem from "./DropDownItem"
 import NavBarContext from "./contexts/NavBarContext"
+import Tooltip from "./Tooltip"
 import VersionContext from "./contexts/VersionContext"
 import TencentQQGuild from "../components/TencentQQGuild"
 import classNames from "classnames"
@@ -126,27 +127,41 @@ const NavBar = () => {
           </div>
 
           <div className="navbar-social">
-            <a href="https://github.com/vert-x3/vertx-awesome" className="navbar-social-link" title="Awesome Vert.x" target="_blank" rel="noopener noreferrer">
-              <Awesomelists aria-label="List of awesome Vert.x projects" title="Awesome Vert.x" />
-            </a>
-            <a href="https://stackoverflow.com/questions/tagged/vert.x" className="navbar-social-link" title="Stack Overflow" target="_blank" rel="noopener noreferrer">
-              <Stackoverflow aria-label="Stack Overflow questions related to Vert.x" />
-            </a>
-            <a href="https://www.youtube.com/channel/UCGN6L3tRhs92Uer3c6VxOSA" className="navbar-social-link" title="YouTube" target="_blank" rel="noopener noreferrer">
-              <Youtube aria-label="YouTube channel of Vert.x" />
-            </a>
-            <a href="https://discord.gg/KzEMwP2" className="navbar-social-link" title="Discord" target="_blank" rel="noopener noreferrer">
-              <Discord aria-label="Eclipse Vert.x channel on Discord" />
-            </a>
-            <a href="https://groups.google.com/forum/?fromgroups#!forum/vertx" className="navbar-social-link" title="Vert.x 用户组" target="_blank" rel="noopener noreferrer">
-              <Googlemessages aria-label="A Google group for Vert.x users" title="Vert.x 用户组" />
-            </a>
-            <a href="https://qm.qq.com/cgi-bin/qm/qr?k=QFrKfwIVTuShDdh7puvfJWjqOx4C014c&jump_from=webapi" className="navbar-social-link" title="Vert.x中国用户组QQ群" target="_blank" rel="noopener noreferrer">
-              <Tencentqq aria-label="Vert.x中国用户组QQ群" title="Vert.x中国用户组QQ群" />
-            </a>
-            <a href="https://qun.qq.com/qqweb/qunpro/share?_wv=3&_wwv=128&inviteCode=1reLvB&from=246610&biz=ka" className="navbar-social-link" title="Vert.x中国用户组QQ群" target="_blank" rel="noopener noreferrer">
-              <TencentQQGuild />
-            </a>
+            <Tooltip title="Awesome Vert.x">
+              <a href="https://github.com/vert-x3/vertx-awesome" className="navbar-social-link" target="_blank" rel="noopener noreferrer">
+                <Awesomelists aria-label="List of awesome Vert.x projects" title="" />
+              </a>
+            </Tooltip>
+            <Tooltip title="Stack Overflow">
+              <a href="https://stackoverflow.com/questions/tagged/vert.x" className="navbar-social-link" target="_blank" rel="noopener noreferrer">
+                <Stackoverflow aria-label="Stack Overflow questions related to Vert.x" title="" />
+              </a>
+            </Tooltip>
+            <Tooltip title="YouTube">
+              <a href="https://www.youtube.com/channel/UCGN6L3tRhs92Uer3c6VxOSA" className="navbar-social-link" target="_blank" rel="noopener noreferrer">
+                <Youtube aria-label="YouTube channel of Vert.x" title="" />
+              </a>
+            </Tooltip>
+            <Tooltip title="Discord">
+              <a href="https://discord.gg/KzEMwP2" className="navbar-social-link" target="_blank" rel="noopener noreferrer">
+                <Discord aria-label="Eclipse Vert.x channel on Discord" title="" />
+              </a>
+            </Tooltip>
+            <Tooltip title="Vert.x User Group">
+              <a href="https://groups.google.com/forum/?fromgroups#!forum/vertx" className="navbar-social-link" target="_blank" rel="noopener noreferrer">
+                <Googlemessages aria-label="A Google group for Vert.x users" title="" />
+              </a>
+            </Tooltip>
+            <Tooltip title="Vert.x中国用户组QQ群">
+              <a href="https://qm.qq.com/cgi-bin/qm/qr?k=QFrKfwIVTuShDdh7puvfJWjqOx4C014c&jump_from=webapi" className="navbar-social-link" title="Vert.x中国用户组QQ群" target="_blank" rel="noopener noreferrer">
+                <Tencentqq aria-label="Vert.x中国用户组QQ群" title="Vert.x中国用户组QQ群" />
+              </a>
+            </Tooltip>
+            <Tooltip title="Vert.x中国用户组QQ频道">
+              <a href="https://qun.qq.com/qqweb/qunpro/share?_wv=3&_wwv=128&inviteCode=1reLvB&from=246610&biz=ka" className="navbar-social-link" title="Vert.x中国用户组QQ群" target="_blank" rel="noopener noreferrer">
+                <TencentQQGuild />
+              </a>
+            </Tooltip>
           </div>
         </div>
       </div>

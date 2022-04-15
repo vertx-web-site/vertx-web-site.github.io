@@ -20,7 +20,7 @@
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-service-discovery-bridge-zookeeper</artifactId>
- <version>4.2.6</version>
+ <version>4.2.7</version>
 </dependency>
 ----
 
@@ -28,7 +28,7 @@
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-service-discovery-bridge-zookeeper:4.2.6'
+compile 'io.vertx:vertx-service-discovery-bridge-zookeeper:4.2.7'
 ----
 
 然后，在创建服务发现时按如下方式注册此桥：

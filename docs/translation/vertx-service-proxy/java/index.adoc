@@ -23,7 +23,7 @@
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-service-proxy</artifactId>
- <version>4.2.6</version>
+ <version>4.2.7</version>
 </dependency>
 ----
 
@@ -31,7 +31,7 @@
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-service-proxy:4.2.6'
+compile 'io.vertx:vertx-service-proxy:4.2.7'
 ----
 
 为了 *实现* 服务代理, 您还需要添加：
@@ -43,7 +43,7 @@ compile 'io.vertx:vertx-service-proxy:4.2.6'
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-codegen</artifactId>
- <version>4.2.6</version>
+ <version>4.2.7</version>
  <scope>provided</scope>
 </dependency>
 ----
@@ -52,14 +52,14 @@ compile 'io.vertx:vertx-service-proxy:4.2.6'
 
 [source,groovy,subs="+attributes"]
 ----
-compileOnly 'io.vertx:vertx-codegen:4.2.6'
+compileOnly 'io.vertx:vertx-codegen:4.2.7'
 ----
 * Gradle >= 5（在您的 `build.gradle` 文件中）：
 
 [source,groovy,subs="+attributes"]
 ----
-annotationProcessor 'io.vertx:vertx-codegen:4.2.6:processor'
-annotationProcessor 'io.vertx:vertx-service-proxy:4.2.6'
+annotationProcessor 'io.vertx:vertx-codegen:4.2.7:processor'
+annotationProcessor 'io.vertx:vertx-service-proxy:4.2.7'
 ----
 
 注意：因为服务代理类是由代码自动生成的，因此每当您修改了 _服务接口_ 您必须重新编译源码，
@@ -340,13 +340,13 @@ _codegen_ 注释处理器在编译时生成这些类
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-codegen</artifactId>
- <version>4.2.6</version>
+ <version>4.2.7</version>
  <classifier>processor</classifier>
 </dependency>
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-service-proxy</artifactId>
- <version>4.2.6</version>
+ <version>4.2.7</version>
 </dependency>
 ----
 
@@ -354,8 +354,8 @@ _codegen_ 注释处理器在编译时生成这些类
 
 [source]
 ----
-compile "io.vertx:vertx-codegen:4.2.6:processor"
-compile "io.vertx:vertx-service-proxy:4.2.6"
+compile "io.vertx:vertx-codegen:4.2.7:processor"
+compile "io.vertx:vertx-service-proxy:4.2.7"
 ----
 
 IDE 通常为注释处理器提供支持。

@@ -69,6 +69,28 @@ docker run -i -t vertx/vertx3-exec
 ## Snapshots
 
 We have continuous integration builds for all the Vert.x components. We also publish shapshots to
-the Sonatype OSS Snapshot [repository](https://oss.sonatype.org/content/repositories/snapshots/io/vertx/).
+the Sonatype OSS Snapshot [repository](https://s01.oss.sonatype.org/content/repositories/snapshots/io/vertx/).
+
+### Maven
+
+```xml
+<repository>
+  <id>sonatype-s01-snapshots</id>
+  <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+  <snapshots>
+    <enabled>true</enabled>
+  </snapshots>
+</repository>
+```
+
+### Gradle
+
+```gradle
+repositories {
+  maven {
+    url 'https://s01.oss.sonatype.org/content/repositories/snapshots'
+  }
+}
+```
 
 </Guide>

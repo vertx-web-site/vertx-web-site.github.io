@@ -21,7 +21,7 @@ shell服务可以直接以命令行的方式启动，也可以通过 Vert.x 发�
 .启动一个基于 Telnet 的 shell 服务
 [source,subs="+attributes"]
 ----
-vertx run -conf '{"telnetOptions":{"port":5000}}' maven:io.vertx:vertx-shell:4.2.6
+vertx run -conf '{"telnetOptions":{"port":5000}}' maven:io.vertx:vertx-shell:4.2.7
 ----
 
 或者
@@ -34,7 +34,7 @@ keytool -genkey -keyalg RSA -keystore ssh.jks -keysize 2048 -validity 1095 -dnam
 # 创建授权配置文件
 echo user.admin=password > auth.properties
 # 启动 shell
-vertx run -conf '{"sshOptions":{"port":4000,"keyPairOptions":{"path":"ssh.jks","password":"secret"},"authOptions":{"provider":"shiro","config":{"properties_path":"file:auth.properties"}}}}' maven:io.vertx:vertx-shell:4.2.6
+vertx run -conf '{"sshOptions":{"port":4000,"keyPairOptions":{"path":"ssh.jks","password":"secret"},"authOptions":{"provider":"shiro","config":{"properties_path":"file:auth.properties"}}}}' maven:io.vertx:vertx-shell:4.2.7
 ----
 
 或者
@@ -46,7 +46,7 @@ vertx run -conf '{"sshOptions":{"port":4000,"keyPairOptions":{"path":"ssh.jks","
 keytool -genkey -keyalg RSA -keystore keystore.jks -keysize 2048 -validity 1095 -dname CN=localhost -keypass secret -storepass secret
 # 创建授权配置文件
 echo user.admin=password > auth.properties
-vertx run -conf '{"httpOptions":{"port":8080,"ssl":true,"keyStoreOptions":{"path":"keystore.jks","password":"secret"},"authOptions":{"provider":""shiro,"config":{"properties_path":"file:auth.properties"}}}}' maven:io.vertx:vertx-shell:4.2.6
+vertx run -conf '{"httpOptions":{"port":8080,"ssl":true,"keyStoreOptions":{"path":"keystore.jks","password":"secret"},"authOptions":{"provider":""shiro,"config":{"properties_path":"file:auth.properties"}}}}' maven:io.vertx:vertx-shell:4.2.7
 ----
 
 你也可以在你的 verticle 中发布 shell 服务:
@@ -105,7 +105,7 @@ vertx.deployVerticle("maven:{maven-groupId}:{maven-artifactId}:{maven-version}",
 ----
 
 NOTE: 当你的 classpath 中已经包含了Vert.x Shell ，
-你可以使用 `service:io.vertx.ext.shell` 来代替 `maven:io.vertx:vertx-shell:4.2.6`
+你可以使用 `service:io.vertx.ext.shell` 来代替 `maven:io.vertx:vertx-shell:4.2.7`
 
 [[_programmatic_service]]
 === 可编码的服务

@@ -34,7 +34,7 @@ Web Client使得发送 HTTP 请求以及从 Web 服务器接收 HTTP 响应变�
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-web-client</artifactId>
- <version>4.2.6</version>
+ <version>4.2.7</version>
 </dependency>
 ----
 
@@ -43,7 +43,7 @@ Web Client使得发送 HTTP 请求以及从 Web 服务器接收 HTTP 响应变�
 [source,groovy,subs="+attributes"]
 ----
 dependencies {
- compile 'io.vertx:vertx-web-client:4.2.6'
+ compile 'io.vertx:vertx-web-client:4.2.7'
 }
 ----
 
