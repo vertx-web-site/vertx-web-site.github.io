@@ -15,7 +15,7 @@ descriptor:
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-service-discovery-backend-redis</artifactId>
- <version>4.2.6</version>
+ <version>4.2.7</version>
 </dependency>
 ----
 
@@ -23,7 +23,7 @@ descriptor:
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-service-discovery-backend-redis:4.2.6'
+compile 'io.vertx:vertx-service-discovery-backend-redis:4.2.7'
 ----
 
 Be aware that you can have only a single implementation of the SPI in your _classpath_. If none,

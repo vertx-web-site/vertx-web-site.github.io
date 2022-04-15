@@ -12,7 +12,7 @@ of your build descriptor:
 <dependency>
    <groupId>io.vertx</groupId>
    <artifactId>vertx-mqtt</artifactId>
-   <version>4.2.6</version>
+   <version>4.2.7</version>
 </dependency>
 ----
 
@@ -20,7 +20,7 @@ of your build descriptor:
 
 [source,groovy,subs="+attributes"]
 ----
-compile io.vertx:vertx-mqtt:4.2.6
+compile io.vertx:vertx-mqtt:4.2.7
 ----
 
 = Vert.x MQTT server
@@ -565,7 +565,7 @@ IMPORTANT: to enable this feature, you need to add dependency `netty-codec-hapro
 <dependency>
    <groupId>io.netty</groupId>
    <artifactId>netty-codec-haproxy</artifactId>
-   <version>4.2.6</version>
+   <version>4.2.7</version>
 </dependency>
 ----
 
@@ -573,5 +573,5 @@ IMPORTANT: to enable this feature, you need to add dependency `netty-codec-hapro
 
 [source,groovy,subs="+attributes"]
 ----
-compile io.netty:netty-codec-haproxy:4.2.6
+compile io.netty:netty-codec-haproxy:4.2.7
 ----

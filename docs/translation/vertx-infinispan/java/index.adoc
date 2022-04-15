@@ -9,7 +9,7 @@ This implementation is packaged inside:
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-infinispan</artifactId>
- <version>4.2.6</version>
+ <version>4.2.7</version>
 </dependency>
 ----
 
@@ -25,11 +25,11 @@ Cluster managers *do not* handle the event bus inter-node transport, this is don
 
 == Using this cluster manager
 
-If you are using Vert.x from the command line, the jar corresponding to this cluster manager (it will be named `vertx-infinispan-4.2.6.jar`
+If you are using Vert.x from the command line, the jar corresponding to this cluster manager (it will be named `vertx-infinispan-4.2.7.jar`
 should be in the `lib` directory of the Vert.x installation.
 
 If you want clustering with this cluster manager in your Vert.x Maven or Gradle project then just add a dependency to
-the artifact: `io.vertx:vertx-infinispan:4.2.6` in your project.
+the artifact: `io.vertx:vertx-infinispan:4.2.7` in your project.
 
 If the jar is on your classpath as above then Vert.x will automatically detect this and use it as the cluster manager.
 Please make sure you don't have any other cluster managers on your classpath or Vert.x might

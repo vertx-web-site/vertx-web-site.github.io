@@ -14,7 +14,7 @@ dependency to the _dependencies_ section of your build descriptor:
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-auth-otp</artifactId>
- <version>4.2.6</version>
+ <version>4.2.7</version>
 </dependency>
 ----
 
@@ -22,7 +22,7 @@ dependency to the _dependencies_ section of your build descriptor:
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-auth-otp:4.2.6'
+compile 'io.vertx:vertx-auth-otp:4.2.7'
 ----
 
 ---

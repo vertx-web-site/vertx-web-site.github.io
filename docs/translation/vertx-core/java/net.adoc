@@ -239,29 +239,33 @@ You can instantiate more instances programmatically in your code:
 
 [source,java]
 ----
-for (int i = 0; i < 10; i++) {
-  NetServer server = vertx.createNetServer();
-  server.connectHandler(socket -> {
-    socket.handler(buffer -> {
-      // Just echo back the data
-      socket.write(buffer);
+class MyVerticle extends AbstractVerticle {
+
+  NetServer server;
+
+  @Override
+  public void start() throws Exception {
+    server = vertx.createNetServer();
+    server.connectHandler(socket -> {
+      socket.handler(buffer -> {
+        // Just echo back the data
+        socket.write(buffer);
+      });
     });
-  });
-  server.listen(1234, "localhost");
+    server.listen(1234, "localhost");
+  }
 }
+
+// Create a few instances so we can utilise cores
+vertx.deployVerticle(MyVerticle.class, new DeploymentOptions().setInstances(10));
 ----
 
-or, if you are using verticles you can simply deploy more instances of your server verticle by using the `-instances` option
+or, you can simply deploy more instances of your server verticle by using the `-instances` option
 on the command line:
 
-vertx run com.mycompany.MyVerticle -instances 10
-
-or when programmatically deploying your verticle
-
-[source,java]
+[source]
 ----
-DeploymentOptions options = new DeploymentOptions().setInstances(10);
-vertx.deployVerticle("com.mycompany.MyVerticle", options);
+>  vertx run com.mycompany.MyVerticle -instances 10
 ----
 
 Once you do this you will find the echo server works functionally identically to before, but all your cores on your
