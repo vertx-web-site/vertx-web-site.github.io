@@ -153,12 +153,12 @@ const NavBar = () => {
               </a>
             </Tooltip>
             <Tooltip title="Vert.x中国用户组QQ群">
-              <a href="https://qm.qq.com/cgi-bin/qm/qr?k=QFrKfwIVTuShDdh7puvfJWjqOx4C014c&jump_from=webapi" className="navbar-social-link" title="Vert.x中国用户组QQ群" target="_blank" rel="noopener noreferrer">
-                <Tencentqq aria-label="Vert.x中国用户组QQ群" title="Vert.x中国用户组QQ群" />
+              <a href="https://qm.qq.com/cgi-bin/qm/qr?k=QFrKfwIVTuShDdh7puvfJWjqOx4C014c&jump_from=webapi" className="navbar-social-link" target="_blank" rel="noopener noreferrer">
+                <Tencentqq aria-label="Vert.x中国用户组QQ群" title="" />
               </a>
             </Tooltip>
             <Tooltip title="Vert.x中国用户组QQ频道">
-              <a href="https://qun.qq.com/qqweb/qunpro/share?_wv=3&_wwv=128&inviteCode=1reLvB&from=246610&biz=ka" className="navbar-social-link" title="Vert.x中国用户组QQ群" target="_blank" rel="noopener noreferrer">
+              <a href="https://qun.qq.com/qqweb/qunpro/share?_wv=3&_wwv=128&inviteCode=1reLvB&from=246610&biz=ka" className="navbar-social-link" target="_blank" rel="noopener noreferrer">
                 <TencentQQGuild />
               </a>
             </Tooltip>
