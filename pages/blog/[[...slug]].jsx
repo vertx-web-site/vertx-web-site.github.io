@@ -13,7 +13,7 @@ import ScrollLink from "../../components/ScrollLink"
 import { compile, run } from "@mdx-js/mdx"
 import capitalize from "lodash/capitalize"
 import matter from "gray-matter"
-import * as runtime from "react/jsx-runtime.js"
+import * as runtime from "react/jsx-runtime"
 import { useEffect, useState } from "react"
 
 import { Clock } from "react-feather"

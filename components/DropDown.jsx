@@ -20,6 +20,11 @@ const DropDown = (({ title, children, align = "left" }) => {
     }
   }, [visible])
 
+  function onClick(e) {
+    setVisible(!visible)
+    e.stopPropagation()
+  }
+
   let hasActive = false
   Children.forEach(children, c => {
     let active = isValidElement(c) && c.props !== undefined && c.props.active
@@ -35,7 +40,7 @@ const DropDown = (({ title, children, align = "left" }) => {
 
   return (
     <div className="dropdown">
-      <a className="dropdown-title" onClick={() => setVisible(!visible)}>{title}<ChevronDown /></a>
+      <a className="dropdown-title" onClick={onClick}>{title}<ChevronDown /></a>
       <ul className={classNames("dropdown-menu", { visible, "align-right": align === "right" })}>
         {menuItems}
       </ul>
