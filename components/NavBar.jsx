@@ -153,7 +153,7 @@ const NavBar = () => {
               </a>
             </Tooltip>
             <Tooltip title="Vert.x中国用户组QQ群">
-              <a href="https://qm.qq.com/cgi-bin/qm/qr?k=7dYiBUbpsVbTduCUQEWmj5qijKTBEhJa&jump_from=webapi" className="navbar-social-link" target="_blank" rel="noopener noreferrer">
+              <a href="https://qm.qq.com/cgi-bin/qm/qr?k=I4Z94iAgTJXB6FyR_U5scsJHtkjb1pif&jump_from=webapi" className="navbar-social-link" target="_blank" rel="noopener noreferrer">
                 <Tencentqq aria-label="Vert.x中国用户组QQ群" title="" />
               </a>
             </Tooltip>
