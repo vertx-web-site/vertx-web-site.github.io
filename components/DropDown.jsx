@@ -20,9 +20,15 @@ const DropDown = (({ title, children, align = "left" }) => {
     }
   }, [visible])
 
-  function onClick(e) {
-    setVisible(!visible)
-    e.stopPropagation()
+  function onClick() {
+    // Let the click propagate to the parent element first before we make
+    // the drop down menu visible. This makes sure other drop down menus on the
+    // page are closed. If we'd call setVisible without setTimeout here, our
+    // menu would never be displayed because the onDocumentClick handler above
+    // would just hide it again.
+    setTimeout(() => {
+      setVisible(!visible)
+    }, 0)
   }
 
   let hasActive = false
