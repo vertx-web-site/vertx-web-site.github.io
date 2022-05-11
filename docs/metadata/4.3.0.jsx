@@ -1,6 +1,6 @@
 import { clone } from "./helpers"
 import oldDocs from "./4.2.0"
-import { insert } from "./helpers"
+import { insert, remove } from "./helpers"
 
 const docs = clone(oldDocs)
 
