@@ -108,6 +108,7 @@ jobs:
 
       - name: Prepare output directory
         run: |
+          mkdir vertx-web-site.github.io
           cd vertx-web-site.github.io
           touch .nojekyll
           echo vertx.io > CNAME
