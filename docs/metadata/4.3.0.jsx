@@ -9,19 +9,20 @@ remove(docs, "vertx-grpc")
 insert(docs, "vertx-grpc",
   {
     id: "vertx-grpc",
-    name: "gRPC",
+    name: "Vert.x gRPC",
     description: "Implement gRPC clients and servers with Vert.x.",
     category: "services",
     href: "/vertx-grpc/java/",
     repository: "https://github.com/eclipse-vertx/vertx-grpc",
-    edit: "https://github.com/eclipse-vertx/vertx-grpc/tree/master/vertx-grpc-common/src/main/asciidoc"
+    edit: "https://github.com/eclipse-vertx/vertx-grpc/tree/master/vertx-grpc-common/src/main/asciidoc",
+    label: "Technical Preview"
   }
  )
 
 insert(docs, "vertx-grpc-netty",
   {
     id: "vertx-grpc",
-    name: "gRPC",
+    name: "gRPC Netty",
     description: "gRPC Netty with Vert.x.",
     category: "services",
     href: "/vertx-grpc-netty/java/",
@@ -34,12 +35,13 @@ insert(docs, "vertx-grpc-netty",
 insert(docs, "vertx-uri-template",
   {
     id: "vertx-uri-template",
-    name: "Uri template",
+    name: "URI template",
     description: "URI Template RFC implementation.",
     category: "web",
     href: "/vertx-uri-template/java/",
     repository: "https://github.com/eclipse-vertx/vertx-uri-template/tree/main/",
-    edit: "https://github.com/eclipse-vertx/vertx-uri-template/tree/main/src/main/asciidoc"
+    edit: "https://github.com/eclipse-vertx/vertx-uri-template/tree/main/src/main/asciidoc",
+    label: "Technical Preview"
   }
  )
 
