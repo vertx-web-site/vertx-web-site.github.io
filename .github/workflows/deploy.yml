@@ -5,7 +5,7 @@ on:
     branches: [ master ]
 
 concurrency:
-  group: master
+  group: master-deploy
   cancel-in-progress: true
 
 permissions:
