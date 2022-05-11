@@ -122,11 +122,7 @@ jobs:
 
       - name: Copy API docs into output directory
         run: |
-          # GitHub pages does not support symlinks anymore - make a hard copy of the 'apidocs' directory
-          # mv .apidocs_temp/apidocs vertx-web-site.github.io/docs/
-          mkdir vertx-web-site.github.io/docs/apidocs
-          cp -r .apidocs_temp/apidocs/* vertx-web-site.github.io/docs/apidocs/
-          # Copy remaining apidocs
+          mv .apidocs_temp/apidocs vertx-web-site.github.io/docs/
           find .apidocs_temp -mindepth 1 -maxdepth 1 -type d -print0 | xargs -0 -n1 -I '{}' sh -xc 'mv {}/* vertx-web-site.github.io/docs/$(basename {})/'
       - run: |
           du -sh *
@@ -135,7 +131,7 @@ jobs:
       - name: Create Archive
         run: |
           cd vertx-web-site.github.io
-          tar -cf ../website.tar .
+          tar --dereference --hard-dereference -cf ../website.tar .
 
       - name: Upload Archive
         uses: actions/upload-artifact@v3
