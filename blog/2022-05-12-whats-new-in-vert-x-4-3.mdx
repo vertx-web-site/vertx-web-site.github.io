@@ -41,7 +41,31 @@ Several expansion https://vertx.io/docs/vertx-uri-template/java/#expansion_style
 
 ### Json Schema
 
-todo
+Json Schema validation has received a major update. In 4.3 we introduce support for more drafts:
+
+* Draft 4 (used by swagger and openapi 3.0)
+* Draft 7 (generally used by many services)
+* Draft 2019-09
+* Draft 2020-12 (used by openapi 3.1)
+
+This refactor required that the previous implementation was deprecated and will be replaced with a polyglot friendly
+alternative. In a nutshell, the new API can be used as:
+
+```java
+// when dealing with multiple schema resources, we need a repository:
+// 'options' defines the validation draft to be used, base uri, etc...
+SchemaRepository repository = SchemaRepository.create(options);
+
+// create a schema object
+JsonSchema schema = JsonSchema.of(jsonObject);
+
+// perform validation (if not using a repository)
+schema.validate(anyObject, options);
+// or
+repository.validator(schema).validate();
+```
+
+This work lays the foundation for future support of openapi in vertx-web.
 
 ## Vert.x gRPC
 
@@ -132,3 +156,47 @@ todo
 ### Shared HTTP Client
 
 todo
+
+### Vertx Web
+
+In vert.x web, one of the pain points by users is to figure out the right order for handlers. In 4.3 when adding
+multiple handlers under the same route, the order will be verified and a report will be signaled if the setup is
+incorrect.
+
+For example, adding a user handler before a body handler will raise an error:
+
+```java
+// Not allowed
+router.route("/api")
+  .handler(ctx -> {
+    // some logic...
+    System.out.println(ctx.body().toString());
+    ctx.next();
+  })
+  .handler(BodyHandler.create());
+
+// Allowed
+router.route("/api")
+  .handler(BodyHandler.create());
+  .handler(ctx -> {
+    // some logic...
+    System.out.println(ctx.body().toString());
+    ctx.next();
+  })
+```
+
+Also all security handlers that require callbacks, will now ensure that the callbacks are added in the right order, so
+no need to create temporary objects anymore:
+
+```java
+router.route("/secure")
+  .handler(OAuth2AuthHandler
+    .create(vertx, oauth2, "http://localhost:8080/callback")
+    .setupCallback(router.route("/callback")));
+```
+
+Before you would need to create a reference to the callback route before the oauth2 handler was added otherwise the
+callback handler would be shaded.
+
+Other small improvements were on processing the body of the request. We now cache the body which avoid parsing it's
+content on each `ctx.getBodyAsXXX()` invocation.
