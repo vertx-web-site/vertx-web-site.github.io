@@ -15,15 +15,15 @@ Here is an overview of the most important features supported in Vert.x 4.3.
 
 ## Web Client URI templates
 
-URI templates provide an alternative to HTTP request string URIs based on the https://datatracker.ietf.org/doc/html/rfc6570[URI Template RFC].
+URI templates provide an alternative to HTTP request string URIs based on the [URI Template RFC](https://datatracker.ietf.org/doc/html/rfc6570).
 
-A Vert.x URI https://vertx.io/docs/vertx-uri-template/java/[template] can be created
+A Vert.x URI [template](https://vertx.io/docs/vertx-uri-template/java/) can be created
 
 ```java
 UriTemplate REQUEST_URI = UriTemplate.of("/users{/user}");
 ```
 
-a web client can https://vertx.io/docs/vertx-web-client/java/#_uri_templates[use] to send a request
+a web client can [use](https://vertx.io/docs/vertx-web-client/java/#_uri_templates) to send a request
 
 ```java
 client.get(80, "myserver.mycompany.com", REQUEST_URI)
@@ -37,7 +37,7 @@ client.get(80, "myserver.mycompany.com", REQUEST_URI)
 
 URI templates expansion mechanism takes care of encoding parameter values, it can also handle lists and maps.
 
-Several expansion https://vertx.io/docs/vertx-uri-template/java/#expansion_styles[styles] are available for each relevant part of a URI.
+Several expansion [styles](https://vertx.io/docs/vertx-uri-template/java/#expansion_styles) are available for each relevant part of a URI.
 
 ### Json Schema
 
@@ -75,7 +75,7 @@ Netty versions must be matched and often forced, incompatibility with Vert.x Web
 The new gRPC stack for Vert.x gets rid of those limitations and provides a set of new exclusive features built on top of the
 Vert.x HTTP/2 stack.
 
-Beyond implementing the https://vertx.io/docs/vertx-grpc/java/#_stub_api[gRPC stub model],
+Beyond implementing the [gRPC stub model](https://vertx.io/docs/vertx-grpc/java/#_stub_api),
 Vert.x gRPC has a request/response API
 
 ```java
@@ -143,7 +143,7 @@ router.consumes("application/grpc").handler(grpcServer);
 
 ### Extra HTTP compression algorithms
 
-Vert.x HTTP server can https://vertx.io/docs/vertx-core/java/#_http_compression_algorithms[compress] brotli and gzstandard in addition of gzip.
+Vert.x HTTP server can [compress](https://vertx.io/docs/vertx-core/java/#_http_compression_algorithms) brotli and gzstandard in addition of gzip.
 
 to finish
 
