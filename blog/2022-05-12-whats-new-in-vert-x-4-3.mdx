@@ -275,3 +275,44 @@ Starting with this release, it is possible to read from and write to columns of 
 - `varbinary(max)`
 - `text` / `ntext`
 - `image`
+
+### User experience improvements in Shared Data and Event Bus areas
+
+#### `ClusterSerializable` as a public API member
+
+The interface `io.vertx.core.shareddata.impl.ClusterSerializable` [has been made public](https://github.com/vert-x3/wiki/wiki/4.3.0-Deprecations-and-breaking-changes#interface-iovertxcoreshareddataimplclusterserializable-deprecated-and-made-public).
+In previous versions, it was in an implementation package and this had discouraged some users to rely on it.
+
+If you didn't know, types implementing `ClusterSerializable` can be shared in [async maps](https://vertx.io/docs/vertx-core/java/#_asynchronous_shared_maps).
+
+#### More types supported
+
+In this version, it is possible to share objects of types `java.io.Serializable` or `io.vertx.core.shareddata.ClusterSerializable` in shared data maps and on the Event Bus.
+
+For safety reasons though, only approved classes are allowed to be encoded and decoded as message bodies on the Event Bus.
+
+For example, this is how to control which `Serializable` classes can be allowed:
+
+```java
+vertx.eventBus().serializableChecker(className -> {
+  return EventBus.DEFAULT_SERIALIZABLE_CHECKER.apply(className) || className.startsWith(AsyncMapTest.class.getName());
+});
+```
+
+#### Dynamic codec lookup
+
+When sending a message on the Event Bus, Vert.x uses the codec specified in `DeliveryOptions` or chooses one based on the message body type.
+
+In this version, it is possible to choose a registered codec when Vert.x has not been able to select one:
+
+```java
+MyEncodeEveryThingWithJacksonCodec everyThingWithJacksonCodec = new MyEncodeEveryThingWithJacksonCodec();
+vertx.eventBus().registerCodec(everyThingWithJacksonCodec);
+vertx.eventBus().codecSelector(body -> everyThingWithJacksonCodec.name());
+```
+
+This can solve a few use cases, for example:
+
+- selecting a codec that does nothing for objects to deliver locally if you know the object is immutable
+- you have many objects generated from `.proto` files and want to defer to _Protocol Buffers_ for serialization / deserialization
+- you want to use Jackson Databind for any object
