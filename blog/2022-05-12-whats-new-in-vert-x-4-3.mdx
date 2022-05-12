@@ -39,7 +39,7 @@ URI templates expansion mechanism takes care of encoding parameter values, it ca
 
 Several expansion [styles](https://vertx.io/docs/vertx-uri-template/java/#expansion_styles) are available for each relevant part of a URI.
 
-### Json Schema
+## Json Schema
 
 Json Schema validation has received a major update. In 4.3 we introduce support for more drafts:
 
@@ -117,7 +117,6 @@ grpcServer.callHandler(clientReq -> {
   });
 });
 ```
-
 Notice that the proxy does not need at any time to reference generated stubs, it works universally for any gRPC service.
 
 The proxy can forward compressed messages without intermediate decompression if the proxied server
@@ -146,14 +145,6 @@ router.consumes("application/grpc").handler(grpcServer);
 Vert.x HTTP servers can [compress](https://vertx.io/docs/vertx-core/java/#_http_compression_algorithms) to brotli and gzstandard in addition of gzip.
 
 Vert.x HTTP client can [decompress](https://vertx.io/docs/vertx-core/java/#_handling_compressed_body) brotli in addition of gzip.
-
-### MySQL client pipelining support
-
-The reactive MySQL client now supports pipelining like his elder brother the reactive PostgreSQL client.
-
-### Kafka 3
-
-Our Vert.x Kafka Client has been upgraded to use Apache Kafka Client 3.0
 
 ### Vertx Web
 
@@ -234,6 +225,10 @@ content on each `ctx.getBodyAsXXX()` invocation and finally, `BodyHandler` will 
 `Expect: Continue` when processing uploads, informing clients that they are allowed to start uploading if validation
 is correct.
 
+### MySQL client pipelining support
+
+The reactive MySQL client now supports pipelining like his elder brother the reactive PostgreSQL client.
+
 ### Reactive Microsoft SQL Server client
 
 #### Cursors and streaming
@@ -312,3 +307,8 @@ This can solve a few use cases, for example:
 - selecting a codec that does nothing for objects to deliver locally if you know the object is immutable
 - you have many objects generated from `.proto` files and want to defer to _Protocol Buffers_ for serialization / deserialization
 - you want to use Jackson Databind for any object
+
+### Kafka 3
+
+Our Vert.x Kafka Client has been upgraded to use Apache Kafka Client 3.0
+
