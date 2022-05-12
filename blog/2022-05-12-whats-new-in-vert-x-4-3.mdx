@@ -45,7 +45,77 @@ todo
 
 ## Vert.x gRPC
 
-todo
+Until 4.3, Vert.x gRPC support was built on top of gRPC Netty, it works very well yet with some friction:
+Netty versions must be matched and often forced, incompatibility with Vert.x Web, etc...
+
+The new gRPC stack for Vert.x gets rid of those limitations and provides a set of new exclusive features built on top of the
+Vert.x HTTP/2 stack.
+
+Beyond implementing the https://vertx.io/docs/vertx-grpc/java/#_stub_api[gRPC stub model],
+Vert.x gRPC has a request/response API
+
+```java
+GrpcServer grpcServer = GrpcServer.server(vertx);
+
+server.callHandler(GreeterGrpc.getSayHelloMethod(), request -> {
+
+  request.handler(hello -> {
+
+    GrpcServerResponse<HelloRequest, HelloReply> response = request.response();
+
+    HelloReply reply = HelloReply.newBuilder().setMessage("Hello " + hello.getName()).build();
+
+    response.end(reply);
+  });
+});
+
+vertx.createHttpServer(options);
+  .requestHandler(grpcServer)
+  .listen();
+```
+
+This API can also be used with protobuf data instead of decoded protobuf, giving the opportunity to easily build gRPC
+proxies with Vert.x:
+
+```java
+grpcServer.callHandler(clientReq -> {
+  clientReq.pause();
+  client.request(serverAddress).onSuccess(proxyReq -> {
+    proxyReq.response().onSuccess(resp -> {
+      GrpcServerResponse<Buffer, Buffer> bc = clientReq.response();
+      resp.messageHandler(bc::writeMessage);
+      resp.endHandler(v -> bc.end());
+    });
+    proxyReq.fullMethodName(clientReq.fullMethodName());
+    clientReq.messageHandler(proxyReq::writeMessage);
+    clientReq.endHandler(v -> proxyReq.end());
+    clientReq.resume();
+  });
+});
+```
+
+Notice that the proxy does not need at any time to reference generated stubs, it works universally for any gRPC service.
+
+The proxy can forward compressed messages without intermediate decompression if the proxied server
+supports compression.
+
+Finally the Vert.x gRPC server can be used within a Vert.x Web router:
+
+```java
+GreeterGrpc.GreeterImplBase service = new GreeterGrpc.GreeterImplBase() {
+  @Override
+  public void sayHello(HelloRequest request, StreamObserver<HelloReply> responseObserver) {
+    responseObserver.onNext(HelloReply.newBuilder().setMessage("Hello " + request.getName()).build());
+    responseObserver.onCompleted();
+  }
+};
+
+GrpcServer grpcServer = GrpcServer.server(vertx);
+GrpcServiceBridge serverStub = GrpcServiceBridge.bridge(service);
+serverStub.bind(grpcServer);
+
+router.consumes("application/grpc").handler(grpcServer);
+```
 
 ### MySQL pipelining support
 
