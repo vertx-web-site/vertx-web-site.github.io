@@ -189,6 +189,18 @@ router.route("/api")
   })
 ```
 
+The validation will verify that handlers are added in the following order:
+
+1. `PLATFORM`: platform handlers (`LoggerHandler`, `FaviconHandler`, etc)
+2. `SECURITY_POLICY`: HTTP Security policies (`CSPHandler`, `CorsHandler`, etc...)
+3. `BODY`: Body parsing (`BodyHandler`)
+4. `AUTHENTICATION`: Authn (`JWTAuthHandler`, `APIKeyHandler`, `WebauthnHandler`, etc...)
+5. `INPUT_TRUST`: Input verification (`CSRFHandler`)
+6. `AUTHORIZATION`: Authz (`AuthorizationHandler`)
+
+If your handler is performing any specific task, you can mark it as any of these by adding the marker interface to your
+implementation.
+
 In addition, security handlers using callbacks, now ensure that callbacks are added in the right order, relieving from
 creating temporary objects:
 
