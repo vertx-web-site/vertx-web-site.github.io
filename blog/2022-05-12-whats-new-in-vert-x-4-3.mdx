@@ -143,11 +143,13 @@ router.consumes("application/grpc").handler(grpcServer);
 
 ### Extra HTTP compression algorithms
 
-todo
+Vert.x HTTP server can https://vertx.io/docs/vertx-core/java/#_http_compression_algorithms[compress] brotli and gzstandard in addition of gzip.
+
+to finish
 
 ### MySQL client pipelining support
 
-The reactive MySQL client now supports pipelining like his elder brother the reactive PostgreSQL client. 
+The reactive MySQL client now supports pipelining like his elder brother the reactive PostgreSQL client.
 
 ### Kafka 3.0
 
@@ -159,9 +161,9 @@ todo
 
 ### Vertx Web
 
-In vert.x web, one of the pain points by users is to figure out the right order for handlers. In 4.3 when adding
-multiple handlers under the same route, the order will be verified and a report will be signaled if the setup is
-incorrect.
+Figuring out the right order for handlers can be sometimes tricky.
+
+In 4.3 we now do checks the order when multiple handlers are added under the same route and incorrect setup are signaled.
 
 For example, adding a user handler before a body handler will raise an error:
 
@@ -185,8 +187,8 @@ router.route("/api")
   })
 ```
 
-Also all security handlers that require callbacks, will now ensure that the callbacks are added in the right order, so
-no need to create temporary objects anymore:
+In addition security handlers using callbacks, now ensure that callbacks are added in the right order, relieving from
+creating temporary objects:
 
 ```java
 router.route("/secure")
@@ -195,7 +197,7 @@ router.route("/secure")
     .setupCallback(router.route("/callback")));
 ```
 
-Before you would need to create a reference to the callback route before the oauth2 handler was added otherwise the
+Previously a reference to the callback route had to be created before the oauth2 handler was added otherwise the
 callback handler would be shaded.
 
 Other small improvements were on processing the body of the request. We now cache the body which avoid parsing it's
