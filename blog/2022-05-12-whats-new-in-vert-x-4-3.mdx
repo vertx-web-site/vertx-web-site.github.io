@@ -159,6 +159,8 @@ todo
 
 ### Vertx Web
 
+#### Safe route configuration
+
 In vert.x web, one of the pain points by users is to figure out the right order for handlers. In 4.3 when adding
 multiple handlers under the same route, the order will be verified and a report will be signaled if the setup is
 incorrect.
@@ -185,10 +187,41 @@ router.route("/api")
   })
 ```
 
-Also all security handlers that require callbacks, will now ensure that the callbacks are added in the right order, so
+All builtin handlers are now classified as:
+
+* PLATFORM (enhancement of the platform, such as logging)
+* SECURITY_POLICY (HTTP security policies such as CSP, HSTS, etc...)
+* BODY (Body parsing related handlers)
+* AUTHENTICATION (should be self explanatory)
+* INPUT_TRUST (input validation)
+* AUTHORIZATION (should be self explanatory)
+* USER (any other handler)
+
+If you have a handler that performs any of these tasks and want to make use of the runtime validation all it is required
+is to mark your implementation with one of the marker interfaces. If no marker interface is used, then it's always
+assumed to be a user handler.
+
+#### Safe security callback setup
+
+Also, all security handlers that require callbacks, will now ensure that the callbacks are added in the right order, so
 no need to create temporary objects anymore:
 
 ```java
+// Before
+
+// Need a reference to a route, so it gets added before the oauth2 handler
+Route callback = router.route();
+
+// add the oauth2 handler to the router
+OAuth2AuthHandler oauth2Handler = OAuth2AuthHandler
+    .create(vertx, oauth2, "http://localhost:8080/callback");
+router.route("/secure")
+  .handler(oauth2Handler);
+
+// configure the previously allocated route + configure it
+oauth2Handler.setupCallback(callback);
+
+// With the safe security setup of 4.3.0
 router.route("/secure")
   .handler(OAuth2AuthHandler
     .create(vertx, oauth2, "http://localhost:8080/callback")
@@ -198,5 +231,9 @@ router.route("/secure")
 Before you would need to create a reference to the callback route before the oauth2 handler was added otherwise the
 callback handler would be shaded.
 
-Other small improvements were on processing the body of the request. We now cache the body which avoid parsing it's
+This feature applies to all security handler that use callbacks, for example: `OAuth2`, `OTP` and `Webauthn`.
+
+#### Other notorious improvements
+
+Other small improvements were on processing the body of the request. We now cache the body which avoids parsing its
 content on each `ctx.getBodyAsXXX()` invocation.
