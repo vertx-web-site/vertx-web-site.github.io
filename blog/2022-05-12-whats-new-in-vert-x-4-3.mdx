@@ -13,9 +13,31 @@ Vert.x 4.3 comes with plenty of new exciting features.
 
 Here is an overview of the most important features supported in Vert.x 4.3.
 
-## Vert.x URI Template
+## Web Client URI templates
 
-todo
+URI templates provide an alternative to HTTP request string URIs based on the https://datatracker.ietf.org/doc/html/rfc6570[URI Template RFC].
+
+A Vert.x URI https://vertx.io/docs/vertx-uri-template/java/[template] can be created
+
+```java
+UriTemplate REQUEST_URI = UriTemplate.of("/users{/user}");
+```
+
+a web client can https://vertx.io/docs/vertx-web-client/java/#_uri_templates[use] to send a request
+
+```java
+client.get(80, "myserver.mycompany.com", REQUEST_URI)
+  .setTemplateParam("user", "cooper")
+  .send()
+  .onSuccess(res ->
+    System.out.println("Received response with status code" + res.statusCode()))
+  .onFailure(err ->
+    System.out.println("Something went wrong " + err.getMessage()));
+```
+
+URI templates expansion mechanism takes care of encoding parameter values, it can also handle lists and maps.
+
+Several expansion https://vertx.io/docs/vertx-uri-template/java/#expansion_styles[styles] are available for each relevant part of a URI.
 
 ### Json Schema
 
