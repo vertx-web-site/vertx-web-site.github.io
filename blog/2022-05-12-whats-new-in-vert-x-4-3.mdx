@@ -143,11 +143,13 @@ router.consumes("application/grpc").handler(grpcServer);
 
 ### Extra HTTP compression algorithms
 
-todo
+Vert.x HTTP server can https://vertx.io/docs/vertx-core/java/#_http_compression_algorithms[compress] brotli and gzstandard in addition of gzip.
+
+to finish
 
 ### MySQL client pipelining support
 
-The reactive MySQL client now supports pipelining like his elder brother the reactive PostgreSQL client. 
+The reactive MySQL client now supports pipelining like his elder brother the reactive PostgreSQL client.
 
 ### Kafka 3.0
 
@@ -159,55 +161,39 @@ todo
 
 ### Vertx Web
 
-#### Safe route configuration
+Figuring out the right order for handlers can be sometimes tricky.
 
-In vert.x web, one of the pain points by users is to figure out the right order for handlers. In 4.3 when adding
-multiple handlers under the same route, the order will be verified and a report will be signaled if the setup is
-incorrect.
+In 4.3 we now do checks the order when multiple handlers are added under the same route and incorrect setup are signaled.
 
 For example, adding a user handler before a body handler will raise an error:
 
 ```java
-// Not allowed
+// Incorrect setup, but allowed before 4.3.0
 router.route("/api")
   .handler(ctx -> {
-    // some logic...
+    // this would always print `null`
     System.out.println(ctx.body().toString());
     ctx.next();
   })
   .handler(BodyHandler.create());
 
-// Allowed
+// Correct setup, that will be allowed from 4.3.0
 router.route("/api")
   .handler(BodyHandler.create());
   .handler(ctx -> {
-    // some logic...
+    // Now it correctly prints the request body
+    // as vertx-web guarantees that the body handler
+    // has been executed before
     System.out.println(ctx.body().toString());
     ctx.next();
   })
 ```
 
-All builtin handlers are now classified as:
-
-* PLATFORM (enhancement of the platform, such as logging)
-* SECURITY_POLICY (HTTP security policies such as CSP, HSTS, etc...)
-* BODY (Body parsing related handlers)
-* AUTHENTICATION (should be self explanatory)
-* INPUT_TRUST (input validation)
-* AUTHORIZATION (should be self explanatory)
-* USER (any other handler)
-
-If you have a handler that performs any of these tasks and want to make use of the runtime validation all it is required
-is to mark your implementation with one of the marker interfaces. If no marker interface is used, then it's always
-assumed to be a user handler.
-
-#### Safe security callback setup
-
-Also, all security handlers that require callbacks, will now ensure that the callbacks are added in the right order, so
-no need to create temporary objects anymore:
+In addition, security handlers using callbacks, now ensure that callbacks are added in the right order, relieving from
+creating temporary objects:
 
 ```java
-// Before
+// Before 4.3.0
 
 // Need a reference to a route, so it gets added before the oauth2 handler
 Route callback = router.route();
@@ -228,7 +214,7 @@ router.route("/secure")
     .setupCallback(router.route("/callback")));
 ```
 
-Before you would need to create a reference to the callback route before the oauth2 handler was added otherwise the
+Previously a reference to the callback route had to be created before the oauth2 handler was added otherwise the
 callback handler would be shaded.
 
 This feature applies to all security handler that use callbacks, for example: `OAuth2`, `OTP` and `Webauthn`.
@@ -236,4 +222,6 @@ This feature applies to all security handler that use callbacks, for example: `O
 #### Other notorious improvements
 
 Other small improvements were on processing the body of the request. We now cache the body which avoids parsing its
-content on each `ctx.getBodyAsXXX()` invocation.
+content on each `ctx.getBodyAsXXX()` invocation and finally, `BodyHandler` will now respect the HTTP directive
+`Expect: Continue` when processing uploads, informing clients that they are allowed to start uploading if validation
+is correct.
