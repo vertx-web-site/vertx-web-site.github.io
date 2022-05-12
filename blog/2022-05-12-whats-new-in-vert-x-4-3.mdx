@@ -237,3 +237,41 @@ Other small improvements were on processing the body of the request. We now cach
 content on each `ctx.getBodyAsXXX()` invocation and finally, `BodyHandler` will now respect the HTTP directive
 `Expect: Continue` when processing uploads, informing clients that they are allowed to start uploading if validation
 is correct.
+
+### Reactive Microsoft SQL Server client
+
+#### Cursors and streaming
+
+The Reactive Microsoft SQL Server client supports [cursor fetching and streaming](https://vertx.io/docs/vertx-mssql-client/java/#_cursors_and_streaming) like the PostgreSQL and MySQL client.
+
+For example, you can create a `RowStream` using from a `PreparedStatement`:
+
+```java
+connection.prepare("SELECT * FROM users WHERE age > @p1", ar1 -> {
+  if (ar1.succeeded()) {
+    PreparedStatement pq = ar1.result();
+
+    // Fetch 50 rows at a time
+    RowStream<Row> stream = pq.createStream(50, Tuple.of(18));
+
+    // Use the stream
+    stream.exceptionHandler(err -> {
+      System.out.println("Error: " + err.getMessage());
+    });
+    stream.endHandler(v -> {
+      System.out.println("End of stream");
+    });
+    stream.handler(row -> {
+      System.out.println("User: " + row.getString("last_name"));
+    });
+  }
+});
+```
+
+#### More data types
+
+Starting with this release, it is possible to read from and write to columns of the following types:
+
+- `varbinary(max)`
+- `text` / `ntext`
+- `image`
