@@ -143,21 +143,17 @@ router.consumes("application/grpc").handler(grpcServer);
 
 ### Extra HTTP compression algorithms
 
-Vert.x HTTP server can [compress](https://vertx.io/docs/vertx-core/java/#_http_compression_algorithms) brotli and gzstandard in addition of gzip.
+Vert.x HTTP servers can [compress](https://vertx.io/docs/vertx-core/java/#_http_compression_algorithms) to brotli and gzstandard in addition of gzip.
 
-to finish
+Vert.x HTTP client can [decompress](https://vertx.io/docs/vertx-core/java/#_handling_compressed_body) brotli in addition of gzip.
 
 ### MySQL client pipelining support
 
 The reactive MySQL client now supports pipelining like his elder brother the reactive PostgreSQL client.
 
-### Kafka 3.0
+### Kafka 3
 
-todo
-
-### Shared HTTP Client
-
-todo
+Our Vert.x Kafka Client has been upgraded to use Apache Kafka Client 3.0
 
 ### Vertx Web
 
