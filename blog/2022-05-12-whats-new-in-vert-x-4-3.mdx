@@ -218,7 +218,7 @@ callback handler would be shaded.
 
 This feature applies to all security handler that use callbacks, for example: `OAuth2`, `OTP` and `Webauthn`.
 
-#### Other notorious improvements
+#### Other notable improvements
 
 Other small improvements were on processing the body of the request. We now cache the body which avoids parsing its
 content on each `ctx.getBodyAsXXX()` invocation and finally, `BodyHandler` will now respect the HTTP directive
