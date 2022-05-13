@@ -14,6 +14,12 @@ async function extractEntry(zipfile, entry, extractedVersionPath,
     return
   }
 
+  if (entry.fileName.startsWith("scaladocs/") || entry.fileName.startsWith("yardoc/") ||
+      entry.fileName.startsWith("kdoc/")) {
+    // skip unnecessary files
+    return
+  }
+
   let destPath
   if (entry.fileName.startsWith("apidocs/")) {
     destPath = path.join(publicDocsVersionPath, entry.fileName)
