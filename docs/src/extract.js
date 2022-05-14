@@ -2,6 +2,8 @@ import fs from "fs/promises"
 import fsSync from "fs"
 import path from "path"
 import yauzl from "yauzl"
+import Seven from "node-7z"
+import which from "which"
 
 const downloadPath = "download"
 const extractedPath = "extracted"
@@ -71,6 +73,26 @@ async function extract(version, artifactVersion, progressListener, apidocsOnly =
   await fs.mkdir(extractedVersionPath, { recursive: true })
   await fs.mkdir(publicDocsVersionPath, { recursive: true })
 
+  let sevenExists = false
+  if (apidocsOnly) {
+    try {
+      await which("7z")
+      sevenExists = true
+    } catch (e) {
+      sevenExists = false
+    }
+  }
+
+  if (apidocsOnly && sevenExists) {
+    await extract7zApidocsOnly(version, artifactVersion, progressListener, publicDocsVersionPath)
+  } else {
+    await extractInternal(version, artifactVersion, progressListener, apidocsOnly,
+      extractedVersionPath, publicDocsVersionPath)
+  }
+}
+
+async function extractInternal(version, artifactVersion, progressListener,
+    apidocsOnly, extractedVersionPath, publicDocsVersionPath) {
   await new Promise((resolve, reject) => {
     let zipFilePath = path.join(downloadPath, `vertx-stack-docs-${artifactVersion}-docs.zip`)
     yauzl.open(zipFilePath, { lazyEntries: true }, (err, zipfile) => {
@@ -96,6 +118,33 @@ async function extract(version, artifactVersion, progressListener, apidocsOnly =
       })
 
       zipfile.readEntry()
+    })
+  })
+}
+
+async function extract7zApidocsOnly(version, artifactVersion, progressListener,
+    publicDocsVersionPath) {
+  await new Promise((resolve, reject) => {
+    let progressStarted = false
+    let zipFilePath = path.join(downloadPath, `vertx-stack-docs-${artifactVersion}-docs.zip`)
+    const e = Seven.extractFull(zipFilePath, publicDocsVersionPath, {
+      $progress: true,
+      overwrite: "s",
+      // exclude: ["!kdoc", "!scaladocs", "!yardoc", "!jsdoc"]
+      include: ["!apidocs"]
+    })
+    e.on("progress", progress => {
+      if (!progressStarted) {
+        progressListener?.start(100, `Extract ${version} (7z)`)
+        progressStarted = true
+      }
+      progressListener?.update(progress.percent)
+    })
+    e.on("end", () => {
+      resolve()
+    })
+    e.on("error", err => {
+      reject(err)
     })
   })
 }
