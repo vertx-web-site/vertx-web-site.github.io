@@ -15,7 +15,7 @@ async function extractEntry(zipfile, entry, extractedVersionPath,
   }
 
   if (entry.fileName.startsWith("scaladocs/") || entry.fileName.startsWith("yardoc/") ||
-      entry.fileName.startsWith("kdoc/")) {
+      entry.fileName.startsWith("kdoc/") || entry.fileName.startsWith("jsdoc/")) {
     // skip unnecessary files
     return
   }
