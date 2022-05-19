@@ -139,7 +139,7 @@ const NavBar = () => {
               </a>
             </Tooltip>
             <Tooltip title="Discord">
-              <a href="https://discord.gg/KzEMwP2" className="navbar-social-link" target="_blank" rel="noopener noreferrer">
+              <a href="https://discord.gg/6ry7aqPWXy" className="navbar-social-link" target="_blank" rel="noopener noreferrer">
                 <Discord aria-label="Eclipse Vert.x channel on Discord" title="" />
               </a>
             </Tooltip>
