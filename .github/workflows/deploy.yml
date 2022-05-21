@@ -154,4 +154,4 @@ jobs:
               repo: context.repo.repo,
               run_id: context.runId
             })
-            console.log(artifacts)
+            console.log(await artifacts)
