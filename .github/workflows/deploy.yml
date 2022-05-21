@@ -152,6 +152,6 @@ jobs:
             let artifacts = github.rest.actions.listWorkflowRunArtifacts({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              run_id: runId
+              run_id: context.runId
             })
             console.log(artifacts)
