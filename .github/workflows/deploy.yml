@@ -92,7 +92,6 @@ jobs:
       - run: npm run build
         env:
           GITHUB_ACCESS_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
-          VERTX_WEBSITE_BASEPATH: /vertx-web-site
       - run: |
           du -sh *
           df -h / /mnt
