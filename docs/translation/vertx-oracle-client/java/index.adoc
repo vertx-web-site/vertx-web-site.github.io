@@ -31,7 +31,7 @@ To use the Reactive Oracle Client add the following dependency to the _dependenc
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-oracle-client</artifactId>
- <version>4.2.7</version>
+ <version>4.3.0</version>
 </dependency>
 ----
 * Gradle (in your `build.gradle` file):
@@ -39,7 +39,7 @@ To use the Reactive Oracle Client add the following dependency to the _dependenc
 [source,groovy]
 ----
 dependencies {
- compile 'io.vertx:vertx-oracle-client:4.2.7'
+ compile 'io.vertx:vertx-oracle-client:4.3.0'
 }
 ----
 

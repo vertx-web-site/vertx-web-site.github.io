@@ -19,7 +19,7 @@ To use vert.x unit, add the following dependency to the _dependencies_ section o
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-unit</artifactId>
- <version>4.2.7</version>
+ <version>4.3.0</version>
  <scope>test</scope>
 </dependency>
 ----
@@ -28,7 +28,7 @@ To use vert.x unit, add the following dependency to the _dependencies_ section o
 
 [source,groovy,subs="+attributes"]
 ----
-testCompile ${io.vertx}:${vertx-unit}:4.2.7
+testCompile ${io.vertx}:${vertx-unit}:4.3.0
 ----
 
 Vert.x unit can be used in different ways and run anywhere your code runs, it is just a matter of reporting
@@ -981,7 +981,33 @@ public class TimeoutTestSuite {
 }
 ----
 
-NOTE: the `@Test` timeout overrides the the `link:../../apidocs/io/vertx/ext/unit/junit/Timeout.html[Timeout]` rule.
+NOTE: Use `io.vertx.ext.unit.junit.Timeout`, not `org.junit.rules.Timeout`.
+
+The method level timeout overwrites the class level timeout:
+
+.Combine the class level rule with a method level timeout
+[source,java]
+----
+@RunWith(VertxUnitRunner.class)
+public class TimeoutOverwriteTestSuite {
+
+  @Rule
+  public Timeout rule = Timeout.millis(5_000L);
+
+  @Test
+  public void testQuick(TestContext context) {
+    //...
+  }
+
+  @Test(timeout = 30_000L)
+  public void testSlow(TestContext context) {
+    //...
+  }
+}
+----
+
+NOTE: The `@Test` timeout overrides the `io.vertx.ext.unit.junit.Timeout` rule but not the
+`org.junit.rules.Timeout` rule.
 
 === Parameterized tests
 

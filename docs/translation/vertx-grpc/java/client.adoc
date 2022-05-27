@@ -1,0 +1,293 @@
+== Vert.x gRPC Client
+
+Vert.x gRPC Client is a new gRPC client powered by Vert.x HTTP client superseding the integrated Netty based gRPC client.
+
+This client provides a gRPC request/response client API as well as a the generated stub approach with a gRPC Channel
+
+=== Using Vert.x gRPC Client
+
+To use Vert.x gRPC Client, add the following dependency to the _dependencies_ section of your build descriptor:
+
+* Maven (in your `pom.xml`):
+
+[source,xml,subs="+attributes"]
+----
+<dependency>
+ <groupId>io.vertx</groupId>
+ <artifactId>vertx-grpc-client</artifactId>
+ <version>4.3.0</version>
+</dependency>
+----
+
+* Gradle (in your `build.gradle` file):
+
+[source,groovy,subs="+attributes"]
+----
+dependencies {
+ compile 'io.vertx:vertx-grpc-client:4.3.0'
+}
+----
+
+=== gRPC request/response client API
+
+The gRPC request/response client API provides an alternative way to interact with a server without the need of a generated stub.
+
+You can easily create the gRPC client
+
+[source,java]
+----
+GrpcClient client = GrpcClient.client(vertx);
+----
+
+==== Request/response
+
+Any interaction with a gRPC server involves creating a request to the remote gRPC service
+
+[source,java]
+----
+SocketAddress server = SocketAddress.inetSocketAddress(443, "example.com");
+MethodDescriptor<HelloRequest, HelloReply> sayHelloMethod = GreeterGrpc.getSayHelloMethod();
+Future<GrpcClientRequest<HelloRequest, HelloReply>> fut = client.request(server, sayHelloMethod);
+fut.onSuccess(request -> {
+  // The end method calls the service
+  request.end(HelloRequest.newBuilder().setName("Bob").build());
+});
+----
+
+The ``link:../../apidocs/io/vertx/grpc/client/GrpcClientRequest.html#response--[response]`` holds the response and the
+``link:../../apidocs/io/vertx/grpc/common/GrpcReadStream.html#last--[last]`` holds the result
+
+[source,java]
+----
+request.response().onSuccess(response -> {
+  Future<HelloReply> fut = response.last();
+  fut.onSuccess(reply -> {
+    System.out.println("Received " + reply.getMessage());
+  });
+});
+----
+
+Future composition can combine all the previous steps together in a compact fashion
+
+[source,java]
+----
+client
+  .request(server, GreeterGrpc.getSayHelloMethod()).compose(request -> {
+    request.end(HelloRequest
+      .newBuilder()
+      .setName("Bob")
+      .build());
+    return request.response().compose(response -> response.last());
+  }).onSuccess(reply -> {
+    System.out.println("Received " + reply.getMessage());
+  });
+----
+
+==== Streaming request
+
+A streaming request involves calling ``link:../../apidocs/io/vertx/core/streams/WriteStream.html#write-java.lang.Object-[write]`` for each element of the stream
+and using ``link:../../apidocs/io/vertx/core/streams/WriteStream.html#end--[end]`` to end the stream
+
+[source,java]
+----
+client
+  .request(server, StreamingGrpc.getSinkMethod())
+  .onSuccess(request -> {
+  for (int i = 0;i < 10;i++) {
+    request.write(Item.newBuilder().setValue("1").build());
+  }
+  request.end();
+});
+----
+
+==== Streaming response
+
+You can set handlers to process response events
+
+[source,java]
+----
+client
+  .request(server, StreamingGrpc.getSourceMethod())
+  .compose(request -> {
+    request.end(Empty.getDefaultInstance());
+    return request.response();
+  })
+  .onSuccess(response -> {
+    response.handler(item -> {
+      // Process item
+    });
+    response.endHandler(v -> {
+      // Done
+    });
+    response.exceptionHandler(err -> {
+      // Something went bad
+    });
+  });
+----
+
+==== Bidi request/response
+
+A bidi request/response is simply the combination of a streaming request and a streaming response.
+
+=== Flow control
+
+Request and response are back pressured Vert.x streams.
+
+You can check the writability of a request and set a drain handler
+
+[source,java]
+----
+if (request.writeQueueFull()) {
+  request.drainHandler(v -> {
+    // Writable again
+  });
+} else {
+  request.write(item);
+}
+----
+
+You can pause/resume/fetch a response
+
+[source,java]
+----
+response.pause();
+
+performAsyncOperation().onComplete(ar -> {
+  // And then resume
+  response.resume();
+});
+----
+
+=== Cancellation
+
+You can call ``link:../../apidocs/io/vertx/grpc/common/GrpcWriteStream.html#cancel--[cancel]`` to cancel a request
+
+[source,java]
+----
+client
+  .request(server, StreamingGrpc.getSourceMethod())
+  .compose(request -> {
+    request.end(Empty.getDefaultInstance());
+    return request.response();
+  })
+  .onSuccess(response -> {
+    response.handler(item -> {
+      // Process item
+    });
+    response.endHandler(v -> {
+      // Done
+    });
+    response.exceptionHandler(err -> {
+      // Something went bad
+    });
+  });
+----
+
+NOTE: cancellation sends an HTTP/2 reset frame to the server
+
+=== Compression
+
+You can compress request messages by setting the request encoding *prior* before sending any message
+
+[source,java]
+----
+request.encoding("gzip");
+
+// Write items after encoding has been defined
+request.write(Item.newBuilder().setValue("item-1").build());
+request.write(Item.newBuilder().setValue("item-2").build());
+request.write(Item.newBuilder().setValue("item-3").build());
+----
+
+=== Decompression
+
+Decompression is done transparently by the client when the server send encoded responses.
+
+=== Stub API
+
+The Vert.x gRPC Client provides a gRPC channel to use with a generated client stub in a more traditional fashion
+
+[source,java]
+----
+GrpcClientChannel channel = new GrpcClientChannel(client, SocketAddress.inetSocketAddress(443, "example.com"));
+
+GreeterGrpc.GreeterStub greeter = GreeterGrpc.newStub(channel);
+
+greeter.sayHello(HelloRequest.newBuilder().setName("Bob").build(), new StreamObserver<HelloReply>() {
+  @Override
+  public void onNext(HelloReply value) {
+    // Process response
+  }
+  @Override
+  public void onCompleted() {
+    // Done
+  }
+  @Override
+  public void onError(Throwable t) {
+    // Something went bad
+  }
+});
+----
+
+=== Message level API
+
+The client provides a message level API to interact directly with protobuf encoded gRPC messages.
+
+TIP: the client message level API can be used with the server message level API to write a gRPC reverse proxy
+
+Such API is useful when you are not interested in the content of the messages, and instead you want to forward them to
+another service, e.g. you are writing a proxy.
+
+[source,java]
+----
+Future<GrpcClientRequest<Buffer, Buffer>> requestFut = client.request(server);
+
+requestFut.onSuccess(request -> {
+
+  // Set the service name and the method to call
+  request.serviceName(ServiceName.create("helloworld", "Greeter"));
+  request.methodName("SayHello");
+
+  // Send the protobuf request
+  request.end(protoHello);
+
+  // Handle the response
+  Future<GrpcClientResponse<Buffer, Buffer>> responseFut = request.response();
+  responseFut.onSuccess(response -> {
+    response.handler(protoReply -> {
+      // Handle the protobuf reply
+    });
+  });
+});
+----
+
+You can also set a `messageHandler` to handle ``link:../../apidocs/io/vertx/grpc/common/GrpcMessage.html[GrpcMessage]``, such messages preserve the server encoding.
+
+[source,java]
+----
+Future<GrpcClientRequest<Buffer, Buffer>> requestFut = client.request(server);
+
+requestFut.onSuccess(request -> {
+
+  // Set the service name and the method to call
+  request.serviceName(ServiceName.create("helloworld", "Greeter"));
+  request.methodName("SayHello");
+
+  // Send the protobuf request
+  request.endMessage(GrpcMessage.message("identity", protoHello));
+
+  // Handle the response
+  Future<GrpcClientResponse<Buffer, Buffer>> responseFut = request.response();
+  responseFut.onSuccess(response -> {
+    response.messageHandler(replyMessage -> {
+      System.out.println("Got reply message encoded as " + replyMessage.encoding());
+    });
+  });
+});
+----
+
+The ``link:../../apidocs/io/vertx/grpc/common/GrpcWriteStream.html#writeMessage-io.vertx.grpc.common.GrpcMessage-[writeMessage]`` and ``link:../../apidocs/io/vertx/grpc/common/GrpcWriteStream.html#endMessage-io.vertx.grpc.common.GrpcMessage-[endMessage]`` will
+handle the message encoding:
+
+- when the message uses the response encoding, the message is sent as is
+- when the message uses a different encoding, it will be encoded, e.g. compressed or uncompressed

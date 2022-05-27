@@ -10,7 +10,7 @@ To use this project, add the following dependency to the _dependencies_ section 
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-auth-oauth2</artifactId>
- <version>4.2.7</version>
+ <version>4.3.0</version>
 </dependency>
 ----
 
@@ -18,7 +18,7 @@ To use this project, add the following dependency to the _dependencies_ section 
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-auth-oauth2:4.2.7'
+compile 'io.vertx:vertx-auth-oauth2:4.3.0'
 ----
 
 OAuth2 lets users grant the access to the desired resources to third party applications, giving them the possibility
@@ -95,7 +95,7 @@ OAuth2Auth oauth2 = OAuth2Auth.create(vertx, new OAuth2Options()
 // a challenge
 
 String authorization_uri = oauth2.authorizeURL(new JsonObject()
-  .put("redirect_uri", "http://localhost:8080/callback")
+  .put("redirectUri", "http://localhost:8080/callback")
   .put("scope", "notifications")
   .put("state", "3(#0/!~"));
 
@@ -110,7 +110,7 @@ String code = "xxxxxxxxxxxxxxxxxxxxxxxx";
 oauth2.authenticate(
   new JsonObject()
     .put("code", code)
-    .put("redirect_uri", "http://localhost:8080/callback"))
+    .put("redirectUri", "http://localhost:8080/callback"))
   .onSuccess(user -> {
     // save the token and continue...
   })
@@ -140,7 +140,7 @@ OAuth2Auth oauth2 = OAuth2Auth.create(vertx, credentials);
 
 // Authorization oauth2 URI
 String authorization_uri = oauth2.authorizeURL(new JsonObject()
-  .put("redirect_uri", "http://localhost:8080/callback")
+  .put("redirectUri", "http://localhost:8080/callback")
   .put("scope", "<scope>")
   .put("state", "<state>"));
 
@@ -151,7 +151,7 @@ response.putHeader("Location", authorization_uri)
 
 JsonObject tokenConfig = new JsonObject()
   .put("code", "<code>")
-  .put("redirect_uri", "http://localhost:3000/callback");
+  .put("redirectUri", "http://localhost:3000/callback");
 
 // Callbacks
 // Save the access token

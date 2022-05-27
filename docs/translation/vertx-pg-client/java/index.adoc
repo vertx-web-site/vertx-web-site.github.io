@@ -32,7 +32,7 @@ To use the Reactive PostgreSQL Client add the following dependency to the _depen
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-pg-client</artifactId>
- <version>4.2.7</version>
+ <version>4.3.0</version>
 </dependency>
 ----
 * Gradle (in your `build.gradle` file):
@@ -40,7 +40,7 @@ To use the Reactive PostgreSQL Client add the following dependency to the _depen
 [source,groovy]
 ----
 dependencies {
- compile 'io.vertx:vertx-pg-client:4.2.7'
+ compile 'io.vertx:vertx-pg-client:4.3.0'
 }
 ----
 
@@ -178,16 +178,31 @@ pool.getConnection().compose(conn -> {
 
 Once you are done with the connection you must close it to release it to the pool, so it can be reused.
 
+== Command pipelining
+
+In some use cases, command pipelining can improve database access performance.
+
+You can configure the client to use pipelining
+
+[source,java]
+----
+PgPool pool = PgPool.pool(vertx, connectOptions.setPipeliningLimit(16), poolOptions);
+----
+
+The default pipelining limit is `256`.
+
+You can set this value to `1` to disable pipelining.
+
 == Pool versus pooled client
 
 The `link:../../apidocs/io/vertx/pgclient/PgPool.html[PgPool]` allows you to create a pool or a pooled client
 
 [source,java]
 ----
-SqlClient pooledClient = PgPool.client(vertx, connectOptions, poolOptions);
+SqlClient client = PgPool.client(vertx, connectOptions, poolOptions);
 
 // Pipelined
-Future<RowSet<Row>> res1 = pooledClient.query(sql).execute();
+Future<RowSet<Row>> res1 = client.query(sql).execute();
 
 // Connection pool
 PgPool pool = PgPool.pool(vertx, connectOptions, poolOptions);
@@ -196,8 +211,8 @@ PgPool pool = PgPool.pool(vertx, connectOptions, poolOptions);
 Future<RowSet<Row>> res2 = pool.query(sql).execute();
 ----
 
-- pool operations are not pipelined, only connection client are pipelined
-- pooled client operations are pipelined
+- pool operations are not pipelined, only connections acquired from the pool are pipelined
+- pooled client operations are pipelined, you cannot acquire a connection from a pooled client
 
 == Pool sharing
 

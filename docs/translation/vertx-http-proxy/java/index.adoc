@@ -17,7 +17,7 @@ To use Vert.x Http Proxy, add the following dependency to the _dependencies_ sec
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-http-proxy</artifactId>
- <version>4.2.7</version>
+ <version>4.3.0</version>
 </dependency>
 ----
 
@@ -26,7 +26,7 @@ To use Vert.x Http Proxy, add the following dependency to the _dependencies_ sec
 [source,groovy,subs="+attributes"]
 ----
 dependencies {
- compile 'io.vertx:vertx-http-proxy:4.2.7'
+ compile 'io.vertx:vertx-http-proxy:4.3.0'
 }
 ----
 

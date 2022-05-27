@@ -24,7 +24,7 @@ descriptor:
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-circuit-breaker</artifactId>
- <version>4.2.7</version>
+ <version>4.3.0</version>
 </dependency>
 ----
 
@@ -32,7 +32,7 @@ descriptor:
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-circuit-breaker:4.2.7'
+compile 'io.vertx:vertx-circuit-breaker:4.3.0'
 ----
 
 == Using the circuit breaker
@@ -247,10 +247,17 @@ such a callback with `link:../../apidocs/io/vertx/circuitbreaker/CircuitBreaker.
 
 == Event bus notification
 
-Every time the circuit state changes, an event is published on the event bus. The address on which the events are
-sent is configurable with
-`link:../../apidocs/io/vertx/circuitbreaker/CircuitBreakerOptions.html#setNotificationAddress-java.lang.String-[setNotificationAddress]`. If `null` is
-passed to this method, the notifications are disabled. By default, the used address is `vertx.circuit-breaker`.
+Every time the circuit state changes, an event can be published on the event bus.
+
+To enable this feature, set the `link:../../apidocs/io/vertx/circuitbreaker/CircuitBreakerOptions.html#setNotificationAddress-java.lang.String-[notification address]` to a value that is not `null`:
+
+[source,java]
+----
+options.setNotificationAddress(CircuitBreakerOptions.DEFAULT_NOTIFICATION_ADDRESS);
+----
+
+NOTE: When enabled, notifications are, by default, delivered only to local consumers.
+If the notification must be sent to all consumers in a cluster, you can change this behavior with `link:../../apidocs/io/vertx/circuitbreaker/CircuitBreakerOptions.html#setNotificationLocalOnly-boolean-[setNotificationLocalOnly]`.
 
 Each event contains a Json Object with:
 
@@ -286,8 +293,10 @@ a SSE stream sending the metrics. This stream is provided by the
 
 [source,java]
 ----
-CircuitBreaker breaker = CircuitBreaker.create("my-circuit-breaker", vertx);
-CircuitBreaker breaker2 = CircuitBreaker.create("my-second-circuit-breaker", vertx);
+CircuitBreakerOptions options = new CircuitBreakerOptions()
+  .setNotificationAddress(CircuitBreakerOptions.DEFAULT_NOTIFICATION_ADDRESS);
+CircuitBreaker breaker = CircuitBreaker.create("my-circuit-breaker", vertx, new CircuitBreakerOptions(options));
+CircuitBreaker breaker2 = CircuitBreaker.create("my-second-circuit-breaker", vertx, new CircuitBreakerOptions(options));
 
 // Create a Vert.x Web router
 Router router = Router.router(vertx);
@@ -303,8 +312,8 @@ vertx.createHttpServer()
 In the Hystrix Dashboard, configure the stream url like: `http://localhost:8080/metrics`. The dashboard now consumes
 the metrics from the Vert.x circuit breakers.
 
-Notice that the metrics are collected by the Vert.x Web handler using the event bus notifications. If you don't use
-the default notification address, you need to pass it when creating the metrics handler.
+IMPORTANT: The metrics are collected by the Vert.x Web handler using <<Event bus notification>>.
+The feature must be enabled and, if you don't use the default notification address, you need to pass it when creating the metrics handler.
 
 == Using Netflix Hystrix
 

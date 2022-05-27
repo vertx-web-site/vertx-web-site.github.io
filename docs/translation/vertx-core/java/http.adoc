@@ -430,11 +430,33 @@ request.response().addCookie(Cookie.cookie("othercookie", "somevalue"));
 
 ==== Handling compressed body
 
-Vert.x can handle compressed body payloads which are encoded by the client with the _deflate_ or _gzip_
+Vert.x can handle compressed body payloads which are encoded by the client with the _deflate_, _gzip_ or _brotli_
 algorithms.
 
 To enable decompression set `link:../../apidocs/io/vertx/core/http/HttpServerOptions.html#setDecompressionSupported-boolean-[setDecompressionSupported]` on the
 options when creating the server.
+
+You need to have Brotli4j on the classpath to decompress Brotli:
+
+* Maven (in your `pom.xml`):
+
+[source,xml]
+----
+<dependency>
+ <groupId>com.aayushatharva.brotli4j</groupId>
+ <artifactId>brotli4j</artifactId>
+ <version>${brotli4j.version}</version>
+</dependency>
+----
+* Gradle (in your `build.gradle` file):
+
+[source,groovy]
+----
+dependencies {
+ compile 'com.aayushatharva.brotli4j:brotli4j:${brotli4j.version}'
+}
+----
+
 
 By default, decompression is disabled.
 
@@ -893,6 +915,57 @@ the more the level increases.
 
 By default - if compression is enabled via `link:../../apidocs/io/vertx/core/http/HttpServerOptions.html#setCompressionSupported-boolean-[setCompressionSupported]` - Vert.x will use '6' as compression level,
 but the parameter can be configured to address any case with `link:../../apidocs/io/vertx/core/http/HttpServerOptions.html#setCompressionLevel-int-[setCompressionLevel]`.
+
+=== HTTP compression algorithms
+
+Vert.x supports out of the box deflate and gzip.
+
+Brotli and zstandard can also be used.
+
+[source,java]
+----
+new HttpServerOptions()
+  .addCompressor(io.netty.handler.codec.compression.StandardCompressionOptions.gzip())
+  .addCompressor(io.netty.handler.codec.compression.StandardCompressionOptions.deflate())
+  .addCompressor(io.netty.handler.codec.compression.StandardCompressionOptions.brotli())
+  .addCompressor(io.netty.handler.codec.compression.StandardCompressionOptions.zstd());
+----
+
+NOTE: use {@code io.netty.handler.codec.compression.StandardCompressionOptions} static methods to create {@code io.netty.handler.codec.compression.CompressionOptions}
+
+Brotli and zstandard libraries need to be added to the classpath.
+
+* Maven (in your `pom.xml`):
+
+[source,xml]
+----
+<dependency>
+ <groupId>com.aayushatharva.brotli4j</groupId>
+ <artifactId>brotli4j</artifactId>
+ <version>${brotli4j.version}</version>
+</dependency>
+<dependency>
+ <groupId>com.github.luben</groupId>
+ <artifactId>zstd-jni</artifactId>
+ <version>${zstd-jini.version}</version>
+</dependency>
+----
+* Gradle (in your `build.gradle` file):
+
+[source,groovy]
+----
+dependencies {
+ compile 'com.aayushatharva.brotli4j:brotli4j:${brotli4j.version}'
+ compile 'com.github.luben:zstd-jni:${zstd-jini.version}'
+}
+----
+
+You can configure compressors according to your needs
+
+[source,java]
+----
+GzipOptions gzip = StandardCompressionOptions.gzip(6, 15, 8);
+----
 
 === Creating an HTTP client
 

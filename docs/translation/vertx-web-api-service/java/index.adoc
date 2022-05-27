@@ -20,13 +20,13 @@ To use Vert.x API Service, add the following dependency to the _dependencies_ se
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-codegen</artifactId>
- <version>4.2.7</version>
+ <version>4.3.0</version>
  <classifier>processor</classifier>
 </dependency>
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-web-api-service</artifactId>
- <version>4.2.7</version>
+ <version>4.3.0</version>
 </dependency>
 ----
 
@@ -35,8 +35,8 @@ To use Vert.x API Service, add the following dependency to the _dependencies_ se
 [source,groovy,subs="+attributes"]
 ----
 dependencies {
- compile 'io.vertx:vertx-codegen:4.2.7:processor'
- compile 'io.vertx:vertx-web-api-service:4.2.7'
+ compile 'io.vertx:vertx-codegen:4.3.0:processor'
+ compile 'io.vertx:vertx-web-api-service:4.3.0'
 }
 ----
 
@@ -45,9 +45,9 @@ dependencies {
 [source,groovy,subs="+attributes"]
 ----
 dependencies {
- annotationProcessor 'io.vertx:vertx-codegen:4.2.7:processor'
- annotationProcessor 'io.vertx:vertx-web-api-service:4.2.7'
- compile 'io.vertx:vertx-web-api-service:4.2.7'
+ annotationProcessor 'io.vertx:vertx-codegen:4.3.0:processor'
+ annotationProcessor 'io.vertx:vertx-web-api-service:4.3.0'
+ compile 'io.vertx:vertx-web-api-service:4.3.0'
 }
 ----
 

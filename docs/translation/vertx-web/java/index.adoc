@@ -74,7 +74,7 @@ To use vert.x web, add the following dependency to the _dependencies_ section of
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-web</artifactId>
- <version>4.2.7</version>
+ <version>4.3.0</version>
 </dependency>
 ----
 
@@ -83,7 +83,7 @@ To use vert.x web, add the following dependency to the _dependencies_ section of
 [source,groovy,subs="+attributes"]
 ----
 dependencies {
- compile 'io.vertx:vertx-web:4.2.7'
+ compile 'io.vertx:vertx-web:4.3.0'
 }
 ----
 
@@ -145,7 +145,9 @@ Here's the 10000 foot view:
 A `link:../../apidocs/io/vertx/ext/web/Router.html[Router]` is one of the core concepts of Vert.x-Web. It's an object which maintains zero or more
 `link:../../apidocs/io/vertx/ext/web/Route.html[Routes]`.
 
-A router takes an HTTP request and finds the first matching route for that request, and passes the request to that route.
+A router will pause the incoming `link:../../apidocs/io/vertx/core/http/HttpServerRequest.html[HttpServerRequest]`, to ensure that the request body or any
+protocol upgrades are not lost. Second, it will find the first matching route for that request, and passes the request
+to that route.
 
 The route can have a _handler_ associated with it, which then receives the request. You then _do something_ with the
 request, and then, either end it or pass it to the next matching handler.
@@ -280,8 +282,8 @@ router
   .respond(
     ctx -> ctx
       .response()
-        .putHeader("Content-Type", "text/plain")
-        .end("hello world!"));
+      .putHeader("Content-Type", "text/plain")
+      .end("hello world!"));
 
 router
   .get("/some/path")
@@ -289,8 +291,8 @@ router
   .respond(
     ctx -> ctx
       .response()
-        .setChunked(true)
-        .write("Write some text..."));
+      .setChunked(true)
+      .write("Write some text..."));
 ----
 
 == Using blocking handlers
@@ -1277,7 +1279,8 @@ We can now mount the sub router on the main router, against a mount point, in th
 
 [source,java]
 ----
-mainRouter.mountSubRouter("/productsAPI", restAPI);
+mainRouter.route("/productsAPI/*")
+  .subRouter(restAPI);
 ----
 
 This means the REST API is now accessible via paths like: `/productsAPI/products/product1234`.
@@ -1424,37 +1427,11 @@ file uploads.
 
 You should make sure a body handler is on a matching route for any requests that require this functionality.
 
-The usage of this handler requires that it is installed as soon as possible in the router since it needs
-to install handlers to consume the HTTP request body and this must be done before executing any async call.
+The usage of this handler requires that it is installed as soon as possible. The handler will resume the
+`link:../../apidocs/io/vertx/core/http/HttpServerRequest.html[HttpServerRequest]` processing, since it installs handlers to consume the HTTP request body.
 
 [source,java]
 ----
-router.route().handler(BodyHandler.create());
-----
-
-If an async call is required before, the `HttpServerRequest` should be paused and then resumed so that the request
-events are not delivered until the body handler is ready to process them.
-
-[source,java]
-----
-router.route().handler(ctx -> {
-
-  HttpServerRequest request = ctx.request();
-
-  // Pause the request
-  request.pause();
-
-  someAsyncCall(result -> {
-
-    // Resume the request
-    request.resume();
-
-    // And continue processing
-    ctx.next();
-  });
-});
-
-// This body handler will be called for all routes
 router.route().handler(BodyHandler.create());
 ----
 
@@ -1501,7 +1478,7 @@ router.route().handler(BodyHandler.create());
 
 router.post("/some/path/uploads").handler(ctx -> {
 
-  Set<FileUpload> uploads = ctx.fileUploads();
+  List<FileUpload> uploads = ctx.fileUploads();
   // Do something with uploads....
 
 });
@@ -1978,7 +1955,7 @@ router
 === JWT authentication
 
 With JWT authentication resources can be protected by means of permissions and users without enough rights are denied
-access. You need to add the `io.vertx:vertx-auth-jwt:4.2.7` dependency to use `JWTAuthProvider`
+access. You need to add the `io.vertx:vertx-auth-jwt:4.3.0` dependency to use `JWTAuthProvider`
 
 To use this handler there are 2 steps involved:
 
@@ -2084,8 +2061,8 @@ authorizations from a given `link:../../apidocs/io/vertx/ext/auth/authorization/
 router.route().handler(
   // create the handler that will perform the attestation
   AuthorizationHandler.create(
-    // what to attest
-    PermissionBasedAuthorization.create("can-do-work"))
+      // what to attest
+      PermissionBasedAuthorization.create("can-do-work"))
     // where to lookup the authorizations for the user
     .addAuthorizationProvider(authProvider));
 ----
@@ -2101,8 +2078,8 @@ may support a role/permission based model but others might use another model.
 router.route("/listproducts/*").handler(
   // create the handler that will perform the attestation
   AuthorizationHandler.create(
-    // what to attest
-    PermissionBasedAuthorization.create("list_products"))
+      // what to attest
+      PermissionBasedAuthorization.create("list_products"))
     // where to lookup the authorizations for the user
     .addAuthorizationProvider(authProvider));
 
@@ -2110,8 +2087,8 @@ router.route("/listproducts/*").handler(
 router.route("/private/settings/*").handler(
   // create the handler that will perform the attestation
   AuthorizationHandler.create(
-    // what to attest
-    RoleBasedAuthorization.create("admin"))
+      // what to attest
+      RoleBasedAuthorization.create("admin"))
     .addAuthorizationProvider(authProvider));
 ----
 
@@ -2415,7 +2392,7 @@ router.route().handler(ctx -> {
   // modified at creation time in the factory method
   String tenant = ctx.get(MultiTenantHandler.TENANT);
 
-  switch(tenant) {
+  switch (tenant) {
     case "google":
       // do something for google users
       break;
@@ -2478,7 +2455,7 @@ router.getWithRegex(".+\\.hbs").handler(handler);
 === MVEL template engine
 
 To use MVEL, you need to add the following _dependency_ to your project:
-`io.vertx:vertx-web-templ-mvel:4.2.7`. Create an instance of the MVEL template engine using:
+`io.vertx:vertx-web-templ-mvel:4.3.0`. Create an instance of the MVEL template engine using:
 `io.vertx.ext.web.templ.mvel.MVELTemplateEngine#create(io.vertx.core.Vertx)`
 
 When using the MVEL template engine, it will by default look for
@@ -2504,7 +2481,7 @@ MVEL templates.
 === Jade template engine
 
 To use the Jade template engine, you need to add the following _dependency_ to your project:
-`io.vertx:vertx-web-templ-jade:4.2.7`. Create an instance of the Jade template engine using:
+`io.vertx:vertx-web-templ-jade:4.3.0`. Create an instance of the Jade template engine using:
 `io.vertx.ext.web.templ.jade.JadeTemplateEngine#create(io.vertx.core.Vertx)`.
 
 When using the Jade template engine, it will by default look for
@@ -2530,7 +2507,7 @@ Jade templates.
 === Handlebars template engine
 
 To use Handlebars, you need to add the following _dependency_ to your project:
-`io.vertx:vertx-web-templ-handlebars:4.2.7`. Create an instance of the Handlebars template engine
+`io.vertx:vertx-web-templ-handlebars:4.3.0`. Create an instance of the Handlebars template engine
 using: `io.vertx.ext.web.templ.handlebars.HandlebarsTemplateEngine#create(io.vertx.core.Vertx)`.
 
 When using the Handlebars template engine, it will by default look for
@@ -2565,7 +2542,7 @@ handlebars templates.
 === Thymeleaf template engine
 
 To use Thymeleaf, you need to add the following _dependency_ to your project:
-`io.vertx:vertx-web-templ-thymeleaf:4.2.7`. Create an instance of the Thymeleaf template engine
+`io.vertx:vertx-web-templ-thymeleaf:4.3.0`. Create an instance of the Thymeleaf template engine
 using: `io.vertx.ext.web.templ.thymeleaf.ThymeleafTemplateEngine#create(io.vertx.core.Vertx)`.
 
 When using the Thymeleaf template engine, it will by default look for
@@ -2593,7 +2570,7 @@ Thymeleaf templates.
 === Apache FreeMarker template engine
 
 To use Apache FreeMarker, you need to add the following _dependency_ to your project:
-`io.vertx:vertx-web-templ-freemarker:4.2.7`. Create an instance of the Apache FreeMarker template engine
+`io.vertx:vertx-web-templ-freemarker:4.3.0`. Create an instance of the Apache FreeMarker template engine
 using: `io.vertx.ext.web.templ.Engine#create()`.
 
 When using the Apache FreeMarker template engine, it will by default look for
@@ -2621,7 +2598,7 @@ Apache FreeMarker templates.
 === Pebble template engine
 
 To use Pebble, you need to add the following _dependency_ to your project:
-`io.vertx:vertx-web-templ-pebble:4.2.7`. Create an instance of the Pebble template engine
+`io.vertx:vertx-web-templ-pebble:4.3.0`. Create an instance of the Pebble template engine
 using: `io.vertx.ext.web.templ.pebble.PebbleTemplateEngine#create(vertx)`.
 
 When using the Pebble template engine, it will by default look for
@@ -2648,7 +2625,7 @@ Pebble templates.
 
 === Rocker template engine
 
-To use Rocker, then add `io.vertx:vertx-web-templ-rocker:4.2.7` as a dependency to your project.
+To use Rocker, then add `io.vertx:vertx-web-templ-rocker:4.3.0` as a dependency to your project.
 You can then create a Rocker template engine instance with `io.vertx.ext.web.templ.rocker#create()`.
 
 The values of the JSON context object passed to the `render` method are then exposed as template parameters.
@@ -2679,7 +2656,7 @@ Request path is @context.getString("path")
 === HTTL template engine
 
 To use HTTL, you need to add the following _dependency_ to your project:
-`io.vertx:vertx-web-templ-httl:4.2.7`. Create an instance of the HTTL template engine
+`io.vertx:vertx-web-templ-httl:4.3.0`. Create an instance of the HTTL template engine
 using: `io.vertx.ext.web.templ.httl.HTTLTemplateEngine#create(io.vertx.core.Vertx)`.
 
 When using the HTTL template engine, it will by default look for
@@ -2715,7 +2692,7 @@ HTTL templates.
 === Rythm template engine
 
 To use Rythm, you need to add the following _dependency_ to your project:
-`io.vertx:vertx-web-templ-rythm:4.2.7`. Create an instance of the Rythm template engine
+`io.vertx:vertx-web-templ-rythm:4.3.0`. Create an instance of the Rythm template engine
 using: `io.vertx.ext.web.templ.rythm.RythmTemplateEngine#create(io.vertx.core.Vertx)`.
 
 When using the Rythm template engine, it will by default look for
@@ -2912,12 +2889,13 @@ SockJSHandlerOptions options = new SockJSHandlerOptions()
 
 SockJSHandler sockJSHandler = SockJSHandler.create(vertx, options);
 
-router.mountSubRouter("/myapp", sockJSHandler.socketHandler(sockJSSocket -> {
+router.route("/myapp/*")
+  .subRouter(sockJSHandler.socketHandler(sockJSSocket -> {
 
-  // Just echo the data back
-  sockJSSocket.handler(sockJSSocket::write);
+    // Just echo the data back
+    sockJSSocket.handler(sockJSSocket::write);
 
-}));
+  }));
 ----
 
 === The client side
@@ -2995,16 +2973,18 @@ It must enabled in `link:../../apidocs/io/vertx/ext/web/handler/sockjs/SockJSHan
 ----
 Router router = Router.router(vertx);
 
-SockJSHandlerOptions options = new SockJSHandlerOptions().setRegisterWriteHandler(true);
+SockJSHandlerOptions options = new SockJSHandlerOptions()
+  .setRegisterWriteHandler(true);
 
 SockJSHandler sockJSHandler = SockJSHandler.create(vertx, options);
 
-router.mountSubRouter("/myapp", sockJSHandler.socketHandler(sockJSSocket -> {
+router.route("/myapp/*")
+  .subRouter(sockJSHandler.socketHandler(sockJSSocket -> {
 
-  // Retrieve the writeHandlerID and store it (e.g. in a local map)
-  String writeHandlerID = sockJSSocket.writeHandlerID();
+    // Retrieve the writeHandlerID and store it (e.g. in a local map)
+    String writeHandlerID = sockJSSocket.writeHandlerID();
 
-}));
+  }));
 ----
 
 NOTE: By default, the handler is registered only locally.
@@ -3049,7 +3029,9 @@ Router router = Router.router(vertx);
 SockJSHandler sockJSHandler = SockJSHandler.create(vertx);
 SockJSBridgeOptions options = new SockJSBridgeOptions();
 // mount the bridge on the router
-router.mountSubRouter("/eventbus", sockJSHandler.bridge(options));
+router
+  .route("/eventbus/*")
+  .subRouter(sockJSHandler.bridge(options));
 ----
 
 In client side JavaScript you use the http://npmjs.com/package/@vertx/eventbus-bridge-client.js[@vertx/eventbus-bridge-client.js]
@@ -3210,7 +3192,9 @@ SockJSBridgeOptions options = new SockJSBridgeOptions().
   addOutboundPermitted(outboundPermitted2);
 
 // mount the bridge on the router
-router.mountSubRouter("/eventbus", sockJSHandler.bridge(options));
+router
+  .route("/eventbus/*")
+  .subRouter(sockJSHandler.bridge(options));
 ----
 
 === Requiring authorization for messages
@@ -3264,9 +3248,9 @@ AuthenticationHandler basicAuthHandler = BasicAuthHandler.create(authProvider);
 router.route("/eventbus/*").handler(basicAuthHandler);
 
 // mount the bridge on the router
-router.mountSubRouter(
-  "/eventbus",
-  sockJSHandler.bridge(new SockJSBridgeOptions()
+router
+  .route("/eventbus/*")
+  .subRouter(sockJSHandler.bridge(new SockJSBridgeOptions()
     .addInboundPermitted(inboundPermitted)));
 ----
 
@@ -3339,19 +3323,20 @@ SockJSBridgeOptions options = new SockJSBridgeOptions()
 
 // mount the bridge on the router
 router
-  .mountSubRouter("/eventbus", sockJSHandler
+  .route("/eventbus/*")
+  .subRouter(sockJSHandler
     .bridge(options, be -> {
       if (be.type() == BridgeEventType.PUBLISH ||
         be.type() == BridgeEventType.RECEIVE) {
 
-        if (be.getRawMessage().getString("body").equals("armadillos")) {
-          // Reject it
-          be.complete(false);
-          return;
+          if (be.getRawMessage().getString("body").equals("armadillos")) {
+            // Reject it
+            be.complete(false);
+            return;
+          }
         }
-      }
-      be.complete(true);
-    }));
+        be.complete(true);
+      }));
 ----
 
 Here's an example how to configure and handle SOCKET_IDLE bridge event type.
@@ -3370,13 +3355,14 @@ SockJSBridgeOptions options = new SockJSBridgeOptions()
 
 // mount the bridge on the router
 router
-  .mountSubRouter("/eventbus", sockJSHandler.bridge(options, be -> {
+  .route("/eventbus/*")
+  .subRouter(sockJSHandler.bridge(options, be -> {
     if (be.type() == BridgeEventType.SOCKET_IDLE) {
       // Do some custom handling...
     }
 
-    be.complete(true);
-  }));
+      be.complete(true);
+    }));
 ----
 
 In client side JavaScript you use the 'vertx-eventbus.js` library to create connections to the event bus and to send and receive messages:
@@ -3431,24 +3417,24 @@ SockJSBridgeOptions options = new SockJSBridgeOptions()
   .addInboundPermitted(inboundPermitted);
 
 // mount the bridge on the router
-router.mountSubRouter(
-  "/eventbus",
-  sockJSHandler.bridge(options, be -> {
+router
+  .route("/eventbus/*")
+  .subRouter(sockJSHandler.bridge(options, be -> {
     if (
       be.type() == BridgeEventType.PUBLISH ||
         be.type() == BridgeEventType.SEND) {
 
-      // Add some headers
-      JsonObject headers = new JsonObject()
-        .put("header1", "val")
-        .put("header2", "val2");
+        // Add some headers
+        JsonObject headers = new JsonObject()
+          .put("header1", "val")
+          .put("header2", "val2");
 
-      JsonObject rawMessage = be.getRawMessage();
-      rawMessage.put("headers", headers);
-      be.setRawMessage(rawMessage);
-    }
-    be.complete(true);
-  }));
+        JsonObject rawMessage = be.getRawMessage();
+        rawMessage.put("headers", headers);
+        be.setRawMessage(rawMessage);
+      }
+      be.complete(true);
+    }));
 ----
 
 == CSRF Cross Site Request Forgery
@@ -3731,7 +3717,7 @@ router.route()
 // we now protect the resource under the path "/protected"
 router.route("/protected").handler(
   OAuth2AuthHandler.create(
-    vertx,
+      vertx,
       authProvider,
       "http://localhost:8080/callback")
     // we now configure the oauth2 handler, it will
@@ -3811,15 +3797,15 @@ An example of a protected application is:
 [source,java]
 ----
 WebAuthn webAuthn = WebAuthn.create(
-  vertx,
-  new WebAuthnOptions()
-    .setRelyingParty(new RelyingParty().setName("Vert.x WebAuthN Demo"))
-    // What kind of authentication do you want? do you care?
-    // # security keys
-    .setAuthenticatorAttachment(AuthenticatorAttachment.CROSS_PLATFORM)
-    // # fingerprint
-    .setAuthenticatorAttachment(AuthenticatorAttachment.PLATFORM)
-    .setUserVerification(UserVerification.REQUIRED))
+    vertx,
+    new WebAuthnOptions()
+      .setRelyingParty(new RelyingParty().setName("Vert.x WebAuthN Demo"))
+      // What kind of authentication do you want? do you care?
+      // # security keys
+      .setAuthenticatorAttachment(AuthenticatorAttachment.CROSS_PLATFORM)
+      // # fingerprint
+      .setAuthenticatorAttachment(AuthenticatorAttachment.PLATFORM)
+      .setUserVerification(UserVerification.REQUIRED))
   // where to load the credentials from?
   .authenticatorFetcher(fetcher)
   // update the state of an authenticator
@@ -4180,9 +4166,7 @@ router.route()
 // To view protected details, user must be authenticated and
 // using 2nd factor authentication
 router.get("/protected")
-  .handler(ctx -> {
-    ctx.end("Super secret content");
-  });
+  .handler(ctx -> ctx.end("Super secret content"));
 ----
 
 === Handling HTTP Method overriding

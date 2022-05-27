@@ -79,7 +79,7 @@ project descriptor to access the Vert.x Core API:
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-core</artifactId>
- <version>4.2.7</version>
+ <version>4.3.0</version>
 </dependency>
 ----
 
@@ -88,7 +88,7 @@ project descriptor to access the Vert.x Core API:
 [source,groovy,subs="+attributes"]
 ----
 dependencies {
- compile 'io.vertx:vertx-core:4.2.7'
+ compile 'io.vertx:vertx-core:4.3.0'
 }
 ----=== Error handling
 
@@ -165,7 +165,24 @@ eventBus.send("orders", new MyPOJO());
 You unregister a message codec with `link:../../apidocs/io/vertx/core/eventbus/EventBus.html#unregisterCodec-java.lang.String-[unregisterCodec]`.
 
 Message codecs don't always have to encode and decode as the same type. For example you can write a codec that
-allows a MyPOJO class to be sent, but when that message is sent to a handler it arrives as a MyOtherPOJO class.==== Setting headers on messages
+allows a MyPOJO class to be sent, but when that message is sent to a handler it arrives as a MyOtherPOJO class.
+
+Vert.x has built-in codecs for certain data types:
+
+- basic types (string, byte array, byte, int, long, double, boolean, short, char), or
+- some Vert.x data types (buffers, JSON array, JSON objects), or
+- types implementing the `link:../../apidocs/io/vertx/core/shareddata/ClusterSerializable.html[ClusterSerializable]` interface, or
+- types implementing the `java.io.Serializable` interface.
+
+[IMPORTANT]
+====
+In clustered mode, `link:../../apidocs/io/vertx/core/shareddata/ClusterSerializable.html[ClusterSerializable]` and `java.io.Serializable` objects are rejected by default, for security reasons.
+
+You can define which classes are allowed for encoding and decoding by providing functions which inspect the name of the class:
+
+- `link:../../apidocs/io/vertx/core/eventbus/EventBus.html#clusterSerializableChecker-java.util.function.Function-[EventBus.clusterSerializableChecker()]`, and
+- `link:../../apidocs/io/vertx/core/eventbus/EventBus.html#serializableChecker-java.util.function.Function-[EventBus.serializableChecker()]`.
+======== Setting headers on messages
 
 Messages sent over the event bus can also contain headers. This can be specified by providing a
 `link:../../apidocs/io/vertx/core/eventbus/DeliveryOptions.html[DeliveryOptions]` when sending or publishing:

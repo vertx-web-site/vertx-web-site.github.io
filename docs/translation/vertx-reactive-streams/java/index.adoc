@@ -22,9 +22,9 @@ To use Vert.x Reactive Streams, add the following dependency to the _dependencie
 [source,xml,subs="+attributes"]
 ----
 <dependency>
-  <groupId>io.vertx</groupId>
-  <artifactId>vertx-reactive-streams</artifactId>
-  <version>4.2.7</version>
+ <groupId>io.vertx</groupId>
+ <artifactId>vertx-reactive-streams</artifactId>
+ <version>4.3.0</version>
 </dependency>
 ----
 
@@ -32,7 +32,7 @@ To use Vert.x Reactive Streams, add the following dependency to the _dependencie
 
 [source,groovy,subs="+attributes"]
 ----
-compile io.vertx:vertx-reactive-streams:4.2.7
+compile io.vertx:vertx-reactive-streams:4.3.0
 ----
 
 == Reactive Read Stream

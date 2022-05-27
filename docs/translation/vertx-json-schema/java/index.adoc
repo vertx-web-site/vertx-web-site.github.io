@@ -4,13 +4,11 @@
 Vert.x Json Schema provides an extendable and asynchronous implementation for https://json-schema.org/[Json Schema] specification.
 You can use Json Schemas to validate every json structure. This module provides:
 
-* Implementation of https://tools.ietf.org/html/draft-handrews-json-schema-validation-02[Json Schema draft2019-09]
-* Implementation of https://tools.ietf.org/html/draft-handrews-json-schema-validation-01[Json Schema draft-7]
-* Implementation of https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.1.md#schemaObject[OpenAPI 3 dialect].
-* Non blocking `$ref` resolution and caching
-* Lookup into the schema cache using `link:../../apidocs/io/vertx/core/json/pointer/JsonPointer.html[JsonPointer]`
-* Synchronous and asynchronous validation
-* Ability to extend the validation tree adding new keywords and new format predicates
+* Implementation of https://datatracker.ietf.org/doc/html/draft-bhutton-json-schema-validation-00[draft 2020-12]
+* Implementation of https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-02[draft 2019-09]
+* Implementation of https://datatracker.ietf.org/doc/html/draft-handrews-json-schema-validation-01[draft 7]
+* Implementation of https://datatracker.ietf.org/doc/html/draft-fge-json-schema-validation-00[draft 4]
+* Dereferencing of `$ref` resolution and caching
 * DSL to build schemas programmatically
 
 == Using Vert.x Json Schema
@@ -24,7 +22,7 @@ To use Vert.x Json Schema, add the following dependency to the _dependencies_ se
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-json-schema</artifactId>
- <version>4.2.7</version>
+ <version>4.3.0</version>
 </dependency>
 ----
 
@@ -33,191 +31,96 @@ To use Vert.x Json Schema, add the following dependency to the _dependencies_ se
 [source,groovy,subs="+attributes"]
 ----
 dependencies {
- compile 'io.vertx:vertx-json-schema:4.2.7'
+ compile 'io.vertx:vertx-json-schema:4.3.0'
 }
 ----
 
 == Concepts
 
-=== Schema
+=== JsonSchema
 
-Each parsed schema is represented by a `link:../../apidocs/io/vertx/json/schema/Schema.html[Schema]` instance. A schema is a tree of `link:../../apidocs/io/vertx/json/schema/common/Validator.html[Validator]` objects,
-where each one contains the necessary logic to perform the validation. The performed validation is _fail-fast_: as soon as a validation error is encountered, the validation fails without going further
+Schemas can exist in 2 flavours:
 
-=== SchemaParser & SchemaRouter
+* JSON as in JSON natation
+* Boolean as in `true/false`
 
-The `link:../../apidocs/io/vertx/json/schema/SchemaParser.html[SchemaParser]` is the component that parses the schemas from Json data structures to `link:../../apidocs/io/vertx/json/schema/Schema.html[Schema]` instances.
-The `link:../../apidocs/io/vertx/json/schema/SchemaRouter.html[SchemaRouter]` is the component able to cache parsed schemas and resolve `$ref`.
-Every time a new `$ref` is solved or a `link:../../apidocs/io/vertx/json/schema/SchemaParser.html[SchemaParser]` parses a new schema, the new schema will be cached inside the corresponding `link:../../apidocs/io/vertx/json/schema/SchemaRouter.html[SchemaRouter]`.
-The `link:../../apidocs/io/vertx/json/schema/SchemaParser.html[SchemaParser]` can be extended to support custom keywords and formats.
+The `link:../../apidocs/io/vertx/json/schema/JsonSchema.html[JsonSchema]` interface allows both types to be handled without the constant check of the
+underlying type.
 
-The available `link:../../apidocs/io/vertx/json/schema/SchemaParser.html[SchemaParser]` are:
+=== SchemaRepository
 
-* `link:../../apidocs/io/vertx/json/schema/draft201909/Draft201909SchemaParser.html[Draft201909SchemaParser]` for Json Schema Draft 2019-09
-* `link:../../apidocs/io/vertx/json/schema/draft7/Draft7SchemaParser.html[Draft7SchemaParser]` for Json Schema Draft 7
-* `link:../../apidocs/io/vertx/json/schema/openapi3/OpenAPI3SchemaParser.html[OpenAPI3SchemaParser]` for OpenAPI 3 dialect
+The `link:../../apidocs/io/vertx/json/schema/SchemaRepository.html[SchemaRepository]` holds `link:../../apidocs/io/vertx/json/schema/JsonSchema.html[JsonSchema]` instances. It performs
+dereferencing of schemas to speed up validation. The repository is a simple key store, this means that it does not allow
+duplicate ids.
+
+The repository can then create `link:../../apidocs/io/vertx/json/schema/Validator.html[Validator]` instances aware of all sub schemas in the
+repository.
+
+=== Validator
+
+As the name implies the `link:../../apidocs/io/vertx/json/schema/Validator.html[Validator]` validates an object using a start schema. The output
+format is dependent of the configuration.
 
 == Parse a schema
 
-To parse a schema you first need a schema router and a schema parser matching your schema _dialect_.
-For example to instantiate a _draft 2019-09_ schema parser:
+When working with multiple schemas or sub-schemas, it is recommended to use a `Repository`.
+
+To parse a schema you first need a `JsonSchema` and some initial configuration. Since schemas can contain references it
+is required for the validator and repository to be aware of your application `baseUri`. This allows you to reference your
+own schemas in other sub-schemas. For the purpose of dereferencing, you don't need to configure a draft.
 
 [source,java]
 ----
-SchemaRouter schemaRouter = SchemaRouter.create(vertx, new SchemaRouterOptions());
-SchemaParser schemaParser = SchemaParser.createDraft201909SchemaParser(schemaRouter);
+SchemaRepository repository =
+  SchemaRepository.create(new JsonSchemaOptions().setBaseUri("https://vertx.io"));
 ----
 
-You can reuse `SchemaRouter` instance for different `SchemaParser` and you can parse different `Schema` with same `SchemaParser`.
+You can use `JsonSchema` instances for different `Validator` and you can parse different `JsonSchema` with `JsonParser`
+directly.
 
 Now you can parse the schema:
 
 [source,java]
 ----
-Schema schema = parser.parse(object, schemaPointer);
-----
+JsonSchema schema = JsonSchema.of(object);
 
-When you parse a schema you must provide the **schema pointer**, a pointer that identifies the location of the schema.
-If you don't have any schema pointer `SchemaParser` will generate one for you:
+// Or
 
-[source,java]
-----
-Schema schema = parser.parse(object);
-schema.getScope(); // Get generated scope of schema (schema pointer)
+repository.dereference(JsonSchema.of(object));
 ----
 
 [IMPORTANT]
 ====
-Remember that the schema pointer is required to reference this schema later using Json Schema `$ref`
-and to resolve relative references. If you load a schema from filesystem and you use relative references, **provide the correct pointer** or the
-`SchemaRouter` won't be able to resolve the local filesystem `$ref`.
+Remember that for security reasons, this module will not attempt to download any referenced sub-schema. All required
+sub-schemas should be provided to a repository object.
 ====
 
 == Validate
 
+Given the dynamic nature of json-schema and the conditional `if-then-else` it is not possible to validate in a streaming
+scenario. Validation is for this reason a blocking operation. If you are aware that validation will be a very expensive
+process, then it is advisable to run the validation on a dedicated thread pool or using `executeBlocking`.
 A schema could have two states:
 
-* Synchronous: The validators tree can provide a synchronous validation. You can validate your json both using `link:../../apidocs/io/vertx/json/schema/Schema.html#validateSync-java.lang.Object-[validateSync]` and `link:../../apidocs/io/vertx/json/schema/Schema.html#validateAsync-java.lang.Object-[validateAsync]`
-* Asynchronous: One or more branches of the validator tree requires an asynchronous validation. You must use `link:../../apidocs/io/vertx/json/schema/Schema.html#validateAsync-java.lang.Object-[validateAsync]` to validate your json. If you use `link:../../apidocs/io/vertx/json/schema/Schema.html#validateSync-java.lang.Object-[validateSync]` it will throw a `link:../../apidocs/io/vertx/json/schema/NoSyncValidationException.html[NoSyncValidationException]`
-
-To validate a schema in an asynchronous state:
+To validate a schema:
 
 [source,java]
 ----
-schema.validateAsync(json).onComplete(ar -> {
-  if (ar.succeeded()) {
-    // Validation succeeded
-  } else {
-    // Validation failed
-    ar.cause(); // Contains ValidationException
-  }
-});
-----
+OutputUnit result = Validator.create(
+    schema,
+    new JsonSchemaOptions().setDraft(Draft.DRAFT7))
+  .validate(json);
 
-To validate a schema in a synchronous state:
-
-[source,java]
-----
-try {
-  schema.validateSync(json);
+if (result.getValid()) {
   // Successful validation
-} catch (ValidationException e) {
-  // Failed validation
-} catch (NoSyncValidationException e) {
-  // Cannot validate synchronously. You must validate using validateAsync
 }
 ----
 
-To check the schema state you can use method `link:../../apidocs/io/vertx/json/schema/Schema.html#isSync--[isSync]`.
-The schema can mutate the state in time, e.g. if you have a schema that is asynchronous because of a `$ref`,
-after the first validation the external schema is cached and the schema will switch to synchronous state.
+== Custom formats
 
-[NOTE]
-====
-If you use `link:../../apidocs/io/vertx/json/schema/Schema.html#validateAsync-java.lang.Object-[validateAsync]` while the schema is in a synchronous state,
-the schema will validate synchronously wrapping the result in the returned `Future`, avoiding unnecessary async computations and memory usage
-====
-
-== Adding custom formats
-
-You can add custom formats to use with validation keyword `format` before parsing the schemas:
-
-[source,java]
-----
-parser.withStringFormatValidator("firstUppercase", str -> Character.isUpperCase(str.charAt(0)));
-
-JsonObject mySchema = new JsonObject().put("format", "firstUppercase");
-Schema schema = parser.parse(mySchema);
-----
-
-== Adding custom keywords
-
-For every new keyword type you want to provide, you must implement `link:../../apidocs/io/vertx/json/schema/common/ValidatorFactory.html[ValidatorFactory]`
-and provide an instance to `SchemaParser` using `link:../../apidocs/io/vertx/json/schema/SchemaParser.html#withValidatorFactory-io.vertx.json.schema.common.ValidatorFactory-[withValidatorFactory]`.
-When parsing happens, the `SchemaParser` calls `link:../../apidocs/io/vertx/json/schema/common/ValidatorFactory.html#canConsumeSchema-io.vertx.core.json.JsonObject-[canConsumeSchema]` for each registered factory.
-If the factory can consume the schema, then the method `link:../../apidocs/io/vertx/json/schema/common/ValidatorFactory.html#createValidator-io.vertx.core.json.JsonObject-io.vertx.core.json.pointer.JsonPointer-io.vertx.json.schema.common.SchemaParserInternal-io.vertx.json.schema.common.MutableStateValidator-[createValidator]`
-is called. This method returns an instance of `link:../../apidocs/io/vertx/json/schema/common/Validator.html[Validator]`, that represents the object that will perform the validation.
-If something goes wrong during `Validator` creation, a `link:../../apidocs/io/vertx/json/schema/SchemaException.html[SchemaException]` should be thrown
-
-You can add custom keywords of three types:
-
-* Keywords that always validate the input synchronously
-* Keywords that always validate the input asynchronously
-* Keywords with mutable state
-
-=== Synchronous keywords
-
-Synchronous validators must implement the interface `link:../../apidocs/io/vertx/json/schema/common/SyncValidator.html[SyncValidator]`.
-In the example below I add a keyword that checks if the number of properties in a json object is a multiple of a provided number:
-
-[source,java]
-----
-`link:../../apidocs/examples/PropertiesMultipleOfValidator.html[PropertiesMultipleOfValidator]`
-----
-
-After we defined the keyword validator we can define the factory:
-
-[source,java]
-----
-`link:../../apidocs/examples/PropertiesMultipleOfValidatorFactory.html[PropertiesMultipleOfValidatorFactory]`
-----
-
-Now we can mount the new validator factory:
-
-[source,java]
-----
-parser.withValidatorFactory(new PropertiesMultipleOfValidatorFactory());
-
-JsonObject mySchema = new JsonObject().put("propertiesMultipleOf", 2);
-Schema schema = parser.parse(mySchema);
-----
-
-=== Asynchronous keywords
-
-Asynchronous validators must implement the interface `link:../../apidocs/io/vertx/json/schema/common/AsyncValidator.html[AsyncValidator]`.
-In this example I add a keyword that retrieves from the Vert.x Event bus an enum of values:
-
-[source,java]
-----
-`link:../../apidocs/examples/AsyncEnumValidator.html[AsyncEnumValidator]`
-----
-
-After we defined the keyword validator we can define the factory:
-
-[source,java]
-----
-`link:../../apidocs/examples/AsyncEnumValidatorFactory.html[AsyncEnumValidatorFactory]`
-----
-
-Now we can mount the new validator factory:
-
-[source,java]
-----
-parser.withValidatorFactory(new AsyncEnumValidatorFactory(vertx));
-
-JsonObject mySchema = new JsonObject().put("asyncEnum", "enums.myapplication");
-Schema schema = parser.parse(mySchema);
-----
+Adding custom formats is not allowed. This may sound like a limitation but it arises from the validation spec.
+Validators are expected to assume unknown formats as valid input, delegating to the application business code the role
+of validator for custom values.
 
 == Building your schemas from code
 
@@ -301,13 +204,13 @@ objectSchema()
 
 === Using the schema
 
-After you defined the schema, you can call `link:../../apidocs/io/vertx/json/schema/common/dsl/SchemaBuilder.html#build-io.vertx.json.schema.SchemaParser-[build]` to parse and use the schema:
+After you defined the schema, you can call `link:../../apidocs/io/vertx/json/schema/common/dsl/SchemaBuilder.html#toJson--[toJson]` to return the JSON notation of the schema:
 
 [source,java]
 ----
-Schema schema = objectSchema()
+JsonObject schema = objectSchema()
   .requiredProperty("name", stringSchema())
   .requiredProperty("age", intSchema())
   .additionalProperties(stringSchema())
-  .build(parser);
+  .toJson();
 ----

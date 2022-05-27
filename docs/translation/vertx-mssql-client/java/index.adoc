@@ -13,12 +13,12 @@ scalability and low overhead.
 * Java 8 Date and Time
 * RxJava API
 * SSL/TLS
+* Cursor
+* Row streaming
 
 *Not supported yet*
 
 * Prepared queries caching
-* Cursor
-* Row streaming
 * Some https://github.com/eclipse-vertx/vertx-sql-client/issues/608#issuecomment-629390027[data types] are not supported
 
 == Usage
@@ -32,7 +32,7 @@ To use the Reactive MSSQL Client add the following dependency to the _dependenci
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-mssql-client</artifactId>
- <version>4.2.7</version>
+ <version>4.3.0</version>
 </dependency>
 ----
 * Gradle (in your `build.gradle` file):
@@ -40,7 +40,7 @@ To use the Reactive MSSQL Client add the following dependency to the _dependenci
 [source,groovy]
 ----
 dependencies {
- compile 'io.vertx:vertx-mssql-client:4.2.7'
+ compile 'io.vertx:vertx-mssql-client:4.3.0'
 }
 ----
 
@@ -262,6 +262,8 @@ client
 include::connections.adoc[]
 
 include::transactions.adoc[]
+
+include::cursor.adoc[]
 
 == Tracing queries
 
