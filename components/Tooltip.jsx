@@ -68,12 +68,16 @@ const Tooltip = ({ title, delay = 300, forceVisible = undefined, className,
       timer.current = undefined
     }
 
-    if (tooltip) {
-      tooltip.destroy()
-      setTooltip(undefined)
-    }
-
     setVisible(false)
+
+    // Destroy tooltip in the next event loop tick after setVisible has been
+    // executed. This prevents flickering.
+    setTimeout(() => {
+      if (tooltip) {
+        tooltip.destroy()
+        setTooltip(undefined)
+      }
+    }, 0)
   }
 
   return (

@@ -12,7 +12,7 @@ const CommunityProfile = ({ profile, size = "small" }) => {
   }
 
   return (
-    <div className={classNames("community-profile", size)}>
+    <div className={classNames("community-profile", size)} data-contributions={profile.contributions}>
       <a href={`https://github.com/${profile.githubId}`} target="_blank" rel="noopener noreferrer">
         <img data-srcset={
           (`${profile.avatar_url}&s=${cx} 2x,` || `https://github.com/${profile.githubId}.png?size=${cx} 2x,`) +

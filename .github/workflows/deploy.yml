@@ -1,16 +1,28 @@
-name: Node.js CI
+name: Deploy
 
 on:
   push:
     branches: [ master ]
 
 concurrency:
-  group: master
+  group: master-deploy
   cancel-in-progress: true
 
+permissions:
+  contents: read
+  # these permissions are required for the deploy-pages action to work properly
+  pages: write
+  id-token: write
+
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
+
+    environment:
+      # links this workflow to the deployments page on your repository
+      name: github-pages
+      # attaches the deployed URL to this job on the workflow summary
+      url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
       # Delete tools not needed for the build process
@@ -94,31 +106,9 @@ jobs:
           du -sh *
           df -h / /mnt
 
-      - name: Prepare deployment on GitHub Pages
-        run: |
-          mkdir -p ~/.ssh
-          echo "$DEPLOY_KEY" > ~/.ssh/github
-          cat >>~/.ssh/config <<EOL
-          Host github.com
-            HostName github.com
-            IdentityFile ~/.ssh/github
-            User git
-          EOL
-          chmod 700 ~/.ssh
-          chmod -R 600 ~/.ssh/*
-        env:
-          DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
-
-      # clone pages repo but do not checkout anything - we will recreate
-      # everything from scratch anyhow
-      - name: Clone current GitHub Pages repo
-        run: git clone --depth 1 --no-checkout git@github.com:vertx-web-site/vertx-web-site.github.io.git
-      - run: |
-          du -sh *
-          df -h / /mnt
-
       - name: Prepare output directory
         run: |
+          mkdir vertx-web-site.github.io
           cd vertx-web-site.github.io
           touch .nojekyll
           echo vertx.io > CNAME
@@ -131,22 +121,26 @@ jobs:
 
       - name: Copy API docs into output directory
         run: |
-          # GitHub pages does not support symlinks anymore - make a hard copy of the 'apidocs' directory
-          # mv .apidocs_temp/apidocs vertx-web-site.github.io/docs/
-          mkdir vertx-web-site.github.io/docs/apidocs
-          cp -r .apidocs_temp/apidocs/* vertx-web-site.github.io/docs/apidocs/
-          # Copy remaining apidocs
+          mv .apidocs_temp/apidocs vertx-web-site.github.io/docs/
           find .apidocs_temp -mindepth 1 -maxdepth 1 -type d -print0 | xargs -0 -n1 -I '{}' sh -xc 'mv {}/* vertx-web-site.github.io/docs/$(basename {})/'
       - run: |
           du -sh *
           df -h / /mnt
 
-      - name: Deploy to GitHub Pages
+      - name: Create Archive
         run: |
           cd vertx-web-site.github.io
-          git add -A
-          git config user.name "$GITHUB_ACTOR"
-          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
-          git commit -q -m "deploy: $GITHUB_REPOSITORY@$GITHUB_SHA"
-          git push origin master
-          cd ..
+          tar --dereference --hard-dereference -cf ../website.tar .
+
+      - name: Upload Archive
+        uses: actions/upload-artifact@v3
+        with:
+          name: Built Website
+          path: website.tar
+          retention-days: 1
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
+        with:
+          emit_telemetry: false # telemetry is not currently supported for custom builds

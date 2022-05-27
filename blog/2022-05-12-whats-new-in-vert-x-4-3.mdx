@@ -1,0 +1,314 @@
+---
+title: "What's new in Vert.x 4.3"
+category: releases
+authors:
+  - name: Julien Viet
+    github_id: vietj
+summary: >-
+  See an overview of all new and exciting features in Vert.x 4.3, including Web Client URL templates, JSON schema improvements, more compression algorithms, dynamic codec lookup, and more.
+pinned: true
+---
+
+Vert.x 4.3 comes with plenty of new exciting features.
+
+Here is an overview of the most important features in Vert.x 4.3.
+
+## Web Client URI templates
+
+URI templates provide an alternative to HTTP request string URIs based on the [URI Template RFC](https://datatracker.ietf.org/doc/html/rfc6570).
+
+A Vert.x URI [template](https://vertx.io/docs/vertx-uri-template/java/) can be created as follows:
+
+```java
+UriTemplate REQUEST_URI = UriTemplate.of("/users{/user}");
+```
+
+A web client can [use it](https://vertx.io/docs/vertx-web-client/java/#_uri_templates) to send a request:
+
+```java
+client.get(80, "myserver.mycompany.com", REQUEST_URI)
+  .setTemplateParam("user", "cooper")
+  .send()
+  .onSuccess(res ->
+    System.out.println("Received response with status code" + res.statusCode()))
+  .onFailure(err ->
+    System.out.println("Something went wrong " + err.getMessage()));
+```
+
+URI templates expansion mechanism takes care of encoding parameter values. It can also handle lists and maps.
+
+Several expansion [styles](https://vertx.io/docs/vertx-uri-template/java/#expansion_styles) are available for each relevant part of a URI.
+
+## Json Schema
+
+Json Schema validation has received a major update. In 4.3, we introduce support for more drafts:
+
+* Draft 4 (used by Swagger and OpenAPI 3.0)
+* Draft 7 (generally used by many services)
+* Draft 2019-09
+* Draft 2020-12 (used by OpenAPI 3.1)
+
+This refactoring required that the previous implementation was deprecated and will be replaced with a polyglot friendly
+alternative. In a nutshell, the new API can be used as follows:
+
+```java
+// when dealing with multiple schema resources, we need a repository:
+// 'options' defines the validation draft to be used, base uri, etc...
+SchemaRepository repository = SchemaRepository.create(options);
+
+// create a schema object
+JsonSchema schema = JsonSchema.of(jsonObject);
+
+// perform validation (if not using a repository)
+schema.validate(anyObject, options);
+// or
+repository.validator(schema).validate();
+```
+
+This work lays the foundation for future support of OpenAPI in vertx-web.
+
+## Vert.x gRPC
+
+Until 4.3, Vert.x gRPC support was built on top of gRPC Netty. It worked very well but with some friction:
+Netty versions had to be matched and often forced, which lead to incompatibilities with Vert.x Web, etc.
+
+The new gRPC stack for Vert.x gets rid of those limitations and provides a set of new exclusive features built on top of the
+Vert.x HTTP/2 stack.
+
+Beyond implementing the [gRPC stub model](https://vertx.io/docs/vertx-grpc/java/#_stub_api),
+Vert.x gRPC has a request/response API.
+
+```java
+GrpcServer grpcServer = GrpcServer.server(vertx);
+
+server.callHandler(GreeterGrpc.getSayHelloMethod(), request -> {
+
+  request.handler(hello -> {
+
+    GrpcServerResponse<HelloRequest, HelloReply> response = request.response();
+
+    HelloReply reply = HelloReply.newBuilder().setMessage("Hello " + hello.getName()).build();
+
+    response.end(reply);
+  });
+});
+
+vertx.createHttpServer(options);
+  .requestHandler(grpcServer)
+  .listen();
+```
+
+This API can also be used with protobuf data instead of decoded protobuf, giving the opportunity to easily build gRPC
+proxies with Vert.x:
+
+```java
+grpcServer.callHandler(clientReq -> {
+  clientReq.pause();
+  client.request(serverAddress).onSuccess(proxyReq -> {
+    proxyReq.response().onSuccess(resp -> {
+      GrpcServerResponse<Buffer, Buffer> bc = clientReq.response();
+      resp.messageHandler(bc::writeMessage);
+      resp.endHandler(v -> bc.end());
+    });
+    proxyReq.fullMethodName(clientReq.fullMethodName());
+    clientReq.messageHandler(proxyReq::writeMessage);
+    clientReq.endHandler(v -> proxyReq.end());
+    clientReq.resume();
+  });
+});
+```
+Notice that the proxy does not need to reference generated stubs at any time. It works universally for any gRPC service.
+
+The proxy can forward compressed messages without intermediate decompression if the proxied server
+supports compression.
+
+Finally, the Vert.x gRPC server can be used within a Vert.x Web router:
+
+```java
+GreeterGrpc.GreeterImplBase service = new GreeterGrpc.GreeterImplBase() {
+  @Override
+  public void sayHello(HelloRequest request, StreamObserver<HelloReply> responseObserver) {
+    responseObserver.onNext(HelloReply.newBuilder().setMessage("Hello " + request.getName()).build());
+    responseObserver.onCompleted();
+  }
+};
+
+GrpcServer grpcServer = GrpcServer.server(vertx);
+GrpcServiceBridge serverStub = GrpcServiceBridge.bridge(service);
+serverStub.bind(grpcServer);
+
+router.consumes("application/grpc").handler(grpcServer);
+```
+
+### Extra HTTP compression algorithms
+
+Vert.x HTTP servers can now [compress](https://vertx.io/docs/vertx-core/java/#_http_compression_algorithms) to Brotli and Zstandard in addition to GZIP.
+
+Vert.x HTTP client can now [decompress](https://vertx.io/docs/vertx-core/java/#_handling_compressed_body) Brotli in addition to GZIP.
+
+### Vertx Web
+
+Figuring out the right order for handlers can be sometimes tricky.
+
+In 4.3, we now check the order when multiple handlers are added under the same route. Incorrect setups are signaled.
+
+For example, adding a user handler before a body handler will raise an error:
+
+```java
+// Incorrect setup, but allowed before 4.3.0
+router.route("/api")
+  .handler(ctx -> {
+    // this would always print `null`
+    System.out.println(ctx.body().toString());
+    ctx.next();
+  })
+  .handler(BodyHandler.create());
+
+// Correct setup, that will be allowed from 4.3.0
+router.route("/api")
+  .handler(BodyHandler.create());
+  .handler(ctx -> {
+    // Now it correctly prints the request body
+    // as vertx-web guarantees that the body handler
+    // has been executed before
+    System.out.println(ctx.body().toString());
+    ctx.next();
+  })
+```
+
+The validation will verify that handlers are added in the following order:
+
+1. `PLATFORM`: platform handlers (`LoggerHandler`, `FaviconHandler`, etc.)
+2. `SECURITY_POLICY`: HTTP Security policies (`CSPHandler`, `CorsHandler`, etc.)
+3. `BODY`: Body parsing (`BodyHandler`)
+4. `AUTHENTICATION`: Authn (`JWTAuthHandler`, `APIKeyHandler`, `WebauthnHandler`, etc.)
+5. `INPUT_TRUST`: Input verification (`CSRFHandler`)
+6. `AUTHORIZATION`: Authz (`AuthorizationHandler`)
+
+If your handler is performing any specific task, you can mark it as any of these by adding the marker interface to your
+implementation.
+
+In addition, security handlers using callbacks now ensure that callbacks are added in the right order, relieving from
+creating temporary objects:
+
+```java
+// Before 4.3.0
+
+// Need a reference to a route, so it gets added before the oauth2 handler
+Route callback = router.route();
+
+// add the oauth2 handler to the router
+OAuth2AuthHandler oauth2Handler = OAuth2AuthHandler
+    .create(vertx, oauth2, "http://localhost:8080/callback");
+router.route("/secure")
+  .handler(oauth2Handler);
+
+// configure the previously allocated route + configure it
+oauth2Handler.setupCallback(callback);
+
+// With the safe security setup of 4.3.0
+router.route("/secure")
+  .handler(OAuth2AuthHandler
+    .create(vertx, oauth2, "http://localhost:8080/callback")
+    .setupCallback(router.route("/callback")));
+```
+
+Previously, a reference to the callback route had to be created before the oauth2 handler was added. Otherwise, the
+callback handler would be shaded.
+
+This feature applies to all security handlers that use callbacks. For example, `OAuth2`, `OTP`, and `Webauthn`.
+
+#### Other notable improvements
+
+Other small improvements were on processing the body of the request. We now cache the body which avoids parsing its
+content on each `ctx.getBodyAsXXX()` invocation and finally, `BodyHandler` will now respect the HTTP directive
+`Expect: Continue` when processing uploads, informing clients that they are allowed to start uploading if validation
+is correct.
+
+### MySQL client pipelining support
+
+The reactive MySQL client now supports pipelining like its elder brother the reactive PostgreSQL client.
+
+### Reactive Microsoft SQL Server client
+
+#### Cursors and streaming
+
+The Reactive Microsoft SQL Server client supports [cursor fetching and streaming](https://vertx.io/docs/vertx-mssql-client/java/#_cursors_and_streaming) like the PostgreSQL and MySQL client.
+
+For example, you can create a `RowStream` using from a `PreparedStatement`:
+
+```java
+connection.prepare("SELECT * FROM users WHERE age > @p1", ar1 -> {
+  if (ar1.succeeded()) {
+    PreparedStatement pq = ar1.result();
+
+    // Fetch 50 rows at a time
+    RowStream<Row> stream = pq.createStream(50, Tuple.of(18));
+
+    // Use the stream
+    stream.exceptionHandler(err -> {
+      System.out.println("Error: " + err.getMessage());
+    });
+    stream.endHandler(v -> {
+      System.out.println("End of stream");
+    });
+    stream.handler(row -> {
+      System.out.println("User: " + row.getString("last_name"));
+    });
+  }
+});
+```
+
+#### More data types
+
+Starting with this release, it is possible to read from and write to columns of the following types:
+
+- `varbinary(max)`
+- `text` / `ntext`
+- `image`
+
+### User experience improvements in Shared Data and Event Bus areas
+
+#### `ClusterSerializable` as a public API member
+
+The interface `io.vertx.core.shareddata.impl.ClusterSerializable` [has been made public](https://github.com/vert-x3/wiki/wiki/4.3.0-Deprecations-and-breaking-changes#interface-iovertxcoreshareddataimplclusterserializable-deprecated-and-made-public).
+In previous versions, it was in an implementation package and this had discouraged some users to rely on it.
+
+If you didn't know, types implementing `ClusterSerializable` can be shared in [async maps](https://vertx.io/docs/vertx-core/java/#_asynchronous_shared_maps).
+
+#### More types supported
+
+In this version, it is possible to share objects of types `java.io.Serializable` or `io.vertx.core.shareddata.ClusterSerializable` in shared data maps and on the Event Bus.
+
+For safety reasons though, only approved classes are allowed to be encoded and decoded as message bodies on the Event Bus.
+
+For example, this is how to control which `Serializable` classes can be allowed:
+
+```java
+vertx.eventBus().serializableChecker(className -> {
+  return EventBus.DEFAULT_SERIALIZABLE_CHECKER.apply(className) || className.startsWith(AsyncMapTest.class.getName());
+});
+```
+
+#### Dynamic codec lookup
+
+When sending a message on the Event Bus, Vert.x uses the codec specified in `DeliveryOptions` or chooses one based on the message body type.
+
+In this version, it is possible to choose a registered codec when Vert.x has not been able to select one:
+
+```java
+MyEncodeEveryThingWithJacksonCodec everyThingWithJacksonCodec = new MyEncodeEveryThingWithJacksonCodec();
+vertx.eventBus().registerCodec(everyThingWithJacksonCodec);
+vertx.eventBus().codecSelector(body -> everyThingWithJacksonCodec.name());
+```
+
+This can solve a few use cases, for example:
+
+- selecting a codec that does nothing for objects to deliver locally if you know the object is immutable
+- you have many objects generated from `.proto` files and want to defer to _Protocol Buffers_ for serialization/deserialization
+- you want to use Jackson Databind for any object
+
+### Kafka 3
+
+Our Vert.x Kafka Client has been upgraded to use Apache Kafka Client 3.0
+
