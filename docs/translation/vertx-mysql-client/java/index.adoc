@@ -16,6 +16,7 @@
 * 完整的数据类型支持
 * 支持存储过程
 * 支持 TLS/SSL
+* Query pipelining
 * MySQL 实用程序命令支持
 * 支持 MySQL 和 MariaDB
 * 丰富的字符排序（collation）和字符集支持
@@ -33,7 +34,7 @@
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-mysql-client</artifactId>
- <version>4.2.7</version>
+ <version>4.3.0</version>
 </dependency>
 ----
 * Gradle (在您的 `build.gradle` 文件中):
@@ -41,7 +42,7 @@
 [source,groovy]
 ----
 dependencies {
- compile 'io.vertx:vertx-mysql-client:4.2.7'
+ compile 'io.vertx:vertx-mysql-client:4.3.0'
 }
 ----
 
@@ -64,7 +65,7 @@ PoolOptions poolOptions = new PoolOptions()
   .setMaxSize(5);
 
 // 创建客户端池
-MySQLPool client = MySQLPool.pool(connectOptions, poolOptions);
+SqlClient client = MySQLPool.client(connectOptions, poolOptions);
 
 // 一个简单的查询
 client
@@ -151,10 +152,10 @@ PoolOptions poolOptions = new PoolOptions()
   .setMaxSize(5);
 
 // 创建带连接池的客户端
-MySQLPool client = MySQLPool.pool(vertx, connectOptions, poolOptions);
+MySQLPool pool = MySQLPool.pool(vertx, connectOptions, poolOptions);
 
 // 从连接池获得连接
-client.getConnection().compose(conn -> {
+pool.getConnection().compose(conn -> {
   System.out.println("Got a connection from the pool");
 
   // 所有操作都在同一连接上执行
@@ -179,6 +180,41 @@ client.getConnection().compose(conn -> {
 ----
 
 连接完成后，您必须关闭它以释放到连接池中，以便可以重复使用。
+
+== Command pipelining
+
+In some use cases, command pipelining can improve database access performance.
+
+You can configure the client to use pipelining
+
+[source,java]
+----
+MySQLPool pool = MySQLPool.pool(vertx, connectOptions.setPipeliningLimit(16), poolOptions);
+----
+
+The default pipelining limit is `1` which disables pipelining.
+
+== Pool versus pooled client
+
+The `link:../../apidocs/io/vertx/mysqlclient/MySQLPool.html[MySQLPool]` allows you to create a pool or a pooled client
+
+[source,java]
+----
+connectOptions.setPipeliningLimit(64);
+SqlClient client = MySQLPool.client(vertx, connectOptions, poolOptions);
+
+// Pipelined
+Future<RowSet<Row>> res1 = client.query(sql).execute();
+
+// Connection pool
+MySQLPool pool = MySQLPool.pool(vertx, connectOptions, poolOptions);
+
+// Not pipelined
+Future<RowSet<Row>> res2 = pool.query(sql).execute();
+----
+
+- 连接池操作并非流水线操作（pipelined），只有从连接池中获取的连接是流水线操作
+- 池化的客户端操作是流水线操作，您无法从池化的客户端获取连接
 
 [[_pool_sharing]]
 == 可共享的连接池
@@ -1113,6 +1149,7 @@ connection.setOption(MySQLSetOption.MYSQL_OPTION_MULTI_STATEMENTS_OFF, ar -> {
 
 当您要将数据批量插入到数据库中时，您可以使用 `PreparedQuery#executeBatch` ，它提供了一个简单的 API 来处理此问题。
 请记住，MySQL 原生不支持批处理协议，因此 API 只是语法糖，一个接一个执行预处理语句，这意味着比执行一个预处理语句插入多条带有值列表的记录，需要更多的网络往返耗时。
+In order to gain best performance on the wire, we execute the batch in pipelining mode which means the execution request is sent before the response of previous request returns, if your server or proxy does not support this feature or you might not be interested in it, you can use the single execution API and compose them by yourself instead.
 
 [[_tricky_date_time_data_types]]
 === 棘手的日期和时间数据类型

@@ -455,11 +455,32 @@ request.response().addCookie(Cookie.cookie("othercookie", "somevalue"));
 [[_handling_compressed_body]]
 ==== 处理压缩体
 
-Vert.x 可以处理在客户端通过 _deflate_ 或 _gzip_
+Vert.x 可以处理在客户端通过 _deflate_ 、 _gzip_ 或 _brotli_
 算法压缩过的请求体信息。
 
 若要启用解压缩功能则您要在创建服务器时调用 `link:../../apidocs/io/vertx/core/http/HttpServerOptions.html#setDecompressionSupported-boolean-[setDecompressionSupported]`
 方法设置配置项。
+
+You need to have Brotli4j on the classpath to decompress Brotli:
+
+* Maven (in your `pom.xml`):
+
+[source,xml]
+----
+<dependency>
+ <groupId>com.aayushatharva.brotli4j</groupId>
+ <artifactId>brotli4j</artifactId>
+ <version>${brotli4j.version}</version>
+</dependency>
+----
+* Gradle (in your `build.gradle` file):
+
+[source,groovy]
+----
+dependencies {
+ compile 'com.aayushatharva.brotli4j:brotli4j:${brotli4j.version}'
+}
+----
 
 默认情况下解压缩是并未被启用的。
 
@@ -934,6 +955,57 @@ request.response()
 
 默认情况下 —— 如果通过 `link:../../apidocs/io/vertx/core/http/HttpServerOptions.html#setCompressionSupported-boolean-[setCompressionSupported]` 方法启用压缩，Vert.x 将使用 “6” 作为压缩级别，
 但是该参数可通过 `link:../../apidocs/io/vertx/core/http/HttpServerOptions.html#setCompressionLevel-int-[setCompressionLevel]` 方法来更改。
+
+=== HTTP compression algorithms
+
+Vert.x supports out of the box deflate and gzip.
+
+Brotli and zstandard can also be used.
+
+[source,java]
+----
+new HttpServerOptions()
+  .addCompressor(io.netty.handler.codec.compression.StandardCompressionOptions.gzip())
+  .addCompressor(io.netty.handler.codec.compression.StandardCompressionOptions.deflate())
+  .addCompressor(io.netty.handler.codec.compression.StandardCompressionOptions.brotli())
+  .addCompressor(io.netty.handler.codec.compression.StandardCompressionOptions.zstd());
+----
+
+NOTE: use {@code io.netty.handler.codec.compression.StandardCompressionOptions} static methods to create {@code io.netty.handler.codec.compression.CompressionOptions}
+
+Brotli and zstandard libraries need to be added to the classpath.
+
+* Maven (in your `pom.xml`):
+
+[source,xml]
+----
+<dependency>
+ <groupId>com.aayushatharva.brotli4j</groupId>
+ <artifactId>brotli4j</artifactId>
+ <version>${brotli4j.version}</version>
+</dependency>
+<dependency>
+ <groupId>com.github.luben</groupId>
+ <artifactId>zstd-jni</artifactId>
+ <version>${zstd-jini.version}</version>
+</dependency>
+----
+* Gradle (in your `build.gradle` file):
+
+[source,groovy]
+----
+dependencies {
+ compile 'com.aayushatharva.brotli4j:brotli4j:${brotli4j.version}'
+ compile 'com.github.luben:zstd-jni:${zstd-jini.version}'
+}
+----
+
+You can configure compressors according to your needs
+
+[source,java]
+----
+GzipOptions gzip = StandardCompressionOptions.gzip(6, 15, 8);
+----
 
 [[_creating_an_http_client]]
 === 创建 HTTP 客户端

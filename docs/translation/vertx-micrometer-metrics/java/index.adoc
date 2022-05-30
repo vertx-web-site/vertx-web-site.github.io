@@ -32,7 +32,7 @@ Maven 用户应在 pom 文件中添加如下依赖：
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-micrometer-metrics</artifactId>
- <version>4.2.7</version>
+ <version>4.3.0</version>
 </dependency>
 <dependency>
  <groupId>io.micrometer</groupId>
@@ -45,7 +45,7 @@ Gradle 用户，添加如下依赖：
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-micrometer-metrics:4.2.7'
+compile 'io.vertx:vertx-micrometer-metrics:4.3.0'
 compile 'io.micrometer:micrometer-registry-influx:${micrometer.version}'
 ----
 
@@ -109,7 +109,7 @@ Maven用户在pom文件中添加如下依赖：
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-micrometer-metrics</artifactId>
- <version>4.2.7</version>
+ <version>4.3.0</version>
 </dependency>
 <dependency>
  <groupId>io.micrometer</groupId>
@@ -122,7 +122,7 @@ Gradle 用户，添加如下依赖：
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-micrometer-metrics:4.2.7'
+compile 'io.vertx:vertx-micrometer-metrics:4.3.0'
 compile 'io.micrometer:micrometer-registry-prometheus:${micrometer.version}'
 ----
 
@@ -185,7 +185,7 @@ Maven用户在pom文件中添加如下依赖：
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-micrometer-metrics</artifactId>
- <version>4.2.7</version>
+ <version>4.3.0</version>
 </dependency>
 <dependency>
  <groupId>io.micrometer</groupId>
@@ -198,7 +198,7 @@ Gradle 用户，添加如下依赖：
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-micrometer-metrics:4.2.7'
+compile 'io.vertx:vertx-micrometer-metrics:4.3.0'
 compile 'io.micrometer:micrometer-registry-jmx:${micrometer.version}'
 ----
 
@@ -521,18 +521,22 @@ NOTE: Matchers 在底层使用的是 MeterFilters。
 [[_custom_tags_provider]]
 === 自定义标签提供器
 
-您可以自定义一个函数来给 HTTP 服务器指标生成额外的标签 (或 labels) 。
+您可以自定义一个函数来给 HTTP 服务器或客户端的指标生成额外的标签 (或 labels) 。
 这个函数接收一个 `link:../../apidocs/io/vertx/core/spi/observability/HttpRequest.html[HttpRequest]` 对象作为参数，并返回一个
 装有 `link:../../apidocs/io/micrometer/core/instrument/Tag.html[Tag]` 类型对象的 Iterable 接口实现类.
 
-以下是一个例子，展示了如何将 _x-user_ 头部转化为自定义的 label _user_ ：
+以下是一个例子，展示了如何在服务器或客户端的指标中将 _x-user_ 头部转化为自定义的 label _user_ ：
 
 [source,java]
 ----
 Vertx vertx = Vertx.vertx(new VertxOptions().setMetricsOptions(
   new MicrometerMetricsOptions()
     .setPrometheusOptions(new VertxPrometheusOptions().setEnabled(true))
-    .setRequestsTagsProvider(req -> {
+    .setServerRequestTagsProvider(req -> {
+      String user = req.headers().get("x-user");
+      return Collections.singletonList(Tag.of("user", user));
+    })
+    .setClientRequestTagsProvider(req -> {
       String user = req.headers().get("x-user");
       return Collections.singletonList(Tag.of("user", user));
     })

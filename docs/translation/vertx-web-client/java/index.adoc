@@ -34,7 +34,7 @@ Web Client使得发送 HTTP 请求以及从 Web 服务器接收 HTTP 响应变�
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-web-client</artifactId>
- <version>4.2.7</version>
+ <version>4.3.0</version>
 </dependency>
 ----
 
@@ -43,7 +43,7 @@ Web Client使得发送 HTTP 请求以及从 Web 服务器接收 HTTP 响应变�
 [source,groovy,subs="+attributes"]
 ----
 dependencies {
- compile 'io.vertx:vertx-web-client:4.2.7'
+ compile 'io.vertx:vertx-web-client:4.3.0'
 }
 ----
 
@@ -894,6 +894,117 @@ WebClient client = WebClient.create(vertx);
 WebClient cachingWebClient = CachingWebClient.create(client);
 WebClient sessionClient = WebClientSession.create(cachingWebClient);
 ----
+
+== URI templates
+
+URI templates provide an alternative to HTTP request string URIs based on the https://datatracker.ietf.org/doc/html/rfc6570[URI Template RFC 6570].
+
+You can create a `HttpRequest` with a `UriTemplate` URI instead of a Java string URI,
+
+first parse the template string to a `UriTemplate`
+
+[source,java]
+----
+UriTemplate REQUEST_URI = UriTemplate.of("/some-uri?{param}");
+----
+
+then use it to create a request
+
+[source,java]
+----
+HttpRequest<Buffer> request = client.get(8080, "myserver.mycompany.com", REQUEST_URI);
+----
+
+set the template parameter
+
+[source,java]
+----
+request.setTemplateParam("param", "param_value");
+----
+
+and finally send the request as usual
+
+[source,java]
+----
+request.send()
+  .onSuccess(res ->
+    System.out.println("Received response with status code" + res.statusCode()))
+  .onFailure(err ->
+    System.out.println("Something went wrong " + err.getMessage()));
+----
+
+or fluently
+
+[source,java]
+----
+client.get(8080, "myserver.mycompany.com", REQUEST_URI)
+  .setTemplateParam("param", "param_value")
+  .send()
+  .onSuccess(res ->
+    System.out.println("Received response with status code" + res.statusCode()))
+  .onFailure(err ->
+    System.out.println("Something went wrong " + err.getMessage()));
+----
+
+=== URI templates expansion
+
+Before sending the request, Vert.x WebClient expands the template to a string with the request template parameters.
+
+String expansion takes care of encoding the parameters for you,
+
+[source,java]
+----
+String euroSymbol = "\u20AC";
+UriTemplate template = UriTemplate.of("/convert?{amount}&{currency}");
+
+// Request uri: /convert?amount=1234&currency=%E2%82%AC
+Future<HttpResponse<Buffer>> fut = client.get(template)
+  .setTemplateParam("amount", amount)
+  .setTemplateParam("currency", euroSymbol)
+  .send();
+----
+
+The default expansion syntax is known as _simple string expansion_, there are other expansion syntax available
+
+- _path segment expansion_ (`{/varname}`)
+- _form-style query expansion_ (`{?varname}`)
+- etc...
+
+You can refer to the Vert.x URI Template documentation (add link when available) for a complete overview of the various expansion styles.
+
+As mandated by the RFC, template expansion will replace missing template parameters by empty strings. You can change
+this behavior to fail instead:
+
+[source,java]
+----
+WebClient webClient = WebClient.create(vertx, new WebClientOptions()
+  .setTemplateExpandOptions(new ExpandOptions()
+    .setAllowVariableMiss(false))
+);
+----
+
+=== Template parameter values
+
+Template parameters accept `String`, `List<String>` and `Map<String, String` values.
+
+The expansion of each kind depends on the expansion style (denoted by the `?` prefix) , here is an example of the _query_ parameter that is exploded
+(denoted by the `*` suffix) and expanded using form-style query expansion:
+
+[source,java]
+----
+Map<String, String> query = new HashMap<>();
+query.put("color", "red");
+query.put("width", "30");
+query.put("height", "50");
+UriTemplate template = UriTemplate.of("/{?query*}");
+
+// Request uri: /?color=red&width=30&height=50
+Future<HttpResponse<Buffer>> fut = client.getAbs(template)
+  .setTemplateParam("query", query)
+  .send();
+----
+
+Form-style query expansion expands the variable `{?query*}` as `?color=red&width=30&height=50` per definition.
 
 [[_using_https]]
 == 使用 HTTPS

@@ -13,12 +13,12 @@ Reactive MSSQL 客户端是微软 SQL Server 的客户端，
 * Java 8 Date 和 Time 支持
 * RxJava API
 * SSL/TLS
+* 游标
+* 行流（Row streaming）
 
 *暂不支持*
 
 * Prepared 查询缓存
-* 游标
-* 行流（Row streaming）
 * 不支持一些 https://github.com/eclipse-vertx/vertx-sql-client/issues/608#issuecomment-629390027[数据类型]
 
 [[_usage]]
@@ -33,7 +33,7 @@ Reactive MSSQL 客户端是微软 SQL Server 的客户端，
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-mssql-client</artifactId>
- <version>4.2.7</version>
+ <version>4.3.0</version>
 </dependency>
 ----
 * Gradle (in your `build.gradle` file):
@@ -41,7 +41,7 @@ Reactive MSSQL 客户端是微软 SQL Server 的客户端，
 [source,groovy]
 ----
 dependencies {
- compile 'io.vertx:vertx-mssql-client:4.2.7'
+ compile 'io.vertx:vertx-mssql-client:4.3.0'
 }
 ----
 
@@ -269,6 +269,8 @@ client
 include::connections.adoc[]
 
 include::transactions.adoc[]
+
+include::cursor.adoc[]
 
 [[_tracing_queries]]
 == 查询追踪

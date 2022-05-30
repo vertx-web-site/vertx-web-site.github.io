@@ -25,7 +25,7 @@ Circuit Breaker 是Vert.x 断路 _模式_ 的实现。
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-circuit-breaker</artifactId>
- <version>4.2.7</version>
+ <version>4.3.0</version>
 </dependency>
 ----
 
@@ -33,7 +33,7 @@ Circuit Breaker 是Vert.x 断路 _模式_ 的实现。
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-circuit-breaker:4.2.7'
+compile 'io.vertx:vertx-circuit-breaker:4.3.0'
 ----
 
 [[_using_the_circuit_breaker]]
@@ -72,7 +72,7 @@ breaker.execute(promise -> {
 });
 ----
 
-execute 代码块接收 `link:../../apidocs/io/vertx/core/Future.html[Future]` 
+execute 代码块接收 `link:../../apidocs/io/vertx/core/Future.html[Future]`
 对象参数，以标识该操作以及结果的失败或成功。
 例如:在下面的例子中，
 对应的结果就是 REST 调用的输出：
@@ -249,10 +249,17 @@ breaker.<String>execute(
 [[_event_bus_notification]]
 == 事件总线通知
 
-每当断路器发生状态改变的时候，断路器都会在事件总线上推送通知，总线通默认地址为：`vertx.circuit-breaker`。
-当然这个也是可以配置的，您可以调用方法
-`link:../../apidocs/io/vertx/circuitbreaker/CircuitBreakerOptions.html#setNotificationAddress-java.lang.String-[setNotificationAddress]` 
-来设置总线通知地址。如果您设置为 `null` ，那么总线通知将被禁用。
+Every time the circuit state changes, an event can be published on the event bus.
+
+To enable this feature, set the `link:../../apidocs/io/vertx/circuitbreaker/CircuitBreakerOptions.html#setNotificationAddress-java.lang.String-[notification address]` to a value that is not `null`:
+
+[source,java]
+----
+options.setNotificationAddress(CircuitBreakerOptions.DEFAULT_NOTIFICATION_ADDRESS);
+----
+
+NOTE: When enabled, notifications are, by default, delivered only to local consumers.
+If the notification must be sent to all consumers in a cluster, you can change this behavior with `link:../../apidocs/io/vertx/circuitbreaker/CircuitBreakerOptions.html#setNotificationLocalOnly-boolean-[setNotificationLocalOnly]`.
 
 每个总线通知都会包含一个 Json Object 对象，该对象包括以下字段：
 
@@ -275,7 +282,7 @@ breaker.<String>execute(
 
 回退函数将会接收到：
 
-* 当断路器开启时，会抛出 `link:../../apidocs/io/vertx/circuitbreaker/OpenCircuitException.html[OpenCircuitException]` 
+* 当断路器开启时，会抛出 `link:../../apidocs/io/vertx/circuitbreaker/OpenCircuitException.html[OpenCircuitException]`
 * 当操作超时，会抛出 `link:../../apidocs/io/vertx/circuitbreaker/TimeoutException.html[TimeoutException]`
 
 [[_pushing_circuit_breaker_metrics_to_the_hystrix_dashboard]]
@@ -288,8 +295,10 @@ Netflix Hystrix 带有一个看板（dashboard），用于显示断路器的当�
 
 [source,java]
 ----
-CircuitBreaker breaker = CircuitBreaker.create("my-circuit-breaker", vertx);
-CircuitBreaker breaker2 = CircuitBreaker.create("my-second-circuit-breaker", vertx);
+CircuitBreakerOptions options = new CircuitBreakerOptions()
+  .setNotificationAddress(CircuitBreakerOptions.DEFAULT_NOTIFICATION_ADDRESS);
+CircuitBreaker breaker = CircuitBreaker.create("my-circuit-breaker", vertx, new CircuitBreakerOptions(options));
+CircuitBreaker breaker2 = CircuitBreaker.create("my-second-circuit-breaker", vertx, new CircuitBreakerOptions(options));
 
 // 创建 Vert.x Web 路由
 Router router = Router.router(vertx);
@@ -304,8 +313,8 @@ vertx.createHttpServer()
 
 在 Hystrix 看板, 配置 stream url 地址,例如: `http://localhost:8080/metrics`. 现在就可以获取 Vert.x 的断路器指标了。
 
-*注意*：这些指标量是由 Vert.x Web Handler 使用 Event Bus 事件通知收集。
-如您不想使用默认的通知地址，请在创建的时候设置。
+IMPORTANT: 这些指标量是由 Vert.x Web Handler 使用 <<_event_bus_notification, 事件总线（Event Bus）通知>> 收集。
+您必须启用该功能并且，同时如您不想使用默认的通知地址，请在创建的时候设置。
 
 [[_using_netflix_hystrix]]
 == 使用 Netflix Hystrix

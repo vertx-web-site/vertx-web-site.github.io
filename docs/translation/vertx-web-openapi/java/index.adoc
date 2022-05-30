@@ -24,7 +24,7 @@ Vert.x OpenAPI 可以做到如下事情：
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-web-openapi</artifactId>
- <version>4.2.7</version>
+ <version>4.3.0</version>
 </dependency>
 ----
 
@@ -33,7 +33,7 @@ Vert.x OpenAPI 可以做到如下事情：
 [source,groovy,subs="+attributes"]
 ----
 dependencies {
- compile 'io.vertx:vertx-web-openapi:4.2.7'
+ compile 'io.vertx:vertx-web-openapi:4.3.0'
 }
 ----
 
@@ -432,6 +432,6 @@ server.requestHandler(router).listen();
 Router global = Router.router(vertx);
 
 Router generated = routerBuilder.createRouter();
-global.mountSubRouter("/v1", generated);
+global.route("/v1/*").subRouter(generated);
 ----
 ====

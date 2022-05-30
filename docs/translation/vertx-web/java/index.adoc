@@ -75,7 +75,7 @@ Vert.x Web 的大部分特性是使用Handler实现的， 而且您随时可以�
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-web</artifactId>
- <version>4.2.7</version>
+ <version>4.3.0</version>
 </dependency>
 ----
 
@@ -84,7 +84,7 @@ Vert.x Web 的大部分特性是使用Handler实现的， 而且您随时可以�
 [source,groovy,subs="+attributes"]
 ----
 dependencies {
- compile 'io.vertx:vertx-web:4.2.7'
+ compile 'io.vertx:vertx-web:4.3.0'
 }
 ----
 
@@ -149,7 +149,9 @@ server.listen(8080);
 `link:../../apidocs/io/vertx/ext/web/Router.html[路由器 Router]` 是 Vert.x Web 的核心概念之一。 它是一个维护了零或多个
 `link:../../apidocs/io/vertx/ext/web/Route.html[路由 Routes]` 的对象。
 
-一个 router 接收 HTTP 请求，并查找首个匹配该请求的route, 然后将请求传递给这个route
+A router will pause the incoming `link:../../apidocs/io/vertx/core/http/HttpServerRequest.html[HttpServerRequest]`, to ensure that the request body or any
+protocol upgrades are not lost. Second, it will find the first matching route for that request, and passes the request
+to that route.
 
 `Route` 可以持有一个与之关联的 _handler_ 用于接收请求。 您可以通过这个处理器对请求 _做一些事情_,
 然后结束响应或者把请求传递给下一个匹配的处理器。
@@ -286,8 +288,8 @@ router
   .respond(
     ctx -> ctx
       .response()
-        .putHeader("Content-Type", "text/plain")
-        .end("hello world!"));
+      .putHeader("Content-Type", "text/plain")
+      .end("hello world!"));
 
 router
   .get("/some/path")
@@ -295,8 +297,8 @@ router
   .respond(
     ctx -> ctx
       .response()
-        .setChunked(true)
-        .write("Write some text..."));
+      .setChunked(true)
+      .write("Write some text..."));
 ----
 
 [[_using_blocking_handlers]]
@@ -1303,7 +1305,8 @@ mainRouter.route(".*\\.templ").handler(myTemplateHandler);
 
 [source,java]
 ----
-mainRouter.mountSubRouter("/productsAPI", restAPI);
+mainRouter.route("/productsAPI/*")
+  .subRouter(restAPI);
 ----
 
 这意味着现在可以通过以下路径访问REST API：`/productsAPI/products/product1234`。
@@ -1454,37 +1457,11 @@ route3.failureHandler(failureRoutingContext -> {
 
 您应该确保对于任何需要此功能的请求，请求体处理器都应在匹配的路由上
 
-使用此处理器需要将其尽快安装在路由器中，
-因为它需要安装处理程序以使用HTTP请求体，并且必须在执行任何异步调用之前完成此操作。
+The usage of this handler requires that it is installed as soon as possible. The handler will resume the
+`link:../../apidocs/io/vertx/core/http/HttpServerRequest.html[HttpServerRequest]` processing, since it installs handlers to consume the HTTP request body.
 
 [source,java]
 ----
-router.route().handler(BodyHandler.create());
-----
-
-如果之前需要异步调用，则应暂停 `HttpServerRequest` 然后再恢复，
-以便在请求体处理器准备好处理它们之前，不传递请求事件。
-
-[source,java]
-----
-router.route().handler(ctx -> {
-
-  HttpServerRequest request = ctx.request();
-
-  // 暂停请求
-  request.pause();
-
-  someAsyncCall(result -> {
-
-    // 恢复请求
-    request.resume();
-
-    // 继续处理
-    ctx.next();
-  });
-});
-
-// 这个请求体处理器将会被所有的Route调用
 router.route().handler(BodyHandler.create());
 ----
 
@@ -1535,7 +1512,7 @@ router.route().handler(BodyHandler.create());
 
 router.post("/some/path/uploads").handler(ctx -> {
 
-  Set<FileUpload> uploads = ctx.fileUploads();
+  List<FileUpload> uploads = ctx.fileUploads();
   // 使用uploads做一些事情
 
 });
@@ -2028,7 +2005,7 @@ router
 === JWT 认证
 
 使用JWT身份认证可以通过权限保护资源，并且拒绝没有足够权限的用户访问。
-您需要添加 `io.vertx：vertx-auth-jwt：4.2.7` 依赖项才能使用 `JWTAuthProvider`。
+您需要添加 `io.vertx：vertx-auth-jwt：4.3.0` 依赖项才能使用 `JWTAuthProvider`。
 
 使用这个处理器需要包含两步
 
@@ -2476,7 +2453,7 @@ router.route().handler(ctx -> {
   // 但此值可以在创建时在工厂方法中进行修改
   String tenant = ctx.get(MultiTenantHandler.TENANT);
 
-  switch(tenant) {
+  switch (tenant) {
     case "google":
       // 为google用户做一些事情
       break;
@@ -2541,7 +2518,7 @@ router.getWithRegex(".+\\.hbs").handler(handler);
 === MVEL 模版引擎
 
 您需要在项目中添加以下 _依赖_ 以使用 MVEL 模板引擎：
-`io.vertx:vertx-web-templ-mvel:4.2.7`。 并通过此方法以创建 MVEL 模板引擎实例：
+`io.vertx:vertx-web-templ-mvel:4.3.0`。 并通过此方法以创建 MVEL 模板引擎实例：
 `io.vertx.ext.web.templ.mvel.MVELTemplateEngine#create(io.vertx.core.Vertx)`。
 
 在使用 MVEL 模板引擎时，如果不指定模板文件的扩展名，
@@ -2568,7 +2545,7 @@ The value 'bar' from the context data is @{context.get('bar')}
 === Jade 模版引擎（译者注：Jade 已更名为 Pug)
 
 您需要在项目中添加以下 _依赖_ 以使用 Jade 模板引擎：
-`io.vertx:vertx-web-templ-jade:4.2.7`。 并通过此方法以创建 Jade 模板引擎实例：
+`io.vertx:vertx-web-templ-jade:4.3.0`。 并通过此方法以创建 Jade 模板引擎实例：
 `io.vertx.ext.web.templ.jade.JadeTemplateEngine#create(io.vertx.core.Vertx)`。
 
 在使用 Jade 模板引擎时，如果不指定模板文件的扩展名，
@@ -2595,7 +2572,7 @@ html
 === Handlebars 模板引擎
 
 您需要在项目中添加以下 _依赖_ 以使用 Handlebars 模板引擎：
-`io.vertx:vertx-web-templ-handlebars:4.2.7`。 并通过此方法以创建 Handlebars 模板引擎实例：
+`io.vertx:vertx-web-templ-handlebars:4.3.0`。 并通过此方法以创建 Handlebars 模板引擎实例：
 `io.vertx.ext.web.templ.handlebars.HandlebarsTemplateEngine#create(io.vertx.core.Vertx)`。
 
 在使用 Handlebars 模板引擎时，如果不指定模板文件的扩展名，
@@ -2631,7 +2608,7 @@ router.get("/dynamic/").handler(handler);
 === Thymeleaf 模板引擎
 
 您需要在项目中添加以下 _依赖_ 以使用 Thymeleaf 模板引擎：
-`io.vertx:vertx-web-templ-thymeleaf:4.2.7`。 并通过此方法以创建 Thymeleaf 模板引擎实例：
+`io.vertx:vertx-web-templ-thymeleaf:4.3.0`。 并通过此方法以创建 Thymeleaf 模板引擎实例：
 `io.vertx.ext.web.templ.thymeleaf.ThymeleafTemplateEngine#create(io.vertx.core.Vertx)`。
 
 在使用 Thymeleaf 模板引擎时，如果不指定模板文件的扩展名，
@@ -2660,7 +2637,7 @@ router.get("/dynamic/").handler(handler);
 === Apache FreeMarker 模版引擎
 
 您需要在项目中添加以下 _依赖_ 以使用 Apache FreeMarker ：
-`io.vertx:vertx-web-templ-freemarker:4.2.7`。 并通过此方法以创建 Apache FreeMarker 模板引擎实例：
+`io.vertx:vertx-web-templ-freemarker:4.3.0`。 并通过此方法以创建 Apache FreeMarker 模板引擎实例：
 `io.vertx.ext.web.templ.Engine#create()`。
 
 在使用 Apache FreeMarker 模板引擎时，如果不指定模板文件的扩展名，
@@ -2689,7 +2666,7 @@ router.get("/dynamic/").handler(handler);
 === Pebble 模版引擎
 
 您需要在项目中添加以下 _依赖_ 以使用 Pebble ：
-`io.vertx:vertx-web-templ-pebble:4.2.7`。 并通过此方法以创建 Pebble 模板引擎实例：
+`io.vertx:vertx-web-templ-pebble:4.3.0`。 并通过此方法以创建 Pebble 模板引擎实例：
 `io.vertx.ext.web.templ.pebble.PebbleTemplateEngine#create(vertx)`。
 
 在使用 Pebble 模板引擎时，如果不指定模板文件的扩展名，
@@ -2717,7 +2694,7 @@ router.get("/dynamic/").handler(handler);
 [[_rocker_template_engine]]
 === Rocker 模版引擎
 
-您需要在项目中添加以下 _依赖_ 以使用 Rocker：`io.vertx:vertx-web-templ-rocker:4.2.7`。
+您需要在项目中添加以下 _依赖_ 以使用 Rocker：`io.vertx:vertx-web-templ-rocker:4.3.0
 并通过此方法以创建 Rocker 模板引擎实例：`io.vertx.ext.web.templ.rocker#create()`。
 
 Rocker会将JSON上下文对象的值传递给 `render` 方法作为模版的参数。
@@ -2749,7 +2726,7 @@ Request path is @context.getString("path")
 === HTTL 模版引擎
 
 您需要在项目中添加以下 _依赖_ 以使用 HTTL ：
-`io.vertx:vertx-web-templ-httl:4.2.7`。 并通过此方法以创建 HTTL 模板引擎实例：
+`io.vertx:vertx-web-templ-httl:4.3.0`。 并通过此方法以创建 HTTL 模板引擎实例：
 `io.vertx.ext.web.templ.httl.HTTLTemplateEngine#create(io.vertx.core.Vertx)`。
 
 在使用 HTTL 模板引擎时，如果不指定模板文件的扩展名，
@@ -2786,7 +2763,7 @@ Hello ${foo} and ${bar}
 === Rythm 模版引擎
 
 您需要在项目中添加以下 _依赖_ 以使用 Rythm ：
-`io.vertx:vertx-web-templ-rythm:4.2.7`。 并通过此方法以创建 Rythm 模板引擎实例：
+`io.vertx:vertx-web-templ-rythm:4.3.0`。 并通过此方法以创建 Rythm 模板引擎实例：
 `io.vertx.ext.web.templ.rythm.RythmTemplateEngine#create(io.vertx.core.Vertx)`。
 
 在使用 Rythm 模板引擎时，如果不指定模板文件的扩展名，
@@ -2993,7 +2970,8 @@ SockJSHandlerOptions options = new SockJSHandlerOptions()
 
 SockJSHandler sockJSHandler = SockJSHandler.create(vertx, options);
 
-router.mountSubRouter("/myapp", sockJSHandler.socketHandler(sockJSSocket -> {
+router.route("/myapp/*")
+  .subRouter(sockJSHandler.socketHandler(sockJSSocket -> {
 
   // 将数据回写
   sockJSSocket.handler(sockJSSocket::write);
@@ -3079,11 +3057,13 @@ NOTE: 默认情况下， 配置中并不包含一个默认的 `Origin` 属性。
 ----
 Router router = Router.router(vertx);
 
-SockJSHandlerOptions options = new SockJSHandlerOptions().setRegisterWriteHandler(true);
+SockJSHandlerOptions options = new SockJSHandlerOptions()
+  .setRegisterWriteHandler(true);
 
 SockJSHandler sockJSHandler = SockJSHandler.create(vertx, options);
 
-router.mountSubRouter("/myapp", sockJSHandler.socketHandler(sockJSSocket -> {
+router.route("/myapp/*")
+  .subRouter(sockJSHandler.socketHandler(sockJSSocket -> {
 
   // 获取 writeHandlerID 并将其存放 (例如放在本地 map 里)
   String writeHandlerID = sockJSSocket.writeHandlerID();
@@ -3134,7 +3114,9 @@ Router router = Router.router(vertx);
 SockJSHandler sockJSHandler = SockJSHandler.create(vertx);
 SockJSBridgeOptions options = new SockJSBridgeOptions();
 // 将连接桥挂载到路由器上
-router.mountSubRouter("/eventbus", sockJSHandler.bridge(options));
+router
+  .route("/eventbus/*")
+  .subRouter(sockJSHandler.bridge(options));
 ----
 
 在客户端的 JavaScript 中，您可以使用 http://npmjs.com/package/@vertx/eventbus-bridge-client.js[@vertx/eventbus-bridge-client.js]
@@ -3296,7 +3278,9 @@ SockJSBridgeOptions options = new SockJSBridgeOptions().
   addOutboundPermitted(outboundPermitted2);
 
 // 将连接桥挂载到路由器上
-router.mountSubRouter("/eventbus", sockJSHandler.bridge(options));
+router
+  .route("/eventbus/*")
+  .subRouter(sockJSHandler.bridge(options));
 ----
 
 [[_requiring_authorization_for_messages]]
@@ -3351,9 +3335,9 @@ AuthenticationHandler basicAuthHandler = BasicAuthHandler.create(authProvider);
 router.route("/eventbus/*").handler(basicAuthHandler);
 
 // 将连接桥挂载到路由器上
-router.mountSubRouter(
-  "/eventbus",
-  sockJSHandler.bridge(new SockJSBridgeOptions()
+router
+  .route("/eventbus/*")
+  .subRouter(sockJSHandler.bridge(new SockJSBridgeOptions()
     .addInboundPermitted(inboundPermitted)));
 ----
 
@@ -3427,19 +3411,20 @@ SockJSBridgeOptions options = new SockJSBridgeOptions()
 
 // 将桥挂载到路由上
 router
-  .mountSubRouter("/eventbus", sockJSHandler
+  .route("/eventbus/*")
+  .subRouter(sockJSHandler
     .bridge(options, be -> {
       if (be.type() == BridgeEventType.PUBLISH ||
         be.type() == BridgeEventType.RECEIVE) {
 
-        if (be.getRawMessage().getString("body").equals("armadillos")) {
-          // Reject it
-          be.complete(false);
-          return;
+          if (be.getRawMessage().getString("body").equals("armadillos")) {
+            // Reject it
+            be.complete(false);
+            return;
+          }
         }
-      }
-      be.complete(true);
-    }));
+        be.complete(true);
+      }));
 ----
 
 这是如何配置和处理SOCKET_IDLE桥事件类型的示例。
@@ -3458,13 +3443,14 @@ SockJSBridgeOptions options = new SockJSBridgeOptions()
 
 // 挂载桥到路由上
 router
-  .mountSubRouter("/eventbus", sockJSHandler.bridge(options, be -> {
+  .route("/eventbus/*")
+  .subRouter(sockJSHandler.bridge(options, be -> {
     if (be.type() == BridgeEventType.SOCKET_IDLE) {
       // 做一些自定义处理
     }
 
-    be.complete(true);
-  }));
+      be.complete(true);
+    }));
 ----
 
 在客户端JavaScript中，您可以使用 `vertx-eventbus.js` 库创建与事件总线的连接并发送和接收消息：
@@ -3518,10 +3504,10 @@ SockJSHandler sockJSHandler = SockJSHandler.create(vertx);
 SockJSBridgeOptions options = new SockJSBridgeOptions()
   .addInboundPermitted(inboundPermitted);
 
-// 将桥挂载到路由上
-router.mountSubRouter(
-  "/eventbus",
-  sockJSHandler.bridge(options, be -> {
+// 将连接桥挂载到路由器上
+router
+  .route("/eventbus/*")
+  .subRouter(sockJSHandler.bridge(options, be -> {
     if (
       be.type() == BridgeEventType.PUBLISH ||
         be.type() == BridgeEventType.SEND) {
@@ -3531,12 +3517,12 @@ router.mountSubRouter(
         .put("header1", "val")
         .put("header2", "val2");
 
-      JsonObject rawMessage = be.getRawMessage();
-      rawMessage.put("headers", headers);
-      be.setRawMessage(rawMessage);
-    }
-    be.complete(true);
-  }));
+        JsonObject rawMessage = be.getRawMessage();
+        rawMessage.put("headers", headers);
+        be.setRawMessage(rawMessage);
+      }
+      be.complete(true);
+    }));
 ----
 
 [[_csrf_cross_site_request_forgery]]
@@ -3826,7 +3812,7 @@ router.route()
 // 我们现在保护 "/protected" 下的一切资源
 router.route("/protected").handler(
   OAuth2AuthHandler.create(
-    vertx,
+      vertx,
       authProvider,
       "http://localhost:8080/callback")
     // 我们现在配置oauth2处理器
@@ -4278,9 +4264,7 @@ router.route()
 // To view protected details, user must be authenticated and
 // using 2nd factor authentication
 router.get("/protected")
-  .handler(ctx -> {
-    ctx.end("Super secret content");
-  });
+  .handler(ctx -> ctx.end("Super secret content"));
 ----
 
 [[_handling_http_method_overriding]]

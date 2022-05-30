@@ -20,7 +20,7 @@
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-kafka-client</artifactId>
- <version>4.2.7</version>
+ <version>4.3.0</version>
 </dependency>
 ----
 
@@ -28,7 +28,7 @@
 
 [source,groovy,subs="+attributes"]
 ----
-compile io.vertx:vertx-kafka-client:4.2.7
+compile io.vertx:vertx-kafka-client:4.3.0
 ----
 
 [[_creating_kafka_clients]]
@@ -904,7 +904,5 @@ Span 的标签包括：
 - `peer.port` 通过解析 `peer.address` 得到
 - `peer.service` 一直是 always `kafka`
 - `message_bus.destination`, 会设置为 kafka 消息的主题
-
-NOTE: 如果 Vert.x _没有_ 配置启用跟踪，则 Kafka 消费者消费的消息将 _不会有_ 唯一的本地上下文。 如果您想在处理程序之间使用上下文的本地数据，请记住这一点。
 
 include::admin.adoc[]

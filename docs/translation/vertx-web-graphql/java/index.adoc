@@ -4,7 +4,7 @@ Vert.x Web GraphQL 用 https://www.graphql-java.com[GraphQL-Java] 库扩展了 V
 
 TIP: 这是一个 Vert.x Web GraphQL 的参考文档。
 强烈建议您先熟悉一下 GraphQL-Java API。
-您可以从此处开始阅读 https://www.graphql-java.com/documentation/v17/[GraphQL-Java documentation]。
+您可以从此处开始阅读 https://www.graphql-java.com/documentation/v18/getting-started/[GraphQL-Java documentation]。
 
 [[_getting_started]]
 == 由此开始
@@ -16,7 +16,7 @@ TIP: 这是一个 Vert.x Web GraphQL 的参考文档。
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-web-graphql</artifactId>
- <version>4.2.7</version>
+ <version>4.3.0</version>
 </dependency>
 ----
 
@@ -24,7 +24,7 @@ TIP: 这是一个 Vert.x Web GraphQL 的参考文档。
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-web-graphql:4.2.7'
+compile 'io.vertx:vertx-web-graphql:4.3.0'
 ----
 
 [[_handlers_setup]]
@@ -189,7 +189,7 @@ IMPORTANT: 一个 `DataFetcher` 订阅必需返回一个 `org.reactivestreams.Pu
 
 GraphQL-Java API 非常适合异步环境：查询操作默认策略便是异步执行（对于变更，则是串行异步）。
 
-为 https://vertx-china.github.io/docs/vertx-core/java/#golden_rule[避免阻塞 eventloop] ，您需要做的是实现 https://www.graphql-java.com/documentation/v17/data-fetching/[data fetchers] 并返回 `CompletionStage` ，而不是直接返回结果。（译者注： Data Fetcher 下文统一保留原文、不翻译）
+为 https://vertx-china.github.io/docs/vertx-core/java/#golden_rule[避免阻塞 eventloop] ，您需要做的是实现 https://www.graphql-java.com/documentation/v18/data-fetching/[data fetchers] 并返回 `CompletionStage` ，而不是直接返回结果。（译者注： Data Fetcher 下文统一保留原文、不翻译）
 
 [source,java]
 ----

@@ -33,7 +33,7 @@
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-pg-client</artifactId>
- <version>4.2.7</version>
+ <version>4.3.0</version>
 </dependency>
 ----
 * Gradle（在您的 `build.gradle` 文件里）：
@@ -41,7 +41,7 @@
 [source,groovy]
 ----
 dependencies {
- compile 'io.vertx:vertx-pg-client:4.2.7'
+ compile 'io.vertx:vertx-pg-client:4.3.0'
 }
 ----
 
@@ -181,6 +181,21 @@ pool.getConnection().compose(conn -> {
 
 为了连接可以重用，一旦当前连接上的操作已经完成，您需要关闭并释放连接到连接池里。
 
+== Command pipelining
+
+In some use cases, command pipelining can improve database access performance.
+
+You can configure the client to use pipelining
+
+[source,java]
+----
+PgPool pool = PgPool.pool(vertx, connectOptions.setPipeliningLimit(16), poolOptions);
+----
+
+The default pipelining limit is `256`.
+
+You can set this value to `1` to disable pipelining.
+
 [[_pool_versus_pooled_client]]
 == 连接池与池化的客户端
 
@@ -188,10 +203,10 @@ pool.getConnection().compose(conn -> {
 
 [source,java]
 ----
-SqlClient pooledClient = PgPool.client(vertx, connectOptions, poolOptions);
+SqlClient client = PgPool.client(vertx, connectOptions, poolOptions);
 
 // 流水线操作（Pipelined）
-Future<RowSet<Row>> res1 = pooledClient.query(sql).execute();
+Future<RowSet<Row>> res1 = client.query(sql).execute();
 
 // 连接池
 PgPool pool = PgPool.pool(vertx, connectOptions, poolOptions);
@@ -200,8 +215,8 @@ PgPool pool = PgPool.pool(vertx, connectOptions, poolOptions);
 Future<RowSet<Row>> res2 = pool.query(sql).execute();
 ----
 
-- 连接池操作并非流水线操作（pipelined），只有连接客户端是流水线操作
-- 池化的客户端操作是流水线操作
+- 连接池操作并非流水线操作（pipelined），只有从连接池中获取的连接是流水线操作
+- 池化的客户端操作是流水线操作，您无法从池化的客户端获取连接
 
 [[_pool_sharing]]
 == 可共享的连接池

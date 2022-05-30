@@ -21,7 +21,7 @@ Vert.x Unit 借鉴了已有的测试框架，例如 http://junit.org[JUnit] or h
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-unit</artifactId>
- <version>4.2.7</version>
+ <version>4.3.0</version>
  <scope>test</scope>
 </dependency>
 ----
@@ -30,7 +30,7 @@ Vert.x Unit 借鉴了已有的测试框架，例如 http://junit.org[JUnit] or h
 
 [source,groovy,subs="+attributes"]
 ----
-testCompile ${io.vertx}:${vertx-unit}:4.2.7
+testCompile ${io.vertx}:${vertx-unit}:4.3.0
 ----
 
 Vert.x Unit 能够以各种方式使用并可以在您代码中任何位置运行，它仅以正确的方式报告执行结果。
@@ -809,7 +809,7 @@ _simple_ 或 _junit_
 `file:.`
 
 文件 reporter 会在配置的目录中创建文件，这些文件会以测试套件的名称和格式来命名
-（例如， _常规格式_ 创建 _txt_ 文件，_junit格式_ 
+（例如， _常规格式_ 创建 _txt_ 文件，_junit格式_
 创建 _xml_ 文件）。
 
 [[_log_reporting]]
@@ -1002,7 +1002,33 @@ public class TimeoutTestSuite {
 }
 ----
 
-NOTE: `@Test` 的超时设置会覆盖 `link:../../apidocs/io/vertx/ext/unit/junit/Timeout.html[Timeout]` rule 的配置。
+NOTE: Use `io.vertx.ext.unit.junit.Timeout`, not `org.junit.rules.Timeout`.
+
+The method level timeout overwrites the class level timeout:
+
+.Combine the class level rule with a method level timeout
+[source,java]
+----
+@RunWith(VertxUnitRunner.class)
+public class TimeoutOverwriteTestSuite {
+
+  @Rule
+  public Timeout rule = Timeout.millis(5_000L);
+
+  @Test
+  public void testQuick(TestContext context) {
+    //...
+  }
+
+  @Test(timeout = 30_000L)
+  public void testSlow(TestContext context) {
+    //...
+  }
+}
+----
+
+NOTE: `@Test` 的超时设置会覆盖 `link:../../apidocs/io/vertx/ext/unit/junit/Timeout.html[Timeout]` rule 的配置，
+但不会覆盖 `org.junit.rules.Timeout` 的 rule 配置。
 
 [[_parameterized_tests]]
 === 参数化测试

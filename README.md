@@ -1,17 +1,10 @@
-# Vert.x Website ![Node.js CI](https://github.com/vertx-web-site/vertx-web-site/workflows/Node.js%20CI/badge.svg)
+# Vert.x Website ![Deploy](https://github.com/vertx-web-site/vertx-web-site.github.io/workflows/Deploy/badge.svg)
 
 [翻译说明](./README.zh-CN.md)
 
 This repository contains the source of the Vert.x website (https://vertx.io).
 
 ## Quickstart
-
-To build the project, before running `npm install`, be sure to have installed `libsass` and `vips`.
-On Fedora:
-
-```
-sudo dnf install g++ libsass libsass-devel vips-devel
-```
 
 Initialize local copy:
 
@@ -73,11 +66,4 @@ environment variable `GITHUB_ACCESS_TOKEN` to this token. For example,
 
 ## Automated deployment
 
-The website is currently automatically deployed to https://vertx-web-site.github.io/.
-For this, we set up a separate [GitHub repository](https://github.com/vertx-web-site/vertx-web-site.github.io)
-with [GitHub Pages](https://pages.github.com/).
-
-We also created a [GitHub Actions Workflow](https://github.com/vertx-web-site/vertx-web-site/actions).
-This workflow runs each time a new commit is pushed. It builds the website and completely
-replaces the contents of the GitHub Pages repository, which in turn triggers a new
-deployment of the website.
+The [Deploy Workflow](https://github.com/vertx-web-site/vertx-web-site.github.io/actions/workflows/deploy.yml) runs every time a new commit is pushed. It publishes the website to https://vertx.io/.

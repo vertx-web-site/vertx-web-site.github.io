@@ -33,6 +33,13 @@ IMPORTANT: 分布式数据结构的行为取决于您使用的集群管理器。
 这样，我们可以确保在Vert.x应用程序不同线程之间没有 _共享访问可变状态_ 。
 因此您不必担心需要通过同步访问来保护该状态。
 
+[NOTE]
+====
+As a convenience, objects implementing `link:../../apidocs/io/vertx/core/shareddata/ClusterSerializable.html[ClusterSerializable]` or `java.io.Serializable` can be used as keys and values too.
+In this case, the key/value will be copied before putting it into the map by serializing/deserializing.
+Therefore, it is recommended to consider implementing `link:../../apidocs/io/vertx/core/shareddata/Shareable.html[Shareable]` instead for better performance.
+====
+
 以下是使用一个共享的 local map 的示例：
 
 [source,java]
@@ -64,6 +71,13 @@ Buffer buff = map2.get("eek");
 `link:../../apidocs/io/vertx/core/shareddata/AsyncMap.html[异步共享的 maps]` 允许数据被放到 map 中，并从本地或任何其他节点读取。
 
 这使得它们对于托管Vert.x Web应用程序的服务器场中的会话状态存储非常有用。
+
+They only allow certain data types to be used as keys and values:
+
+- immutable types (e.g. strings, booleans, ... etc), or
+- types implementing the `link:../../apidocs/io/vertx/core/shareddata/ClusterSerializable.html[ClusterSerializable]` interface (buffers, JSON arrays, JSON objects, or your own cluster serializable objects), or
+- types implementing the `java.io.Serializable` interface.
+
 
 获取Map的过程是异步的，返回结果可以传递给您指定的处理器。。以下是一个例子：
 

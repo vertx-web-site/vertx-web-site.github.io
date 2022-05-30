@@ -2,6 +2,7 @@ import Layout from "../components/layouts/Community"
 import CommunityProfile from "../components/community/CommunityProfile"
 import CommunitySection from "../components/community/CommunitySection"
 import pMap from "p-map"
+import pRetry from "p-retry"
 
 const FULL_TIME_DEVELOPERS = [{
   githubId: "vietj",
@@ -225,11 +226,11 @@ export async function getStaticProps() {
       "`GITHUB_ACCESS_TOKEN=abcdefghijklmnopqrs0123456789 npm run build`")
   } else {
     // fetch contributors
-    contributors = await fetchContributors(octokit)
+    contributors = await pRetry(() => fetchContributors(octokit))
 
     // fetch information about full-time developers and maintainers
-    fullTimeDevelopers = await fetchUsers(FULL_TIME_DEVELOPERS, contributors, octokit)
-    maintainers = await fetchUsers(MAINTAINERS, contributors, octokit)
+    fullTimeDevelopers = await pRetry(() => fetchUsers(FULL_TIME_DEVELOPERS, contributors, octokit))
+    maintainers = await pRetry(() => fetchUsers(MAINTAINERS, contributors, octokit))
 
     // sort users by their number of contributions
     fullTimeDevelopers.sort((a, b) => b.contributions - a.contributions)

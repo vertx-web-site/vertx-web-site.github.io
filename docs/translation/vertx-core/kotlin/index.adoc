@@ -10,12 +10,12 @@ Vert.x 核心 API 以启用 Kotlin支持：
 <dependency>
 <groupId>io.vertx</groupId>
 <artifactId>vertx-core</artifactId>
-<version>4.2.7</version>
+<version>4.3.0</version>
 </dependency>
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-lang-kotlin</artifactId>
- <version>4.2.7</version>
+ <version>4.3.0</version>
 </dependency>
 ----
 
@@ -23,8 +23,8 @@ Vert.x 核心 API 以启用 Kotlin支持：
 
 [source,groovy,subs="+attributes"]
 ----
-compile "io.vertx:vertx-core:4.2.7"
-compile "io.vertx:vertx-lang-kotlin:4.2.7"
+compile "io.vertx:vertx-core:4.3.0"
+compile "io.vertx:vertx-lang-kotlin:4.3.0"
 ----
 
 == Verticles
@@ -150,11 +150,12 @@ val result = json {
 ----
 // 这个 json 构造器用于声明 JSON 结构
 val result = json {
-
- "firstName" to "Dale",
- "lastName" to "Cooper",
- "age" to 64,
- "names" to array("Dale", "Bartholomew")
+     obj(
+       "firstName" to "Dale",
+       "lastName" to "Cooper",
+       "age" to 64,
+       "names" to array("Dale", "Bartholomew")
+     )
 }
 ----
 

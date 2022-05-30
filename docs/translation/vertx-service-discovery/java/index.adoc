@@ -39,7 +39,7 @@ vert.x的服务发现通过桥接方式 支持对其他服务发现技术的导�
 <dependency>
 <groupId>io.vertx</groupId>
 <artifactId>vertx-service-discovery</artifactId>
-<version>4.2.7</version>
+<version>4.3.0</version>
 </dependency>
 ----
 
@@ -47,7 +47,7 @@ vert.x的服务发现通过桥接方式 支持对其他服务发现技术的导�
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-service-discovery:4.2.7'
+compile 'io.vertx:vertx-service-discovery:4.3.0'
 ----
 
 [[_overall_concepts]]

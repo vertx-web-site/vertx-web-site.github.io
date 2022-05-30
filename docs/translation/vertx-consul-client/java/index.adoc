@@ -15,7 +15,7 @@ Vert.x 的 Consul 客户端允许应用通过阻塞或非阻塞的 HTTP 接口�
 <dependency>
  <groupId>io.vertx</groupId>
  <artifactId>vertx-consul-client</artifactId>
- <version>4.2.7</version>
+ <version>4.3.0</version>
 </dependency>
 ----
 
@@ -23,7 +23,7 @@ Vert.x 的 Consul 客户端允许应用通过阻塞或非阻塞的 HTTP 接口�
 
 [source,groovy,subs="+attributes"]
 ----
-compile 'io.vertx:vertx-consul-client:4.2.7'
+compile 'io.vertx:vertx-consul-client:4.3.0'
 ----
 
 [[_creating_a_client]]

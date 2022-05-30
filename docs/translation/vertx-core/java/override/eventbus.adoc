@@ -29,3 +29,20 @@ eventBus.send("orders", new MyPOJO());
 
 消息编解码器的编码输入和解码输出不一定使用同一个类型。
 例如您可以编写一个编解码器来发送 MyPOJO 类的对象，但是当消息发送给处理器后解码成 MyOtherPOJO 对象。
+
+Vert.x has built-in codecs for certain data types:
+
+- basic types (string, byte array, byte, int, long, double, boolean, short, char), or
+- some Vert.x data types (buffers, JSON array, JSON objects), or
+- types implementing the `link:../../apidocs/io/vertx/core/shareddata/ClusterSerializable.html[ClusterSerializable]` interface, or
+- types implementing the `java.io.Serializable` interface.
+
+[IMPORTANT]
+====
+In clustered mode, `link:../../apidocs/io/vertx/core/shareddata/ClusterSerializable.html[ClusterSerializable]` and `java.io.Serializable` objects are rejected by default, for security reasons.
+
+You can define which classes are allowed for encoding and decoding by providing functions which inspect the name of the class:
+
+- `link:../../apidocs/io/vertx/core/eventbus/EventBus.html#clusterSerializableChecker-java.util.function.Function-[EventBus.clusterSerializableChecker()]`, and
+- `link:../../apidocs/io/vertx/core/eventbus/EventBus.html#serializableChecker-java.util.function.Function-[EventBus.serializableChecker()]`.
+====
