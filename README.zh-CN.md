@@ -1,4 +1,4 @@
-# vertx 4的官网翻译项目 ![Node.js CI](https://github.com/vertx-china/vertx-web-site/workflows/Node.js%20CI/badge.svg)
+# vertx 4的官网翻译项目 [![Deploy](https://github.com/vertx-china/vertx-china.github.io/actions/workflows/deploy.yml/badge.svg)](https://github.com/vertx-china/vertx-china.github.io/actions/workflows/deploy.yml)
 
 ## 本地运行
 
