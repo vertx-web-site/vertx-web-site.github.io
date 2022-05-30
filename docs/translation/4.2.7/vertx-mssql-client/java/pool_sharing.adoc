@@ -1,0 +1,49 @@
+您可以在多个 Verticle 间或同一 Verticle 的多个实例间共享一个连接池。这样的连接池应该在 Verticle 外面创建，
+否则这个连接池将在创建它的 Verticle 被取消部署时关闭
+
+[source,java]
+----
+MSSQLPool pool = MSSQLPool.pool(database, new PoolOptions().setMaxSize(maxSize));
+vertx.deployVerticle(() -> new AbstractVerticle() {
+  @Override
+  public void start() throws Exception {
+    // 使用连接池
+  }
+}, new DeploymentOptions().setInstances(4));
+----
+
+您也可以用以下方式在每个 Verticle 中创建可共享的连接池：
+
+[source,java]
+----
+vertx.deployVerticle(() -> new AbstractVerticle() {
+  MSSQLPool pool;
+  @Override
+  public void start() {
+    // 创建一个可共享的连接池
+    // 或获取已有的可共享连接池，并创建对原连接池的借用
+    // 当 verticle 被取消部署时，借用会被自动释放
+    pool = MSSQLPool.pool(database, new PoolOptions()
+      .setMaxSize(maxSize)
+      .setShared(true)
+      .setName("my-pool"));
+  }
+}, new DeploymentOptions().setInstances(4));
+----
+
+第一次创建可共享的连接池时，会创建新连接池所需的资源。之后再调用该创建方法时，会复用之前的连接池，并创建
+对原有连接池的借用。当所有的借用都被关闭时，该连接池的资源也会被释放。
+
+默认情况下，客户端需要创建一个 TCP 连接时，会复用当前的 event-loop 。 这个可共享的 HTTP 客户端会
+以一种安全的模式，在使用它的 verticle 中随机选中一个 verticle，并使用它的 event-loop。
+
+您可以手动设置一个客户端可以使用的 event-loop 的数量
+
+[source,java]
+----
+MSSQLPool pool = MSSQLPool.pool(database, new PoolOptions()
+  .setMaxSize(maxSize)
+  .setShared(true)
+  .setName("my-pool")
+  .setEventLoopSize(4));
+----

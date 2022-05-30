@@ -1,0 +1,169 @@
+[[_running_queries]]
+= 执行查询
+
+当您不需要事务或者只是执行一个单次查询操作，您可以直接在连接池里执行查询；
+连接池会使用某一条连接执行并给您返回结果。
+
+下边是如何执行一个简单的查询的例子：
+
+[source,java]
+----
+client
+  .query("SELECT * FROM users WHERE id='julien'")
+  .execute(ar -> {
+  if (ar.succeeded()) {
+    RowSet<Row> result = ar.result();
+    System.out.println("Got " + result.size() + " rows ");
+  } else {
+    System.out.println("Failure: " + ar.cause().getMessage());
+  }
+});
+----
+
+[[_prepared_queries]]
+== 预查询
+
+执行预查询也是一样的操作。
+
+SQL字符通过位置引用实际的参数，并使用数据库的语法 {PREPARED_PARAMS}
+
+[source,java]
+----
+client
+  .preparedQuery("SELECT * FROM users WHERE id=@p1")
+  .execute(Tuple.of("julien"), ar -> {
+  if (ar.succeeded()) {
+    RowSet<Row> rows = ar.result();
+    System.out.println("Got " + rows.size() + " rows ");
+  } else {
+    System.out.println("Failure: " + ar.cause().getMessage());
+  }
+});
+----
+
+查询相关的方法为 _SELECT_ 类型的操作提供了异步的 `link:../../apidocs/io/vertx/sqlclient/RowSet.html[RowSet]` 实例
+
+[source,java]
+----
+client
+  .preparedQuery("SELECT first_name, last_name FROM users")
+  .execute(ar -> {
+  if (ar.succeeded()) {
+    RowSet<Row> rows = ar.result();
+    for (Row row : rows) {
+      System.out.println("User " + row.getString(0) + " " + row.getString(1));
+    }
+  } else {
+    System.out.println("Failure: " + ar.cause().getMessage());
+  }
+});
+----
+
+或者 _UPDATE_/_INSERT_ 类型的查询：
+
+[source,java]
+----
+client
+  .preparedQuery("INSERT INTO users (first_name, last_name) VALUES (@p1, @p2)")
+  .execute(Tuple.of("Julien", "Viet"), ar -> {
+  if (ar.succeeded()) {
+    RowSet<Row> rows = ar.result();
+    System.out.println(rows.rowCount());
+  } else {
+    System.out.println("Failure: " + ar.cause().getMessage());
+  }
+});
+----
+
+Row对象（`link:../../apidocs/io/vertx/sqlclient/Row.html[Row]`）可以让您通过索引位置获取相应的数据
+
+[source,java]
+----
+System.out.println("User " + row.getString(0) + " " + row.getString(1));
+----
+
+或者通过名称
+
+[source,java]
+----
+System.out.println("User " + row.getString("first_name") + " " + row.getString("last_name"));
+----
+
+客户端在此处没有做特殊处理，无论您的SQL文本时什么，列名都将使用数据库表中的名称标识。
+
+您也可以直接访问得到多种类型
+
+[source,java]
+----
+String firstName = row.getString("first_name");
+Boolean male = row.getBoolean("male");
+Integer age = row.getInteger("age");
+----
+
+您可以使用缓存过的预处理语句去执行一次性的预查询：
+
+[source,java]
+----
+connectOptions.setCachePreparedStatements(true);
+client
+  .preparedQuery("SELECT * FROM users WHERE id = @p1")
+  .execute(Tuple.of("julien"), ar -> {
+    if (ar.succeeded()) {
+      RowSet<Row> rows = ar.result();
+      System.out.println("Got " + rows.size() + " rows ");
+    } else {
+      System.out.println("Failure: " + ar.cause().getMessage());
+    }
+  });
+----
+
+您也可以创建 `PreparedStatement` 并自主地管理它的生命周期。
+
+[source,java]
+----
+sqlConnection
+  .prepare("SELECT * FROM users WHERE id = @p1", ar -> {
+    if (ar.succeeded()) {
+      PreparedStatement preparedStatement = ar.result();
+      preparedStatement.query()
+        .execute(Tuple.of("julien"), ar2 -> {
+          if (ar2.succeeded()) {
+            RowSet<Row> rows = ar2.result();
+            System.out.println("Got " + rows.size() + " rows ");
+            preparedStatement.close();
+          } else {
+            System.out.println("Failure: " + ar2.cause().getMessage());
+          }
+        });
+    } else {
+      System.out.println("Failure: " + ar.cause().getMessage());
+    }
+  });
+----
+
+ifndef::batching-unsupported[]
+[[_batches]]
+== 批处理
+
+您可以在预查询中执行批处理操作
+
+[source,java]
+----
+List<Tuple> batch = new ArrayList<>();
+batch.add(Tuple.of("julien", "Julien Viet"));
+batch.add(Tuple.of("emad", "Emad Alblueshi"));
+
+// Execute the prepared batch
+client
+  .preparedQuery("INSERT INTO USERS (id, name) VALUES (@p1, @p2)")
+  .executeBatch(batch, res -> {
+  if (res.succeeded()) {
+
+    // Process rows
+    RowSet<Row> rows = res.result();
+  } else {
+    System.out.println("Batch failed " + res.cause());
+  }
+});
+----
+endif::[]
