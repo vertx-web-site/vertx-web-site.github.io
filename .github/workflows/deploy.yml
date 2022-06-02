@@ -63,7 +63,7 @@ jobs:
           du -sh *
           df -h / /mnt
 
-      - run: npm ci
+      - run: npm ci -f
 
       # Download, extract, and compile docs
       - run: npm run update-docs
