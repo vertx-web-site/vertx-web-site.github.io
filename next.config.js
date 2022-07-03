@@ -2,6 +2,7 @@ import { mdxOptions } from "./components/lib/mdx-options.js"
 import ESLintPlugin from "eslint-webpack-plugin"
 import styledJsx from "styled-jsx/webpack.js"
 import svgToMiniDataURI from "mini-svg-data-uri"
+import withBundleAnalyzer from "@next/bundle-analyzer"
 
 const isProd = process.env.NODE_ENV === "production"
 
@@ -86,6 +87,13 @@ const config = {
 
     config.module.rules.push({
       test: /\.svg$/i,
+      resourceQuery: /react/,
+      use: "react-svg-loader"
+    })
+
+    config.module.rules.push({
+      test: /\.svg$/i,
+      resourceQuery: { not: [/react/] },
       type: "asset",
       use: "image-webpack-loader",
       generator: {
@@ -117,4 +125,6 @@ const config = {
   }
 }
 
-export default config
+export default withBundleAnalyzer({
+  enabled: process.env.ANALYZE === "true"
+})(config)

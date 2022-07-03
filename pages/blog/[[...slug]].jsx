@@ -17,7 +17,8 @@ import * as runtime from "react/jsx-runtime"
 import { useEffect, useState } from "react"
 
 import { Clock } from "react-feather"
-import { Facebook, Linkedin, Twitter } from "@icons-pack/react-simple-icons"
+import SimpleIcon from "../../components/SimpleIcon"
+import { siFacebook, siLinkedin, siTwitter } from "simple-icons/icons"
 
 const MAX_ITEMS_PER_PAGE = 6
 
@@ -455,15 +456,15 @@ const BlogPage = ({ post, prevPost, nextPost, relatedPosts, category, categories
           <div className="blog-post-sidebar-share-icons">
             <a href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.meta.title)}&url=${encodeURIComponent(url)}&via=vertx_project`}
                 target="_blank" rel="noopener noreferrer">
-              <Twitter />
+              <SimpleIcon icon={siTwitter} />
             </a>
             <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`}
                 target="_blank" rel="noopener noreferrer">
-              <Linkedin />
+              <SimpleIcon icon={siLinkedin} />
             </a>
             <a href={`https://www.facebook.com/sharer.php?u=${encodeURIComponent(url)}`}
                 target="_blank" rel="noopener noreferrer">
-              <Facebook />
+              <SimpleIcon icon={siFacebook} />
             </a>
           </div>
         </div>

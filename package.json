@@ -23,7 +23,6 @@
   },
   "homepage": "https://github.com/vertx-web-site/vertx-web-site#readme",
   "dependencies": {
-    "@icons-pack/react-simple-icons": "^5.1.2",
     "@mdx-js/loader": "^2.1.2",
     "@mdx-js/mdx": "^2.1.2",
     "@popperjs/core": "^2.11.5",
@@ -52,6 +51,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-feather": "^2.0.10",
+    "react-svg-loader": "^3.0.3",
     "reading-time": "^1.5.0",
     "recursive-readdir": "^2.2.2",
     "rehype-autolink-headings": "^6.1.1",
@@ -61,12 +61,14 @@
     "sass": "^1.53.0",
     "sass-loader": "^13.0.2",
     "serve": "^13.0.2",
+    "simple-icons": "^7.4.0",
     "super-react-gist": "^1.1.0",
     "unist-util-visit": "^4.1.0",
     "unist-util-visit-parents": "^5.1.0",
     "webpack": "^5.73.0"
   },
   "devDependencies": {
+    "@next/bundle-analyzer": "^12.2.0",
     "@octokit/rest": "^18.12.0",
     "cacache": "^16.1.1",
     "eslint": "^8.19.0",
