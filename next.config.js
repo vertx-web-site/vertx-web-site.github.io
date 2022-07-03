@@ -48,6 +48,12 @@ const config = {
     disableStaticImages: true
   },
 
+  experimental: {
+    // our docs pages are very large - increase the limit here to disable
+    // warnings about page sizes
+    largePageDataBytes: 1024 * 1024
+  },
+
   // list pages to export
   exportPathMap() {
     return {
