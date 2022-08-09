@@ -225,12 +225,20 @@ export async function getStaticProps() {
       "`GITHUB_ACCESS_TOKEN` with your personal access token. For example: " +
       "`GITHUB_ACCESS_TOKEN=abcdefghijklmnopqrs0123456789 npm run build`")
   } else {
+    let retryOptions = {
+      onFailedAttempt: error => {
+        console.error(`Attempt ${error.attemptNumber} failed. There are ${error.retriesLeft} retries left.`)
+        console.error(`Error message: ${error.message}`)
+      },
+      retries: 5
+    }
+
     // fetch contributors
-    contributors = await pRetry(() => fetchContributors(octokit), { retries: 1 })
+    contributors = await pRetry(() => fetchContributors(octokit), retryOptions)
 
     // fetch information about full-time developers and maintainers
-    fullTimeDevelopers = await pRetry(() => fetchUsers(FULL_TIME_DEVELOPERS, contributors, octokit), { retries: 1 })
-    maintainers = await pRetry(() => fetchUsers(MAINTAINERS, contributors, octokit), { retries: 1 })
+    fullTimeDevelopers = await pRetry(() => fetchUsers(FULL_TIME_DEVELOPERS, contributors, octokit), retryOptions)
+    maintainers = await pRetry(() => fetchUsers(MAINTAINERS, contributors, octokit), retryOptions)
 
     // sort users by their number of contributions
     fullTimeDevelopers.sort((a, b) => b.contributions - a.contributions)
