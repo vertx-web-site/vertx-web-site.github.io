@@ -226,11 +226,11 @@ export async function getStaticProps() {
       "`GITHUB_ACCESS_TOKEN=abcdefghijklmnopqrs0123456789 npm run build`")
   } else {
     // fetch contributors
-    contributors = await pRetry(() => fetchContributors(octokit))
+    contributors = await pRetry(() => fetchContributors(octokit), { retries: 1 })
 
     // fetch information about full-time developers and maintainers
-    fullTimeDevelopers = await pRetry(() => fetchUsers(FULL_TIME_DEVELOPERS, contributors, octokit))
-    maintainers = await pRetry(() => fetchUsers(MAINTAINERS, contributors, octokit))
+    fullTimeDevelopers = await pRetry(() => fetchUsers(FULL_TIME_DEVELOPERS, contributors, octokit), { retries: 1 })
+    maintainers = await pRetry(() => fetchUsers(MAINTAINERS, contributors, octokit), { retries: 1 })
 
     // sort users by their number of contributions
     fullTimeDevelopers.sort((a, b) => b.contributions - a.contributions)
