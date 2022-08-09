@@ -106,7 +106,7 @@ const MAINTAINERS = [{
 }]
 
 // maximum number of parallel requests against the GitHub API
-const MAX_CONCURRENCY = 10
+const MAX_CONCURRENCY = 2
 
 async function fetchUsers(users, contributors, octokit) {
   let result = []
@@ -226,9 +226,13 @@ export async function getStaticProps() {
       "`GITHUB_ACCESS_TOKEN=abcdefghijklmnopqrs0123456789 npm run build`")
   } else {
     let retryOptions = {
-      onFailedAttempt: error => {
+      onFailedAttempt: async error => {
         console.error(`Attempt ${error.attemptNumber} failed. There are ${error.retriesLeft} retries left.`)
         console.error(`Error message: ${error.message}`)
+        if (error.retriesLeft > 0) {
+          console.error("Waiting 15s before next attempt ...")
+          await new Promise(resolve => setTimeout(resolve, 5000))
+        }
       },
       retries: 5
     }
