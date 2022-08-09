@@ -198,7 +198,8 @@ async function fetchContributors(octokit) {
 }
 
 export async function getStaticProps() {
-  const CACHE_TIMEOUT_SECONDS = 60 * 60 // one hour
+  // const CACHE_TIMEOUT_SECONDS = 60 * 60 // one hour
+  const CACHE_TIMEOUT_SECONDS = 60 * 5 // five minutes
   const CACHE_PATH = "./.cache/community"
 
   const { Octokit } = require("@octokit/rest")
