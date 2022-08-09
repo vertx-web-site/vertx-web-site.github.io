@@ -48,6 +48,9 @@ const config = {
     disableStaticImages: true
   },
 
+  // Sometimes it takes a long time (and a few retries) to fetch all
+  // contributors. Increase page generation timeout so the contributors can
+  // be fully fetched.
   staticPageGenerationTimeout: 1000,
 
   experimental: {
