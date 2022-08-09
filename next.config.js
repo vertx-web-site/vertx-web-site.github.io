@@ -48,6 +48,8 @@ const config = {
     disableStaticImages: true
   },
 
+  staticPageGenerationTimeout: 1000,
+
   experimental: {
     // our docs pages are very large - increase the limit here to disable
     // warnings about page sizes
