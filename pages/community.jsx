@@ -3,6 +3,7 @@ import CommunityProfile from "../components/community/CommunityProfile"
 import CommunitySection from "../components/community/CommunitySection"
 import pMap from "p-map"
 import pRetry from "p-retry"
+import nodeFetch from "node-fetch"
 
 const FULL_TIME_DEVELOPERS = [{
   githubId: "vietj",
@@ -213,7 +214,7 @@ export async function getStaticProps() {
   const octokit = new Octokit({
     auth: process.env.GITHUB_ACCESS_TOKEN,
     request: {
-      fetch
+      nodeFetch
     }
   })
 
