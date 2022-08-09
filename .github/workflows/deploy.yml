@@ -135,7 +135,7 @@ jobs:
       - name: Upload Archive
         uses: actions/upload-artifact@v3
         with:
-          name: Built Website
+          name: github-pages
           path: website.tar
           retention-days: 1
 
