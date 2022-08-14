@@ -4,15 +4,9 @@ export async function fetchGitHubStars(org, repo) {
     return undefined
   }
 
-  const CACHE_TIMEOUT_SECONDS = 60 * 60 // one hour
-  const CACHE_PATH = "./.cache/github_stars"
-
   const { Octokit } = require("@octokit/rest")
-  const { CachedFetch } = await import("./cached-fetch.js")
-
-  const fetch = CachedFetch({
-    cacheTimeoutSeconds: CACHE_TIMEOUT_SECONDS,
-    cachePath: CACHE_PATH
+  const fetch = require("make-fetch-happen").defaults({
+    cachePath: "./.cache/github_stars2"
   })
 
   const octokit = new Octokit({

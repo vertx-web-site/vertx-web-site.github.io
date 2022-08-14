@@ -3,7 +3,6 @@ import CommunityProfile from "../components/community/CommunityProfile"
 import CommunitySection from "../components/community/CommunitySection"
 import pMap from "p-map"
 import pRetry from "p-retry"
-import nodeFetch from "node-fetch"
 
 const FULL_TIME_DEVELOPERS = [{
   githubId: "vietj",
@@ -199,22 +198,15 @@ async function fetchContributors(octokit) {
 }
 
 export async function getStaticProps() {
-  // const CACHE_TIMEOUT_SECONDS = 60 * 60 // one hour
-  const CACHE_TIMEOUT_SECONDS = 60 * 5 // five minutes
-  const CACHE_PATH = "./.cache/community"
-
   const { Octokit } = require("@octokit/rest")
-  const { CachedFetch } = await import("../components/lib/cached-fetch")
-
-  const fetch = CachedFetch({
-    cacheTimeoutSeconds: CACHE_TIMEOUT_SECONDS,
-    cachePath: CACHE_PATH
+  const fetch = require("make-fetch-happen").defaults({
+    cachePath: "./.cache/community2"
   })
 
   const octokit = new Octokit({
     auth: process.env.GITHUB_ACCESS_TOKEN,
     request: {
-      nodeFetch
+      fetch
     }
   })
 
@@ -231,10 +223,6 @@ export async function getStaticProps() {
       onFailedAttempt: async error => {
         console.error(`Attempt ${error.attemptNumber} failed. There are ${error.retriesLeft} retries left.`)
         console.error(`Error message: ${error.message}`)
-        if (error.retriesLeft > 0) {
-          console.error("Waiting 15s before next attempt ...")
-          await new Promise(resolve => setTimeout(resolve, 5000))
-        }
       },
       retries: 5
     }
