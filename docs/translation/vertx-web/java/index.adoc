@@ -149,9 +149,8 @@ server.listen(8080);
 `link:../../apidocs/io/vertx/ext/web/Router.html[路由器 Router]` 是 Vert.x Web 的核心概念之一。 它是一个维护了零或多个
 `link:../../apidocs/io/vertx/ext/web/Route.html[路由 Routes]` 的对象。
 
-A router will pause the incoming `link:../../apidocs/io/vertx/core/http/HttpServerRequest.html[HttpServerRequest]`, to ensure that the request body or any
-protocol upgrades are not lost. Second, it will find the first matching route for that request, and passes the request
-to that route.
+路由器将传入的 `link:../../apidocs/io/vertx/core/http/HttpServerRequest.html[Http服务器端请求 HttpServerRequest]`暂停，以确保请求正文或任何协议升级不会丢失。
+其次，它将找到匹配该请求的第一个路由，并将请求传递给该路由。
 
 `Route` 可以持有一个与之关联的 _handler_ 用于接收请求。 您可以通过这个处理器对请求 _做一些事情_,
 然后结束响应或者把请求传递给下一个匹配的处理器。
@@ -1452,13 +1451,13 @@ route3.failureHandler(failureRoutingContext -> {
 [[_request_body_handling]]
 == 请求体处理
 
-`link:../../apidocs/io/vertx/ext/web/handler/BodyHandler.html[BodyHandler]` 允许您获取请求体，
-限制请求体大小和处理文件上传
+`link:../../apidocs/io/vertx/ext/web/handler/BodyHandler.html[请求体处理器 BodyHandler]` 允许您获取请求体，
+限制请求体大小以及处理文件上传。
 
-您应该确保对于任何需要此功能的请求，请求体处理器都应在匹配的路由上
+您应该确保对于任何需要此功能的请求，请求体处理器都能正确匹配路由。
 
-The usage of this handler requires that it is installed as soon as possible. The handler will resume the
-`link:../../apidocs/io/vertx/core/http/HttpServerRequest.html[HttpServerRequest]` processing, since it installs handlers to consume the HTTP request body.
+为使用该处理器应尽快将其安装。
+处理器安装之后，便会恢复处理 `link:../../apidocs/io/vertx/core/http/HttpServerRequest.html[Http服务器端请求 HttpServerRequest]`。
 
 [source,java]
 ----
