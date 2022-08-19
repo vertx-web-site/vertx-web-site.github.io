@@ -152,7 +152,7 @@ server.listen(8080);
 路由器将传入的 `link:../../apidocs/io/vertx/core/http/HttpServerRequest.html[Http服务器端请求 HttpServerRequest]`暂停，以确保请求正文或任何协议升级不会丢失。
 其次，它将找到匹配该请求的第一个路由，并将请求传递给该路由。
 
-`Route` 可以持有一个与之关联的 _handler_ 用于接收请求。 您可以通过这个处理器对请求 _做一些事情_,
+`Route` 可以持有一个与之关联的 _处理器 handler_ 用于接收请求。 您可以通过该处理器对请求 _做一些处理_,
 然后结束响应或者把请求传递给下一个匹配的处理器。
 
 以下是一个简单的路由示例：
