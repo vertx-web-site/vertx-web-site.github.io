@@ -55,7 +55,7 @@ async function extractEntry(zipfile, entry, extractedVersionPath,
 
   await fs.mkdir(path.dirname(destPath), { recursive: true })
 
-  if (latestBugfixVersion === undefined) {
+  if (latestBugfixVersion === undefined || !entry.fileName.startsWith("apidocs/")) {
     let writeStream = fsSync.createWriteStream(destPath)
     await new Promise((resolve, reject) => {
       zipfile.openReadStream(entry, (err, readStream) => {
