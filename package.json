@@ -44,6 +44,7 @@
     "mini-svg-data-uri": "^1.4.4",
     "minisearch": "^5.0.0",
     "next": "^12.2.4",
+    "node-fetch": "^3.2.10",
     "normalize.css": "^8.0.1",
     "nprogress": "^0.2.0",
     "p-map": "^5.5.0",
