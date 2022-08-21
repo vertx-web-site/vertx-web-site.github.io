@@ -109,5 +109,6 @@ export {
   insert,
   move,
   remove,
+  parseVersion,
   filterLatestBugfixVersions
 }

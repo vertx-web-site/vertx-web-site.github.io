@@ -1,8 +1,9 @@
 import Card from "../components/Card"
 import Cards from "../components/Cards"
 import Guide from "../components/layouts/Guide"
+import SimpleIcon from "../components/SimpleIcon"
 import TencentQQGuild from "../components/TencentQQGuild"
-import { Discord, Googlemessages, Tencentqq, Stackoverflow } from "@icons-pack/react-simple-icons"
+import { siDiscord, siGooglemessages, siStackoverflow, siTencentqq } from "simple-icons/icons"
 
 <Guide title="联系渠道">
 
@@ -12,25 +13,25 @@ import { Discord, Googlemessages, Tencentqq, Stackoverflow } from "@icons-pack/r
 为什么不参与其中呢？
 
 <Cards columns={2}>
-  <Card title="Vert.x中国用户组QQ频道" icon={<TencentQQGuild />} href="https://qun.qq.com/qqweb/qunpro/share?_wv=3&_wwv=128&inviteCode=1reLvB&from=246610&biz=ka">
-    Vert.x中国用户组QQ频道
+  <Card title="Vert.x中国用户组QQ频道" icon={<SimpleIcon icon={TencentQQGuild} />} href="https://qun.qq.com/qqweb/qunpro/share?_wv=3&_wwv=128&inviteCode=1reLvB&from=246610&biz=ka">
+      Vert.x中国用户组QQ频道
   </Card>
-  <Card title="Vert.x中国用户组QQ群" icon={<Tencentqq />} href="https://qm.qq.com/cgi-bin/qm/qr?k=I4Z94iAgTJXB6FyR_U5scsJHtkjb1pif&jump_from=webapi">
-    Vert.x中国用户组QQ群
+  <Card title="Vert.x中国用户组QQ群" icon={<SimpleIcon icon={siTencentqq} />} href="https://qm.qq.com/cgi-bin/qm/qr?k=I4Z94iAgTJXB6FyR_U5scsJHtkjb1pif&jump_from=webapi">
+      Vert.x中国用户组QQ群
   </Card>
-  <Card title="用户组" icon={<Googlemessages />} href="https://groups.google.com/forum/?fromgroups#!forum/vertx">
+  <Card title="用户组" icon={<SimpleIcon icon={siGooglemessages} />} href="https://groups.google.com/forum/?fromgroups#!forum/vertx">
     Google用户组论坛。如果您需要帮助或报告问题，请在这里发布消息。
   </Card>
-  <Card title="Stack Overflow" icon={<Stackoverflow />} href="https://stackoverflow.com/questions/tagged/vert.x">
+  <Card title="Stack Overflow" icon={<SimpleIcon icon={siStackoverflow} />} href="https://stackoverflow.com/questions/tagged/vert.x">
 
 请给你的问题加上 `vert.x` 标签。我们会尽力回答 StackOverflow 上的问题，
 但与用户组保持联系是我们的更高优先级的任务。
 
   </Card>
-  <Card title="Discord" icon={<Discord />} href="https://discord.gg/KzEMwP2">
+  <Card title="Discord" icon={<SimpleIcon icon={siDiscord} />} href="https://discord.gg/6ry7aqPWXy">
     进来和其他用户一起聊天吧。
   </Card>
-  <Card title="开发者组" icon={<Googlemessages />} href="https://groups.google.com/forum/?fromgroups#!forum/vertx-dev">
+  <Card title="开发者组" icon={<SimpleIcon icon={siGooglemessages} />} href="https://groups.google.com/forum/?fromgroups#!forum/vertx-dev">
     面向Vert.x核心开发人员和贡献者的Google小组。
   </Card>
 </Cards>

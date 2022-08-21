@@ -2,8 +2,9 @@ import cliProgress from "cli-progress"
 import fs from "fs-extra"
 import download from "./download"
 import extract from "./extract"
-import { isAsciidocCompiled } from "./util"
-import { metadata, latestRelease } from "../metadata/all"
+import { isCompiled } from "./util"
+import { metadata, latestRelease, versions } from "../metadata/all"
+import { filterLatestBugfixVersions, parseVersion } from "../metadata/helpers"
 import restoreCursor from "restore-cursor"
 import path from "path"
 import Piscina from "piscina"
@@ -63,7 +64,7 @@ async function main() {
   let asciidoctorBar = multibar.create(metadata.length * 100, 0, {
     message: "Compile Asciidoc", asciidoc: true })
 
-  async function run(version, artifactVersion) {
+  async function run(version, artifactVersion, latestBugfixVersion) {
     let progressListener = {
       start(total, message) {
         this.stop()
@@ -92,8 +93,8 @@ async function main() {
     progressListener.stop()
 
     // check if asciidoc for this version has already been compiled
-    let asciidocCompiled = await isAsciidocCompiled(version, artifactVersion,
-      downloadPath, compiledPath)
+    let asciidocCompiled = await isCompiled(version, artifactVersion,
+      downloadPath, compiledPath, latestBugfixVersion === undefined)
 
     // delete compiled files and extracted apidocs if SHA was different
     if (!asciidocCompiled) {
@@ -105,7 +106,8 @@ async function main() {
 
     // extract artifact
     await extractLimit(() => {
-      return extract(version, artifactVersion, progressListener, asciidocCompiled)
+      return extract(version, artifactVersion, progressListener,
+          asciidocCompiled, latestBugfixVersion)
     })
     progressListener.stop()
 
@@ -141,8 +143,15 @@ async function main() {
       }
     })
 
-    let messages = await piscina.run({ version, artifactVersion, progressPort: channel.port1, latestReleaseVersion: latestRelease.version },
-      { transferList: [channel.port1] })
+    let messages = await piscina.run({
+      version,
+      artifactVersion,
+      isLatestBugfixVersion: latestBugfixVersion === undefined,
+      progressPort: channel.port1,
+      latestReleaseVersion: latestRelease.version
+    }, {
+      transferList: [channel.port1]
+    })
 
     channel.port1.close()
     channel.port2.close()
@@ -155,10 +164,19 @@ async function main() {
     await fs.write(asciidoctorLog, messages.join("\n"))
   }
 
+  let latestBugfixVersions = filterLatestBugfixVersions(versions)
+
   try {
     let promises = []
     for (let m of metadata) {
-      promises.push(run(m.version, m.metadata.artifactVersion || m.version))
+      let parsedVersion = parseVersion(m.version)
+      let latestBugfixVersion = latestBugfixVersions.find(lbv => {
+        let plbv = parseVersion(lbv)
+        return parsedVersion.major === plbv.major && parsedVersion.minor === plbv.minor &&
+            parsedVersion.patch !== plbv.patch
+      })
+      promises.push(run(m.version, m.metadata.artifactVersion || m.version,
+          latestBugfixVersion))
     }
     await Promise.all(promises)
   } finally {

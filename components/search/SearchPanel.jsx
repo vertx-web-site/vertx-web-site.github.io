@@ -127,40 +127,27 @@ function extractPositions(str, searchResult, field) {
   return termsToPositions(str, extractMatchedTerms(searchResult, field))
 }
 
-// coalesce the given positions (i.e. recursively merge overlapping ranges)
-function coalescePositions(positions) {
-  let result = []
-  let anymerged = false
-  for (let p of positions) {
-    let merged = false
-    for (let r of result) {
-      if ((p[0] >= r[0] && p[0] <= r[1]) || (p[1] >= r[0] && p[1] <= r[1])) {
-        r[0] = Math.min(r[0], p[0])
-        r[1] = Math.max(r[1], p[1])
-        merged = true
-        anymerged = true
-        break
-      }
-    }
-    if (!merged) {
-      result.push(p)
+// coalesce the given positions (i.e. merge overlapping ranges)
+function coalesceAndSortPositions(positions) {
+  positions = sortPositions(positions)
+
+  let last = 0
+  for (let i = 1; i < positions.length; ++i) {
+    if (positions[last][1] >= positions[i][0]) {
+      positions[last][1] = Math.max(positions[last][1], positions[i][1])
+    } else {
+      last++
+      positions[last] = positions[i]
     }
   }
-  if (anymerged) {
-    return coalescePositions(result)
-  }
-  return result
+
+  return positions.slice(0, last + 1)
 }
 
 // sort the given positions according to their start
 function sortPositions(positions) {
   positions.sort((a, b) => a[0] - b[0])
   return positions
-}
-
-// coalesce and sort positions
-function normalizePositions(positions) {
-  return sortPositions(coalescePositions(positions))
 }
 
 const SearchPanel = forwardRef(({ contentRef, onHasResults }, ref) => {
@@ -322,7 +309,7 @@ const SearchPanel = forwardRef(({ contentRef, onHasResults }, ref) => {
       let text = current.content
 
       // highlight matched token in the title
-      let titlePositions = normalizePositions(extractPositions(title, r, "title"))
+      let titlePositions = coalesceAndSortPositions(extractPositions(title, r, "title"))
       if (titlePositions.length > 0) {
         title = highlight(title, titlePositions)
       }
@@ -330,7 +317,7 @@ const SearchPanel = forwardRef(({ contentRef, onHasResults }, ref) => {
       // create an excerpt from the matched section contents and highlight
       // matched tokens
       let result
-      let contentPositions = normalizePositions(extractPositions(text, r, "content"))
+      let contentPositions = coalesceAndSortPositions(extractPositions(text, r, "content"))
       if (contentPositions.length > 0) {
         // create excerpt
         let [start, end] = excerpt(text, contentPositions, MAX_EXCERPT_LENGTH)

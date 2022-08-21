@@ -21,7 +21,7 @@ insert(docs, "vertx-grpc",
 
 insert(docs, "vertx-grpc-netty",
   {
-    id: "vertx-grpc",
+    id: "vertx-grpc-netty",
     name: "gRPC Netty",
     description: "gRPC Netty with Vert.x.",
     category: "services",

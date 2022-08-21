@@ -1,13 +1,13 @@
 import FeaturesItem from "./FeaturesItem"
 import FeaturesList from "./FeaturesList"
-import * as icons from "react-feather"
+import { Cpu, Feather, Send, Sliders, Umbrella } from "react-feather"
 
 {/* You have to leave a blank line after <FeaturesItem> and the feature's text,
     as well as between the text and </FeaturesItem>. Otherwise, you will
     disable hyphenation and smart punctuation. Also, the text must not indented. */}
 
 <FeaturesList>
-<FeaturesItem icon={<icons.Cpu />} title="更高的资源利用率">
+<FeaturesItem icon={<Cpu />} title="更高的资源利用率">
 
 与基于阻塞I/O的传统技术栈和框架相比，可以用更少的资源处理更多请求。
 Vert.x 非常适合各种执行环境，包括虚拟机和容器等受限环境。
@@ -15,7 +15,7 @@ Vert.x 非常适合各种执行环境，包括虚拟机和容器等受限环境�
 不再浪费资源，增加部署密度、节省开支！
 
 </FeaturesItem>
-<FeaturesItem icon={<icons.Sliders />} title="并发与异步">
+<FeaturesItem icon={<Sliders />} title="并发与异步">
 
 大家都说异步编程太难了吗？
 我们致力于让 Vert.x 编程的体验变得更轻松，同时又不牺牲正确性和性能。
@@ -23,7 +23,7 @@ Vert.x 非常适合各种执行环境，包括虚拟机和容器等受限环境�
 您可以选择最适合手头任务的模型：回调、Promise、Future，响应式编程（Reactive），以及（Kotlin）协程。
 
 </FeaturesItem>
-<FeaturesItem icon={<icons.Feather />} title="灵活性">
+<FeaturesItem icon={<Feather />} title="灵活性">
 
 Vert.x 是一个工具包，而不是框架，因此自然很容易组合和嵌入现有应用程序。
 Vert.x 对您的应用程序架构没有强制要求。
@@ -31,7 +31,7 @@ Vert.x 对您的应用程序架构没有强制要求。
 选择所需的模块和客户端，然后在编写应用程序时将它们组合在一起。 Vert.x 可以根据您的需求进行调整和扩展。
 
 </FeaturesItem>
-<FeaturesItem icon={<icons.Send />} title="Vert.x 很有趣">
+<FeaturesItem icon={<Send />} title="Vert.x 很有趣">
 
 忘掉复杂难懂的抽象概念吧。使用 Vert.x，所写即所得！
 忘掉那些“最佳实践”，回到简单的设计中，享受编写易读代码的快乐，将来也不会令您失望。
@@ -39,7 +39,7 @@ Vert.x 对您的应用程序架构没有强制要求。
 Vert.x 还有一个友好的社区，因此您可以向在各种环境中使用过 Vert.x 的人学习。
 
 </FeaturesItem>
-<FeaturesItem icon={<icons.Umbrella />} title="应用生态">
+<FeaturesItem icon={<Umbrella />} title="应用生态">
 
 Web API，数据库，消息传递，事件流，云，服务注册，安全性...还有很多。
 Vert.x 提供了全面的端到端响应式客户端，适用于现代应用程序。
