@@ -1,7 +1,8 @@
 import Card from "../components/Card"
 import Cards from "../components/Cards"
 import Guide from "../components/layouts/Guide"
-import { Discord, Googlemessages, Stackoverflow } from "@icons-pack/react-simple-icons"
+import SimpleIcon from "../components/SimpleIcon"
+import { siDiscord, siGooglemessages, siStackoverflow } from "simple-icons/icons"
 
 <Guide title="Channels">
 
@@ -11,19 +12,19 @@ We have a thriving user and developer community and many exciting new
 developments to come, so why not be a part of it?
 
 <Cards columns={2}>
-  <Card title="User Group" icon={<Googlemessages />} href="https://groups.google.com/forum/?fromgroups#!forum/vertx">
+  <Card title="User Group" icon={<SimpleIcon icon={siGooglemessages} />} href="https://groups.google.com/forum/?fromgroups#!forum/vertx">
     A Google group for users. Post a message if you need help or to report problems.
   </Card>
-  <Card title="Stack Overflow" icon={<Stackoverflow />} href="https://stackoverflow.com/questions/tagged/vert.x">
+  <Card title="Stack Overflow" icon={<SimpleIcon icon={siStackoverflow} />} href="https://stackoverflow.com/questions/tagged/vert.x">
 
 Mark your questions with the `vert.x` tag. We do our best to answer questions
 there but keeping up with the User Group is our priority.
 
   </Card>
-  <Card title="Discord" icon={<Discord />} href="https://discord.gg/KzEMwP2">
+  <Card title="Discord" icon={<SimpleIcon icon={siDiscord} />} href="https://discord.gg/6ry7aqPWXy">
     Come and chat with other users.
   </Card>
-  <Card title="Developer Group" icon={<Googlemessages />} href="https://groups.google.com/forum/?fromgroups#!forum/vertx-dev">
+  <Card title="Developer Group" icon={<SimpleIcon icon={siGooglemessages} />} href="https://groups.google.com/forum/?fromgroups#!forum/vertx-dev">
     A Google group for Vert.x core developers and contributors.
   </Card>
 </Cards>

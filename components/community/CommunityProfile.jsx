@@ -1,7 +1,8 @@
 import classNames from "classnames"
 import styles from "./CommunityProfile.scss?type=global"
 import { Home, MapPin } from "react-feather"
-import { Github, Twitter } from "@icons-pack/react-simple-icons"
+import SimpleIcon from "../SimpleIcon"
+import { siGithub, siTwitter } from "simple-icons/icons"
 
 const CommunityProfile = ({ profile, size = "small" }) => {
   let cx = 300
@@ -27,9 +28,9 @@ const CommunityProfile = ({ profile, size = "small" }) => {
       </div>}
       {size !== "small" && (
         <div className="community-profile-social">
-          <a href={`https://github.com/${profile.githubId}`} target="_blank" rel="noopener noreferrer"><Github /></a>
+          <a href={`https://github.com/${profile.githubId}`} target="_blank" rel="noopener noreferrer"><SimpleIcon icon={siGithub} /></a>
           {profile.blog && <a href={profile.blog} target="_blank" rel="noopener noreferrer"><Home /></a>}
-          {profile.twitter && <a href={`https://twitter.com/${profile.twitter}`} target="_blank" rel="noopener noreferrer"><Twitter /></a>}
+          {profile.twitter && <a href={`https://twitter.com/${profile.twitter}`} target="_blank" rel="noopener noreferrer"><SimpleIcon icon={siTwitter} /></a>}
         </div>
       )}
       <style jsx>{styles}</style>

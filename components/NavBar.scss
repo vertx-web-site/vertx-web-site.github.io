@@ -15,7 +15,7 @@
 
     &:hover {
       text-decoration: none;
-      color: color.adjust($gray-800, $lightness: 30);
+      color: color.adjust($gray-800, $lightness: 30%);
       transition: $button-color-transition;
     }
   }

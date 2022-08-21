@@ -10,7 +10,8 @@ import { ExternalLink } from "react-feather"
 import { useContext, useEffect, useRef, useState } from "react"
 import throttle from "lodash/throttle"
 
-import { Awesomelists, Discord, Googlemessages, Stackoverflow, Youtube } from "@icons-pack/react-simple-icons"
+import SimpleIcon from "./SimpleIcon"
+import { siAwesomelists, siDiscord, siGooglemessages, siStackoverflow, siYoutube } from "simple-icons/icons"
 
 const NavBar = () => {
   const refNavBar = useRef()
@@ -125,27 +126,27 @@ const NavBar = () => {
           <div className="navbar-social">
             <Tooltip title="Awesome Vert.x">
               <a href="https://github.com/vert-x3/vertx-awesome" className="navbar-social-link" target="_blank" rel="noopener noreferrer">
-                <Awesomelists aria-label="List of awesome Vert.x projects" title="" />
+                <SimpleIcon icon={siAwesomelists} aria-label="List of awesome Vert.x projects" title="" />
               </a>
             </Tooltip>
             <Tooltip title="Stack Overflow">
               <a href="https://stackoverflow.com/questions/tagged/vert.x" className="navbar-social-link" target="_blank" rel="noopener noreferrer">
-                <Stackoverflow aria-label="Stack Overflow questions related to Vert.x" title="" />
+                <SimpleIcon icon={siStackoverflow} aria-label="Stack Overflow questions related to Vert.x" title="" />
               </a>
             </Tooltip>
             <Tooltip title="YouTube">
               <a href="https://www.youtube.com/channel/UCGN6L3tRhs92Uer3c6VxOSA" className="navbar-social-link" target="_blank" rel="noopener noreferrer">
-                <Youtube aria-label="YouTube channel of Vert.x" title="" />
+                <SimpleIcon icon={siYoutube} aria-label="YouTube channel of Vert.x" title="" />
               </a>
             </Tooltip>
             <Tooltip title="Discord">
               <a href="https://discord.gg/6ry7aqPWXy" className="navbar-social-link" target="_blank" rel="noopener noreferrer">
-                <Discord aria-label="Eclipse Vert.x channel on Discord" title="" />
+                <SimpleIcon icon={siDiscord} aria-label="Eclipse Vert.x channel on Discord" title="" />
               </a>
             </Tooltip>
             <Tooltip title="Vert.x User Group">
               <a href="https://groups.google.com/forum/?fromgroups#!forum/vertx" className="navbar-social-link" target="_blank" rel="noopener noreferrer">
-                <Googlemessages aria-label="A Google group for Vert.x users" title="" />
+                <SimpleIcon icon={siGooglemessages} aria-label="A Google group for Vert.x users" title="" />
               </a>
             </Tooltip>
           </div>

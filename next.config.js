@@ -2,6 +2,7 @@ import { mdxOptions } from "./components/lib/mdx-options.js"
 import ESLintPlugin from "eslint-webpack-plugin"
 import styledJsx from "styled-jsx/webpack.js"
 import svgToMiniDataURI from "mini-svg-data-uri"
+import withBundleAnalyzer from "@next/bundle-analyzer"
 
 const isProd = process.env.NODE_ENV === "production"
 
@@ -47,6 +48,17 @@ const config = {
     disableStaticImages: true
   },
 
+  // Sometimes it takes a long time (and a few retries) to fetch all
+  // contributors. Increase page generation timeout so the contributors can
+  // be fully fetched.
+  staticPageGenerationTimeout: 1000,
+
+  experimental: {
+    // our docs pages are very large - increase the limit here to disable
+    // warnings about page sizes
+    largePageDataBytes: 1024 * 1024
+  },
+
   // list pages to export
   exportPathMap() {
     return {
@@ -86,6 +98,13 @@ const config = {
 
     config.module.rules.push({
       test: /\.svg$/i,
+      resourceQuery: /react/,
+      use: "react-svg-loader"
+    })
+
+    config.module.rules.push({
+      test: /\.svg$/i,
+      resourceQuery: { not: [/react/] },
       type: "asset",
       use: "image-webpack-loader",
       generator: {
@@ -117,4 +136,6 @@ const config = {
   }
 }
 
-export default config
+export default withBundleAnalyzer({
+  enabled: process.env.ANALYZE === "true"
+})(config)

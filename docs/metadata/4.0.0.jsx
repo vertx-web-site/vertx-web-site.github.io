@@ -1,5 +1,6 @@
 import { Book, Monitor } from "react-feather"
-import { Apachegroovy, Kotlin } from "@icons-pack/react-simple-icons"
+import Apachegroovy from "simple-icons/icons/apachegroovy.svg?react"
+import Kotlin from "simple-icons/icons/kotlin.svg?react"
 import oldDocs from "./3.9.4"
 import { clone, find, findCategory, insert, move, remove } from "./helpers"
 
@@ -20,12 +21,12 @@ docs.categories = [
   {
     id: "kotlin",
     name: "Kotlin",
-    icon: <Kotlin className="no-stroke" />
+    icon: <Kotlin width="24" height="24" fill="currentColor" className="no-stroke" />
   },
   {
     id: "groovy",
     name: "Groovy",
-    icon: <Apachegroovy className="no-stroke" />
+    icon: <Apachegroovy width="24" height="24" fill="currentColor" className="no-stroke" />
   },
   findCategory(docs, "authentication-and-authorization"),
   findCategory(docs, "databases"),

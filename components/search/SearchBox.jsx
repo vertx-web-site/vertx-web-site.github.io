@@ -51,7 +51,7 @@ const SearchBox = ({ onChange, onSubmit, onNext, onPrev, autoSuggest }) => {
 
   return (
     <div className={classNames("search", { "has-content": content !== "" })}>
-      <input type="text" placeholder={focus && autoSuggest} className="autosuggest" disabled />
+      <input type="text" placeholder={(focus && autoSuggest) || ""} className="autosuggest" disabled />
       <input type="text" placeholder="Search..." value={content}
           onChange={internalOnChange} onKeyDown={onKeyDown} onFocus={() => setFocus(true)}
           onBlur={() => setFocus(false)} ref={inputRef} />

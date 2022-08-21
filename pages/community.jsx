@@ -106,7 +106,7 @@ const MAINTAINERS = [{
 }]
 
 // maximum number of parallel requests against the GitHub API
-const MAX_CONCURRENCY = 10
+const MAX_CONCURRENCY = 2
 
 async function fetchUsers(users, contributors, octokit) {
   let result = []
@@ -198,15 +198,9 @@ async function fetchContributors(octokit) {
 }
 
 export async function getStaticProps() {
-  const CACHE_TIMEOUT_SECONDS = 60 * 60 // one hour
-  const CACHE_PATH = "./.cache/community"
-
   const { Octokit } = require("@octokit/rest")
-  const { CachedFetch } = await import("../components/lib/cached-fetch")
-
-  const fetch = CachedFetch({
-    cacheTimeoutSeconds: CACHE_TIMEOUT_SECONDS,
-    cachePath: CACHE_PATH
+  const fetch = require("make-fetch-happen").defaults({
+    cachePath: "./.cache/community2"
   })
 
   const octokit = new Octokit({
@@ -225,12 +219,20 @@ export async function getStaticProps() {
       "`GITHUB_ACCESS_TOKEN` with your personal access token. For example: " +
       "`GITHUB_ACCESS_TOKEN=abcdefghijklmnopqrs0123456789 npm run build`")
   } else {
+    let retryOptions = {
+      onFailedAttempt: async error => {
+        console.error(`Attempt ${error.attemptNumber} failed. There are ${error.retriesLeft} retries left.`)
+        console.error(`Error message: ${error.message}`)
+      },
+      retries: 5
+    }
+
     // fetch contributors
-    contributors = await pRetry(() => fetchContributors(octokit))
+    contributors = await pRetry(() => fetchContributors(octokit), retryOptions)
 
     // fetch information about full-time developers and maintainers
-    fullTimeDevelopers = await pRetry(() => fetchUsers(FULL_TIME_DEVELOPERS, contributors, octokit))
-    maintainers = await pRetry(() => fetchUsers(MAINTAINERS, contributors, octokit))
+    fullTimeDevelopers = await pRetry(() => fetchUsers(FULL_TIME_DEVELOPERS, contributors, octokit), retryOptions)
+    maintainers = await pRetry(() => fetchUsers(MAINTAINERS, contributors, octokit), retryOptions)
 
     // sort users by their number of contributions
     fullTimeDevelopers.sort((a, b) => b.contributions - a.contributions)
