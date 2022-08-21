@@ -2,9 +2,10 @@ import Layout from "../components/layouts/Translation"
 import TranslationProfile from "../components/community/TranslationProfile"
 import CommunitySection from "../components/community/CommunitySection"
 import pMap from "p-map"
+import pRetry from "p-retry"
 
 // maximum number of parallel requests against the GitHub API
-const MAX_CONCURRENCY = 10
+const MAX_CONCURRENCY = 2
 
 async function fetchUsers(users, contributors, octokit) {
   let result = []
@@ -110,15 +111,9 @@ async function fetchContributors(octokit, users) {
   return contributors
 }
 export async function getStaticProps() {
-  const CACHE_TIMEOUT_SECONDS = 60 * 60 // one hour
-  const CACHE_PATH = "./.cache/community"
-
   const { Octokit } = require("@octokit/rest")
-  const { CachedFetch } = await import("../components/lib/cached-fetch")
-
-  const fetch = CachedFetch({
-    cacheTimeoutSeconds: CACHE_TIMEOUT_SECONDS,
-    cachePath: CACHE_PATH
+  const fetch = require("make-fetch-happen").defaults({
+    cachePath: "./.cache/translation"
   })
 
   const octokit = new Octokit({
@@ -149,12 +144,18 @@ export async function getStaticProps() {
       }
       users[pull.user.login] = pull.user
     }
-
+    let retryOptions = {
+      onFailedAttempt: async error => {
+        console.error(`Attempt ${error.attemptNumber} failed. There are ${error.retriesLeft} retries left.`)
+        console.error(`Error message: ${error.message}`)
+      },
+      retries: 5
+    }
     // fetch contributors
-    contributors = await fetchContributors(octokit, users)
+    contributors = await pRetry(() => fetchContributors(octokit, users), retryOptions)
 
     // fetch information about full-time developers and maintainers
-    fullTimeDevelopers = await fetchUsers(contributors, contributors, octokit)
+    fullTimeDevelopers = await pRetry(() => fetchUsers(contributors, contributors, octokit), retryOptions)
     // maintainers = await fetchUsers(MAINTAINERS, contributors, octokit)
 
     // sort users by their number of contributions
