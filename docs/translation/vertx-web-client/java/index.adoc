@@ -895,34 +895,34 @@ WebClient cachingWebClient = CachingWebClient.create(client);
 WebClient sessionClient = WebClientSession.create(cachingWebClient);
 ----
 
-== URI templates
+== URI模板
 
-URI templates provide an alternative to HTTP request string URIs based on the https://datatracker.ietf.org/doc/html/rfc6570[URI Template RFC 6570].
+URI模板基于https://datatracker.ietf.org/doc/html/rfc6570[URI Template RFC 6570]提供Http请求字符串URI替代方案.
 
-You can create a `HttpRequest` with a `UriTemplate` URI instead of a Java string URI,
+你可以使用`UriTemplate`URI替代java字符串URI创建`HttpRequest`,
 
-first parse the template string to a `UriTemplate`
+首先将模板字符串解析为 `UriTemplate`
 
 [source,java]
 ----
 UriTemplate REQUEST_URI = UriTemplate.of("/some-uri?{param}");
 ----
 
-then use it to create a request
+然后使用它来创建一个request
 
 [source,java]
 ----
 HttpRequest<Buffer> request = client.get(8080, "myserver.mycompany.com", REQUEST_URI);
 ----
 
-set the template parameter
+设置模板参数
 
 [source,java]
 ----
 request.setTemplateParam("param", "param_value");
 ----
 
-and finally send the request as usual
+最后像通常一样发送请求
 
 [source,java]
 ----
@@ -933,7 +933,7 @@ request.send()
     System.out.println("Something went wrong " + err.getMessage()));
 ----
 
-or fluently
+或连起来
 
 [source,java]
 ----
@@ -946,11 +946,11 @@ client.get(8080, "myserver.mycompany.com", REQUEST_URI)
     System.out.println("Something went wrong " + err.getMessage()));
 ----
 
-=== URI templates expansion
+=== URI模板扩展
 
-Before sending the request, Vert.x WebClient expands the template to a string with the request template parameters.
+在发送请求之前, Vert.x WebClient把模板扩展为带有请求模板参数字符串.
 
-String expansion takes care of encoding the parameters for you,
+字符串模板负责把你的参数encoding,
 
 [source,java]
 ----
@@ -964,16 +964,15 @@ Future<HttpResponse<Buffer>> fut = client.get(template)
   .send();
 ----
 
-The default expansion syntax is known as _simple string expansion_, there are other expansion syntax available
+默认扩展语法称为_简单字符串扩展_, 还有其他可用的扩展语法
 
-- _path segment expansion_ (`{/varname}`)
-- _form-style query expansion_ (`{?varname}`)
-- etc...
+- _路径参数扩展_ (`{/varname}`)
+- _表单式查询扩展_ (`{?varname}`)
+- 等等...
 
-You can refer to the Vert.x URI Template documentation (add link when available) for a complete overview of the various expansion styles.
+您可以参考 Vert.x URI 模板文档（如果可用，请添加链接）以获取各种扩展样式的完整概述。
 
-As mandated by the RFC, template expansion will replace missing template parameters by empty strings. You can change
-this behavior to fail instead:
+根据 RFC 的要求，模板扩展将用空字符串替换缺少的模板参数. 你可以修改插入失败这个情况,缺少参数后将抛出异常:
 
 [source,java]
 ----
@@ -983,12 +982,11 @@ WebClient webClient = WebClient.create(vertx, new WebClientOptions()
 );
 ----
 
-=== Template parameter values
+=== 模板参数值
 
-Template parameters accept `String`, `List<String>` and `Map<String, String` values.
+目标参数接受 `String`, `List<String>` 和 `Map<String, String>` .
 
-The expansion of each kind depends on the expansion style (denoted by the `?` prefix) , here is an example of the _query_ parameter that is exploded
-(denoted by the `*` suffix) and expanded using form-style query expansion:
+每种扩展取决于扩展样式(用`?`前缀表示), 这里以 _query_参数例子开展(由 `*` 后缀表示) 和使用表单查询形式扩展:
 
 [source,java]
 ----
@@ -1004,7 +1002,7 @@ Future<HttpResponse<Buffer>> fut = client.getAbs(template)
   .send();
 ----
 
-Form-style query expansion expands the variable `{?query*}` as `?color=red&width=30&height=50` per definition.
+表单查询方式扩展将根据变量`{?query*}`扩展为`?color=red&width=30&height=50` 
 
 [[_using_https]]
 == 使用 HTTPS
