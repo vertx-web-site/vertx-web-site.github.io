@@ -9,7 +9,7 @@ async function getSourceSha(version, downloadPath) {
 }
 
 function makeCompiledSha(sourceSha, isLatestBugfixVersion) {
-  let o = { sourceSha, isLatestBugfixVersion }
+  let o = { sourceSha, isLatestBugfixVersion, version: 2 }
   let s = JSON.stringify(o)
   return crypto.createHash("sha256").update(s).digest("base64")
 }

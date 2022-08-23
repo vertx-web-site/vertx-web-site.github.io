@@ -33,15 +33,27 @@ async function extractEntry(zipfile, entry, extractedVersionPath,
     return
   }
 
+  // only include index.adoc files if there is a latest bugfix version
+  if (latestBugfixVersion !== undefined && !entry.fileName.startsWith("apidocs/") &&
+      !entry.fileName.endsWith("index.adoc")) {
+    return
+  }
+
+  // skip everything but apidocs
+  if (apidocsOnly && !entry.fileName.startsWith("apidocs/")) {
+    return
+  }
+
   let destPath
-  if (entry.fileName.startsWith("apidocs/")) {
+  if (latestBugfixVersion !== undefined || entry.fileName.startsWith("apidocs/")) {
     destPath = path.join(publicDocsVersionPath, entry.fileName)
   } else {
-    if (apidocsOnly) {
-      // skip everything but apidocs
-      return
-    }
     destPath = path.join(extractedVersionPath, entry.fileName)
+  }
+
+  // rename index.adoc to index.html
+  if (!entry.fileName.startsWith("apidocs/")) {
+    destPath = destPath.replace(/\.adoc$/, ".html")
   }
 
   try {
@@ -55,7 +67,7 @@ async function extractEntry(zipfile, entry, extractedVersionPath,
 
   await fs.mkdir(path.dirname(destPath), { recursive: true })
 
-  if (latestBugfixVersion === undefined || !entry.fileName.startsWith("apidocs/")) {
+  if (latestBugfixVersion === undefined) {
     let writeStream = fsSync.createWriteStream(destPath)
     await new Promise((resolve, reject) => {
       zipfile.openReadStream(entry, (err, readStream) => {
@@ -76,7 +88,11 @@ async function extractEntry(zipfile, entry, extractedVersionPath,
     })
   } else {
     // create an HTML file that redirects to the latest bugfix version
-    await writeRedirectFile(destPath, latestBugfixVersion, entry.fileName)
+    if (entry.fileName.startsWith("apidocs/")) {
+      await writeRedirectFile(destPath, latestBugfixVersion, entry.fileName)
+    } else {
+      await writeRedirectFile(destPath, latestBugfixVersion, path.dirname(entry.fileName))
+    }
   }
 
   await fs.utimes(destPath, entry.getLastModDate(), entry.getLastModDate())

@@ -2,7 +2,7 @@ import cliProgress from "cli-progress"
 import fs from "fs-extra"
 import download from "./download"
 import extract from "./extract"
-import { isCompiled } from "./util"
+import { isCompiled, writeCompiledSha } from "./util"
 import { metadata, latestRelease, versions } from "../metadata/all"
 import { filterLatestBugfixVersions, parseVersion } from "../metadata/helpers"
 import restoreCursor from "restore-cursor"
@@ -133,34 +133,41 @@ async function main() {
       }
     }
 
-    // compile asciidoc
-    let lastProgress = 0
-    let channel = new MessageChannel()
-    channel.port2.on("message", (progress) => {
-      if (progress !== lastProgress) {
-        asciidoctorBar?.increment(progress - lastProgress)
-        lastProgress = progress
+    if (latestBugfixVersion === undefined) {
+      // compile asciidoc
+      let lastProgress = 0
+      let channel = new MessageChannel()
+      channel.port2.on("message", (progress) => {
+        if (progress !== lastProgress) {
+          asciidoctorBar?.increment(progress - lastProgress)
+          lastProgress = progress
+        }
+      })
+
+      let messages = await piscina.run({
+        version,
+        artifactVersion,
+        isLatestBugfixVersion: true,
+        progressPort: channel.port1
+      }, {
+        transferList: [channel.port1]
+      })
+
+      channel.port1.close()
+      channel.port2.close()
+
+      if (lastProgress < 100) {
+        asciidoctorBar?.increment(100 - lastProgress)
       }
-    })
 
-    let messages = await piscina.run({
-      version,
-      artifactVersion,
-      isLatestBugfixVersion: latestBugfixVersion === undefined,
-      progressPort: channel.port1
-    }, {
-      transferList: [channel.port1]
-    })
-
-    channel.port1.close()
-    channel.port2.close()
-
-    if (lastProgress < 100) {
-      asciidoctorBar?.increment(100 - lastProgress)
+      totalMessages += messages.length
+      await fs.write(asciidoctorLog, messages.join("\n"))
+    } else {
+      // skip compiling asciidoc - just write the SHA file
+      await fs.mkdir(path.join(compiledPath, version), { recursive: true })
+      await writeCompiledSha(version, artifactVersion, downloadPath, compiledPath, false)
+      asciidoctorBar?.increment(100)
     }
-
-    totalMessages += messages.length
-    await fs.write(asciidoctorLog, messages.join("\n"))
   }
 
   let latestBugfixVersions = filterLatestBugfixVersions(versions)
