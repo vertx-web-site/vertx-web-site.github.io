@@ -107,7 +107,8 @@ async function main() {
     // extract artifact
     await extractLimit(() => {
       return extract(version, artifactVersion, progressListener,
-          asciidocCompiled, latestBugfixVersion)
+          latestBugfixVersion === undefined && asciidocCompiled,
+          latestBugfixVersion)
     })
     progressListener.stop()
 
