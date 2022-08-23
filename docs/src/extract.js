@@ -52,7 +52,7 @@ async function extractEntry(zipfile, entry, extractedVersionPath,
   }
 
   // rename index.adoc to index.html
-  if (!entry.fileName.startsWith("apidocs/")) {
+  if (latestBugfixVersion !== undefined && !entry.fileName.startsWith("apidocs/")) {
     destPath = destPath.replace(/\.adoc$/, ".html")
   }
 
