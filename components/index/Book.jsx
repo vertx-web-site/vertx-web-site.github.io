@@ -28,7 +28,7 @@ const Book = () => (
                   and resources.&rdquo;
                 </div>
                 <div className="quote-name">
-                  <span className="dash">——</span> Andrew Buttery
+                  Andrew Buttery
                 </div>
               </div>
               <div className="quote">
@@ -38,7 +38,7 @@ const Book = () => (
                   messaging frameworks.&rdquo;
                 </div>
                 <div className="quote-name">
-                  <span className="dash">——</span> Earl B. Bingham
+                  Earl B. Bingham
                 </div>
               </div>
               <div className="quote">
@@ -47,7 +47,7 @@ const Book = () => (
                   but reactive programming with Java in general.&rdquo;
                 </div>
                 <div className="quote-name">
-                  <span className="dash">——</span> Damian Esteban
+                  Damian Esteban
                 </div>
               </div>
               <div className="progress">

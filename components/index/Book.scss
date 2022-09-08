@@ -139,17 +139,11 @@
   margin-top: math.div($spacer, 2);
   text-align: right;
 
-  .dash {
+  &::before {
+    content: "—— ";
     letter-spacing: -5px;
-    margin-right: 0.5em;
+    margin-right: 15px;
   }
-
-  // alternative to .dash (seems to trigger a bug in SWC at the moment):
-  // &::before {
-  //   content: "—— ";
-  //   letter-spacing: -5px;
-  //   margin-right: 15px;
-  // }
 }
 
 .progress {
