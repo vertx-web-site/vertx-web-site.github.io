@@ -45,4 +45,6 @@ insert(docs, "vertx-uri-template",
   }
  )
 
+find(docs, "vertx-rx-java3").label = null
+
 export default docs
