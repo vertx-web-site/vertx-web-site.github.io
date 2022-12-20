@@ -1,0 +1,47 @@
+---
+title: Eclipse Vert.x 4.3.7 released!
+category: releases
+authors:
+  - name: Julien Viet
+    github_id: vietj
+summary: >-
+  Eclipse Vert.x version 4.3.7 has just been released. It fixes quite a few bugs
+  that have been reported by the communit.
+---
+
+We are extremely pleased to announce that Eclipse Vert.x version 4.3.7 has been released.
+
+Since the release of Vert.x 4.3.6, quite a few bugs have been reported. We would like to thank you all for reporting these issues.
+
+This release updates to Netty-4.1.87.Final which fixes two CVEs
+
+- [CVE-2022-41881](https://github.com/netty/netty/security/advisories/GHSA-fx2c-96vj-985v)
+- [CVE-2022-41915](https://github.com/netty/netty/security/advisories/GHSA-hh82-3pmq-7frp)
+
+Vert.x is immune to CVE-2022-41915, as the class mentioned is used for HTTP server request and HTTP client response, thus is not
+used to write headers to an outbound endpoint, instead it is used to receive HTTP headers from the remote endpoint.
+
+Vert.x is sensitive to CVE-2022-41881 if a TCP server is configured to receive HA proxy traffic: the server can receive a crafted
+HA proxy prefix that throws a stack trace overflow, which is caught by the Vert.x server and the TCP connection remains as is in the server,
+causing an potential exhaustion of resources. It can be mitigated with a timeout, set on the server options, e.g.
+`options.setProxyProtocolTimeout(10)` which closes the connection after 10 seconds. We also advise to expose such server only to a trusted
+HA proxy instance and not in the wild, in addition we recommend to always set up a timeout.
+
+The [4.3.7 release notes](https://github.com/vert-x3/wiki/wiki/4.3.7-Release-Notes) can be found on the wiki.
+
+You can bootstrap a Vert.x 4 project using [start.vertx.io](https://start.vertx.io).
+
+You can try virtual thread support with our [incubation project](https://github.com/vert-x3/vertx-virtual-threads-incubator).
+
+The release artifacts have been deployed to [Maven Central](https://search.maven.org/search?q=g:io.vertx%20AND%20v:4.3.7) and
+you can get the distribution on [Maven Central](https://repo1.maven.org/maven2/io/vertx/vertx-stack-manager/4.3.7/).
+
+The [Vert.x 4 eventbus JavaScript client library](https://www.npmjs.com/package/@vertx/eventbus-bridge-client.js) is now available
+in a single location and it now usable standalone or it can easily be integrated with any frontend build tool.
+
+The Vert.x distribution is available from [SDKMan](https://sdkman.io) and our
+[HomeBrew TAP](https://github.com/vertx-distrib/homebrew-tap).
+
+Docker images are available on [Docker Hub](https://hub.docker.com/u/vertx/).
+
+That's it! Happy coding and see you soon on our user or dev [channels](https://vertx.io/channels).
