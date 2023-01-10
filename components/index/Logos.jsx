@@ -5,6 +5,10 @@ import shuffle from "lodash/shuffle"
 import { useEffect, useRef } from "react"
 
 const LOGOS = [{
+    name: "SAP",
+    src: "sap.svg",
+    url: "https://www.sap.com/"
+  }, {
   name: "Deutsche Börse Group",
   src: "deutsche-boerse-group.svg",
   url: "https://deutsche-boerse.com/dbg-en/"
