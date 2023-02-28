@@ -1,0 +1,156 @@
+---
+title: New Vert.x OpenAPI modules
+category: news
+authors:
+  - name: Pascal
+    github_id: pk-work
+summary: >-
+  Vert.x 4.4 will provide two new OpenAPI modules which can be used as an alternative to Vert.x Web OpenAPI.
+---
+
+With the release of Vert.x 4.4.0 the two new OpenAPI modules [Vert.x OpenAPI](https://vertx.io/docs/vertx-openapi/java/)
+and [Vert.x Web OpenAPI Router](https://vertx.io/docs/vertx-web-openapi-router/java/) are available and can be used as
+an alternative to the current OpenAPI module [Vert.x Web OpenAPI](https://vertx.io/docs/vertx-web-openapi/java/). The
+new modules are released as technical preview. The new modules are a complete rewrite of `Vert.x Web OpenAPI` and
+provide the following advantages:
+
+- Support for OpenAPI 3.1
+- Support for response validation
+- Usage of [vertx-json-schema](https://vertx.io/docs/vertx-json-schema/java/) which allows more complex schema
+  validations
+- Avoid loading network resources to comply with security best practices
+- OpenAPI contract analysis, contract validation and the generation of validators for requests and responses are
+  separated from the OpenAPI Endpoint generation.
+
+## Vert.x OpenAPI
+
+The focus of `Vert.x OpenAPI` is the OpenAPI contract analysis and the generation of validators for requests and
+responses.
+
+### OpenAPIContract
+
+An instance of `OpenAPIContract` can be created very easily via one of its static `create(...)` methods and offers an
+API to access the most important contract properties like, `Paths`, `Operations`, etc ... It also includes a mechanism
+to identify the related `Operation` by passing the request URL.
+
+The following example shows how to create an `OpenAPIContract`.
+
+```groovy
+String pathToContract = ".../.../myContract.json"; // json or yaml
+Future<OpenAPIContract> contract = OpenAPIContract.from(vertx, pathToContract);
+```
+
+In case the contract requires external resources, they must be provided upfront.
+
+```groovy
+String pathToContract = ".../.../myContract.json"; // json or yaml
+String pathToComponents = ".../.../myComponents.json"; // json or yaml
+Map<String, String> additionalContractFiles = Map.of("https://example.com/pet-components", pathToComponents);
+
+Future<OpenAPIContract> contract = OpenAPIContract.from(vertx, pathToContract, additionalContractFiles);
+```
+
+Check the JavaDoc for the other `create(...)` methods.
+
+### Request- and ResponseValidator
+
+Due to its independence to Vert.x Web, the validation APIs of `Vert.x OpenAPI` less elegant as the APIs
+in `Vert.x Web OpenAPI Router`. A Validator can be created by passing an instance of `OpenAPIContract` into
+their `create(...)` methods.
+
+```groovy
+OpenAPIContract contract = getContract();
+RequestValidator requestValidator = RequestValidator.create(vertx, contract);
+ResponseValidator responseValidator = ResponseValidator.create(vertx, contract);
+```
+
+The `validate(...)` method of the `RequestValidator` requires a `HttpServerRequest` and returns a `ValidatedRequest`,
+which offers access to the validated request parameters.
+
+```groovy
+vertx.createHttpServer().requestHandler(httpServerRequest -> {
+  // Operation id must be discovered for every request which is inefficient
+  requestValidator.validate(httpServerRequest).onSuccess(validatedRequest -> {
+    validatedRequest.getBody(); // returns the body
+    validatedRequest.getHeaders(); // returns the header
+    // ..
+    // ..
+  })
+});
+```
+
+It is always a good idea to also pass the related operation id to save the effort for discovering it.
+
+```groovy
+requestValidator.validate(httpServerRequest, "yourOperationId")
+  .onSuccess(validatedRequest -> {
+    // do something
+  });
+```
+
+The `validate(...)` method of the `ResponseValidator` requires a `ValidatableResponse`, which serves as container for
+response parameters, and returns a `ValidatedResponse`. The `ValidatedResponse` offers access to the validated response
+parameters and provide a `send(...)` method to send it back to the client.
+
+```groovy
+JsonObject cat = new JsonObject().put("name", "foo");
+ValidatableResponse response = ValidatableResponse.create(200, cat.toBuffer(), "application/json");
+
+vertx.createHttpServer().requestHandler(httpServerRequest -> {
+  validator.validate(response, "yourOperationId")
+    .onSuccess(validatedResponse -> {
+      validatedResponse.getBody(); // returns the body
+      validatedResponse.getHeaders(); // returns the header
+      // ..
+      // ..
+      // send back the validated response
+      validatedResponse.send(httpServerRequest.response());
+    });
+});
+```
+
+## Vert.x Web OpenAPI Router
+
+The focus of `Vert.x Web OpenAPI Router` is the endpoint generation based on an OpenAPI contract.
+
+### RouterBuilder
+
+With the `RouterBuilder` it is possible to implement logic for the routes defined in the related OpenAPI contract. When
+logic is added to the routes the `createRouter()` method must be called to receive the resulting `Router`.
+
+The following example shows the creation of a `RouterBuilder`.
+
+```groovy
+OpenAPIContract contract = getContract();
+RouterBuilder routerBuilder = RouterBuilder.create(vertx, contract);
+
+// In case that a BodyHandler was applied before, it is necessary to pass a RequestExtractor
+RouterBuilder.create(vertx, contract, RequestExtractor.withBodyHandler());
+```
+
+When the `RouterBuilder` is created, the logic for the routes can be implemented. By default, the validation is
+activated for every route. It can be disabled via the method `OpenAPIRoute#setDoValidation(...)`. The `ValidatedRequest`
+is stored in the `RoutingContext`.
+
+```groovy
+for (OpenAPIRoute route : routerBuilder.getRoutes()) {
+  // Access the operation object from the contract
+  Operation operation = route.getOperation();
+
+  // Add a custom handler
+  route.addHandler(routingContext -> {
+    ValidatedRequest validatedRequest =
+      routingContext.get(RouterBuilder.KEY_META_DATA_VALIDATED_REQUEST);
+
+    validatedRequest.getBody(); // returns the body
+    validatedRequest.getHeaders(); // returns the header
+    // ..
+    // ..
+  });
+
+  // Add a failure handler
+  route.addFailureHandler(routingContext -> {
+    // do something
+  });
+}
+```
