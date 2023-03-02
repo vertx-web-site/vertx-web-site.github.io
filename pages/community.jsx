@@ -101,8 +101,11 @@ const MAINTAINERS = [{
   githubId: "Yaytay",
   role: "RabbitMQ client"
 }, {
-   githubId: "smagellan",
-   role: "ClickHouse client"
+  githubId: "smagellan",
+  role: "ClickHouse client"
+}, {
+  githubId: "pk-work",
+  role: "Vert.x OpenAPI"
 }]
 
 // maximum number of parallel requests against the GitHub API
