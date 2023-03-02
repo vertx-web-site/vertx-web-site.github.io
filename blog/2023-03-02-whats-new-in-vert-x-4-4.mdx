@@ -15,7 +15,41 @@ Here is an overview of the most important features in Vert.x 4.4.
 
 ## new OpenAPI implementation
 
-todo
+A new implementation of OpenAPI using the lates JsonSchema API is available as tech preview. This new implementation allows both OpenAPI 3.0 and OpenAPI 3.1 documents to be used as a foundation for a router.
+
+```java
+// the api contract yaml or json
+OpenAPIContract contract = getContract();
+RouterBuilder routerBuilder = RouterBuilder.create(vertx, contract);
+// the ready to mount router that matches the provided contract
+Router router = routerBuilder.createRouter();
+```
+
+As well as it allows both Input validation, and (as a totally new feature) Output validation.
+
+```java
+RequestValidator validator = RequestValidator.create(vertx, contract);
+
+ValidatableRequest request = getValidatableRequest();
+validator.validate(request, "yourOperationId")
+  .onSuccess(validatedRequest -> {
+    validatedRequest.getBody(); // returns the body
+    validatedRequest.getHeaders(); // returns the header
+...
+```
+
+And:
+
+```java
+ResponseValidator validator = ResponseValidator.create(vertx, contract);
+
+JsonObject cat = new JsonObject().put("name", "foo");
+ValidatableResponse response =
+      ValidatableResponse.create(200, cat.toBuffer(), APPLICATION_JSON.toString());
+...
+// send back the validated response
+validatedResponse.send(httpServerRequest.response());
+```
 
 ## io_uring support
 
@@ -29,7 +63,7 @@ todo
 
 ## Various improvements
 
-- json schema 2020-02 Support
+- json schema 2020-12 Support
 - Mongo client timeseries collection
 - gRPC context storage
 - vertx-rx Instrumentation for reactive data fetchers
