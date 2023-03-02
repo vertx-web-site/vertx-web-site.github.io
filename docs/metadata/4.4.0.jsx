@@ -4,13 +4,6 @@ import { insert, remove, find } from "./helpers"
 
 const docs = clone(oldDocs)
 
-// remove old entries
-remove(docs, "vertx-web-openapi")
-
-// reorder entries
-find(docs, "vertx-uri-template").category = "standards"
-
-// new entries
 insert(docs, "vertx-openapi",
   {
     id: "vertx-openapi",
