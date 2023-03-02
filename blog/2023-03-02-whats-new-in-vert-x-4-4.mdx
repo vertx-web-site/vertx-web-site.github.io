@@ -15,7 +15,7 @@ Here is an overview of the most important features in Vert.x 4.4.
 
 ## new OpenAPI implementation
 
-A new implementation of OpenAPI using the lates JsonSchema API is available as tech preview. This new implementation allows both OpenAPI 3.0 and OpenAPI 3.1 documents to be used as a foundation for a router.
+A new implementation of OpenAPI using the latest JsonSchema API is available as tech preview. This new implementation allows both OpenAPI 3.0 and OpenAPI 3.1 documents to be used as a foundation for a router.
 
 ```java
 // the api contract yaml or json
@@ -25,7 +25,7 @@ RouterBuilder routerBuilder = RouterBuilder.create(vertx, contract);
 Router router = routerBuilder.createRouter();
 ```
 
-As well as it allows both Input validation, and (as a totally new feature) Output validation.
+As well as it allows both input validation, and (as a totally new feature) output validation.
 
 ```java
 RequestValidator validator = RequestValidator.create(vertx, contract);
@@ -51,25 +51,41 @@ ValidatableResponse response =
 validatedResponse.send(httpServerRequest.response());
 ```
 
-## io_uring support
+## Vert.x io_uring transport
 
-todo
+Vert.x io_uring is a transport using the io_uring interface of the Linux kernel, providing a high I/O performance scalable interface
+for fully asynchronous Linux syscalls.
 
-## SSL improvements
+Some Vert.x components will leverage this transport:
 
-- worker pool
-- certificate hot reload
-- default TLS version changes
+- Vert.x Core TCP, HTTP, datagram servers/clients
+- PostgreSQL, MySQL, MSSQL and DB2 reactive clients
+- Vert.x gRPC
+- ...
+
+You can read the the full list [here](https://vertx.io/docs/vertx-io_uring-incubator/java/)
+
+## SSL
+
+Vert.x now disables TLS 1.0/1.1 and enables TLS 1.3 by default.
+
+You can now update Vert.x HTTP server/client certificates on the fly:
+
+```java
+vertx.setPeriodic(REFRESH_PERIOD, id -> {
+  SSLOptions options = peekUpdatedConfiguration();
+  server.updateSSLOptions(options);
+});
+```
 
 ## Various improvements
 
-- json schema 2020-12 Support
-- Mongo client timeseries collection
-- gRPC context storage
-- vertx-rx Instrumentation for reactive data fetchers
-- mqtt Feature/unsubscribe from multiple topics
-- mqtt manual ack
-- SQL client Base exception class for all SQL Clients
-- SQL client Create propagatable connection, add Transaction accessor
-- mail [Issue-172] Support enhanced status code
-- rabbitmq feat: add metrics collector configuration support
+
+- [SQL client Create propagatable connection, add Transaction accessor](https://github.com/eclipse-vertx/vertx-sql-client/pull/1231)
+- [vertx-rx Instrumentation for reactive data fetchers](https://github.com/vert-x3/vertx-web/issues/2329)
+- [MQTT Feature/unsubscribe from multiple topics](https://github.com/vert-x3/vertx-mqtt/pull/224)
+- [MQTT manual ack](https://github.com/vert-x3/vertx-mqtt/pull/235)
+- [mail [Issue-172] Support enhanced status code](https://github.com/vert-x3/vertx-mail-client/issues/172)
+- [json schema 2020-12 Support](https://github.com/eclipse-vertx/vertx-json-schema/issues/43)
+- [gRPC context storage based on Vert.x context](https://github.com/eclipse-vertx/vertx-grpc/issues/21)
+- [RabbitMQ  add metrics collector configuration support](https://github.com/vert-x3/vertx-rabbitmq-client/pull/179)
