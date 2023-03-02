@@ -39,7 +39,7 @@ insert(docs, "vertx-web-openapi-router",
 
  insert(docs, "vertx-io_uring-incubator",
   {
-    id: "vertx-web-openapi-router",
+    id: "vertx-io_uring-incubator",
     name: "Vert.x io_uring",
     description: "Vert.x I/O engine based on io_uring functionality.",
     category: "core",
