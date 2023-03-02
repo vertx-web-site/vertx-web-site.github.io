@@ -37,17 +37,4 @@ insert(docs, "vertx-web-openapi-router",
   }
  )
 
- insert(docs, "vertx-io_uring-incubator",
-  {
-    id: "vertx-web-openapi-router",
-    name: "Vert.x io_uring",
-    description: "Vert.x I/O engine based on io_uring functionality.",
-    category: "core",
-    href: "/vertx-io_uring-incubator/java/",
-    repository: "https://github.com/vert-x3/vertx-io_uring-incubator",
-    edit: "https://github.com/vert-x3/vertx-io_uring-incubator/tree/main/src/main/asciidoc",
-    label: "Incubator"
-  }
- )
-
 export default docs
