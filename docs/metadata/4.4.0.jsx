@@ -8,7 +8,7 @@ insert(docs, "vertx-openapi",
   {
     id: "vertx-openapi",
     name: "Vert.x OpenAPI",
-    description: "Vert.x OpenAPI extends Vert.x to support OpenAPI 3 in version 3.0 and 3.1. It offers an API to parse and validate contracts.",
+    description: "Vert.x OpenAPI extends Vert.x to support OpenAPI 3 in version 3.0 and 3.1 and offers an API to parse and validate them.",
     category: "standards",
     href: "/vertx-openapi/java/",
     repository: "https://github.com/eclipse-vertx/vertx-openapi",
