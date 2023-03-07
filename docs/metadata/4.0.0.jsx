@@ -142,15 +142,15 @@ docs.entries.push({
     examples: "https://github.com/vert-x3/vertx-examples/tree/3.x/kotlin-examples/coroutines"
 })
 
-insert(docs, "vertx-auth-mongo",
+insert(docs, "vertx-auth-webauthn",
   {
     id: "vertx-auth-webauthn",
     name: "Webauthn Auth",
     description: "FIDO2 WebAuthn (password-less) implementation.",
     category: "authentication-and-authorization",
     href: "/vertx-auth-webauthn/java/",
-    repository: "https://github.com/vert-x3/vertx-auth/tree/master/vertx-auth-webauthn",
-    edit: "https://github.com/vert-x3/vertx-auth/tree/master/vertx-auth-webauthn/src/main/asciidoc"
+    repository: "https://github.com/eclipse-vertx/vertx-auth/tree/master/vertx-auth-webauthn",
+    edit: "https://github.com/eclipse-vertx/vertx-auth/tree/master/vertx-auth-webauthn/src/main/asciidoc"
   },
   {
     id: "vertx-auth-sql-client",
@@ -159,20 +159,20 @@ insert(docs, "vertx-auth-mongo",
       SQL client and a relational database.`,
     category: "authentication-and-authorization",
     href: "/vertx-auth-sql-client/java/",
-    repository: "https://github.com/vert-x3/vertx-auth/tree/master/vertx-auth-sql-client",
-    edit: "https://github.com/vert-x3/vertx-auth/tree/master/vertx-auth-sql-client/src/main/asciidoc"
+    repository: "https://github.com/eclipse-vertx/vertx-auth/tree/master/vertx-auth-sql-client",
+    edit: "https://github.com/eclipse-vertx/vertx-auth/tree/master/vertx-auth-sql-client/src/main/asciidoc"
   }
 )
 
-insert(docs, "vertx-auth-htdigest",
+insert(docs, "vertx-auth-properties",
   {
     id: "vertx-auth-properties",
     name: "Properties Auth",
     description: "Authentication and authorization support based on Java properties files.",
     category: "authentication-and-authorization",
     href: "/vertx-auth-properties/java/",
-    repository: "https://github.com/vert-x3/vertx-auth/tree/master/vertx-auth-properties",
-    edit: "https://github.com/vert-x3/vertx-auth/tree/master/vertx-auth-properties/src/main/asciidoc"
+    repository: "https://github.com/eclipse-vertx/vertx-auth/tree/master/vertx-auth-properties",
+    edit: "https://github.com/eclipse-vertx/vertx-auth/tree/master/vertx-auth-properties/src/main/asciidoc"
   },
   {
     id: "vertx-auth-ldap",
@@ -180,8 +180,8 @@ insert(docs, "vertx-auth-htdigest",
     description: "Implementation using JDK built-in LDAP capabilities.",
     category: "authentication-and-authorization",
     href: "/vertx-auth-ldap/java/",
-    repository: "https://github.com/vert-x3/vertx-auth/tree/master/vertx-auth-ldap",
-    edit: "https://github.com/vert-x3/vertx-auth/tree/master/vertx-auth-ldap/src/main/asciidoc"
+    repository: "https://github.com/eclipse-vertx/vertx-auth/tree/master/vertx-auth-ldap",
+    edit: "https://github.com/eclipse-vertx/vertx-auth/tree/master/vertx-auth-ldap/src/main/asciidoc"
   },
   {
     id: "vertx-auth-htpasswd",
@@ -189,8 +189,8 @@ insert(docs, "vertx-auth-htdigest",
     description: <>Authentication and authorization support based on <code>.htpasswd</code> files.</>,
     category: "authentication-and-authorization",
     href: "/vertx-auth-htpasswd/java/",
-    repository: "https://github.com/vert-x3/vertx-auth/tree/master/vertx-auth-htpasswd",
-    edit: "https://github.com/vert-x3/vertx-auth/tree/master/vertx-auth-htpasswd/src/main/asciidoc"
+    repository: "https://github.com/eclipse-vertx/vertx-auth/tree/master/vertx-auth-htpasswd",
+    edit: "https://github.com/eclipse-vertx/vertx-auth/tree/master/vertx-auth-htpasswd/src/main/asciidoc"
   }
 )
 

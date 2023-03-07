@@ -333,8 +333,8 @@ const entries = [
       Vert.x applications, backed by several providers.`,
     category: "authentication-and-authorization",
     href: "/vertx-auth-common/java/",
-    repository: "https://github.com/vert-x3/vertx-auth/tree/master/vertx-auth-common",
-    edit: "https://github.com/vert-x3/vertx-auth/tree/master/vertx-auth-common/src/main/asciidoc"
+    repository: "https://github.com/eclipse-vertx/vertx-auth/tree/master/vertx-auth-common",
+    edit: "https://github.com/eclipse-vertx/vertx-auth/tree/master/vertx-auth-common/src/main/asciidoc"
   },
   {
     id: "vertx-auth-jdbc",
@@ -351,8 +351,8 @@ const entries = [
     description: "JSON web tokens (JWT) implementation.",
     category: "authentication-and-authorization",
     href: "/vertx-auth-jwt/java/",
-    repository: "https://github.com/vert-x3/vertx-auth/tree/master/vertx-auth-jwt",
-    edit: "https://github.com/vert-x3/vertx-auth/tree/master/vertx-auth-jwt/src/main/asciidoc"
+    repository: "https://github.com/eclipse-vertx/vertx-auth/tree/master/vertx-auth-jwt",
+    edit: "https://github.com/eclipse-vertx/vertx-auth/tree/master/vertx-auth-jwt/src/main/asciidoc"
   },
   {
     id: "vertx-auth-shiro",
@@ -378,8 +378,8 @@ const entries = [
     description: "OAuth2 (and to some extent OpenID Connect) implementation.",
     category: "authentication-and-authorization",
     href: "/vertx-auth-oauth2/java/",
-    repository: "https://github.com/vert-x3/vertx-auth/tree/master/vertx-auth-oauth2",
-    edit: "https://github.com/vert-x3/vertx-auth/tree/master/vertx-auth-oauth2/src/main/asciidoc"
+    repository: "https://github.com/eclipse-vertx/vertx-auth/tree/master/vertx-auth-oauth2",
+    edit: "https://github.com/eclipse-vertx/vertx-auth/tree/master/vertx-auth-oauth2/src/main/asciidoc"
   },
   {
     id: "vertx-auth-htdigest",
@@ -387,8 +387,8 @@ const entries = [
     description: <>Authentication and authorization support based on <code>.htdigest</code> files.</>,
     category: "authentication-and-authorization",
     href: "/vertx-auth-htdigest/java/",
-    repository: "https://github.com/vert-x3/vertx-auth/tree/master/vertx-auth-htdigest",
-    edit: "https://github.com/vert-x3/vertx-auth/tree/master/vertx-auth-htdigest/src/main/asciidoc"
+    repository: "https://github.com/eclipse-vertx/vertx-auth/tree/master/vertx-auth-htdigest",
+    edit: "https://github.com/eclipse-vertx/vertx-auth/tree/master/vertx-auth-htdigest/src/main/asciidoc"
   },
 
   // messaging
