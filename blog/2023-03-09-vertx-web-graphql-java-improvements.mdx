@@ -1,0 +1,104 @@
+---
+title: "Improvements to the GraphQL-Java integration"
+category: news
+authors:
+  - name: Thomas Segismont
+    github_id: tsegismont
+summary: >-
+  Vert.x 4.4 ships several improvements to the GraphQL-Java integration.
+pinned: false
+---
+
+Vert.x 4.4 ships several improvements to the [GraphQL-Java integration with Vert.x Web](/docs/vertx-web-graphql/java/).
+
+In this article, we'll go through the most important of them:
+
+- GraphiQL IDE upgrade (slick UI and subscriptions support),
+- simplified data fetcher definitions (using instrumentation),
+- support of Apollo's Automatic Persisted Queries (APQ).
+
+
+## GraphiQL IDE upgrade
+
+Vert.x Web GraphQL now ships the latest version of the [GraphQL IDE](/docs/vertx-web-graphql/java/#_graphiql_ide).
+Compared to the old version, you'll get a slick user interface, editable code history and the ability to switch between light and dark modes.
+
+<video controls width="100%" preload="auto">
+    <source src="/videos/blog/vertx-web-graphql-java-improvements/graphiql-updated.webm" type="video/webm"/>
+</video>
+
+More importantly, our integration leverages the [GraphiQL toolkit fetcher](https://github.com/graphql/graphiql/blob/main/packages/graphiql-toolkit/docs/create-fetcher.md).
+This means you can test subscriptions over the GraphQLWS protocol.
+
+<video controls width="100%" preload="auto">
+    <source src="/videos/blog/vertx-web-graphql-java-improvements/graphiql-subscriptions.webm" type="video/webm"/>
+</video>
+
+## Simplified data fetcher definitions
+
+### Data fetchers returning Vert.x `Future`
+
+In previous versions, you could create asynchronous data fetchers with `VertxDataFetcher`:
+
+```java
+VertxDataFetcher<List<Link>> dataFetcher = VertxDataFetcher.create((env, promise) -> {
+  retrieveLinksFromBackend(env, promise);
+});
+
+RuntimeWiring runtimeWiring = RuntimeWiring.newRuntimeWiring()
+  .type("Query", builder -> builder.dataFetcher("allLinks", dataFetcher))
+  .build();
+```
+
+This method required to wrap every data fetcher definition manually.
+Besides, it was easy to forget to do it, because any object is a valid data fetcher result.
+Consequently, the compiler wouldn't complain.
+
+Using GraphQL-Java instrumentation, in 4.4 it is possible to wrap data fetchers automatically.
+
+First, declare the instrumentation while configuring GraphQL-Java.
+
+```java
+graphQLBuilder.instrumentation(VertxFutureAdapter.create());
+```
+
+Then you can return Vert.x futures directly.
+
+```java
+DataFetcher<Future<List<Link>>> dataFetcher = environment -> {
+  Future<List<Link>> future = retrieveLinksFromBackend(environment);
+  return future;
+};
+```
+
+Note that similar functionnality is provided for data fetchers returning RxJava3's `Single` or `Maybe`.
+Learn more about this in the [_working with Vert.x Rxified APIs_](/docs/vertx-web-graphql/java/#_working_with_vert_x_rxified_apis) section of the documentation.
+
+### JSON data results
+
+The default GraphQL-Java data fetcher is the `PropertyDataFetcher`.
+It is able to read the fields of your domain objects without further configuration.
+
+Nevertheless, in Vert.x applications it is common to work with `JsonArray` and `JsonObject`.
+The `PropertyDataFetcher` can read the items in a JsonArray out of the box, but not the fields of a `JsonObject`...
+
+If your project depends on GraphQL-Java 20 (the default in Vert.x 4.4), configure GraphQL-Java with the `JsonObjectAdapter` instrumentation.
+
+```java
+graphQLBuilder.instrumentation(new JsonObjectAdapter());
+```
+
+## Support of Apollo's Automatic Persisted Queries (APQ)
+
+Apollo's Automatic Persisted Queries ([APQ](https://www.apollographql.com/docs/apollo-server/performance/apq/)) improve network performance for large query strings.
+
+Recent versions of GraphQL-Java provide support for execution of such queries.
+In Vert.x 4.4, the transport layers ([HTTP](/docs/vertx-web-graphql/java/#_http), [GraphQLWS](/docs/vertx-web-graphql/java/#_graphql_over_websocket)) are also ready to receive them.
+
+This requires to configure GraphQL-Java with a specific preparsed document Provider:
+
+```java
+graphQLBuilder.preparsedDocumentProvider(new ApolloPersistedQuerySupport(inMemoryPersistedQueryCache));
+```
+
+GraphQL-Java comes with a simple `InMemoryPersistedQueryCache`, but you could provide your own (using, for example, the [Caffeine](https://how-to.vertx.io/async-loading-cache-caffeine-howto/) high performance caching library).

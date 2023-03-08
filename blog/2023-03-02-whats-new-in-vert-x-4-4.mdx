@@ -13,7 +13,7 @@ Vert.x 4.4 comes with few new exciting features.
 
 Here is an overview of the most important features in Vert.x 4.4.
 
-## new OpenAPI implementation
+## New OpenAPI implementation
 
 A new implementation of OpenAPI using the latest JsonSchema API is available as tech preview. This new implementation allows both OpenAPI 3.0 and OpenAPI 3.1 documents to be used as a foundation for a router.
 
@@ -77,6 +77,16 @@ vertx.setPeriodic(REFRESH_PERIOD, id -> {
   server.updateSSLOptions(options);
 });
 ```
+
+## Improvements to the GraphQL-Java integration
+
+Vert.x 4.4 ships several improvements to the [GraphQL-Java integration with Vert.x Web](/docs/vertx-web-graphql/java/).
+
+In [a follow-up article](/blog/vertx-web-graphql-java-improvements/), we go through the most important of them:
+
+- GraphiQL IDE upgrade (slick UI and subscriptions support),
+- simplified data fetcher definitions (using instrumentation),
+- support of Apollo's Automatic Persisted Queries (APQ).
 
 ## Various improvements
 
