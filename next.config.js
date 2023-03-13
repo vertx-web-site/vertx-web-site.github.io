@@ -37,7 +37,7 @@ const config = {
 
   // configure base path
   basePath,
-  assetPrefix: basePath,
+  assetPrefix: basePath === "" ? undefined : basePath,
 
   eslint: {
     dirs: ["components", "pages", "docs/metadata"]
