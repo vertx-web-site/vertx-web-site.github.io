@@ -126,7 +126,7 @@ const entries = [
   {
     id: "vertx-web-api-service",
     name: "Web API Service",
-    description: "Directly connect your OpenAPI 3 web routers to event-bus services.",
+    description: "Helps you handling HTTP Requests using the Vert.x Event Bus.",
     category: "web",
     href: "/vertx-web-api-service/java/",
     repository: "https://github.com/vert-x3/vertx-web",
