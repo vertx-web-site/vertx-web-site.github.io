@@ -126,7 +126,7 @@ const entries = [
   {
     id: "vertx-web-api-service",
     name: "Web API Service",
-    description: "Helps you handling HTTP Requests using the Vert.x Event Bus.",
+    description: "Helps you handle HTTP requests using the Vert.x event bus.",
     category: "web",
     href: "/vertx-web-api-service/java/",
     repository: "https://github.com/vert-x3/vertx-web",
