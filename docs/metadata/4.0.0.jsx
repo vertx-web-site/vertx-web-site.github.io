@@ -142,7 +142,7 @@ docs.entries.push({
     examples: "https://github.com/vert-x3/vertx-examples/tree/3.x/kotlin-examples/coroutines"
 })
 
-insert(docs, "vertx-auth-webauthn",
+insert(docs, "vertx-auth-mongo",
   {
     id: "vertx-auth-webauthn",
     name: "Webauthn Auth",
@@ -164,7 +164,7 @@ insert(docs, "vertx-auth-webauthn",
   }
 )
 
-insert(docs, "vertx-auth-properties",
+insert(docs, "vertx-auth-htdigest",
   {
     id: "vertx-auth-properties",
     name: "Properties Auth",

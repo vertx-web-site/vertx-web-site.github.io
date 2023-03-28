@@ -17,7 +17,7 @@ insert(docs, "vertx-mssql-client",
        }
  )
 
-insert(docs, "vertx-auth-otp",
+insert(docs, "vertx-auth-webauthn",
   {
     id: "vertx-auth-otp",
     name: "OTP Auth",
