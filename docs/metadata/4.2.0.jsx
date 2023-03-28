@@ -17,15 +17,15 @@ insert(docs, "vertx-mssql-client",
        }
  )
 
-insert(docs, "vertx-auth-webauthn",
+insert(docs, "vertx-auth-otp",
   {
     id: "vertx-auth-otp",
     name: "OTP Auth",
     description: "One Time Password (Multi-Factor Authentication) implementation.",
     category: "authentication-and-authorization",
     href: "/vertx-auth-otp/java/",
-    repository: "https://github.com/vert-x3/vertx-auth/tree/master/vertx-auth-otp",
-    edit: "https://github.com/vert-x3/vertx-auth/tree/master/vertx-auth-otp/src/main/asciidoc"
+    repository: "https://github.com/eclipse-vertx/vertx-auth/tree/master/vertx-auth-otp",
+    edit: "https://github.com/eclipse-vertx/vertx-auth/tree/master/vertx-auth-otp/src/main/asciidoc"
   }
  )
 
