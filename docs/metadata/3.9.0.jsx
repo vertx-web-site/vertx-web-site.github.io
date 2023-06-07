@@ -509,7 +509,7 @@ const entries = [
   {
     id: "vertx-health-check",
     name: "Health Check",
-    description: "A simple API to expose health checks over HTTP.",
+    description: "A simple API to compute and compose health checks.",
     category: "devops",
     href: "/vertx-health-check/java/",
     repository: "https://github.com/vert-x3/vertx-health-check",
