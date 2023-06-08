@@ -1,0 +1,34 @@
+---
+title: Eclipse Vert.x JDBC Client 4.4.3.1 released!
+category: releases
+authors:
+  - name: Julien Viet
+    github_id: vietj
+summary: >-
+  Eclipse Vert.x JDBC Client version 4.4.3.1 has just been released.
+---
+
+Users of the module `vertx-jdbc-client` might have noticed a regression with [regression](https://github.com/vert-x3/vertx-jdbc-client/pull/306) which prevents the client to connect to the database in some cases.
+
+Users should only update this dependency until an upgrade to a regular next full stack release, for example, if you're
+using maven as your build tool and on Vert.x 4.4.3, then:
+
+```xml
+  <dependencies>
+    <dependency>
+      <groupId>io.vertx</groupId>
+      <artifactId>vertx-core</artifactId>
+      <version>4.4.3</version>
+    </dependency>
+
+    <dependency>
+      <groupId>io.vertx</groupId>
+      <artifactId>vertx-jdbc-client</artifactId>
+      <!-- only this dependency version should be updated -->
+      <version>4.4.3.1</version>
+    </dependency>
+
+  </dependencies>
+```
+
+Happy coding and see you soon on our user or dev [channels](https://vertx.io/channels).
