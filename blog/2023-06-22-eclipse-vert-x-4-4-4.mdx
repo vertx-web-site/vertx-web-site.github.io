@@ -12,6 +12,19 @@ We are extremely pleased to announce that Eclipse Vert.x version 4.4.4 has been 
 
 Since the release of Vert.x 4.4.4, quite a few bugs have been reported. We would like to thank you all for reporting these issues.
 
+This release also upgrades to Netty 4.1.94.Final fixing [CVE-2023-34462](https://github.com/netty/netty/security/advisories/GHSA-6mjq-h674-j845).
+
+The [Vert.x gRPC plugin](https://vertx.io/docs/vertx-grpc/java/#_vert_x_grpc_protoc_plugin) generating Vert.x idiomatic classes has also been ported to the new gRPC implementation.
+
+```java
+VertxGreeterGrpcServer.GreeterApi stub = new VertxGreeterGrpcServer.GreeterApi() {
+ @Override
+ public Future<HelloReply> sayHello(HelloRequest request) {
+   return Future.succeededFuture(HelloReply.newBuilder().setMessage("Hello " + request.getName()).build());
+ }
+};
+```
+
 The [4.4.4 release notes](https://github.com/vert-x3/wiki/wiki/4.4.4-Release-Notes) can be found on the wiki.
 
 You can bootstrap a Vert.x 4 project using [start.vertx.io](https://start.vertx.io).
