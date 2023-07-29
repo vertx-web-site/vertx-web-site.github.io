@@ -2,7 +2,7 @@ name: Deploy
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master, vertx5 ]
 
 concurrency:
   group: master-deploy
@@ -34,7 +34,16 @@ jobs:
           sudo rm -rf $AGENT_TOOLSDIRECTORY
           df -h /
 
+      # Checkout master
       - uses: actions/checkout@v2
+        with:
+          ref: master
+
+      # Checkout vertx5 branch
+      - uses: actions/checkout@v2
+        with:
+          ref: vertx5
+          path: vertx5
 
       # Remove more unnecessary tools. We should have about 52GB of free disk space after this.
       # See https://github.com/apache/flink/blob/master/tools/azure-pipelines/free_disk_space.sh
@@ -65,11 +74,19 @@ jobs:
 
       - run: npm ci -f
 
+      # Install dependencies for vertx5
+      - run: npm ci -f
+        working-directory: vertx5
+
       # Download, extract, and compile docs
       - run: npm run update-docs
       - run: |
           du -sh *
           df -h / /mnt
+      
+      # Compile vertx5 docs (only latest bugfix versions to save time and space)
+      - run: npm run compile-docs -- --latest-bugfix-versions-only
+        working-directory: vertx5
 
       # Remove files that have been used while running 'update-docs' but that
       # are not needed anymore for the remainder of the workflow. This is
@@ -79,6 +96,9 @@ jobs:
           rm -rf docs/download
           rm -rf docs/extracted
           rm -rf docs/node_modules
+          rm -rf vertx5/docs/download
+          rm -rf vertx5/docs/extracted
+          rm -rf vertx5/docs/node_modules
       - run: |
           du -sh *
           df -h / /mnt
@@ -88,10 +108,26 @@ jobs:
           mkdir .apidocs_temp
           mv public/docs/* .apidocs_temp
 
+      # Temporarily move apidocs out of the way (vertx5)
+      - run: |
+          mkdir .apidocs_temp
+          mv public/docs/* .apidocs_temp
+        working-directory: vertx5
+
       # Build website
       - run: npm run build
         env:
           GITHUB_ACCESS_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
+      - run: |
+          du -sh *
+          df -h / /mnt
+
+      # Build vertx5 website
+      - run: npm run build
+        env:
+          VERTX_WEBSITE_BASEPATH: vertx5
+          GITHUB_ACCESS_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
+        working-directory: vertx5
       - run: |
           du -sh *
           df -h / /mnt
@@ -102,6 +138,7 @@ jobs:
       - name: Cleanup temporary files
         run: |
           rm -rf node_modules
+          rm -rf vertx5/node_modules
       - run: |
           du -sh *
           df -h / /mnt
@@ -118,11 +155,15 @@ jobs:
         run: |
           shopt -s dotglob                   # include dot files
           mv out/* vertx-web-site.github.io
+          mkdir vertx-web-site.github.io/vertx5
+          mv vertx5/out/* vertx-web-site.github.io/vertx5
 
       - name: Copy API docs into output directory
         run: |
           mv .apidocs_temp/apidocs vertx-web-site.github.io/docs/
           find .apidocs_temp -mindepth 1 -maxdepth 1 -type d -print0 | xargs -0 -n1 -I '{}' sh -xc 'mv {}/* vertx-web-site.github.io/docs/$(basename {})/'
+          mv vertx5/.apidocs_temp/apidocs vertx-web-site.github.io/vertx5/docs/
+          find vertx5/.apidocs_temp -mindepth 1 -maxdepth 1 -type d -print0 | xargs -0 -n1 -I '{}' sh -xc 'mv {}/* vertx-web-site.github.io/vertx5/docs/$(basename {})/'
       - run: |
           du -sh *
           df -h / /mnt
