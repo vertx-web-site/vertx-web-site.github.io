@@ -11,6 +11,18 @@ import Piscina from "piscina"
 import pLimit from "p-limit"
 import prettyMilliseconds from "pretty-ms"
 import { MessageChannel } from "worker_threads"
+import yargs from "yargs"
+import { hideBin } from "yargs/helpers"
+
+const argv = yargs(hideBin(process.argv))
+  .scriptName("update-docs")
+  .usage("$0 <cmd> [args]")
+  .option("latest-bugfix-versions-only", {
+    describe: "Skip superseded patch versions",
+    type: "boolean"
+  })
+  .help()
+  .argv
 
 // make sure CLI cursor is restored on exit
 restoreCursor()
@@ -61,7 +73,13 @@ async function main() {
   let start = +new Date()
   let totalMessages = 0
   let asciidoctorLog = await fs.open("asciidoctor.log", "w")
-  let asciidoctorBar = multibar.create(metadata.length * 100, 0, {
+  let asciidoctorBarLength
+  if (argv.latestBugfixVersionsOnly) {
+    asciidoctorBarLength = filterLatestBugfixVersions(versions).length
+  } else {
+    asciidoctorBarLength = metadata.length
+  }
+  let asciidoctorBar = multibar.create(asciidoctorBarLength * 100, 0, {
     message: "Compile Asciidoc", asciidoc: true })
 
   async function run(version, artifactVersion, latestBugfixVersion) {
@@ -182,6 +200,11 @@ async function main() {
         return parsedVersion.major === plbv.major && parsedVersion.minor === plbv.minor &&
             parsedVersion.patch !== plbv.patch
       })
+      let isLatestBugfixVersion = latestBugfixVersion === undefined ||
+        parsedVersion === latestBugfixVersion
+      if (argv.latestBugfixVersionsOnly && !isLatestBugfixVersion) {
+        continue
+      }
       promises.push(run(m.version, m.metadata.artifactVersion || m.version,
           latestBugfixVersion))
     }
