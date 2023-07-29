@@ -4,6 +4,7 @@ import fsSync from "fs"
 import path from "path"
 import stream from "stream"
 import util from "util"
+import xml2js from "xml2js"
 
 const pipeline = util.promisify(stream.pipeline)
 
@@ -56,9 +57,28 @@ async function downloadFile(url, dest, version, progressListener) {
   }
 }
 
+async function getSnapshotUrl(version) {
+  let baseUrl = `https://s01.oss.sonatype.org/content/repositories/snapshots/io/vertx/vertx-stack-docs/${version}/`
+  let metadataUrl = `${baseUrl}maven-metadata.xml`
+
+  let res = await fetch(metadataUrl )
+  if (res.status !== 200) {
+    throw `Could not download "${metadataUrl}". Status code: ${res.status}`
+  }
+
+  let metadataText = await res.text()
+  let metadata = await xml2js.parseStringPromise(metadataText)
+
+  return `${baseUrl}vertx-stack-docs-${metadata.metadata.versioning[0].snapshotVersions[0].snapshotVersion[0].value[0]}-docs.zip`
+}
+
 async function download(version, progressListener) {
-  // TODO handle snapshots
-  let url = `${repoUrl}/io/vertx/vertx-stack-docs/${version}/vertx-stack-docs-${version}-docs.zip`
+  let url
+  if (version.endsWith("-SNAPSHOT")) {
+    url = await getSnapshotUrl(version)
+  } else {
+    url = `${repoUrl}/io/vertx/vertx-stack-docs/${version}/vertx-stack-docs-${version}-docs.zip`
+  }
 
   await fs.mkdir(downloadPath, { recursive: true })
 
