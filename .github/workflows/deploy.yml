@@ -64,6 +64,7 @@ jobs:
             .cache
             .next/cache
             docs/compiled
+            vertx5/docs/compiled
           key: ${{ runner.os }}-build-${{ github.sha }}
           restore-keys: |
             ${{ runner.os }}-build-
@@ -123,6 +124,10 @@ jobs:
           df -h / /mnt
 
       # Build vertx5 website
+      - run: |
+          cp -r .cache vertx5/.cache
+          mkdir -p vertx5/.next
+          cp -r .next/cache vertx5/.next/cache
       - run: npm run build
         env:
           VERTX_WEBSITE_BASEPATH: vertx5
