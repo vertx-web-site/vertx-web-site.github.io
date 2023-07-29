@@ -85,8 +85,8 @@ jobs:
           df -h / /mnt
       
       # Compile vertx5 docs (only latest bugfix versions to save time and space)
-      - run: npm run compile-docs -- --latest-bugfix-versions-only
-        working-directory: vertx5
+      - run: npm run update-docs -- --latest-bugfix-versions-only
+        working-directory: vertx5/docs
 
       # Remove files that have been used while running 'update-docs' but that
       # are not needed anymore for the remainder of the workflow. This is
