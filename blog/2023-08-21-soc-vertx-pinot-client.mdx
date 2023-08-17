@@ -1,0 +1,120 @@
+---
+title: Vert.x client for Apache Pinot
+category: News
+authors:
+  - name: Lucifer Morningstar
+    github_id: lucifer4j
+summary: >-
+    Apache Pinot is a realtime distributed datastore for analytics workloads. To make
+    it easier for vert.x users to use Apache Pinot in their applications, we introduce
+    a vertx-pinot-client extension.
+---
+
+<Alert warning>
+
+The blog post is informational and a teaser of upcoming changes to *vertx-pinot-client* which is under active
+    development and thus, the finally released versions may differ.
+
+</Alert>
+
+## Introduction
+
+Eclipse Vert.x is a toolkit to build reactive applications on the Java virtual machine. It provides asynchronous and
+non-blocking clients for different types of databases. Apache Pinot is a realtime distributed datastore for analytics
+workloads. The [Apache Pinot Java Client](https://docs.pinot.apache.org/users/clients/java) uses
+[AsyncHttpClient](https://github.com/AsyncHttpClient/async-http-client) as the default transport and is cumbersome to
+use in Eclipse Vert.x applications.
+
+This project proposes to create a vertx-pinot-client extension. This extension will be a lightweight wrapper around
+the existing Pinot Java client. It will also offer alternative transport for the client using vertx-web-client.
+This will make the Apache Pinot more accessible to Vert.x users.
+
+## Usage
+
+Add the pinot-client dependency to your project.
+
+```xml
+<dependency>
+    <groupId>io.reactiverse</groupId>
+    <artifactId>pinot-client</artifactId>
+    <version>1.0-SNAPSHOT</version>
+</dependency>
+```
+
+You can create an instance of the client to interact with the Pinot cluster as follows.
+
+```java
+String brokerUrl = "localhost:8000";
+VertxPinotClientTransport transport = new VertxPinotClientTransport(vertx);
+VertxConnection connection = VertxConnectionFactory.fromHostList(vertx, List.of(brokerUrl), transport);
+```
+
+Now we can use the Connection to query the cluster. Here is an example to query the top 10 home run scorers from
+the sample quickstart dataset.
+
+```java
+String query = "select playerName, sum(homeRuns) AS totalHomeRuns from baseballStats where homeRuns > 0 group by playerID, playerName ORDER BY totalHomeRuns DESC limit 10";
+connection
+    .execute(query)
+    .onSuccess(resultSetGroup -> {
+        ResultSet results = resultSetGroup.getResultSet(0);
+        System.out.println("Player Name\tTotal Home Runs");
+        for (int i = 0; i < results.getRowCount(); i++) {
+            System.out.println(results.getString(i, 0) + "\t" + results.getString(i, 1));
+        }
+    })
+    .onFailure(Throwable::printStackTrace);
+```
+
+## Demo
+
+A more real-life demo is available at [`pizza-shop-demo`](https://github.com/lucifer4j/pizza-shop-demo). It includes a
+pizza delivery service specializing in pizzas with Indian toppings. They have a dashboard built using Apache Pinot
+to monitors their orders in realtime. The dashboard deals with three types of data: products, users, and orders. The
+dashboard uses the Vert.x Pinot Client to [`query`](https://github.com/lucifer4j/pizza-shop-demo/blob/main/dashboard/backend/src/main/java/pizzashop/DashboardVerticle.java)
+the Pinot cluster.
+
+![Order Dashboard Statistics](/images/blog/soc-vertx-pinot-client/demo-dashboard-1.png)
+![Order Dashboard Latest and Popular Items](/images/blog/soc-vertx-pinot-client/demo-dashboard-2.png)
+
+## Challenges
+
+While working on the project, I encountered several implementation challenges.
+
+#### package-private `org.apache.pinot.client.BrokerResponse` class
+
+The [`org.apache.pinot.client.BrokerResponse`](https://github.com/apache/pinot/blob/6e235a4ec2a16006337da04e118a435b5bb8f6d8/pinot-clients/pinot-java-client/src/main/java/org/apache/pinot/client/BrokerResponse.java#L27)
+class is package-private. However several [`executeQuery/executeQueryAsync`](https://github.com/apache/pinot/blob/6e235a4ec2a16006337da04e118a435b5bb8f6d8/pinot-clients/pinot-java-client/src/main/java/org/apache/pinot/client/PinotClientTransport.java#L29)
+methods in the `PinotClientTransport` return this type. This makes it difficult to implement the interface in an external package.
+
+To work around this issue, we created a `org.apache.pinot.client` package inside our wrapper project. The [`VertxPinotClientTransport`](https://github.com/lucifer4j/pinot-client/blob/70dc4152cc77fd6ae521f94fb8c59bf4c7f9d12a/pinot-client/src/main/java/org/apache/pinot/client/VertxPinotClientTransport.java#L37)
+implementation currently lives inside this package for the same reason. This workaround only works for projects running in `classpath`
+mode but not for projects using `modulepath` because Java Modules disallow package splitting. To fix the issue as source,
+I opened a [`PR`](https://github.com/apache/pinot/pull/10932) in `apache/pinot` repository. The PR is now merged. Once a new
+release of Pinot is available, I will be updating the client wrapper as well.
+
+#### missing `ConnectionFactory` method
+
+The [`ConnectionFactory`](https://github.com/apache/pinot/blob/6e235a4ec2a16006337da04e118a435b5bb8f6d8/pinot-clients/pinot-java-client/src/main/java/org/apache/pinot/client/ConnectionFactory.java#L30)
+class is used to create `Connection` instances to interact with the Pinot Cluster. There are multiple ways to interact with
+the cluster, using zookeeper, controller or a hard-coded broker list. Most of the methods feature an overload to accept
+a custom `PinotClientTransport` implementation but the same was notable missing for the controller variant. Further, the
+constructors of the `Connection` class are package-private preventing us from directly adding the missing method in our
+wrapper.
+
+Again to fix this issue, I created a [`bridge class`](https://github.com/lucifer4j/pinot-client/blob/70dc4152cc77fd6ae521f94fb8c59bf4c7f9d12a/pinot-client/src/main/java/org/apache/pinot/client/ConnectionFactoryBridge.java#L28)
+in the `org.apache.pinot.client` package. Simultaneously, I opened a [`PR`](https://github.com/apache/pinot/pull/11013) in
+`apache/pinot` repository. The PR is also now merged and the Vert.x client will be updated once a new release is available.
+
+## Bonus Fixes
+
+#### missing double-checked locking in ConnectionFactory
+
+While working on the tasks outlined earlier, I (more accurately my IDE's static checking) discovered the double-checked
+locking mechanism in `ConnectionFactory` class in `pinot-client` was broken. I opened a [`PR`](https://github.com/apache/pinot/pull/11014) to fix it.
+
+#### broken docker health checks in pizza-shop-demo
+
+The Docker Health Checks in the original pizza-shop-demo were broken. The health checks had been written using `nc` utility
+but the same is not included in the `apache/pinot` docker image. It took me a lot of head scratching to discover that but
+the same is now fixed. The PR for fixing it upstream is available [`here`](https://github.com/startreedata/pizza-shop-demo/pull/9).
