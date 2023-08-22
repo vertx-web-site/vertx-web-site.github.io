@@ -1,18 +1,18 @@
 ---
-title: Vert.x client for Apache Pinot
+title: Eclipse Vert.x client for Apache Pinot
 category: News
 authors:
   - name: Lucifer Morningstar
     github_id: lucifer4j
 summary: >-
     Apache Pinot is a realtime distributed datastore for analytics workloads. To make
-    it easier for vert.x users to use Apache Pinot in their applications, we introduce
-    a vertx-pinot-client extension.
+    it easier for Eclipse Vert.x users to use Apache Pinot in their applications, we introduce
+    the Reactiverse Vert.x Client for Pinot.
 ---
 
 <Alert warning>
 
-The blog post is informational and a teaser of upcoming changes to *vertx-pinot-client* which is under active
+The blog post is informational and a teaser of upcoming changes to `pinot-client` which is under active
     development and thus, the finally released versions may differ.
 
 </Alert>
@@ -25,13 +25,12 @@ workloads. The [Apache Pinot Java Client](https://docs.pinot.apache.org/users/cl
 [AsyncHttpClient](https://github.com/AsyncHttpClient/async-http-client) as the default transport and is cumbersome to
 use in Eclipse Vert.x applications.
 
-This project proposes to create a vertx-pinot-client extension. This extension will be a lightweight wrapper around
-the existing Pinot Java client. It will also offer alternative transport for the client using vertx-web-client.
+The [`pinot-client`](https://github.com/reactiverse/pinot-client) Reactiverse project is a lightweight wrapper around the existing Pinot Java client. It also provides an alternative transport using `vertx-web-client`.
 This will make the Apache Pinot more accessible to Vert.x users.
 
 ## Usage
 
-Add the pinot-client dependency to your project.
+Add the `pinot-client` dependency to your project.
 
 ```xml
 <dependency>
@@ -49,7 +48,7 @@ VertxPinotClientTransport transport = new VertxPinotClientTransport(vertx);
 VertxConnection connection = VertxConnectionFactory.fromHostList(vertx, List.of(brokerUrl), transport);
 ```
 
-Now we can use the Connection to query the cluster. Here is an example to query the top 10 home run scorers from
+Now we can use the `Connection` to query the cluster. Here is an example to query the top 10 home run scorers from
 the sample quickstart dataset.
 
 ```java
@@ -81,7 +80,7 @@ the Pinot cluster.
 
 While working on the project, I encountered several implementation challenges.
 
-#### package-private `org.apache.pinot.client.BrokerResponse` class
+#### Package-private `org.apache.pinot.client.BrokerResponse` class
 
 The [`org.apache.pinot.client.BrokerResponse`](https://github.com/apache/pinot/blob/6e235a4ec2a16006337da04e118a435b5bb8f6d8/pinot-clients/pinot-java-client/src/main/java/org/apache/pinot/client/BrokerResponse.java#L27)
 class is package-private. However several [`executeQuery/executeQueryAsync`](https://github.com/apache/pinot/blob/6e235a4ec2a16006337da04e118a435b5bb8f6d8/pinot-clients/pinot-java-client/src/main/java/org/apache/pinot/client/PinotClientTransport.java#L29)
@@ -93,7 +92,7 @@ mode but not for projects using `modulepath` because Java Modules disallow packa
 I opened a [`PR`](https://github.com/apache/pinot/pull/10932) in `apache/pinot` repository. The PR is now merged. Once a new
 release of Pinot is available, I will be updating the client wrapper as well.
 
-#### missing `ConnectionFactory` method
+#### Missing `ConnectionFactory` method
 
 The [`ConnectionFactory`](https://github.com/apache/pinot/blob/6e235a4ec2a16006337da04e118a435b5bb8f6d8/pinot-clients/pinot-java-client/src/main/java/org/apache/pinot/client/ConnectionFactory.java#L30)
 class is used to create `Connection` instances to interact with the Pinot Cluster. There are multiple ways to interact with
@@ -108,13 +107,13 @@ in the `org.apache.pinot.client` package. Simultaneously, I opened a [`PR`](http
 
 ## Bonus Fixes
 
-#### missing double-checked locking in ConnectionFactory
+#### Missing double-checked locking in `ConnectionFactory`
 
 While working on the tasks outlined earlier, I (more accurately my IDE's static checking) discovered the double-checked
 locking mechanism in `ConnectionFactory` class in `pinot-client` was broken. I opened a [`PR`](https://github.com/apache/pinot/pull/11014) to fix it.
 
-#### broken docker health checks in pizza-shop-demo
+#### Broken Docker health checks in `pizza-shop-demo`
 
-The Docker Health Checks in the original pizza-shop-demo were broken. The health checks had been written using `nc` utility
+The Docker Health Checks in the original `pizza-shop-demo` were broken. The health checks had been written using `nc` utility
 but the same is not included in the `apache/pinot` docker image. It took me a lot of head scratching to discover that but
 the same is now fixed. The PR for fixing it upstream is available [`here`](https://github.com/startreedata/pizza-shop-demo/pull/9).
