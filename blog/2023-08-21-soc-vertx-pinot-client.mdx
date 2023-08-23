@@ -105,7 +105,8 @@ Some methods of the `PinotClientTransport` [interface](https://github.com/apache
 return a `java.concurrent.util.Future` future. However, `Future.get` is a blocking call which is undesirable. To work around the
 issue, we wrap every request and query call in an [`executeBlocking` block](https://github.com/reactiverse/pinot-client/blob/main/pinot-client/src/main/java/io/reactiverse/pinot/client/impl/Utils.java#L24-L34).
 To avoid blocking calls together, we discussed replacing `Future` with `CompletabeFutre`. The same change has already been [merged](https://github.com/apache/pinot/pull/10326)
-now and will be available in the next release.
+now and will be available in the next release. Once that is available, we can update the wrapper client to adapt `CompletableFuture`s
+to `Vert.x Futures` without much hassle and without offloading the task to blocking worker pool.
 
 #### Missing `ConnectionFactory` method
 
