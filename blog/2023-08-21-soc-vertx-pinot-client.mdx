@@ -28,6 +28,13 @@ use in Eclipse Vert.x applications.
 The [`pinot-client`](https://github.com/reactiverse/pinot-client) Reactiverse project is a lightweight wrapper around the existing Pinot Java client. It also provides an alternative transport using `vertx-web-client`.
 This will make the Apache Pinot more accessible to Vert.x users.
 
+## Advantages
+
+1. `vertx-pinot-client` offers an async and non-blocking API, that is line with the general Vert.x ecosystem's philosophy.
+2. For little effort we get `RxJava` and `Mutiny` bindings for the client as well, thanks to Vert.x codegen.
+3. The `vertx-pinot-client` should offer better performance as it uses the Vert.x Web Client for the underlying transport.
+   This allows the application to stay on the same event loop when interacting with Pinot.
+
 ## Usage
 
 Add the `pinot-client` dependency to your project.
@@ -78,7 +85,8 @@ the Pinot cluster.
 
 ## Challenges
 
-While working on the project, I encountered several implementation challenges.
+I worked on this project as a part of the [Google Summer of Code](summerofcode.withgoogle.com/) - 2023 program and
+during the implementation, I encountered several challenges.
 
 #### Package-private `org.apache.pinot.client.BrokerResponse` class
 
@@ -91,6 +99,13 @@ implementation currently lives inside this package for the same reason. This wor
 mode but not for projects using `modulepath` because Java Modules disallow package splitting. To fix the issue as source,
 I opened a [`PR`](https://github.com/apache/pinot/pull/10932) in `apache/pinot` repository. The PR is now merged. Once a new
 release of Pinot is available, I will be updating the client wrapper as well.
+
+#### `java.concurrent.util.Future` return type
+Some methods of the `PinotClientTransport` [interface](https://github.com/apache/pinot/blob/6e235a4ec2a16006337da04e118a435b5bb8f6d8/pinot-clients/pinot-java-client/src/main/java/org/apache/pinot/client/PinotClientTransport.java#L32)
+return a `java.concurrent.util.Future` future. However, `Future.get` is a blocking call which is undesirable. To work around the
+issue, we wrap every request and query call in an [`executeBlocking` block](https://github.com/reactiverse/pinot-client/blob/main/pinot-client/src/main/java/io/reactiverse/pinot/client/impl/Utils.java#L24-L34).
+To avoid blocking calls together, we discussed replacing `Future` with `CompletabeFutre`. The same change has already been [merged](https://github.com/apache/pinot/pull/10326)
+now and will be available in the next release.
 
 #### Missing `ConnectionFactory` method
 
