@@ -22,8 +22,8 @@ The blog post is informational and a teaser of upcoming changes to `pinot-client
 Eclipse Vert.x is a toolkit to build reactive applications on the Java virtual machine. It provides asynchronous and
 non-blocking clients for different types of databases. Apache Pinot is a realtime distributed datastore for analytics
 workloads. The [Apache Pinot Java Client](https://docs.pinot.apache.org/users/clients/java) uses
-[AsyncHttpClient](https://github.com/AsyncHttpClient/async-http-client) as the default transport and is cumbersome to
-use in Eclipse Vert.x applications.
+[AsyncHttpClient](https://github.com/AsyncHttpClient/async-http-client) as the default transport. The `Apache Pinot Java Client`
+is unpractical to use in Eclipse Vert.x applications because every blocking call needs to be wrapped with `executeBlocking`.
 
 The [`pinot-client`](https://github.com/reactiverse/pinot-client) Reactiverse project is a lightweight wrapper around the existing Pinot Java client. It also provides an alternative transport using `vertx-web-client`.
 This will make the Apache Pinot more accessible to Vert.x users.
