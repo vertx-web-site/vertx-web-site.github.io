@@ -165,7 +165,7 @@ async function fetchContributors(octokit) {
   }]
 
   console.log("Fetching repositories ...")
-  let fetchedRepos = await pMap(["vert-x", "vert-x3", "vertx-web-site"], org =>
+  let fetchedRepos = await pMap(["vert-x", "vert-x3", "vertx-web-site", "eclipse-vertx"], org =>
     octokit.paginate(octokit.repos.listForOrg, { org }), { concurrency: MAX_CONCURRENCY })
   for (let fetchedRepo of fetchedRepos) {
     repos = repos.concat(fetchedRepo)
