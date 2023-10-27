@@ -16,17 +16,4 @@ insert(docs, "vertx-web",
   }
  )
 
-insert(docs, "vertx-virtual-threads",
-  {
-    id: "vertx-virtual-threads",
-    name: "Vert.x Virtual Threads",
-    description: "Virtual threads for Vert.x.",
-    category: "core",
-    href: "/vertx-virtual-threads/java/",
-    repository: "https://github.com/eclipse-vertx/vertx-virtual-threads",
-    edit: "https://github.com/eclipse-vertx/vertx-launcher/tree/master/vertx-virtual-threads/src/main/asciidoc",
-    label: "Technical Preview"
-  }
- )
-
 export default docs
