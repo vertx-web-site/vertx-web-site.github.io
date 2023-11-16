@@ -57,6 +57,8 @@ for (Row row : rows) {
 }
 ```
 
+You can find more in our [example repo](https://github.com/vert-x3/vertx-examples/tree/4.x/virtual-threads-examples).
+
 ## Dynamic SQL connection creation
 
 By default, a connection pool always connects to the same host, in other words the database
@@ -107,7 +109,7 @@ New connections will use the updated configuration.
 
 ## WebSocket client
 
-We have captured the WebSocket client API from Vert.x HTTP client in a new [WebSocket client](https://vertx.io/docs/vertx-core/java/#_websockets_on_the_client.
+We have captured the WebSocket client API from Vert.x HTTP client in a new [WebSocket client](https://vertx.io/docs/vertx-core/java/#_websockets_on_the_client).
 
 ```java
 WebSocketClient wsClient = vertx.createWebSocketClient();
@@ -125,7 +127,7 @@ We start to introduce the builder pattern for advanced client creation in 4.5.
 The builder pattern facilitates the configuration and creation of Vert.x clients when they
 need to be configured beyond options.
 
-### Creating an HTTP client
+### HTTP client builder
 
 Most of the time you will create an HTTP client using the good old `createHttpClient` method.
 
@@ -157,7 +159,7 @@ with its configuration and handlers.
 The fact is Vert.x 5 will provide more configuration capabilities like a client side 
 load balancer and address resolver.
 
-### Creating an SQL connection pool
+### SQL connection pool builder
 
 Vert.x SQL client pool creation uses per database static pool creation methods, e.g.
 `PgPool#create`.
