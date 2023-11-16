@@ -211,3 +211,63 @@ The client reports a client span with the following details:
 ## Traffic shaping
 
 TCP server (net/HTTP) can be configured with [traffic shaping](https://vertx.io/docs/vertx-core/java/#_throttling_inbound_and_outbound_bandwidth_of_tcp_connections) options to enable bandwidth limiting.
+
+## Vert.x API extensions for coroutines
+
+The Vert.x `EventBus` and `MessageConsumer` objects are extended with support for coroutines inside a `coroutineEventBus` scope function:
+
+```kotlin
+val bus = vertx.eventBus()
+coroutineEventBus {
+  bus.coConsumer<String>("some-address") {
+    computeSomethingWithSuspendingFunction()
+    it.reply("done")
+  }
+}
+```
+The scope function is not necessary if the surrounding type implements `io.vertx.kotlin.coroutines.CoroutineEventBusSupport`.
+For example, with a coroutine verticle:
+
+```kotlin
+class VerticleWithCoroutineEventBusSupport : CoroutineVerticle(), CoroutineEventBusSupport {
+  override suspend fun start() {
+    val bus = vertx.eventBus()
+    bus.coConsumer<String>("some-address") {
+      // call suspending functions and do something
+    }
+  }
+}
+```
+
+Similarly, the Vert.x Web `Router` and `Route` objects are extended with support for coroutines inside a `coroutineRouter` scope function:
+
+```kotlin
+val router = Router.router(vertx)
+coroutineRouter {
+  // Route.coRespond is similar to Route.respond but using a suspending function
+  router.get("/my-resource").coRespond {
+    // similar to Route.respond but using a suspending function
+    val response = computeSomethingWithSuspendingFunction()
+    response // sent by Vert.x to the client
+  }
+  // Router.coErrorHandler is similar to Router.errorHandler but using a suspending function
+  router.coErrorHandler(404) { rc ->
+    val html = computeHtmlPageWithSuspendingFunction()
+    rc.response().setStatusCode(404).putHeader(CONTENT_TYPE, TEXT_HTML).end(html)
+  }
+}
+```
+
+Again, the scope function is not necessary if the surrounding type implements `io.vertx.kotlin.coroutines.CoroutineRouterSupport`.
+For example, with a coroutine verticle:
+
+```kotlin
+class VerticleWithCoroutineRouterSupport : CoroutineVerticle(), CoroutineRouterSupport {
+  override suspend fun start() {
+    val router = Router.router(vertx)
+    router.get("/my-resource").coRespond {
+      // call suspending functions and build response
+    }
+  }
+}
+```
