@@ -1,0 +1,210 @@
+---
+title: "What's new in Vert.x 4.5"
+category: releases
+authors:
+  - name: Julien Viet
+    github_id: vietj
+summary: >-
+  See an overview of all new and exciting features in Vert.x 4.5, including virtual threads support and paving the road to Vert.x 5.
+---
+
+Vert.x 4.5 comes a couple of new exciting features.
+
+Here is an overview of the most important features and changes supported in Vert.x 4.5.
+
+## Virtual threads
+
+Java 21 has finally brought virtual threads to Java and you can use them right now in
+Vert.x to write code that looks like it is synchronous.
+
+You still write the traditional Vert.x code processing events, but you have the opportunity
+to write synchronous code for complex workflows and use thread locals in such workflows.
+
+A virtual thread verticle is capable of awaiting Vert.x futures and gets the result synchronously.
+
+```java
+Verticle verticle = new AbstractVerticle() {
+  @Override
+  public void start() {
+    HttpClient client = vertx.createHttpClient();
+    HttpClientRequest req = Future.await(client.request(
+      HttpMethod.GET,
+      8080,
+      "localhost",
+      "/"));
+    HttpClientResponse resp = Future.await(req.send());
+    int status = resp.statusCode();
+    Buffer body = Future.await(resp.body());
+  }
+};
+
+// Run the verticle a on virtual thread
+vertx.deployVerticle(verticle, new DeploymentOptions().setThreadingModel(ThreadingModel.VIRTUAL_THREAD));
+```
+
+[Vert.x virtual threads](https://vertx.io/docs/vertx-core/java/#virtual_threads) can block on any Vert.x future using `await`:
+
+```java
+// create a test table
+await(pool.query("create table test(id int primary key, name varchar(255))").execute());
+// insert some test data
+await(pool.query("insert into test values (1, 'Hello'), (2, 'World')").execute());
+// query some data
+RowSet<Row> rows = await(pool.query("select * from test").execute());
+for (Row row : rows) {
+  System.out.println("row = " + row.toJson());
+}
+```
+
+## Dynamic SQL connection creation
+
+By default, a connection pool always connects to the same host, in other words the database
+config is _static*.
+
+Sometimes database config needs to be dynamic, e.g. connecting to an array of databases
+or the database config can change.
+
+With [dynamic connection configuration](https://vertx.io/docs/vertx-pg-client/java/#_dynamic_connection_configuration) you can implement this trivially in Vert.x:
+
+```java
+Pool pool = PgBuilder.pool()
+  .with(poolOptions)
+  .connectingTo(() -> {
+    Future<SqlConnectOptions> connectOptions = retrieveOptions();
+    return connectOptions;
+  })
+  .using(vertx)
+  .build();
+```
+
+Each time the pool needs to create a connection, the options supplier is called and the returned
+options is used to create the connection.
+
+## PG bouncer transaction pooling mode
+
+Level 7 proxies can load balance queries on several connections to the actual database. When it happens, the client can
+be confused by the lack of session affinity and unwanted errors can happen like _ERROR: unnamed prepared
+statement does not exist (26000)_.
+
+Vert.x SQL client now [supports](https://vertx.io/docs/vertx-pg-client/java/#_using_a_level_7_proxy) Level 7 proxies
+like [PgBouncer](https://www.pgbouncer.org).
+
+## TCP SSL options update
+
+You can now [update TCP client/server SSL options](https://vertx.io/docs/vertx-core/java/#_updating_ssltls_configuration)
+at runtime which is very useful for certificate rotation.
+
+```java
+Future<Boolean> fut = server.updateSSLOptions(
+  new SSLOptions()
+    .setKeyCertOptions(new JksOptions()
+      .setPath("/path/to/your/server-keystore.jks")
+      .setPassword("password-of-your-keystore")));
+```
+
+New connections will use the updated configuration.
+
+## WebSocket client
+
+We have captured the WebSocket client API from Vert.x HTTP client in a new [WebSocket client](https://vertx.io/docs/vertx-core/java/#_websockets_on_the_client.
+
+```java
+WebSocketClient wsClient = vertx.createWebSocketClient();
+
+Future<WebSocket> f = wsClient.connect(connectOptions);
+```
+
+This purpose of this change is to let the `HttpClient` interface focus on HTTP interactions
+and clean up the interface.
+
+## Client builders
+
+We start to introduce the builder pattern for advanced client creation in 4.5.
+
+The builder pattern facilitates the configuration and creation of Vert.x clients when they
+need to be configured beyond options.
+
+### Creating an HTTP client
+
+Most of the time you will create an HTTP client using the good old `createHttpClient` method.
+
+```java
+HttpClient client = vertx.createHttpClient(options);
+```
+
+Sometimes you want to configure the client with extra behavior like setting a connection
+handler or a redirect handler: the [HTTP client builder](https://vertx.io/docs/vertx-core/java/#_advanced_http_client_creation)
+provides these extra configuration capabilities.
+
+```java
+// Since Vert.x 4.5 the following code
+HttpClient client = vertx.createHttpClient(options)
+        .connectionHandler(connectionHandler)
+        .redirectHandler(redirectHandler);
+
+// Should be replaced by
+HttpClient client = vertx.httpClientBuilder()
+        .withOptions(options)
+        .withConnectionHandler(connectionHandler)
+        .withRedirectHandler(redirectHandler)
+        .build();
+```
+
+This enforces the configuration of handlers at creation time and produces an immutable client
+with its configuration and handlers.
+
+The fact is Vert.x 5 will provide more configuration capabilities like a client side 
+load balancer and address resolver.
+
+### Creating an SQL connection pool
+
+Vert.x SQL client pool creation uses per database static pool creation methods, e.g.
+`PgPool#create`.
+
+There are a couple of good reasons to get away from `PgPool` like interfaces:
+
+- those interfaces extend `Pool` but they never add new methods
+- configuring extra behaviour like `connectHandler` is not well suited
+
+```java
+// Since Vert.x 4.5 the following code
+PgPool client = PgPool.pool(vertx, connectOptions, poolOptions);
+
+// Should be replaced by
+Pool client = Pool.create(vertx, connectOptions, poolOptions);
+        
+// Or by
+Pool client = PgBuilder.pool()
+  .with(poolOptions)
+  .connectingTo(connectOptions)
+  .using(vertx)
+  .build()
+```
+
+The latter is well suited when extra behavior is needed like setting a `connectHandler`.
+
+```java
+Pool client = PgBuilder.pool()
+  .with(poolOptions)
+  .withConnectHandler(connectHandler)
+  .connectingTo(connectOptions)
+  .using(vertx)
+  .build()
+```
+
+## Redis command tracing
+
+The Redis client can [trace command execution](https://vertx.io/docs/vertx-redis-client/java/#_tracing_commands) when Vert.x has tracing enabled.
+
+The client reports a client span with the following details:
+
+- operation name: Command
+- tags:
+    - db.user: the database username, if set
+    - db.instance: the database number, if known (typically 0)
+    - db.statement: the Redis command, without arguments (e.g. get or set)
+    - db.type: redis
+
+## Traffic shaping
+
+TCP server (net/HTTP) can be configured with [traffic shaping](https://vertx.io/docs/vertx-core/java/#_throttling_inbound_and_outbound_bandwidth_of_tcp_connections) options to enable bandwidth limiting.
