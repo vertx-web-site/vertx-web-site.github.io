@@ -9,6 +9,7 @@ const docs = clone(oldDocs)
 
 delete find(docs, "vertx-oracle-client").label
 delete find(docs, "vertx-uri-template").label
+delete find(docs, "vertx-opentelemetry").label
 
 // new entries
 
