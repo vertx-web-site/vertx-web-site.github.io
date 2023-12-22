@@ -8,6 +8,7 @@ const docs = clone(oldDocs)
 // update tech previews
 
 delete find(docs, "vertx-oracle-client").label
+delete find(docs, "vertx-uri-template").label
 
 // new entries
 
