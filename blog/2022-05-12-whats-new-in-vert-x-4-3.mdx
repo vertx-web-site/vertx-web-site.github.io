@@ -136,7 +136,7 @@ GrpcServer grpcServer = GrpcServer.server(vertx);
 GrpcServiceBridge serverStub = GrpcServiceBridge.bridge(service);
 serverStub.bind(grpcServer);
 
-router.consumes("application/grpc").handler(grpcServer);
+router.consumes("application/grpc").handler(rc -> grpcServer.handle(rc.request()));
 ```
 
 ### Extra HTTP compression algorithms
