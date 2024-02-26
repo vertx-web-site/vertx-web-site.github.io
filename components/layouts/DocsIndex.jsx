@@ -16,13 +16,12 @@ const Section = ({ icon, children, id, name }) => {
     numChildren = Math.min(2, children.length)
   }
 
-  let book = undefined
   if (id === "core") {
     let url = "https://www.manning.com/books/vertx-in-action"
-    book = (
+    let book = (
       <div className="docs-index-section-book">
         <a href={url} target="_blank" rel="noopener noreferrer">
-          <img src={require("../../assets/book-cover-medium.jpg")} width="230"
+          <img src={require("../../assets/book-cover-medium.jpg")} width="200"
             alt="Vert.x in Action book cover" />
         </a><br />
         <a href={url} target="_blank" rel="noopener noreferrer">
@@ -30,6 +29,7 @@ const Section = ({ icon, children, id, name }) => {
         </a>
       </div>
     )
+    children = [children.slice(0, 1), book, children.slice(1)]
   }
 
   return (
@@ -42,7 +42,6 @@ const Section = ({ icon, children, id, name }) => {
           {children}
         </div>
       </div>
-      {book}
     </section>
   )
 }
