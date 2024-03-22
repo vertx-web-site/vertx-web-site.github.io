@@ -1,0 +1,35 @@
+---
+title: Improving the Vert.x Micrometer Metrics performance
+category: news
+authors:
+  - name: Thomas Segismont
+    github_id: tsegismont
+summary: >-
+  Vert.x 5 is coming with many great new features and enhancements.
+  In this article, you'll learn about the Vert.x Micrometer Metrics performance improvements.
+---
+
+Vert.x 5 is coming with many great new features and enhancements.
+
+In this article, you'll learn about the Vert.x Micrometer Metrics performance improvements.
+
+## Introduction
+
+A few users reported issues regarding the impact of enabling monitoring with Vert.x Micrometer Metrics.
+In practice, they observed the problem by measuring the throughput of their application.
+With monitoring enabled, the throughput decreased, sometimes to a significant degree.
+
+Such problems can't be analyzed and adressed without:
+
+- a good reproducer, and
+- a proper benchmarking environment.
+
+Fortunately, we have both.
+The Vert.x team has been working for a long time on performance improvenents using the [TechEmpower Web Framework Benchmarks](https://www.techempower.com/benchmarks).
+
+<Alert info>
+Curious about Vert.x and TechEmpower Framework Benchmarks?
+
+Checkout the recording of [Real world HTTP performance benchmarking, lessons learned](https://www.youtube.com/watch?v=gXvcnoZe2FM).
+</Alert>
+
