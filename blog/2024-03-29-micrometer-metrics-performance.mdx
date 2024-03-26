@@ -11,15 +11,15 @@ summary: >-
 
 Vert.x 5 is coming with many great new features and enhancements.
 
-In this article, you'll learn about the Vert.x Micrometer Metrics performance improvements.
+In this article, you'll learn about the [Vert.x Micrometer Metrics](/docs/vertx-micrometer-metrics/java/) performance improvements.
 
 ## Introduction
 
-A few users reported issues regarding the impact of enabling monitoring with Vert.x Micrometer Metrics.
+A few users reported issues regarding the impact of monitoring with Vert.x Micrometer Metrics.
 In practice, they observed the problem by measuring the throughput of their application.
 With monitoring enabled, the throughput decreased, sometimes to a significant degree.
 
-Such problems can't be analyzed and adressed without:
+Such problems can't be analyzed and addressed without:
 
 - a good reproducer, and
 - a proper benchmarking environment.
@@ -33,3 +33,81 @@ Curious about Vert.x and TechEmpower Framework Benchmarks?
 Checkout the recording of [Real world HTTP performance benchmarking, lessons learned](https://www.youtube.com/watch?v=gXvcnoZe2FM).
 </Alert>
 
+## Benchmarks
+
+### Description
+
+For the analysis, we chose two benchmarks:
+
+- [plaintext](https://github.com/TechEmpower/FrameworkBenchmarks/wiki/Project-Information-Framework-Tests-Overview#plaintext)
+- [fortunes](https://github.com/TechEmpower/FrameworkBenchmarks/wiki/Project-Information-Framework-Tests-Overview#fortunes)
+
+The plaintext benchmark consists in replying to an HTTP request with a very small, fixed-size text body.
+
+Sample plaintext request:
+
+```
+GET /plaintext HTTP/1.1
+Host: server
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) Gecko/20130501 Firefox/30.0 AppleWebKit/600.00 Chrome/30.0.0000.0 Trident/10.0 Safari/600.00
+Cookie: uid=12345678901234567890; __utma=1.1234567890.1234567890.1234567890.1234567890.12; wd=2560x1600
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Connection: keep-alive
+```
+
+Sample plaintext response:
+
+```
+HTTP/1.1 200 OK
+Content-Length: 15
+Content-Type: text/plain; charset=UTF-8
+Server: Example
+Date: Wed, 17 Apr 2013 12:00:00 GMT
+
+Hello, World!
+```
+
+It is so simple that it will accentuate the impact of monitoring.
+
+The fortunes benchmark, in contrast, involves a relational database and HTML templating.
+
+Sample fortunes request:
+
+```
+GET /fortunes HTTP/1.1
+Host: server
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) Gecko/20130501 Firefox/30.0 AppleWebKit/600.00 Chrome/30.0.0000.0 Trident/10.0 Safari/600.00
+Cookie: uid=12345678901234567890; __utma=1.1234567890.1234567890.1234567890.1234567890.12; wd=2560x1600
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Connection: keep-alive
+```
+
+Sample fortunes response:
+
+```
+HTTP/1.1 200 OK
+Content-Length: 1196
+Content-Type: text/html; charset=UTF-8
+Server: Example
+Date: Wed, 17 Apr 2013 12:00:00 GMT
+
+<!DOCTYPE html><html><head><title>Fortunes</title></head><body><table><tr><th>id</th><th>message</th></tr><tr><td>11</td><td>&lt;script&gt;alert(&quot;This should not be displayed in a browser alert box.&quot;);&lt;/script&gt;</td></tr><tr><td>4</td><td>A bad random number generator: 1, 1, 1, 1, 1, 4.33e+67, 1, 1, 1</td></tr><tr><td>5</td><td>A computer program does what you tell it to do, not what you want it to do.</td></tr><tr><td>2</td><td>A computer scientist is someone who fixes things that aren&apos;t broken.</td></tr><tr><td>8</td><td>A list is only as strong as its weakest link. — Donald Knuth</td></tr><tr><td>0</td><td>Additional fortune added at request time.</td></tr><tr><td>3</td><td>After enough decimal places, nobody gives a damn.</td></tr><tr><td>7</td><td>Any program that runs right is obsolete.</td></tr><tr><td>10</td><td>Computers make very fast, very accurate mistakes.</td></tr><tr><td>6</td><td>Emacs is a nice operating system, but I prefer UNIX. — Tom Christaensen</td></tr><tr><td>9</td><td>Feature: A bug with seniority.</td></tr><tr><td>1</td><td>fortune: No such file or directory</td></tr><tr><td>12</td><td>??????????????</td></tr></table></body></html>
+```
+
+It's more representative of real-world applications.
+
+### Measurements
+
+We've measured throughput at different concurrency levels.
+The blue/red bars indicate the number of requests per seconds when monitoring is disabled/enabled.
+
+![Throughput in plaintext benchmark](/images/blog/micrometer-metrics-performance/throughput-plaintext-0.png)
+
+In the plaintext benchmark, monitoring has such an impact that the throughput doesn't increase with the concurrency level.
+When monitoring is enabled, the throughput decreased by up to 64%.
+
+![Throughput in fortunes benchmark](/images/blog/micrometer-metrics-performance/throughput-plaintext-0.png)
+
+In the fortunes benchmark, which is more realistic, the throughput decreased by up to 10%.
