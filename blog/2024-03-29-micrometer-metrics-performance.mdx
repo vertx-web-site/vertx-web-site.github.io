@@ -197,3 +197,21 @@ Firstly, since Vert.x tags are defined in the Java enum `io.vertx.micrometer.Lab
 This is more efficient than using the string representation of tags and a `java.util.HashSet`.
 
 Secondly, the server won't have to create redundant `io.micrometer.core.instrument.Tags` instances.
+
+### Minimize copies when creating tag collections
+
+`io.micrometer.core.instrument.Tags` objects are immutable.
+
+TBC
+
+### Results
+
+TODO
+
+## Improvements - step 2
+
+TODO
+
+## Conclusion
+
+TODO
