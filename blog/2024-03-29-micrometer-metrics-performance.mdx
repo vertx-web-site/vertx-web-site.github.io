@@ -15,7 +15,7 @@ In this article, you'll learn about the [Vert.x Micrometer Metrics](/docs/vertx-
 
 ## Introduction
 
-A few users reported issues regarding the impact of monitoring with Vert.x Micrometer Metrics.
+With Vert.x 4, a few users reported issues regarding the impact of monitoring with Vert.x Micrometer Metrics.
 In practice, they observed the problem by measuring the throughput of their application.
 With monitoring enabled, the throughput decreased, sometimes to a significant degree.
 
@@ -25,12 +25,12 @@ Such problems can't be analyzed and addressed without:
 - a proper benchmarking environment.
 
 Fortunately, we have both.
-The Vert.x team has been working for a long time on performance improvenents using the [TechEmpower Web Framework Benchmarks](https://www.techempower.com/benchmarks).
+The Vert.x team has been working for a long time on performance improvements using the [TechEmpower Web Framework Benchmarks](https://www.techempower.com/benchmarks).
 
 <Alert info>
 Curious about Vert.x and TechEmpower Framework Benchmarks?
 
-Checkout the recording of [Real world HTTP performance benchmarking, lessons learned](https://www.youtube.com/watch?v=gXvcnoZe2FM).
+Checkout the recording of [Real world HTTP performance benchmarking, lessons learned](https://www.youtube.com/watch?v=2lzvsyoooTk).
 </Alert>
 
 ## Benchmarks
@@ -103,11 +103,15 @@ It's more representative of real-world applications.
 We've measured throughput at different concurrency levels.
 The blue/red bars indicate the number of requests per seconds when monitoring is disabled/enabled.
 
-![Throughput in plaintext benchmark](/images/blog/micrometer-metrics-performance/throughput-plaintext-0.png)
+#### Plaintext
+
+![Throughput in the plaintext benchmark](/images/blog/micrometer-metrics-performance/throughput-plaintext-0.png)
 
 In the plaintext benchmark, monitoring has such an impact that the throughput doesn't increase with the concurrency level.
 When monitoring is enabled, the throughput decreased by up to 64%.
 
-![Throughput in fortunes benchmark](/images/blog/micrometer-metrics-performance/throughput-plaintext-0.png)
+#### Fortunes
+
+![Throughput in the fortunes benchmark](/images/blog/micrometer-metrics-performance/throughput-fortunes-0.png)
 
 In the fortunes benchmark, which is more realistic, the throughput decreased by up to 10%.
