@@ -1,0 +1,217 @@
+---
+title: Improving the Vert.x Micrometer Metrics performance
+category: news
+authors:
+  - name: Thomas Segismont
+    github_id: tsegismont
+summary: >-
+  Vert.x 5 is coming with many great new features and enhancements.
+  In this article, you'll learn about the Vert.x Micrometer Metrics performance improvements.
+---
+
+Vert.x 5 is coming with many great new features and enhancements.
+
+In this article, you'll learn about the [Vert.x Micrometer Metrics](/docs/vertx-micrometer-metrics/java/) performance improvements.
+
+## Introduction
+
+With Vert.x 4, a few users reported issues regarding the impact of monitoring with Vert.x Micrometer Metrics.
+In practice, they observed the problem by measuring the throughput of their application.
+With monitoring enabled, the throughput decreased, sometimes to a significant degree.
+
+Such problems can't be analyzed and addressed without:
+
+- a good reproducer, and
+- a proper benchmarking environment.
+
+Fortunately, we have both.
+The Vert.x team has been working for a long time on performance improvements using the [TechEmpower Web Framework Benchmarks](https://www.techempower.com/benchmarks).
+
+<Alert info>
+Curious about Vert.x and TechEmpower Framework Benchmarks?
+
+Checkout the recording of [Real world HTTP performance benchmarking, lessons learned](https://www.youtube.com/watch?v=2lzvsyoooTk).
+</Alert>
+
+## Benchmarks
+
+### Description
+
+For the analysis, we chose two benchmarks:
+
+- [plaintext](https://github.com/TechEmpower/FrameworkBenchmarks/wiki/Project-Information-Framework-Tests-Overview#plaintext)
+- [fortunes](https://github.com/TechEmpower/FrameworkBenchmarks/wiki/Project-Information-Framework-Tests-Overview#fortunes)
+
+The plaintext benchmark consists in replying to an HTTP request with a very small, fixed-size text body.
+
+Sample plaintext request:
+
+```
+GET /plaintext HTTP/1.1
+Host: server
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) Gecko/20130501 Firefox/30.0 AppleWebKit/600.00 Chrome/30.0.0000.0 Trident/10.0 Safari/600.00
+Cookie: uid=12345678901234567890; __utma=1.1234567890.1234567890.1234567890.1234567890.12; wd=2560x1600
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Connection: keep-alive
+```
+
+Sample plaintext response:
+
+```
+HTTP/1.1 200 OK
+Content-Length: 15
+Content-Type: text/plain; charset=UTF-8
+Server: Example
+Date: Wed, 17 Apr 2013 12:00:00 GMT
+
+Hello, World!
+```
+
+It is so simple that it will accentuate the impact of monitoring.
+
+The fortunes benchmark, in contrast, involves a relational database and HTML templating.
+
+Sample fortunes request:
+
+```
+GET /fortunes HTTP/1.1
+Host: server
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) Gecko/20130501 Firefox/30.0 AppleWebKit/600.00 Chrome/30.0.0000.0 Trident/10.0 Safari/600.00
+Cookie: uid=12345678901234567890; __utma=1.1234567890.1234567890.1234567890.1234567890.12; wd=2560x1600
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Connection: keep-alive
+```
+
+Sample fortunes response:
+
+```
+HTTP/1.1 200 OK
+Content-Length: 1196
+Content-Type: text/html; charset=UTF-8
+Server: Example
+Date: Wed, 17 Apr 2013 12:00:00 GMT
+
+<!DOCTYPE html><html><head><title>Fortunes</title></head><body><table><tr><th>id</th><th>message</th></tr><tr><td>11</td><td>&lt;script&gt;alert(&quot;This should not be displayed in a browser alert box.&quot;);&lt;/script&gt;</td></tr><tr><td>4</td><td>A bad random number generator: 1, 1, 1, 1, 1, 4.33e+67, 1, 1, 1</td></tr><tr><td>5</td><td>A computer program does what you tell it to do, not what you want it to do.</td></tr><tr><td>2</td><td>A computer scientist is someone who fixes things that aren&apos;t broken.</td></tr><tr><td>8</td><td>A list is only as strong as its weakest link. — Donald Knuth</td></tr><tr><td>0</td><td>Additional fortune added at request time.</td></tr><tr><td>3</td><td>After enough decimal places, nobody gives a damn.</td></tr><tr><td>7</td><td>Any program that runs right is obsolete.</td></tr><tr><td>10</td><td>Computers make very fast, very accurate mistakes.</td></tr><tr><td>6</td><td>Emacs is a nice operating system, but I prefer UNIX. — Tom Christaensen</td></tr><tr><td>9</td><td>Feature: A bug with seniority.</td></tr><tr><td>1</td><td>fortune: No such file or directory</td></tr><tr><td>12</td><td>??????????????</td></tr></table></body></html>
+```
+
+It's more representative of real-world applications.
+
+### Measurements
+
+We've measured throughput at different concurrency levels.
+The blue/red bars indicate the number of requests per seconds when monitoring is disabled/enabled.
+
+#### Plaintext
+
+![Throughput in the plaintext benchmark](/images/blog/micrometer-metrics-performance/throughput-plaintext-0.png)
+
+In the plaintext benchmark, monitoring has such an impact that the throughput doesn't increase with the concurrency level.
+When monitoring is enabled, the throughput decreased by up to 64%.
+
+#### Fortunes
+
+![Throughput in the fortunes benchmark](/images/blog/micrometer-metrics-performance/throughput-fortunes-0.png)
+
+In the fortunes benchmark, which is more realistic, the throughput decreased by up to 10%.
+
+### Analysis
+
+After measuring throughput, we've profiled the server with [`async-profiler`](https://github.com/async-profiler/async-profiler) in CPU mode.
+
+In the [flamegraph](https://github.com/brendangregg/FlameGraph) generated for the plaintext benchmark, methods related to monitoring with Micrometer, highlighted in fuchsia, are dominant:
+
+![Flamegraph of the plaintext benchmark](/images/blog/micrometer-metrics-performance/report-plaintext-0.png)
+
+This looks consistent with the measurements described previously: if a lot of server work is dedicated to monitoring, the throughput can only decrease.
+But what's the problem exactly?
+
+Let's focus on one method: `io/vertx/core/http/impl/Http1xServerConnection.reportResponseComplete`.
+This method is invoked by Vert.x when the user has finished sending an HTTP response to the client.
+
+![Flamegraph of the plaintext benchmark, focusing on reportResponseComplete](/images/blog/micrometer-metrics-performance/report-plaintext-0-response-complete.png)
+
+A great portion of the graph is occupied by calls to the following methods:
+
+- `io.vertx.micrometer.impl.meters.Counters#get(java.lang.Iterable<io.micrometer.core.instrument.Tag>, java.lang.String...)`
+- `io.vertx.micrometer.impl.meters.Summaries#get(java.lang.Iterable<io.micrometer.core.instrument.Tag>, java.lang.String...)`
+- `io.vertx.micrometer.impl.meters.Timers#get(java.lang.Iterable<io.micrometer.core.instrument.Tag>, java.lang.String...)`
+
+In Vert.x 4, these methods are used to _dynamically_ retrieve a Micrometer `Counter`, `DistributionSummary` or `Timer`.
+By _dynamically_, we mean Vert.x Micrometer Metrics looks up an entry in Micrometer's `MeterRegistry` before reporting the measurement.
+
+And it does so for each and every monitored event, not just the end of an HTTP response: bytes sent over a socket, event bus message received, connection closed, the list goes on.
+
+What about the costs of each lookup?
+Let's consider the case of counters.
+
+![Flamegraph of the plaintext benchmark, focusing on registerMeterIfNecessary](/images/blog/micrometer-metrics-performance/report-plaintext-0-lookup.png)
+
+In this case, the graph is dominated by `io/micrometer/core/instrument/MeterRegistry#getMappedId`.
+This method is invoked by the Micrometer registry to compute the effective identifier of a meter, applying all the registered `MeterFilter`s.
+
+In Vert.x 4, only one filter is registered by default.
+It removes a set of ignored tags (defined in metrics options):
+
+```java
+  private static MeterFilter ignoreTags(Set<String> ignored) {
+    return new MeterFilter() {
+      @Override
+      public Meter.Id map(Meter.Id id) {
+        List<Tag> tags = new ArrayList<>();
+        int count = 0;
+        for (Tag tag : id.getTagsAsIterable()) {
+          if (!ignored.contains(tag.getKey())) {
+            tags.add(tag);
+          }
+          count++;
+        }
+        return tags.size() == count ? id : id.replaceTags(tags);
+      }
+    };
+  }
+```
+
+As you can see, the filter iterates the original set of tags and looks up for the tag key in the ignored set.
+
+## Improvements - step 1
+
+We've made several improvements in Vert.x 5 to reduce the cost of monitoring with Vert.x Micrometer Metrics.
+
+### Avoid meters lookup (where possible)
+
+Where possible, we should avoid looking up for meters dynamically.
+
+There are metrics which tags are known from application startup.
+For example, in [pool metrics](https://vertx.io/docs/vertx-micrometer-metrics/java/#_vert_x_pool_metrics), the pool type and pool name are defined when the pool is created.
+Consequently, the meters can be looked up once and reused later.
+
+### Filter-out tags upfront instead of using a filter
+
+Instead of removing ignored tags with a filter, we should avoid adding them to the meter definition.
+
+Doing so provides a couple of benefits.
+
+Firstly, since Vert.x tags are defined in the Java enum `io.vertx.micrometer.Label`, we can verify if a specific tag is ignored by checking its presence in a `java.util.EnumSet`.
+This is more efficient than using the string representation of tags and a `java.util.HashSet`.
+
+Secondly, the server won't have to create redundant `io.micrometer.core.instrument.Tags` instances.
+
+### Minimize copies when creating tag collections
+
+`io.micrometer.core.instrument.Tags` objects are immutable.
+
+TBC
+
+### Results
+
+TODO
+
+## Improvements - step 2
+
+TODO
+
+## Conclusion
+
+TODO
