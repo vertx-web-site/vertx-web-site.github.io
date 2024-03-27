@@ -115,3 +115,62 @@ When monitoring is enabled, the throughput decreased by up to 64%.
 ![Throughput in the fortunes benchmark](/images/blog/micrometer-metrics-performance/throughput-fortunes-0.png)
 
 In the fortunes benchmark, which is more realistic, the throughput decreased by up to 10%.
+
+### Analysis
+
+After measuring throughput, we've profiled the server with [`async-profiler`](https://github.com/async-profiler/async-profiler) in CPU mode.
+
+In the [flamegraph](https://github.com/brendangregg/FlameGraph) generated for the plaintext benchmark, methods related to monitoring with Micrometer, highlighted in fuchsia, are dominant:
+
+![Flamegraph of the plaintext benchmark](/images/blog/micrometer-metrics-performance/report-plaintext-0.png)
+
+This looks consistent with the measurements described previously: if a lot of server work is dedicated to monitoring, the throughput can only decrease.
+But what's the problem exactly?
+
+Let's focus on one method: `io/vertx/core/http/impl/Http1xServerConnection.reportResponseComplete`.
+This method is invoked by Vert.x when the user has finished sending an HTTP response to the client.
+
+![Flamegraph of the plaintext benchmark, focusing on reportResponseComplete](/images/blog/micrometer-metrics-performance/report-plaintext-0-response-complete.png)
+
+A great portion of the graph is occupied by calls to the following methods:
+
+- `io.vertx.micrometer.impl.meters.Counters#get(java.lang.Iterable<io.micrometer.core.instrument.Tag>, java.lang.String...)`
+- `io.vertx.micrometer.impl.meters.Summaries#get(java.lang.Iterable<io.micrometer.core.instrument.Tag>, java.lang.String...)`
+- `io.vertx.micrometer.impl.meters.Timers#get(java.lang.Iterable<io.micrometer.core.instrument.Tag>, java.lang.String...)`
+
+In Vert.x 4, these methods are used to _dynamically_ retrieve a Micrometer `Counter`, `DistributionSummary` or `Timer`.
+By _dynamically_, we mean Vert.x Micrometer Metrics looks up an entry in Micrometer's `MeterRegistry` before reporting the measurement.
+
+And it does so for each and every monitored event, not just the end of an HTTP response: bytes sent over a socket, event bus message received, connection closed, the list goes on.
+
+What about the costs of each lookup?
+Let's consider the case of counters.
+
+![Flamegraph of the plaintext benchmark, focusing on registerMeterIfNecessary](/images/blog/micrometer-metrics-performance/report-plaintext-0-lookup.png)
+
+In this case, the graph is dominated by `io/micrometer/core/instrument/MeterRegistry#getMappedId`.
+This method is invoked by the Micrometer registry to compute the effective identifier of a meter, applying all the registered `MeterFilter`s.
+
+In Vert.x 4, only one filter is registered by default.
+It removes a set of ignored tags (defined in metrics options):
+
+```java
+  private static MeterFilter ignoreTags(Set<String> ignored) {
+    return new MeterFilter() {
+      @Override
+      public Meter.Id map(Meter.Id id) {
+        List<Tag> tags = new ArrayList<>();
+        int count = 0;
+        for (Tag tag : id.getTagsAsIterable()) {
+          if (!ignored.contains(tag.getKey())) {
+            tags.add(tag);
+          }
+          count++;
+        }
+        return tags.size() == count ? id : id.replaceTags(tags);
+      }
+    };
+  }
+```
+
+As you can see, the filter iterates the original set of tags and looks up for the tag key in the ignored set.
