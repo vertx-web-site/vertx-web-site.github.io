@@ -174,3 +174,26 @@ It removes a set of ignored tags (defined in metrics options):
 ```
 
 As you can see, the filter iterates the original set of tags and looks up for the tag key in the ignored set.
+
+## Improvements - step 1
+
+We've made several improvements in Vert.x 5 to reduce the cost of monitoring with Vert.x Micrometer Metrics.
+
+### Avoid meters lookup (where possible)
+
+Where possible, we should avoid looking up for meters dynamically.
+
+There are metrics which tags are known from application startup.
+For example, in [pool metrics](https://vertx.io/docs/vertx-micrometer-metrics/java/#_vert_x_pool_metrics), the pool type and pool name are defined when the pool is created.
+Consequently, the meters can be looked up once and reused later.
+
+### Filter-out tags upfront instead of using a filter
+
+Instead of removing ignored tags with a filter, we should avoid adding them to the meter definition.
+
+Doing so provides a couple of benefits.
+
+Firstly, since Vert.x tags are defined in the Java enum `io.vertx.micrometer.Label`, we can verify if a specific tag is ignored by checking its presence in a `java.util.EnumSet`.
+This is more efficient than using the string representation of tags and a `java.util.HashSet`.
+
+Secondly, the server won't have to create redundant `io.micrometer.core.instrument.Tags` instances.
