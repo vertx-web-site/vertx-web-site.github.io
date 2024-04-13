@@ -34,13 +34,13 @@ If you don't want to install Node.js, use Docker instead:
 ```
 # Initialize local copy
 rm -rf node_modules docs/node_modules
-docker run -it -v $(pwd):/vertx node:16-slim sh -c "cd /vertx && npm i"
+docker run -it -v $(pwd):/vertx node:20-slim sh -c "cd /vertx && npm i"
 
 # Download, extract, and compile docs
-docker run -it -v $(pwd):/vertx node:16-slim sh -c "cd /vertx && npm run update-docs"
+docker run -it -v $(pwd):/vertx node:20-slim sh -c "cd /vertx && npm run update-docs"
 
 # Start website in development mode
-docker run -it -v $(pwd):/vertx -p 3000:3000 node:16-slim \
+docker run -it -v $(pwd):/vertx -p 3000:3000 node:20-slim \
   sh -c "cd /vertx && npm run dev"
 ```
 

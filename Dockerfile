@@ -1,4 +1,4 @@
-FROM node:16-slim AS build
+FROM node:20-slim AS build
 
 RUN mkdir -p /vertx/docs
 COPY package.json package-lock.json /vertx/
