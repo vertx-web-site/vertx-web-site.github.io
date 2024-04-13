@@ -50,6 +50,11 @@ Alternatively, build a Docker image that runs the static website inside NGINX
     docker build -t vertx-web-site .
     docker run -it -p 80:80 vertx-web-site
 
+Note: if you're on a Mac with Apple Silicon and configured Docker to use arm64,
+you might have to add the `--platform` parameter during build:
+
+    docker build -t vertx-web-site . --platform=linux/amd64
+
 ## Automatic generation of the list of contributors
 
 The community page contains a list of people who have contributed to any of the
