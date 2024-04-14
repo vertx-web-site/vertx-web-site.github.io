@@ -7,6 +7,7 @@ This repository contains the source of the Vert.x website (https://vertx.io).
 Initialize local copy:
 
     npm i
+    npx playwright install --with-deps chromium
 
 Download, extract and compile AsciiDoc source files of the Vert.x documentation:
 

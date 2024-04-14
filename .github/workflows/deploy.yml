@@ -79,6 +79,10 @@ jobs:
       - run: npm ci -f
         working-directory: vertx5
 
+      # Necessary to generate OpenGraph images
+      - name: Install Chromium for Playwright
+        run: npx playwright install --with-deps chromium
+
       # Download, extract, and compile docs
       - run: npm run update-docs
       - run: |
