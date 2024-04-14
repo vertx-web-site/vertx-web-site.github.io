@@ -1,7 +1,7 @@
 import Head from "next/head"
 import NavBar from "./NavBar"
 
-const Header = ({ title, ogUrl, ogImage }) => {
+const Header = ({ title, ogUrl, ogImage, ogDescription }) => {
   let fullTitle = (title ? title + " | " : "") + "Eclipse Vert.x"
   return (
     <header>
@@ -17,8 +17,11 @@ const Header = ({ title, ogUrl, ogImage }) => {
         <link rel="alternate" type="application/rss+xml" href="/feed/rss.xml" />
         <link rel="alternate" type="application/atom+xml" href="/feed/atom.xml" />
         <link rel="alternate" type="application/json" href="/feed/feed.json" />
-        <meta property="og:title" content={fullTitle}/>
         <meta property="og:type" content="website"/>
+        <meta property="og:title" content={fullTitle}/>
+        {ogDescription !== undefined ? (
+          <meta property="og:description" content={ogDescription} />
+        ): undefined}
         {ogUrl !== undefined ? (
           <meta property="og:url" content={ogUrl} />
         ) : undefined}

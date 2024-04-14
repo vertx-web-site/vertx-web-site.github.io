@@ -429,7 +429,8 @@ const BlogPage = ({ post, prevPost, nextPost, relatedPosts, category, categories
   let ogImage = `${process.env.baseUrl}/images/previews/${post.slug}.jpg`
 
   return (
-    <BlogPost title={`${post.meta.title} | Blog`} categories={categories} ogUrl={url} ogImage={ogImage}>
+    <BlogPost title={`${post.meta.title} | Blog`} categories={categories} ogUrl={url}
+        ogImage={ogImage} ogDescription={post.meta.summary}>
       <div className="blog-post-main">
         <div className="blog-post-content">
           <h1>{post.meta.title}</h1>

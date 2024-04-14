@@ -7,7 +7,7 @@ import Header from "../Header"
 import Footer from "../Footer"
 import styles from "./Page.scss"
 
-const Layout = ({ title, ogUrl, ogImage, narrow, hashSmoothScroll = false, children }) => {
+const Layout = ({ title, ogUrl, ogImage, ogDescription, narrow, hashSmoothScroll = false, children }) => {
   const navBarState = useContext(NavBarContext.State)
   const containerRef = useRef()
 
@@ -64,7 +64,7 @@ const Layout = ({ title, ogUrl, ogImage, narrow, hashSmoothScroll = false, child
 
   return (
     <main className="page">
-      <Header title={title} ogUrl={ogUrl} ogImage={ogImage}/>
+      <Header title={title} ogUrl={ogUrl} ogImage={ogImage} ogDescription={ogDescription} />
       <div className="page-content">
         <div className={classNames("container", { "container-narrow": narrow })}
             ref={containerRef}>
