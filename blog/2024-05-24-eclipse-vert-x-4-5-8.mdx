@@ -1,0 +1,90 @@
+---
+title: Eclipse Vert.x 4.5.8 released!
+category: releases
+authors:
+  - name: Julien Viet
+    github_id: vietj
+summary: >-
+  Eclipse Vert.x version 4.5.8 has just been released.
+---
+
+We are extremely pleased to announce that Eclipse Vert.x version 4.5.8 has been released.
+
+Since the release of Vert.x 4.5.7, quite a few bugs have been reported. We would like to thank you all for reporting these issues.
+
+In addition, a couple of important items are noteworthy
+
+## Future expectation + HTTP response expectations
+
+You can use a new feature for HTTP/Web client that facilitate HTTP interactions, this new feature supersedes the Web
+client response predicates API with a new expectation based API that provides the same features for both HTTP and Web clients.
+
+```java
+client
+  .get(8080, "myserver.mycompany.com", "/some-uri")
+  .send()
+  .expecting(HttpResponseExpectation.SC_OK.and(HttpResponseExpectation.JSON))
+  .onSuccess(res -> {
+    // ....
+  });
+```
+
+This feature is actually built on top of a the new `Future#expecting` operator that synchronously check the response of a predicate like
+operator called `Expectation`
+
+```java
+Future.succeededFuture("hello")
+   .expecting(res -> true)
+   .onSuccess(s -> System.out.printl("Expectation met"));
+
+Future.succeededFuture("hello")
+   .expecting(res -> false)
+   .onFailure(s -> System.out.printl("Expectation not met"));
+```
+
+Expectation are pretty much like a predicate, yet they provide a meaningful error message the expectation is not met.
+
+It has multiple usage like the new `HttpResponseExpectation` that provides reusable expectations for both HTTP and Web client, it 
+can also facilitate testing, e.g. we have defined this expectation in vertx-core tests
+
+```java
+public static <T> Expectation<T> that(Consumer<? super T> consumer) {
+  return value -> {
+    consumer.accept(value);
+    return true;
+  };
+}
+
+@Test
+public void someTest() {
+  Future<Result> fut = getSomeFuture()
+     .expecting(that(res -> assertNotNull(res)));
+}
+```
+
+## Default Hazelcast version
+
+The Hazelcast dependency is changed to 5.3 since Hazelcast 4 is not anymore supported and 4.2.8 has known vulnerabilities
+(CVE-2023-45860, CVE-2023-45859, CVE-2023-33265, CVE-2023-33264).
+
+This cluster manager remains tested with Hazelcast 4.2.8 and 5.3, so 4.2.8 remains supported, the Hazelcast version must
+be explicitly set to 4.2.8 if needed until an upgrade can be achieved.
+
+The [4.5.8 release notes](https://github.com/vert-x3/wiki/wiki/4.5.8-Release-Notes) as well as
+[deprecations and breaking changes](https://github.com/vert-x3/wiki/wiki/4.5.8-Deprecations-and-breaking-changes)
+can be found on the wiki.
+
+You can bootstrap a Vert.x 4 project using [start.vertx.io](https://start.vertx.io).
+
+The release artifacts have been deployed to [Maven Central](https://search.maven.org/search?q=g:io.vertx%20AND%20v:4.5.8) and
+you can get the distribution on [Maven Central](https://repo1.maven.org/maven2/io/vertx/vertx-stack-manager/4.5.8/).
+
+The [Vert.x 4 eventbus JavaScript client library](https://www.npmjs.com/package/@vertx/eventbus-bridge-client.js) is now available
+in a single location and it now usable standalone or it can easily be integrated with any frontend build tool.
+
+The Vert.x distribution is available from [SDKMan](https://sdkman.io) and our
+[HomeBrew TAP](https://github.com/vertx-distrib/homebrew-tap).
+
+Docker images are available on [Docker Hub](https://hub.docker.com/u/vertx/).
+
+That's it! Happy coding and see you soon on our user or dev [channels](https://vertx.io/channels).
