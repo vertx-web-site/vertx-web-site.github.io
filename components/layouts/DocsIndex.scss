@@ -227,7 +227,8 @@
     margin-right: auto;
 
     @media (min-width: $lg) {
-      margin: 0 0 -2rem 2rem;
+      text-align: right;
+      margin: 0 0 -2rem 0;
     }
 
     img {
