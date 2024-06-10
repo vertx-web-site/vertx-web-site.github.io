@@ -61,6 +61,10 @@ const LOGOS = [{
   src: "redhat.svg",
   url: "https://www.redhat.com/"
 }, {
+  name: "Restate",
+  src: "restate.svg",
+  url: "https://restate.dev/"
+}, {
   name: "SAP",
   src: "sap.svg",
   url: "https://www.sap.com/"
