@@ -1,8 +1,12 @@
 import { mdxOptions } from "./components/lib/mdx-options.js"
+import generateRemarkOgImages from "./components/lib/generate-ogimages.js"
 import ESLintPlugin from "eslint-webpack-plugin"
 import styledJsx from "styled-jsx/webpack.js"
 import svgToMiniDataURI from "mini-svg-data-uri"
 import withBundleAnalyzer from "@next/bundle-analyzer"
+
+// generate open graph images once per build and before the build starts
+await generateRemarkOgImages()
 
 const isProd = process.env.NODE_ENV === "production"
 

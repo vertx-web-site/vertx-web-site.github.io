@@ -1,0 +1,136 @@
+---
+title: Eclipse Vert.x client for Apache Pinot
+category: news
+authors:
+  - name: Lucifer Morningstar
+    github_id: lucifer4j
+summary: >-
+    Apache Pinot is a realtime distributed datastore for analytics workloads. To make
+    it easier for Eclipse Vert.x users to use Apache Pinot in their applications, we introduce
+    the Reactiverse Vert.x Client for Pinot.
+---
+
+<Alert warning>
+
+The blog post is informational and a teaser of upcoming changes to `pinot-client` which is under active
+    development and thus, the finally released versions may differ. Currently, the client is not available
+    for download on Maven Central.
+</Alert>
+
+## Introduction
+
+Eclipse Vert.x is a toolkit to build reactive applications on the Java virtual machine. It provides asynchronous and
+non-blocking clients for different types of databases. Apache Pinot is a realtime distributed datastore for analytics
+workloads. The [Apache Pinot Java Client](https://docs.pinot.apache.org/users/clients/java) uses
+[AsyncHttpClient](https://github.com/AsyncHttpClient/async-http-client) as the default transport. The `Apache Pinot Java Client`
+is unpractical to use in Eclipse Vert.x applications because every blocking call needs to be wrapped with `executeBlocking`.
+
+The [`pinot-client`](https://github.com/reactiverse/pinot-client) Reactiverse project is a lightweight wrapper around the existing Pinot Java client. It also provides an alternative transport using `vertx-web-client`.
+This will make the Apache Pinot more accessible to Vert.x users.
+
+## Advantages
+
+1. `vertx-pinot-client` offers an async and non-blocking API, that is line with the general Vert.x ecosystem's philosophy.
+2. For little effort we get `RxJava` and `Mutiny` bindings for the client as well, thanks to Vert.x codegen.
+3. The `vertx-pinot-client` should offer better performance as it uses the Vert.x Web Client for the underlying transport.
+   This allows the application to stay on the same event loop when interacting with Pinot.
+
+## Usage
+
+Add the `pinot-client` dependency to your project.
+
+```xml
+<dependency>
+    <groupId>io.reactiverse</groupId>
+    <artifactId>pinot-client</artifactId>
+    <version>1.0-SNAPSHOT</version>
+</dependency>
+```
+
+You can create an instance of the client to interact with the Pinot cluster as follows.
+
+```java
+String brokerUrl = "localhost:8000";
+VertxPinotClientTransport transport = new VertxPinotClientTransport(vertx);
+VertxConnection connection = VertxConnectionFactory.fromHostList(vertx, List.of(brokerUrl), transport);
+```
+
+Now we can use the `Connection` to query the cluster. Here is an example to query the top 10 home run scorers from
+the sample quickstart dataset.
+
+```java
+String query = "select playerName, sum(homeRuns) AS totalHomeRuns from baseballStats where homeRuns > 0 group by playerID, playerName ORDER BY totalHomeRuns DESC limit 10";
+connection
+    .execute(query)
+    .onSuccess(resultSetGroup -> {
+        ResultSet results = resultSetGroup.getResultSet(0);
+        System.out.println("Player Name\tTotal Home Runs");
+        for (int i = 0; i < results.getRowCount(); i++) {
+            System.out.println(results.getString(i, 0) + "\t" + results.getString(i, 1));
+        }
+    })
+    .onFailure(Throwable::printStackTrace);
+```
+
+## Demo
+
+A more real-life demo is available at [`pizza-shop-demo`](https://github.com/lucifer4j/pizza-shop-demo). It includes a
+pizza delivery service specializing in pizzas with Indian toppings. They have a dashboard built using Apache Pinot
+to monitors their orders in realtime. The dashboard deals with three types of data: products, users, and orders. The
+dashboard uses the Vert.x Pinot Client to [`query`](https://github.com/lucifer4j/pizza-shop-demo/blob/main/dashboard/backend/src/main/java/pizzashop/DashboardVerticle.java)
+the Pinot cluster.
+
+![Order Dashboard Statistics](/images/blog/soc-vertx-pinot-client/demo-dashboard-1.png)
+![Order Dashboard Latest and Popular Items](/images/blog/soc-vertx-pinot-client/demo-dashboard-2.png)
+
+## Challenges
+
+I worked on this project as a part of the [Google Summer of Code](summerofcode.withgoogle.com/) - 2023 program and
+during the implementation, I encountered several challenges.
+
+#### Package-private `org.apache.pinot.client.BrokerResponse` class
+
+The [`org.apache.pinot.client.BrokerResponse`](https://github.com/apache/pinot/blob/6e235a4ec2a16006337da04e118a435b5bb8f6d8/pinot-clients/pinot-java-client/src/main/java/org/apache/pinot/client/BrokerResponse.java#L27)
+class is package-private. However several [`executeQuery/executeQueryAsync`](https://github.com/apache/pinot/blob/6e235a4ec2a16006337da04e118a435b5bb8f6d8/pinot-clients/pinot-java-client/src/main/java/org/apache/pinot/client/PinotClientTransport.java#L29)
+methods in the `PinotClientTransport` return this type. This makes it difficult to implement the interface in an external package.
+
+To work around this issue, we created a `org.apache.pinot.client` package inside our wrapper project. The [`VertxPinotClientTransport`](https://github.com/lucifer4j/pinot-client/blob/70dc4152cc77fd6ae521f94fb8c59bf4c7f9d12a/pinot-client/src/main/java/org/apache/pinot/client/VertxPinotClientTransport.java#L37)
+implementation currently lives inside this package for the same reason. This workaround only works for projects running in `classpath`
+mode but not for projects using `modulepath` because Java Modules disallow package splitting. To fix the issue as source,
+I opened a [`PR`](https://github.com/apache/pinot/pull/10932) in `apache/pinot` repository. The PR is now merged. Once a new
+release of Pinot is available, I will be updating the client wrapper as well.
+
+#### `java.concurrent.util.Future` return type
+
+Some methods of the `PinotClientTransport` [interface](https://github.com/apache/pinot/blob/6e235a4ec2a16006337da04e118a435b5bb8f6d8/pinot-clients/pinot-java-client/src/main/java/org/apache/pinot/client/PinotClientTransport.java#L32)
+return a `java.concurrent.util.Future` future. However, `Future.get` is a blocking call which is undesirable. To work around the
+issue, we wrap every request and query call in an [`executeBlocking` block](https://github.com/reactiverse/pinot-client/blob/main/pinot-client/src/main/java/io/reactiverse/pinot/client/impl/Utils.java#L24-L34).
+To avoid blocking calls altogether, we discussed replacing `Future` with `CompletabeFutre`. The same change has already been [merged](https://github.com/apache/pinot/pull/10326)
+now and will be available in the next release. Once that is available, we can update the wrapper client to adapt `CompletableFuture`s
+to `Vert.x Futures` without much hassle and without having to offload some of the tasks to the Vert.x worker pool.
+
+#### Missing `ConnectionFactory` method
+
+The [`ConnectionFactory`](https://github.com/apache/pinot/blob/6e235a4ec2a16006337da04e118a435b5bb8f6d8/pinot-clients/pinot-java-client/src/main/java/org/apache/pinot/client/ConnectionFactory.java#L30)
+class is used to create `Connection` instances to interact with the Pinot Cluster. There are multiple ways to interact with
+the cluster, using zookeeper, controller or a hard-coded broker list. Most of the methods feature an overload to accept
+a custom `PinotClientTransport` implementation but the same was notable missing for the controller variant. Further, the
+constructors of the `Connection` class are package-private preventing us from directly adding the missing method in our
+wrapper.
+
+Again to fix this issue, I created a [`bridge class`](https://github.com/lucifer4j/pinot-client/blob/70dc4152cc77fd6ae521f94fb8c59bf4c7f9d12a/pinot-client/src/main/java/org/apache/pinot/client/ConnectionFactoryBridge.java#L28)
+in the `org.apache.pinot.client` package. Simultaneously, I opened a [`PR`](https://github.com/apache/pinot/pull/11013) in
+`apache/pinot` repository. The PR is also now merged and the Vert.x client will be updated once a new release is available.
+
+## Bonus Fixes
+
+#### Missing double-checked locking in `ConnectionFactory`
+
+While working on the tasks outlined earlier, I (more accurately my IDE's static checking) discovered the double-checked
+locking mechanism in `ConnectionFactory` class in `pinot-client` was broken. I opened a [`PR`](https://github.com/apache/pinot/pull/11014) to fix it.
+
+#### Broken Docker health checks in `pizza-shop-demo`
+
+The Docker Health Checks in the original `pizza-shop-demo` were broken. The health checks had been written using `nc` utility
+but the same is not included in the `apache/pinot` docker image. It took me a lot of head scratching to discover that but
+the same is now fixed. The PR for fixing it upstream is available [`here`](https://github.com/startreedata/pizza-shop-demo/pull/9).

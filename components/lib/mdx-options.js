@@ -3,7 +3,7 @@ import betterShell from "./rehype-highlight-better-shell.js"
 import highlight from "rehype-highlight"
 import hyphenate from "./remark-hyphenate.js"
 import remarkGfm from "remark-gfm"
-import smartypants from "@silvenon/remark-smartypants"
+import smartypants from "remark-smartypants"
 import slug from "rehype-slug"
 
 import bash from "highlight.js/lib/languages/bash"

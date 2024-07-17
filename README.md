@@ -7,6 +7,7 @@ This repository contains the source of the Vert.x website (https://vertx.io).
 Initialize local copy:
 
     npm i
+    npx playwright install --with-deps chromium
 
 Download, extract and compile AsciiDoc source files of the Vert.x documentation:
 
@@ -34,13 +35,13 @@ If you don't want to install Node.js, use Docker instead:
 ```
 # Initialize local copy
 rm -rf node_modules docs/node_modules
-docker run -it -v $(pwd):/vertx node:16-slim sh -c "cd /vertx && npm i"
+docker run -it -v $(pwd):/vertx node:20-slim sh -c "cd /vertx && npm i"
 
 # Download, extract, and compile docs
-docker run -it -v $(pwd):/vertx node:16-slim sh -c "cd /vertx && npm run update-docs"
+docker run -it -v $(pwd):/vertx node:20-slim sh -c "cd /vertx && npm run update-docs"
 
 # Start website in development mode
-docker run -it -v $(pwd):/vertx -p 3000:3000 node:16-slim \
+docker run -it -v $(pwd):/vertx -p 3000:3000 node:20-slim \
   sh -c "cd /vertx && npm run dev"
 ```
 
@@ -49,6 +50,11 @@ Alternatively, build a Docker image that runs the static website inside NGINX
 
     docker build -t vertx-web-site .
     docker run -it -p 80:80 vertx-web-site
+
+Note: if you're on a Mac with Apple Silicon and configured Docker to use arm64,
+you might have to add the `--platform` parameter during build:
+
+    docker build -t vertx-web-site . --platform=linux/amd64
 
 ## Automatic generation of the list of contributors
 

@@ -3,7 +3,7 @@ import BlogNavBar from "../blog/BlogNavBar"
 import styles from "./BlogPost.scss?type=global"
 
 const BlogPost = (props) => (
-  <Page hashSmoothScroll {...props}>
+  <Page hashSmoothScroll ogType="article" {...props}>
     <div className="blog-post">
       <BlogNavBar categories={props.categories} />
       {props.children}

@@ -1,4 +1,6 @@
 .cache/
+.generated/
+*.iml
 .idea/
 .next/
 node_modules/
@@ -11,3 +13,6 @@ public/docs/
 # Do not put anything in the `public/feed` directory! Contents will be added
 # automatically by the '/pages/blog/[[...slug]].jsx' script
 public/feed/
+
+# OpenGraph images will be generated during build
+public/images/previews/
