@@ -126,13 +126,14 @@ jobs:
           shopt -s dotglob                   # include dot files
           mv out/* vertx-web-site.github.io
 
-      - name: Copy API docs into output directory
-        run: |
-          mv .apidocs_temp/apidocs vertx-web-site.github.io/docs/
-          find .apidocs_temp -mindepth 1 -maxdepth 1 -type d -print0 | xargs -0 -n1 -I '{}' sh -xc 'mv {}/* vertx-web-site.github.io/docs/$(basename {})/'
-      - run: |
-          du -sh *
-          df -h / /mnt
+      # vertx5: Disable temporarily
+      # - name: Copy API docs into output directory
+      #   run: |
+      #     mv .apidocs_temp/apidocs vertx-web-site.github.io/docs/
+      #     find .apidocs_temp -mindepth 1 -maxdepth 1 -type d -print0 | xargs -0 -n1 -I '{}' sh -xc 'mv {}/* vertx-web-site.github.io/docs/$(basename {})/'
+      # - run: |
+      #     du -sh *
+      #     df -h / /mnt
 
       - name: Create Archive
         run: |
