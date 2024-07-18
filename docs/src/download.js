@@ -1,6 +1,5 @@
-import fetch from "node-fetch"
-import fs from "fs/promises"
 import fsSync from "fs"
+import fs from "fs/promises"
 import path from "path"
 import stream from "stream"
 import util from "util"
@@ -30,7 +29,8 @@ async function downloadFile(url, dest, version, progressListener) {
   let outputFile = fsSync.createWriteStream(partFile)
 
   try {
-    await pipeline(res.body,
+    await pipeline(
+      res.body,
       stream.Transform({
         transform(chunk, enc, cb) {
           downloaded += chunk.length
@@ -40,9 +40,9 @@ async function downloadFile(url, dest, version, progressListener) {
           }
           this.push(chunk)
           cb()
-        }
+        },
       }),
-      outputFile
+      outputFile,
     )
     outputFile.close()
     progressListener?.update(downloaded)
@@ -61,7 +61,7 @@ async function getSnapshotUrl(version) {
   let baseUrl = `https://s01.oss.sonatype.org/content/repositories/snapshots/io/vertx/vertx-stack-docs/${version}/`
   let metadataUrl = `${baseUrl}maven-metadata.xml`
 
-  let res = await fetch(metadataUrl )
+  let res = await fetch(metadataUrl)
   if (res.status !== 200) {
     throw `Could not download "${metadataUrl}". Status code: ${res.status}`
   }
@@ -82,8 +82,14 @@ async function download(version, progressListener) {
 
   await fs.mkdir(downloadPath, { recursive: true })
 
-  let shaFilePath = path.join(downloadPath, `vertx-stack-docs-${version}-docs.zip.sha1`)
-  let zipFilePath = path.join(downloadPath, `vertx-stack-docs-${version}-docs.zip`)
+  let shaFilePath = path.join(
+    downloadPath,
+    `vertx-stack-docs-${version}-docs.zip.sha1`,
+  )
+  let zipFilePath = path.join(
+    downloadPath,
+    `vertx-stack-docs-${version}-docs.zip`,
+  )
 
   await downloadFile(`${url}.sha1`, shaFilePath, version, undefined)
   await downloadFile(url, zipFilePath, version, progressListener)

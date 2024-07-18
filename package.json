@@ -41,6 +41,7 @@
     "eslint-config-next": "^14.2.5",
     "gray-matter": "^4.0.3",
     "html-entities": "^2.5.2",
+    "image-webpack-loader": "^8.1.0",
     "immer": "^10.1.1",
     "json5": "^2.2.3",
     "minisearch": "^7.0.0",
