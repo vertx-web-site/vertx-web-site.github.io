@@ -1,0 +1,21 @@
+{
+  "name": "vertx-website-scraper",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "esbuild src/index.ts --minify --target=es2022 --outfile=dist/index.js",
+    "run": "npm run build && node dist/index.js"
+  },
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "@types/html-to-text": "^9.0.1",
+    "@types/recursive-readdir": "^2.2.1",
+    "esbuild": "^0.19.0"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.12",
+    "html-to-text": "^9.0.5",
+    "recursive-readdir": "^2.2.3"
+  }
+}

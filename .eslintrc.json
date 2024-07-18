@@ -3,7 +3,6 @@
   "rules": {
     "@next/next/google-font-display": "off",
     "@next/next/no-img-element": "off",
-    "comma-dangle": ["error", "never"],
     "comma-spacing": ["error", { "before": false, "after": true }],
     "comma-style": ["error", "last"],
     "eol-last": "error",
