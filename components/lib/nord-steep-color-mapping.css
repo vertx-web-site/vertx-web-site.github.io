@@ -1,0 +1,36 @@
+.root {
+  /* nord colors */
+  --n: #5e81ac; /* -> #68d390 */
+  --n: #616e88; /* -> #68d391 */
+  --n: #81a1c1; /* -> #e16eab */
+  --n: #88c0d0; /* -> #90cdf5 */
+  --n: #8fbcbb; /* -> #e16eaa */
+  --n: #a3be8c; /* -> #90cdf4 */
+  --n: #b48ead; /* -> #edf2f7 */
+  --n: #bf616a; /* -> #f56565 */
+  --n: #d08770; /* -> #f56566 */
+  --n: #d8dee9; /* -> #edf2f8 */
+  --n: #ebcb8b; /* -> #f56567 */
+  --n: #eceff4; /* -> #f7fafc */
+
+  /* steep colors */
+  --s: #68d391;
+  --s: #6c758d;
+  --s: #90cdf4;
+  --s: #e16eaa;
+
+  --color-primary: #4299e1;
+  --color-primary-hover: #90cdf4;
+
+  --color-alert: #f56565;
+
+  --color-gray-100: #2d3748;
+  --color-gray-200: #4a5568;
+  --color-gray-300: #718096;
+  --color-gray-400: #a0aec0;
+  --color-gray-500: #cbd5e0;
+  --color-gray-600: #e2e8f0;
+  --color-gray-700: #edf2f7;
+  --color-gray-800: #f7fafc;
+  --color-gray-900: #fafcff;
+}
