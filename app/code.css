@@ -1,0 +1,90 @@
+pre {
+  @apply rounded;
+  @apply flex;
+  @apply bg-bg-code;
+}
+
+code {
+  @apply overflow-auto;
+  @apply text-inline-code;
+}
+
+.prose code {
+  @apply text-[0.95em];
+  overflow-wrap: break-word;
+}
+
+.prose [data-rehype-pretty-code-fragment] code {
+  @apply text-sm;
+}
+
+div[data-rehype-pretty-code-fragment] {
+  @apply bg-bg-code;
+  @apply rounded-md;
+  overflow: hidden;
+}
+
+[data-rehype-pretty-code-fragment] code {
+  @apply text-gray-300;
+  @apply bg-bg-code;
+  @apply py-1;
+  @apply px-2;
+  @apply rounded-md;
+  @apply leading-[1.5];
+}
+
+[data-rehype-pretty-code-fragment] pre code,
+pre code {
+  @apply p-0;
+  @apply my-3;
+  margin-left: 0.9rem;
+  margin-right: 0.9rem;
+  @apply block;
+  @apply flex-1;
+  overflow: visible;
+}
+
+div[data-rehype-pretty-code-title] {
+  @apply bg-bg-code;
+  @apply mt-3;
+  margin-left: 0.9rem;
+  margin-right: 0.9rem;
+  @apply text-gray-500;
+  @apply dark:text-gray-400;
+  @apply text-xs;
+}
+
+code[data-line-numbers] {
+  counter-reset: line;
+}
+
+code[data-line-numbers] > .line::before {
+  counter-increment: line;
+  content: counter(line);
+
+  display: inline-block;
+  width: 1.2rem;
+  margin-right: 0.9rem;
+  text-align: right;
+  @apply text-code;
+}
+
+[data-rehype-pretty-code-fragment] .highlighted {
+  @apply bg-gray-700;
+}
+
+[data-rehype-pretty-code-fragment] [data-highlighted-line] {
+  @apply bg-bg-code-highlighted;
+  display: inline-flex;
+  width: calc(100% + 1.8rem);
+  margin-left: -0.9rem;
+  margin-right: -0.9rem;
+  padding-left: 0.9rem;
+  padding-right: 0.9rem;
+}
+
+[data-rehype-pretty-code-fragment] [data-highlighted-chars] {
+  @apply bg-bg-code-highlighted;
+  @apply rounded;
+  @apply px-1 py-0.5;
+}

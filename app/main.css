@@ -1,0 +1,69 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-size: clamp(
+    13px,
+    calc(1rem + (18 - 13) * ((100vw - 480px) / (1200 - 480))),
+    18px
+  );
+  min-height: 0vw;
+}
+
+:root {
+  font-weight: 300;
+  line-height: 1.7;
+  color: theme(colors.text);
+}
+
+body {
+  background-color: theme(colors.bg);
+  @apply transition-colors;
+  @apply duration-300;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-weight: 300;
+  @apply break-words;
+}
+
+.lucide {
+  display: inline-block;
+}
+
+section,
+main,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  /* navbar height + a bit of additional space */
+  @apply scroll-mt-20;
+}
+
+#docs-layout section,
+#docs-layout main,
+#docs-layout h1,
+#docs-layout h2,
+#docs-layout h3,
+#docs-layout h4,
+#docs-layout h5,
+#docs-layout h6 {
+  /* navbar height + toc navbar height + a bit of additional space */
+  @apply scroll-mt-32;
+  /* same as on any other page */
+  @apply lg:scroll-mt-20;
+}
+
+input::placeholder,
+textarea::placeholder {
+  @apply text-gray-500;
+  @apply dark:text-gray-400;
+}

@@ -1,0 +1,67 @@
+:root {
+  color-scheme: light;
+
+  --color-primary: 29 115 185;
+  --color-primary-hover: 38 92 137;
+
+  --color-alert: 223 69 69;
+
+  --color-gray-100: 247 250 252;
+  --color-gray-200: 237 242 247;
+  --color-gray-300: 226 232 240;
+  --color-gray-400: 203 213 224;
+  --color-gray-500: 160 174 192;
+  --color-gray-600: 113 128 150;
+  --color-gray-700: 74 85 104;
+  --color-gray-800: 60 60 59;
+  --color-gray-900: 40 40 35;
+  --color-black: 0 0 0;
+  --color-white: 255 255 255;
+
+  --color-bg: 255 255 255;
+  --color-bg-secondary: 236 242 248;
+  --color-bg-ternary: 51 51 51;
+  --color-bg-darkblue: 38 89 134;
+  --color-bg-code: 30 40 60;
+  --color-bg-code-highlighted: 40 54 79;
+
+  --color-text: 40 40 35;
+  --color-code: var(--color-gray-600);
+  --color-inline-code: 222 82 154;
+  --color-code-container-header: var(--color-gray-200);
+
+  --color-green-500: 104 211 145;
+}
+
+.dark {
+  color-scheme: dark;
+
+  /* colors from Chakra UI (https://github.com/chakra-ui/chakra-ui)
+     released under the MIT license. Copyright (c) 2019 Segun Adebayo
+     (slightly modified) */
+
+  --color-primary: 66 153 225;
+  --color-primary-hover: 144 205 244;
+
+  --color-alert: 245 101 101;
+
+  --color-gray-100: 45 55 72;
+  --color-gray-200: 74 85 104;
+  --color-gray-300: 113 128 150;
+  --color-gray-400: 160 174 192;
+  --color-gray-500: 203 213 224;
+  --color-gray-600: 226 232 240;
+  --color-gray-700: 237 242 247;
+  --color-gray-800: 247 250 252;
+  --color-gray-900: 250 252 255;
+
+  --color-bg: 23 25 35;
+  --color-bg-secondary: 20 18 16;
+  --color-bg-ternary: var(--color-gray-700);
+  --color-bg-code: var(--color-gray-100);
+  --color-bg-code-highlighted: 53 66 86;
+
+  --color-text: var(--color-gray-500);
+  --color-code: var(--color-gray-300);
+  --color-code-container-header: var(--color-gray-700);
+}
