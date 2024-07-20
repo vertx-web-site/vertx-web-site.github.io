@@ -1,5 +1,5 @@
 pre {
-  @apply rounded;
+  @apply rounded-sm;
   @apply flex;
   @apply bg-bg-code;
 }

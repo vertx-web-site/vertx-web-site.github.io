@@ -8,7 +8,7 @@ import { Roboto } from "next/font/google"
 import localFont from "next/font/local"
 
 const roboto = Roboto({
-  weight: ["300", "400"],
+  weight: ["300", "400", "500"],
   // might remove italic if necessary (i.e. if page size becomes too large),
   // browser-generated italic looks OK too
   style: ["normal", "italic"],

@@ -43,21 +43,21 @@ Changes:
       "name": "Constant Character",
       "scope": "constant.character",
       "settings": {
-        "foreground": "#f56567"
+        "foreground": "#f0a46c"
       }
     },
     {
       "name": "Constant Character Escape",
       "scope": "constant.character.escape",
       "settings": {
-        "foreground": "#f56567"
+        "foreground": "#f0a46c"
       }
     },
     {
       "name": "Constant Language",
       "scope": "constant.language",
       "settings": {
-        "foreground": "#e16eab"
+        "foreground": "#d2a8e1"
       }
     },
     {
@@ -71,43 +71,42 @@ Changes:
       "name": "Constant Regexp",
       "scope": "constant.regexp",
       "settings": {
-        "foreground": "#f56567"
+        "foreground": "#f0a46c"
       }
     },
     {
       "name": "Entity Name Class/Type",
       "scope": ["entity.name.class", "entity.name.type.class"],
       "settings": {
-        "foreground": "#e16eaa"
+        "foreground": "#f0a46c"
       }
     },
     {
       "name": "Entity Name Function",
       "scope": "entity.name.function",
       "settings": {
-        "foreground": "#90cdf5"
+        "foreground": "#f7fafc"
       }
     },
     {
       "name": "Entity Name Tag",
       "scope": "entity.name.tag",
       "settings": {
-        "foreground": "#e16eab"
+        "foreground": "#d2a8e1"
       }
     },
     {
       "name": "Entity Other Attribute Name",
       "scope": "entity.other.attribute-name",
       "settings": {
-        "foreground": "#e16eaa"
+        "foreground": "#d2a8e0"
       }
     },
     {
       "name": "Entity Other Inherited Class",
       "scope": "entity.other.inherited-class",
       "settings": {
-        "fontStyle": "bold",
-        "foreground": "#e16eaa"
+        "foreground": "#f0a46c"
       }
     },
     {
@@ -115,7 +114,7 @@ Changes:
       "scope": "invalid.deprecated",
       "settings": {
         "foreground": "#edf2f8",
-        "background": "#f56567"
+        "background": "#f0a46c"
       }
     },
     {
@@ -130,21 +129,21 @@ Changes:
       "name": "Keyword",
       "scope": "keyword",
       "settings": {
-        "foreground": "#e16eab"
+        "foreground": "#d2a8e1"
       }
     },
     {
       "name": "Keyword Operator",
       "scope": "keyword.operator",
       "settings": {
-        "foreground": "#e16eab"
+        "foreground": "#d2a8e1"
       }
     },
     {
       "name": "Keyword Other New",
       "scope": "keyword.other.new",
       "settings": {
-        "foreground": "#e16eab"
+        "foreground": "#d2a8e1"
       }
     },
     {
@@ -158,7 +157,7 @@ Changes:
       "name": "Markup Changed",
       "scope": "markup.changed",
       "settings": {
-        "foreground": "#f56567"
+        "foreground": "#f0a46c"
       }
     },
     {
@@ -210,7 +209,7 @@ Changes:
       "name": "Punctuation Definition Tag",
       "scope": "punctuation.definition.tag",
       "settings": {
-        "foreground": "#e16eab"
+        "foreground": "#d2a8e1"
       }
     },
     {
@@ -239,28 +238,28 @@ Changes:
         "punctuation.section.embedded.end"
       ],
       "settings": {
-        "foreground": "#e16eab"
+        "foreground": "#d2a8e1"
       }
     },
     {
       "name": "Punctuation Terminator",
       "scope": "punctuation.terminator",
       "settings": {
-        "foreground": "#e16eab"
+        "foreground": "#d2a8e1"
       }
     },
     {
       "name": "Punctuation Variable",
       "scope": "punctuation.definition.variable",
       "settings": {
-        "foreground": "#e16eab"
+        "foreground": "#d2a8e1"
       }
     },
     {
       "name": "Storage",
       "scope": "storage",
       "settings": {
-        "foreground": "#e16eab"
+        "foreground": "#d2a8e1"
       }
     },
     {
@@ -274,21 +273,21 @@ Changes:
       "name": "String Regexp",
       "scope": "string.regexp",
       "settings": {
-        "foreground": "#f56567"
+        "foreground": "#f0a46c"
       }
     },
     {
       "name": "Support Class",
       "scope": "support.class",
       "settings": {
-        "foreground": "#e16eaa"
+        "foreground": "#d2a8e0"
       }
     },
     {
       "name": "Support Constant",
       "scope": "support.constant",
       "settings": {
-        "foreground": "#e16eab"
+        "foreground": "#d2a8e1"
       }
     },
     {
@@ -302,21 +301,21 @@ Changes:
       "name": "Support Function Construct",
       "scope": "support.function.construct",
       "settings": {
-        "foreground": "#e16eab"
+        "foreground": "#d2a8e1"
       }
     },
     {
       "name": "Support Type",
       "scope": "support.type",
       "settings": {
-        "foreground": "#e16eaa"
+        "foreground": "#d2a8e0"
       }
     },
     {
       "name": "Support Type Exception",
       "scope": "support.type.exception",
       "settings": {
-        "foreground": "#e16eaa"
+        "foreground": "#d2a8e0"
       }
     },
     {
@@ -344,7 +343,7 @@ Changes:
       "name": "Token Warning",
       "scope": "token.warn-token",
       "settings": {
-        "foreground": "#f56567"
+        "foreground": "#f0a46c"
       }
     },
     {
@@ -358,7 +357,7 @@ Changes:
       "name": "Variable Language",
       "scope": "variable.language",
       "settings": {
-        "foreground": "#e16eab"
+        "foreground": "#d2a8e1"
       }
     },
     {
@@ -372,7 +371,7 @@ Changes:
       "name": "[C/CPP] Punctuation Separator Pointer-Access",
       "scope": "punctuation.separator.pointer-access.c",
       "settings": {
-        "foreground": "#e16eab"
+        "foreground": "#d2a8e1"
       }
     },
     {
@@ -382,7 +381,7 @@ Changes:
         "source.c string.quoted.other.lt-gt.include"
       ],
       "settings": {
-        "foreground": "#e16eaa"
+        "foreground": "#d2a8e0"
       }
     },
     {
@@ -426,7 +425,7 @@ Changes:
       "name": "[CSS] Punctuation Definition Keyword",
       "scope": "source.css punctuation.definition.keyword",
       "settings": {
-        "foreground": "#e16eab"
+        "foreground": "#d2a8e1"
       }
     },
     {
@@ -440,42 +439,42 @@ Changes:
       "name": "[diff] Meta Range Context",
       "scope": "source.diff meta.diff.range.context",
       "settings": {
-        "foreground": "#e16eaa"
+        "foreground": "#d2a8e0"
       }
     },
     {
       "name": "[diff] Meta Header From-File",
       "scope": "source.diff meta.diff.header.from-file",
       "settings": {
-        "foreground": "#e16eaa"
+        "foreground": "#d2a8e0"
       }
     },
     {
       "name": "[diff] Punctuation Definition From-File",
       "scope": "source.diff punctuation.definition.from-file",
       "settings": {
-        "foreground": "#e16eaa"
+        "foreground": "#d2a8e0"
       }
     },
     {
       "name": "[diff] Punctuation Definition Range",
       "scope": "source.diff punctuation.definition.range",
       "settings": {
-        "foreground": "#e16eaa"
+        "foreground": "#d2a8e0"
       }
     },
     {
       "name": "[diff] Punctuation Definition Separator",
       "scope": "source.diff punctuation.definition.separator",
       "settings": {
-        "foreground": "#e16eab"
+        "foreground": "#d2a8e1"
       }
     },
     {
       "name": "[Elixir](JakeBecker.elixir-ls) module names",
       "scope": "entity.name.type.module.elixir",
       "settings": {
-        "foreground": "#e16eaa"
+        "foreground": "#d2a8e0"
       }
     },
     {
@@ -498,21 +497,21 @@ Changes:
       "name": "[Elixir](JakeBecker.elixir-ls) modules",
       "scope": "variable.other.constant.elixir",
       "settings": {
-        "foreground": "#e16eaa"
+        "foreground": "#d2a8e0"
       }
     },
     {
       "name": "[Go] String Format Placeholder",
       "scope": "source.go constant.other.placeholder.go",
       "settings": {
-        "foreground": "#f56567"
+        "foreground": "#f0a46c"
       }
     },
     {
       "name": "[Java](JavaDoc) Comment Block Documentation HTML Entities",
       "scope": "source.java comment.block.documentation.javadoc punctuation.definition.entity.html",
       "settings": {
-        "foreground": "#e16eab"
+        "foreground": "#d2a8e1"
       }
     },
     {
@@ -526,14 +525,14 @@ Changes:
       "name": "[Java](JavaDoc) Keyword Other Documentation",
       "scope": "source.java keyword.other.documentation",
       "settings": {
-        "foreground": "#e16eaa"
+        "foreground": "#d2a8e0"
       }
     },
     {
       "name": "[Java](JavaDoc) Keyword Other Documentation Author",
       "scope": "source.java keyword.other.documentation.author.javadoc",
       "settings": {
-        "foreground": "#e16eaa"
+        "foreground": "#d2a8e0"
       }
     },
     {
@@ -543,21 +542,21 @@ Changes:
         "source.java keyword.other.documentation.custom"
       ],
       "settings": {
-        "foreground": "#e16eaa"
+        "foreground": "#d2a8e0"
       }
     },
     {
       "name": "[Java](JavaDoc) Keyword Other Documentation See",
       "scope": "source.java keyword.other.documentation.see.javadoc",
       "settings": {
-        "foreground": "#e16eaa"
+        "foreground": "#d2a8e0"
       }
     },
     {
       "name": "[Java] Meta Method-Call",
       "scope": "source.java meta.method-call meta.method",
       "settings": {
-        "foreground": "#90cdf5"
+        "foreground": "#f7fafc"
       }
     },
     {
@@ -567,7 +566,7 @@ Changes:
         "source.java string.other.link.title.javadoc"
       ],
       "settings": {
-        "foreground": "#e16eaa"
+        "foreground": "#d2a8e0"
       }
     },
     {
@@ -581,7 +580,7 @@ Changes:
       "name": "[Java](JavaDoc) Punctuation Definition Keyword",
       "scope": "source.java punctuation.definition.keyword.javadoc",
       "settings": {
-        "foreground": "#e16eaa"
+        "foreground": "#d2a8e0"
       }
     },
     {
@@ -598,21 +597,21 @@ Changes:
       "name": "[Java] Storage Modifier Import",
       "scope": "source.java storage.modifier.import",
       "settings": {
-        "foreground": "#e16eaa"
+        "foreground": "#f7fafc"
       }
     },
     {
       "name": "[Java] Storage Modifier Package",
       "scope": "source.java storage.modifier.package",
       "settings": {
-        "foreground": "#e16eaa"
+        "foreground": "#d2a8e0"
       }
     },
     {
       "name": "[Java] Storage Type",
       "scope": "source.java storage.type",
       "settings": {
-        "foreground": "#e16eaa"
+        "foreground": "#d2a8e0"
       }
     },
     {
@@ -626,14 +625,14 @@ Changes:
       "name": "[Java] Storage Type Generic",
       "scope": "source.java storage.type.generic",
       "settings": {
-        "foreground": "#e16eaa"
+        "foreground": "#d2a8e0"
       }
     },
     {
       "name": "[Java] Storage Type Primitive",
       "scope": "source.java storage.type.primitive",
       "settings": {
-        "foreground": "#e16eab"
+        "foreground": "#d2a8e1"
       }
     },
     {
@@ -658,7 +657,7 @@ Changes:
       "name": "[JavaScript](JSDoc) Storage Type Class",
       "scope": "source.js storage.type.class.jsdoc",
       "settings": {
-        "foreground": "#e16eaa"
+        "foreground": "#d2a8e0"
       }
     },
     {
@@ -669,7 +668,7 @@ Changes:
         "source.js string.template punctuation.definition.template-expression"
       ],
       "settings": {
-        "foreground": "#e16eab"
+        "foreground": "#d2a8e1"
       }
     },
     {
@@ -693,7 +692,7 @@ Changes:
       "name": "[JavaScript] Support Type Primitive",
       "scope": "source.js support.type.primitive",
       "settings": {
-        "foreground": "#e16eab"
+        "foreground": "#d2a8e1"
       }
     },
     {
@@ -707,7 +706,7 @@ Changes:
       "name": "[JavaScript] Variable Other Read-Write Alias",
       "scope": "source.js variable.other.readwrite.alias",
       "settings": {
-        "foreground": "#e16eaa"
+        "foreground": "#d2a8e0"
       }
     },
     {
@@ -727,7 +726,7 @@ Changes:
       "name": "[HTML] Constant Character Entity",
       "scope": "text.html.basic constant.character.entity.html",
       "settings": {
-        "foreground": "#f56567"
+        "foreground": "#f0a46c"
       }
     },
     {
@@ -749,7 +748,7 @@ Changes:
       "name": "[HTML] Punctuation Definition Entity",
       "scope": "text.html.basic punctuation.definition.entity",
       "settings": {
-        "foreground": "#e16eab"
+        "foreground": "#d2a8e1"
       }
     },
     {
@@ -763,7 +762,7 @@ Changes:
       "name": "[INI] Punctuation Separator Key-Value",
       "scope": "source.properties punctuation.separator.key-value.ini",
       "settings": {
-        "foreground": "#e16eab"
+        "foreground": "#d2a8e1"
       }
     },
     {
@@ -773,7 +772,7 @@ Changes:
         "text.html.markdown markup.fenced_code.block punctuation.definition"
       ],
       "settings": {
-        "foreground": "#e16eaa"
+        "foreground": "#d2a8e0"
       }
     },
     {
@@ -790,7 +789,7 @@ Changes:
         "text.html.markdown markup.inline.raw punctuation.definition.raw"
       ],
       "settings": {
-        "foreground": "#e16eaa"
+        "foreground": "#d2a8e0"
       }
     },
     {
@@ -811,14 +810,14 @@ Changes:
       "name": "[Markdown] Markup List Numbered/Unnumbered",
       "scope": "text.html.markdown beginning.punctuation.definition.list",
       "settings": {
-        "foreground": "#e16eab"
+        "foreground": "#d2a8e1"
       }
     },
     {
       "name": "[Markdown] Markup Quote Punctuation Definition",
       "scope": "text.html.markdown beginning.punctuation.definition.quote",
       "settings": {
-        "foreground": "#e16eaa"
+        "foreground": "#d2a8e0"
       }
     },
     {
@@ -832,7 +831,7 @@ Changes:
       "name": "[Markdown] Markup Math Constant",
       "scope": "text.html.markdown constant.character.math.tex",
       "settings": {
-        "foreground": "#e16eab"
+        "foreground": "#d2a8e1"
       }
     },
     {
@@ -856,14 +855,14 @@ Changes:
       "name": "[Markdown] Markup Math Operator",
       "scope": "text.html.markdown punctuation.math.operator.latex",
       "settings": {
-        "foreground": "#e16eab"
+        "foreground": "#d2a8e1"
       }
     },
     {
       "name": "[Markdown] Punctuation Definition Heading",
       "scope": "text.html.markdown punctuation.definition.heading",
       "settings": {
-        "foreground": "#e16eab"
+        "foreground": "#d2a8e1"
       }
     },
     {
@@ -873,7 +872,7 @@ Changes:
         "text.html.markdown punctuation.definition.string"
       ],
       "settings": {
-        "foreground": "#e16eab"
+        "foreground": "#d2a8e1"
       }
     },
     {
@@ -941,14 +940,14 @@ Changes:
         "source.python meta.function.parameters variable.parameter.function.language.special.self"
       ],
       "settings": {
-        "foreground": "#e16eab"
+        "foreground": "#d2a8e1"
       }
     },
     {
       "name": "[Rust] Entity types",
       "scope": "source.rust entity.name.type",
       "settings": {
-        "foreground": "#e16eaa"
+        "foreground": "#d2a8e0"
       }
     },
     {
@@ -981,7 +980,7 @@ Changes:
       "name": "[Rust] Interpolation Bracket Curly",
       "scope": "source.rust punctuation.definition.interpolation",
       "settings": {
-        "foreground": "#f56567"
+        "foreground": "#f0a46c"
       }
     },
     {
@@ -991,7 +990,7 @@ Changes:
         "source.css.scss punctuation.definition.interpolation.end.bracket.curly"
       ],
       "settings": {
-        "foreground": "#e16eab"
+        "foreground": "#d2a8e1"
       }
     },
     {
@@ -1049,7 +1048,7 @@ Changes:
         "source.tsx entity.name.class"
       ],
       "settings": {
-        "foreground": "#e16eaa"
+        "foreground": "#d2a8e0"
       }
     },
     {
@@ -1063,7 +1062,7 @@ Changes:
         "source.tsx support.constant.json"
       ],
       "settings": {
-        "foreground": "#e16eaa"
+        "foreground": "#d2a8e0"
       }
     },
     {
@@ -1089,7 +1088,7 @@ Changes:
       "name": "[XML] Entity Name Tag Namespace",
       "scope": "text.xml entity.name.tag.namespace",
       "settings": {
-        "foreground": "#e16eaa"
+        "foreground": "#d2a8e0"
       }
     },
     {
@@ -1121,7 +1120,7 @@ Changes:
       "name": "[YAML] Entity Name Tag",
       "scope": "source.yaml entity.name.tag",
       "settings": {
-        "foreground": "#e16eaa"
+        "foreground": "#d2a8e0"
       }
     },
     {
@@ -1146,7 +1145,7 @@ Changes:
     {
       "scope": ["source.shell string.unquoted.argument"],
       "settings": {
-        "foreground": "#e16eaa"
+        "foreground": "#d2a8e0"
       }
     }
   ]

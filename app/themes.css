@@ -1,20 +1,20 @@
 :root {
   color-scheme: light;
 
-  --color-primary: 29 115 185;
-  --color-primary-hover: 38 92 137;
+  --color-primary: 120 43 144;
+  --color-primary-hover: 87 31 105;
 
   --color-alert: 223 69 69;
 
-  --color-gray-100: 247 250 252;
-  --color-gray-200: 237 242 247;
-  --color-gray-300: 226 232 240;
-  --color-gray-400: 203 213 224;
-  --color-gray-500: 160 174 192;
-  --color-gray-600: 113 128 150;
-  --color-gray-700: 74 85 104;
+  --color-gray-100: 248 249 250;
+  --color-gray-200: 233 236 239;
+  --color-gray-300: 222 226 230;
+  --color-gray-400: 206 212 218;
+  --color-gray-500: 173 181 189;
+  --color-gray-600: 111 105 112;
+  --color-gray-700: 77 77 77;
   --color-gray-800: 60 60 59;
-  --color-gray-900: 40 40 35;
+  --color-gray-900: 36 36 35;
   --color-black: 0 0 0;
   --color-white: 255 255 255;
 
@@ -22,8 +22,10 @@
   --color-bg-secondary: 236 242 248;
   --color-bg-ternary: 51 51 51;
   --color-bg-darkblue: 38 89 134;
-  --color-bg-code: 30 40 60;
+  --color-bg-code: 58 40 64;
   --color-bg-code-highlighted: 40 54 79;
+  --color-bg-code-tab-inactive: 23 16 26;
+  --color-bg-code-tab-hover: 42 28 46;
 
   --color-text: 40 40 35;
   --color-code: var(--color-gray-600);

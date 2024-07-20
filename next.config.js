@@ -88,6 +88,12 @@ const config = {
       use: "image-webpack-loader",
     })
 
+    config.module.rules.push({
+      test: /\.svg$/i,
+      resourceQuery: /react/,
+      use: "react-svg-loader",
+    })
+
     if (dev) {
       config.plugins.push(
         new ESLintPlugin({

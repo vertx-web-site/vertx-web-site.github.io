@@ -1,5 +1,25 @@
 {
-  "plugins": ["@trivago/prettier-plugin-sort-imports"],
+  "plugins": [
+    "@trivago/prettier-plugin-sort-imports",
+    "prettier-plugin-tailwindcss"
+  ],
+  "overrides": [
+    {
+      "files": "*.ts",
+      "options": {
+        "importOrderParserPlugins": ["typescript", "jsx"]
+      }
+    },
+    {
+      "files": "*.d.ts",
+      "options": {
+        "importOrderParserPlugins": [
+          "[\"typescript\", { \"dts\": true }]",
+          "jsx"
+        ]
+      }
+    }
+  ],
   "semi": false,
   "trailingComma": "all",
   "arrowParens": "avoid",

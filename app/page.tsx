@@ -1,3 +1,11 @@
-export default function Page() {
-  return <h1>Hello, Vert.x!</h1>
+import Hero from "../components/hero/Hero"
+
+const Page = () => {
+  return (
+    <main>
+      <Hero />
+    </main>
+  )
 }
+
+export default Page
