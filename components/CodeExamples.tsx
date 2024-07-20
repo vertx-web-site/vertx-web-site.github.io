@@ -1,44 +1,47 @@
 import clsx from "clsx"
-import { ReactNode, useState } from "react"
+import { ReactElement, ReactNode, useState } from "react"
 
-interface Example {
+interface CodeExampleProps {
   title: string
-  content: ReactNode
+  children: ReactNode
 }
 
 interface CodeExamplesProps {
   wide?: boolean
   smallText?: boolean
-  examples: Example[]
+  children: ReactElement<CodeExampleProps> | ReactElement<CodeExampleProps>[]
 }
+
+export const CodeExample = ({ children }: CodeExampleProps) => <>{children}</>
 
 const CodeExamples = ({
   wide = false,
   smallText = false,
-  examples,
+  children,
 }: CodeExamplesProps) => {
-  const [active, setActive] = useState(examples[0].title)
+  const childrenArr = Array.isArray(children) ? children : [children]
+  const [active, setActive] = useState(childrenArr[0].props.title)
 
   return (
     <div>
       <div className="flex flex-row text-white">
-        {examples.map((ex, i) => (
+        {childrenArr.map((ex, i) => (
           <div
             className={clsx(
               "cursor-pointer select-none px-6 py-2 text-sm",
-              active === ex.title
+              active === ex.props.title
                 ? "bg-bg-code"
                 : "bg-bg-code-tab-inactive hover:bg-bg-code-tab-hover",
               {
                 "rounded-tl-sm": i === 0,
-                "rounded-tr-sm": i === examples.length - 1,
+                "rounded-tr-sm": i === childrenArr.length - 1,
                 "flex-1 text-center": wide,
               },
             )}
-            onClick={() => setActive(ex.title)}
-            key={ex.title}
+            onClick={() => setActive(ex.props.title)}
+            key={ex.props.title}
           >
-            {ex.title}
+            {ex.props.title}
           </div>
         ))}
       </div>
@@ -48,12 +51,12 @@ const CodeExamples = ({
           "rounded-tr-sm": !wide,
         })}
       >
-        {examples.map(ex => (
+        {childrenArr.map(ex => (
           <div
-            key={ex.title}
-            className={active === ex.title ? "block" : "hidden"}
+            key={ex.props.title}
+            className={active === ex.props.title ? "block" : "hidden"}
           >
-            {ex.content}
+            {ex}
           </div>
         ))}
       </div>

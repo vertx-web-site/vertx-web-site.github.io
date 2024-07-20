@@ -1,6 +1,6 @@
 "use client"
 
-import CodeExamples from "../CodeExamples"
+import CodeExamples, { CodeExample } from "../CodeExamples"
 import Groovy from "./MainCodeExamplesGroovy.mdx"
 import Java from "./MainCodeExamplesJava.mdx"
 import Kotlin from "./MainCodeExamplesKotlin.mdx"
@@ -94,27 +94,19 @@ const MainCodeExamples = () => {
 
   return (
     <div className="main-code-examples">
-      <CodeExamples
-        smallText
-        examples={[
-          {
-            title: "Java",
-            content: (
-              <div ref={javaRef} className="opacity-0">
-                <Java />
-              </div>
-            ),
-          },
-          {
-            title: "Kotlin",
-            content: <Kotlin />,
-          },
-          {
-            title: "Groovy",
-            content: <Groovy />,
-          },
-        ]}
-      />
+      <CodeExamples smallText>
+        <CodeExample title="Java">
+          <div ref={javaRef} className="opacity-0">
+            <Java />
+          </div>
+        </CodeExample>
+        <CodeExample title="Kotlin">
+          <Kotlin />
+        </CodeExample>
+        <CodeExample title="Groovy">
+          <Groovy />
+        </CodeExample>
+      </CodeExamples>
     </div>
   )
 }
