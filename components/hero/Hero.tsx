@@ -12,7 +12,7 @@ const Hero = ({}: HeroProps) => (
     <div
       className="absolute -z-10 h-[900px] w-full max-w-full bg-cover bg-center bg-no-repeat md:-top-52 lg:-top-32 xl:-top-24"
       style={{
-        backgroundImage: `${process.env.__NEXT_ROUTER_BASEPATH}/images/hero-background.svg`,
+        backgroundImage: `url(${process.env.__NEXT_ROUTER_BASEPATH}/images/hero-background.svg)`,
       }}
     />
     {/* main content */}
