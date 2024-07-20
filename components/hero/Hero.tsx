@@ -1,8 +1,8 @@
 import { latestRelease } from "../../docs/metadata/all"
 import Button from "../Button"
 import MainCodeExamples from "./MainCodeExamples"
+import { ArrowCircleUp, FastForward } from "@phosphor-icons/react"
 import Link from "next/link"
-import { ArrowUpCircle, FastForward } from "react-feather"
 
 interface HeroProps {}
 
@@ -34,7 +34,7 @@ const Hero = ({}: HeroProps) => (
               </Button>
             </Link>
             <Link href="/blog/from-vert-x-3-to-vert-x-4/">
-              <Button icon={<ArrowUpCircle />}>Migrate from v3</Button>
+              <Button icon={<ArrowCircleUp />}>Migrate from v3</Button>
             </Link>
           </div>
           <div className="mt-1 text-sm text-gray-700">

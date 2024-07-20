@@ -1,9 +1,11 @@
+import { IconProps } from "@phosphor-icons/react"
 import clsx from "clsx"
+import { ReactElement, ReactNode, cloneElement } from "react"
 
 interface ButtonProps {
-  icon?: React.ReactNode
+  icon?: ReactElement<IconProps>
   primary?: boolean
-  children: React.ReactNode
+  children: ReactNode
 }
 
 const Button = ({ icon, primary, children }: ButtonProps) => (
@@ -14,7 +16,9 @@ const Button = ({ icon, primary, children }: ButtonProps) => (
       { "bg-primary hover:bg-primary-hover": primary },
     )}
   >
-    {icon ? <div>{icon}</div> : undefined}
+    {icon ? (
+      <div>{cloneElement(icon, { ...icon.props, size: "1.25em" })}</div>
+    ) : undefined}
     <div>{children}</div>
   </button>
 )

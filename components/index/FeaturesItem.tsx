@@ -1,9 +1,9 @@
-import { Cpu } from "@phosphor-icons/react"
+import { IconProps } from "@phosphor-icons/react"
 import clsx from "clsx"
 import { ReactElement, ReactNode, cloneElement } from "react"
 
 interface FeaturesItemProps {
-  icon: ReactElement
+  icon: ReactElement<IconProps>
   title: string
   className?: String
   children: ReactNode
