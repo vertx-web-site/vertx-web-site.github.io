@@ -7,11 +7,11 @@ import { ArrowUpCircle, FastForward } from "react-feather"
 interface HeroProps {}
 
 const Hero = ({}: HeroProps) => (
-  <section className="hero">
+  <section>
     {/* background */}
     <div className="absolute -z-10 h-[900px] w-full max-w-full bg-[url(/images/hero-background.svg)] bg-cover bg-center bg-no-repeat md:-top-52 lg:-top-32 xl:-top-24" />
     {/* main content */}
-    <div className="mx-auto mt-40 flex max-w-screen-xl flex-row justify-between">
+    <div className="mx-auto mb-20 mt-40 flex max-w-screen-xl flex-row justify-between">
       {/* left side */}
       <div className="max-w-[580px]">
         {/* slogan */}
