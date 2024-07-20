@@ -10,7 +10,10 @@ const Hero = ({}: HeroProps) => (
   <section>
     {/* background */}
     <div
-      className={`absolute -z-10 h-[900px] w-full max-w-full bg-[url(${process.env.__NEXT_ROUTER_BASEPATH}/images/hero-background.svg)] bg-cover bg-center bg-no-repeat md:-top-52 lg:-top-32 xl:-top-24`}
+      className="absolute -z-10 h-[900px] w-full max-w-full bg-cover bg-center bg-no-repeat md:-top-52 lg:-top-32 xl:-top-24"
+      style={{
+        backgroundImage: `${process.env.__NEXT_ROUTER_BASEPATH}/images/hero-background.svg`,
+      }}
     />
     {/* main content */}
     <div className="mx-auto mb-20 mt-40 flex max-w-screen-xl flex-row justify-between">
