@@ -123,6 +123,14 @@ module.exports = {
           opacity: 0,
         },
       },
+      accordionSlideDown: {
+        from: { height: "0px" },
+        to: { height: "var(--radix-accordion-content-height)" },
+      },
+      accordionSlideUp: {
+        from: { height: "var(--radix-accordion-content-height)" },
+        to: { height: "0px" },
+      },
     },
     extend: {
       animation: {
@@ -132,6 +140,10 @@ module.exports = {
         "fade-out": "fadeOut 100ms ease-out",
         "dialog-fade-in": "dialogFadeIn 100ms ease-out",
         "dialog-fade-out": "dialogFadeOut 100ms ease-out",
+        accordionSlideDown:
+          "accordionSlideDown 300ms cubic-bezier(0.87, 0, 0.13, 1)",
+        accordionSlideUp:
+          "accordionSlideUp 300ms cubic-bezier(0.87, 0, 0.13, 1)",
       },
       keyframes: {
         spin: {

@@ -1,5 +1,6 @@
 "use client"
 
+import Footer from "@/components/Footer"
 import Hero from "@/components/hero/Hero"
 import Book from "@/components/index/Book"
 import Features from "@/components/index/Features.mdx"
@@ -14,6 +15,7 @@ const Page = () => {
       <Book />
       <hr className="mb-20 mt-28 border-gray-300" />
       <Logos />
+      <Footer />
     </main>
   )
 }
