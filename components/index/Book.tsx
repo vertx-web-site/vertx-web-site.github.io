@@ -15,38 +15,24 @@ const Book = () => {
 
   useEffect(() => {
     let duration = TRANSITION_DURATION
-    let seq: any[] = [
-      [
-        quote1.current,
-        { opacity: 0 },
-        { at: DISPLAY_SECONDS - duration, duration },
-      ],
-      [
-        quote2.current,
-        { opacity: 1 },
-        { at: DISPLAY_SECONDS - duration, duration },
-      ],
-      [
-        quote2.current,
-        { opacity: 0 },
-        { at: DISPLAY_SECONDS * 2 - duration, duration },
-      ],
-      [
-        quote3.current,
-        { opacity: 1 },
-        { at: DISPLAY_SECONDS * 2 - duration, duration },
-      ],
-      [
-        quote3.current,
-        { opacity: 0 },
-        { at: DISPLAY_SECONDS * 3 - duration, duration },
-      ],
-      [
-        quote1.current,
-        { opacity: 1 },
-        { at: DISPLAY_SECONDS * 3 - duration, duration },
-      ],
-    ]
+    let quotes = [quote1, quote2, quote3]
+    let seq: any[] = []
+    for (let i = 0; i < quotes.length + 1; ++i) {
+      if (i > 0) {
+        seq.push([
+          quotes[i % quotes.length].current,
+          { opacity: 1 },
+          { at: DISPLAY_SECONDS * i - duration, duration },
+        ])
+      }
+      if (i < quotes.length) {
+        seq.push([
+          quotes[i % quotes.length].current,
+          { opacity: 0 },
+          { at: DISPLAY_SECONDS * (i + 1) - duration, duration },
+        ])
+      }
+    }
     animate(seq, { repeat: Infinity, delay: duration })
     animate(
       bar.current!!,
