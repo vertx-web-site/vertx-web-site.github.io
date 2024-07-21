@@ -4,6 +4,7 @@ import nextMDX from "@next/mdx"
 import ESLintPlugin from "eslint-webpack-plugin"
 import fs from "fs"
 import JSON5 from "json5"
+import svgToMiniDataURI from "mini-svg-data-uri"
 import rehypePrettyCode from "rehype-pretty-code"
 import remarkGfm from "remark-gfm"
 import remarkSmartypants from "remark-smartypants"
@@ -92,6 +93,19 @@ const config = {
       test: /\.svg$/i,
       resourceQuery: /react/,
       use: "react-svg-loader",
+    })
+
+    config.module.rules.push({
+      test: /\.svg$/i,
+      resourceQuery: { not: [/react/] },
+      type: "asset",
+      use: "image-webpack-loader",
+      generator: {
+        dataUrl: content => {
+          content = content.toString()
+          return svgToMiniDataURI(content)
+        },
+      },
     })
 
     if (dev) {
