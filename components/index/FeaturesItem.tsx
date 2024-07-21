@@ -21,14 +21,18 @@ const FeaturesItem = ({
 
   return (
     <div className={clsx("prose hyphens-auto text-justify", className)}>
-      <div className="flex justify-center">
-        {cloneElement(newIcon, {
-          ...newIcon.props,
-          size: 54,
-          weight: "light",
-        })}
+      <div className="flex flex-row items-center justify-start gap-x-4 md:flex-col">
+        <div className="flex justify-center">
+          {cloneElement(newIcon, {
+            ...newIcon.props,
+            size: 54,
+            weight: "light",
+          })}
+        </div>
+        <h5 className="mb-0 mt-0 text-left text-xl font-normal md:mt-4 md:text-center">
+          {title}
+        </h5>
       </div>
-      <h5 className="mb-5 mt-4 text-center text-xl font-normal">{title}</h5>
       {children}
     </div>
   )

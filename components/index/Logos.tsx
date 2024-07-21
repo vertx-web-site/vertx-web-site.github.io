@@ -153,7 +153,7 @@ const Logos = () => {
 
   return (
     <section>
-      <div className="prose">
+      <div className="prose px-4 md:px-6">
         <h3 className="text-center text-3xl">
           Who&rsquo;s using Eclipse Vert.x?
         </h3>
@@ -168,10 +168,16 @@ const Logos = () => {
             repeat: Infinity,
           }}
         >
-          <div ref={refRow1a} className="mr-24 flex h-8 flex-row gap-24">
+          <div
+            ref={refRow1a}
+            className="mr-24 flex h-8 flex-row gap-12 md:gap-24"
+          >
             {logoElements1}
           </div>
-          <div ref={refRow1b} className="mr-24 flex h-8 flex-row gap-24">
+          <div
+            ref={refRow1b}
+            className="mr-24 flex h-8 flex-row gap-12 md:gap-24"
+          >
             {logoElements1}
           </div>
         </motion.div>
@@ -184,16 +190,22 @@ const Logos = () => {
             repeat: Infinity,
           }}
         >
-          <div ref={refRow2a} className="mr-24 flex h-8 flex-row gap-24">
+          <div
+            ref={refRow2a}
+            className="mr-24 flex h-8 flex-row gap-12 md:gap-24"
+          >
             {logoElements2}
           </div>
-          <div ref={refRow2b} className="mr-24 flex h-8 flex-row gap-24">
+          <div
+            ref={refRow2b}
+            className="mr-24 flex h-8 flex-row gap-12 md:gap-24"
+          >
             {logoElements2}
           </div>
         </motion.div>
       </div>
 
-      <div className="mx-auto flex flex-row items-center justify-center gap-4">
+      <div className="mx-auto flex flex-col items-center justify-center gap-4 px-4 md:flex-row md:px-6">
         <div>Want to be listed here?</div>
         <a href="mailto:vertx-enquiries@googlegroups.com">
           <Button primary icon={<Mail />}>

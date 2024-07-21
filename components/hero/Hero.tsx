@@ -3,62 +3,66 @@ import Button from "../Button"
 import MainCodeExamples from "./MainCodeExamples"
 import { ArrowCircleUp, FastForward } from "@phosphor-icons/react"
 import Link from "next/link"
+import Balancer, { Provider } from "react-wrap-balancer"
 
 interface HeroProps {}
 
 const Hero = ({}: HeroProps) => (
   <section>
-    {/* background */}
-    <div
-      className="absolute -z-10 h-[900px] w-full max-w-full bg-cover bg-center bg-no-repeat md:-top-52 lg:-top-32 xl:-top-24"
-      style={{
-        backgroundImage: `url(${process.env.__NEXT_ROUTER_BASEPATH}/images/hero-background.svg)`,
-      }}
-    />
-    {/* main content */}
-    <div className="mx-auto mb-20 mt-40 flex max-w-screen-xl flex-row justify-between">
-      {/* left side */}
-      <div className="max-w-[580px]">
-        {/* slogan */}
-        <div className="text-[2.8rem] font-light leading-tight">
-          <span className="font-medium text-black">
-            Eclipse Vert.x
-            <span className="font-light">&trade;</span>
-          </span>{" "}
-          Reactive{" "}
-          <span className="tracking-[0.001em] [word-spacing:0.04em]">
-            applications on the JVM
-          </span>
-        </div>
-        {/* buttons */}
-        <div className="mt-6">
-          <div className="flex flex-row gap-2">
-            <Link href="/get-started/">
-              <Button primary icon={<FastForward />}>
-                Get started
-              </Button>
-            </Link>
-            <Link href="/blog/from-vert-x-3-to-vert-x-4/">
-              <Button icon={<ArrowCircleUp />}>Migrate from v3</Button>
-            </Link>
+    <Provider>
+      {/* background */}
+      <div
+        className="absolute -top-20 -z-10 h-[900px] w-full max-w-full bg-cover bg-center bg-no-repeat sm:-top-28 md:-top-24"
+        style={{
+          backgroundImage: `url(${process.env.__NEXT_ROUTER_BASEPATH}/images/hero-background.svg)`,
+        }}
+      />
+      <div className="px-4 md:px-6">
+        {/* main content */}
+        <div className="mx-auto mb-20 mt-40 flex max-w-screen-xl flex-row justify-between">
+          {/* left side */}
+          <div className="mx-auto max-w-3xl text-center xl:mx-0 xl:max-w-[580px] xl:text-left">
+            {/* slogan */}
+            <div className="text-[2.8rem] font-light leading-tight">
+              <span className="mb-4 block font-medium text-black xl:mb-0 xl:inline-block">
+                Eclipse Vert.x
+                <span className="font-light">&trade;</span>
+              </span>{" "}
+              <span className="hidden xl:inline">
+                Reactive{" "}
+                <span className="xl:tracking-[0.001em] xl:[word-spacing:0.04em]">
+                  applications on the JVM
+                </span>
+              </span>
+              <span className="text-[2.4rem] xl:hidden">
+                <Balancer>Reactive applications on the JVM</Balancer>
+              </span>
+            </div>
+            {/* buttons */}
+            <div className="mt-8 flex flex-col items-center gap-y-2 xl:mt-6 xl:items-start xl:gap-y-0">
+              <div className="flex flex-col items-center gap-2 sm:flex-row">
+                <Link href="/get-started/">
+                  <Button primary icon={<FastForward />}>
+                    Get started
+                  </Button>
+                </Link>
+                <Link href="/blog/from-vert-x-3-to-vert-x-4/">
+                  <Button icon={<ArrowCircleUp />}>Migrate from v3</Button>
+                </Link>
+              </div>
+              <div className="mt-1 text-sm text-gray-700">
+                <span className="font-normal">Latest release:</span> v
+                {latestRelease.version}
+              </div>
+            </div>
           </div>
-          <div className="mt-1 text-sm text-gray-700">
-            <span className="font-normal">Latest release:</span> v
-            {latestRelease.version}
-            {/* <GitHubStars
-            org="eclipse-vertx"
-            repo="vert.x"
-            button
-            fallbackValue={gitHubStarsFallbackValue}
-          /> */}
+          {/* right side */}
+          <div className="hidden w-[570px] xl:block">
+            <MainCodeExamples />
           </div>
         </div>
       </div>
-      {/* right side */}
-      <div className="w-[570px]">
-        <MainCodeExamples />
-      </div>
-    </div>
+    </Provider>
   </section>
 )
 

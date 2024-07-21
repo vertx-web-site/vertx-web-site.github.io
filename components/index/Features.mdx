@@ -2,14 +2,15 @@ import FeaturesItem from "./FeaturesItem"
 import FeaturesList from "./FeaturesList"
 import { Cpu, Confetti, Feather, SlidersHorizontal, Umbrella } from "@phosphor-icons/react";
 
-<section className="max-w-screen-xl mx-auto">
+<section className="px-4 md:px-6">
+<div className="max-w-screen-xl mx-auto">
 
 {/* You have to leave a blank line after <FeaturesItem> and the feature's text,
     as well as between the text and </FeaturesItem>. Otherwise, you will
     disable hyphenation and smart punctuation. Also, the text must not indented. */}
 
 <FeaturesList>
-<FeaturesItem icon={<Cpu />} title="Resource-efficient" className="col-span-2">
+<FeaturesItem icon={<Cpu />} title="Resource-efficient" className="col-span-6 md:col-span-3 xl:col-span-2">
 
 Handle more requests with less resources compared to traditional stacks and frameworks based on blocking I/O.
 Vert.x is a great fit for all kinds of execution environments, including constrained environments like virtual machines and containers.
@@ -17,7 +18,7 @@ Vert.x is a great fit for all kinds of execution environments, including constra
 Don't waste resources, increase deployment density and save money!
 
 </FeaturesItem>
-<FeaturesItem icon={<SlidersHorizontal />} title="Concurrent and asynchronous" className="col-span-2">
+<FeaturesItem icon={<SlidersHorizontal />} title="Concurrent and asynchronous" className="col-span-6 md:col-span-3 xl:col-span-2">
 
 People told you asynchronous programming is too hard for you?
 We strive to make programming with Vert.x an approachable experience, without sacrificing correctness and performance.
@@ -25,7 +26,7 @@ We strive to make programming with Vert.x an approachable experience, without sa
 You pick the model that works best for the task at hand: callbacks, promises, futures, reactive extensions, and (Kotlin) coroutines.
 
 </FeaturesItem>
-<FeaturesItem icon={<Feather />} title="Flexible" className="col-span-2">
+<FeaturesItem icon={<Feather />} title="Flexible" className="col-span-6 md:col-span-3 xl:col-span-2">
 
 Vert.x is a toolkit, not a framework, so it is naturally very composable and embeddable.
 We have no strong opinion on what your application structure should be like.
@@ -33,7 +34,7 @@ We have no strong opinion on what your application structure should be like.
 Select the modules and clients you need and compose them as you craft your application. Vert.x will always adapt and scale depending on your needs.
 
 </FeaturesItem>
-<FeaturesItem icon={<Confetti />} title="Vert.x is fun" className="col-span-3">
+<FeaturesItem icon={<Confetti />} title="Vert.x is fun" className="col-span-6 md:col-span-3 xl:col-span-3">
 
 Forget complexity and costly abstractions. With Vert.x, what you write is actually what you get to execute!
 Get back to simple designs, forget some of the established "best practices", and enjoy writing code that is comprehensible and that won't let you down in the future.
@@ -41,7 +42,7 @@ Get back to simple designs, forget some of the established "best practices", and
 We also have a friendly community, so you can learn from people who have used Vert.x in very diverse settings.
 
 </FeaturesItem>
-<FeaturesItem icon={<Umbrella />} title="Ecosystem" className="col-span-3">
+<FeaturesItem icon={<Umbrella />} title="Ecosystem" className="col-span-6 xl:col-span-3">
 
 Web APIs, databases, messaging, event streams, cloud, registries, security... you name it.
 Vert.x has you covered with a comprehensive end-to-end reactive clients stack for modern applications.
@@ -52,4 +53,5 @@ Vert.x is a safe investment for your technology stack.
 </FeaturesItem>
 </FeaturesList>
 
+</div>
 </section>
