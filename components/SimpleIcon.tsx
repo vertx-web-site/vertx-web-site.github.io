@@ -4,7 +4,7 @@ import type { SimpleIcon as SI } from "simple-icons"
 interface SimpleIconProps {
   icon: SI
   color?: string
-  size?: number
+  size?: string | number
   title?: string
 }
 

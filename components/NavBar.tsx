@@ -12,7 +12,14 @@ import { throttle } from "lodash"
 import dynamic from "next/dynamic"
 import { usePathname } from "next/navigation"
 import { useEffect, useRef, useState } from "react"
-import { siGithub } from "simple-icons"
+import {
+  siAwesomelists,
+  siDiscord,
+  siGithub,
+  siGooglemessages,
+  siStackoverflow,
+  siYoutube,
+} from "simple-icons"
 
 const DialogRoot = dynamic(
   () => import("@radix-ui/react-dialog").then(mod => mod.Root),
@@ -169,6 +176,129 @@ const NavBar = ({ fixed = true, narrow = false }: NavBarProps) => {
     },
   ]
 
+  const socialIcons = [
+    {
+      title: "Awesome Vert.x",
+      content: (
+        <Link
+          href="https://github.com/vert-x3/vertx-awesome"
+          className="group"
+          aria-label="Awesome Vert.x"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <SimpleIcon
+            icon={siAwesomelists}
+            size="1em"
+            aria-label="List of awesome Vert.x projects"
+            className="fill-gray-700 transition-colors group-hover:fill-gray-900"
+            title=""
+          />
+        </Link>
+      ),
+    },
+    {
+      title: "Stack Overflow",
+      content: (
+        <Link
+          href="https://stackoverflow.com/questions/tagged/vert.x"
+          className="group"
+          aria-label="Stack Overflow"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <SimpleIcon
+            icon={siStackoverflow}
+            size="1em"
+            aria-label="Stack Overflow questions related to Vert.x"
+            className="fill-gray-700 transition-colors group-hover:fill-gray-900"
+            title=""
+          />
+        </Link>
+      ),
+    },
+    {
+      title: "YouTube",
+      content: (
+        <Link
+          href="https://www.youtube.com/channel/UCGN6L3tRhs92Uer3c6VxOSA"
+          className="group"
+          aria-label="YouTube"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <SimpleIcon
+            icon={siYoutube}
+            size="1em"
+            aria-label="YouTube channel of Vert.x"
+            className="fill-gray-700 transition-colors group-hover:fill-gray-900"
+            title=""
+          />
+        </Link>
+      ),
+    },
+    {
+      title: "Discord",
+      content: (
+        <Link
+          href="https://discord.gg/6ry7aqPWXy"
+          className="group"
+          aria-label="Discord"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <SimpleIcon
+            icon={siDiscord}
+            size="1em"
+            aria-label="Eclipse Vert.x channel on Discord"
+            className="fill-gray-700 transition-colors group-hover:fill-gray-900"
+            title=""
+          />
+        </Link>
+      ),
+    },
+    {
+      title: "Vert.x User Group",
+      content: (
+        <Link
+          href="https://groups.google.com/forum/?fromgroups#!forum/vertx"
+          className="group"
+          aria-label="Vert.x User Group"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <SimpleIcon
+            icon={siGooglemessages}
+            size="1em"
+            aria-label="A Google group for Vert.x users"
+            className="fill-gray-700 transition-colors group-hover:fill-gray-900"
+            title=""
+          />
+        </Link>
+      ),
+    },
+    {
+      title: "GitHub",
+      content: (
+        <Link
+          href="https://github.com/eclipse-vertx/vert.x"
+          className="group"
+          aria-label="GitHub"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <SimpleIcon
+            icon={siGithub}
+            size="1em"
+            aria-label="GitHub repository"
+            className="fill-gray-700 transition-colors group-hover:fill-gray-900"
+            title=""
+          />
+        </Link>
+      ),
+    },
+  ]
+
   return (
     <>
       <ScrollTopWorkaround />
@@ -186,14 +316,18 @@ const NavBar = ({ fixed = true, narrow = false }: NavBarProps) => {
         <div
           className={clsx(
             "top-0 flex h-14 w-full items-center justify-center border-b border-gray-200 px-4 transition-all md:px-6",
-            !collapsed ? "bg-bg bg-opacity-80 backdrop-blur-sm" : "bg-gray-100",
+            !collapsed
+              ? onTop || (!fixed && !visible)
+                ? "bg-bg/0 backdrop-blur-none"
+                : "bg-bg/80 backdrop-blur-sm"
+              : "bg-gray-100",
             collapsed || onTop || (!fixed && !visible)
-              ? "border-opacity-0 bg-[#00000000] backdrop-blur-none"
+              ? "border-opacity-0"
               : "border-opacity-100",
           )}
         >
           <div className="flex max-w-screen-2xl flex-1 items-center justify-between">
-            <div className="flex flex-1 items-center justify-between lg:hidden">
+            <div className="flex flex-1 items-center justify-between xl:hidden">
               <Logo onClick={() => setCollapsed(false)} />
               <div className="flex items-center gap-4">
                 <QuickSearch onClick={() => setCollapsed(false)} />
@@ -210,7 +344,7 @@ const NavBar = ({ fixed = true, narrow = false }: NavBarProps) => {
                 </button>
               </div>
             </div>
-            <div className="hidden flex-1 items-center justify-between gap-8 lg:flex">
+            <div className="hidden flex-1 items-center justify-between gap-8 xl:flex">
               <Logo onClick={() => setCollapsed(false)} />
               <div className="mt-1 flex gap-6">
                 {links.map(l => (
@@ -236,19 +370,13 @@ const NavBar = ({ fixed = true, narrow = false }: NavBarProps) => {
                     <DarkModeToggle id="dark-mode-toggle1" />
                   </div>
                 </Tooltip> */}
-                <Tooltip content="GitHub">
-                  <Link
-                    href="https://github.com/eclipse-vertx/vert.x"
-                    className="group"
-                    aria-label="GitHub"
-                  >
-                    <SimpleIcon
-                      icon={siGithub}
-                      className="fill-gray-600 transition-colors group-hover:fill-gray-800"
-                      title=""
-                    />
-                  </Link>
-                </Tooltip>
+                <div className="flex items-center gap-3">
+                  {socialIcons.map(si => (
+                    <Tooltip key={si.title} content={si.title}>
+                      {si.content}
+                    </Tooltip>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
@@ -258,7 +386,7 @@ const NavBar = ({ fixed = true, narrow = false }: NavBarProps) => {
           <DialogPortal>
             <RemoveScroll as={Slot}>
               <DialogContent
-                className="fixed top-14 z-50 h-[calc(100vh-4rem)] w-screen overflow-scroll bg-gray-100 lg:hidden [&[data-state='closed']]:animate-fade-out [&[data-state='open']]:animate-fade-in"
+                className="fixed top-14 z-50 h-[calc(100vh-4rem)] w-screen overflow-scroll bg-gray-100 xl:hidden [&[data-state='closed']]:animate-fade-out [&[data-state='open']]:animate-fade-in"
                 onInteractOutside={e => e.preventDefault()}
                 onCloseAutoFocus={e => e.preventDefault()}
                 onPointerDownOutside={e => e.preventDefault()}
@@ -278,18 +406,10 @@ const NavBar = ({ fixed = true, narrow = false }: NavBarProps) => {
                     </Link>
                   ))}
                 </div>
-                <div className="mt-8 flex items-center justify-end gap-4 px-4">
+                <div className="mt-8 flex items-center justify-end gap-3 px-4">
                   {/* TODO */}
                   {/* <DarkModeToggle id="dark-mode-toggle2" /> */}
-                  <Link
-                    href="https://github.com/steep-wms/steep"
-                    className="group"
-                  >
-                    <SimpleIcon
-                      icon={siGithub}
-                      className="fill-gray-600 transition-colors group-hover:fill-gray-800"
-                    />
-                  </Link>
+                  {socialIcons.map(si => si.content)}
                 </div>
                 <ResizeObserver onResize={() => setCollapsed(false)} />
               </DialogContent>

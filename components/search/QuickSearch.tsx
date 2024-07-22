@@ -27,7 +27,7 @@ const QuickSearch = ({ onClick }: QuickSearchProps) => {
   return (
     <>
       <button
-        className="lg:hidden"
+        className="xl:hidden"
         onClick={() => {
           onClick?.()
           setSearchDialogOpen(true)
@@ -37,7 +37,7 @@ const QuickSearch = ({ onClick }: QuickSearchProps) => {
         <MagnifyingGlass size="1.75rem" />
       </button>
       <button
-        className="hidden h-8 w-56 cursor-pointer select-none items-center justify-between rounded border border-gray-300 bg-white pl-3 pr-2 text-sm text-gray-600 transition-colors hover:border-gray-500 lg:flex"
+        className="hidden h-8 w-56 cursor-pointer select-none items-center justify-between rounded border border-gray-300 bg-white pl-3 pr-2 text-sm text-gray-600 transition-colors hover:border-gray-500 xl:flex"
         onClick={() => setSearchDialogOpen(true)}
       >
         Search docs ...
