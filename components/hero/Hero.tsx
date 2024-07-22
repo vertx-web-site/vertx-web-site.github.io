@@ -1,8 +1,8 @@
 import { latestRelease } from "../../docs/metadata/all"
 import Button from "../Button"
+import Link from "../LinkFix"
 import MainCodeExamples from "./MainCodeExamples"
 import { ArrowCircleUp, FastForward } from "@phosphor-icons/react"
-import Link from "next/link"
 import Balancer, { Provider } from "react-wrap-balancer"
 
 interface HeroProps {}
@@ -19,7 +19,7 @@ const Hero = ({}: HeroProps) => (
       />
       <div className="px-4 md:px-6">
         {/* main content */}
-        <div className="mx-auto mb-20 mt-40 flex max-w-screen-xl flex-row justify-between">
+        <div className="mx-auto mb-20 mt-16 flex max-w-screen-xl flex-row justify-between md:mt-20">
           {/* left side */}
           <div className="mx-auto max-w-3xl text-center xl:mx-0 xl:max-w-[580px] xl:text-left">
             {/* slogan */}

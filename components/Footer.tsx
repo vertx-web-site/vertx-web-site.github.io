@@ -1,7 +1,7 @@
 import * as Accordion from "@radix-ui/react-accordion"
+import Link from "./LinkFix"
 import { CaretDown } from "@phosphor-icons/react"
 import clsx from "clsx"
-import Link from "next/link"
 import { forwardRef } from "react"
 
 interface AccordionItemProps {
