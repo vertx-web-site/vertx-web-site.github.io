@@ -8,7 +8,7 @@ const CommunityHero = () => (
         backgroundImage: `url(${process.env.__NEXT_ROUTER_BASEPATH}/images/community-hero-background.svg)`,
       }}
     />
-    <Container className="mb-32 mt-28 flex flex-row justify-between">
+    <Container className="mb-32 mt-16 flex flex-row justify-between">
       <div className="mx-auto pt-4 lg:mx-0">
         <div className="text-center text-[2.8rem] leading-tight lg:text-left">
           <strong className="text-pretty font-medium">
