@@ -1,6 +1,6 @@
 import * as Accordion from "@radix-ui/react-accordion"
 import Link from "./LinkFix"
-import { CaretDown } from "@phosphor-icons/react"
+import { CaretDown } from "@phosphor-icons/react/dist/ssr"
 import clsx from "clsx"
 import { forwardRef } from "react"
 

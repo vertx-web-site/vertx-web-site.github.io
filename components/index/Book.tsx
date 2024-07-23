@@ -1,4 +1,5 @@
 import Button from "../Button"
+import Container from "../Container"
 import { useAnimate } from "framer-motion"
 import { useEffect, useRef } from "react"
 
@@ -46,8 +47,8 @@ const Book = () => {
   }, [animate])
 
   return (
-    <section className="px-4 md:px-6" ref={scope}>
-      <div className="mx-auto max-w-screen-md">
+    <section ref={scope}>
+      <Container width="md">
         <div className="prose">
           <h3 className="text-center text-3xl">Read about Vert.x</h3>
           <p className="lead text-center">
@@ -122,7 +123,7 @@ const Book = () => {
             </a>
           </div>
         </div>
-      </div>
+      </Container>
     </section>
   )
 }

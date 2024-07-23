@@ -1,4 +1,5 @@
 import Button from "../Button"
+import Container from "../Container"
 import { motion } from "framer-motion"
 import { shuffle } from "lodash"
 import { useEffect, useRef, useState } from "react"
@@ -153,11 +154,11 @@ const Logos = () => {
 
   return (
     <section>
-      <div className="prose px-4 md:px-6">
+      <Container className="prose">
         <h3 className="text-center text-3xl">
           Who&rsquo;s using Eclipse Vert.x?
         </h3>
-      </div>
+      </Container>
       <div className="my-16 flex max-w-full flex-col items-start gap-14 overflow-x-hidden">
         <motion.div
           className="inline-flex flex-row"
@@ -205,14 +206,14 @@ const Logos = () => {
         </motion.div>
       </div>
 
-      <div className="mx-auto flex flex-col items-center justify-center gap-4 px-4 md:flex-row md:px-6">
+      <Container className="flex flex-col items-center justify-center gap-4 md:flex-row">
         <div>Want to be listed here?</div>
         <a href="mailto:vertx-enquiries@googlegroups.com">
           <Button primary icon={<Mail />}>
             Contact us!
           </Button>
         </a>
-      </div>
+      </Container>
     </section>
   )
 }

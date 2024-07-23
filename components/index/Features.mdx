@@ -1,9 +1,10 @@
+import Container from "@/components/Container"
 import FeaturesItem from "./FeaturesItem"
 import FeaturesList from "./FeaturesList"
 import { Cpu, Confetti, Feather, SlidersHorizontal, Umbrella } from "@phosphor-icons/react";
 
-<section className="px-4 md:px-6">
-<div className="max-w-screen-xl mx-auto">
+<section>
+<Container>
 
 {/* You have to leave a blank line after <FeaturesItem> and the feature's text,
     as well as between the text and </FeaturesItem>. Otherwise, you will
@@ -53,5 +54,5 @@ Vert.x is a safe investment for your technology stack.
 </FeaturesItem>
 </FeaturesList>
 
-</div>
+</Container>
 </section>

@@ -167,11 +167,11 @@ const NavBar = ({ fixed = true, narrow = false }: NavBarProps) => {
       label: "Resources",
     },
     {
-      href: "/about/",
+      href: "/blog/",
       label: "Blog",
     },
     {
-      href: "/about/",
+      href: "/community/",
       label: "Community",
     },
   ]
