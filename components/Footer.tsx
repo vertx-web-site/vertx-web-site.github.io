@@ -222,7 +222,7 @@ const Footer = () => {
             Eclipse Vert.x&trade; is open source and dual-licensed under the{" "}
             <span className="sm:text-nowrap">
               <a
-                href="https://creativecommons.org/licenses/by-sa/3.0/"
+                href="https://www.eclipse.org/legal/epl-2.0/"
                 target="_blank"
                 rel="noopener noreferrer"
               >
