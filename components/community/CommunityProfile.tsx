@@ -49,11 +49,13 @@ const CommunityProfile = ({
           alt={name}
           title={size === "small" ? name : undefined}
           loading={size === "small" ? "lazy" : "eager"}
-          className={clsx("lazyload", "rounded-full border border-gray-200", {
+          className={clsx("rounded-full border border-gray-200", {
             "mb-4 w-32": size === "large",
             "mb-3 w-24": size === "medium",
             "w-16": size === "small",
           })}
+          width={cx}
+          height={cx}
         />
       </a>
       {"name" in profile && profile.name !== undefined && (

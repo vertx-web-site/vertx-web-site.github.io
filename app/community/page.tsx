@@ -41,7 +41,7 @@ const FULL_TIME_DEVELOPERS: User[] = [
 const MAINTAINERS: User[] = [
   {
     githubId: "michel-kraemer",
-    role: "Web site",
+    role: "Website",
   },
   {
     githubId: "alexlehm",
