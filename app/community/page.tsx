@@ -149,6 +149,10 @@ const MAINTAINERS: User[] = [
     githubId: "pk-work",
     role: "Vert.x OpenAPI",
   },
+  {
+    githubId: "CheesyBoy123",
+    role: "Vert.x JSON Schema",
+  },
 ]
 
 // maximum number of parallel requests against the GitHub API
