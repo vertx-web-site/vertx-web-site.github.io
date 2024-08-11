@@ -158,17 +158,21 @@ const MAINTAINERS: User[] = [
 // maximum number of parallel requests against the GitHub API
 const MAX_CONCURRENCY = 2
 
+// `true` if `fetchAll()` has not been called yet
+let FIRST_FETCH_ALL = true
+
 async function fetchUsers(
   users: User[],
   contributors: Contributor[],
   octokit: Octokit,
+  log: (message: string) => void,
 ): Promise<FetchedUser[]> {
   let result: FetchedUser[] = []
 
   let fetchResults = await pMap(
     users,
     async user => {
-      console.log(`Fetching information about user ${user.githubId} ...`)
+      log(`Fetching information about user ${user.githubId} ...`)
       let info = await octokit.users.getByUsername({ username: user.githubId })
       return { info: info.data, user }
     },
@@ -206,10 +210,13 @@ async function fetchUsers(
   return result
 }
 
-async function fetchContributors(octokit: Octokit): Promise<Contributor[]> {
+async function fetchContributors(
+  octokit: Octokit,
+  log: (message: string) => void,
+): Promise<Contributor[]> {
   let contributors: Contributor[] = []
 
-  console.log("Updating list of contributors ...")
+  log("Updating list of contributors ...")
 
   let repos = [
     {
@@ -221,7 +228,7 @@ async function fetchContributors(octokit: Octokit): Promise<Contributor[]> {
     },
   ]
 
-  console.log("Fetching repositories ...")
+  log("Fetching repositories ...")
   let fetchedRepos = await pMap(
     ["vert-x", "vert-x3", "vertx-web-site", "eclipse-vertx"],
     org => octokit.paginate(octokit.repos.listForOrg, { org }),
@@ -234,7 +241,7 @@ async function fetchContributors(octokit: Octokit): Promise<Contributor[]> {
   let fetchedRepoContributors = await pMap(
     repos,
     repo => {
-      console.log(`Fetching contributors of ${repo.full_name} ...`)
+      log(`Fetching contributors of ${repo.full_name} ...`)
       return octokit.paginate(octokit.repos.listContributors, {
         owner: repo.owner.login,
         repo: repo.name,
@@ -263,7 +270,7 @@ async function fetchContributors(octokit: Octokit): Promise<Contributor[]> {
     }
   }
 
-  console.log("Done.")
+  log("Done.")
 
   return contributors
 }
@@ -280,11 +287,21 @@ async function fetchAll(): Promise<{
     },
   })
 
+  // The page will be rendered twice during SSR, which is OK because fetches
+  // are cached by Next.js. Make sure messages are only logged once.
+  let log: (message: string) => void
+  if (FIRST_FETCH_ALL) {
+    FIRST_FETCH_ALL = false
+    log = (message: string) => console.log(message)
+  } else {
+    log = () => {}
+  }
+
   let fullTimeDevelopers: FetchedUser[] | undefined = undefined
   let maintainers: FetchedUser[] | undefined = undefined
   let contributors: Contributor[] | undefined = undefined
   if (process.env.GITHUB_ACCESS_TOKEN === undefined) {
-    console.log(
+    log(
       "No GitHub access token found. Generating list of contributors " +
         "will be skipped. To fix this, provide an environment variable " +
         "`GITHUB_ACCESS_TOKEN` with your personal access token. For example: " +
@@ -302,15 +319,18 @@ async function fetchAll(): Promise<{
     }
 
     // fetch contributors
-    contributors = await pRetry(() => fetchContributors(octokit), retryOptions)
+    contributors = await pRetry(
+      () => fetchContributors(octokit, log),
+      retryOptions,
+    )
 
     // fetch information about full-time developers and maintainers
     fullTimeDevelopers = await pRetry(
-      () => fetchUsers(FULL_TIME_DEVELOPERS, contributors!!, octokit),
+      () => fetchUsers(FULL_TIME_DEVELOPERS, contributors!!, octokit, log),
       retryOptions,
     )
     maintainers = await pRetry(
-      () => fetchUsers(MAINTAINERS, contributors!!, octokit),
+      () => fetchUsers(MAINTAINERS, contributors!!, octokit, log),
       retryOptions,
     )
 
