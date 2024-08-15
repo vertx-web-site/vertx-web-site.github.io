@@ -1,8 +1,8 @@
-import Link from "@/components/LinkFix"
 import ScrollTopWorkaround from "@/components/ScrollTopWorkaround"
 import { Index, Toc } from "@/components/docs/Toc"
 import { CaretLeft, CaretRight } from "@phosphor-icons/react/dist/ssr"
 import { Metadata, ResolvingMetadata } from "next"
+import Link from "next/link"
 
 interface DocsPageProps {
   params: { slug: string[] }

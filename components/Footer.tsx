@@ -1,7 +1,7 @@
 import * as Accordion from "@radix-ui/react-accordion"
-import Link from "./LinkFix"
 import { CaretDown } from "@phosphor-icons/react/dist/ssr"
 import clsx from "clsx"
+import Link from "next/link"
 import { forwardRef } from "react"
 
 interface AccordionItemProps {
@@ -57,7 +57,7 @@ const AccordionContent = forwardRef<HTMLDivElement, AccordionContentProps>(
   ({ children, className, ...props }, forwardedRef) => (
     <Accordion.Content
       className={clsx(
-        "data-[state=open]:animate-accordionSlideDown data-[state=closed]:animate-accordionSlideUp overflow-hidden",
+        "overflow-hidden data-[state=closed]:animate-accordionSlideUp data-[state=open]:animate-accordionSlideDown",
         className,
       )}
       {...props}

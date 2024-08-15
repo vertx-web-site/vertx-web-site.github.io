@@ -1,9 +1,9 @@
 import { latestRelease } from "../../docs/metadata/all"
 import Button from "../Button"
 import Container from "../Container"
-import Link from "../LinkFix"
 import MainCodeExamples from "./MainCodeExamples"
 import { ArrowCircleUp, FastForward } from "@phosphor-icons/react"
+import Link from "next/link"
 import Balancer, { Provider } from "react-wrap-balancer"
 
 interface HeroProps {}

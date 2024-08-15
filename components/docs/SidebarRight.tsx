@@ -1,8 +1,8 @@
 import Sidebar from "./Sidebar"
 import { Index, Section, Subsection } from "./Toc"
-import Link from "@/components/LinkFix"
 import { ArrowSquareOut } from "@phosphor-icons/react/dist/ssr"
 import clsx from "clsx"
+import Link from "next/link"
 import { useSelectedLayoutSegment } from "next/navigation"
 import { useEffect, useLayoutEffect, useRef } from "react"
 

@@ -1,7 +1,7 @@
 import Sidebar from "./Sidebar"
-import Link from "@/components/LinkFix"
 import { Toc } from "@/components/docs/Toc"
 import clsx from "clsx"
+import Link from "next/link"
 import { useSelectedLayoutSegment } from "next/navigation"
 import { useEffect, useRef } from "react"
 

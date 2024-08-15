@@ -1,6 +1,5 @@
 "use client"
 
-import Link from "./LinkFix"
 import ScrollTopWorkaround from "./ScrollTopWorkaround"
 import SimpleIcon from "./SimpleIcon"
 import { Tooltip } from "./Tooltip"
@@ -10,6 +9,7 @@ import clsx from "clsx"
 import { Spin as Hamburger } from "hamburger-react"
 import { throttle } from "lodash"
 import dynamic from "next/dynamic"
+import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useEffect, useRef, useState } from "react"
 import {
