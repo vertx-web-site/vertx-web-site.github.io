@@ -1,19 +1,29 @@
-const asciidoctor = require("asciidoctor")
-const fs = require("fs/promises")
-const highlightJsExt = require("asciidoctor-highlight.js")
-const parse5 = require("parse5")
-const path = require("path")
+import * as parse5 from "parse5"
+import asciidoctor from "asciidoctor"
+import highlightJsExt from "asciidoctor-highlight.js"
+import fs from "fs/promises"
+import path from "path"
+import { MessagePort } from "worker_threads"
+
 const { isCompiled, writeCompiledSha } = require("./util")
 
 const compiledPath = "compiled"
 const downloadPath = "download"
 
-async function readDirRecursive(dir, result = []) {
+async function readDirRecursive(
+  dir: string,
+  result: string[] = [],
+): Promise<string[]> {
   let files = await fs.readdir(dir)
   for (let f of files) {
     let absolute = path.join(dir, f)
     if ((await fs.stat(absolute)).isDirectory()) {
-      if (f !== "apidocs" && f !== "jsdoc" && f !== "kdoc" && f !== "scaladocs") {
+      if (
+        f !== "apidocs" &&
+        f !== "jsdoc" &&
+        f !== "kdoc" &&
+        f !== "scaladocs"
+      ) {
         await readDirRecursive(absolute, result)
       }
     } else {
@@ -25,7 +35,17 @@ async function readDirRecursive(dir, result = []) {
   return result
 }
 
-module.exports = async ({ version, artifactVersion, isLatestBugfixVersion, progressPort }) => {
+async function workerMain({
+  version,
+  artifactVersion,
+  isLatestBugfixVersion,
+  progressPort,
+}: {
+  version: string
+  artifactVersion: string
+  isLatestBugfixVersion: boolean
+  progressPort: MessagePort
+}) {
   let adoc = asciidoctor()
 
   // clean up any previously registered extensions
@@ -41,18 +61,25 @@ module.exports = async ({ version, artifactVersion, isLatestBugfixVersion, progr
     safe: "unsafe",
     attributes: {
       "source-highlighter": "highlightjs-ext",
-      "showtitle": true,
-      "toc": "left",
-      "sectanchors": true
-    }
+      showtitle: true,
+      toc: "left",
+      sectanchors: true,
+    },
   }
 
   let extractedPath = `extracted/${version}`
   let destVersionPath = path.join(compiledPath, version)
   await fs.mkdir(destVersionPath, { recursive: true })
 
-  if (await isCompiled(version, artifactVersion, downloadPath, compiledPath,
-      isLatestBugfixVersion)) {
+  if (
+    await isCompiled(
+      version,
+      artifactVersion,
+      downloadPath,
+      compiledPath,
+      isLatestBugfixVersion,
+    )
+  ) {
     // documentation has already been compiled earlier
     progressPort.postMessage(100)
     return []
@@ -68,16 +95,21 @@ module.exports = async ({ version, artifactVersion, isLatestBugfixVersion, progr
     let contents = doc.convert()
 
     // parse generated HTML and extract table of contents
-    let documentFragment = parse5.parseFragment(contents, { sourceCodeLocationInfo: true })
+    let documentFragment = parse5.parseFragment(contents, {
+      sourceCodeLocationInfo: true,
+    })
     let toc = undefined
     for (let child of documentFragment.childNodes) {
-      if (child.tagName === "div") {
+      if (child.nodeName === "div") {
         for (let attr of child.attrs) {
           if (attr.name === "id" && attr.value === "toc") {
-            toc = contents.substring(child.sourceCodeLocation.startOffset,
-                child.sourceCodeLocation.endOffset)
-            contents = contents.substring(0, child.sourceCodeLocation.startOffset) +
-                contents.substring(child.sourceCodeLocation.endOffset)
+            toc = contents.substring(
+              child.sourceCodeLocation!.startOffset,
+              child.sourceCodeLocation!.endOffset,
+            )
+            contents =
+              contents.substring(0, child.sourceCodeLocation!.startOffset) +
+              contents.substring(child.sourceCodeLocation!.endOffset)
             break
           }
         }
@@ -91,15 +123,17 @@ module.exports = async ({ version, artifactVersion, isLatestBugfixVersion, progr
     let result = {
       title,
       contents,
-      toc
+      toc,
     }
-    let destFile = path.join(destVersionPath, f.substring(extractedPath.length + 1)
-      .replace(/\.adoc$/, ".json"))
+    let destFile = path.join(
+      destVersionPath,
+      f.substring(extractedPath.length + 1).replace(/\.adoc$/, ".json"),
+    )
     await fs.mkdir(path.dirname(destFile), { recursive: true })
     await fs.writeFile(destFile, JSON.stringify(result))
 
     ++i
-    let progress = Math.round(i * 100 / files.length)
+    let progress = Math.round((i * 100) / files.length)
     if (progress !== lastProgress) {
       progressPort.postMessage(progress)
       lastProgress = progress
@@ -108,14 +142,22 @@ module.exports = async ({ version, artifactVersion, isLatestBugfixVersion, progr
 
   // write sha file to indicate that the documentation for this version
   // has been completely compiled
-  await writeCompiledSha(version, artifactVersion, downloadPath, compiledPath,
-      isLatestBugfixVersion)
+  await writeCompiledSha(
+    version,
+    artifactVersion,
+    downloadPath,
+    compiledPath,
+    isLatestBugfixVersion,
+  )
 
   if (lastProgress < 100) {
     progressPort.postMessage(100)
   }
 
-  return memoryLogger.getMessages()
+  return memoryLogger
+    .getMessages()
     .filter(m => m.getSeverity() !== "DEBUG")
     .map(m => `${m.getSeverity()}: ${m.getText()}`)
 }
+
+export default workerMain

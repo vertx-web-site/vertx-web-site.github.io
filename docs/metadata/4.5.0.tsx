@@ -1,5 +1,5 @@
-import { clone, find } from "./helpers"
 import oldDocs from "./4.4.0"
+import { clone, find } from "./helpers"
 
 const docs = clone(oldDocs)
 

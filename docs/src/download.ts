@@ -1,16 +1,17 @@
-import fsSync from "fs"
-import fs from "fs/promises"
-import path from "path"
-import stream from "stream"
-import util from "util"
+import fsSync from "node:fs"
+import fs from "node:fs/promises"
+import path from "node:path"
 import xml2js from "xml2js"
-
-const pipeline = util.promisify(stream.pipeline)
 
 const repoUrl = "https://repo1.maven.org/maven2"
 const downloadPath = "download"
 
-async function downloadFile(url, dest, version, progressListener) {
+async function downloadFile(
+  url: string,
+  dest: string,
+  version: string,
+  progressListener: ProgressListener | undefined,
+) {
   if (fsSync.existsSync(dest)) {
     return
   }
@@ -22,33 +23,29 @@ async function downloadFile(url, dest, version, progressListener) {
 
   let lastProgress = 0
   let downloaded = 0
-  let length = +res.headers.get("content-length")
+  let length = +(res.headers.get("content-length") ?? "0")
   progressListener?.start(length, `Download ${version}`)
 
   let partFile = dest + ".part"
-  let outputFile = fsSync.createWriteStream(partFile)
+  let outputFile = await fs.open(partFile, "w")
 
   try {
-    await pipeline(
-      res.body,
-      stream.Transform({
-        transform(chunk, enc, cb) {
-          downloaded += chunk.length
-          if (downloaded - 1024 * 50 > lastProgress) {
-            progressListener?.update(downloaded)
-            lastProgress = downloaded
-          }
-          this.push(chunk)
-          cb()
-        },
-      }),
-      outputFile,
-    )
-    outputFile.close()
+    let reader = res.body!.getReader()
+    let readResult = await reader.read()
+    while (!readResult.done) {
+      downloaded += readResult.value.length
+      if (downloaded - 1024 * 50 > lastProgress) {
+        progressListener?.update(downloaded)
+        lastProgress = downloaded
+      }
+      await outputFile.write(readResult.value)
+      readResult = await reader.read()
+    }
+    await outputFile.close()
     progressListener?.update(downloaded)
   } catch (err) {
     try {
-      outputFile.close()
+      await outputFile.close()
     } finally {
       await fs.unlink(partFile)
     }
@@ -57,7 +54,7 @@ async function downloadFile(url, dest, version, progressListener) {
   }
 }
 
-async function getSnapshotUrl(version) {
+async function getSnapshotUrl(version: string) {
   let baseUrl = `https://s01.oss.sonatype.org/content/repositories/snapshots/io/vertx/vertx-stack-docs/${version}/`
   let metadataUrl = `${baseUrl}maven-metadata.xml`
 
@@ -72,7 +69,7 @@ async function getSnapshotUrl(version) {
   return `${baseUrl}vertx-stack-docs-${metadata.metadata.versioning[0].snapshotVersions[0].snapshotVersion[0].value[0]}-docs.zip`
 }
 
-async function download(version, progressListener) {
+async function download(version: string, progressListener: ProgressListener) {
   let url
   if (version.endsWith("-SNAPSHOT")) {
     url = await getSnapshotUrl(version)

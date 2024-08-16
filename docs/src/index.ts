@@ -1,15 +1,15 @@
-import cliProgress from "cli-progress"
-import fs from "fs-extra"
+import { latestRelease, metadata, versions } from "../metadata/all"
+import { filterLatestBugfixVersions, parseVersion } from "../metadata/helpers"
 import download from "./download"
 import extract from "./extract"
 import { isCompiled, writeCompiledSha } from "./util"
-import { metadata, latestRelease, versions } from "../metadata/all"
-import { filterLatestBugfixVersions, parseVersion } from "../metadata/helpers"
-import restoreCursor from "restore-cursor"
+import cliProgress from "cli-progress"
+import fs from "fs-extra"
+import pLimit from "p-limit"
 import path from "path"
 import Piscina from "piscina"
-import pLimit from "p-limit"
 import prettyMilliseconds from "pretty-ms"
+import restoreCursor from "restore-cursor"
 import { MessageChannel } from "worker_threads"
 import yargs from "yargs"
 import { hideBin } from "yargs/helpers"
@@ -19,10 +19,10 @@ const argv = yargs(hideBin(process.argv))
   .usage("$0 <cmd> [args]")
   .option("latest-bugfix-versions-only", {
     describe: "Skip superseded patch versions",
-    type: "boolean"
+    type: "boolean",
   })
   .help()
-  .argv
+  .parseSync()
 
 // make sure CLI cursor is restored on exit
 restoreCursor()
@@ -32,39 +32,54 @@ const downloadPath = "download"
 const publicDocsPath = "../public/docs"
 
 const piscina = new Piscina({
-  filename: "./src/asciidoc-worker.js"
+  filename: "./dist/asciidoc-worker.js",
 })
 
-const multibar = new cliProgress.MultiBar({
-  autopadding: true,
-  hideCursor: true,
-  stopOnComplete: true,
-  format: function (options, params, payload) {
-    if (!payload.message.startsWith("Download")) {
-      return cliProgress.Format.Formatter({
-        ...options,
-        format: "{bar} {percentage}% | {value}/{total} | {message}",
-        formatValue: function (v, options, type) {
-          if (payload.asciidoc && (type === "total" || type === "value")) {
-            v = Math.floor(v / 100)
-          }
-          return cliProgress.Format.ValueFormat(v, options, type)
-        }
-      }, params, payload)
-    } else {
-      return cliProgress.Format.Formatter({
-        ...options,
-        format: "{bar} {percentage}% | {value} MB/{total} MB | {message}",
-        formatValue: function (v, options, type) {
-          if (type === "total" || type === "value") {
-            return cliProgress.Format.ValueFormat(Math.round(v / 1024 / 1024), options, type)
-          }
-          return cliProgress.Format.ValueFormat(v, options, type)
-        }
-      }, params, payload)
-    }
-  }
-}, cliProgress.Presets.rect)
+const multibar = new cliProgress.MultiBar(
+  {
+    autopadding: true,
+    hideCursor: true,
+    stopOnComplete: true,
+    format: function (options, params, payload) {
+      if (!payload.message.startsWith("Download")) {
+        return cliProgress.Format.Formatter(
+          {
+            ...options,
+            format: "{bar} {percentage}% | {value}/{total} | {message}",
+            formatValue: function (v, options, type) {
+              if (payload.asciidoc && (type === "total" || type === "value")) {
+                v = Math.floor(v / 100)
+              }
+              return cliProgress.Format.ValueFormat(v, options, type)
+            },
+          },
+          params,
+          payload,
+        )
+      } else {
+        return cliProgress.Format.Formatter(
+          {
+            ...options,
+            format: "{bar} {percentage}% | {value} MB/{total} MB | {message}",
+            formatValue: function (v, options, type) {
+              if (type === "total" || type === "value") {
+                return cliProgress.Format.ValueFormat(
+                  Math.round(v / 1024 / 1024),
+                  options,
+                  type,
+                )
+              }
+              return cliProgress.Format.ValueFormat(v, options, type)
+            },
+          },
+          params,
+          payload,
+        )
+      }
+    },
+  },
+  cliProgress.Presets.rect,
+)
 
 async function main() {
   const downloadLimit = pLimit(4)
@@ -80,11 +95,21 @@ async function main() {
     asciidoctorBarLength = metadata.length
   }
   let asciidoctorBar = multibar.create(asciidoctorBarLength * 100, 0, {
-    message: "Compile Asciidoc", asciidoc: true })
+    message: "Compile Asciidoc",
+    asciidoc: true,
+  })
 
-  async function run(version, artifactVersion, latestBugfixVersion) {
-    let progressListener = {
-      start(total, message) {
+  async function run(
+    version: string,
+    artifactVersion: string,
+    latestBugfixVersion: string | undefined,
+  ) {
+    let progressListener: ProgressListener & {
+      bar: cliProgress.SingleBar | undefined
+    } = {
+      bar: undefined,
+
+      start(total: number, message: string) {
         this.stop()
         this.bar = multibar.create(total, 0, { message })
         if (this.bar === undefined) {
@@ -92,7 +117,7 @@ async function main() {
         }
       },
 
-      update(value) {
+      update(value: number) {
         this.bar?.update(value)
       },
 
@@ -101,7 +126,7 @@ async function main() {
           this.bar.stop()
           multibar.remove(this.bar)
         }
-      }
+      },
     }
 
     // download artifact
@@ -111,8 +136,13 @@ async function main() {
     progressListener.stop()
 
     // check if asciidoc for this version has already been compiled
-    let asciidocCompiled = await isCompiled(version, artifactVersion,
-      downloadPath, compiledPath, latestBugfixVersion === undefined)
+    let asciidocCompiled = await isCompiled(
+      version,
+      artifactVersion,
+      downloadPath,
+      compiledPath,
+      latestBugfixVersion === undefined,
+    )
 
     // delete compiled files and extracted apidocs if SHA was different
     if (!asciidocCompiled) {
@@ -124,9 +154,13 @@ async function main() {
 
     // extract artifact
     await extractLimit(() => {
-      return extract(version, artifactVersion, progressListener,
-          latestBugfixVersion === undefined && asciidocCompiled,
-          latestBugfixVersion)
+      return extract(
+        version,
+        artifactVersion,
+        progressListener,
+        latestBugfixVersion === undefined && asciidocCompiled,
+        latestBugfixVersion,
+      )
     })
     progressListener.stop()
 
@@ -156,21 +190,24 @@ async function main() {
       // compile asciidoc
       let lastProgress = 0
       let channel = new MessageChannel()
-      channel.port2.on("message", (progress) => {
+      channel.port2.on("message", progress => {
         if (progress !== lastProgress) {
           asciidoctorBar?.increment(progress - lastProgress)
           lastProgress = progress
         }
       })
 
-      let messages = await piscina.run({
-        version,
-        artifactVersion,
-        isLatestBugfixVersion: true,
-        progressPort: channel.port1
-      }, {
-        transferList: [channel.port1]
-      })
+      let messages = await piscina.run(
+        {
+          version,
+          artifactVersion,
+          isLatestBugfixVersion: true,
+          progressPort: channel.port1,
+        },
+        {
+          transferList: [channel.port1],
+        },
+      )
 
       channel.port1.close()
       channel.port2.close()
@@ -184,7 +221,13 @@ async function main() {
     } else {
       // skip compiling asciidoc - just write the SHA file
       await fs.mkdir(path.join(compiledPath, version), { recursive: true })
-      await writeCompiledSha(version, artifactVersion, downloadPath, compiledPath, false)
+      await writeCompiledSha(
+        version,
+        artifactVersion,
+        downloadPath,
+        compiledPath,
+        false,
+      )
       asciidoctorBar?.increment(100)
     }
   }
@@ -197,16 +240,24 @@ async function main() {
       let parsedVersion = parseVersion(m.version)
       let latestBugfixVersion = latestBugfixVersions.find(lbv => {
         let plbv = parseVersion(lbv)
-        return parsedVersion.major === plbv.major && parsedVersion.minor === plbv.minor &&
-            parsedVersion.patch !== plbv.patch
+        return (
+          parsedVersion.major === plbv.major &&
+          parsedVersion.minor === plbv.minor &&
+          parsedVersion.patch !== plbv.patch
+        )
       })
-      let isLatestBugfixVersion = latestBugfixVersion === undefined ||
-        parsedVersion === latestBugfixVersion
+      let isLatestBugfixVersion =
+        latestBugfixVersion === undefined || m.version === latestBugfixVersion
       if (argv.latestBugfixVersionsOnly && !isLatestBugfixVersion) {
         continue
       }
-      promises.push(run(m.version, m.metadata.artifactVersion || m.version,
-          latestBugfixVersion))
+      promises.push(
+        run(
+          m.version,
+          m.metadata.artifactVersion || m.version,
+          latestBugfixVersion,
+        ),
+      )
     }
     await Promise.all(promises)
   } finally {
@@ -217,11 +268,15 @@ async function main() {
   multibar.stop()
 
   if (totalMessages > 0) {
-    console.log(`There were ${totalMessages} messages from Asciidoctor. ` +
-      "Please review asciidoctor.log for more information.")
+    console.log(
+      `There were ${totalMessages} messages from Asciidoctor. ` +
+        "Please review asciidoctor.log for more information.",
+    )
   }
 
-  console.log(`update-docs finished in ${prettyMilliseconds(+new Date() - start)}`)
+  console.log(
+    `update-docs finished in ${prettyMilliseconds(+new Date() - start)}`,
+  )
 }
 
 main().catch(err => {
