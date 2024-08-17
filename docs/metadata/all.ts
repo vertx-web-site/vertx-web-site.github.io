@@ -1,6 +1,6 @@
 import { Docs } from "./types"
 
-export interface LatestRelease {
+export interface Release {
   version: string
   metadata: Docs
 }
@@ -20,7 +20,7 @@ export const versions = metadataModules
   .reverse()
 
 // read metadata
-export const metadata: LatestRelease[] = metadataModules
+export const metadata: Release[] = metadataModules
   .keys()
   .map(m => {
     let version = filenameToVersion(m)
@@ -29,7 +29,7 @@ export const metadata: LatestRelease[] = metadataModules
   .sort((a, b) => a.version.localeCompare(b.version))
 
 // get latest release
-export let latestRelease: LatestRelease
+export let latestRelease: Release
 for (let i = metadata.length - 1; i >= 0; --i) {
   if (!metadata[i].metadata.prerelease) {
     latestRelease = metadata[i]

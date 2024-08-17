@@ -6,7 +6,7 @@ const docs = clone(oldDocs)
 
 insert(docs, "vertx-mssql-client", {
   id: "vertx-oracle-client",
-  name: "Oracle Client",
+  name: "Oracle",
   description: "The Reactive Oracle client.",
   category: "databases",
   href: "/vertx-oracle-client/java/",
@@ -17,7 +17,7 @@ insert(docs, "vertx-mssql-client", {
 
 insert(docs, "vertx-auth-webauthn", {
   id: "vertx-auth-otp",
-  name: "OTP Auth",
+  name: "OTP",
   description:
     "One Time Password (Multi-Factor Authentication) implementation.",
   category: "authentication-and-authorization",

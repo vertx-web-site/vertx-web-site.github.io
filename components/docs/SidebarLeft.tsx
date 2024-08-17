@@ -1,5 +1,5 @@
 import Sidebar from "./Sidebar"
-import { Toc } from "@/components/docs/Toc"
+import { makeToc } from "@/components/docs/Toc"
 import clsx from "clsx"
 import Link from "next/link"
 import { useSelectedLayoutSegment } from "next/navigation"
@@ -7,7 +7,8 @@ import { useEffect, useRef } from "react"
 
 function createToc(activeSlug: string, onClickLink?: () => void) {
   let result = []
-  for (let chapter of Toc) {
+  let toc = makeToc(activeSlug)
+  for (let chapter of toc) {
     let titleSlug = chapter.slug
     result.push(
       <li key={titleSlug}>

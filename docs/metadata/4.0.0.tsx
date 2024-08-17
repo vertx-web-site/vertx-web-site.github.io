@@ -145,7 +145,7 @@ insert(
   "vertx-auth-mongo",
   {
     id: "vertx-auth-webauthn",
-    name: "Webauthn Auth",
+    name: "Webauthn",
     description: "FIDO2 WebAuthn (password-less) implementation.",
     category: "authentication-and-authorization",
     href: "/vertx-auth-webauthn/java/",
@@ -182,7 +182,7 @@ insert(
   },
   {
     id: "vertx-auth-ldap",
-    name: "LDAP Auth",
+    name: "LDAP",
     description: "Implementation using JDK built-in LDAP capabilities.",
     category: "authentication-and-authorization",
     href: "/vertx-auth-ldap/java/",
@@ -192,7 +192,7 @@ insert(
   },
   {
     id: "vertx-auth-htpasswd",
-    name: ".htpasswd Auth",
+    name: ".htpasswd",
     description: (
       <>
         Authentication and authorization support based on <code>.htpasswd</code>{" "}

@@ -6,7 +6,7 @@ const docs = clone(oldDocs)
 
 insert(docs, "vertx-mongo-client", {
   id: "vertx-db2-client",
-  name: "DB2 Client",
+  name: "DB2",
   description: "The Reactive DB2 client.",
   category: "databases",
   href: "/vertx-db2-client/java/",

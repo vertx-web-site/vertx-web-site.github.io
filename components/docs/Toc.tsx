@@ -1,15 +1,10 @@
-// alternative to the 'github-slugger' package; shaves off about 3KB of JS
-function slug(s: string) {
-  return s
-    .toLowerCase()
-    .replaceAll(/[^ \-a-z]/g, "")
-    .replaceAll(/ /g, "-")
-}
+import { latestRelease, metadata } from "@/docs/metadata/all"
 
 export interface Chapter {
   readonly type: "chapter"
   readonly title: string
   readonly slug: string
+  readonly slugWithVersion: string
   readonly pages: Page[]
 }
 
@@ -17,6 +12,7 @@ export interface Page {
   readonly type: "page"
   readonly title: string
   readonly slug: string
+  readonly slugWithVersion: string
   readonly chapter: string
   readonly sections?: Section[]
 }
@@ -25,6 +21,7 @@ export interface Section {
   readonly type: "section"
   readonly title: string
   readonly slug: string
+  readonly slugWithVersion: string
   readonly page: string
   readonly subsections?: Subsection[]
 }
@@ -33,107 +30,174 @@ export interface Subsection {
   readonly type: "subsection"
   readonly title: string
   readonly slug: string
+  readonly slugWithVersion: string
   readonly page: string
   readonly section: string
 }
 
-type DraftSubsection =
-  | string
-  | (Omit<Subsection, "type" | "slug" | "page" | "section"> & { slug?: string })
-type DraftSection =
-  | string
-  | (Omit<Section, "type" | "slug" | "page" | "subsections"> & {
-      readonly slug?: string
-      readonly subsections?: DraftSubsection[]
-    })
-type DraftPage = Omit<Page, "type" | "slug" | "sections" | "chapter"> & {
-  readonly slug?: string
-  readonly sections?: DraftSection[]
+const introductionChapter: Chapter = {
+  type: "chapter",
+  title: "Introduction",
+  slug: "introduction",
+  slugWithVersion: "introduction",
+  pages: [
+    {
+      type: "page",
+      title: "Get started",
+      slug: "",
+      slugWithVersion: "",
+      sections: [],
+      chapter: "introduction",
+    },
+  ],
 }
-type DraftChapter = Omit<Chapter, "type" | "slug" | "pages"> & {
-  readonly pages: DraftPage[]
+
+function slugWithVersion(
+  doAddVersion: boolean,
+  version: string,
+  slug: string,
+): string {
+  if (doAddVersion) {
+    if (slug !== "") {
+      if (isExternal(slug)) {
+        return slug
+      }
+      return `${version}/${slug}`
+    } else {
+      return version
+    }
+  }
+  return slug
 }
 
-const toc: DraftChapter[] = [
-  {
-    title: "Introduction",
-    pages: [
-      { title: "Get started", slug: "", sections: ["What to read next"] },
-    ],
-  },
-]
+export function makeToc(activeSlug: string): Chapter[] {
+  let release = latestRelease
+  let versionMatch = activeSlug.match(/^(\d+\.\d+(\.\d+)?(-[^\/]+)?)(\/|$)/)
+  let includesVersion = false
+  if (versionMatch) {
+    let version = versionMatch[1]
+    let versionMetadata = metadata.find(m => m.version === version)
+    if (versionMetadata === undefined) {
+      throw new Error(`Could not find metadata for version ${version}`)
+    }
+    release = versionMetadata
+    includesVersion = true
+  }
 
-function makeToc() {
-  let result: Chapter[] = []
+  let result: Chapter[] = [
+    {
+      ...introductionChapter,
+      slug: slugWithVersion(
+        includesVersion,
+        release.version,
+        introductionChapter.slug,
+      ),
+      slugWithVersion: slugWithVersion(
+        true,
+        release.version,
+        introductionChapter.slug,
+      ),
+      pages: introductionChapter.pages.map(p => ({
+        ...p,
+        slug: slugWithVersion(includesVersion, release.version, p.slug),
+        slugWithVersion: slugWithVersion(true, release.version, p.slug),
+        chapter: slugWithVersion(
+          includesVersion,
+          release.version,
+          introductionChapter.slug,
+        ),
+      })),
+    },
+  ]
 
-  for (let chapter of toc) {
-    let chapterSlug = slug(chapter.title)
+  for (let category of release.metadata.categories) {
+    let chapterSlugWithVersion = slugWithVersion(
+      true,
+      release.version,
+      category.id,
+    )
+    let chapterSlug = slugWithVersion(
+      includesVersion,
+      release.version,
+      category.id,
+    )
+
+    let entries = release.metadata.entries.filter(
+      e => e.category === category.id,
+    )
 
     let pages: Page[] = []
-    for (let p of chapter.pages) {
-      let pageSlug = p.slug ?? slug(p.title)
+    for (let e of entries) {
+      let pageSlug = e.href
+      if (pageSlug.startsWith("/")) {
+        pageSlug = pageSlug.substring(1)
+      }
+      if (pageSlug.endsWith("/")) {
+        pageSlug = pageSlug.substring(0, pageSlug.length - 1)
+      }
+      let pageSlugWithVersion = slugWithVersion(true, release.version, pageSlug)
+      pageSlug = slugWithVersion(includesVersion, release.version, pageSlug)
 
       let sections: Section[] | undefined = undefined
-      if (p.sections !== undefined) {
-        sections = []
-        for (let s of p.sections) {
-          let title
-          let sectionSlug
-          let subsections: Subsection[] | undefined = undefined
-          if (typeof s === "string") {
-            title = s
-            sectionSlug = slug(title)
-          } else {
-            title = s.title
-            sectionSlug = s.slug ?? slug(title)
-
-            if (s.subsections !== undefined) {
-              subsections = []
-              for (let ss of s.subsections) {
-                let title
-                let subsectionSlug
-                if (typeof ss === "string") {
-                  title = ss
-                  subsectionSlug = slug(title)
-                } else {
-                  title = ss.title
-                  subsectionSlug = ss.slug ?? slug(title)
-                }
-
-                subsections.push({
-                  title,
-                  type: "subsection",
-                  slug: subsectionSlug,
-                  page: pageSlug,
-                  section: sectionSlug,
-                })
-              }
-            }
-          }
-
-          sections.push({
-            title,
-            type: "section",
-            slug: sectionSlug,
-            page: pageSlug,
-            subsections,
-          })
-        }
-      }
+      //   if (p.sections !== undefined) {
+      //     sections = []
+      //     for (let s of p.sections) {
+      //       let title
+      //       let sectionSlug
+      //       let subsections: Subsection[] | undefined = undefined
+      //       if (typeof s === "string") {
+      //         title = s
+      //         sectionSlug = slug(title)
+      //       } else {
+      //         title = s.title
+      //         sectionSlug = s.slug ?? slug(title)
+      //         if (s.subsections !== undefined) {
+      //           subsections = []
+      //           for (let ss of s.subsections) {
+      //             let title
+      //             let subsectionSlug
+      //             if (typeof ss === "string") {
+      //               title = ss
+      //               subsectionSlug = slug(title)
+      //             } else {
+      //               title = ss.title
+      //               subsectionSlug = ss.slug ?? slug(title)
+      //             }
+      //             subsections.push({
+      //               title,
+      //               type: "subsection",
+      //               slug: subsectionSlug,
+      //               page: pageSlug,
+      //               section: sectionSlug,
+      //             })
+      //           }
+      //         }
+      //       }
+      //       sections.push({
+      //         title,
+      //         type: "section",
+      //         slug: sectionSlug,
+      //         page: pageSlug,
+      //         subsections,
+      //       })
+      //     }
+      //   }
 
       pages.push({
-        ...p,
         type: "page",
+        title: e.name,
         slug: pageSlug,
+        slugWithVersion: pageSlugWithVersion,
         sections,
         chapter: chapterSlug,
       })
     }
 
     result.push({
-      ...chapter,
       type: "chapter",
+      title: category.name,
       slug: chapterSlug,
+      slugWithVersion: chapterSlugWithVersion,
       pages,
     })
   }
@@ -141,7 +205,9 @@ function makeToc() {
   return result
 }
 
-function makeIndex(indexedToc: Chapter[]) {
+export function makeIndex(
+  indexedToc: Chapter[],
+): Record<string, Chapter | Page | Section | Subsection> {
   let result: Record<string, Chapter | Page | Section | Subsection> = {}
 
   function add(e: Chapter | Page | Section | Subsection) {
@@ -171,5 +237,6 @@ function makeIndex(indexedToc: Chapter[]) {
   return result
 }
 
-export const Toc = makeToc()
-export const Index = makeIndex(Toc)
+export function isExternal(href: string): boolean {
+  return /^https?:\/\//.test(href)
+}

@@ -3,11 +3,11 @@ import { Category, Doc, Docs } from "./types"
 const categories: Category[] = [
   {
     id: "core",
-    name: "Core",
+    name: "Core modules",
   },
   {
     id: "web",
-    name: "Web",
+    name: "Web modules",
   },
   {
     id: "databases",
@@ -140,7 +140,7 @@ const entries: Doc[] = [
   // databases
   {
     id: "vertx-pg-client",
-    name: "PostgreSQL Client",
+    name: "PostgreSQL",
     description:
       "A PostgreSQL client focusing on scalability and low overhead.",
     category: "databases",
@@ -153,7 +153,7 @@ const entries: Doc[] = [
   },
   {
     id: "vertx-mysql-client",
-    name: "MySQL Client",
+    name: "MySQL",
     description: "A lightweight, event-driven client for MySQL.",
     category: "databases",
     href: "/vertx-mysql-client/java/",
@@ -165,7 +165,7 @@ const entries: Doc[] = [
   },
   {
     id: "vertx-mongo-client",
-    name: "MongoDB Client",
+    name: "MongoDB",
     description: "MongoDB client.",
     category: "databases",
     href: "/vertx-mongo-client/java/",
@@ -176,7 +176,7 @@ const entries: Doc[] = [
   },
   {
     id: "vertx-redis-client",
-    name: "Redis Client",
+    name: "Redis",
     description: "Redis client.",
     category: "databases",
     href: "/vertx-redis-client/java/",
@@ -187,7 +187,7 @@ const entries: Doc[] = [
   },
   {
     id: "vertx-cassandra-client",
-    name: "Cassandra Client",
+    name: "Cassandra",
     description: "Apache Cassandra client.",
     category: "databases",
     href: "/vertx-cassandra-client/java/",
@@ -207,7 +207,7 @@ const entries: Doc[] = [
   },
   {
     id: "vertx-jdbc-client",
-    name: "JDBC client",
+    name: "JDBC",
     description: "JDBC support for Vert.x.",
     category: "databases",
     href: "/vertx-jdbc-client/java/",
@@ -352,7 +352,7 @@ const entries: Doc[] = [
   },
   {
     id: "vertx-auth-jwt",
-    name: "JWT Auth",
+    name: "JWT",
     description: "JSON web tokens (JWT) implementation.",
     category: "authentication-and-authorization",
     href: "/vertx-auth-jwt/java/",
@@ -382,7 +382,7 @@ const entries: Doc[] = [
   },
   {
     id: "vertx-auth-oauth2",
-    name: "Oauth2 Auth",
+    name: "Oauth2",
     description: "OAuth2 (and to some extent OpenID Connect) implementation.",
     category: "authentication-and-authorization",
     href: "/vertx-auth-oauth2/java/",
@@ -392,7 +392,7 @@ const entries: Doc[] = [
   },
   {
     id: "vertx-auth-htdigest",
-    name: ".htdigest Auth",
+    name: ".htdigest",
     description: (
       <>
         Authentication and authorization support based on <code>.htdigest</code>{" "}
@@ -409,7 +409,7 @@ const entries: Doc[] = [
   // messaging
   {
     id: "vertx-amqp-client",
-    name: "AMQP Client",
+    name: "AMQP",
     description: "A client for AMQP 1.0 brokers and routers.",
     category: "messaging",
     href: "/vertx-amqp-client/java/",
@@ -428,7 +428,7 @@ const entries: Doc[] = [
   },
   {
     id: "vertx-rabbitmq-client",
-    name: "RabbitMQ Client",
+    name: "RabbitMQ",
     description: "A client for RabbitMQ brokers.",
     category: "messaging",
     href: "/vertx-rabbitmq-client/java/",
@@ -450,7 +450,7 @@ const entries: Doc[] = [
   // integration
   {
     id: "vertx-kafka-client",
-    name: "Kafka client",
+    name: "Kafka",
     description: "A client for Apache Kafka.",
     category: "integration",
     href: "/vertx-kafka-client/java/",
@@ -571,7 +571,7 @@ const entries: Doc[] = [
   // testing
   {
     id: "vertx-junit5",
-    name: "Vert.x JUnit 5",
+    name: "JUnit 5",
     description: "Asynchronous testing with Vert.x and JUnit 5.",
     category: "testing",
     href: "/vertx-junit5/java/",
@@ -596,7 +596,7 @@ const entries: Doc[] = [
   // clustering
   {
     id: "vertx-hazelcast",
-    name: "Hazelcast Clustering",
+    name: "Hazelcast",
     description: "Cluster manager implementation that uses Hazelcast.",
     category: "clustering",
     href: "/vertx-hazelcast/java/",
@@ -605,7 +605,7 @@ const entries: Doc[] = [
   },
   {
     id: "vertx-infinispan",
-    name: "Infinispan Clustering",
+    name: "Infinispan",
     description: "Cluster manager implementation that uses Infinispan.",
     category: "clustering",
     href: "/vertx-infinispan/java/",
@@ -614,7 +614,7 @@ const entries: Doc[] = [
   },
   {
     id: "vertx-ignite",
-    name: "Apache Ignite Clustering",
+    name: "Apache Ignite",
     description: "Cluster manager implementation that uses Apache Ignite.",
     category: "clustering",
     href: "/vertx-ignite/java/",
@@ -623,7 +623,7 @@ const entries: Doc[] = [
   },
   {
     id: "vertx-zookeeper",
-    name: "Apache Zookeeper Clustering",
+    name: "Apache Zookeeper",
     description: "Cluster manager implementation that uses Apache Zookeeper.",
     category: "clustering",
     href: "/vertx-zookeeper/java/",

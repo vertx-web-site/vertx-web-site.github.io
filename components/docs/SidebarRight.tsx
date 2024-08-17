@@ -1,5 +1,5 @@
 import Sidebar from "./Sidebar"
-import { Index, Section, Subsection } from "./Toc"
+import { Section, Subsection, makeIndex, makeToc } from "./Toc"
 import { ArrowSquareOut } from "@phosphor-icons/react/dist/ssr"
 import clsx from "clsx"
 import Link from "next/link"
@@ -34,8 +34,11 @@ const SidebarRight = ({ className, activeSection }: SidebarRightProps) => {
   const sectionsRef = useRef<HTMLUListElement>(null)
   const segment = useSelectedLayoutSegment()
 
-  let activeSlug = segment ?? ""
-  let entry = Index[activeSlug]
+  const activeSlug = segment ?? ""
+  const toc = makeToc(activeSlug)
+  const index = makeIndex(toc)
+
+  let entry = index[activeSlug]
   let sections = undefined
   if (entry.type === "page") {
     sections = entry.sections?.flatMap(s => {

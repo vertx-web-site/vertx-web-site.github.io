@@ -3,18 +3,6 @@ import { clone, insert, remove } from "./helpers"
 
 const docs = clone(oldDocs)
 
-insert(docs, "vertx-web", {
-  id: "vertx-application-launcher",
-  name: "Vert.x Application Launcher",
-  description:
-    "Helps to launch Vert.x applications without repeating the same code in every project.",
-  category: "core",
-  href: "/vertx-application-launcher/java/",
-  repository: "https://github.com/eclipse-vertx/vertx-launcher",
-  edit: "https://github.com/eclipse-vertx/vertx-launcher/tree/main/vertx-application-launcher/src/main/asciidoc",
-  label: "Technical Preview",
-})
-
 insert(docs, "vertx-service-resolver", {
   id: "vertx-service-resolver",
   name: "Vert.x Service Resolver",
@@ -28,8 +16,11 @@ insert(docs, "vertx-service-resolver", {
 })
 
 // remove old entries
-remove(docs, "vertx-service-discovery")
+remove(docs, "vertx-grpc")
 remove(docs, "vertx-grpc-netty")
+remove(docs, "vertx-lang-groovy")
 remove(docs, "vertx-rx-java")
+remove(docs, "vertx-service-discovery")
+remove(docs, "vertx-web-api-service")
 
 export default docs

@@ -1,5 +1,7 @@
 import ScrollTopWorkaround from "@/components/ScrollTopWorkaround"
-import { Index, Toc } from "@/components/docs/Toc"
+import { Chapter, isExternal, makeIndex, makeToc } from "@/components/docs/Toc"
+import { versions as docsVersions, latestRelease } from "@/docs/metadata/all"
+import { filterLatestBugfixVersions } from "@/docs/metadata/helpers"
 import { CaretLeft, CaretRight } from "@phosphor-icons/react/dist/ssr"
 import { Metadata, ResolvingMetadata } from "next"
 import Link from "next/link"
@@ -19,18 +21,24 @@ export async function generateMetadata(
     slug = ""
   }
 
-  let entry = Index[slug]
+  let toc = makeToc(slug)
+  let index = makeIndex(toc)
+
+  let entry = index[slug]
 
   return {
     title: entry.title,
   }
 }
 
-function findNeighbors(slug: string): [string | undefined, string | undefined] {
+function findNeighbors(
+  slug: string,
+  toc: Chapter[],
+): [string | undefined, string | undefined] {
   let last: string | undefined
   let prev: string | undefined
   let hasPrev = false
-  for (let c of Toc) {
+  for (let c of toc) {
     for (let p of c.pages) {
       if (hasPrev) {
         return [prev, p.slug]
@@ -46,11 +54,37 @@ function findNeighbors(slug: string): [string | undefined, string | undefined] {
 }
 
 export async function generateStaticParams() {
-  let params = Toc.flatMap(c =>
-    c.pages.flatMap(p => ({
-      slug: [p.slug],
-    })),
-  )
+  let params = []
+
+  let filteredVersions = filterLatestBugfixVersions(docsVersions)
+  for (let version of filteredVersions) {
+    // version index page
+    params.push({
+      slug: [version],
+    })
+
+    let toc = makeToc(version)
+    for (let chapter of toc) {
+      for (let page of chapter.pages) {
+        if (isExternal(page.slug)) {
+          // don't generate pages for external modules
+          continue
+        }
+
+        let slug = page.slug.split("/")
+        params.push({ slug })
+
+        // generate pages for latest version too
+        if (latestRelease.version === version) {
+          params.push({ slug: slug.slice(1) })
+        }
+      }
+    }
+  }
+
+  // add index page
+  params.push({ slug: [] })
+
   return params
 }
 
@@ -62,55 +96,32 @@ const DocsPage = ({ params }: DocsPageProps) => {
     slug = ""
   }
 
-  let entry = Index[slug]
+  let toc = makeToc(slug)
+  let index = makeIndex(toc)
+
+  let entry = index[slug]
 
   let moduleFilename = slug
   if (moduleFilename === "") {
     moduleFilename = "get-started"
   }
-  // TODO
-  // let Content = require(
-  //   `../../../../content/docs/${moduleFilename}.mdx`,
-  // ).default
-  let Content = () => <></>
+  let data = require(
+    `../../../docs/compiled/${entry.slugWithVersion}/index.json`,
+  )
+  let Content = () => (
+    <div
+      dangerouslySetInnerHTML={{
+        __html: data.contents,
+      }}
+    ></div>
+  )
 
   let parentChapter = undefined
-  let sections = undefined
   if (entry.type === "page") {
-    parentChapter = Index[entry.chapter]
-    sections = entry.sections?.map(s => {
-      // TODO
-      // let SectionContents = require(
-      //   `../../../../content/docs/${s.slug}.mdx`,
-      // ).default
-      let SectionContents = () => <></>
-
-      let subsections = s.subsections?.map(ss => {
-        // TODO
-        // let SubsectionContents = require(
-        //   `../../../../content/docs/${ss.slug}.mdx`,
-        // ).default
-        let SubsectionContents = () => <></>
-
-        return (
-          <section key={ss.slug} data-slug={ss.slug}>
-            <h3 id={ss.slug}>{ss.title}</h3>
-            <SubsectionContents />
-          </section>
-        )
-      })
-
-      return (
-        <section key={s.slug} data-slug={s.slug}>
-          <h2 id={s.slug}>{s.title}</h2>
-          <SectionContents />
-          {subsections}
-        </section>
-      )
-    })
+    parentChapter = index[entry.chapter]
   }
 
-  let [prev, next] = findNeighbors(slug)
+  let [prev, next] = findNeighbors(slug, toc)
 
   let Main = (
     <>
@@ -119,11 +130,8 @@ const DocsPage = ({ params }: DocsPageProps) => {
           {parentChapter.title}
         </div>
       ) : undefined}
-      <h1 className="mt-2" id={slug}>
-        {entry.title}
-      </h1>
+      <div className="mt-2" id={slug}></div>
       <Content />
-      {sections}
       <div className="not-prose mb-8 mt-14 flex justify-between gap-4 text-sm">
         <div>
           {prev !== undefined ? (
@@ -134,7 +142,7 @@ const DocsPage = ({ params }: DocsPageProps) => {
               <div className="text-gray-500 group-hover:text-primary">
                 <CaretLeft size="1em" />
               </div>
-              <div>{Index[prev].title}</div>
+              <div>{index[prev].title}</div>
             </Link>
           ) : undefined}
         </div>
@@ -144,7 +152,7 @@ const DocsPage = ({ params }: DocsPageProps) => {
               href={`/docs/${next}`}
               className="group flex gap-1 text-right font-normal text-gray-800 hover:text-primary"
             >
-              <div>{Index[next].title}</div>
+              <div>{index[next].title}</div>
               <div className="text-gray-500 group-hover:text-primary">
                 <CaretRight size="1em" />
               </div>
