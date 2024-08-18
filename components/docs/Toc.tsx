@@ -139,49 +139,44 @@ export function makeToc(activeSlug: string): Chapter[] {
       pageSlug = slugWithVersion(includesVersion, release.version, pageSlug)
 
       let sections: Section[] | undefined = undefined
-      //   if (p.sections !== undefined) {
-      //     sections = []
-      //     for (let s of p.sections) {
-      //       let title
-      //       let sectionSlug
-      //       let subsections: Subsection[] | undefined = undefined
-      //       if (typeof s === "string") {
-      //         title = s
-      //         sectionSlug = slug(title)
-      //       } else {
-      //         title = s.title
-      //         sectionSlug = s.slug ?? slug(title)
-      //         if (s.subsections !== undefined) {
-      //           subsections = []
-      //           for (let ss of s.subsections) {
-      //             let title
-      //             let subsectionSlug
-      //             if (typeof ss === "string") {
-      //               title = ss
-      //               subsectionSlug = slug(title)
-      //             } else {
-      //               title = ss.title
-      //               subsectionSlug = ss.slug ?? slug(title)
-      //             }
-      //             subsections.push({
-      //               title,
-      //               type: "subsection",
-      //               slug: subsectionSlug,
-      //               page: pageSlug,
-      //               section: sectionSlug,
-      //             })
-      //           }
-      //         }
-      //       }
-      //       sections.push({
-      //         title,
-      //         type: "section",
-      //         slug: sectionSlug,
-      //         page: pageSlug,
-      //         subsections,
-      //       })
-      //     }
-      //   }
+
+      if (!isExternal(pageSlug)) {
+        let data = require(
+          `../../docs/compiled/${pageSlugWithVersion}/index.toc.json`,
+        )
+        if (data.toc !== undefined) {
+          sections = []
+
+          for (let s of data.toc) {
+            let subsections: Subsection[] | undefined = undefined
+            let sectionSlug = `${pageSlug}/${s.id}`
+
+            if (s.children !== undefined) {
+              subsections = []
+
+              for (let ss of s.children) {
+                subsections.push({
+                  title: ss.title,
+                  type: "subsection",
+                  slug: `${pageSlug}/${ss.id}`,
+                  slugWithVersion: `${pageSlugWithVersion}/${ss.id}`,
+                  page: pageSlug,
+                  section: sectionSlug,
+                })
+              }
+            }
+
+            sections.push({
+              title: s.title,
+              type: "section",
+              slug: sectionSlug,
+              slugWithVersion: `${pageSlugWithVersion}/${s.id}`,
+              page: pageSlug,
+              subsections,
+            })
+          }
+        }
+      }
 
       pages.push({
         type: "page",

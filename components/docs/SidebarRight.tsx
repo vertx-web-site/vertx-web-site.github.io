@@ -12,14 +12,15 @@ interface SidebarRightProps {
 }
 
 function sectionToLi(s: Section | Subsection, activeSection?: string) {
+  let hash = s.slug.substring(s.slug.indexOf("#") + 1)
   return (
-    <li key={s.slug}>
+    <li key={hash}>
       <Link
-        href={`#${s.slug}`}
-        data-sidebar-section-slug={s.slug}
+        href={`#${hash}`}
+        data-sidebar-section-slug={hash}
         className={clsx("hover:text-primary-hover", {
-          "text-gray-700": activeSection !== s.slug,
-          "font-normal text-primary": activeSection === s.slug,
+          "text-gray-700": activeSection !== hash,
+          "font-normal text-primary": activeSection === hash,
         })}
       >
         {s.title}

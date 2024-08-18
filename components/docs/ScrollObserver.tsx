@@ -17,7 +17,9 @@ const ScrollObserver = ({ children, onChangeSlug }: ScrollObserverProps) => {
   const segment = useSelectedLayoutSegment()
 
   useEffect(() => {
-    let sections = ref.current!.querySelectorAll("section")
+    let sections: NodeListOf<HTMLElement> = ref.current!.querySelectorAll(
+      "div[class='sect1']>h2,div[class='sect2']>h3",
+    )
     let tops: Top[] = []
     let currentSlug: string | undefined = undefined
 
@@ -29,7 +31,7 @@ const ScrollObserver = ({ children, onChangeSlug }: ScrollObserverProps) => {
 
     function onResize() {
       sections.forEach(s => {
-        let slug = s.dataset.slug
+        let slug = s.id
         if (slug !== undefined) {
           tops.push({
             slug,
@@ -38,7 +40,6 @@ const ScrollObserver = ({ children, onChangeSlug }: ScrollObserverProps) => {
         }
       })
       tops.sort((a, b) => a.top - b.top)
-      tops = tops
     }
 
     let throttledOnResize = throttle(onResize, 100)

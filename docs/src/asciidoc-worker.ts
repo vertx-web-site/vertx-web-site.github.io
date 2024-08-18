@@ -10,6 +10,12 @@ const { isCompiled, writeCompiledSha } = require("./util")
 const compiledPath = "compiled"
 const downloadPath = "download"
 
+interface TocElement {
+  id: string
+  title: string
+  children?: TocElement[]
+}
+
 async function readDirRecursive(
   dir: string,
   result: string[] = [],
@@ -31,6 +37,64 @@ async function readDirRecursive(
         result.push(absolute)
       }
     }
+  }
+  return result
+}
+
+function parseToc(
+  toc: parse5.DefaultTreeAdapterMap["element"],
+  level: number,
+): TocElement[] | undefined {
+  let result: TocElement[] = []
+
+  for (let sectionsNode of toc.childNodes) {
+    // find node containing sections
+    if (
+      sectionsNode.nodeName !== "ul" ||
+      !sectionsNode.attrs.some(
+        a => a.name === "class" && a.value === `sectlevel${level}`,
+      )
+    ) {
+      continue
+    }
+
+    // iterate over all sections
+    for (let sectionElement of sectionsNode.childNodes) {
+      if (sectionElement.nodeName !== "li") {
+        continue
+      }
+
+      let id: string | undefined = undefined
+      let title: string | undefined = undefined
+      for (let c of sectionElement.childNodes) {
+        if (c.nodeName === "a") {
+          id = c.attrs.find(a => a.name === "href")?.value
+          title = c.childNodes
+            .map(t => {
+              if (t.nodeName === "#text") {
+                return (t as parse5.DefaultTreeAdapterMap["textNode"]).value
+              }
+              return ""
+            })
+            .join("")
+        }
+      }
+
+      if (id !== undefined && title !== undefined) {
+        let subtoc = parseToc(sectionElement, level + 1)
+        result.push({
+          id,
+          title,
+          children: subtoc,
+        })
+      }
+    }
+
+    break
+  }
+
+  if (result.length === 0) {
+    return undefined
   }
   return result
 }
@@ -98,18 +162,18 @@ async function workerMain({
     let documentFragment = parse5.parseFragment(contents, {
       sourceCodeLocationInfo: true,
     })
-    let toc = undefined
+    let toc: TocElement[] | undefined = undefined
     for (let child of documentFragment.childNodes) {
       if (child.nodeName === "div") {
         for (let attr of child.attrs) {
           if (attr.name === "id" && attr.value === "toc") {
-            toc = contents.substring(
-              child.sourceCodeLocation!.startOffset,
-              child.sourceCodeLocation!.endOffset,
-            )
+            toc = parseToc(child, 1)
+
+            // strip off toc from contents
             contents =
               contents.substring(0, child.sourceCodeLocation!.startOffset) +
               contents.substring(child.sourceCodeLocation!.endOffset)
+
             break
           }
         }
@@ -118,19 +182,29 @@ async function workerMain({
         break
       }
     }
-    toc = toc || ""
-
-    let result = {
-      title,
-      contents,
-      toc,
-    }
+    let filename = f.substring(extractedPath.length + 1)
     let destFile = path.join(
       destVersionPath,
-      f.substring(extractedPath.length + 1).replace(/\.adoc$/, ".json"),
+      filename.replace(/\.adoc$/, ".json"),
+    )
+    let destFileToc = path.join(
+      destVersionPath,
+      filename.replace(/\.adoc$/, ".toc.json"),
     )
     await fs.mkdir(path.dirname(destFile), { recursive: true })
-    await fs.writeFile(destFile, JSON.stringify(result))
+    await fs.writeFile(
+      destFile,
+      JSON.stringify({
+        title,
+        contents,
+      }),
+    )
+    await fs.writeFile(
+      destFileToc,
+      JSON.stringify({
+        toc,
+      }),
+    )
 
     ++i
     let progress = Math.round((i * 100) / files.length)
