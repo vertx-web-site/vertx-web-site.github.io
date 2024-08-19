@@ -1,0 +1,123 @@
+---
+title: Upcoming Vert.x Http Proxy updates
+category: news
+authors:
+  - name: Zengyi Wang
+    github_id: wzy1935
+summary: >-
+    Introducing new features for Vert.x Http Proxy from GSoC 2024 project.
+---
+
+_This blog is also served as the final submission of the GSoC 2024 project._
+
+## Introduction
+
+[vertx-http-proxy](https://github.com/eclipse-vertx/vertx-http-proxy) is a component in the Vert.x ecosystem used 
+as an HTTP reverse proxy. Coming from Google Summer of Code 2024, some new features are implemented under this 
+project to make it more user-friendly. In this blog post, I introduce some features that are about to be included
+in the official release and how to use them, followed by reflections on the GSoC experience.
+
+<Alert warning>
+The updates mentioned in this post are not yet available from the maven repository; The actual results are subject 
+to the final provided API.
+</Alert>
+
+## Interceptors
+
+During message forwarding, developers can add interceptors to intercept and modify incoming requests and responses. 
+This update provides a quick way to create different types of interceptors. For example, now it's possible to create 
+a interceptor to filter headers with a single method:
+
+```java
+proxy.addInterceptor(
+    HeadersInterceptor.filterRequestHeaders(Set.of("header-to-remove")));
+```
+
+Here's a list of all the interceptors implemented:
+
+- `HeadersInterceptor`: Used to modify the headers of HTTP requests and responses;
+- `PathInterceptor`: used to modify the URI of the request;
+- `QueryInterceptor`: used to modify the query parameter of the request;
+- `BodyInterceptor`: used to modify the body of the request and response.
+
+Additionally, it is now possible to apply interceptors to WebSocket handshake packets. This means that you can now 
+modify the WebSocket request URL using an interceptor. Considering that in most cases you might not want 
+to apply all interceptor transformations during the WebSocket handshake (which could lead to connection failures), 
+interceptors are disabled for WebSocket by default. You can enable this behavior by overriding the `allowApplyToWebSocket` 
+method. For interceptors that have already been created, you can also achieve this by wrapping them with 
+`WebSocketInterceptor`:
+
+```java
+ProxyInterceptor addPrefix = PathInterceptor.addPrefix("/api");
+addPrefix = WebSocketInterceptor.allow(addPrefix); // now `addPrefix` can be applied to WebSocket	
+```
+
+## Cache Support 
+
+The proxy supports caching responses. In previous versions, caching was only allowed for responses with the `Cache-Control` 
+marked as `public`. This update improves the caching mechanism and meets most of the requirements of 
+[RFC9111](https://www.rfc-editor.org/rfc/rfc9111.html). The specific changes are as follows:
+
+- Implemented all cache request and response directives from RFC9111 (except `no-transform`);
+- By default, all responses are now allowed to be cached unless explicitly prohibited in the Cache-Control header;
+- More standard revalidation mechanism: expired caches will not be immediately deleted but will first be validated to determine if they can still be used;
+- Now revalidation supports both `ETag` and `Last-Modified` validators;
+- Fixed the issue where calling unsafe request methods would not invalidate the cache;
+- Fixed the issue with wrong caching responses when including the `Vary` header;
+- Implemented default heuristic freshness.
+
+A Cache SPI is also currently provided to support custom Cache implementations. A Cache instance can be shared by multiple proxies.
+
+## Contextual Data
+
+`ProxyContext` is used as a context for sharing state between different proxy components. In the latest version, it 
+can be more generally shared between interceptors and the `originSelector`. Since interceptors now support WebSocket, 
+the context can also be used for WebSocket traffic.
+
+The new version of the context also allows an additional map to be passed in as a contextual data holder when handling 
+requests. This method enables the injection of custom context content at runtime. For example, to register an proxy 
+as a handler for a http server with custom context, you can using the following code:
+
+```java
+server.requestHandler(request -> {
+    Map<String, Object> customContext = new HashMap<>(); // inject any additional data here
+    proxy.handle(request, customContext);
+});
+```
+
+## GSoC Experience & Learnings
+
+The most interesting (and hard) of this project was the design process. Most of my work involved adding new features 
+to an existing codebase, which required a lot of API design. The challenge was ensuring that the API was easy to 
+understand and use while avoiding any disruptive changes to the original code, which significantly limited the final 
+feasible design options.
+
+For example, there was an issue regarding making the Interceptor support WebSocket. In the original code, WebSocket 
+packets and regular HTTP packets were handled separately, so only the branch processing HTTP packets applied the 
+interceptors. This was reasonable because the handling methods for the two were entirely different. However, the 
+user's request to implement this feature was also reasonable, as the need to modify the WebSocket path exists. 
+Balancing these two requirements took a lot of time during the "finding a feasible solution" phase.
+
+Even after the feature was implemented, I had to consider user experience. If the interceptor were to handle all 
+types of requests by default, users would need to add a condition to all regular interceptors to skip WebSocket 
+traffic, as most request transformations shouldn't apply to them. Therefore, I have to think about a solution where 
+the interceptor doesn't affect WebSocket by default, which also took considerable time.
+
+In fact, the effective time spent writing code was only one day or even half a day, while the design time was one 
+to two times that. So, if I had to summarize the most important lessons:
+
+- Design process is more important than coding; it's best to explicitly allocate time for it during planning.
+- It's better to seek feedback after completing the design immediately rather than jumping straight into coding, as this can easily lead to unexpected outcomes.
+
+And finally, I would like to thank my mentor, Thomas Segismont, for his helpful advice and support throughout the project.
+
+## References
+
+All relevant issues are listed in here. Related PRs are linked in them:
+
+- [issue/67: Cache SPI](https://github.com/eclipse-vertx/vertx-http-proxy/issues/67)
+- [issue/70: HTTP Cache Mechanism](https://github.com/eclipse-vertx/vertx-http-proxy/issues/70)
+- [issue/71: Contextual Data](https://github.com/eclipse-vertx/vertx-http-proxy/issues/71)
+- [issue/48: interceptors for WebSocket](https://github.com/eclipse-vertx/vertx-http-proxy/issues/48)
+- [issue/65: Out-of-the-box interceptors](https://github.com/eclipse-vertx/vertx-http-proxy/issues/65)
+
