@@ -1,13 +1,19 @@
 import Sidebar from "./Sidebar"
+import { useVersionAndSlug } from "./useVersionAndSlug"
 import { makeToc } from "@/components/docs/Toc"
+import { latestRelease } from "@/docs/metadata/all"
 import clsx from "clsx"
 import Link from "next/link"
-import { useSelectedLayoutSegment } from "next/navigation"
 import { useEffect, useRef } from "react"
 
-function createToc(activeSlug: string, onClickLink?: () => void) {
+function createToc(
+  version: string | undefined,
+  activeSlug: string,
+  onClickLink?: () => void,
+) {
+  let actualVersion = version ?? latestRelease.version
   let result = []
-  let toc = makeToc(activeSlug)
+  let toc = makeToc(actualVersion)
   for (let chapter of toc) {
     let titleSlug = chapter.slug
     result.push(
@@ -24,7 +30,7 @@ function createToc(activeSlug: string, onClickLink?: () => void) {
                 })}
               >
                 <Link
-                  href={`/docs/${p.slug}`}
+                  href={`/docs/${version !== undefined ? `${version}/${p.slug}` : p.slug}`}
                   data-sidebar-page-slug={p.slug}
                   className="hover:text-primary-hover"
                   onClick={onClickLink}
@@ -50,17 +56,16 @@ interface SidebarLeftProps {
 const SidebarLeft = ({ className, sticky, onClickLink }: SidebarLeftProps) => {
   const sidebarRef = useRef<HTMLDivElement>(null)
   const sectionsRef = useRef<HTMLUListElement>(null)
-  const segment = useSelectedLayoutSegment()
+  const { version, slug } = useVersionAndSlug()
 
-  let activeSlug = segment ?? ""
-  let toc = createToc(activeSlug, onClickLink)
+  let toc = createToc(version, slug, onClickLink)
 
   useEffect(() => {
     if (sectionsRef.current === null || sidebarRef.current === null) {
       return
     }
     let element = sectionsRef.current.querySelector(
-      `[data-sidebar-page-slug="${activeSlug}"]`,
+      `[data-sidebar-page-slug="${slug}"]`,
     )
     if (element !== null) {
       let erect = element.getBoundingClientRect()
@@ -74,7 +79,7 @@ const SidebarLeft = ({ className, sticky, onClickLink }: SidebarLeftProps) => {
         sidebarRef.current.scrollTop = top - prect.height / 2 + erect.height / 2
       }
     }
-  }, [activeSlug])
+  }, [slug])
 
   return (
     <Sidebar ref={sidebarRef} className={className} sticky={sticky}>

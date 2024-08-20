@@ -1,10 +1,10 @@
 import { useIsApple } from "../hooks/useIsApple"
 import { MagnifyingGlass } from "@phosphor-icons/react"
+import dynamic from "next/dynamic"
 import { useState } from "react"
 import { useHotkeys } from "react-hotkeys-hook"
 
-// TODO
-// const SearchDialog = dynamic(() => import("./SearchDialog"), { ssr: false })
+const SearchDialog = dynamic(() => import("./SearchDialog"), { ssr: false })
 
 interface QuickSearchProps {
   onClick?: () => void
@@ -47,14 +47,13 @@ const QuickSearch = ({ onClick }: QuickSearchProps) => {
           </div>
         ) : undefined}
       </button>
-      {/* TODO */}
-      {/* <SearchDialog
+      <SearchDialog
         open={searchDialogOpen}
         onClose={() => {
           onClick?.()
           setSearchDialogOpen(false)
         }}
-      /> */}
+      />
     </>
   )
 }

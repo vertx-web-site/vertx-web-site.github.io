@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "next",
-    "build": "next build && npm run scraper && cp public/docs/index.json out/docs/index.json",
+    "build": "next build && npm run scraper",
     "lint": "next lint",
     "postinstall": "npm run scraper:install && npm run update-docs:install",
     "scraper": "cd scraper && npm run run && cd ..",
@@ -37,6 +37,7 @@
     "@radix-ui/react-dialog": "^1.1.1",
     "@radix-ui/react-scroll-area": "^1.1.0",
     "@radix-ui/react-tooltip": "^1.1.2",
+    "@radix-ui/react-visually-hidden": "^1.1.0",
     "@tailwindcss/typography": "^0.5.13",
     "@types/lodash": "^4.17.7",
     "@types/node": "^20.14.10",

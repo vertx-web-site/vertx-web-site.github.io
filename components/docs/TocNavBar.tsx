@@ -1,7 +1,8 @@
+import { useVersionAndSlug } from "./useVersionAndSlug"
 import { type Page, makeIndex, makeToc } from "@/components/docs/Toc"
+import { latestRelease } from "@/docs/metadata/all"
 import { CaretRight } from "@phosphor-icons/react/dist/ssr"
 import { Cross as Hamburger } from "hamburger-react"
-import { useSelectedLayoutSegment } from "next/navigation"
 import { Dispatch, SetStateAction } from "react"
 
 interface TocNavBarProps {
@@ -10,10 +11,9 @@ interface TocNavBarProps {
 }
 
 const TocNavBar = ({ isOpen, setIsOpen }: TocNavBarProps) => {
-  const segment = useSelectedLayoutSegment()
+  const { version, slug } = useVersionAndSlug()
 
-  const activeSlug = segment ?? ""
-  const toc = makeToc(activeSlug)
+  const toc = makeToc(version ?? latestRelease.version)
   const index = makeIndex(toc)
 
   return (
@@ -26,11 +26,11 @@ const TocNavBar = ({ isOpen, setIsOpen }: TocNavBarProps) => {
         />
       </div>
       <div className="max-w-min whitespace-nowrap text-gray-600">
-        {index[(index[activeSlug] as Page).chapter].title}
+        {index[(index[slug] as Page).chapter].title}
       </div>
       <CaretRight size="1em" />
       <div className="overflow-hidden text-ellipsis whitespace-nowrap font-normal">
-        {index[activeSlug].title}
+        {index[slug].title}
       </div>
     </nav>
   )

@@ -1,9 +1,10 @@
 import Sidebar from "./Sidebar"
 import { Section, Subsection, makeIndex, makeToc } from "./Toc"
+import { useVersionAndSlug } from "./useVersionAndSlug"
+import { latestRelease } from "@/docs/metadata/all"
 import { ArrowSquareOut } from "@phosphor-icons/react/dist/ssr"
 import clsx from "clsx"
 import Link from "next/link"
-import { useSelectedLayoutSegment } from "next/navigation"
 import { useEffect, useLayoutEffect, useRef } from "react"
 
 interface SidebarRightProps {
@@ -33,13 +34,12 @@ const SidebarRight = ({ className, activeSection }: SidebarRightProps) => {
   const firstScroll = useRef<boolean>(true)
   const sidebarRef = useRef<HTMLDivElement>(null)
   const sectionsRef = useRef<HTMLUListElement>(null)
-  const segment = useSelectedLayoutSegment()
+  const { version, slug } = useVersionAndSlug()
 
-  const activeSlug = segment ?? ""
-  const toc = makeToc(activeSlug)
+  const toc = makeToc(version ?? latestRelease.version)
   const index = makeIndex(toc)
 
-  let entry = index[activeSlug]
+  let entry = index[slug]
   let sections = undefined
   if (entry.type === "page") {
     sections = entry.sections?.flatMap(s => {
@@ -65,7 +65,7 @@ const SidebarRight = ({ className, activeSection }: SidebarRightProps) => {
     if (sidebarRef.current !== null) {
       sidebarRef.current.scrollTop = 0
     }
-  }, [activeSlug])
+  }, [slug])
 
   useEffect(() => {
     if (sectionsRef.current === null || sidebarRef.current === null) {
@@ -92,7 +92,7 @@ const SidebarRight = ({ className, activeSection }: SidebarRightProps) => {
     }
   }, [activeSection])
 
-  let githubFilename = activeSlug
+  let githubFilename = slug
   if (githubFilename === "") {
     githubFilename = "get-started"
   }

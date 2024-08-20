@@ -1,5 +1,6 @@
 import ScrollTopWorkaround from "@/components/ScrollTopWorkaround"
 import { Chapter, isExternal, makeIndex, makeToc } from "@/components/docs/Toc"
+import { versionFromSlug } from "@/components/docs/versionFromSlug"
 import { versions as docsVersions, latestRelease } from "@/docs/metadata/all"
 import { filterLatestBugfixVersions } from "@/docs/metadata/helpers"
 import { CaretLeft, CaretRight } from "@phosphor-icons/react/dist/ssr"
@@ -14,14 +15,16 @@ export async function generateMetadata(
   { params }: DocsPageProps,
   _: ResolvingMetadata,
 ): Promise<Metadata> {
-  let slug = undefined
+  let fullSlug = undefined
   if (params.slug !== undefined) {
-    slug = params.slug.join("/")
+    fullSlug = params.slug.join("/")
   } else {
-    slug = ""
+    fullSlug = ""
   }
 
-  let toc = makeToc(slug)
+  let { version, slug } = versionFromSlug(fullSlug)
+
+  let toc = makeToc(version ?? latestRelease.version)
   let index = makeIndex(toc)
 
   let entry = index[slug]
@@ -72,11 +75,11 @@ export async function generateStaticParams() {
         }
 
         let slug = page.slug.split("/")
-        params.push({ slug })
+        params.push({ slug: [version, ...slug] })
 
         // generate pages for latest version too
         if (latestRelease.version === version) {
-          params.push({ slug: slug.slice(1) })
+          params.push({ slug })
         }
       }
     }
@@ -89,14 +92,17 @@ export async function generateStaticParams() {
 }
 
 const DocsPage = ({ params }: DocsPageProps) => {
-  let slug = undefined
+  let fullSlug = undefined
   if (params.slug !== undefined) {
-    slug = params.slug.join("/")
+    fullSlug = params.slug.join("/")
   } else {
-    slug = ""
+    fullSlug = ""
   }
 
-  let toc = makeToc(slug)
+  let { version, slug } = versionFromSlug(fullSlug)
+  let activeVersion = version ?? latestRelease.version
+
+  let toc = makeToc(activeVersion)
   let index = makeIndex(toc)
 
   let entry = index[slug]
@@ -106,7 +112,7 @@ const DocsPage = ({ params }: DocsPageProps) => {
     moduleFilename = "get-started"
   }
   let data = require(
-    `../../../docs/compiled/${entry.slugWithVersion}/index.json`,
+    `../../../docs/compiled/${slug === "" ? activeVersion : `${activeVersion}/${slug}`}/index.json`,
   )
   let Content = () => (
     <div
