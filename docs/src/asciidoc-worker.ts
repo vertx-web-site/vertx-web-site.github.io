@@ -1,6 +1,6 @@
 import * as parse5 from "parse5"
+import { createHighlighter } from "./highlighter"
 import asciidoctor from "asciidoctor"
-import highlightJsExt from "asciidoctor-highlight.js"
 import fs from "fs/promises"
 import path from "path"
 import { MessagePort } from "worker_threads"
@@ -115,8 +115,8 @@ async function workerMain({
   // clean up any previously registered extensions
   adoc.Extensions.unregisterAll()
 
-  // register highlight.js extension
-  highlightJsExt.register(adoc.Extensions)
+  // register syntax highlighter
+  adoc.SyntaxHighlighter.register("shiki", await createHighlighter())
 
   let memoryLogger = adoc.MemoryLogger.create()
   adoc.LoggerManager.setLogger(memoryLogger)
@@ -124,7 +124,7 @@ async function workerMain({
   const asciidoctorOptions = {
     safe: "unsafe",
     attributes: {
-      "source-highlighter": "highlightjs-ext",
+      "source-highlighter": "shiki",
       showtitle: true,
       toc: "left",
       sectanchors: true,

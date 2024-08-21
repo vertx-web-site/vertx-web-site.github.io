@@ -4,7 +4,6 @@
   "exclude": ["dist"],
   "compilerOptions": {
     "allowJs": false,
-    "noEmit": false,
-    "types": ["node", "webpack-env", "./additional"]
+    "noEmit": false
   }
 }
