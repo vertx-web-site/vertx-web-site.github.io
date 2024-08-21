@@ -4,6 +4,7 @@ import { versionFromSlug } from "@/components/docs/versionFromSlug"
 import { versions as docsVersions, latestRelease } from "@/docs/metadata/all"
 import { filterLatestBugfixVersions } from "@/docs/metadata/helpers"
 import { CaretLeft, CaretRight } from "@phosphor-icons/react/dist/ssr"
+import clsx from "clsx"
 import { Metadata, ResolvingMetadata } from "next"
 import Link from "next/link"
 
@@ -172,7 +173,26 @@ const DocsPage = ({ params }: DocsPageProps) => {
   return (
     <>
       <ScrollTopWorkaround />
-      <main className="prose mt-40 lg:mt-24 [&_.admonitionblock.warning]:border-alert [&_.admonitionblock]:my-4 [&_.admonitionblock]:border-l-8 [&_.admonitionblock]:border-primary [&_.admonitionblock]:bg-gray-100 [&_.admonitionblock]:px-4 [&_.admonitionblock]:py-3 [&_.admonitionblock_.title]:font-medium [&_.admonitionblock_p+p]:mt-2 [&_.admonitionblock_p:first-child]:mt-0 [&_.admonitionblock_p]:mb-0 [&_.admonitionblock_table]:m-0 [&_.admonitionblock_td]:p-0 [&_.admonitionblock_tr]:flex [&_.admonitionblock_tr]:flex-col [&_.listingblock+.listingblock]:mt-4 [&_.listingblock]:flex [&_.listingblock]:flex-col [&_.listingblock]:overflow-auto [&_.listingblock]:rounded-sm [&_.listingblock_.content]:flex [&_.listingblock_.content]:flex-1 [&_.listingblock_.content_pre]:flex-1 [&_.listingblock_.title]:font-normal [&_.literalblock]:flex [&_.literalblock]:overflow-auto [&_.literalblock]:rounded-sm [&_.literalblock_.content]:flex [&_.literalblock_.content]:flex-1 [&_.literalblock_.content_pre]:flex-1 [&_code]:leading-[1.6] [&_pre:not(:has(code))]:px-3 [&_pre:not(:has(code))]:py-3 [&_pre:not(:has(code))]:text-white">
+      <main
+        className={clsx(
+          "prose mt-40 lg:mt-24",
+
+          // admonitions
+          "[&_.admonitionblock.warning]:border-alert [&_.admonitionblock]:my-4 [&_.admonitionblock]:border-l-8 [&_.admonitionblock]:border-primary [&_.admonitionblock]:bg-gray-100 [&_.admonitionblock]:px-4 [&_.admonitionblock]:py-3",
+
+          // admonition content
+          "[&_.admonitionblock_.listingblock+.paragraph]:mt-2 [&_.admonitionblock_.title]:font-medium [&_.admonitionblock_p:first-child]:mt-0 [&_.admonitionblock_p]:my-2 [&_.admonitionblock_table]:m-0 [&_.admonitionblock_table]:flex [&_.admonitionblock_tbody]:w-full [&_.admonitionblock_td]:p-0 [&_.admonitionblock_tr]:flex [&_.admonitionblock_tr]:flex-col",
+
+          // listings
+          "[&_.listingblock+.listingblock]:mt-4 [&_.listingblock]:flex [&_.listingblock]:flex-col [&_.listingblock]:overflow-auto [&_.listingblock]:rounded-sm [&_.listingblock_.content]:flex [&_.listingblock_.content]:flex-1 [&_.listingblock_.content_pre]:flex-1 [&_.listingblock_.title]:font-normal",
+
+          // literals
+          "[&_.literalblock+.literalblock]:mt-4 [&_.literalblock]:flex [&_.literalblock]:flex-col [&_.literalblock]:overflow-auto [&_.literalblock]:rounded-sm [&_.literalblock_.content]:flex [&_.literalblock_.content]:flex-1 [&_.literalblock_.content_pre]:flex-1 [&_.literalblock_.title]:font-normal",
+
+          // code + pre
+          "[&_code]:leading-[1.6] [&_pre:not(:has(code))]:px-3 [&_pre:not(:has(code))]:py-3 [&_pre:not(:has(code))]:text-white",
+        )}
+      >
         {Main}
       </main>
     </>
