@@ -10,7 +10,7 @@ code {
 }
 
 .prose code {
-  @apply text-[0.95em];
+  @apply text-[0.90em];
   overflow-wrap: break-word;
 }
 
@@ -30,7 +30,7 @@ div[data-rehype-pretty-code-fragment] {
   @apply py-1;
   @apply px-2;
   @apply rounded-md;
-  @apply leading-[1.5];
+  @apply leading-[1.6];
 }
 
 [data-rehype-pretty-code-fragment] pre code,
