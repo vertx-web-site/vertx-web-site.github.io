@@ -44,7 +44,7 @@ function nodeToString($node: cheerio.Cheerio<cheerio.Element>) {
   })
 
   // cleanup
-  text = text.replaceAll(/\r/gm, "").replaceAll(/^\n+/gm, "")
+  text = text.replace(/\r/gm, "").replace(/^\n+/gm, "")
 
   return text
 }

@@ -1,9 +1,10 @@
 {
   "extends": "../tsconfig.json",
+  "include": ["src"],
   "exclude": ["dist"],
   "compilerOptions": {
+    "allowJs": false,
     "noEmit": false,
-    "target": "ES2022",
-    "module": "ES2022"
+    "types": ["node", "webpack-env", "./additional"]
   }
 }

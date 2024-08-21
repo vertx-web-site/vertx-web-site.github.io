@@ -23,6 +23,12 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["docs", "node_modules", "out", "public", "scraper"]
+  "include": [
+    "app",
+    "components",
+    "docs/metadata",
+    "next-env.d.ts",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": []
 }
