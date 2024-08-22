@@ -13,7 +13,7 @@ insert(docs, "vertx-opentracing", {
   repository:
     "https://github.com/eclipse-vertx/vertx-tracing/tree/master/vertx-opentelemetry",
   edit: "https://github.com/eclipse-vertx/vertx-tracing/tree/master/vertx-opentelemetry/src/main/asciidoc",
-  label: "Technical Preview",
+  label: "Preview",
 })
 
 insert(docs, "vertx-mail-client", {
@@ -25,7 +25,7 @@ insert(docs, "vertx-mail-client", {
   href: "/vertx-http-proxy/java/",
   repository: "https://github.com/eclipse-vertx/vertx-http-proxy/tree/master",
   edit: "https://github.com/eclipse-vertx/vertx-http-proxy/tree/master/src/main/asciidoc",
-  label: "Technical Preview",
+  label: "Preview",
 })
 
 insert(docs, "vertx-sql-client-templates", {
@@ -36,7 +36,7 @@ insert(docs, "vertx-sql-client-templates", {
   href: "/vertx-mssql-client/java/",
   repository: "https://github.com/eclipse-vertx/vertx-sql-client",
   edit: "https://github.com/eclipse-vertx/vertx-sql-client/tree/master/vertx-mssql-client/src/main/asciidoc",
-  label: "Technical Preview",
+  label: "Preview",
 })
 
 insert(docs, "vertx-rx-java2", {
@@ -47,7 +47,7 @@ insert(docs, "vertx-rx-java2", {
   href: "/vertx-rx/java3/",
   repository: "https://github.com/vert-x3/vertx-rx",
   edit: "https://github.com/vert-x3/vertx-rx/tree/master/rx-java3/src/main/asciidoc",
-  label: "Technical Preview",
+  label: "Preview",
 })
 
 insert(docs, "vertx-web-graphql", {
@@ -58,7 +58,7 @@ insert(docs, "vertx-web-graphql", {
   href: "/vertx-web-proxy/java/",
   repository: "https://github.com/vert-x3/vertx-web",
   edit: "https://github.com/vert-x3/vertx-web/tree/master/vertx-web-proxy/src/main/asciidoc",
-  label: "Technical Preview",
+  label: "Preview",
 })
 
 export default docs

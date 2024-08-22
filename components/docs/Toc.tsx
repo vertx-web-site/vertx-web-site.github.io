@@ -11,6 +11,7 @@ export interface Page {
   readonly type: "page"
   readonly title: string
   readonly slug: string
+  readonly label?: string
   readonly chapter: string
   readonly sections?: Section[]
 }
@@ -44,24 +45,6 @@ const introductionChapter: Chapter = {
       chapter: "introduction",
     },
   ],
-}
-
-function slugWithVersion(
-  doAddVersion: boolean,
-  version: string,
-  slug: string,
-): string {
-  if (doAddVersion) {
-    if (slug !== "") {
-      if (isExternal(slug)) {
-        return slug
-      }
-      return `${version}/${slug}`
-    } else {
-      return version
-    }
-  }
-  return slug
 }
 
 export function makeToc(version: string): Chapter[] {
@@ -129,6 +112,7 @@ export function makeToc(version: string): Chapter[] {
         type: "page",
         title: e.name,
         slug: pageSlug,
+        label: e.label,
         sections,
         chapter: category.id,
       })

@@ -1,3 +1,4 @@
+import Label from "../Label"
 import Sidebar from "./Sidebar"
 import { useVersionAndSlug } from "./useVersionAndSlug"
 import { makeToc } from "@/components/docs/Toc"
@@ -32,10 +33,13 @@ function createToc(
                 <Link
                   href={`/docs/${version !== undefined ? `${version}/${p.slug}` : p.slug}`}
                   data-sidebar-page-slug={p.slug}
-                  className="hover:text-primary-hover"
+                  className="inline-flex flex-row flex-wrap items-center gap-2 hover:text-primary-hover"
                   onClick={onClickLink}
                 >
                   {p.title}
+                  {p.label !== undefined ? (
+                    <Label type="transparent">{p.label}</Label>
+                  ) : undefined}
                 </Link>
               </li>
             )

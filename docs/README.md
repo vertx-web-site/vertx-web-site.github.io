@@ -97,7 +97,7 @@ A list of objects representing Vert.x modules. Each object has the following att
 | `repository`  | A link to the module's source code repository (e.g. `"https://github.com/eclipse-vertx/vert.x"`) |
 | `edit`        | A link to the module's AsciiDoc source (e.g. `"https://github.com/eclipse-vertx/vert.x/tree/master/src/main/asciidoc"`) |
 | `examples`<br />*(optional)* | A link to example code showing how the module is used (e.g. `"https://github.com/vert-x3/vertx-examples/tree/3.x/core-examples"`)
-| `label`<br />*(optional)* | A label that should be displayed next to the module's name on the Vert.x website (e.g. `"Technical Preview"`)
+| `label`<br />*(optional)* | A label that should be displayed next to the module's name on the Vert.x website (e.g. `"Preview"`)
 
 ### `docs.categories`
 

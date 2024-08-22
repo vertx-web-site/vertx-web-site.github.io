@@ -103,7 +103,7 @@ docs.entries.push({
   href: "/vertx-json-schema/java/",
   repository: "https://github.com/eclipse-vertx/vertx-json-schema",
   edit: "https://github.com/eclipse-vertx/vertx-json-schema/tree/master/src/main/asciidoc",
-  label: "Technical Preview",
+  label: "Preview",
 })
 
 docs.entries.push({

@@ -122,7 +122,7 @@ const entries: Doc[] = [
     edit: "https://github.com/vert-x3/vertx-web/tree/master/vertx-web-api-service/src/main/asciidoc",
     examples:
       "https://github.com/vert-x3/vertx-examples/tree/3.x/web-api-service-example",
-    label: "Technical Preview",
+    label: "Preview",
   },
   {
     id: "vertx-web-graphql",
@@ -134,7 +134,7 @@ const entries: Doc[] = [
     edit: "https://github.com/vert-x3/vertx-web/tree/master/vertx-web-graphql/src/main/asciidoc",
     examples:
       "https://github.com/vert-x3/vertx-examples/tree/3.x/web-graphql-examples",
-    label: "Technical Preview",
+    label: "Preview",
   },
 
   // databases
@@ -149,7 +149,7 @@ const entries: Doc[] = [
     edit: "https://github.com/eclipse-vertx/vertx-sql-client/tree/master/vertx-pg-client/src/main/asciidoc",
     examples:
       "https://github.com/vert-x3/vertx-examples/tree/3.x/reactive-sql-client-examples",
-    label: "Technical Preview",
+    label: "Preview",
   },
   {
     id: "vertx-mysql-client",
@@ -161,7 +161,7 @@ const entries: Doc[] = [
     edit: "https://github.com/eclipse-vertx/vertx-sql-client/tree/master/vertx-mysql-client/src/main/asciidoc",
     examples:
       "https://github.com/vert-x3/vertx-examples/tree/3.x/reactive-sql-client-examples",
-    label: "Technical Preview",
+    label: "Preview",
   },
   {
     id: "vertx-mongo-client",
@@ -415,7 +415,7 @@ const entries: Doc[] = [
     href: "/vertx-amqp-client/java/",
     repository: "https://github.com/vert-x3/vertx-amqp-client",
     edit: "https://github.com/vert-x3/vertx-amqp-client/tree/master/src/main/asciidoc",
-    label: "Technical Preview",
+    label: "Preview",
   },
   {
     id: "vertx-stomp",

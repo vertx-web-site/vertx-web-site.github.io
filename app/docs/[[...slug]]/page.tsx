@@ -1,3 +1,4 @@
+import Label from "@/components/Label"
 import ScrollTopWorkaround from "@/components/ScrollTopWorkaround"
 import { Chapter, isExternal, makeIndex, makeToc } from "@/components/docs/Toc"
 import { versionFromSlug } from "@/components/docs/versionFromSlug"
@@ -123,9 +124,11 @@ const DocsPage = ({ params }: DocsPageProps) => {
     ></div>
   )
 
+  let label = undefined
   let parentChapter = undefined
   if (entry.type === "page") {
     parentChapter = index[entry.chapter]
+    label = entry.label
   }
 
   let [prev, next] = findNeighbors(slug, toc)
@@ -134,7 +137,10 @@ const DocsPage = ({ params }: DocsPageProps) => {
     <>
       {parentChapter !== undefined ? (
         <div className="text-sm font-normal text-primary">
-          {parentChapter.title}
+          {parentChapter.title}{" "}
+          {label !== undefined ? (
+            <Label type="transparent">{label}</Label>
+          ) : undefined}
         </div>
       ) : undefined}
       <div className="mt-2" id={slug}></div>
