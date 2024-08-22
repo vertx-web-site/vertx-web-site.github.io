@@ -8,29 +8,54 @@ summary: >-
     Introducing new features for Vert.x Http Proxy from GSoC 2024 project.
 ---
 
-_This blog is also served as the final submission of the GSoC 2024 project._
-
 ## Introduction
 
-[vertx-http-proxy](https://github.com/eclipse-vertx/vertx-http-proxy) is a component in the Vert.x ecosystem used 
+[vertx-http-proxy](https://github.com/eclipse-vertx/vertx-http-proxy) is a component in the Vert.x ecosystem often used 
 as an HTTP reverse proxy. Coming from Google Summer of Code 2024, some new features are implemented under this 
-project to make it more user-friendly. In this blog post, I introduce some features that are about to be included
-in the official release and how to use them, followed by reflections on the GSoC experience.
+project to make its usage easier and eliminate boilerplate code required for common scenarios. In this blog post, I 
+introduce some features that are about to be included in the official release and how to use them, followed by reflections 
+on the GSoC experience.
 
 <Alert warning>
-The updates mentioned in this post are not yet available from the maven repository; The actual results are subject 
+The updates mentioned in this post are not yet available from the maven repository. The actual results are subject 
 to the final provided API.
 </Alert>
 
 ## Interceptors
 
-During message forwarding, developers can add interceptors to intercept and modify incoming requests and responses. 
-This update provides a quick way to create different types of interceptors. For example, now it's possible to create 
-a interceptor to filter headers with a single method:
+During HTTP exchanges, developers can modify incoming requests and responses with interceptors. 
+This update provides a quick way to create different types of interceptors. For example, 
+In the previous version, if you wanted to remove certain fields from the header, you had to create
+the interceptor like this:
+
+```java
+proxy.addInterceptor(new ProxyInterceptor() {
+    @Override
+    public Future<ProxyResponse> handleProxyRequest(ProxyContext context) {
+    context.request().headers().remove("header-to-remove");
+    return context.sendRequest();
+    }
+});
+```
+
+Now it's possible to create an interceptor to filter headers with a single method:
 
 ```java
 proxy.addInterceptor(
     HeadersInterceptor.filterRequestHeaders(Set.of("header-to-remove")));
+```
+
+We can now also use the `BodyInterceptor` to conveniently modify the body of requests or responses. 
+This interceptor supports various types of data by default, meaning that you can treat the body 
+directly as either bytes, strings, or json types for transformation by using `BodyTransformer`. 
+For example, to create an interceptor that removes the `id` field from each item in the 
+response json array:
+
+```java
+BodyInterceptor.modifyResponseBody(BodyTransformer.transformJsonArray(arr -> {
+    arr.forEach(json -> ((JsonObject) json).remove("id"));
+    return arr;
+}))
 ```
 
 Here's a list of all the interceptors implemented:
@@ -39,6 +64,8 @@ Here's a list of all the interceptors implemented:
 - `PathInterceptor`: used to modify the URI of the request;
 - `QueryInterceptor`: used to modify the query parameter of the request;
 - `BodyInterceptor`: used to modify the body of the request and response.
+
+For modification details, see the PR [here](https://github.com/eclipse-vertx/vertx-http-proxy/pull/78).
 
 Additionally, it is now possible to apply interceptors to WebSocket handshake packets. This means that you can now 
 modify the WebSocket request URL using an interceptor. Considering that in most cases you might not want 
@@ -52,10 +79,12 @@ ProxyInterceptor addPrefix = PathInterceptor.addPrefix("/api");
 addPrefix = WebSocketInterceptor.allow(addPrefix); // now `addPrefix` can be applied to WebSocket	
 ```
 
+For the WebSocket interceptor, see the changes in this [PR](https://github.com/eclipse-vertx/vertx-http-proxy/pull/95).
+
 ## Cache Support 
 
 The proxy supports caching responses. In previous versions, caching was only allowed for responses with the `Cache-Control` 
-marked as `public`. This update improves the caching mechanism and meets most of the requirements of 
+header marked as `public`. This update improves the caching mechanism and meets most of the requirements of 
 [RFC9111](https://www.rfc-editor.org/rfc/rfc9111.html). The specific changes are as follows:
 
 - Implemented all cache request and response directives from RFC9111 (except `no-transform`);
@@ -66,17 +95,20 @@ marked as `public`. This update improves the caching mechanism and meets most of
 - Fixed the issue with wrong caching responses when including the `Vary` header;
 - Implemented default heuristic freshness.
 
-A Cache SPI is also currently provided to support custom Cache implementations. A Cache instance can be shared by multiple proxies.
+A Cache SPI is also currently provided to support custom different Cache implementations (e.g. on heap or Redis). 
+
+See code changes in for HTTP cache support in this [PR](https://github.com/eclipse-vertx/vertx-http-proxy/pull/93) and 
+Cache SPI update in this [PR](https://github.com/eclipse-vertx/vertx-http-proxy/pull/92).
 
 ## Contextual Data
 
 `ProxyContext` is used as a context for sharing state between different proxy components. In the latest version, it 
 can be more generally shared between interceptors and the `originSelector`. Since interceptors now support WebSocket, 
-the context can also be used for WebSocket traffic.
+the context can also be used during the WebSocket handshake.
 
 The new version of the context also allows an additional map to be passed in as a contextual data holder when handling 
-requests. This method enables the injection of custom context content at runtime. For example, to register an proxy 
-as a handler for a http server with custom context, you can using the following code:
+requests. This method enables the injection of custom context content at runtime. For example, to register a proxy 
+as a handler for an HTTP server with custom context, you can using the following code:
 
 ```java
 server.requestHandler(request -> {
@@ -84,6 +116,11 @@ server.requestHandler(request -> {
     proxy.handle(request, customContext);
 });
 ```
+
+It is also planned for [vertx-web-proxy](https://github.com/vert-x3/vertx-web) to set the `RoutingContext` bound to 
+the request as custom proxy context.
+
+See this [PR](https://github.com/eclipse-vertx/vertx-http-proxy/pull/96) for the contextual data changes.
 
 ## GSoC Experience & Learnings
 
@@ -110,14 +147,3 @@ to two times that. So, if I had to summarize the most important lessons:
 - It's better to seek feedback after completing the design immediately rather than jumping straight into coding, as this can easily lead to unexpected outcomes.
 
 And finally, I would like to thank my mentor, Thomas Segismont, for his helpful advice and support throughout the project.
-
-## References
-
-All relevant issues are listed in here. Related PRs are linked in them:
-
-- [issue/67: Cache SPI](https://github.com/eclipse-vertx/vertx-http-proxy/issues/67)
-- [issue/70: HTTP Cache Mechanism](https://github.com/eclipse-vertx/vertx-http-proxy/issues/70)
-- [issue/71: Contextual Data](https://github.com/eclipse-vertx/vertx-http-proxy/issues/71)
-- [issue/48: interceptors for WebSocket](https://github.com/eclipse-vertx/vertx-http-proxy/issues/48)
-- [issue/65: Out-of-the-box interceptors](https://github.com/eclipse-vertx/vertx-http-proxy/issues/65)
-
