@@ -44,7 +44,7 @@ export default function RootLayout({
       className={clsx(`${roboto.variable} ${dejaVuFont.variable}`)}
     >
       <head>
-        <script
+        {/* <script
           dangerouslySetInnerHTML={{
             __html: `
               try {
@@ -56,7 +56,7 @@ export default function RootLayout({
               } catch (_) {}
             `,
           }}
-        />
+        /> */}
         <link rel="icon" type="image/x-icon" href="/favicon.ico" />
         <link
           rel="icon"
