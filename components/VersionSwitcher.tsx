@@ -69,9 +69,9 @@ const VersionSwitcher = ({ bg }: VersionSwitcherProps) => {
 
           // navigate now - the docs page will update the store
           if (index[slug] !== undefined) {
-            router.push(`/docs/${nv}/${slug}`)
+            router.push(["/docs", nv, slug].filter(s => s !== "").join("/"))
           } else {
-            router.push(`/docs/${nv}`)
+            router.push(["/docs", nv].filter(s => s !== "").join("/"))
           }
 
           return
