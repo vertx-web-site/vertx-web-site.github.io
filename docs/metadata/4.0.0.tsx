@@ -135,7 +135,7 @@ docs.entries.push({
   category: "kotlin",
   href: "/vertx-lang-kotlin-coroutines/kotlin/",
   repository: "https://github.com/vert-x3/vertx-lang-kotlin",
-  edit: "https://github.com/vert-x3/vertx-lang-kotlin/tree/master/vertx-lang-kotlin/src/main/asciidoc",
+  edit: "https://github.com/vert-x3/vertx-lang-kotlin/tree/master/vertx-lang-kotlin-coroutines/src/main/asciidoc",
   examples:
     "https://github.com/vert-x3/vertx-examples/tree/3.x/kotlin-examples/coroutines",
 })

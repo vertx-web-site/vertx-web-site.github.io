@@ -19,7 +19,7 @@ insert(docs, "vertx-openapi", {
   category: "standards",
   href: "/vertx-openapi/java/",
   repository: "https://github.com/eclipse-vertx/vertx-openapi",
-  edit: "https://github.com/eclipse-vertx/vertx-openapi/tree/master/vertx-openapi/src/main/asciidoc",
+  edit: "https://github.com/eclipse-vertx/vertx-openapi/tree/main/src/main/asciidoc",
   label: "Preview",
 })
 
@@ -31,7 +31,7 @@ insert(docs, "vertx-web-openapi-router", {
   category: "standards",
   href: "/vertx-web-openapi-router/java/",
   repository: "https://github.com/vert-x3/vertx-web",
-  edit: "https://github.com/vert-x3/vertx-web/tree/master/vertx-web/vertx-web-openapi-router/src/main/asciidoc",
+  edit: "https://github.com/vert-x3/vertx-web/tree/master/vertx-web-openapi-router/src/main/asciidoc",
   label: "Preview",
 })
 

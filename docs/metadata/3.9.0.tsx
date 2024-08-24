@@ -610,7 +610,7 @@ const entries: Doc[] = [
     category: "clustering",
     href: "/vertx-infinispan/java/",
     repository: "https://github.com/vert-x3/vertx-infinispan",
-    edit: "https://github.com/vert-x3/vertx-infinispan/tree/master/src/main/asciidoc",
+    edit: "https://github.com/vert-x3/vertx-infinispan/tree/master/vertx-infinispan/src/main/asciidoc",
   },
   {
     id: "vertx-ignite",

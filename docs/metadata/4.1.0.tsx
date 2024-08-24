@@ -23,8 +23,8 @@ insert(docs, "vertx-mail-client", {
     "A reverse proxy based on Vert.x, it aims to implement reusable reverse proxy logic to focus on higher concerns.",
   category: "integration",
   href: "/vertx-http-proxy/java/",
-  repository: "https://github.com/eclipse-vertx/vertx-http-proxy/tree/master",
-  edit: "https://github.com/eclipse-vertx/vertx-http-proxy/tree/master/src/main/asciidoc",
+  repository: "https://github.com/eclipse-vertx/vertx-http-proxy/tree/main",
+  edit: "https://github.com/eclipse-vertx/vertx-http-proxy/tree/main/src/main/asciidoc",
   label: "Preview",
 })
 
