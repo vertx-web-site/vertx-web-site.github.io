@@ -64,6 +64,10 @@ export function remove(docs: Docs, entryId: string) {
   _remove(docs.entries, e => e.id === entryId)
 }
 
+export function removeCategory(docs: Docs, categoryId: string) {
+  _remove(docs.categories, c => c.id === categoryId)
+}
+
 export function parseVersion(v: string): Version {
   let parts = v.split(/\.|-/)
   let numericParts: number[] = []

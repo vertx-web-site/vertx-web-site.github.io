@@ -1,5 +1,5 @@
 import oldDocs from "./4.4.4"
-import { clone, insert, remove } from "./helpers"
+import { clone, insert, remove, removeCategory } from "./helpers"
 
 const docs = clone(oldDocs)
 
@@ -22,5 +22,6 @@ remove(docs, "vertx-lang-groovy")
 remove(docs, "vertx-rx-java")
 remove(docs, "vertx-service-discovery")
 remove(docs, "vertx-web-api-service")
+removeCategory(docs, "groovy")
 
 export default docs
