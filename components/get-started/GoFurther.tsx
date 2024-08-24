@@ -1,8 +1,8 @@
-import { useVersionAndSlug } from "../docs/useVersionAndSlug"
+import { useVersion } from "../hooks/useVersion"
 import Card from "@/components/Card"
 
 const GoFurther = () => {
-  const { version } = useVersionAndSlug()
+  const { version } = useVersion()
 
   return (
     <div className="grid grid-cols-1 gap-2 md:grid-cols-2">

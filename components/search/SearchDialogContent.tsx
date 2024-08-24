@@ -1,5 +1,5 @@
 import { makeIndex, makeToc } from "../docs/Toc"
-import { useVersionAndSlug } from "../docs/useVersionAndSlug"
+import { useVersion } from "../hooks/useVersion"
 import SearchInputBar from "./SearchInputBar"
 import type { SearchResult } from "./SearchResult"
 import SearchResultList, { SearchResultListRef } from "./SearchResultList"
@@ -415,7 +415,7 @@ const SearchDialogContent = ({ onClose }: SearchDialogContentProps) => {
     ReturnType<typeof makeIndex> | undefined
   >(undefined)
   const searchResultListRef = useRef<SearchResultListRef | null>(null)
-  const { version } = useVersionAndSlug()
+  const { version } = useVersion()
   const actualVersion = version ?? latestRelease.version
 
   const onUp = useCallback(() => {

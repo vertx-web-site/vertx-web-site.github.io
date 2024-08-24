@@ -3,7 +3,10 @@
 import ScrollTopWorkaround from "./ScrollTopWorkaround"
 import SimpleIcon from "./SimpleIcon"
 import { Tooltip } from "./Tooltip"
+import VersionSwitcher from "./VersionSwitcher"
+import { useVersion } from "./hooks/useVersion"
 import QuickSearch from "./search/QuickSearch"
+import { latestRelease } from "@/docs/metadata/all"
 import { Slot } from "@radix-ui/react-slot"
 import clsx from "clsx"
 import { Spin as Hamburger } from "hamburger-react"
@@ -98,6 +101,7 @@ const NavBar = ({ fixed = true, narrow = false }: NavBarProps) => {
   // TODO
   // const { theme } = useTheme()
   const pathname = usePathname()
+  const { version } = useVersion()
 
   useEffect(() => {
     function onScroll() {
@@ -155,7 +159,7 @@ const NavBar = ({ fixed = true, narrow = false }: NavBarProps) => {
 
   const links = [
     {
-      href: "/docs/",
+      href: version !== latestRelease.version ? `/docs/${version}` : "/docs/",
       label: "Docs",
     },
     {
@@ -326,6 +330,7 @@ const NavBar = ({ fixed = true, narrow = false }: NavBarProps) => {
             <div className="flex flex-1 items-center justify-between xl:hidden">
               <Logo onClick={() => setCollapsed(false)} />
               <div className="flex items-center gap-4">
+                <VersionSwitcher bg={!fixed && onTop ? "primary" : "gray"} />
                 <QuickSearch onClick={() => setCollapsed(false)} />
                 <button
                   id="navbar-toggle-menu-button"
@@ -340,9 +345,9 @@ const NavBar = ({ fixed = true, narrow = false }: NavBarProps) => {
                 </button>
               </div>
             </div>
-            <div className="hidden flex-1 items-center justify-between gap-8 xl:flex">
+            <div className="hidden flex-1 items-center justify-between gap-6 xl:flex 2xl:gap-8">
               <Logo onClick={() => setCollapsed(false)} />
-              <div className="mt-1 flex gap-6">
+              <div className="flex gap-6">
                 {links.map(l => (
                   <Link
                     key={l.label}
@@ -355,6 +360,7 @@ const NavBar = ({ fixed = true, narrow = false }: NavBarProps) => {
               </div>
               <div className="flex-1"></div>
               <div className="flex items-center gap-4">
+                <VersionSwitcher bg={!fixed && onTop ? "primary" : "gray"} />
                 <div className="border-r border-gray-300 pr-4">
                   <QuickSearch />
                 </div>

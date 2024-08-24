@@ -1,4 +1,8 @@
+"use client"
+
 import * as Accordion from "@radix-ui/react-accordion"
+import { useVersion } from "./hooks/useVersion"
+import { latestRelease } from "@/docs/metadata/all"
 import { CaretDown } from "@phosphor-icons/react/dist/ssr"
 import clsx from "clsx"
 import Link from "next/link"
@@ -69,13 +73,11 @@ const AccordionContent = forwardRef<HTMLDivElement, AccordionContentProps>(
 )
 
 const Footer = () => {
-  // TODO
-  // const currentVersion = useContext(VersionContext.State)
-  const currentVersion: { version?: string } = {}
+  const { version } = useVersion()
 
   const menu1 = [
-    currentVersion?.version !== undefined ? (
-      <Link key="docs" href={`/docs/${currentVersion.version}/`}>
+    version !== latestRelease.version ? (
+      <Link key="docs" href={`/docs/${version}/`}>
         Docs
       </Link>
     ) : (

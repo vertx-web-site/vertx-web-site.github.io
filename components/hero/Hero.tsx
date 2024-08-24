@@ -50,10 +50,10 @@ const Hero = ({}: HeroProps) => (
                 <Button icon={<ArrowCircleUp />}>Migrate from v3</Button>
               </Link>
             </div>
-            <div className="mt-1 text-sm text-gray-700">
+            {/* <div className="mt-1 text-sm text-gray-700">
               <span className="font-normal">Latest release:</span> v
               {latestRelease.version}
-            </div>
+            </div> */}
           </div>
         </div>
         {/* right side */}

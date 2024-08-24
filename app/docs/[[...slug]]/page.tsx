@@ -2,6 +2,7 @@ import ClientPage from "./ClientPage"
 import Label from "@/components/Label"
 import ScrollTopWorkaround from "@/components/ScrollTopWorkaround"
 import { Chapter, isExternal, makeIndex, makeToc } from "@/components/docs/Toc"
+import VersionGuard from "@/components/docs/VersionGuard"
 import { versionFromSlug } from "@/components/docs/versionFromSlug"
 import { versions as docsVersions, latestRelease } from "@/docs/metadata/all"
 import { filterLatestBugfixVersions } from "@/docs/metadata/helpers"
@@ -105,8 +106,8 @@ const DocsPage = ({ params }: DocsPageProps) => {
     fullSlug = ""
   }
 
-  let { version, slug } = versionFromSlug(fullSlug)
-  let activeVersion = version ?? latestRelease.version
+  const { version, slug } = versionFromSlug(fullSlug)
+  const activeVersion = version ?? latestRelease.version
 
   let toc = makeToc(activeVersion)
   let index = makeIndex(toc)
@@ -186,6 +187,7 @@ const DocsPage = ({ params }: DocsPageProps) => {
   return (
     <>
       <ScrollTopWorkaround />
+      <VersionGuard pageVersion={activeVersion} />
       <main
         className={clsx(
           "prose mt-40 lg:mt-24",

@@ -1,11 +1,12 @@
 import Label from "../Label"
 import Sidebar from "./Sidebar"
-import { useVersionAndSlug } from "./useVersionAndSlug"
+import { versionFromSlug } from "./versionFromSlug"
 import { isExternal, makeToc } from "@/components/docs/Toc"
 import { latestRelease } from "@/docs/metadata/all"
 import { ArrowSquareOut } from "@phosphor-icons/react/dist/ssr"
 import clsx from "clsx"
 import Link from "next/link"
+import { useSelectedLayoutSegment } from "next/navigation"
 import { useEffect, useRef } from "react"
 
 function createToc(
@@ -78,7 +79,7 @@ interface SidebarLeftProps {
 const SidebarLeft = ({ className, sticky, onClickLink }: SidebarLeftProps) => {
   const sidebarRef = useRef<HTMLDivElement>(null)
   const sectionsRef = useRef<HTMLUListElement>(null)
-  const { version, slug } = useVersionAndSlug()
+  const { version, slug } = versionFromSlug(useSelectedLayoutSegment() ?? "")
 
   let toc = createToc(version, slug, onClickLink)
 

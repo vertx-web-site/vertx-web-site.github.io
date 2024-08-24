@@ -1,10 +1,11 @@
 import Sidebar from "./Sidebar"
 import { Section, Subsection, makeIndex, makeToc } from "./Toc"
-import { useVersionAndSlug } from "./useVersionAndSlug"
+import { versionFromSlug } from "./versionFromSlug"
 import { latestRelease } from "@/docs/metadata/all"
 import { ArrowSquareOut } from "@phosphor-icons/react/dist/ssr"
 import clsx from "clsx"
 import Link from "next/link"
+import { useSelectedLayoutSegment } from "next/navigation"
 import { useEffect, useLayoutEffect, useRef } from "react"
 
 interface SidebarRightProps {
@@ -34,7 +35,7 @@ const SidebarRight = ({ className, activeSection }: SidebarRightProps) => {
   const firstScroll = useRef<boolean>(true)
   const sidebarRef = useRef<HTMLDivElement>(null)
   const sectionsRef = useRef<HTMLUListElement>(null)
-  const { version, slug } = useVersionAndSlug()
+  const { version, slug } = versionFromSlug(useSelectedLayoutSegment() ?? "")
 
   const toc = makeToc(version ?? latestRelease.version)
   const index = makeIndex(toc)
