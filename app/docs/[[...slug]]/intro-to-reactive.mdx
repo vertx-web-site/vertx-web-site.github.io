@@ -12,7 +12,7 @@ Vert.x is a tool-kit and not a framework that ships with black magic: **what you
 
 So what makes Vert.x a great option for writing your next **cloud-native** or [**twelve-factor**](https://12factor.net/) app?
 
-## In the beginning, there were threads...
+<h2 id="in-the-beginning-there-were-threads">In the beginning, there were threads...</h2>
 
 The classic approach to concurrency is to use **threads**.
 Multiple threads can live within a single **process**, perform **concurrent** work, and **share** the same memory space.
@@ -24,7 +24,7 @@ On the surface, the model of having **1 thread per connection** is reassuring be
 
 This is fine, especially if you forget about those silly mistakes you can make with multi-threading and memory access ...
 
-## Multi-threading is "simple" but limited
+<h2 id="multi-threading-is-simple-but-limited">Multi-threading is "simple" but limited</h2>
 
 What happens as the workload grows beyond moderate workloads?
 [(see the C10k problem)](https://en.wikipedia.org/wiki/C10k_problem)
@@ -37,7 +37,7 @@ Some of your threads will be **blocked** because they are waiting on I/O operati
 
 Modern kernels have very good schedulers, but you cannot expect them to deal with 50&thinsp;000 threads as easily as they would do with 5&thinsp;000. Also, threads aren't cheap: creating a thread takes a few milliseconds, and a new thread eats about 1MB of memory.
 
-## Asynchronous programming: scalability and resource efficiency
+<h2 id="asynchronous-programming-scalability-and-resource-efficiency">Asynchronous programming: scalability and resource efficiency</h2>
 
 Processing more concurrent connections with less threads is possible when you use **asynchronous I/O**.
 Instead of blocking a thread when an I/O operation occurs, we move on to another task which is ready to progress, and resume the initial task later when it is ready.
@@ -48,7 +48,7 @@ Vert.x multiplexes concurrent workloads using **event loops**.
 
 Code that runs on event loops should not perform blocking I/O or lengthy processing. But don't worry if you have such code: Vert.x has worker threads and APIs to process events back on an event loop.
 
-## Pick the best asynchronous programming model for your problem domain
+<h2 id="pick-the-best-asynchronous-programming-model-for-your-problem-domain">Pick the best asynchronous programming model for your problem domain</h2>
 
 We know that asynchronous programming requires more efforts.
 At the core of Vert.x, we support **callbacks** and **promises/futures**, the latter being a simple and elegant model for chaining asynchronous operations.
@@ -59,7 +59,7 @@ Advanced reactive programming is possible with [RxJava](https://github.com/React
 
 Vert.x supports many asynchronous programming models: choose what works best for each problem you need to solve!
 
-## Don't let failures ruin responsiveness
+<h2 id="dont-let-failures-ruin-responsiveness">Don't let failures ruin responsiveness</h2>
 
 Failures happen all the time.
 A database will go down, the network will go down, or some service you depend on will become unresponsive.
@@ -68,7 +68,7 @@ A database will go down, the network will go down, or some service you depend on
 
 Vert.x offers tools to keep latency under control, including a simple and efficient **circuit breaker**.
 
-## A rich ecosystem
+<h2 id="a-rich-ecosystem">A rich ecosystem</h2>
 
 The _Eclipse Vert.x stack_ contains modules for building modern, end-to-end reactive services.
 From efficient reactive database clients to event streaming, messaging and web stacks, the Eclipse Vert.x project has you covered:

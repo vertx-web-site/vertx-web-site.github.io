@@ -42,8 +42,33 @@ const introductionChapter: Chapter = {
       type: "page",
       title: "Get started",
       slug: "",
-      sections: [],
       edit: "https://github.com/vertx-web-site/vertx-web-site.github.io/blob/master/app/docs/%5B%5B...slug%5D%5D/get-started.mdx",
+      sections: [
+        {
+          type: "section",
+          title: "1. Bootstrap",
+          slug: "bootstrap",
+          page: "",
+        },
+        {
+          type: "section",
+          title: "2. Code",
+          slug: "code",
+          page: "",
+        },
+        {
+          type: "section",
+          title: "3. Run",
+          slug: "run",
+          page: "",
+        },
+        {
+          type: "section",
+          title: "4. Go further",
+          slug: "go-further",
+          page: "",
+        },
+      ],
       chapter: "introduction",
     },
     {
@@ -51,7 +76,46 @@ const introductionChapter: Chapter = {
       title: "Intro to reactive",
       slug: "intro-to-reactive",
       edit: "https://github.com/vertx-web-site/vertx-web-site.github.io/blob/master/app/docs/%5B%5B...slug%5D%5D/intro-to-reactive.mdx",
-      sections: [],
+      sections: [
+        {
+          type: "section",
+          title: "In the beginning, there were threads...",
+          slug: "in-the-beginning-there-were-threads",
+          page: "intro-to-reactive",
+        },
+        {
+          type: "section",
+          title: "Multi-threading is “simple” but limited",
+          slug: "multi-threading-is-simple-but-limited",
+          page: "intro-to-reactive",
+        },
+        {
+          type: "section",
+          title:
+            "Asynchronous programming: scalability and resource efficiency",
+          slug: "asynchronous-programming-scalability-and-resource-efficiency",
+          page: "intro-to-reactive",
+        },
+        {
+          type: "section",
+          title:
+            "Pick the best asynchronous programming model for your problem domain",
+          slug: "pick-the-best-asynchronous-programming-model-for-your-problem-domain",
+          page: "intro-to-reactive",
+        },
+        {
+          type: "section",
+          title: "Don't let failures ruin responsiveness",
+          slug: "dont-let-failures-ruin-responsiveness",
+          page: "intro-to-reactive",
+        },
+        {
+          type: "section",
+          title: "A rich ecosystem",
+          slug: "a-rich-ecosystem",
+          page: "intro-to-reactive",
+        },
+      ],
       chapter: "introduction",
     },
     {

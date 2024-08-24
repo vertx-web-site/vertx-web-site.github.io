@@ -14,7 +14,7 @@ Before starting, you need:
 * Maven 3 or higher
 * curl or [HTTPie](https://httpie.org/) or a browser to perform HTTP requests
 
-<Step n={1}>Bootstrap</Step>
+<Step n={1} id="bootstrap">Bootstrap</Step>
 
 To create a new project, go to [start.vertx.io](https://start.vertx.io).
 
@@ -36,7 +36,7 @@ The generated project contains:
 If you want to try it now, you can download this sample project using
 <a href={`https://start.vertx.io/starter.zip?vertxDependencies=vertx-web&vertxVersion=${latestRelease.version}&jdkVersion=11`}>Maven</a> or using <a href={`https://start.vertx.io/starter.zip?vertxDependencies=vertx-web&buildTool=gradle&vertxVersion=${latestRelease.version}&jdkVersion=11`}>Gradle</a>.
 
-<Step n={2}>Code</Step>
+<Step n={2} id="code">Code</Step>
 
 Open the project in the editor of your choice and navigate to `src/main/java/com/example/starter/MainVerticle.java`.
 This source file contains a sample `Verticle` (the Vert.x deployment unit) that starts an HTTP server.
@@ -167,7 +167,7 @@ class MainVerticle extends AbstractVerticle {
 This code creates a Vert.x Web Router (the object used to route HTTP requests to specific request handlers)
 and starts an HTTP Server on port `8888`. On each request, it returns a JSON object containing the address of the request, the query parameter `name`, and a greeting message.
 
-<Step n={3}>Run</Step>
+<Step n={3} id="run">Run</Step>
 
 To run the code, open a terminal and navigate to your project folder.
 Build the application as follows:
@@ -250,7 +250,7 @@ $ curl -v http://localhost:8888\?name\="Francesco"
 </CodeExample>
 </CodeExamples>
 
-<Step n={4}>Go further</Step>
+<Step n={4} id="go-further">Go further</Step>
 
 Now that you have had a taste of how easy and fun it is to get started with Vert.x, here are a few pointers to help guide you further along your journey:
 
