@@ -71,7 +71,7 @@ const entries: Doc[] = [
     category: "core",
     href: "/vertx-core/java/",
     repository: "https://github.com/eclipse-vertx/vert.x",
-    edit: "https://github.com/eclipse-vertx/vert.x/tree/master/src/main/asciidoc",
+    edit: "https://github.com/eclipse-vertx/vert.x/tree/master/vertx-core/src/main/asciidoc",
     examples:
       "https://github.com/vert-x3/vertx-examples/tree/3.x/core-examples",
   },

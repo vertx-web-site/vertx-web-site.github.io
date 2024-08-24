@@ -41,6 +41,7 @@ const SidebarRight = ({ className, activeSection }: SidebarRightProps) => {
 
   let entry = index[slug]
   let sections = undefined
+  let edit = undefined
   if (entry.type === "page") {
     sections = entry.sections?.flatMap(s => {
       let sli = sectionToLi(s, activeSection)
@@ -59,6 +60,7 @@ const SidebarRight = ({ className, activeSection }: SidebarRightProps) => {
         return [sli, ssl]
       }
     })
+    edit = entry.edit
   }
 
   useLayoutEffect(() => {
@@ -99,24 +101,30 @@ const SidebarRight = ({ className, activeSection }: SidebarRightProps) => {
 
   return (
     <Sidebar ref={sidebarRef} className={className}>
-      {sections !== undefined ? (
-        <>
-          <div className="mb-4 font-normal">On this page</div>
-          <ul
-            className="mb-4 flex flex-col gap-2 border-b border-gray-200 pb-4"
-            ref={sectionsRef}
+      <div className="mb-4">
+        {sections !== undefined ? (
+          <>
+            <div className="mb-4 font-normal">On this page</div>
+            <ul
+              className="mb-4 flex flex-col gap-2 border-b border-gray-200 pb-4"
+              ref={sectionsRef}
+            >
+              {sections}
+            </ul>
+          </>
+        ) : undefined}
+        {edit !== undefined ? (
+          <Link
+            href={edit}
+            className="text-gray-600 hover:text-primary-hover"
+            target="_blank"
+            rel="noopener noreferrer"
           >
-            {sections}
-          </ul>
-        </>
-      ) : undefined}
-      <Link
-        href={`https://github.com/steep-wms/steep-wms.github.io/blob/master/src/content/docs/${githubFilename}.mdx`}
-        className="text-gray-600 hover:text-primary-hover"
-      >
-        Edit this page on GitHub{" "}
-        <ArrowSquareOut size="0.9em" className="mb-[3px] inline-flex" />
-      </Link>
+            Edit this page on GitHub{" "}
+            <ArrowSquareOut size="0.9em" className="mb-[3px] inline-flex" />
+          </Link>
+        ) : undefined}
+      </div>
     </Sidebar>
   )
 }

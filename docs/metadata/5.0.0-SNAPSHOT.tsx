@@ -11,7 +11,7 @@ insert(docs, "vertx-service-resolver", {
   category: "microservices",
   href: "/vertx-service-resolver/java/",
   repository: "https://github.com/eclipse-vertx/vertx-service-resolver",
-  edit: "https://github.com/eclipse-vertx/vertx-service-resolver/tree/main/vertx-service-resolver/src/main/asciidoc",
+  edit: "https://github.com/eclipse-vertx/vertx-service-resolver/tree/main/src/main/asciidoc",
   label: "Preview",
 })
 

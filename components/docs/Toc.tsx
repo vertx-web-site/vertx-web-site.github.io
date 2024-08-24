@@ -12,6 +12,7 @@ export interface Page {
   readonly title: string
   readonly slug: string
   readonly label?: string
+  readonly edit?: string
   readonly chapter: string
   readonly sections?: Section[]
 }
@@ -42,12 +43,14 @@ const introductionChapter: Chapter = {
       title: "Get started",
       slug: "",
       sections: [],
+      edit: "https://github.com/vertx-web-site/vertx-web-site.github.io/blob/master/app/docs/%5B%5B...slug%5D%5D/get-started.mdx",
       chapter: "introduction",
     },
     {
       type: "page",
       title: "Intro to reactive",
       slug: "intro-to-reactive",
+      edit: "https://github.com/vertx-web-site/vertx-web-site.github.io/blob/master/app/docs/%5B%5B...slug%5D%5D/intro-to-reactive.mdx",
       sections: [],
       chapter: "introduction",
     },
@@ -127,6 +130,7 @@ export function makeToc(version: string): Chapter[] {
         title: e.name,
         slug: pageSlug,
         label: e.label,
+        edit: e.edit,
         sections,
         chapter: category.id,
       })
