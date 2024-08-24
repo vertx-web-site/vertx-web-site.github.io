@@ -46,7 +46,7 @@ const CodeExamples = ({
         ))}
       </div>
       <div
-        className={clsx("overflow-auto rounded-b-sm bg-bg-code p-2", {
+        className={clsx("rounded-b-sm bg-bg-code", {
           "text-sm": smallText,
           "rounded-tr-sm": !wide,
         })}
@@ -54,7 +54,10 @@ const CodeExamples = ({
         {childrenArr.map(ex => (
           <div
             key={ex.props.title}
-            className={active === ex.props.title ? "block" : "hidden"}
+            className={clsx(
+              "[&_pre]:m-2",
+              active === ex.props.title ? "flex" : "hidden",
+            )}
           >
             {ex}
           </div>

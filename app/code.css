@@ -19,10 +19,12 @@ code {
   @apply text-sm;
 }
 
-div[data-rehype-pretty-code-fragment] {
+div[data-rehype-pretty-code-fragment],
+figure[data-rehype-pretty-code-figure] {
   @apply bg-bg-code;
-  @apply rounded-md;
-  overflow: hidden;
+  @apply rounded-sm;
+  overflow: auto;
+  display: flex;
 }
 
 figure[data-rehype-pretty-code-figure] {
@@ -36,7 +38,7 @@ figure[data-rehype-pretty-code-figure] {
   @apply bg-bg-code;
   @apply py-1;
   @apply px-2;
-  @apply rounded-md;
+  @apply rounded-sm;
   @apply leading-[1.6];
 }
 
