@@ -44,6 +44,20 @@ const introductionChapter: Chapter = {
       sections: [],
       chapter: "introduction",
     },
+    {
+      type: "page",
+      title: "Intro to reactive",
+      slug: "intro-to-reactive",
+      sections: [],
+      chapter: "introduction",
+    },
+    {
+      type: "page",
+      title: "App generator",
+      slug: "https://start.vertx.io/",
+      sections: [],
+      chapter: "introduction",
+    },
   ],
 }
 

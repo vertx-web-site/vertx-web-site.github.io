@@ -41,7 +41,7 @@ const Hero = ({}: HeroProps) => (
           {/* buttons */}
           <div className="mt-8 flex flex-col items-center gap-y-2 xl:mt-6 xl:items-start xl:gap-y-0">
             <div className="flex flex-col items-center gap-2 sm:flex-row">
-              <Link href="/get-started/">
+              <Link href="/docs/">
                 <Button primary icon={<FastForward />}>
                   Get started
                 </Button>

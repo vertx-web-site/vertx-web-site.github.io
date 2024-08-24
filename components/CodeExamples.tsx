@@ -46,7 +46,7 @@ const CodeExamples = ({
         ))}
       </div>
       <div
-        className={clsx("rounded-b-sm bg-bg-code p-2", {
+        className={clsx("overflow-auto rounded-b-sm bg-bg-code p-2", {
           "text-sm": smallText,
           "rounded-tr-sm": !wide,
         })}

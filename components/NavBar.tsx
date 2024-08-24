@@ -155,15 +155,11 @@ const NavBar = ({ fixed = true, narrow = false }: NavBarProps) => {
 
   const links = [
     {
-      href: "/showcase/",
-      label: "Start",
-    },
-    {
       href: "/docs/",
       label: "Docs",
     },
     {
-      href: "/about/",
+      href: "/resources/",
       label: "Resources",
     },
     {

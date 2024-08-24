@@ -1,29 +1,23 @@
-import Guide from "../components/layouts/Guide"
-import styles from "./introduction-to-vertx-and-reactive.scss"
-import Link from "next/link"
-
-<Guide title="Introduction to Vert.x and Reactive">
-
 # Eclipse Vert.x and reactive in just a few words
 
 Eclipse Vert.x is a tool-kit for building **reactive** applications on the JVM.
 Reactive applications are both **scalable** as workloads grow, and **resilient** when failures arise.
 A reactive application is **responsive** as it keeps latency under control by making efficient usage of system resources, and by protecting itself from errors.
 
-<img src={require("../assets/introduction/microservices.svg")} alt="Microservices" />
+<img src={require("@/assets/introduction/microservices.svg")} alt="Microservices" className="mx-auto" />
 
 Vert.x is backed by a large ecosystem of reactive modules with just anything you need when writing modern services: a comprehensive web stack, reactive database drivers, messaging, event streams, clustering, metrics, distributed tracing and more.
 
 Vert.x is a tool-kit and not a framework that ships with black magic: **what you write is actually what you get to execute**, as simple as that.
 
-So what makes Vert.x a great option for writing your next **cloud-native** or **[twelve-factor](https://12factor.net/)** app?
+So what makes Vert.x a great option for writing your next **cloud-native** or [**twelve-factor**](https://12factor.net/) app?
 
 ## In the beginning, there were threads...
 
 The classic approach to concurrency is to use **threads**.
 Multiple threads can live within a single **process**, perform **concurrent** work, and **share** the same memory space.
 
-<img src={require("../assets/introduction/threads.svg")} alt="Threads" className="img-threads" />
+<img src={require("@/assets/introduction/threads.svg")} alt="Threads" className="mx-auto" />
 
 Most application and service development frameworks are based on multi-threading.
 On the surface, the model of having **1 thread per connection** is reassuring because developers can rely on traditional **imperative style** code.
@@ -37,7 +31,7 @@ What happens as the workload grows beyond moderate workloads?
 
 The answer is simple: you start making your operating system kernel **suffer** because there is too much **context switching** work with in-flight requests.
 
-<img src={require("../assets/introduction/blocking-io.svg")} alt="Blocking I/O" />
+<img src={require("@/assets/introduction/blocking-io.svg")} alt="Blocking I/O" className="mx-auto" />
 
 Some of your threads will be **blocked** because they are waiting on I/O operations to complete, some will be **ready** to handle I/O results, and some will be in the middle of doing CPU-intensive tasks.
 
@@ -50,7 +44,7 @@ Instead of blocking a thread when an I/O operation occurs, we move on to another
 
 Vert.x multiplexes concurrent workloads using **event loops**.
 
-<img src={require("../assets/introduction/event-loop.svg")} alt="Event loop" />
+<img src={require("@/assets/introduction/event-loop.svg")} alt="Event loop" className="mx-auto" />
 
 Code that runs on event loops should not perform blocking I/O or lengthy processing. But don't worry if you have such code: Vert.x has worker threads and APIs to process events back on an event loop.
 
@@ -61,7 +55,7 @@ At the core of Vert.x, we support **callbacks** and **promises/futures**, the la
 
 Advanced reactive programming is possible with [RxJava](https://github.com/ReactiveX/RxJava), and if you prefer something closer to traditional imperative programming, then we are happy to provide you with first-class support of [Kotlin coroutines](https://kotlinlang.org/docs/reference/coroutines-overview.html).
 
-<img src={require("../assets/introduction/async.svg")} alt="Asynchronous programming" />
+<img src={require("@/assets/introduction/async.svg")} alt="Asynchronous programming" className="mx-auto" />
 
 Vert.x supports many asynchronous programming models: choose what works best for each problem you need to solve!
 
@@ -70,7 +64,7 @@ Vert.x supports many asynchronous programming models: choose what works best for
 Failures happen all the time.
 A database will go down, the network will go down, or some service you depend on will become unresponsive.
 
-<img src={require("../assets/introduction/failures.svg")} alt="Failures" />
+<img src={require("@/assets/introduction/failures.svg")} alt="Failures" className="mx-auto" />
 
 Vert.x offers tools to keep latency under control, including a simple and efficient **circuit breaker**.
 
@@ -79,17 +73,9 @@ Vert.x offers tools to keep latency under control, including a simple and effici
 The _Eclipse Vert.x stack_ contains modules for building modern, end-to-end reactive services.
 From efficient reactive database clients to event streaming, messaging and web stacks, the Eclipse Vert.x project has you covered:
 
-<img src={require("../assets/introduction/ecosystem.svg")} alt="Ecosystem" />
+<img src={require("@/assets/introduction/ecosystem.svg")} alt="Ecosystem" className="mx-auto" />
 
 Can't find what you are looking for?
 
 * [The Reactiverse](https://reactiverse.io) is a larger community around the reactive ecosystems where you can find more client and modules.
 * The [Vert.x Awesome](https://github.com/vert-x3/vertx-awesome) repository provides links to even more interesting projects from the larger open-source community!
-
-## Ready to code?
-
-Follow along with our <Link href="/get-started" passHref={true}><a>getting started</a></Link> page!
-
-<style jsx>{styles}</style>
-
-</Guide>

@@ -1,14 +1,7 @@
-import Card from "../components/Card"
-import Cards from "../components/Cards"
-import { Fragment } from "react"
-import Guide from "../components/layouts/Guide"
-import Link from "next/link"
-import CodeExample from "../components/CodeExample"
-import CodeExamples from "../components/CodeExamples"
-import { latestRelease } from "../docs/metadata/all"
-import styles from "./get-started.scss"
-
-<Guide title="Get started">
+import { latestRelease } from "@/docs/metadata/all"
+import CodeExamples, { CodeExample } from "@/components/CodeExamples"
+import GoFurther from "@/components/get-started/GoFurther"
+import Step from "@/components/get-started/Step"
 
 # Get started with Vert.x
 
@@ -21,18 +14,12 @@ Before starting, you need:
 * Maven 3 or higher
 * curl or [HTTPie](https://httpie.org/) or a browser to perform HTTP requests
 
-<Fragment>
-
-## <span className="get-started-step">1</span> Bootstrap
-
-<style jsx>{styles}</style>
-</Fragment>
+<Step n={1}>Bootstrap</Step>
 
 To create a new project, go to [start.vertx.io](https://start.vertx.io).
 
-<a href="https://start.vertx.io" className="get-started-screenshot">
-  <img src={require("../assets/get-started/starter-screenshot.png")} />
-  <style jsx>{styles}</style>
+<a href="https://start.vertx.io">
+  <img src={require("@/assets/get-started/starter-screenshot.png")} className="border border-gray-200 rounded-sm p-4" />
 </a>
 
 Choose the version of Vert.x you want to use, choose Java as the language, Maven as the build tool, and
@@ -49,21 +36,15 @@ The generated project contains:
 If you want to try it now, you can download this sample project using
 <a href={`https://start.vertx.io/starter.zip?vertxDependencies=vertx-web&vertxVersion=${latestRelease.version}&jdkVersion=11`}>Maven</a> or using <a href={`https://start.vertx.io/starter.zip?vertxDependencies=vertx-web&buildTool=gradle&vertxVersion=${latestRelease.version}&jdkVersion=11`}>Gradle</a>.
 
-<Fragment>
-
-## <span className="get-started-step">2</span> Code
-
-<style jsx>{styles}</style>
-</Fragment>
+<Step n={2}>Code</Step>
 
 Open the project in the editor of your choice and navigate to `src/main/java/com/example/starter/MainVerticle.java`.
 This source file contains a sample `Verticle` (the Vert.x deployment unit) that starts an HTTP server.
 You're going to modify it to greet whoever performs requests to your server.
 Change the code as follows:
 
-<CodeExamples>
+<CodeExamples className="not-prose">
 <CodeExample title="Java">
-
 ```java
 public class MainVerticle extends AbstractVerticle {
   @Override
@@ -102,11 +83,8 @@ public class MainVerticle extends AbstractVerticle {
   }
 }
 ```
-
 </CodeExample>
-
 <CodeExample title="Kotlin">
-
 ```kotlin
 class MainVerticle : AbstractVerticle() {
   override fun start() {
@@ -145,11 +123,8 @@ class MainVerticle : AbstractVerticle() {
   }
 }
 ```
-
 </CodeExample>
-
 <CodeExample title="Groovy">
-
 ```groovy
 class MainVerticle extends AbstractVerticle {
   @Override
@@ -186,30 +161,24 @@ class MainVerticle extends AbstractVerticle {
   }
 }
 ```
-
 </CodeExample>
 </CodeExamples>
 
 This code creates a Vert.x Web Router (the object used to route HTTP requests to specific request handlers)
 and starts an HTTP Server on port `8888`. On each request, it returns a JSON object containing the address of the request, the query parameter `name`, and a greeting message.
 
-<Fragment>
-
-## <span className="get-started-step">3</span> Run
-
-<style jsx>{styles}</style>
-</Fragment>
+<Step n={3}>Run</Step>
 
 To run the code, open a terminal and navigate to your project folder.
 Build the application as follows:
 
-```better-shell
+```shell
 $ mvn package
 ```
 
 Then, run the application:
 
-```better-shell
+```shell
 $ mvn exec:java
 HTTP server started on port 8888
 apr 03, 2020 11:49:21 AM io.vertx.core.impl.launcher.commands.VertxIsolatedDeployer
@@ -220,8 +189,7 @@ Now that the server is up and running, try to send a request:
 
 <CodeExamples>
 <CodeExample title="HTTPie">
-
-```better-shell
+```shell
 $ http http://localhost:8888
 HTTP/1.1 200 OK
 content-length: 115
@@ -244,12 +212,9 @@ content-type: application/json; charset=utf-8
     "name": "Francesco"
 }
 ```
-
 </CodeExample>
-
 <CodeExample title="curl">
-
-```better-shell
+```shell
 $ curl -v http://localhost:8888
 *   Trying ::1:8888...
 * Connected to localhost (::1) port 8888 (#0)
@@ -282,29 +247,11 @@ $ curl -v http://localhost:8888\?name\="Francesco"
 * Connection #0 to host localhost left intact
 {"name":"Francesco","address":"0:0:0:0:0:0:0:1:59708","message":"Hello Francesco connected from 0:0:0:0:0:0:0:1:59708"}
 ```
-
 </CodeExample>
 </CodeExamples>
 
-<Fragment>
-
-## <span className="get-started-step">4</span> Go further
-
-<style jsx>{styles}</style>
-</Fragment>
+<Step n={4}>Go further</Step>
 
 Now that you have had a taste of how easy and fun it is to get started with Vert.x, here are a few pointers to help guide you further along your journey:
 
-<Cards columns={3}>
-  <Card href="/introduction-to-vertx-and-reactive/" title="Intro">
-    Read our short introduction into reactive programming with Eclipse Vert.x
-  </Card>
-  <Card href="/docs/" title="Documentation">
-    Deep dive through the documentation to check out all Vert.x modules
-  </Card>
-  <Card href="https://how-to.vertx.io/" title="How-tos">
-    Check out the Vert.x How-tos to get pragmatic guides for specific topics
-  </Card>
-</Cards>
-
-</Guide>
+<GoFurther />

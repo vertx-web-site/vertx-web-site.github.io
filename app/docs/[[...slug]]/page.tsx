@@ -1,3 +1,4 @@
+import ClientPage from "./ClientPage"
 import Label from "@/components/Label"
 import ScrollTopWorkaround from "@/components/ScrollTopWorkaround"
 import { Chapter, isExternal, makeIndex, makeToc } from "@/components/docs/Toc"
@@ -109,20 +110,23 @@ const DocsPage = ({ params }: DocsPageProps) => {
 
   let entry = index[slug]
 
-  let moduleFilename = slug
-  if (moduleFilename === "") {
-    moduleFilename = "get-started"
+  let Content: () => JSX.Element
+  if (slug === "") {
+    Content = () => <ClientPage page="get-started" />
+  } else if (slug === "intro-to-reactive") {
+    Content = () => <ClientPage page="intro-to-reactive" />
+  } else {
+    let data = require(
+      `../../../docs/compiled/${slug === "" ? activeVersion : `${activeVersion}/${slug}`}/index.json`,
+    )
+    Content = () => (
+      <div
+        dangerouslySetInnerHTML={{
+          __html: data.contents,
+        }}
+      ></div>
+    )
   }
-  let data = require(
-    `../../../docs/compiled/${slug === "" ? activeVersion : `${activeVersion}/${slug}`}/index.json`,
-  )
-  let Content = () => (
-    <div
-      dangerouslySetInnerHTML={{
-        __html: data.contents,
-      }}
-    ></div>
-  )
 
   let label = undefined
   let parentChapter = undefined
