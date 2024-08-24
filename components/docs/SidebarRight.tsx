@@ -42,6 +42,7 @@ const SidebarRight = ({ className, activeSection }: SidebarRightProps) => {
   let entry = index[slug]
   let sections = undefined
   let edit = undefined
+  let includeBook = false
   if (entry.type === "page") {
     sections = entry.sections?.flatMap(s => {
       let sli = sectionToLi(s, activeSection)
@@ -61,6 +62,7 @@ const SidebarRight = ({ className, activeSection }: SidebarRightProps) => {
       }
     })
     edit = entry.edit
+    includeBook = entry.includeBook ?? false
   }
 
   useLayoutEffect(() => {
@@ -94,11 +96,6 @@ const SidebarRight = ({ className, activeSection }: SidebarRightProps) => {
     }
   }, [activeSection])
 
-  let githubFilename = slug
-  if (githubFilename === "") {
-    githubFilename = "get-started"
-  }
-
   return (
     <Sidebar ref={sidebarRef} className={className}>
       <div className="mb-4">
@@ -123,6 +120,34 @@ const SidebarRight = ({ className, activeSection }: SidebarRightProps) => {
             Edit this page on GitHub{" "}
             <ArrowSquareOut size="0.9em" className="mb-[3px] inline-flex" />
           </Link>
+        ) : undefined}
+        {includeBook ? (
+          <div className="mb-10 mt-14">
+            <Link
+              href="https://www.manning.com/books/vertx-in-action"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <div className="mb-3">
+                <img
+                  src={require("@/assets/book-cover.jpg")}
+                  width="200"
+                  alt="Vert.x in Action book cover"
+                  className="rounded-sm border border-gray-200"
+                />
+              </div>
+              <div className="text-gray-600">
+                Asynchronous and Reactive Java
+              </div>
+              <h3 className="mb-2 text-base font-medium text-primary">
+                Vert.x in Action
+              </h3>
+              <div className="text-xs">
+                Build responsive, resilient, and scalable JVM applications using
+                well-established reactive design patterns.
+              </div>
+            </Link>
+          </div>
         ) : undefined}
       </div>
     </Sidebar>

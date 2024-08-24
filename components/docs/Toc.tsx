@@ -13,6 +13,7 @@ export interface Page {
   readonly slug: string
   readonly label?: string
   readonly edit?: string
+  readonly includeBook?: boolean
   readonly chapter: string
   readonly sections?: Section[]
 }
@@ -43,6 +44,7 @@ const introductionChapter: Chapter = {
       title: "Get started",
       slug: "",
       edit: "https://github.com/vertx-web-site/vertx-web-site.github.io/blob/master/app/docs/%5B%5B...slug%5D%5D/get-started.mdx",
+      includeBook: true,
       sections: [
         {
           type: "section",
@@ -76,6 +78,7 @@ const introductionChapter: Chapter = {
       title: "Intro to reactive",
       slug: "intro-to-reactive",
       edit: "https://github.com/vertx-web-site/vertx-web-site.github.io/blob/master/app/docs/%5B%5B...slug%5D%5D/intro-to-reactive.mdx",
+      includeBook: true,
       sections: [
         {
           type: "section",
