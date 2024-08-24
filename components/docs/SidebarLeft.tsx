@@ -1,8 +1,9 @@
 import Label from "../Label"
 import Sidebar from "./Sidebar"
 import { useVersionAndSlug } from "./useVersionAndSlug"
-import { makeToc } from "@/components/docs/Toc"
+import { isExternal, makeToc } from "@/components/docs/Toc"
 import { latestRelease } from "@/docs/metadata/all"
+import { ArrowSquareOut } from "@phosphor-icons/react/dist/ssr"
 import clsx from "clsx"
 import Link from "next/link"
 import { useEffect, useRef } from "react"
@@ -22,6 +23,7 @@ function createToc(
         <div className="mb-2 font-normal">{chapter.title}</div>
         <ul className="flex flex-col gap-2 border-l border-gray-200 pl-3">
           {chapter.pages.map(p => {
+            let ext = isExternal(p.slug)
             return (
               <li
                 key={p.slug}
@@ -31,12 +33,28 @@ function createToc(
                 })}
               >
                 <Link
-                  href={`/docs/${version !== undefined ? `${version}/${p.slug}` : p.slug}`}
+                  href={
+                    ext
+                      ? p.slug
+                      : `/docs/${version !== undefined ? `${version}/${p.slug}` : p.slug}`
+                  }
                   data-sidebar-page-slug={p.slug}
                   className="inline-flex flex-row flex-wrap items-center gap-2 hover:text-primary-hover"
                   onClick={onClickLink}
+                  target={ext ? "_blank" : undefined}
+                  rel={ext ? "noopener noreferrer" : undefined}
                 >
-                  {p.title}
+                  {ext ? (
+                    <div>
+                      {p.title}{" "}
+                      <ArrowSquareOut
+                        size="0.9em"
+                        className="mb-[3px] inline-flex"
+                      />
+                    </div>
+                  ) : (
+                    p.title
+                  )}
                   {p.label !== undefined ? (
                     <Label type="transparent">{p.label}</Label>
                   ) : undefined}

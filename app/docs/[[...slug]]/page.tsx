@@ -46,6 +46,9 @@ function findNeighbors(
   let hasPrev = false
   for (let c of toc) {
     for (let p of c.pages) {
+      if (isExternal(p.slug)) {
+        continue
+      }
       if (hasPrev) {
         return [prev, p.slug]
       }
@@ -154,7 +157,7 @@ const DocsPage = ({ params }: DocsPageProps) => {
           {prev !== undefined ? (
             <Link
               href={`/docs/${prev}`}
-              className="group flex gap-1 font-normal text-gray-800 hover:text-primary"
+              className="group flex items-center gap-1 font-normal text-gray-800 hover:text-primary"
             >
               <div className="text-gray-500 group-hover:text-primary">
                 <CaretLeft size="1em" />
@@ -167,7 +170,7 @@ const DocsPage = ({ params }: DocsPageProps) => {
           {next !== undefined ? (
             <Link
               href={`/docs/${next}`}
-              className="group flex gap-1 text-right font-normal text-gray-800 hover:text-primary"
+              className="group flex items-center gap-1 text-right font-normal text-gray-800 hover:text-primary"
             >
               <div>{index[next].title}</div>
               <div className="text-gray-500 group-hover:text-primary">
