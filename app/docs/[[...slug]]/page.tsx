@@ -6,7 +6,12 @@ import VersionGuard from "@/components/docs/VersionGuard"
 import { versionFromSlug } from "@/components/docs/versionFromSlug"
 import { versions as docsVersions, latestRelease } from "@/docs/metadata/all"
 import { filterLatestBugfixVersions } from "@/docs/metadata/helpers"
-import { CaretLeft, CaretRight } from "@phosphor-icons/react/dist/ssr"
+import {
+  Book,
+  CaretLeft,
+  CaretRight,
+  Paperclip,
+} from "@phosphor-icons/react/dist/ssr"
 import clsx from "clsx"
 import { Metadata, ResolvingMetadata } from "next"
 import Link from "next/link"
@@ -134,9 +139,11 @@ const DocsPage = ({ params }: DocsPageProps) => {
 
   let label = undefined
   let parentChapter = undefined
+  let examples = undefined
   if (entry.type === "page") {
     parentChapter = index[entry.chapter]
     label = entry.label
+    examples = entry.examples
   }
 
   let [prev, next] = findNeighbors(slug, toc)
@@ -144,11 +151,39 @@ const DocsPage = ({ params }: DocsPageProps) => {
   let Main = (
     <>
       {parentChapter !== undefined ? (
-        <div className="text-sm font-normal text-primary">
-          {parentChapter.title}{" "}
-          {label !== undefined ? (
-            <Label type="transparent">{label}</Label>
-          ) : undefined}
+        <div className="flex flex-row items-center justify-between text-sm">
+          <div className="flex flex-row items-center gap-2 font-normal text-primary">
+            <div>{parentChapter.title}</div>
+            {label !== undefined ? (
+              <Label type="transparent">{label}</Label>
+            ) : undefined}
+          </div>
+          <div className="flex flex-row gap-4">
+            {examples !== undefined ? (
+              <Link
+                href={examples}
+                className="hidden flex-row items-center gap-1 xs:flex"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Paperclip />
+                <div>Examples</div>
+              </Link>
+            ) : undefined}
+            <Link
+              href={
+                version !== undefined
+                  ? `/docs/${version}/apidocs`
+                  : `/docs/apidocs`
+              }
+              className="flex flex-row items-center gap-1"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Book />
+              <div>API docs</div>
+            </Link>
+          </div>
         </div>
       ) : undefined}
       <div className="mt-2" id={slug}></div>

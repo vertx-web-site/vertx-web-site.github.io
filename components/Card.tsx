@@ -45,7 +45,7 @@ const Card = ({
         <a
           href={href}
           target="_blank"
-          rel="noreferrer"
+          rel="noopener noreferrer"
           className="text-text hover:no-underline"
         >
           {result}

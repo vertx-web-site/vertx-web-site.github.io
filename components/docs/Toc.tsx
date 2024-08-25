@@ -13,6 +13,7 @@ export interface Page {
   readonly slug: string
   readonly label?: string
   readonly edit?: string
+  readonly examples?: string
   readonly includeBook?: boolean
   readonly chapter: string
   readonly sections?: Section[]
@@ -198,6 +199,7 @@ export function makeToc(version: string): Chapter[] {
         slug: pageSlug,
         label: e.label,
         edit: e.edit,
+        examples: e.examples,
         sections,
         chapter: category.id,
       })
