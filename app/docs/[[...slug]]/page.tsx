@@ -119,24 +119,6 @@ const DocsPage = ({ params }: DocsPageProps) => {
 
   let entry = index[slug]
 
-  let Content: () => JSX.Element
-  if (slug === "") {
-    Content = () => <ClientPage page="get-started" />
-  } else if (slug === "intro-to-reactive") {
-    Content = () => <ClientPage page="intro-to-reactive" />
-  } else {
-    let data = require(
-      `../../../docs/compiled/${slug === "" ? activeVersion : `${activeVersion}/${slug}`}/index.json`,
-    )
-    Content = () => (
-      <div
-        dangerouslySetInnerHTML={{
-          __html: data.contents,
-        }}
-      ></div>
-    )
-  }
-
   let label = undefined
   let parentChapter = undefined
   let examples = undefined
@@ -146,18 +128,60 @@ const DocsPage = ({ params }: DocsPageProps) => {
     examples = entry.examples
   }
 
+  let Content: () => JSX.Element
+  if (slug === "") {
+    Content = () => <ClientPage page="get-started" />
+  } else if (slug === "intro-to-reactive") {
+    Content = () => <ClientPage page="intro-to-reactive" />
+  } else {
+    let data = require(
+      `../../../docs/compiled/${slug === "" ? activeVersion : `${activeVersion}/${slug}`}/index.json`,
+    )
+    let contents = data.contents
+
+    let extendedh1 = undefined
+    let match = contents.match(/<h1[^>]*>.*?<\/h1>/)
+    if (match !== null) {
+      let h1 = match[0]
+      contents =
+        contents.substring(0, match.index) +
+        contents.substring(match.index + h1.length)
+      extendedh1 = (
+        <div className="not-prose mb-7 flex flex-row items-start gap-3">
+          <span
+            className="inline-flex text-[2em] leading-9 [&_h1]:font-normal"
+            dangerouslySetInnerHTML={{
+              __html: h1,
+            }}
+          ></span>
+          {label !== undefined ? (
+            <div className="mt-1">
+              <Label>{label}</Label>
+            </div>
+          ) : undefined}
+        </div>
+      )
+    }
+
+    Content = () => (
+      <>
+        {extendedh1}
+        <div
+          dangerouslySetInnerHTML={{
+            __html: contents,
+          }}
+        ></div>
+      </>
+    )
+  }
+
   let [prev, next] = findNeighbors(slug, toc)
 
   let Main = (
     <>
       {parentChapter !== undefined ? (
         <div className="flex flex-row items-center justify-between text-sm">
-          <div className="flex flex-row items-center gap-2 font-normal text-primary">
-            <div>{parentChapter.title}</div>
-            {label !== undefined ? (
-              <Label type="transparent">{label}</Label>
-            ) : undefined}
-          </div>
+          <div className="font-normal text-primary">{parentChapter.title}</div>
           <div className="flex flex-row gap-4">
             {examples !== undefined ? (
               <Link
