@@ -19,6 +19,7 @@ const Gist = ({ url }: GistProps) => {
     ref.current.appendChild(iframe)
     iframe.srcdoc = `<html>
       <head>
+      <base target="_blank" />
       <style>
         body {
           margin: 0;
