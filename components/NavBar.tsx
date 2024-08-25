@@ -330,7 +330,9 @@ const NavBar = ({ fixed = true, narrow = false }: NavBarProps) => {
             <div className="flex flex-1 items-center justify-between xl:hidden">
               <Logo onClick={() => setCollapsed(false)} />
               <div className="flex items-center gap-4">
-                <VersionSwitcher bg={!fixed && onTop ? "primary" : "gray"} />
+                <div className="hidden xs:flex">
+                  <VersionSwitcher bg={!fixed && onTop ? "primary" : "gray"} />
+                </div>
                 <QuickSearch onClick={() => setCollapsed(false)} />
                 <button
                   id="navbar-toggle-menu-button"
@@ -412,6 +414,9 @@ const NavBar = ({ fixed = true, narrow = false }: NavBarProps) => {
                   {/* TODO */}
                   {/* <DarkModeToggle id="dark-mode-toggle2" /> */}
                   {socialIcons.map(si => si.content)}
+                </div>
+                <div className="mt-4 flex justify-end px-4 xs:hidden">
+                  <VersionSwitcher bg={!fixed && onTop ? "primary" : "gray"} />
                 </div>
                 <ResizeObserver onResize={() => setCollapsed(false)} />
               </DialogContent>
