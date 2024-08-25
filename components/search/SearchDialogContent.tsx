@@ -12,38 +12,31 @@ const MAX_EXCERPT_LENGTH = 80
 const MAX_SEARCH_RESULTS = 25
 
 const favorites: SearchResult[] = [
-  // TODO
-  /*{
+  {
     slug: "get-started",
-    title: Index[""].title,
-    body: "Install Steep and start your first workflow",
+    title: "Get started with Vert.x",
+    body: "Learn how to get started with a new Vert.x Web project",
   },
   {
-    slug: "how-does-steep-work",
-    title: Index["how-does-steep-work"].title,
-    body: "Learn about the basic concepts of Steep and its architecture",
+    slug: "intro-to-reactive",
+    title: "Eclipse Vert.x and reactive in just a few words",
+    body: "Read our short introduction to reactive programming with Eclipse Vert.x",
   },
   {
-    slug: "workflows",
-    title: Index["workflows"].title,
-    body: "Steep’s main data model",
+    slug: "vertx-core/java",
+    title: "Vert.x Core Manual",
+    body: "At the heart of Vert.x is a set of Java APIs that we call Vert.x Core",
   },
   {
-    slug: "process-chains",
-    title: Index["process-chains"].title,
-    body: "Workflows are transformed into executable process chains",
+    slug: "vertx-web/java",
+    title: "Vert.x-Web",
+    body: "Vert.x-Web is a set of building blocks for building web applications.",
   },
   {
-    slug: "http-endpoints",
-    title: Index["http-endpoints"].title,
-    body: "Communicate with Steep through its HTTP API",
+    slug: "vertx-web-client/java",
+    title: "Vert.x Web Client",
+    body: "Vert.x Web Client is an asynchronous HTTP and HTTP/2 client.",
   },
-  {
-    slug: "steepyaml",
-    title: Index["steepyaml"].title,
-    body: "Steep’s main configuration file",
-  },
-  */
 ]
 
 async function createIndex(
@@ -296,7 +289,6 @@ function sortPositions(positions: [number, number][]): [number, number][] {
 
 function convertMatches(
   matches: MiniSearchResult[],
-  version: string | undefined,
   tocIndex: ReturnType<typeof makeIndex>,
 ): SearchResult[] {
   // iterate through all matches and convert them to results we can display
@@ -392,7 +384,6 @@ function convertMatches(
     }
 
     results.push({
-      version,
       slug,
       title: titleElement,
       body: result,
@@ -416,7 +407,6 @@ const SearchDialogContent = ({ onClose }: SearchDialogContentProps) => {
   >(undefined)
   const searchResultListRef = useRef<SearchResultListRef | null>(null)
   const { version } = useVersion()
-  const actualVersion = version ?? latestRelease.version
 
   const onUp = useCallback(() => {
     setSelectedItem(prevSelectedItem => {
@@ -436,14 +426,14 @@ const SearchDialogContent = ({ onClose }: SearchDialogContentProps) => {
 
   // initialize index in advance
   useEffect(() => {
-    let toc = makeToc(actualVersion)
+    let toc = makeToc(version)
     let tocIndex = makeIndex(toc)
     setIndex(undefined)
     setTocIndex(tocIndex)
-    createIndex(actualVersion, tocIndex)
+    createIndex(version, tocIndex)
       .then(i => setIndex(i))
       .catch(console.error)
-  }, [actualVersion])
+  }, [version])
 
   const onChangeSearchInput = debounce(
     (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -462,13 +452,13 @@ const SearchDialogContent = ({ onClose }: SearchDialogContentProps) => {
 
     if (index !== undefined && tocIndex !== undefined) {
       let matches = index.search(searchInput)
-      let results = convertMatches(matches, version, tocIndex)
+      let results = convertMatches(matches, tocIndex)
       if (results.length > 0) {
         setSelectedItem(0)
       }
       setSearchResults(results)
     }
-  }, [searchInput, index, tocIndex, version])
+  }, [searchInput, index, tocIndex])
 
   return (
     <>

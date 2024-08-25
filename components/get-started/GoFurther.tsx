@@ -11,8 +11,7 @@ const GoFurther = () => {
         title="Intro"
         className="h-full"
       >
-        Read our short introduction into reactive programming with Eclipse
-        Vert.x
+        Read our short introduction to reactive programming with Eclipse Vert.x
       </Card>
       <Card
         href={`${version !== undefined ? `/docs/${version}` : "/docs"}/vertx-core/java`}

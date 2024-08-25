@@ -1,5 +1,7 @@
 import { makeIndex } from "../docs/Toc"
+import { useVersion } from "../hooks/useVersion"
 import type { SearchResult } from "./SearchResult"
+import { latestRelease } from "@/docs/metadata/all"
 import { CaretLeft } from "@phosphor-icons/react/dist/ssr"
 import clsx from "clsx"
 import Link from "next/link"
@@ -18,6 +20,8 @@ const SearchResultListItem = forwardRef<
   HTMLAnchorElement,
   SearchResultListItemProps
 >(({ item, active, onFocus, onClose, onMouseMove, tocIndex }, ref) => {
+  const { version } = useVersion()
+
   let slug = item.slug
   if (slug === "get-started") {
     slug = ""
@@ -36,11 +40,11 @@ const SearchResultListItem = forwardRef<
   }
 
   let slugWithVersion
-  if (item.version !== undefined) {
+  if (version !== latestRelease.version) {
     if (slug !== "") {
-      slugWithVersion = `${item.version}/${slug}`
+      slugWithVersion = `${version}/${slug}`
     } else {
-      slugWithVersion = item.version
+      slugWithVersion = version
     }
   } else {
     slugWithVersion = slug
