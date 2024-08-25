@@ -95,8 +95,10 @@ const VersionSwitcher = ({ bg }: VersionSwitcherProps) => {
           },
         )}
       >
-        <Select.Value placeholder="Select a version" />
-        <Select.Icon className="text-violet11">
+        <Select.Value placeholder="Select a version" aria-label={version}>
+          {version}
+        </Select.Value>
+        <Select.Icon>
           <CaretDown />
         </Select.Icon>
       </Select.Trigger>
