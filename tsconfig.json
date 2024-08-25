@@ -24,6 +24,8 @@
     }
   },
   "include": [
+    ".generated",
+    "additional.d.ts",
     "app",
     "components",
     "docs/metadata",

@@ -10,6 +10,8 @@ summary: >-
   that we are allowed to consume.
 ---
 
+import Alert from "@/components/Alert"
+
 We see a new trend in development where we are shifting from developing applications to develop APIs. More and more we see services being offered as REST APIs that we are allowed to consume and we already see this trend from the big names in the industry, e.g.: [Facebook](https://developers.facebook.com/), [Wikipedia](https://www.mediawiki.org/wiki/API:Main_page), [Amazon](https://developer.amazon.com/public/apis), [Twitter](https://dev.twitter.com/overview/documentation), [Google](https://developers.google.com/apis-explorer/#p/) and [Reddit](https://www.reddit.com/dev/api) they all offer APIs.
 
 Of course making an REST API using Vert.x is quite simple, just use [Vert.x Web](http://vertx.io/docs/#web) and you can start writing your API in seconds, however an API without documentation is not an API since no developer will know how to use it. However this is one of the most sensitive issues to tackle in software development, nobody likes to write documentation. However, in the REST age where REST-based web-services are ubiquitous, documentation for public web-services is a necessity. There are a lot of tools out there, two of the most popular are without a doubt:

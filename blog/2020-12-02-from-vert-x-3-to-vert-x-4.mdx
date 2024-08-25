@@ -10,6 +10,8 @@ summary: >-
 pinned: true
 ---
 
+import Card from "@/components/Card"
+
 Vert.x 4 extends the Vert.x 3 line with a set of new features while providing the same Vert.x 3 experience: Vert.x 3
 users will feel at home with Vert.x 4.
 
@@ -24,14 +26,14 @@ Whenever possible, Vert.x 4 APIs have been made available in Vert.x 3 with a dep
 the opportunity to improve a Vert.x 3 application with a better API while allowing the application to be ready for a Vert.x 4
 migration.
 
-<Cards columns={2}>
+<div className="grid grid-cols-1 gap-2 md:grid-cols-2">
   <Card href="https://github.com/vert-x3/vertx-4-migration-guide/" title="Read migration guide">
     We provide a clear and documented migration path from Vert.x 3.9 to Vert.x 4.
   </Card>
   <Card href="https://www.manning.com/books/vertx-in-action" title="Vert.x in Action">
     Each sample in our book &ldquo;Vert.x in Action&rdquo; works with either Vert.x 3.9 or Vert.x 4.
   </Card>
-</Cards>
+</div>
 
 ## Vert.x 3 support
 

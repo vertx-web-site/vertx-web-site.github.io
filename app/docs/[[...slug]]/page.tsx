@@ -1,4 +1,3 @@
-import ClientPage from "./ClientPage"
 import Label from "@/components/Label"
 import ScrollTopWorkaround from "@/components/ScrollTopWorkaround"
 import { Chapter, isExternal, makeIndex, makeToc } from "@/components/docs/Toc"
@@ -14,7 +13,11 @@ import {
 } from "@phosphor-icons/react/dist/ssr"
 import clsx from "clsx"
 import { Metadata, ResolvingMetadata } from "next"
+import dynamic from "next/dynamic"
 import Link from "next/link"
+
+const GetStarted = dynamic(() => import("./get-started.mdx"))
+const IntroToReactive = dynamic(() => import("./intro-to-reactive.mdx"))
 
 interface DocsPageProps {
   params: { slug: string[] }
@@ -103,7 +106,7 @@ export async function generateStaticParams() {
   return params
 }
 
-const DocsPage = ({ params }: DocsPageProps) => {
+const DocsPage = async ({ params }: DocsPageProps) => {
   let fullSlug = undefined
   if (params.slug !== undefined) {
     fullSlug = params.slug.join("/")
@@ -130,9 +133,9 @@ const DocsPage = ({ params }: DocsPageProps) => {
 
   let Content: () => JSX.Element
   if (slug === "") {
-    Content = () => <ClientPage page="get-started" />
+    Content = () => <GetStarted />
   } else if (slug === "intro-to-reactive") {
-    Content = () => <ClientPage page="intro-to-reactive" />
+    Content = () => <IntroToReactive />
   } else {
     let data = require(
       `../../../docs/compiled/${slug === "" ? activeVersion : `${activeVersion}/${slug}`}/index.json`,

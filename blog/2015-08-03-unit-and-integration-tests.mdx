@@ -9,6 +9,8 @@ summary: >-
   vert.x series. We forgot an important task. We didn’t test the API.
 ---
 
+import Alert from "@/components/Alert"
+
 Let's refresh our mind about what we developed so far in the _introduction to vert.x_ series. In [the first post](/blog/my-first-vert-x-3-application/), we developed a very simple Vert.x 3 application, and saw how this application can be tested, packaged and executed. In [the second post](/blog/vert-x-application-configuration/), we saw how this application became configurable and how we can use a random port in test, and use another configurable port in production. Finally, the [previous post](/blog/some-rest-with-vert-x/) has shown how to use vertx-web and how to implement a small REST API. However, we forgot an important task. We didn't test the API. In this post we will increase the confidence we have on this application by implementing unit and integration tests.
 
 The code of this post is available in the [post-4 branch](https://github.com/cescoffier/my-vertx-first-app/tree/post-4) of the [project](https://github.com/cescoffier/my-vertx-first-app). The starting post, however is the code available in the [post-3 branch](https://github.com/cescoffier/my-vertx-first-app/tree/post-3).

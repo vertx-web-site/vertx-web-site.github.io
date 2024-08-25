@@ -1,11 +1,11 @@
-import playwright from "playwright"
-import fs from "fs"
-import path from "path"
 import dayjs from "dayjs"
-import { encode } from "html-entities"
-import asyncPool from "tiny-async-pool"
-import os from "os"
+import fs from "fs"
 import matter from "gray-matter"
+import { encode } from "html-entities"
+import os from "os"
+import path from "path"
+import playwright from "playwright"
+import asyncPool from "tiny-async-pool"
 
 const POSTS_DIR = "./blog"
 
@@ -17,7 +17,7 @@ function makeHtml({
   githubId,
   title,
   date,
-  summary
+  summary,
 }) {
   return `
     <html>
@@ -129,15 +129,11 @@ function makeHtml({
               <div id="subline">
                 ${
                   author !== undefined
-                  ? (
-                    (
-                      githubId !== undefined
-                      ? `<div><img id="avatar" src="https://github.com/${githubId}.png?size=52"></div>`
-                      : ""
-                    ) +
-                    `<div id="author">${author}</div><div>&bullet;</div>`
-                  )
-                  : ""
+                    ? (githubId !== undefined
+                        ? `<div><img id="avatar" src="https://github.com/${githubId}.png?size=52"></div>`
+                        : "") +
+                      `<div id="author">${author}</div><div>&bullet;</div>`
+                    : ""
                 }
                 <div id="date">${date}</div>
               </div>
@@ -159,7 +155,7 @@ async function generate(
   roboto400,
   backgroundImage,
   logoImage,
-  context
+  context,
 ) {
   let source = fs.readFileSync(path.join(POSTS_DIR, postFile), "utf-8")
   let { data } = matter(source)
@@ -176,11 +172,14 @@ async function generate(
     roboto400,
     backgroundImage,
     logoImage,
-    author: author !== undefined ? encode(author.name, { mode: "nonAscii" }) : undefined,
+    author:
+      author !== undefined
+        ? encode(author.name, { mode: "nonAscii" })
+        : undefined,
     githubId: author !== undefined ? author.github_id : undefined,
     title: encode(data.title, { mode: "nonAscii" }),
     date: dayjs(date).format("D MMMM YYYY"),
-    summary: encode(data.summary, { mode: "nonAscii" })
+    summary: encode(data.summary, { mode: "nonAscii" }),
   }
 
   // compile HTML string
@@ -193,7 +192,7 @@ async function generate(
   try {
     await fs.promises.stat(outPath) // will fail if the file does not exist
     let cachedHtml = await fs.promises.readFile(cacheHtmlFile, {
-      encoding: "utf-8"
+      encoding: "utf-8",
     })
     if (cachedHtml === html) {
       return
@@ -215,7 +214,7 @@ async function generate(
   await page.screenshot({
     path: path.resolve("./", outPath),
     type: "jpeg",
-    quality: 75
+    quality: 75,
   })
 
   // cache HTML
@@ -231,7 +230,7 @@ async function generateRemarkOgImages() {
   // read assets
   let roboto400 = fs
     .readFileSync(
-      "node_modules/@fontsource/roboto/files/roboto-latin-400-normal.woff2"
+      "node_modules/@fontsource/roboto/files/roboto-latin-400-normal.woff2",
     )
     .toString("base64")
 
@@ -239,9 +238,7 @@ async function generateRemarkOgImages() {
     .readFileSync("assets/ogimage-background.png")
     .toString("base64")
 
-  let logoImage = fs
-    .readFileSync("assets/logo.svg")
-    .toString("base64")
+  let logoImage = fs.readFileSync("assets/logo.svg").toString("base64")
 
   let start = +new Date()
   let browser = await playwright.chromium.launch()
@@ -253,7 +250,7 @@ async function generateRemarkOgImages() {
   let postFiles = fs.readdirSync(POSTS_DIR)
   postFiles = postFiles.filter(f => f.endsWith(".mdx"))
   for await (let _ of asyncPool(os.cpus().length, postFiles, async postFile =>
-    generate(postFile, roboto400, backgroundImage, logoImage, context)
+    generate(postFile, roboto400, backgroundImage, logoImage, context),
   )) {
     // nothing to do here
   }
@@ -262,7 +259,7 @@ async function generateRemarkOgImages() {
   await context.close()
   await browser.close()
   console.log(
-    `Done generating OpenGraph images after ${+new Date() - start} ms`
+    `Done generating OpenGraph images after ${+new Date() - start} ms`,
   )
 }
 

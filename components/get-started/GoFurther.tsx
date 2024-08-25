@@ -1,3 +1,5 @@
+"use client"
+
 import { useVersion } from "../hooks/useVersion"
 import Card from "@/components/Card"
 

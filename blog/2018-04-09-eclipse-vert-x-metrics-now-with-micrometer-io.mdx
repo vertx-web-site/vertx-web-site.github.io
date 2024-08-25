@@ -10,6 +10,8 @@ summary: >-
   InfluxDB.
 ---
 
+import Alert from "@/components/Alert"
+
 Vert.x has already been providing metrics for some time, through the [vertx-dropwizard-metrics](https://vertx.io/docs/vertx-dropwizard-metrics/java/) and [vertx-hawkular-metrics](https://vertx.io/docs/vertx-hawkular-metrics/java/) modules. Both of them implement a service provider interface (SPI) to collect the Vert.x metrics and make them available to their respective backends.
 
 A new module, [vertx-micrometer-metrics](https://vertx.io/docs/vertx-micrometer-metrics/java/), is now added to the family. It implements the same SPI, which means that it is able to provide the same metrics.

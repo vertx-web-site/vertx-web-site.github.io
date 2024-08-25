@@ -1,4 +1,7 @@
+import generateAllPosts from "./components/lib/generate-all-posts.js"
+import generateFeed from "./components/lib/generate-feed.js"
 import generateRemarkOgImages from "./components/lib/generate-ogimages.js"
+import generateRelatedPosts from "./components/lib/generate-related-posts.js"
 import nextBundleAnalyzer from "@next/bundle-analyzer"
 import nextMDX from "@next/mdx"
 import ESLintPlugin from "eslint-webpack-plugin"
@@ -6,10 +9,14 @@ import fs from "fs"
 import JSON5 from "json5"
 import svgToMiniDataURI from "mini-svg-data-uri"
 import rehypePrettyCode from "rehype-pretty-code"
+import remarkFrontmatter from "remark-frontmatter"
 import remarkGfm from "remark-gfm"
 import remarkSmartypants from "remark-smartypants"
 
-// generate open graph images once per build and before the build starts
+// generate post metadata once per build and before the build starts
+generateAllPosts()
+generateFeed()
+generateRelatedPosts()
 await generateRemarkOgImages()
 
 const withBundleAnalyzer = nextBundleAnalyzer({
@@ -34,7 +41,7 @@ const steepColorTheme = JSON5.parse(
 const withMDX = nextMDX({
   extension: /\.mdx?$/,
   options: {
-    remarkPlugins: [remarkGfm, remarkSmartypants],
+    remarkPlugins: [remarkFrontmatter, remarkGfm, remarkSmartypants],
     rehypePlugins: [
       [
         rehypePrettyCode,

@@ -9,6 +9,8 @@ summary: >-
   that uses the new GraphQL API of Gentics Mesh.
 ---
 
+import Alert from "@/components/Alert"
+
 I recently added GraphQL support to [Gentics Mesh](https://github.com/gentics/mesh) and I thought it would be a good idea to boil down the essence of my implementation in example so that I could share it in a simpler form.
 The example I'm about to show will not cover all aspects that I have added to the [Gentics Mesh API](https://getmesh.io/docs/beta/graphql.html) (e.g. paging, search and error handling) but it will give you a basic overview of the parts that I put together.
 GraphQL does not require a GraphDB even if the name might suggest it.

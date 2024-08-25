@@ -38,6 +38,7 @@ module.exports = {
   content: [
     "./mdx-components.tsx",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./blog/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./content/**/*.{js,ts,jsx,tsx,mdx}",
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
