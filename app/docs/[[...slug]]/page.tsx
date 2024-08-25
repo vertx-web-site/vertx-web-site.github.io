@@ -198,7 +198,7 @@ const DocsPage = ({ params }: DocsPageProps) => {
               href={
                 version !== undefined
                   ? `/docs/${version}/apidocs`
-                  : `/docs/apidocs`
+                  : "/docs/apidocs"
               }
               className="flex flex-row items-center gap-1"
               target="_blank"
