@@ -55,6 +55,16 @@ const withMDX = nextMDX({
 })
 
 const config = {
+  env: {
+    basePath,
+    // URL to the website. MUST NOT end with a slash.
+    baseUrl:
+      process.env.NODE_ENV === "production"
+        ? `https://vertx.io${basePath}`
+        : `http://localhost:3000${basePath}`,
+    buildDate: new Date().toISOString(),
+  },
+
   // also render markdown pages
   pageExtensions: ["js", "jsx", "ts", "tsx", "md", "mdx"],
 

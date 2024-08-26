@@ -49,7 +49,7 @@ The plaintext benchmark consists in replying to an HTTP request with a very smal
 
 Sample plaintext request:
 
-```
+```http
 GET /plaintext HTTP/1.1
 Host: server
 User-Agent: Mozilla/5.0 (X11; Linux x86_64) Gecko/20130501 Firefox/30.0 AppleWebKit/600.00 Chrome/30.0.0000.0 Trident/10.0 Safari/600.00
@@ -61,7 +61,7 @@ Connection: keep-alive
 
 Sample plaintext response:
 
-```
+```http
 HTTP/1.1 200 OK
 Content-Length: 15
 Content-Type: text/plain; charset=UTF-8
@@ -77,7 +77,7 @@ The fortunes benchmark, in contrast, involves a relational database and HTML tem
 
 Sample fortunes request:
 
-```
+```http
 GET /fortunes HTTP/1.1
 Host: server
 User-Agent: Mozilla/5.0 (X11; Linux x86_64) Gecko/20130501 Firefox/30.0 AppleWebKit/600.00 Chrome/30.0.0000.0 Trident/10.0 Safari/600.00
@@ -89,7 +89,7 @@ Connection: keep-alive
 
 Sample fortunes response:
 
-```
+```http
 HTTP/1.1 200 OK
 Content-Length: 1196
 Content-Type: text/html; charset=UTF-8
@@ -158,22 +158,22 @@ In Vert.x 4, only one filter is registered by default.
 It removes a set of ignored tags (defined in metrics options):
 
 ```java
-  private static MeterFilter ignoreTags(Set<String> ignored) {
-    return new MeterFilter() {
-      @Override
-      public Meter.Id map(Meter.Id id) {
-        List<Tag> tags = new ArrayList<>();
-        int count = 0;
-        for (Tag tag : id.getTagsAsIterable()) {
-          if (!ignored.contains(tag.getKey())) {
-            tags.add(tag);
-          }
-          count++;
+private static MeterFilter ignoreTags(Set<String> ignored) {
+  return new MeterFilter() {
+    @Override
+    public Meter.Id map(Meter.Id id) {
+      List<Tag> tags = new ArrayList<>();
+      int count = 0;
+      for (Tag tag : id.getTagsAsIterable()) {
+        if (!ignored.contains(tag.getKey())) {
+          tags.add(tag);
         }
-        return tags.size() == count ? id : id.replaceTags(tags);
+        count++;
       }
-    };
-  }
+      return tags.size() == count ? id : id.replaceTags(tags);
+    }
+  };
+}
 ```
 
 As you can see, the filter iterates the original set of tags and looks up for the tag key in the ignored set.
@@ -253,46 +253,45 @@ This time, we can see a great portion of the graph is occupied by these methods:
 Indeed, we still have to look up some meters _dynamically_, because some tag values such as the HTTP response are not known in advance:
 
 ```java
-    @Override
-    public void responseEnd(RequestMetric requestMetric, HttpResponse response, long bytesWritten) {
-      Tags responseTags = requestMetric.tags.and(Labels.toTags(HTTP_ROUTE, requestMetric.getRoute(), HTTP_CODE, String.valueOf(response.statusCode())));
-      counter(names.getHttpRequestsCount())
-        .description("Number of processed requests")
-        .tags(responseTags)
-        .register(registry)
-        .increment();
-      requestMetric.sample.stop(timer(names.getHttpResponseTime())
-        .description("Request processing time")
-        .tags(responseTags)
-        .register(registry));
-      distributionSummary(names.getHttpResponseBytes())
-        .description("Size of responses in bytes")
-        .tags(responseTags)
-        .register(registry)
-        .record(bytesWritten);
-      if (requestMetric.responseEnded()) {
-        requestMetric.requests.decrement();
-      }
-    }
-
+@Override
+public void responseEnd(RequestMetric requestMetric, HttpResponse response, long bytesWritten) {
+  Tags responseTags = requestMetric.tags.and(Labels.toTags(HTTP_ROUTE, requestMetric.getRoute(), HTTP_CODE, String.valueOf(response.statusCode())));
+  counter(names.getHttpRequestsCount())
+    .description("Number of processed requests")
+    .tags(responseTags)
+    .register(registry)
+    .increment();
+  requestMetric.sample.stop(timer(names.getHttpResponseTime())
+    .description("Request processing time")
+    .tags(responseTags)
+    .register(registry));
+  distributionSummary(names.getHttpResponseBytes())
+    .description("Size of responses in bytes")
+    .tags(responseTags)
+    .register(registry)
+    .record(bytesWritten);
+  if (requestMetric.responseEnded()) {
+    requestMetric.requests.decrement();
+  }
+}
 ```
 
 But what happens when we register a meter in the Micrometer registry?
 
 ```java
-    private <M extends Meter> M registerMeterIfNecessary(Class<M> meterClass, Meter.Id id,
-            @Nullable DistributionStatisticConfig config, BiFunction<Meter.Id, DistributionStatisticConfig, M> builder,
-            Function<Meter.Id, M> noopBuilder) {
-        Id mappedId = getMappedId(id);
-        Meter m = getOrCreateMeter(config, builder, id, mappedId, noopBuilder);
+private <M extends Meter> M registerMeterIfNecessary(Class<M> meterClass, Meter.Id id,
+        @Nullable DistributionStatisticConfig config, BiFunction<Meter.Id, DistributionStatisticConfig, M> builder,
+        Function<Meter.Id, M> noopBuilder) {
+    Id mappedId = getMappedId(id);
+    Meter m = getOrCreateMeter(config, builder, id, mappedId, noopBuilder);
 
-        if (!meterClass.isInstance(m)) {
-            throw new IllegalArgumentException(
-                    format("There is already a registered meter of a different type (%s vs. %s) with the same name: %s",
-                            m.getClass().getSimpleName(), meterClass.getSimpleName(), id.getName()));
-        }
-        return meterClass.cast(m);
+    if (!meterClass.isInstance(m)) {
+        throw new IllegalArgumentException(
+                format("There is already a registered meter of a different type (%s vs. %s) with the same name: %s",
+                        m.getClass().getSimpleName(), meterClass.getSimpleName(), id.getName()));
     }
+    return meterClass.cast(m);
+}
 ```
 
 Micrometer computes the _mapped_ id (remember, filters can transform the meter id), then retrieves an existing meter from a `java.util.concurrent.ConcurrentHashMap`, or creates it, if it doesn't exist.

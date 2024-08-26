@@ -1,8 +1,11 @@
 import allPosts from "@/.generated/allposts.json"
 import BlogIndex from "@/components/blog/BlogIndex"
 import BlogPost from "@/components/blog/BlogPost"
+import { Rss } from "@phosphor-icons/react/dist/ssr"
 import { startCase } from "lodash"
 import { Metadata, ResolvingMetadata } from "next"
+import Link from "next/link"
+import { ReactNode } from "react"
 
 const POSTS_PER_PAGE = 9
 
@@ -128,8 +131,14 @@ export async function generateStaticParams() {
 const Blog = ({ params }: BlogProps) => {
   let { category, page, postId } = parseSlug(params.slug)
 
+  let allCategories = new Set<string>()
+  for (let p of allPosts) {
+    allCategories.add(p.category)
+  }
+
+  let content: ReactNode
   if (postId === undefined && page !== undefined) {
-    return (
+    content = (
       <BlogIndex
         page={page}
         category={category}
@@ -137,10 +146,37 @@ const Blog = ({ params }: BlogProps) => {
       />
     )
   } else if (postId !== undefined) {
-    return <BlogPost postId={postId} />
+    content = <BlogPost postId={postId} />
   } else {
     throw new Error("Illegal parameter set")
   }
+
+  return (
+    <>
+      <div className="prose mb-8 flex flex-row flex-wrap items-baseline justify-between gap-x-10">
+        <h1>
+          Blog
+          {category !== undefined ? (
+            <>&#x2002;/&#x2002;{startCase(category)}</>
+          ) : undefined}
+        </h1>
+        <div className="flex flex-row flex-wrap items-center gap-x-4 gap-y-2 uppercase md:gap-8">
+          <Link href="/blog" className="font-normal">
+            All posts
+          </Link>
+          {Array.from(allCategories).map(c => (
+            <Link key={c} href={`/blog/category/${c}`} className="font-normal">
+              {c}
+            </Link>
+          ))}
+          <Link href="/feed/atom.xml">
+            <Rss size="1.25em" />
+          </Link>
+        </div>
+      </div>
+      {content}
+    </>
+  )
 }
 
 export default Blog

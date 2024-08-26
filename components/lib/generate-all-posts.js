@@ -7,6 +7,7 @@ import { remark } from "remark"
 import remarkExtractFrontmatter from "remark-extract-frontmatter"
 import remarkFrontmatter from "remark-frontmatter"
 import remarkMdx from "remark-mdx"
+import remarkReadingTime from "remark-reading-time"
 import yaml from "yaml"
 
 const POSTS_DIR = "./blog"
@@ -22,6 +23,7 @@ export function compileFile(filename, remarkPlugins = []) {
     .use(remarkMdx)
     .use(remarkFrontmatter)
     .use(remarkExtractFrontmatter, { yaml: yaml.parse })
+    .use(remarkReadingTime)
 
   for (let p of remarkPlugins) {
     parser = parser.use(p)
@@ -37,6 +39,7 @@ export function compileFile(filename, remarkPlugins = []) {
     category: file.data.category,
     authors: file.data.authors,
     pinned: file.data.pinned,
+    readingTime: file.data.readingTime.text,
     date,
     filename: `/blog/${path.parse(filename).name}`,
     slug,

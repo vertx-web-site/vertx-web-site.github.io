@@ -1,8 +1,7 @@
 import Pagination from "./Pagination"
 import PostList from "./PostList"
 import allPosts from "@/.generated/allposts.json"
-import { Article, Package, PushPin, Rss } from "@phosphor-icons/react/dist/ssr"
-import { startCase } from "lodash"
+import { Article, Package, PushPin } from "@phosphor-icons/react/dist/ssr"
 import Link from "next/link"
 
 interface BlogIndexProps {
@@ -29,11 +28,6 @@ const BlogIndex = ({ category, page, postsPerPage }: BlogIndexProps) => {
     pinnedPosts = allPosts.filter(p => p.pinned === true)
   }
 
-  let allCategories = new Set<string>()
-  for (let p of allPosts) {
-    allCategories.add(p.category)
-  }
-
   let totalPages = Math.ceil(posts.length / postsPerPage)
 
   // get posts for current page
@@ -41,27 +35,6 @@ const BlogIndex = ({ category, page, postsPerPage }: BlogIndexProps) => {
 
   return (
     <main>
-      <div className="prose mb-8 flex flex-row flex-wrap items-baseline justify-between gap-x-10">
-        <h1>
-          Blog
-          {category !== undefined ? (
-            <>&#x2002;/&#x2002;{startCase(category)}</>
-          ) : undefined}
-        </h1>
-        <div className="flex flex-row flex-wrap items-center gap-x-4 gap-y-2 uppercase md:gap-8">
-          <Link href={`/blog`} className="font-normal">
-            All posts
-          </Link>
-          {Array.from(allCategories).map(c => (
-            <Link href={`/blog/category/${c}`} className="font-normal">
-              {c}
-            </Link>
-          ))}
-          <Link href="/feed/atom.xml">
-            <Rss size="1.25em" />
-          </Link>
-        </div>
-      </div>
       {pinnedPosts !== undefined ? (
         <div className="mb-20 mt-8">
           <h2 className="mb-6 flex flex-row items-center gap-2 text-xl font-normal">
