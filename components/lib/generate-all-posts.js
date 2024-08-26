@@ -36,6 +36,7 @@ export function compileFile(filename, remarkPlugins = []) {
     description: file.data.description,
     category: file.data.category,
     authors: file.data.authors,
+    pinned: file.data.pinned,
     date,
     filename: `/blog/${path.parse(filename).name}`,
     slug,

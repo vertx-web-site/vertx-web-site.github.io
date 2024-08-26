@@ -1,8 +1,6 @@
 import allPosts from "@/.generated/allposts.json"
-import ScrollTopWorkaround from "@/components/ScrollTopWorkaround"
-import dayjs from "dayjs"
-import Link from "next/link"
-import Balancer from "react-wrap-balancer"
+import BlogIndex from "@/components/blog/BlogIndex"
+import BlogPost from "@/components/blog/BlogPost"
 
 const POSTS_PER_PAGE = 6
 
@@ -24,8 +22,13 @@ function postsByCategory(): Map<string, any[]> {
 export async function generateStaticParams() {
   let paths: { slug: string[] }[] = []
 
-  // add pages for all posts (regardless of their category)
-  let pages = Math.ceil(allPosts.length / POSTS_PER_PAGE)
+  // add pages for all posts except
+  // * those from the 'releases' category
+  // * pinned posts
+  let filteredPosts = allPosts.filter(
+    p => p.category !== "releases" && p.pinned !== true,
+  )
+  let pages = Math.ceil(filteredPosts.length / POSTS_PER_PAGE)
   for (let i = 0; i < pages; ++i) {
     if (i === 0) {
       paths.push({
@@ -82,65 +85,21 @@ const Blog = ({ params }: BlogProps) => {
     slug = slug.slice(2)
   }
 
-  let post_id: string | undefined = undefined
+  let postId: string | undefined = undefined
   if (slug !== undefined && slug.length > 0) {
-    post_id = slug[0]
+    postId = slug[0]
   }
 
-  if (post_id === undefined && page !== undefined) {
-    let posts =
-      category !== undefined
-        ? allPosts.filter(p => p.category === category)
-        : allPosts
-
-    let totalPages = Math.ceil(posts.length / POSTS_PER_PAGE)
-
-    // get posts for current page
-    let pagePosts = posts.slice(
-      (page - 1) * POSTS_PER_PAGE,
-      page * POSTS_PER_PAGE,
-    )
-
+  if (postId === undefined && page !== undefined) {
     return (
-      <div>
-        {pagePosts.map(p => (
-          <div key={p.slug} className="border-b-4 border-gray-200 pb-8">
-            <h2 className="not-prose mb-2 mt-0 text-2xl">
-              <Balancer ratio={0.5}>
-                <Link href={`/blog/${p.slug}`} className="hover:text-gray-600">
-                  {p.title}
-                </Link>
-              </Balancer>
-            </h2>
-            <div className="text-gray-600">
-              {dayjs(p.date).format("D MMMM YYYY")}
-            </div>
-            <div dangerouslySetInnerHTML={{ __html: p.summaryHtml }}></div>
-            &raquo; <Link href={`/blog/${p.slug}`}>Keep reading</Link>
-          </div>
-        ))}
-      </div>
+      <BlogIndex
+        page={page}
+        category={category}
+        postsPerPage={POSTS_PER_PAGE}
+      />
     )
-  } else if (post_id !== undefined) {
-    let post = allPosts.find(p => p.slug === post_id)
-    if (!post) {
-      throw new Error(`Post not found: ${post_id}`)
-    }
-
-    let Content = require(
-      `@/blog/${post.filename.substring(
-        post.filename.lastIndexOf("/") + 1,
-      )}.mdx`,
-    ).default
-
-    return (
-      <>
-        <ScrollTopWorkaround />
-        <main className="prose">
-          <Content />
-        </main>
-      </>
-    )
+  } else if (postId !== undefined) {
+    return <BlogPost postId={postId} />
   } else {
     throw new Error("Illegal parameter set")
   }
