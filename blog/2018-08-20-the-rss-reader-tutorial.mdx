@@ -47,14 +47,14 @@ As an option, you can run Cassandra with [ccm](https://github.com/riptano/ccm#in
 Follow [this](https://github.com/riptano/ccm#installation) instructions for installing ccm.
 After installing you will be able to run a single node cluster:
 
-```better-shell
+```shell
 $ ccm create rss_reader -v 3.11.2 -n 1 -s
 $ ccm start
 ```
 
 Before completing this step make sure that you have successfully cloned the RSS reader repository and checked out the `step_1` branch:
 
-```better-shell
+```shell
 $ git clone https://github.com/Sammers21/rss-reader
 $ cd rss-reader
 $ git checkout step_1
@@ -62,7 +62,7 @@ $ git checkout step_1
 
 Now you can try to tun this example and see if it works:
 
-```better-shell
+```shell
 $ ./gradlew vertxRun
 ```
 
@@ -242,7 +242,7 @@ cqlsh> SELECT description FROM rss_reader.articles_by_rss_link  limit 1;
 ## Conclusion
 
 In this article we figured out how to implement the first endpoint of RSS-reader app. If you have any problems with completing this step you can checkout to `step_2`, where you can find all changes made for completing this step:
-```better-shell
+```shell
 $ git checkout step_2
 ```
 

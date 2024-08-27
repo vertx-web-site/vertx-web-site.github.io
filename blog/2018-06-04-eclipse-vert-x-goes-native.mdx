@@ -123,7 +123,7 @@ Next we need to set up the reflection configuration within `reflectconfigs/netty
 
 Netty uses reflection to instantiate the socket channels. This is done in the ReflectiveChannelFactory. We need to tell Substrate VM how classes of type NioServerSocketChannel  and NioSocketChannel can be instantiated. 
 
-```
+```json
 [
   {
     "name" : "io.netty.channel.socket.nio.NioSocketChannel",

@@ -119,7 +119,7 @@ LOG4J %{TIMESTAMP_ISO8601:timestamp_string} %{LOGLEVEL:log_level}%{SPACING}%{LOG
 
 Finally, we take a look at Logstash's output configuration. This simply points to our elasticsearch instance, instructs it to provide a list of all cluster nodes (`sniffing`), defines the name pattern for our indices, assigns the document type according to the metadata coming from Filebeat, and allows to define a custom index template for our data.
 
-```
+```text
 output {
   elasticsearch {
     hosts => ["localhost"]
@@ -232,7 +232,7 @@ mvn package docker:build
 
 After building the previous images, build and run the example in `vertx-elk` using the following command:
 
-```
+```shell
 docker-compose up
 ```
 

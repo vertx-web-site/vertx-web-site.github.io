@@ -162,13 +162,13 @@ public class App extends AbstractVerticle {
 
 Now a bad intentioned person could generate a random file with 1GB of trash:
 
-```
+```shell
 dd if=/dev/urandom of=ddos bs=1G count=1
 ```
 
 And then upload it to your server:
 
-```
+```shell
 curl --data-binary "@ddos" -H "Content-Type: application/octet-stream" -X POST http://localhost:8080/
 ```
 

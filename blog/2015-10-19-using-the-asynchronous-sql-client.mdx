@@ -67,7 +67,7 @@ Let's now modify our application to use a database to store our products.
 
 The first things we need to do it to declare two new Maven dependencies in our `pom.xml` file:
 
-```
+```xml
 <dependency>
   <groupId>io.vertx</groupId>
   <artifactId>vertx-jdbc-client</artifactId>
@@ -273,7 +273,7 @@ In addition to the `http.port`, we also put the JDBC url and the class of the JD
 
 The same modification needs to be done in the `src/test/resources/my-it-config.json` file:
 
-```
+```json
 {
   "http.port": ${http.port},
   "url": "jdbc:hsqldb:mem:it-test?shutdown=true",
@@ -283,7 +283,7 @@ The same modification needs to be done in the `src/test/resources/my-it-config.j
 
 The `src/main/conf/my-application-conf.json` file also needs to be updated, not for the tests, but to run the application:
 
-```
+```json
 {
   "http.port" : 8082,
   "url": "jdbc:hsqldb:file:db/whiskies",
@@ -297,7 +297,9 @@ The JDBC url is a bit different in this last file, as we store the database on t
 
 Let's now build our application:
 
-`mvn clean package`
+```shell
+mvn clean package
+```
 
 As we didn't change the API (neither the public java one nor the REST), test should run smoothly.
 

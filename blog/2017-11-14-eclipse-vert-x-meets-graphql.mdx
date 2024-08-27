@@ -24,7 +24,7 @@ GraphQL as the name suggests is a new query language which can be used to load e
 The query is defined in way that the query fields correlate to the JSON data that is being retrieved. 
 In our StarWars Demo domain model this query will load the name of human 1001 which is Darth Vader.
 
-```
+```graphql
 {
   vader: human(id: 1001) {
     name
@@ -65,7 +65,7 @@ The next thing we need is the GraphQL schema. The schema describes each element 
 
 The graphql-java library provides an API to create the object types and schema information.
 
-```
+```java
 private GraphQLObjectType createMovieType() {
   return newObject().name("Movie")
     .description("One of the films in the Star Wars universe.")

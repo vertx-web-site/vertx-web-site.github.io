@@ -240,7 +240,7 @@ connection.queryStream("select * from test", stream -> {
 
 And with the RxJava API:
 
-```
+```java
 client
   .rxGetConnection() // Connect to the database
   .flatMapObservable(conn -> { // With the connection...

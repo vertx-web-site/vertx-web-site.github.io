@@ -54,7 +54,7 @@ everytime it happens.
 In Vert.x 4 we decided to pin the first event loop to the non Vert.x thread. The goal is to prevent
 some data races and also makes reasonning about this easier.
 
-```
+```java
 Vertx vertx = Vertx.vertx();
 
 for (int i = 0;i < 4;i++) {

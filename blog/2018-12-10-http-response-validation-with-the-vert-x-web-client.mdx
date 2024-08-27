@@ -14,7 +14,7 @@ In other words, a `404 Not Found` response, or a response with the wrong content
 
 Hence, you would usually perform sanity checks manually after the response is received:
 
-```
+```java
 client
   .get(8080, "myserver.mycompany.com", "/some-uri")
   .send(ar -> {
@@ -40,7 +40,7 @@ Starting with [Vert.x 3.6](/blog/eclipse-vert-x-3-6-0-released/), you can can tr
 
 The Web Client module comes with a set of ready-to-use predicates:
 
-```
+```java
 client
   .get(8080, "myserver.mycompany.com", "/some-uri")
   .expect(ResponsePredicate.SC_SUCCESS)
@@ -61,7 +61,7 @@ The web is full of HTTP/JSON endpoints, so there is no doubt the `ResponsePredic
 
 Nevertheless, you might also need to check that the status code is whithin a specific range:
 
-```
+```java
 client
   .get(8080, "myserver.mycompany.com", "/some-uri")
   .expect(ResponsePredicate.status(200, 202))
@@ -72,7 +72,7 @@ client
 
 Or that the content is of a specific type: 
 
-```
+```java
 client
   .get(8080, "myserver.mycompany.com", "/some-uri")
   .expect(ResponsePredicate.contentType("some/content-type"))
@@ -87,7 +87,7 @@ Please refer to the [`ResponsePredicate` documentation](/docs/apidocs/io/vertx/e
 
 Eventually, predicates were not designed for status code and content type checking only, so feel free to create your own validation code:
 
-```
+```java
 // Check CORS header allowing to do POST
 Function<HttpResponse<Void>, ResponsePredicateResult> methodsPredicate = resp -> {
   String methods = resp.getHeader("Access-Control-Allow-Methods");
@@ -122,7 +122,7 @@ Therefore **you can't inspect the response body** in a predicate test function, 
 By default, response predicates (including the predefined ones) use a generic error converter which discards the response body and conveys a simple message.
 You can customize the exception class by changing the error converter:
 
-```
+```java
 ResponsePredicate predicate = ResponsePredicate.create(ResponsePredicate.SC_SUCCESS, result -> {
   return new MyCustomException(result.message());
 });
@@ -136,7 +136,7 @@ The generic error converter generates exceptions that do not capture it.
 Many web APIs provide details in error responses.
 For example, the [Marvel API](https://developer.marvel.com/docs) uses this JSON object format:
 
-```
+```java
 {
   "code": "InvalidCredentials",
   "message": "The passed API key is invalid."
@@ -145,7 +145,7 @@ For example, the [Marvel API](https://developer.marvel.com/docs) uses this JSON 
 
 To avoid losing this information, it is possible to wait for the response body to be fully received before the error converter is called:
 
-```
+```java
 ErrorConverter converter = ErrorConverter.createFullBody(result -> {
 
   // Invoked after the response body is fully received

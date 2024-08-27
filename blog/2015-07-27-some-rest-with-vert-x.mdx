@@ -318,7 +318,7 @@ Then open the HTML page in your browser (`http://localhost:8080/assets/index.htm
 
 I'm sure you are curious, and want to actually see what is returned by our REST API. Let's open a browser to `http://localhost:8080/api/whiskies`. You should get:
 
-```
+```json
 [ {
   "id" : 0,
   "name" : "Bowmore 15 Years Laimrig",
@@ -361,7 +361,7 @@ The method starts by retrieving the `Whisky` object from the request body. It ju
 
 Let's try this. Rebuild and restart the application with:
 
-```
+```shell
 mvn clean package
 java -jar target/my-first-app-1.0-SNAPSHOT-fat.jar
 ```

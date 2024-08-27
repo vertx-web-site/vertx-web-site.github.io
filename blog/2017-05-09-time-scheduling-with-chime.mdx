@@ -54,7 +54,7 @@ _Chime_ is written in [Ceylon](https://ceylon-lang.org) and is available at
 
 Deploy _Chime_ using `Verticle.deployVerticle` method.
 
-```Ceylon
+```ceylon
 import io.vertx.ceylon.core {vertx}
 import herd.schedule.chime {Chime}
 Chime().deploy(vertx.vertx());
@@ -69,7 +69,7 @@ but ensure that Ceylon verticle factory is available at class path.
 2. Put Ceylon versions to consistency. For instance, Vert.x 3.4.1 depends on Ceylon 1.3.0
    while Chime 0.2.1 depends on Ceylon 1.3.2. 
 3. [Deploy verticle](http://vertx.io/docs/vertx-core/java/#_deploying_verticles_programmatically), like:  
-```Java
+```java
 vertx.deployVerticle("ceylon:herd.schedule.chime/0.2.1")
 ```
 
@@ -221,7 +221,7 @@ Will see some examples in the next section.
 
 Let's consider a timer which has to fire every month at 16-30 last Sunday.  
 
-```Ceylon
+```ceylon
 // listen the timer events
 eventBus.consumer (
   "my scheduler:my timer",
@@ -266,7 +266,7 @@ If 'create' request is sent to Chime address with name set to 'scheduler name:ti
 
 Let's consider a timer which has to fire every Monday at 8-30 and every Friday at 17-30.  
 
-```Java
+```java
 // listen the timer events
 MessageConsumer<JsonObject> consumer = eventBus.consumer("my scheduler:my timer");
 consumer.handler (

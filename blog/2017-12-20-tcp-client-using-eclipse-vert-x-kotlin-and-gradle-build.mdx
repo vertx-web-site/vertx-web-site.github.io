@@ -17,7 +17,7 @@ As part of my hobby project to control RaspberryPi using Google Home Mini and/or
 ## Project Directory Structure
 From command line (or via Windows Explorer, whatever you prefer to use) create a directory for project,for instance `vertx-net-client`. Since we are using Kotlin, we will place all Kotlin files in `src/main/kotlin` folder. The `src/main/resources` folder will contain our logging configuration related files.
 
-```
+```shell
 cd vertx-net-client
 mkdir -p src/main/kotlin
 mkdir -p src/main/resources
@@ -78,7 +78,7 @@ Now that our project structure is ready, time to add the meat of the project. Yo
 
 Create a new package under `src/main/kotlin`. The package name should be adapted from the following section of `build.gradle`
 
-```
+```groovy
 vertx {
     mainVerticle = "info.usmans.blog.vertx.NetClientVerticle"
 }
@@ -97,7 +97,7 @@ The `fun main(args: Array<String>)` is not strictly required, it quickly allows 
 
 The `override fun start()` method calls `fireReconnectTimer` which in turn calls `reconnect` method. `reconnect` method contains the connection logic to server as well as it calls `fireReconnectTimer` if it is unable to connect to server or disconnects from server. In `reconnect` method the `socket.handler` gets called when server send message to client.
 
-```
+```java
 socket.handler({ data ->
                         logger.info("Data received: ${data}")
                         //TODO: Do the work here ...

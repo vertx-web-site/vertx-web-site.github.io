@@ -137,7 +137,7 @@ One great use case is to use them to generate email content:
 ```java
 TemplateEngine template = ...
 
-template.render(new JsonObject(), "my-template.txt, res -> {
+template.render(new JsonObject(), "my-template.txt", res -> {
    // Send result with the Vert.x Mail client
 });
 ```
@@ -180,13 +180,13 @@ applications from hash timing attacks.
 Whether you run your Vert.x app with the CLI or as an executable JAR with the `Launcher`, you can now provide Vert.x
 options as a command line parameter:
 
-```
+```shell
 java -jar my-app.jar -options /path/to/my/file.json
 ```
 
 Or with the CLI:
 
-```
+```shell
 vertx run my-verticle.js -options /path/to/my/file.json
 ```
 

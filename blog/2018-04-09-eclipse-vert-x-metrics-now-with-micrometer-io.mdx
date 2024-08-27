@@ -40,7 +40,7 @@ Prometheus is used in the following examples, but equivalent queries can be perf
 
 In Prometheus, the query `vertx_http_server_connections` will return as many timeseries as there are combinations of `local` and `remote` values. Example:
 
-```
+```text
 vertx_http_server_connections{local="0.0.0.0:8080",remote="1.1.1.1"}
 vertx_http_server_connections{local="0.0.0.0:8080",remote="2.2.2.2"}
 vertx_http_server_connections{local="0.0.0.0:8080",remote="3.3.3.3"}
