@@ -40,7 +40,7 @@ const BlogPost = async ({ postId }: BlogPostProps) => {
       <main className="prose grid grid-cols-1 gap-10 xl:[grid-template-columns:1fr_18rem]">
         <div className="min-w-0 border-t border-gray-200 pt-16">
           <div className="mb-9 flex flex-row flex-wrap items-center justify-between gap-4">
-            <h1 className="mb-0 inline-block text-balance text-4xl">
+            <h1 className="mb-0 inline-block text-pretty text-4xl">
               {post.title}
             </h1>
             {post.pinned && <Label>Pinned post</Label>}
