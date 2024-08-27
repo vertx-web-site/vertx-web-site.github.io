@@ -25,7 +25,7 @@ const BlogPost = ({ postId }: BlogPostProps) => {
 
   return (
     <>
-      <main className="prose grid grid-cols-1 gap-10 xl:[grid-template-columns:1fr_18rem] 2xl:gap-16 2xl:[grid-template-columns:1fr_24rem]">
+      <main className="prose grid grid-cols-1 gap-10 xl:[grid-template-columns:1fr_18rem]">
         <div className="min-w-0 border-t border-gray-200 pt-16">
           <div className="mb-9 flex flex-row flex-wrap items-center justify-between gap-4">
             <h1 className="mb-0 inline-block text-balance text-4xl">

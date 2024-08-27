@@ -8,7 +8,7 @@ const BlogLayout = ({ children }: { children: React.ReactNode }) => {
     <>
       <NavBar />
       <ScrollTopWorkaround />
-      <Container id="blog-layout" width="2xl" className="mt-24">
+      <Container id="blog-layout" width="xl" className="mt-24">
         {children}
       </Container>
       <Footer />

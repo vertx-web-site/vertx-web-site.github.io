@@ -20,8 +20,10 @@ const PostList = ({ posts, height }: PostListProps) => {
           className={clsx(
             "flex flex-col justify-between rounded-sm border border-gray-200 p-6 transition-colors hover:border-gray-600",
             {
-              "min-h-[16rem]": height === "medium",
-              "min-h-[19rem]": height === "large",
+              "min-h-[17rem] sm:min-h-[14rem] lg:min-h-[16rem]":
+                height === "medium",
+              "min-h-[21rem] sm:min-h-[19rem] lg:min-h-[20.5rem] xl:min-h-[21rem]":
+                height === "large",
             },
           )}
         >
@@ -33,7 +35,7 @@ const PostList = ({ posts, height }: PostListProps) => {
               dangerouslySetInnerHTML={{ __html: p.summaryHtml }}
               className={clsx("overflow-ellipsis", {
                 "line-clamp-3": height === "medium",
-                "line-clamp-4": height === "large",
+                "line-clamp-5": height === "large",
               })}
             ></div>
           </div>
