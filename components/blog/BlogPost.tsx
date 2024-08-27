@@ -1,17 +1,27 @@
 import Label from "../Label"
 import SimpleIcon from "../SimpleIcon"
 import { Tooltip } from "../Tooltip"
+import PostListItem from "./PostListItem"
 import allPosts from "@/.generated/allposts.json"
 import { Clock } from "@phosphor-icons/react/dist/ssr"
 import dayjs from "dayjs"
 import Link from "next/link"
+import fs from "node:fs/promises"
 import { siFacebook, siLinkedin, siX } from "simple-icons"
 
 interface BlogPostProps {
   postId: string
 }
 
-const BlogPost = ({ postId }: BlogPostProps) => {
+async function getRelatedPosts(postId: string) {
+  let content = await fs.readFile(
+    `./.generated/relatedposts/${postId}.json`,
+    "utf-8",
+  )
+  return JSON.parse(content)
+}
+
+const BlogPost = async ({ postId }: BlogPostProps) => {
   let post = allPosts.find(p => p.slug === postId)
   if (!post) {
     throw new Error(`Post not found: ${postId}`)
@@ -22,6 +32,8 @@ const BlogPost = ({ postId }: BlogPostProps) => {
   ).default
 
   let url = `${process.env.baseUrl}/blog/${post.slug}`
+
+  let relatedPosts = await getRelatedPosts(postId)
 
   return (
     <>
@@ -115,6 +127,46 @@ const BlogPost = ({ postId }: BlogPostProps) => {
           </div>
         </div>
       </main>
+
+      <section
+        id="next-prev-posts"
+        className="mt-20 border-t border-gray-200 pb-12 pt-12"
+      >
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 xl:grid-cols-3">
+          <div>
+            <h2 className="mb-6 mt-6 text-balance text-center text-xl font-normal">
+              Next post
+            </h2>
+            {relatedPosts.nextPost !== undefined ? (
+              <PostListItem post={relatedPosts.nextPost} height={"large"} />
+            ) : undefined}
+          </div>
+
+          <div className="hidden xl:block">{/* Placeholder */}</div>
+
+          <div>
+            <h2 className="mb-6 mt-6 text-balance text-center text-xl font-normal">
+              Previous post
+            </h2>
+            {relatedPosts.prevPost !== undefined ? (
+              <PostListItem post={relatedPosts.prevPost} height={"large"} />
+            ) : undefined}
+          </div>
+        </div>
+      </section>
+
+      <section id="next-prev-posts" className="pb-12 xl:pt-4">
+        <h2 className="mb-6 text-balance text-center text-xl font-normal">
+          Related posts
+        </h2>
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 xl:grid-cols-3">
+          {relatedPosts.relatedPosts.map((p: any) => (
+            <div key={p.slug} className="last:hidden last:xl:block">
+              <PostListItem post={p} height={"large"} />
+            </div>
+          ))}
+        </div>
+      </section>
     </>
   )
 }
