@@ -43,7 +43,7 @@ Verticle verticle = new AbstractVerticle() {
 vertx.deployVerticle(verticle, new DeploymentOptions().setThreadingModel(ThreadingModel.VIRTUAL_THREAD));
 ```
 
-[Vert.x virtual threads](https://vertx.io/docs/vertx-core/java/#virtual_threads) can block on any Vert.x future using `await`:
+[Vert.x virtual threads](/docs/vertx-core/java/#virtual_threads) can block on any Vert.x future using `await`:
 
 ```java
 // create a test table
@@ -67,7 +67,7 @@ config is _static_.
 Sometimes database config needs to be dynamic, e.g. connecting to an array of databases
 or the database config can change.
 
-With [dynamic connection configuration](https://vertx.io/docs/vertx-pg-client/java/#_dynamic_connection_configuration) you can easily implement this in Vert.x:
+With [dynamic connection configuration](/docs/vertx-pg-client/java/#_dynamic_connection_configuration) you can easily implement this in Vert.x:
 
 ```java
 Pool pool = PgBuilder.pool()
@@ -89,12 +89,12 @@ Level 7 proxies can load balance queries on several connections to the actual da
 be confused by the lack of session affinity and unwanted errors can happen like _ERROR: unnamed prepared
 statement does not exist (26000)_.
 
-Vert.x SQL client now [supports](https://vertx.io/docs/vertx-pg-client/java/#_using_a_level_7_proxy) Level 7 proxies
+Vert.x SQL client now [supports](/docs/vertx-pg-client/java/#_using_a_level_7_proxy) Level 7 proxies
 like [PgBouncer](https://www.pgbouncer.org).
 
 ## TCP SSL options update
 
-You can now [update TCP client/server SSL options](https://vertx.io/docs/vertx-core/java/#_updating_ssltls_configuration)
+You can now [update TCP client/server SSL options](/docs/vertx-core/java/#_updating_ssltls_configuration)
 at runtime which is very useful for certificate rotation.
 
 ```java
@@ -109,7 +109,7 @@ New connections will use the updated configuration.
 
 ## WebSocket client
 
-We have captured the WebSocket client API from Vert.x HTTP client in a new [WebSocket client](https://vertx.io/docs/vertx-core/java/#_websockets_on_the_client).
+We have captured the WebSocket client API from Vert.x HTTP client in a new [WebSocket client](/docs/vertx-core/java/#_websockets_on_the_client).
 
 ```java
 WebSocketClient wsClient = vertx.createWebSocketClient();
@@ -136,7 +136,7 @@ HttpClient client = vertx.createHttpClient(options);
 ```
 
 Sometimes you want to configure the client with extra behavior like setting a connection
-handler or a redirect handler: the [HTTP client builder](https://vertx.io/docs/vertx-core/java/#_advanced_http_client_creation)
+handler or a redirect handler: the [HTTP client builder](/docs/vertx-core/java/#_advanced_http_client_creation)
 provides these extra configuration capabilities.
 
 ```java
@@ -197,7 +197,7 @@ Pool client = PgBuilder.pool()
 
 ## Redis command tracing
 
-The Redis client can [trace command execution](https://vertx.io/docs/vertx-redis-client/java/#_tracing_commands) when Vert.x has tracing enabled.
+The Redis client can [trace command execution](/docs/vertx-redis-client/java/#_tracing_commands) when Vert.x has tracing enabled.
 
 The client reports a client span with the following details:
 
@@ -210,7 +210,7 @@ The client reports a client span with the following details:
 
 ## Traffic shaping
 
-TCP server (net/HTTP) can be configured with [traffic shaping](https://vertx.io/docs/vertx-core/java/#_throttling_inbound_and_outbound_bandwidth_of_tcp_connections) options to enable bandwidth limiting.
+TCP server (net/HTTP) can be configured with [traffic shaping](/docs/vertx-core/java/#_throttling_inbound_and_outbound_bandwidth_of_tcp_connections) options to enable bandwidth limiting.
 
 ## Vert.x API extensions for coroutines
 

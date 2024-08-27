@@ -248,7 +248,6 @@ const DocsPage = async ({ params }: DocsPageProps) => {
 
   return (
     <>
-      <ScrollTopWorkaround />
       <VersionGuard pageVersion={activeVersion} />
       <main
         className={clsx(

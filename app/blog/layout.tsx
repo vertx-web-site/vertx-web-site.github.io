@@ -7,7 +7,6 @@ const BlogLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       <NavBar />
-      <ScrollTopWorkaround />
       <Container id="blog-layout" width="xl" className="mt-24">
         {children}
       </Container>

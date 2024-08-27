@@ -1,4 +1,3 @@
-import Pagination from "./Pagination"
 import allPosts from "@/.generated/allposts.json"
 import Avatar from "boring-avatars"
 import clsx from "clsx"
