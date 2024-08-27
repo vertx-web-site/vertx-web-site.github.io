@@ -9,6 +9,8 @@ summary: >-
   applications using the ELK stack (Logstash, Elasticsearch, and Kibana).
 ---
 
+import YouTubeEmbed from "@/components/YouTubeEmbed"
+
 This post entry describes a solution to achieve centralized logging of Vert.x applications using the [ELK stack](https://www.elastic.co/webinars/introduction-elk-stack), a set of tools including Logstash, Elasticsearch, and Kibana that are well known to work together seamlessly.
 
 ## Preamble
@@ -239,9 +241,7 @@ docker-compose up
 ### The demo
 You can watch the demo in action in the following screencast:
 
-<div className="youtube-embed">
-<iframe src="https://www.youtube.com/embed/8P-MgXSujes" frameBorder="0" allowFullScreen></iframe>
-</div>
+<YouTubeEmbed id="8P-MgXSujes" title="Centralized logging for Vert.x applications using the ELK stack" />
 
 ## Conclusion
 The ELK stack is a powerful set of tools that ease the aggregation of logs coming from distributed services into a central server. Its main pillar, Elasticsearch, provides the indexing and search capabilities of our log data. Also, it is accompanied by the convenient input/output components: Logstash, which can be flexibly configured to accept different data sources; and Kibana, which can be customized to present the information in the most convenient way.
