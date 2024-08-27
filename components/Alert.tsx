@@ -10,8 +10,16 @@ interface AlertProps {
 }
 
 const Alert = ({ children, error, warning, info, title }: AlertProps) => (
-  <div className={clsx("alert", { error, warning, info })}>
-    {title && <div className="alert-title">{title}</div>}
+  <div
+    className={clsx(
+      "my-4 border-l-8 bg-gray-100 px-4 py-3 [&_p:first-child]:mt-0 [&_p]:mb-0 [&_p]:mt-2",
+      {
+        "border-alert": error,
+        "border-primary": warning || info,
+      },
+    )}
+  >
+    {title && <div className="font-medium">{title}</div>}
     {children}
   </div>
 )
