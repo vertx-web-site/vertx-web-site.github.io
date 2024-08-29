@@ -1,5 +1,4 @@
 import Label from "@/components/Label"
-import ScrollTopWorkaround from "@/components/ScrollTopWorkaround"
 import { Chapter, isExternal, makeIndex, makeToc } from "@/components/docs/Toc"
 import VersionGuard from "@/components/docs/VersionGuard"
 import { versionFromSlug } from "@/components/docs/versionFromSlug"

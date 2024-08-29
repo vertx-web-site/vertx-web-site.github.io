@@ -82,7 +82,8 @@ const SidebarRight = ({ className, activeSection }: SidebarRightProps) => {
     if (element !== null) {
       let erect = element.getBoundingClientRect()
       let srect = sectionsRef.current.getBoundingClientRect()
-      let parent = sectionsRef.current.parentElement!.parentElement!
+      let parent =
+        sectionsRef.current.parentElement!.parentElement!.parentElement!
       let prect = parent.getBoundingClientRect()
 
       if (erect.bottom > prect.bottom || erect.top < prect.top) {
