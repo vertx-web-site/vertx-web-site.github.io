@@ -18,7 +18,6 @@
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.12",
-    "fast-glob": "^3.3.2",
     "html-to-text": "^9.0.5",
     "p-map": "^7.0.2"
   }

@@ -1,7 +1,6 @@
 import * as cheerio from "cheerio"
-import { versions } from "../../docs/metadata/all"
+import { metadata, versions } from "../../docs/metadata/all"
 import { filterLatestBugfixVersions } from "../../docs/metadata/helpers"
-import fg from "fast-glob"
 import fs from "fs/promises"
 import { convert } from "html-to-text"
 import os from "os"
@@ -63,14 +62,25 @@ async function main() {
 }
 
 async function scrapeVersion(version: string) {
-  // TODO only scrape what's necessary by looking into `metadata`
-  let files = await fg.glob([
-    `../out/docs/${version}/**/*.html`,
-    `!../out/docs/${version}/**/apidocs/**`,
-  ])
+  let entries = metadata.find(m => m.version === version)?.metadata?.entries
+  if (entries === undefined) {
+    throw new Error(`Unable to find metadata for version ${version}`)
+  }
 
   let result: Entry[] = []
-  for (let f of files) {
+  for (let e of entries) {
+    if (/^https?:\/\//.test(e.href)) {
+      // skip external pages
+      continue
+    }
+    let slug = e.href
+    if (slug.startsWith("/")) {
+      slug = slug.substring(1)
+    }
+    if (slug.endsWith("/")) {
+      slug = slug.substring(0, slug.length - 1)
+    }
+    let f = `../out/docs/${version}/${slug}/index.html`
     let content = await fs.readFile(f, "utf8")
     let $ = cheerio.load(content)
     let $main = $("main").first()
@@ -78,8 +88,6 @@ async function scrapeVersion(version: string) {
     $main.find("h1").remove()
 
     let $sections = $main.find("div[class='sect1'],div[class='sect2']")
-
-    let pageSlug = path.dirname(f).substring(`../out/docs/${version}/`.length)
 
     // convert sections first
     $sections.each((i, el) => {
@@ -96,7 +104,7 @@ async function scrapeVersion(version: string) {
       }
       let s = nodeToString($n)
       result.push({
-        slug: `${pageSlug}#${id}`,
+        slug: `${slug}#${id}`,
         body: s,
       })
     })
@@ -107,7 +115,7 @@ async function scrapeVersion(version: string) {
     // now convert page
     let s = nodeToString($main)
     result.push({
-      slug: pageSlug,
+      slug,
       body: s,
     })
   }
