@@ -8,15 +8,10 @@ import styles from "./SearchPanel.scss?type=global"
 const MAX_EXCERPT_LENGTH = 100
 
 function pushRouter(id) {
-  let href = Router.asPath
-  let hashpos = href.indexOf("#")
-  let hash = ""
-  if (hashpos >= 0) {
-    hash = href.substring(href.indexOf("#") + 1)
-    href = href.substring(0, hashpos)
-  }
+  let href = window.location.href
+  let hash = href.substring(href.indexOf("#") + 1)
   if (hash !== id) {
-    Router.push(`${href}#${id}`)
+    Router.push(`${window.location.pathname}#${id}`)
   }
 }
 

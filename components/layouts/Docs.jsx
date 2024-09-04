@@ -15,7 +15,6 @@ import { latestRelease, metadata as docsMetadata } from "../../docs/metadata/all
 import { filterLatestBugfixVersions } from "../../docs/metadata/helpers"
 import { Book, Code, Edit, List, Paperclip, X } from "react-feather"
 import styles from "./Docs.scss?type=global"
-import Link from "next/link"
 
 const Docs = ({ metadata, allVersions, fallbackGitHubStars, toc, contents }) => {
   const tocRef = useRef()
@@ -123,15 +122,10 @@ const Docs = ({ metadata, allVersions, fallbackGitHubStars, toc, contents }) => 
     for (let il of internalLinks) {
       il.onclick = (e) => {
         e.preventDefault()
-        let href = Router.asPath
-        let hashpos = href.indexOf("#")
-        let hash = ""
-        if (hashpos >= 0) {
-          hash = href.substring(href.indexOf("#"))
-          href = href.substring(0, hashpos)
-        }
+        let href = window.location.href
+        let hash = href.substring(href.indexOf("#"))
         if (hash !== il.getAttribute("href")) {
-          Router.push(href + il.getAttribute("href"))
+          Router.push(window.location.pathname + il.getAttribute("href"))
         } else {
           onHashChangeStart(href)
         }
@@ -211,11 +205,9 @@ const Docs = ({ metadata, allVersions, fallbackGitHubStars, toc, contents }) => 
                 <div className="docs-content-metadata-left">
                   {repository && <div className="docs-content-metadata-repo">{repository}</div>}
                   <div>
-                    <Link href={`/docs/${currentVersion.version ? `${currentVersion.version}/` : ""}apidocs`}>
-                      <a>
-                        <Book className="feather" /> API
-                      </a>
-                    </Link>
+                    <a href={`/docs/${currentVersion.version ? `${currentVersion.version}/` : ""}apidocs`}>
+                      <Book className="feather" /> API
+                    </a>
                   </div>
                   {examples && <div className="docs-content-metadata-examples">{examples}</div>}
                   {edit && <div className="docs-content-metadata-edit">{edit}</div>}
