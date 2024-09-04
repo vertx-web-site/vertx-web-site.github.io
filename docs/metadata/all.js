@@ -20,7 +20,7 @@ const metadata = metadataModules.keys().map(m => {
 // get latest release
 let latestRelease
 for (let i = metadata.length - 1; i >= 0; --i) {
-  if (!metadata[i].metadata.prerelease) {
+  if (/*!metadata[i].metadata.prerelease*/ metadata[i].version === "4.5.10") {
     latestRelease = metadata[i]
     break
   }
