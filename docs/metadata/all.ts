@@ -1,3 +1,4 @@
+import { compareVersion, parseVersion } from "./helpers"
 import { Docs } from "./types"
 
 export interface Release {
@@ -26,7 +27,11 @@ export const metadata: Release[] = metadataModules
     let version = filenameToVersion(m)
     return { version, metadata: metadataModules(m).default as Docs }
   })
-  .sort((a, b) => a.version.localeCompare(b.version))
+  .sort((a, b) => {
+    let pa = parseVersion(a.version)
+    let pb = parseVersion(b.version)
+    return compareVersion(pa, pb)
+  })
 
 // get latest release
 export let latestRelease: Release

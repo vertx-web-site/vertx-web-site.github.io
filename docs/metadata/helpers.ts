@@ -91,7 +91,7 @@ export function parseVersion(v: string): Version {
   }
 }
 
-function compareVersion(a: Version, b: Version): number {
+export function compareVersion(a: Version, b: Version): number {
   if (a.major - b.major !== 0) {
     return a.major - b.major
   }
