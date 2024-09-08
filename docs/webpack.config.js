@@ -3,7 +3,7 @@ const webpack = require("webpack")
 
 module.exports = {
   target: "node",
-  mode: "development",
+  mode: "production",
   cache: {
     type: "filesystem",
     cacheDirectory: path.resolve(__dirname, "../.cache/update-docs/webpack"),
