@@ -60,7 +60,6 @@ async function createIndex(
       slug = "get-started"
     }
     if (tocIndex[entry.slug] === undefined) {
-      // TODO too many warnings - ideally there should be none
       console.warn("Could not find slug in index:", entry.slug)
       return []
     }

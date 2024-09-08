@@ -21,6 +21,7 @@ remove(docs, "vertx-grpc-netty")
 remove(docs, "vertx-lang-groovy")
 remove(docs, "vertx-rx-java")
 remove(docs, "vertx-service-discovery")
+remove(docs, "vertx-sockjs-service-proxy")
 remove(docs, "vertx-web-api-service")
 removeCategory(docs, "groovy")
 

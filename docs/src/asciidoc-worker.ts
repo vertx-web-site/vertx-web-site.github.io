@@ -43,7 +43,6 @@ async function readDirRecursive(
 
 function parseToc(
   toc: parse5.DefaultTreeAdapterMap["element"],
-  level: number,
 ): TocElement[] | undefined {
   let result: TocElement[] = []
 
@@ -52,7 +51,7 @@ function parseToc(
     if (
       sectionsNode.nodeName !== "ul" ||
       !sectionsNode.attrs.some(
-        a => a.name === "class" && a.value === `sectlevel${level}`,
+        a => a.name === "class" && a.value.startsWith("sectlevel"),
       )
     ) {
       continue
@@ -81,7 +80,7 @@ function parseToc(
       }
 
       if (id !== undefined && title !== undefined) {
-        let subtoc = parseToc(sectionElement, level + 1)
+        let subtoc = parseToc(sectionElement)
         result.push({
           id,
           title,
@@ -167,7 +166,7 @@ async function workerMain({
       if (child.nodeName === "div") {
         for (let attr of child.attrs) {
           if (attr.name === "id" && attr.value === "toc") {
-            toc = parseToc(child, 1)
+            toc = parseToc(child)
 
             // strip off toc from contents
             contents =
