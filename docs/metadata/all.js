@@ -1,3 +1,5 @@
+import { compareVersion, parseVersion } from "./helpers"
+
 function filenameToVersion(filename) {
   return filename.substring(2, filename.length - 4)
 }
@@ -15,12 +17,17 @@ const versions = metadataModules.keys()
 const metadata = metadataModules.keys().map(m => {
   let version = filenameToVersion(m)
   return { version, metadata: metadataModules(m).default }
-}).sort((a, b) => a.version.localeCompare(b.version))
+}).sort((a, b) => {
+  let pa = parseVersion(a.version)
+  let pb = parseVersion(b.version)
+  return compareVersion(pa, pb)
+})
 
 // get latest release
 let latestRelease
+console.log(metadata)
 for (let i = metadata.length - 1; i >= 0; --i) {
-  if (/*!metadata[i].metadata.prerelease*/ metadata[i].version === "4.5.10") {
+  if (!metadata[i].metadata.prerelease) {
     latestRelease = metadata[i]
     break
   }

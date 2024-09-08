@@ -110,5 +110,6 @@ export {
   move,
   remove,
   parseVersion,
+  compareVersion,
   filterLatestBugfixVersions
 }
