@@ -25,7 +25,6 @@ const metadata = metadataModules.keys().map(m => {
 
 // get latest release
 let latestRelease
-console.log(metadata)
 for (let i = metadata.length - 1; i >= 0; --i) {
   if (!metadata[i].metadata.prerelease) {
     latestRelease = metadata[i]
