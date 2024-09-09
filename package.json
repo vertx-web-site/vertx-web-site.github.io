@@ -12,7 +12,7 @@
     "scraper": "cd scraper && npm run run && cd ..",
     "scraper:install": "cd scraper && npm i",
     "start": "next start",
-    "update-docs": "cd docs && npm run update-docs",
+    "update-docs": "cd docs && npm run update-docs --",
     "update-docs:install": "cd docs && npm i"
   },
   "repository": {
