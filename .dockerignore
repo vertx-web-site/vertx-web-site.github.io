@@ -1,4 +1,5 @@
 .cache/
+.generated/
 .next/
 docs/compiled/
 docs/download/
@@ -7,4 +8,5 @@ docs/node_modules/
 node_modules/
 out/
 public/docs/
+scraper/node_modules/
 Dockerfile
