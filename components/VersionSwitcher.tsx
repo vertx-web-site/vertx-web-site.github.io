@@ -45,43 +45,51 @@ const VersionSwitcher = ({ bg }: VersionSwitcherProps) => {
   const pathname = usePathname()
   const router = useRouter()
 
+  // get current version from path - this prevents the drop down from flickering
+  // (i.e. briefly showing the default version after navigation before switching
+  // to the actual page version)
+  let pathVersion: string | undefined = undefined
+  let slug: string | undefined = undefined
+  if (pathname.startsWith("/docs")) {
+    let pn = pathname.substring(5)
+    if (pn.startsWith("/")) {
+      pn = pn.substring(1)
+    }
+    if (pn.endsWith("/")) {
+      pn = pn.substring(0, pn.length - 1)
+    }
+
+    let vfs = versionFromSlug(pn)
+    pathVersion = vfs.version
+    slug = vfs.slug
+  }
+
   let onValueChange = useCallback(
     (newVersion: string) => {
       // navigate to another docs page if necessary
-      if (pathname.startsWith("/docs")) {
-        let pn = pathname.substring(5)
-        if (pn.startsWith("/")) {
-          pn = pn.substring(1)
+      if (slug !== undefined && pathVersion !== newVersion) {
+        let toc = makeToc(newVersion)
+        let index = makeIndex(toc)
+
+        let nv = newVersion
+        if (newVersion === latestRelease.version) {
+          nv = ""
         }
-        if (pn.endsWith("/")) {
-          pn = pn.substring(0, pn.length - 1)
+
+        // navigate now
+        if (index[slug] !== undefined) {
+          router.push(["/docs", nv, slug].filter(s => s !== "").join("/"))
+        } else {
+          router.push(["/docs", nv].filter(s => s !== "").join("/"))
         }
 
-        let { version, slug } = versionFromSlug(pn)
-        if (version !== newVersion) {
-          let toc = makeToc(newVersion)
-          let index = makeIndex(toc)
-
-          let nv = newVersion
-          if (newVersion === latestRelease.version) {
-            nv = ""
-          }
-
-          // navigate now - the docs page will update the store
-          if (index[slug] !== undefined) {
-            router.push(["/docs", nv, slug].filter(s => s !== "").join("/"))
-          } else {
-            router.push(["/docs", nv].filter(s => s !== "").join("/"))
-          }
-
-          return
-        }
+        return
       }
 
       // if we haven't navigated away, update the store now
       setVersion(newVersion)
     },
-    [pathname, router, setVersion],
+    [pathVersion, slug, router, setVersion],
   )
 
   return (
@@ -95,8 +103,11 @@ const VersionSwitcher = ({ bg }: VersionSwitcherProps) => {
           },
         )}
       >
-        <Select.Value placeholder="Select a version" aria-label={version}>
-          {version}
+        <Select.Value
+          placeholder="Select a version"
+          aria-label={pathVersion ?? version}
+        >
+          {pathVersion ?? version}
         </Select.Value>
         <Select.Icon>
           <CaretDown />
