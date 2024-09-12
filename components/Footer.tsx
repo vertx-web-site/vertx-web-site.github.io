@@ -100,14 +100,14 @@ const Footer = () => {
   ]
 
   const menu2 = [
-    <Link key="faq" href="/faq/">
-      FAQ
-    </Link>,
-    <Link key="channels" href="/channels/">
+    <Link key="channels" href="/resources/#channels">
       Channels
     </Link>,
+    <Link key="faq" href="/resources/#faq">
+      FAQ
+    </Link>,
     <a key="howtos" href="https://how-to.vertx.io/">
-      How-To’s
+      How-Tos
     </a>,
     <a key="appgenerator" href="https://start.vertx.io/">
       App Generator

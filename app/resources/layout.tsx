@@ -2,11 +2,11 @@ import Container from "@/components/Container"
 import Footer from "@/components/Footer"
 import NavBar from "@/components/NavBar"
 
-const BlogLayout = ({ children }: { children: React.ReactNode }) => {
+const ResourcesLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       <NavBar />
-      <Container id="blog-layout" width="xl" className="mt-24">
+      <Container width="xl" className="mt-24">
         {children}
       </Container>
       <Footer />
@@ -14,4 +14,4 @@ const BlogLayout = ({ children }: { children: React.ReactNode }) => {
   )
 }
 
-export default BlogLayout
+export default ResourcesLayout

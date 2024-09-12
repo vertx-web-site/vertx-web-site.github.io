@@ -261,7 +261,7 @@ const NavBar = ({ fixed = true, narrow = false }: NavBarProps) => {
       title: "Vert.x User Group",
       content: (
         <Link
-          href="https://groups.google.com/forum/?fromgroups#!forum/vertx"
+          href="https://groups.google.com/g/vertx"
           className="group"
           aria-label="Vert.x User Group"
           target="_blank"
