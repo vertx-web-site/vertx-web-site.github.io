@@ -5,7 +5,6 @@ import fs from "fs/promises"
 import { convert } from "html-to-text"
 import os from "os"
 import pMap from "p-map"
-import path from "path"
 
 interface Entry {
   slug: string
@@ -43,7 +42,7 @@ function nodeToString($node: cheerio.Cheerio<cheerio.Element>) {
   })
 
   // cleanup
-  text = text.replace(/\r/gm, "").replace(/^\n+/gm, "")
+  text = text.replace(/\r/gm, "").replace(/^\n+/gm, "").trim()
 
   return text
 }
