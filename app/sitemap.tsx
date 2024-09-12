@@ -1,5 +1,8 @@
-// TODO
-// import { Toc } from "@/components/docs/Toc"
+import allPosts from "@/.generated/allposts.json"
+import { isExternal, makeToc } from "@/components/docs/Toc"
+import { latestRelease, versions } from "@/docs/metadata/all"
+import { filterLatestBugfixVersions } from "@/docs/metadata/helpers"
+import dayjs from "dayjs"
 import { MetadataRoute } from "next"
 
 // HEADS UP: since we're using `output: export`, this page only works during
@@ -9,21 +12,38 @@ import { MetadataRoute } from "next"
 const root = `https://vertx.io${process.env.__NEXT_ROUTER_BASEPATH}`
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  // const docPages = Toc.flatMap(chapter => {
-  //   return chapter.pages.map(page => {
-  //     let slug = page.slug
-  //     if (slug !== "") {
-  //       slug += "/"
-  //     }
-  //     return {
-  //       url: `${root}/docs/${slug}`,
-  //       lastModified: new Date(),
-  //     }
-  //   })
-  // })
-  const docPages: any[] = []
+  let docPages: MetadataRoute.Sitemap = []
 
-  // TODO update pages!
+  let filteredVersions = filterLatestBugfixVersions(versions)
+  for (let version of filteredVersions) {
+    let toc = makeToc(version)
+    for (let chapter of toc) {
+      let filteredPages = chapter.pages.filter(page => !isExternal(page.slug))
+      for (let page of filteredPages) {
+        let slug = page.slug
+        if (slug !== "") {
+          slug += "/"
+        }
+        let v = ""
+        if (version !== latestRelease.version) {
+          v = `${version}/`
+        }
+        docPages.push({
+          url: `${root}/docs/${v}${slug}`,
+          lastModified: new Date(),
+        })
+      }
+    }
+  }
+
+  let blogPages: MetadataRoute.Sitemap = []
+  for (let post of allPosts) {
+    blogPages.push({
+      url: `${root}/blog/${post.slug}`,
+      lastModified: dayjs(post.date, { utc: true }).toDate(),
+    })
+  }
+
   return [
     {
       url: `${root}/`,
@@ -33,6 +53,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: `${root}/community/`,
       lastModified: new Date(),
     },
+    {
+      url: `${root}/download`,
+      lastModified: new Date(),
+    },
+    {
+      url: `${root}/resources`,
+      lastModified: new Date(),
+    },
     ...docPages,
+    ...blogPages,
   ]
 }
