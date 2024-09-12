@@ -98,8 +98,6 @@ const NavBar = ({ fixed = true, narrow = false }: NavBarProps) => {
   const [visible, setVisible] = useState(false)
   const [collapsed, setCollapsed] = useState(false)
   const [onTop, setOnTop] = useState(true)
-  // TODO
-  // const { theme } = useTheme()
   const pathname = usePathname()
   const { version } = useVersion()
 
@@ -366,14 +364,6 @@ const NavBar = ({ fixed = true, narrow = false }: NavBarProps) => {
                 <div className="border-r border-gray-300 pr-4">
                   <QuickSearch />
                 </div>
-                {/* TODO */}
-                {/* <Tooltip
-                  content={theme === "dark" ? "Light mode" : "Dark mode"}
-                >
-                  <div className="flex">
-                    <DarkModeToggle id="dark-mode-toggle1" />
-                  </div>
-                </Tooltip> */}
                 <div className="flex items-center gap-3">
                   {socialIcons.map(si => (
                     <Tooltip key={si.title} content={si.title}>
@@ -411,8 +401,6 @@ const NavBar = ({ fixed = true, narrow = false }: NavBarProps) => {
                   ))}
                 </div>
                 <div className="mt-8 flex items-center justify-end gap-3 px-4">
-                  {/* TODO */}
-                  {/* <DarkModeToggle id="dark-mode-toggle2" /> */}
                   {socialIcons.map(si => si.content)}
                 </div>
                 <div className="mt-4 flex justify-end px-4 xs:hidden">

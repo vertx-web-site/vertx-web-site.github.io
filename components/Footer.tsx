@@ -1,6 +1,7 @@
 "use client"
 
 import * as Accordion from "@radix-ui/react-accordion"
+import DarkModeToggle from "./DarkModeToggle"
 import { useVersion } from "./hooks/useVersion"
 import { latestRelease } from "@/docs/metadata/all"
 import { CaretDown } from "@phosphor-icons/react/dist/ssr"
@@ -136,21 +137,21 @@ const Footer = () => {
   ]
 
   return (
-    <footer className="mt-24 border-t border-gray-300 bg-gray-100 px-4 py-16 text-sm leading-6 text-gray-600 md:px-8 lg:px-16 hover:[&_a]:text-primary hover:[&_a]:underline [&_h5]:mb-6 [&_h5]:text-base [&_h5]:font-normal [&_h5]:uppercase [&_h5]:leading-none">
+    <footer className="mt-24 border-t border-gray-300 bg-gray-100 px-4 py-16 text-sm leading-6 text-gray-600 md:px-8 hover:[&_a]:text-primary hover:[&_a]:underline [&_h5]:mb-6 [&_h5]:text-base [&_h5]:font-normal [&_h5]:uppercase [&_h5]:leading-none">
       <div className="mx-auto flex max-w-screen-xl flex-col gap-20">
-        <div className="flex flex-col items-center gap-10 md:flex-row md:items-start md:gap-12 lg:gap-16 xl:gap-20">
+        <div className="flex flex-col items-center gap-10 lg:flex-row lg:items-start lg:gap-12 xl:gap-20">
           <div className="max-w-[50%]">
             <Link href="/">
               <img
                 width={150}
                 src={require("../assets/logo.svg")}
                 alt="Vert.x Logo"
-                className="opacity-50 saturate-0 transition-all hover:opacity-100 hover:saturate-100 md:max-w-fit"
+                className="opacity-50 saturate-0 transition-all hover:opacity-100 hover:saturate-100 lg:max-w-fit"
               />
             </Link>
           </div>
 
-          <div className="hidden md:block">
+          <div className="hidden lg:block">
             <h5>Eclipse Vert.x</h5>
             <ul className="leading-loose">
               {menu1.map(item => (
@@ -159,7 +160,7 @@ const Footer = () => {
             </ul>
           </div>
 
-          <div className="hidden md:block">
+          <div className="hidden lg:block">
             <h5>Resources</h5>
             <ul className="leading-loose">
               {menu2.map(item => (
@@ -168,7 +169,7 @@ const Footer = () => {
             </ul>
           </div>
 
-          <div className="hidden md:block">
+          <div className="hidden lg:block">
             <h5>Eclipse</h5>
             <ul className="leading-loose">
               {menu3.map(item => (
@@ -178,7 +179,7 @@ const Footer = () => {
           </div>
 
           <Accordion.Root
-            className="w-[90%] sm:w-[80%] md:hidden"
+            className="w-[90%] sm:w-[80%] lg:hidden"
             type="single"
             collapsible
           >
@@ -215,6 +216,9 @@ const Footer = () => {
               </AccordionContent>
             </AccordionItem>
           </Accordion.Root>
+          <div className="flex flex-1 justify-end">
+            <DarkModeToggle />
+          </div>
         </div>
 
         <div className="mx-auto flex max-w-[80%] flex-col-reverse items-center justify-between gap-10 text-center md:mx-0 md:max-w-none md:flex-row md:gap-20 md:text-left">
