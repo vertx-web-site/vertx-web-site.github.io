@@ -85,8 +85,8 @@ const Footer = () => {
         Docs
       </Link>
     ),
-    <Link key="download" href="/download/">
-      Download
+    <Link key="faq" href="/docs/faq">
+      FAQ
     </Link>,
     <Link key="blog" href="/blog/">
       Blog
@@ -100,11 +100,11 @@ const Footer = () => {
   ]
 
   const menu2 = [
+    <Link key="download" href="/download/">
+      Download
+    </Link>,
     <Link key="channels" href="/resources/#channels">
       Channels
-    </Link>,
-    <Link key="faq" href="/resources/#faq">
-      FAQ
     </Link>,
     <a key="howtos" href="https://how-to.vertx.io/">
       How-Tos

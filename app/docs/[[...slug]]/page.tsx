@@ -1,3 +1,4 @@
+import Faq from "./faq.mdx"
 import Label from "@/components/Label"
 import { Chapter, isExternal, makeIndex, makeToc } from "@/components/docs/Toc"
 import VersionGuard from "@/components/docs/VersionGuard"
@@ -135,6 +136,8 @@ const DocsPage = async ({ params }: DocsPageProps) => {
     Content = () => <GetStarted />
   } else if (slug === "intro-to-reactive") {
     Content = () => <IntroToReactive />
+  } else if (slug === "faq") {
+    Content = () => <Faq />
   } else {
     let data = require(
       `../../../docs/compiled/${slug === "" ? activeVersion : `${activeVersion}/${slug}`}/index.json`,

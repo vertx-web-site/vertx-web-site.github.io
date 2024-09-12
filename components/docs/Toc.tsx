@@ -124,6 +124,42 @@ const introductionChapter: Chapter = {
     },
     {
       type: "page",
+      title: "FAQ",
+      slug: "faq",
+      edit: "https://github.com/vertx-web-site/vertx-web-site.github.io/blob/master/app/docs/%5B%5B...slug%5D%5D/faq.mdx",
+      includeBook: true,
+      sections: [
+        {
+          type: "section",
+          title: "The logActivity option is enabled, but nothing is logged",
+          slug: "the-logactivity-option-is-enabled-but-nothing-is-logged",
+          page: "faq",
+        },
+        {
+          type: "section",
+          title:
+            "If Vert.x is clustered, what happens to event-bus messages if a node crashes?",
+          slug: "if-vertx-is-clustered-what-happens-to-event-bus-messages-if-a-node-crashes",
+          page: "faq",
+        },
+        {
+          type: "section",
+          title:
+            "Why doesn’t my event-bus consumer pickup messages sent previously?",
+          slug: "why-doesnt-my-event-bus-consumer-pickup-messages-sent-previously",
+          page: "faq",
+        },
+        {
+          type: "section",
+          title: "How to use the JVM built-in address resolver?",
+          slug: "how-to-use-the-jvm-built-in-address-resolver",
+          page: "faq",
+        },
+      ],
+      chapter: "introduction",
+    },
+    {
+      type: "page",
       title: "App generator",
       slug: "https://start.vertx.io/",
       sections: [],

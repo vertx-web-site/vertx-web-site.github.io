@@ -9,6 +9,7 @@ import fs from "fs"
 import JSON5 from "json5"
 import svgToMiniDataURI from "mini-svg-data-uri"
 import rehypePrettyCode from "rehype-pretty-code"
+import rehypeSlug from "rehype-slug"
 import remarkFrontmatter from "remark-frontmatter"
 import remarkGfm from "remark-gfm"
 import remarkSmartypants from "remark-smartypants"
@@ -50,6 +51,7 @@ const withMDX = nextMDX({
           keepBackground: false,
         },
       ],
+      rehypeSlug,
     ],
   },
 })
