@@ -125,10 +125,12 @@ const DocsPage = async ({ params }: DocsPageProps) => {
   let label = undefined
   let parentChapter = undefined
   let examples = undefined
+  let includeApidocs = true
   if (entry.type === "page") {
     parentChapter = index[entry.chapter]
     label = entry.label
     examples = entry.examples
+    includeApidocs = entry.includeApidocs ?? true
   }
 
   let Content: () => JSX.Element
@@ -199,19 +201,21 @@ const DocsPage = async ({ params }: DocsPageProps) => {
                 <div>Examples</div>
               </Link>
             ) : undefined}
-            <Link
-              href={
-                version !== undefined
-                  ? `/docs/${version}/apidocs`
-                  : "/docs/apidocs"
-              }
-              className="flex flex-row items-center gap-1"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Book />
-              <div>API docs</div>
-            </Link>
+            {includeApidocs ? (
+              <Link
+                href={
+                  version !== undefined
+                    ? `/docs/${version}/apidocs`
+                    : "/docs/apidocs"
+                }
+                className="flex flex-row items-center gap-1"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Book />
+                <div>API docs</div>
+              </Link>
+            ) : undefined}
           </div>
         </div>
       ) : undefined}
