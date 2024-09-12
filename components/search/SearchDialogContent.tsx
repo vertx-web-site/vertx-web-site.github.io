@@ -42,8 +42,6 @@ async function createIndex(
   version: string,
   tocIndex: ReturnType<typeof makeIndex>,
 ): Promise<MiniSearch> {
-  // TODO will be called too often (memoization does not work, check network tab)
-
   let response = await fetch(
     `${process.env.__NEXT_ROUTER_BASEPATH}/docs/${version}/index.json`,
     {
