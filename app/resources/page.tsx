@@ -1,7 +1,12 @@
 import Card from "@/components/Card"
 import SimpleIcon from "@/components/SimpleIcon"
 import { Book, SlidersHorizontal } from "@phosphor-icons/react/dist/ssr"
+import { Metadata } from "next"
 import { siDiscord, siGooglemessages, siStackoverflow } from "simple-icons"
+
+export const metadata: Metadata = {
+  title: "Resources",
+}
 
 const Resources = () => {
   return (

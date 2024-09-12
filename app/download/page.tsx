@@ -2,6 +2,11 @@ import Content from "./download.mdx"
 import Container from "@/components/Container"
 import Footer from "@/components/Footer"
 import NavBar from "@/components/NavBar"
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Download",
+}
 
 const Download = () => {
   return (
