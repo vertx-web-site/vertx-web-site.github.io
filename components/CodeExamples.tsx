@@ -67,6 +67,12 @@ const CodeExamples = ({
             className={clsx(
               "[&_pre]:m-2",
               active === ex.props.title ? "flex" : "hidden",
+              {
+                // Avoid flickering when dark theme is enabled in production
+                // mode. This basically hides the shadow of the tabs which
+                // otherwise overlaps the code.
+                "relative z-10 bg-bg-code": shadow,
+              },
             )}
           >
             {ex}
