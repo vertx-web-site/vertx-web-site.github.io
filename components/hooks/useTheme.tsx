@@ -1,5 +1,5 @@
 import { Mutate, StoreApi, UseBoundStore, create } from "zustand"
-import { persist } from "zustand/middleware"
+import { StorageValue, persist } from "zustand/middleware"
 
 export type Theme = "light" | "dark"
 export type ConfiguredTheme = Theme | "system"
@@ -37,7 +37,33 @@ export const useConfiguredTheme = create<ConfiguredThemeState>()(
       configuredTheme: "system",
       setConfiguredTheme: configuredTheme => set(_ => ({ configuredTheme })),
     }),
-    { name: "vertx-theme" },
+    {
+      name: "vertx-theme",
+      storage: {
+        getItem(name: string): StorageValue<ConfiguredThemeState> | null {
+          let ct = localStorage.getItem(name)
+          let theme: ConfiguredTheme
+          if (ct === "dark" || ct === "light" || ct === "system") {
+            theme = ct
+          } else {
+            theme = "system"
+          }
+          return {
+            state: {
+              configuredTheme: theme,
+            },
+          } as StorageValue<ConfiguredThemeState>
+        },
+
+        setItem(name: string, value: StorageValue<ConfiguredThemeState>) {
+          localStorage.setItem(name, value.state.configuredTheme)
+        },
+
+        removeItem(name: string) {
+          localStorage.removeItem(name)
+        },
+      },
+    },
   ),
 )
 

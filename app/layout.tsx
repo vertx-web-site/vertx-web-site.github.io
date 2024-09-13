@@ -44,11 +44,11 @@ export default function RootLayout({
       className={clsx(`${roboto.variable} ${dejaVuFont.variable}`)}
     >
       <head>
-        {/* <script
+        <script
           dangerouslySetInnerHTML={{
             __html: `
               try {
-                if (localStorage.theme === "dark" || (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+                if (localStorage["vertx-theme"] === "dark" || ((!("vertx-theme" in localStorage) || localStorage["vertx-theme"] === "system") && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
                   document.documentElement.classList.add("dark")
                 } else {
                   document.documentElement.classList.remove("dark")
@@ -56,7 +56,7 @@ export default function RootLayout({
               } catch (_) {}
             `,
           }}
-        /> */}
+        />
         <link rel="icon" type="image/x-icon" href="/favicon.ico" />
         <link
           rel="icon"
