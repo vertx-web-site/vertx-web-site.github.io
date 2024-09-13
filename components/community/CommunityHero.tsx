@@ -11,11 +11,12 @@ const CommunityHero = () => (
     <Container className="mb-32 mt-16 flex flex-row justify-between">
       <div className="mx-auto pt-4 lg:mx-0">
         <div className="text-center text-[2.8rem] leading-tight lg:text-left">
-          <strong className="text-pretty font-medium">
+          <strong className="text-pretty font-medium dark:text-white">
             Without our community,
           </strong>
           <br />
-          we are <strong className="font-medium">nothing</strong>.
+          we are{" "}
+          <strong className="font-medium dark:text-white">nothing</strong>.
         </div>
       </div>
       <div className="hidden lg:block">

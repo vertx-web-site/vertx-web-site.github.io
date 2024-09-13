@@ -21,7 +21,7 @@ const FeaturesItem = ({
 
   return (
     <div className={clsx("prose hyphens-auto text-justify", className)}>
-      <div className="flex flex-row items-center justify-start gap-x-4 md:flex-col">
+      <div className="flex flex-row items-center justify-start gap-x-4 dark:text-gray-700 md:flex-col">
         <div className="flex justify-center">
           {cloneElement(newIcon, {
             ...newIcon.props,

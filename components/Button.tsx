@@ -17,7 +17,7 @@ const Button = ({ icon, primary, className, children }: ButtonProps) => (
       {
         "bg-primary hover:bg-primary-hover dark:bg-primary/10 dark:text-gray-700 dark:shadow-primary dark:hover:bg-primary-hover/15 dark:hover:text-gray-900 dark:hover:shadow-primary-hover":
           primary,
-        "bg-gray-600 hover:bg-gray-700 dark:bg-gray-600/0 dark:text-gray-400 dark:shadow-gray-400 dark:hover:text-gray-800 dark:hover:shadow-gray-800":
+        "bg-gray-600 hover:bg-gray-700 dark:bg-gray-600/0 dark:text-gray-500 dark:shadow-gray-500 dark:hover:text-gray-800 dark:hover:shadow-gray-800":
           !primary,
       },
       className,

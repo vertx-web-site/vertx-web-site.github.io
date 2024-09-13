@@ -37,7 +37,7 @@ const BlogIndex = ({ category, page, postsPerPage }: BlogIndexProps) => {
     <main>
       {pinnedPosts !== undefined ? (
         <div className="mb-20 mt-8">
-          <h2 className="mb-6 flex flex-row items-center gap-2 text-xl font-normal">
+          <h2 className="mb-6 flex flex-row items-center gap-2 text-xl font-normal dark:text-gray-800">
             <PushPin size="1.75em" />
             <div>Pinned posts</div>
           </h2>
@@ -48,7 +48,7 @@ const BlogIndex = ({ category, page, postsPerPage }: BlogIndexProps) => {
       ) : undefined}
       {releasesPosts !== undefined ? (
         <div className="mb-20">
-          <h2 className="mb-6 flex flex-row items-center gap-2 text-xl font-normal">
+          <h2 className="mb-6 flex flex-row items-center gap-2 text-xl font-normal dark:text-gray-800">
             <Package size="1.75em" />
             <div>Latest releases</div>
           </h2>
@@ -61,7 +61,7 @@ const BlogIndex = ({ category, page, postsPerPage }: BlogIndexProps) => {
         </div>
       ) : undefined}
       {pinnedPosts !== undefined || releasesPosts !== undefined ? (
-        <h2 className="mb-6 flex flex-row items-center gap-2 text-xl font-normal">
+        <h2 className="mb-6 flex flex-row items-center gap-2 text-xl font-normal dark:text-gray-800">
           <Article size="1.75em" />
           <div>Other posts</div>
         </h2>

@@ -354,7 +354,7 @@ const Community = async () => {
       <NavBar fixed={false} />
       <CommunityHero />
       <Container>
-        <div className="text-pretty text-center text-3xl">
+        <div className="text-pretty text-center text-3xl dark:text-gray-700">
           Eclipse Vert.x is made with ❤️ by the following people
         </div>
         {fullTimeDevelopers !== undefined && (
