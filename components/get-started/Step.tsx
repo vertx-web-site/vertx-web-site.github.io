@@ -9,7 +9,7 @@ interface StepProps {
 const Step = ({ n, id, children }: StepProps) => {
   return (
     <h2 className="mt-10 inline-flex items-center gap-3" id={id}>
-      <span className="inline-flex aspect-square h-12 w-12 items-center justify-center rounded-sm bg-primary text-4xl leading-none text-white">
+      <span className="inline-flex aspect-square h-12 w-12 items-center justify-center rounded-sm bg-primary-area text-4xl leading-none text-white">
         {n}
       </span>
       {children}

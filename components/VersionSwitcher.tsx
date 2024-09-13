@@ -99,7 +99,8 @@ const VersionSwitcher = ({ bg }: VersionSwitcherProps) => {
           "inline-flex select-none flex-row items-center gap-1 whitespace-nowrap rounded-sm px-3 py-1 text-xs text-gray-700 transition-colors",
           {
             "border border-gray-200 bg-gray-100": bg === "gray",
-            "border border-primary/5 bg-primary/5": bg === "primary",
+            "border border-primary/5 bg-primary/5 dark:bg-primary/10":
+              bg === "primary",
           },
         )}
       >
@@ -118,7 +119,7 @@ const VersionSwitcher = ({ bg }: VersionSwitcherProps) => {
           onCloseAutoFocus={e => e.preventDefault()}
           position="popper"
           sideOffset={5}
-          className="z-50 overflow-hidden rounded-sm bg-white shadow"
+          className="z-50 overflow-hidden rounded-sm bg-bg shadow dark:border dark:border-gray-200"
         >
           <Select.ScrollUpButton className="flex h-6 cursor-default items-center justify-center bg-bg text-sm text-text">
             <CaretUp />

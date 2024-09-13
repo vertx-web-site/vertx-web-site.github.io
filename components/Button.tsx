@@ -5,15 +5,22 @@ import { ReactElement, ReactNode, cloneElement } from "react"
 interface ButtonProps {
   icon?: ReactElement<IconProps>
   primary?: boolean
+  className?: string
   children: ReactNode
 }
 
-const Button = ({ icon, primary, children }: ButtonProps) => (
+const Button = ({ icon, primary, className, children }: ButtonProps) => (
   <button
     className={clsx(
-      "flex cursor-pointer flex-row items-center gap-2 rounded-sm bg-gray-600 py-2 text-white transition-colors hover:bg-gray-700",
+      "flex cursor-pointer flex-row items-center gap-2 rounded-sm py-2 text-bg transition-all dark:[box-shadow:inset_0px_0px_0px_2px_var(--tw-shadow-color)]",
       icon ? "pl-6 pr-7" : "px-6",
-      { "bg-primary hover:bg-primary-hover": primary },
+      {
+        "bg-primary hover:bg-primary-hover dark:bg-primary/10 dark:text-gray-700 dark:shadow-primary dark:hover:bg-primary-hover/15 dark:hover:text-gray-900 dark:hover:shadow-primary-hover":
+          primary,
+        "bg-gray-600 hover:bg-gray-700 dark:bg-gray-600/0 dark:text-gray-400 dark:shadow-gray-400 dark:hover:text-gray-800 dark:hover:shadow-gray-800":
+          !primary,
+      },
+      className,
     )}
   >
     {icon ? (

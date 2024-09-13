@@ -26,7 +26,7 @@ const CodeExamples = ({
 
   return (
     <div>
-      <div className="flex flex-row text-white">
+      <div className="inline-flex flex-row text-white dark:overflow-hidden dark:rounded-t-sm dark:border-l dark:border-r dark:border-t dark:border-bg-code">
         {childrenArr.map((ex, i) => (
           <div
             className={clsx(
@@ -35,8 +35,8 @@ const CodeExamples = ({
                 ? "bg-bg-code"
                 : "bg-bg-code-tab-inactive hover:bg-bg-code-tab-hover",
               {
-                "rounded-tl-sm": i === 0,
-                "rounded-tr-sm": i === childrenArr.length - 1,
+                "rounded-tl-sm dark:rounded-none": i === 0,
+                "rounded-tr-sm dark:rounded-none": i === childrenArr.length - 1,
                 "flex-1 text-center": wide,
               },
             )}

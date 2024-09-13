@@ -59,6 +59,7 @@ module.exports = {
       "bg-code-tab-inactive": withOpacity("color-bg-code-tab-inactive"),
       "bg-code-tab-hover": withOpacity("color-bg-code-tab-hover"),
       "bg-code-highlighted": withOpacity("color-bg-code-highlighted"),
+      "primary-area": withOpacity("color-primary-area"),
       primary: withOpacity("color-primary"),
       "primary-hover": withOpacity("color-primary-hover"),
       alert: withOpacity("color-alert"),

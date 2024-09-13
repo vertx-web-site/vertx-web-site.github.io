@@ -1,6 +1,7 @@
 :root {
   color-scheme: light;
 
+  --color-primary-area: 120 43 144;
   --color-primary: 120 43 144;
   --color-primary-hover: 87 31 105;
 
@@ -38,30 +39,29 @@
 .dark {
   color-scheme: dark;
 
-  /* colors from Chakra UI (https://github.com/chakra-ui/chakra-ui)
-     released under the MIT license. Copyright (c) 2019 Segun Adebayo
-     (slightly modified) */
-
-  --color-primary: 66 153 225;
-  --color-primary-hover: 144 205 244;
+  --color-primary-area: 191 68 230;
+  --color-primary: 211 75 255;
+  --color-primary-hover: 219 110 255;
 
   --color-alert: 245 101 101;
 
-  --color-gray-100: 45 55 72;
-  --color-gray-200: 74 85 104;
-  --color-gray-300: 113 128 150;
-  --color-gray-400: 160 174 192;
-  --color-gray-500: 203 213 224;
-  --color-gray-600: 226 232 240;
-  --color-gray-700: 237 242 247;
-  --color-gray-800: 247 250 252;
-  --color-gray-900: 250 252 255;
+  --color-gray-100: 62 45 72;
+  --color-gray-200: 93 74 104;
+  --color-gray-300: 135 113 150;
+  --color-gray-400: 178 160 192;
+  --color-gray-500: 215 203 224;
+  --color-gray-600: 234 226 240;
+  --color-gray-700: 242 237 247;
+  --color-gray-800: 250 247 252;
+  --color-gray-900: 253 250 255;
 
-  --color-bg: 23 25 35;
-  --color-bg-secondary: 20 18 16;
+  --color-bg: 31 23 35;
+  --color-bg-secondary: 19 20 16;
   --color-bg-ternary: var(--color-gray-700);
   --color-bg-code: var(--color-gray-100);
   --color-bg-code-highlighted: 53 66 86;
+  --color-bg-code-tab-inactive: 26 16 16;
+  --color-bg-code-tab-hover: 42 28 46;
 
   --color-text: var(--color-gray-500);
   --color-code: var(--color-gray-300);

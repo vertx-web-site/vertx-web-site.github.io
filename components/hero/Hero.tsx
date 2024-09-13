@@ -1,4 +1,3 @@
-import { latestRelease } from "../../docs/metadata/all"
 import Button from "../Button"
 import Container from "../Container"
 import MainCodeExamples from "./MainCodeExamples"
@@ -24,7 +23,7 @@ const Hero = ({}: HeroProps) => (
         <div className="mx-auto max-w-3xl text-center xl:mx-0 xl:max-w-[580px] xl:text-left">
           {/* slogan */}
           <div className="text-[2.8rem] font-light leading-tight">
-            <span className="mb-4 block font-medium text-black xl:mb-0 xl:inline-block">
+            <span className="mb-4 block font-medium text-black dark:text-white xl:mb-0 xl:inline-block">
               Eclipse Vert.x
               <span className="font-light">&trade;</span>
             </span>{" "}

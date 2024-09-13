@@ -146,7 +146,13 @@ const Footer = () => {
                 width={150}
                 src={require("../assets/logo.svg")}
                 alt="Vert.x Logo"
-                className="opacity-50 saturate-0 transition-all hover:opacity-100 hover:saturate-100 lg:max-w-fit"
+                className="opacity-50 saturate-0 transition-all hover:opacity-100 hover:saturate-100 dark:hidden lg:max-w-fit"
+              />
+              <img
+                width={150}
+                src={require("../assets/logo-white.svg")}
+                alt="Vert.x Logo"
+                className="hidden opacity-70 saturate-0 transition-all hover:opacity-100 hover:saturate-100 dark:block lg:max-w-fit"
               />
             </Link>
           </div>
@@ -267,7 +273,13 @@ const Footer = () => {
                 src={require("../assets/eclipse-foundation-logo.svg")}
                 alt="Eclipse foundation Logo"
                 width={200}
-                className="opacity-50 saturate-0 transition-all hover:opacity-100 hover:saturate-100 md:max-w-fit"
+                className="opacity-50 saturate-0 transition-all hover:opacity-100 hover:saturate-100 dark:hidden md:max-w-fit"
+              />
+              <img
+                src={require("../assets/eclipse-foundation-logo-dark.svg")}
+                alt="Eclipse foundation Logo"
+                width={200}
+                className="hidden opacity-70 saturate-0 transition-all hover:opacity-100 hover:saturate-100 dark:inline md:max-w-fit"
               />
             </a>
           </div>

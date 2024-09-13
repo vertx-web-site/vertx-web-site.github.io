@@ -21,7 +21,7 @@ const SearchDialog = ({ open, onClose }: SearchDialogProps) => {
     >
       <Dialog.Portal>
         <Dialog.Overlay
-          className="fixed inset-0 z-[90] bg-black/20 backdrop-blur-sm [&[data-state='closed']]:animate-fade-out [&[data-state='open']]:animate-fade-in"
+          className="fixed inset-0 z-[90] bg-black/20 backdrop-blur-sm dark:bg-black/50 [&[data-state='closed']]:animate-fade-out [&[data-state='open']]:animate-fade-in"
           aria-hidden="true"
         />
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">

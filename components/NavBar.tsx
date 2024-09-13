@@ -76,7 +76,7 @@ const Logo = ({ onClick }: LogoProps) => {
         alt="Logo"
       />
       <img
-        src={require("../assets/logo.svg")}
+        src={require("../assets/logo-white.svg")}
         className="hidden h-8 w-fit dark:block"
         width={1706.4}
         height={532.9}

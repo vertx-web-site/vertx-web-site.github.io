@@ -69,7 +69,7 @@ const SearchResultListItem = forwardRef<
           <div className="font-normal">{item.title}</div>
           {contextTitle !== undefined ? (
             <>
-              <div className="flex flex-row items-baseline gap-1 whitespace-nowrap text-xs text-gray-600 group-[.active]:text-gray-400">
+              <div className="flex flex-row items-baseline gap-1 whitespace-nowrap text-xs text-gray-600 group-[.active]:text-gray-400 dark:group-[.active]:text-gray-600">
                 <CaretLeft size=".75em" /> {contextTitle}
               </div>
             </>

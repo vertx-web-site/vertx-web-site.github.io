@@ -131,7 +131,7 @@ const LOGO_ELEMENTS = LOGOS.map(logo => (
     href={logo.url}
     target="_blank"
     rel="noopener noreferrer"
-    className="h-full w-auto opacity-75 saturate-0 transition-all hover:opacity-100 hover:saturate-100"
+    className="h-full w-auto opacity-75 saturate-0 transition-all hover:opacity-100 hover:saturate-100 dark:invert dark:hover:saturate-0"
   >
     <img className="h-full w-auto max-w-max" src={logo.logo} alt={logo.name} />
   </a>
