@@ -94,7 +94,7 @@ const MainCodeExamples = () => {
 
   return (
     <div className="main-code-examples">
-      <CodeExamples smallText>
+      <CodeExamples smallText shadow>
         <CodeExample title="Java">
           <div ref={javaRef} className="opacity-0">
             <Java />

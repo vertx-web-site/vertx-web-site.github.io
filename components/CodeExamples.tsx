@@ -11,6 +11,7 @@ interface CodeExampleProps {
 interface CodeExamplesProps {
   wide?: boolean
   smallText?: boolean
+  shadow?: boolean
   children: ReactElement<CodeExampleProps> | ReactElement<CodeExampleProps>[]
 }
 
@@ -19,6 +20,7 @@ export const CodeExample = ({ children }: CodeExampleProps) => <>{children}</>
 const CodeExamples = ({
   wide = false,
   smallText = false,
+  shadow = false,
   children,
 }: CodeExamplesProps) => {
   const childrenArr = Array.isArray(children) ? children : [children]
@@ -26,7 +28,12 @@ const CodeExamples = ({
 
   return (
     <div>
-      <div className="inline-flex flex-row text-white dark:overflow-hidden dark:rounded-t-sm dark:border-l dark:border-r dark:border-t dark:border-bg-code">
+      <div
+        className={clsx(
+          "inline-flex flex-row text-white dark:overflow-hidden dark:rounded-t-sm dark:border-l dark:border-r dark:border-t dark:border-bg-code",
+          { "dark:shadow-xl dark:shadow-black/20": shadow },
+        )}
+      >
         {childrenArr.map((ex, i) => (
           <div
             className={clsx(
@@ -51,6 +58,7 @@ const CodeExamples = ({
         className={clsx("rounded-b-sm bg-bg-code", {
           "text-sm": smallText,
           "rounded-tr-sm": !wide,
+          "dark:shadow-xl dark:shadow-black/20": shadow,
         })}
       >
         {childrenArr.map(ex => (
