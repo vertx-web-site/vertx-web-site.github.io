@@ -46,9 +46,18 @@ Change the code as follows:
 <CodeExamples className="not-prose">
 <CodeExample title="Java">
 ```java
+package com.example.starter;
+
+import io.vertx.core.AbstractVerticle;
+import io.vertx.core.MultiMap;
+import io.vertx.core.Promise;
+import io.vertx.core.json.JsonObject;
+import io.vertx.ext.web.Router;
+
 public class MainVerticle extends AbstractVerticle {
+
   @Override
-  public void start() throws Exception {
+  public void start(Promise<Void> startPromise) throws Exception {
     // Create a Router
     Router router = Router.router(vertx);
 
@@ -74,12 +83,16 @@ public class MainVerticle extends AbstractVerticle {
       .requestHandler(router)
       // Start listening
       .listen(8888)
-      // Print the port
-      .onSuccess(server ->
-        System.out.println(
-          "HTTP server started on port " + server.actualPort()
-        )
-      );
+      // Print the port on success
+      .onSuccess(server -> {
+        System.out.println("HTTP server started on port " + server.actualPort());
+        startPromise.complete();
+      })
+      // Print the problem on failure
+      .onFailure(throwable -> {
+        throwable.printStackTrace();
+        startPromise.fail(throwable);
+      });
   }
 }
 ```
