@@ -71,10 +71,11 @@ export async function generateMetadata(
     let post = allPosts.find(p => p.slug === postId)
     if (post !== undefined) {
       c.push(post.title)
+      result.metadataBase = new URL(process.env.baseUrl!)
       result.openGraph = {
         images: [
           {
-            url: `${process.env.__NEXT_ROUTER_BASEPATH}/images/previews/${post.slug}.jpg`,
+            url: `/images/previews/${post.slug}.jpg`,
             width: 1600,
             height: 836,
             alt: "Vert.x",
