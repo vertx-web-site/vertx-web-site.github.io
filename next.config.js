@@ -13,6 +13,7 @@ import rehypeSlug from "rehype-slug"
 import remarkFrontmatter from "remark-frontmatter"
 import remarkGfm from "remark-gfm"
 import remarkSmartypants from "remark-smartypants"
+import { createLoader } from "simple-functional-loader"
 
 // generate post metadata once per build and before the build starts
 generateAllPosts()
@@ -111,7 +112,22 @@ const config = {
     config.module.rules.push({
       test: /\.svg$/i,
       resourceQuery: /react/,
-      use: "react-svg-loader",
+      use: [
+        "react-svg-loader",
+        createLoader(function (source) {
+          // set font weight
+          source = source.replaceAll(
+            /font-family:\s*?Roboto-Regular[^";]*;?/g,
+            "font-weight:400;$&",
+          )
+
+          // remove font-family
+          source = source.replaceAll(/font-family="[^"]*"/g, "")
+          source = source.replaceAll(/font-family:[^";]*;?/g, "")
+
+          return source
+        }),
+      ],
     })
 
     config.module.rules.push({
