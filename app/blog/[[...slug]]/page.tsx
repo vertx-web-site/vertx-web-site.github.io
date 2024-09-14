@@ -59,6 +59,7 @@ export async function generateMetadata(
   let { category, page, postId } = parseSlug(params.slug)
 
   let c = []
+  let result: Metadata = {}
   if (postId === undefined && page !== undefined) {
     if (category !== undefined) {
       c.push(startCase(category))
@@ -70,13 +71,23 @@ export async function generateMetadata(
     let post = allPosts.find(p => p.slug === postId)
     if (post !== undefined) {
       c.push(post.title)
+      result.openGraph = {
+        images: [
+          {
+            url: `${process.env.__NEXT_ROUTER_BASEPATH}/images/previews/${post.slug}.jpg`,
+            width: 1600,
+            height: 836,
+            alt: "Vert.x",
+          },
+        ],
+      }
     }
   }
   c.push("Blog")
 
-  return {
-    title: c.join(" | "),
-  }
+  result.title = c.join(" | ")
+
+  return result
 }
 
 export async function generateStaticParams() {

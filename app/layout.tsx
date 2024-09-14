@@ -76,6 +76,13 @@ export default function RootLayout({
           sizes="48x48"
           href={`${process.env.__NEXT_ROUTER_BASEPATH}/favicons/favicon-48x48.png`}
         />
+        <link rel="alternate" type="application/rss+xml" href="/feed/rss.xml" />
+        <link
+          rel="alternate"
+          type="application/atom+xml"
+          href="/feed/atom.xml"
+        />
+        <link rel="alternate" type="application/json" href="/feed/feed.json" />
       </head>
       <body>
         <ClientTooltipProvider>{children}</ClientTooltipProvider>
