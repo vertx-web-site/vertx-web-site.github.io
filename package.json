@@ -101,6 +101,7 @@
     "@types/webpack-env": "^1.18.5",
     "eslint-webpack-plugin": "^4.2.0",
     "favicons": "^7.2.0",
+    "image-size": "^1.1.1",
     "npm-check-updates": "^17.1.1",
     "simple-functional-loader": "^1.2.1"
   }

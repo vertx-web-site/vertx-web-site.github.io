@@ -2,6 +2,7 @@ import generateAllPosts from "./components/lib/generate-all-posts.js"
 import generateFeed from "./components/lib/generate-feed.js"
 import generateRemarkOgImages from "./components/lib/generate-ogimages.js"
 import generateRelatedPosts from "./components/lib/generate-related-posts.js"
+import rehypeImageSize from "./components/lib/rehype-image-size.js"
 import nextBundleAnalyzer from "@next/bundle-analyzer"
 import nextMDX from "@next/mdx"
 import ESLintPlugin from "eslint-webpack-plugin"
@@ -53,6 +54,7 @@ const withMDX = nextMDX({
         },
       ],
       rehypeSlug,
+      rehypeImageSize,
     ],
   },
 })
