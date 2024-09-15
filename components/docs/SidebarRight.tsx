@@ -133,9 +133,10 @@ const SidebarRight = ({ className, activeSection }: SidebarRightProps) => {
               <div className="mb-3">
                 <img
                   src={require("@/assets/book-cover.jpg")}
-                  width="200"
+                  width="400"
+                  height="502"
                   alt="Vert.x in Action book cover"
-                  className="rounded-sm border border-gray-200"
+                  className="max-w-44 rounded-sm border border-gray-200"
                 />
               </div>
               <div className="text-gray-600">

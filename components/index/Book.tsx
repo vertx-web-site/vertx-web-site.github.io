@@ -59,18 +59,14 @@ const Book = () => {
         </div>
 
         <div className="mt-12 flex flex-col gap-10 sm:flex-row">
-          <div className="flex justify-center sm:w-96">
-            <a
-              href={URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex"
-            >
+          <div className="flex items-start justify-center sm:w-96">
+            <a href={URL} target="_blank" rel="noopener noreferrer">
               <img
                 src={require("../../assets/book-cover.jpg")}
-                width="200"
+                width="400"
+                height="502"
                 alt="Vert.x in Action book cover"
-                className="rounded-sm border border-gray-200"
+                className="max-w-44 rounded-sm border border-gray-200"
               />
             </a>
           </div>
