@@ -1,0 +1,3 @@
+[submodule "docs/extra/advanced-vertx-guide"]
+	path = docs/extra/advanced-vertx-guide
+	url = https://github.com/vert-x3/advanced-vertx-guide.git

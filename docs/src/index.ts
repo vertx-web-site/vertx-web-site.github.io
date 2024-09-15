@@ -94,6 +94,7 @@ async function main() {
   } else {
     asciidoctorBarLength = metadata.length
   }
+  asciidoctorBarLength += 1 // for extras
   let asciidoctorBar = multibar.create(asciidoctorBarLength * 100, 0, {
     message: "Compile Asciidoc",
     asciidoc: true,
@@ -129,11 +130,13 @@ async function main() {
       },
     }
 
-    // download artifact
-    await downloadLimit(() => {
-      return download(artifactVersion, progressListener)
-    })
-    progressListener.stop()
+    if (version !== "extra") {
+      // download artifact
+      await downloadLimit(() => {
+        return download(artifactVersion, progressListener)
+      })
+      progressListener.stop()
+    }
 
     // check if asciidoc for this version has already been compiled
     let asciidocCompiled = await isCompiled(
@@ -153,16 +156,18 @@ async function main() {
     }
 
     // extract artifact
-    await extractLimit(() => {
-      return extract(
-        version,
-        artifactVersion,
-        progressListener,
-        latestBugfixVersion === undefined && asciidocCompiled,
-        latestBugfixVersion,
-      )
-    })
-    progressListener.stop()
+    if (version !== "extra") {
+      await extractLimit(() => {
+        return extract(
+          version,
+          artifactVersion,
+          progressListener,
+          latestBugfixVersion === undefined && asciidocCompiled,
+          latestBugfixVersion,
+        )
+      })
+      progressListener.stop()
+    }
 
     // create symlink to latest apidocs
     if (version === latestRelease.version) {
@@ -236,6 +241,7 @@ async function main() {
 
   try {
     let promises = []
+
     for (let m of metadata) {
       let parsedVersion = parseVersion(m.version)
       let latestBugfixVersion = latestBugfixVersions.find(lbv => {
@@ -259,6 +265,10 @@ async function main() {
         ),
       )
     }
+
+    // compile extras
+    promises.push(run("extra", "extra", undefined))
+
     await Promise.all(promises)
   } finally {
     await fs.close(asciidoctorLog)

@@ -130,7 +130,12 @@ async function workerMain({
     },
   }
 
-  let extractedPath = `extracted/${version}`
+  let extractedPath: string
+  if (version !== "extra") {
+    extractedPath = `extracted/${version}`
+  } else {
+    extractedPath = "extra"
+  }
   let destVersionPath = path.join(compiledPath, version)
   await fs.mkdir(destVersionPath, { recursive: true })
 
@@ -215,13 +220,15 @@ async function workerMain({
 
   // write sha file to indicate that the documentation for this version
   // has been completely compiled
-  await writeCompiledSha(
-    version,
-    artifactVersion,
-    downloadPath,
-    compiledPath,
-    isLatestBugfixVersion,
-  )
+  if (version !== "extra") {
+    await writeCompiledSha(
+      version,
+      artifactVersion,
+      downloadPath,
+      compiledPath,
+      isLatestBugfixVersion,
+    )
+  }
 
   if (lastProgress < 100) {
     progressPort.postMessage(100)

@@ -30,6 +30,12 @@ export async function isCompiled(
   compiledPath: string,
   isLatestBugfixVersion: boolean,
 ): Promise<boolean> {
+  if (version === "extra") {
+    // always recompile extras
+    // TODO is it possible to avoid this?
+    return false
+  }
+
   let sourceSha = await getSourceSha(artifactVersion, downloadPath)
   let compiledSha = makeCompiledSha(sourceSha, isLatestBugfixVersion)
 
