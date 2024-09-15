@@ -66,30 +66,29 @@ const VersionSwitcher = ({ bg }: VersionSwitcherProps) => {
 
   let onValueChange = useCallback(
     (newVersion: string) => {
-      // navigate to another docs page if necessary
-      if (slug !== undefined && pathVersion !== newVersion) {
-        let toc = makeToc(newVersion)
-        let index = makeIndex(toc)
-
-        let nv = newVersion
-        if (newVersion === latestRelease.version) {
-          nv = ""
-        }
-
-        // navigate now
-        if (index[slug] !== undefined) {
-          router.push(["/docs", nv, slug].filter(s => s !== "").join("/"))
-        } else {
-          router.push(["/docs", nv].filter(s => s !== "").join("/"))
-        }
-
-        return
+      let nv = newVersion
+      if (newVersion === latestRelease.version) {
+        nv = ""
       }
 
-      // if we haven't navigated away, update the store now
-      setVersion(newVersion)
+      let p: string[]
+      if (slug !== undefined && pathVersion !== newVersion) {
+        // navigate to another docs page if necessary
+        let toc = makeToc(newVersion)
+        let index = makeIndex(toc)
+        if (index[slug] !== undefined) {
+          p = ["/docs", nv, slug]
+        } else {
+          p = ["/docs", nv]
+        }
+      } else {
+        // navigate to docs index
+        p = ["/docs", nv]
+      }
+
+      router.push(p.filter(s => s !== "").join("/"))
     },
-    [pathVersion, slug, router, setVersion],
+    [pathVersion, slug, router],
   )
 
   return (
