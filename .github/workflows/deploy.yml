@@ -38,6 +38,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: master
+          submodules: recursive
 
       # Remove more unnecessary tools. We should have about 52GB of free disk space after this.
       # See https://github.com/apache/flink/blob/master/tools/azure-pipelines/free_disk_space.sh
