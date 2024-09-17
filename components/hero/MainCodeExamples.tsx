@@ -1,7 +1,6 @@
 "use client"
 
 import CodeExamples, { CodeExample } from "../CodeExamples"
-import Groovy from "./MainCodeExamplesGroovy.mdx"
 import Java from "./MainCodeExamplesJava.mdx"
 import Kotlin from "./MainCodeExamplesKotlin.mdx"
 import { useEffect, useRef } from "react"
@@ -102,9 +101,6 @@ const MainCodeExamples = () => {
         </CodeExample>
         <CodeExample title="Kotlin">
           <Kotlin />
-        </CodeExample>
-        <CodeExample title="Groovy">
-          <Groovy />
         </CodeExample>
       </CodeExamples>
     </div>
