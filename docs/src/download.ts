@@ -54,8 +54,8 @@ async function downloadFile(
   }
 }
 
-async function getSnapshotUrl(version: string) {
-  let baseUrl = `https://s01.oss.sonatype.org/content/repositories/snapshots/io/vertx/vertx-stack-docs/${version}/`
+async function getSnapshotUrl(artifactName: string, version: string) {
+  let baseUrl = `https://s01.oss.sonatype.org/content/repositories/snapshots/io/vertx/${artifactName}/${version}/`
   let metadataUrl = `${baseUrl}maven-metadata.xml`
 
   let res = await fetch(metadataUrl)
@@ -66,26 +66,30 @@ async function getSnapshotUrl(version: string) {
   let metadataText = await res.text()
   let metadata = await xml2js.parseStringPromise(metadataText)
 
-  return `${baseUrl}vertx-stack-docs-${metadata.metadata.versioning[0].snapshotVersions[0].snapshotVersion[0].value[0]}-docs.zip`
+  return `${baseUrl}${artifactName}-${metadata.metadata.versioning[0].snapshotVersions[0].snapshotVersion[0].value[0]}-docs.zip`
 }
 
-async function download(version: string, progressListener: ProgressListener) {
+async function download(
+  artifactName: string,
+  version: string,
+  progressListener: ProgressListener,
+) {
   let url
   if (version.endsWith("-SNAPSHOT")) {
-    url = await getSnapshotUrl(version)
+    url = await getSnapshotUrl(artifactName, version)
   } else {
-    url = `${repoUrl}/io/vertx/vertx-stack-docs/${version}/vertx-stack-docs-${version}-docs.zip`
+    url = `${repoUrl}/io/vertx/${artifactName}/${version}/${artifactName}-${version}-docs.zip`
   }
 
   await fs.mkdir(downloadPath, { recursive: true })
 
   let shaFilePath = path.join(
     downloadPath,
-    `vertx-stack-docs-${version}-docs.zip.sha1`,
+    `${artifactName}-${version}-docs.zip.sha1`,
   )
   let zipFilePath = path.join(
     downloadPath,
-    `vertx-stack-docs-${version}-docs.zip`,
+    `${artifactName}-${version}-docs.zip`,
   )
 
   await downloadFile(`${url}.sha1`, shaFilePath, version, undefined)

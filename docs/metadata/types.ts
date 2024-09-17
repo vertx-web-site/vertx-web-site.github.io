@@ -17,6 +17,11 @@ export interface Doc {
   label?: string
 }
 
+export interface GuidesDoc extends Doc {
+  artifactName: string
+  artifactVersion: string
+}
+
 export interface Docs {
   categories: Category[]
   entries: Doc[]

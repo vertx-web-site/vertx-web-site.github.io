@@ -122,12 +122,12 @@ const DocsPage = async ({ params }: DocsPageProps) => {
 
   let entry = index[slug]
 
-  let label = undefined
-  let parentChapter = undefined
-  let examples = undefined
+  let label: string | undefined = undefined
+  let parentChapter: Chapter | undefined = undefined
+  let examples: string | undefined = undefined
   let includeApidocs = true
   if (entry.type === "page") {
-    parentChapter = index[entry.chapter]
+    parentChapter = index[entry.chapter] as Chapter
     label = entry.label
     examples = entry.examples
     includeApidocs = entry.includeApidocs ?? true
@@ -141,9 +141,15 @@ const DocsPage = async ({ params }: DocsPageProps) => {
   } else if (slug === "faq") {
     Content = () => <Faq />
   } else {
-    let data = require(
-      `../../../docs/compiled/${slug === "" ? activeVersion : `${activeVersion}/${slug}`}/index.json`,
-    )
+    let sourcePath: string
+    if (parentChapter?.slug === "guides") {
+      sourcePath = `${slug}/java`
+    } else if (slug === "") {
+      sourcePath = activeVersion
+    } else {
+      sourcePath = `${activeVersion}/${slug}`
+    }
+    let data = require(`../../../docs/compiled/${sourcePath}/index.json`)
     let contents = data.contents
 
     let extendedh1 = undefined

@@ -135,6 +135,7 @@ async function extractEntry(
 
 async function extract(
   version: string,
+  artifactName: string,
   artifactVersion: string,
   progressListener: ProgressListener | undefined,
   apidocsOnly: boolean,
@@ -159,6 +160,7 @@ async function extract(
   if (apidocsOnly && sevenExists) {
     await extract7zApidocsOnly(
       version,
+      artifactName,
       artifactVersion,
       progressListener,
       latestBugfixVersion,
@@ -167,6 +169,7 @@ async function extract(
   } else {
     await extractInternal(
       version,
+      artifactName,
       artifactVersion,
       progressListener,
       apidocsOnly,
@@ -179,6 +182,7 @@ async function extract(
 
 async function extractInternal(
   version: string,
+  artifactName: string,
   artifactVersion: string,
   progressListener: ProgressListener | undefined,
   apidocsOnly: boolean,
@@ -189,7 +193,7 @@ async function extractInternal(
   await new Promise<void>((resolve, reject) => {
     let zipFilePath = path.join(
       downloadPath,
-      `vertx-stack-docs-${artifactVersion}-docs.zip`,
+      `${artifactName}-${artifactVersion}-docs.zip`,
     )
     yauzl.open(zipFilePath, { lazyEntries: true }, (err, zipfile) => {
       if (err) {
@@ -227,6 +231,7 @@ async function extractInternal(
 
 async function extract7zApidocsOnly(
   version: string,
+  artifactName: string,
   artifactVersion: string,
   progressListener: ProgressListener | undefined,
   latestBugfixVersion: string | undefined,
@@ -234,7 +239,7 @@ async function extract7zApidocsOnly(
 ) {
   let zipFilePath = path.join(
     downloadPath,
-    `vertx-stack-docs-${artifactVersion}-docs.zip`,
+    `${artifactName}-${artifactVersion}-docs.zip`,
   )
   if (latestBugfixVersion === undefined) {
     await new Promise<void>((resolve, reject) => {

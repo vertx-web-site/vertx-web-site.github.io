@@ -100,11 +100,13 @@ function parseToc(
 
 async function workerMain({
   version,
+  artifactName,
   artifactVersion,
   isLatestBugfixVersion,
   progressPort,
 }: {
   version: string
+  artifactName: string
   artifactVersion: string
   isLatestBugfixVersion: boolean
   progressPort: MessagePort
@@ -137,6 +139,7 @@ async function workerMain({
   if (
     await isCompiled(
       version,
+      artifactName,
       artifactVersion,
       downloadPath,
       compiledPath,
@@ -217,6 +220,7 @@ async function workerMain({
   // has been completely compiled
   await writeCompiledSha(
     version,
+    artifactName,
     artifactVersion,
     downloadPath,
     compiledPath,

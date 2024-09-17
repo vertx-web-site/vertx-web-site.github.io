@@ -3,12 +3,13 @@ import fs from "node:fs/promises"
 import path from "node:path"
 
 async function getSourceSha(
-  version: string,
+  artifactName: string,
+  artifactVersion: string,
   downloadPath: string,
 ): Promise<string> {
   let sourceShaFile = path.join(
     downloadPath,
-    `vertx-stack-docs-${version}-docs.zip.sha1`,
+    `${artifactName}-${artifactVersion}-docs.zip.sha1`,
   )
   let sourceSha = await fs.readFile(sourceShaFile, "utf-8")
   return sourceSha
@@ -25,12 +26,17 @@ function makeCompiledSha(
 
 export async function isCompiled(
   version: string,
+  artifactName: string,
   artifactVersion: string,
   downloadPath: string,
   compiledPath: string,
   isLatestBugfixVersion: boolean,
 ): Promise<boolean> {
-  let sourceSha = await getSourceSha(artifactVersion, downloadPath)
+  let sourceSha = await getSourceSha(
+    artifactName,
+    artifactVersion,
+    downloadPath,
+  )
   let compiledSha = makeCompiledSha(sourceSha, isLatestBugfixVersion)
 
   let destShaFile = path.join(compiledPath, version, `${version}.sha1`)
@@ -47,12 +53,17 @@ export async function isCompiled(
 
 export async function writeCompiledSha(
   version: string,
+  artifactName: string,
   artifactVersion: string,
   downloadPath: string,
   compiledPath: string,
   isLatestBugfixVersion: boolean,
 ) {
-  let sourceSha = await getSourceSha(artifactVersion, downloadPath)
+  let sourceSha = await getSourceSha(
+    artifactName,
+    artifactVersion,
+    downloadPath,
+  )
   let compiledSha = makeCompiledSha(sourceSha, isLatestBugfixVersion)
   let destShaFile = path.join(compiledPath, version, `${version}.sha1`)
   await fs.writeFile(destShaFile, compiledSha)

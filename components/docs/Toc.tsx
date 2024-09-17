@@ -1,4 +1,5 @@
 import { metadata } from "@/docs/metadata/all"
+import guides from "@/docs/metadata/guides"
 
 export interface Chapter {
   readonly type: "chapter"
@@ -172,6 +173,47 @@ const introductionChapter: Chapter = {
   ],
 }
 
+export function makeSections(
+  sourcePath: string,
+  pageSlug: string,
+): Section[] | undefined {
+  let data = require(`../../docs/compiled/${sourcePath}/index.toc.json`)
+  if (data.toc === undefined) {
+    return undefined
+  }
+
+  let sections: Section[] = []
+
+  for (let s of data.toc) {
+    let subsections: Subsection[] | undefined = undefined
+    let sectionSlug = `${pageSlug}${s.id}`
+
+    if (s.children !== undefined) {
+      subsections = []
+
+      for (let ss of s.children) {
+        subsections.push({
+          title: ss.title,
+          type: "subsection",
+          slug: `${pageSlug}${ss.id}`,
+          page: pageSlug,
+          section: sectionSlug,
+        })
+      }
+    }
+
+    sections.push({
+      title: s.title,
+      type: "section",
+      slug: sectionSlug,
+      page: pageSlug,
+      subsections,
+    })
+  }
+
+  return sections
+}
+
 export function makeToc(version: string): Chapter[] {
   let release = metadata.find(m => m.version === version)
   if (release === undefined) {
@@ -180,6 +222,38 @@ export function makeToc(version: string): Chapter[] {
 
   let result: Chapter[] = [introductionChapter]
 
+  // add guides
+  let guidesPages: Page[] = []
+  for (let guide of guides) {
+    let pageSlug = guide.href
+    if (pageSlug.startsWith("/")) {
+      pageSlug = pageSlug.substring(1)
+    }
+    if (pageSlug.endsWith("/")) {
+      pageSlug = pageSlug.substring(0, pageSlug.length - 1)
+    }
+
+    let sections = makeSections(`${guide.id}/java`, pageSlug)
+
+    guidesPages.push({
+      type: "page",
+      title: guide.name,
+      slug: pageSlug,
+      label: guide.label,
+      edit: guide.edit,
+      examples: guide.examples,
+      sections,
+      chapter: "guides",
+    })
+  }
+  result.push({
+    type: "chapter",
+    title: "Guides",
+    slug: "guides",
+    pages: guidesPages,
+  })
+
+  // add normal docs
   for (let category of release.metadata.categories) {
     let entries = release.metadata.entries.filter(
       e => e.category === category.id,
@@ -198,39 +272,7 @@ export function makeToc(version: string): Chapter[] {
       let sections: Section[] | undefined = undefined
 
       if (!isExternal(pageSlug)) {
-        let data = require(
-          `../../docs/compiled/${version}/${pageSlug}/index.toc.json`,
-        )
-        if (data.toc !== undefined) {
-          sections = []
-
-          for (let s of data.toc) {
-            let subsections: Subsection[] | undefined = undefined
-            let sectionSlug = `${pageSlug}${s.id}`
-
-            if (s.children !== undefined) {
-              subsections = []
-
-              for (let ss of s.children) {
-                subsections.push({
-                  title: ss.title,
-                  type: "subsection",
-                  slug: `${pageSlug}${ss.id}`,
-                  page: pageSlug,
-                  section: sectionSlug,
-                })
-              }
-            }
-
-            sections.push({
-              title: s.title,
-              type: "section",
-              slug: sectionSlug,
-              page: pageSlug,
-              subsections,
-            })
-          }
-        }
+        sections = makeSections(`${version}/${pageSlug}`, pageSlug)
       }
 
       pages.push({

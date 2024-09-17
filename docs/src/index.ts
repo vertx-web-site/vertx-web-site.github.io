@@ -1,4 +1,5 @@
 import { latestRelease, metadata, versions } from "../metadata/all"
+import guides from "../metadata/guides"
 import { filterLatestBugfixVersions, parseVersion } from "../metadata/helpers"
 import download from "./download"
 import extract from "./extract"
@@ -94,6 +95,7 @@ async function main() {
   } else {
     asciidoctorBarLength = metadata.length
   }
+  asciidoctorBarLength += guides.length
   let asciidoctorBar = multibar.create(asciidoctorBarLength * 100, 0, {
     message: "Compile Asciidoc",
     asciidoc: true,
@@ -101,6 +103,7 @@ async function main() {
 
   async function run(
     version: string,
+    artifactName: string,
     artifactVersion: string,
     latestBugfixVersion: string | undefined,
   ) {
@@ -131,13 +134,14 @@ async function main() {
 
     // download artifact
     await downloadLimit(() => {
-      return download(artifactVersion, progressListener)
+      return download(artifactName, artifactVersion, progressListener)
     })
     progressListener.stop()
 
     // check if asciidoc for this version has already been compiled
     let asciidocCompiled = await isCompiled(
       version,
+      artifactName,
       artifactVersion,
       downloadPath,
       compiledPath,
@@ -156,6 +160,7 @@ async function main() {
     await extractLimit(() => {
       return extract(
         version,
+        artifactName,
         artifactVersion,
         progressListener,
         latestBugfixVersion === undefined && asciidocCompiled,
@@ -200,6 +205,7 @@ async function main() {
       let messages = await piscina.run(
         {
           version,
+          artifactName,
           artifactVersion,
           isLatestBugfixVersion: true,
           progressPort: channel.port1,
@@ -223,6 +229,7 @@ async function main() {
       await fs.mkdir(path.join(compiledPath, version), { recursive: true })
       await writeCompiledSha(
         version,
+        artifactName,
         artifactVersion,
         downloadPath,
         compiledPath,
@@ -236,6 +243,7 @@ async function main() {
 
   try {
     let promises = []
+
     for (let m of metadata) {
       let parsedVersion = parseVersion(m.version)
       let latestBugfixVersion = latestBugfixVersions.find(lbv => {
@@ -254,11 +262,17 @@ async function main() {
       promises.push(
         run(
           m.version,
+          "vertx-stack-docs",
           m.metadata.artifactVersion || m.version,
           latestBugfixVersion,
         ),
       )
     }
+
+    for (let g of guides) {
+      promises.push(run(g.id, g.artifactName, g.artifactVersion, undefined))
+    }
+
     await Promise.all(promises)
   } finally {
     await fs.close(asciidoctorLog)
