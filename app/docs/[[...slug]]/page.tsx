@@ -126,15 +126,11 @@ const DocsPage = async ({ params }: DocsPageProps) => {
   let parentChapter = undefined
   let examples = undefined
   let includeApidocs = true
-  let sourcePath: string | undefined = undefined
   if (entry.type === "page") {
     parentChapter = index[entry.chapter]
     label = entry.label
     examples = entry.examples
     includeApidocs = entry.includeApidocs ?? true
-    if (entry.sourcePath !== undefined) {
-      sourcePath = entry.sourcePath
-    }
   }
 
   let Content: () => JSX.Element
@@ -145,15 +141,9 @@ const DocsPage = async ({ params }: DocsPageProps) => {
   } else if (slug === "faq") {
     Content = () => <Faq />
   } else {
-    let rp: string
-    if (sourcePath !== undefined) {
-      rp = sourcePath
-    } else if (slug === "") {
-      rp = activeVersion
-    } else {
-      rp = `${activeVersion}/${slug}`
-    }
-    let data = require(`../../../docs/compiled/${rp}/index.json`)
+    let data = require(
+      `../../../docs/compiled/${slug === "" ? activeVersion : `${activeVersion}/${slug}`}/index.json`,
+    )
     let contents = data.contents
 
     let extendedh1 = undefined

@@ -1,5 +1,4 @@
 import { metadata } from "@/docs/metadata/all"
-import { produce } from "immer"
 
 export interface Chapter {
   readonly type: "chapter"
@@ -12,7 +11,6 @@ export interface Page {
   readonly type: "page"
   readonly title: string
   readonly slug: string
-  readonly sourcePath?: string
   readonly label?: string
   readonly edit?: string
   readonly examples?: string
@@ -129,17 +127,6 @@ const introductionChapter: Chapter = {
     },
     {
       type: "page",
-      title: "Advanced Vert.x Guide",
-      slug: "advanced-vertx-guide",
-      sourcePath: "extra/advanced-vertx-guide/src/main/asciidoc",
-      edit: "https://github.com/vert-x3/advanced-vertx-guide",
-      includeBook: true,
-      includeApidocs: false,
-      sections: [],
-      chapter: "introduction",
-    },
-    {
-      type: "page",
       title: "FAQ",
       slug: "faq",
       edit: "https://github.com/vertx-web-site/vertx-web-site.github.io/blob/master/app/docs/%5B%5B...slug%5D%5D/faq.mdx",
@@ -185,102 +172,86 @@ const introductionChapter: Chapter = {
   ],
 }
 
-function makeSections(
-  relativePath: string,
-  pageSlug: string,
-): Section[] | undefined {
-  let data = require(`../../docs/compiled/${relativePath}/index.toc.json`)
-  if (data.toc === undefined) {
-    return undefined
-  }
-
-  let sections: Section[] = []
-
-  for (let s of data.toc) {
-    let subsections: Subsection[] | undefined = undefined
-    let sectionSlug = `${pageSlug}${s.id}`
-
-    if (s.children !== undefined) {
-      subsections = []
-
-      for (let ss of s.children) {
-        subsections.push({
-          title: ss.title,
-          type: "subsection",
-          slug: `${pageSlug}${ss.id}`,
-          page: pageSlug,
-          section: sectionSlug,
-        })
-      }
-    }
-
-    sections.push({
-      title: s.title,
-      type: "section",
-      slug: sectionSlug,
-      page: pageSlug,
-      subsections,
-    })
-  }
-
-  return sections
-}
-
 export function makeToc(version: string): Chapter[] {
   let release = metadata.find(m => m.version === version)
   if (release === undefined) {
     throw new Error(`Could not find metadata for version ${version}`)
   }
 
-  let result: Chapter[] = produce([introductionChapter], draft => {
-    for (let chapter of draft) {
-      for (let page of chapter.pages) {
-        if (page.sourcePath !== undefined) {
-          page.sections = makeSections(page.sourcePath, page.slug)
-        }
+  let result: Chapter[] = [introductionChapter]
+
+  for (let category of release.metadata.categories) {
+    let entries = release.metadata.entries.filter(
+      e => e.category === category.id,
+    )
+
+    let pages: Page[] = []
+    for (let e of entries) {
+      let pageSlug = e.href
+      if (pageSlug.startsWith("/")) {
+        pageSlug = pageSlug.substring(1)
       }
-    }
-
-    for (let category of release.metadata.categories) {
-      let entries = release.metadata.entries.filter(
-        e => e.category === category.id,
-      )
-
-      let pages: Page[] = []
-      for (let e of entries) {
-        let pageSlug = e.href
-        if (pageSlug.startsWith("/")) {
-          pageSlug = pageSlug.substring(1)
-        }
-        if (pageSlug.endsWith("/")) {
-          pageSlug = pageSlug.substring(0, pageSlug.length - 1)
-        }
-
-        let sections: Section[] | undefined = undefined
-        if (!isExternal(pageSlug)) {
-          sections = makeSections(`${version}/${pageSlug}`, pageSlug)
-        }
-
-        pages.push({
-          type: "page",
-          title: e.name,
-          slug: pageSlug,
-          label: e.label,
-          edit: e.edit,
-          examples: e.examples,
-          sections,
-          chapter: category.id,
-        })
+      if (pageSlug.endsWith("/")) {
+        pageSlug = pageSlug.substring(0, pageSlug.length - 1)
       }
 
-      draft.push({
-        type: "chapter",
-        title: category.name,
-        slug: category.id,
-        pages,
+      let sections: Section[] | undefined = undefined
+
+      if (!isExternal(pageSlug)) {
+        let data = require(
+          `../../docs/compiled/${version}/${pageSlug}/index.toc.json`,
+        )
+        if (data.toc !== undefined) {
+          sections = []
+
+          for (let s of data.toc) {
+            let subsections: Subsection[] | undefined = undefined
+            let sectionSlug = `${pageSlug}${s.id}`
+
+            if (s.children !== undefined) {
+              subsections = []
+
+              for (let ss of s.children) {
+                subsections.push({
+                  title: ss.title,
+                  type: "subsection",
+                  slug: `${pageSlug}${ss.id}`,
+                  page: pageSlug,
+                  section: sectionSlug,
+                })
+              }
+            }
+
+            sections.push({
+              title: s.title,
+              type: "section",
+              slug: sectionSlug,
+              page: pageSlug,
+              subsections,
+            })
+          }
+        }
+      }
+
+      pages.push({
+        type: "page",
+        title: e.name,
+        slug: pageSlug,
+        label: e.label,
+        edit: e.edit,
+        examples: e.examples,
+        sections,
+        chapter: category.id,
       })
     }
-  })
+
+    result.push({
+      type: "chapter",
+      title: category.name,
+      slug: category.id,
+      pages,
+    })
+  }
 
   return result
 }
