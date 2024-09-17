@@ -242,6 +242,7 @@ export function makeToc(version: string): Chapter[] {
       label: guide.label,
       edit: guide.edit,
       examples: guide.examples,
+      includeApidocs: false,
       sections,
       chapter: "guides",
     })
