@@ -422,7 +422,7 @@ const SearchDialogContent = ({ onClose }: SearchDialogContentProps) => {
 
   // initialize index in advance
   useEffect(() => {
-    let toc = makeToc(version)
+    let toc = makeToc(false, version)
     let tocIndex = makeIndex(toc)
     setIndex(undefined)
     setTocIndex(tocIndex)

@@ -34,9 +34,9 @@ export async function generateMetadata(
     fullSlug = ""
   }
 
-  let { version, slug } = versionFromSlug(fullSlug)
+  let { isGuides, version, slug } = versionFromSlug(fullSlug)
 
-  let toc = makeToc(version ?? latestRelease.version)
+  let toc = makeToc(isGuides, version ?? latestRelease.version)
   let index = makeIndex(toc)
 
   let entry = index[slug]
@@ -81,7 +81,8 @@ export async function generateStaticParams() {
       slug: [version],
     })
 
-    let toc = makeToc(version)
+    // add documentation
+    let toc = makeToc(false, version)
     for (let chapter of toc) {
       for (let page of chapter.pages) {
         if (isExternal(page.slug)) {
@@ -96,6 +97,15 @@ export async function generateStaticParams() {
         if (latestRelease.version === version) {
           params.push({ slug })
         }
+      }
+    }
+
+    // add guides
+    let guidesToc = makeToc(true, latestRelease.version)
+    for (let chapter of guidesToc) {
+      for (let page of chapter.pages) {
+        let slug = page.slug.split("/")
+        params.push({ slug: ["guides", ...slug] })
       }
     }
   }
@@ -114,10 +124,10 @@ const DocsPage = async ({ params }: DocsPageProps) => {
     fullSlug = ""
   }
 
-  const { version, slug } = versionFromSlug(fullSlug)
+  const { isGuides, version, slug } = versionFromSlug(fullSlug)
   const activeVersion = version ?? latestRelease.version
 
-  let toc = makeToc(activeVersion)
+  let toc = makeToc(isGuides, activeVersion)
   let index = makeIndex(toc)
 
   let entry = index[slug]
@@ -142,7 +152,7 @@ const DocsPage = async ({ params }: DocsPageProps) => {
     Content = () => <Faq />
   } else {
     let sourcePath: string
-    if (parentChapter?.slug === "guides") {
+    if (isGuides) {
       sourcePath = `${slug}/java`
     } else if (slug === "") {
       sourcePath = activeVersion

@@ -214,7 +214,7 @@ export function makeSections(
   return sections
 }
 
-export function makeToc(version: string): Chapter[] {
+function makeVersionToc(version: string): Chapter[] {
   let release = metadata.find(m => m.version === version)
   if (release === undefined) {
     throw new Error(`Could not find metadata for version ${version}`)
@@ -222,39 +222,6 @@ export function makeToc(version: string): Chapter[] {
 
   let result: Chapter[] = [introductionChapter]
 
-  // add guides
-  let guidesPages: Page[] = []
-  for (let guide of guides) {
-    let pageSlug = guide.href
-    if (pageSlug.startsWith("/")) {
-      pageSlug = pageSlug.substring(1)
-    }
-    if (pageSlug.endsWith("/")) {
-      pageSlug = pageSlug.substring(0, pageSlug.length - 1)
-    }
-
-    let sections = makeSections(`${guide.id}/java`, pageSlug)
-
-    guidesPages.push({
-      type: "page",
-      title: guide.name,
-      slug: pageSlug,
-      label: guide.label,
-      edit: guide.edit,
-      examples: guide.examples,
-      includeApidocs: false,
-      sections,
-      chapter: "guides",
-    })
-  }
-  result.push({
-    type: "chapter",
-    title: "Guides",
-    slug: "guides",
-    pages: guidesPages,
-  })
-
-  // add normal docs
   for (let category of release.metadata.categories) {
     let entries = release.metadata.entries.filter(
       e => e.category === category.id,
@@ -297,6 +264,50 @@ export function makeToc(version: string): Chapter[] {
   }
 
   return result
+}
+
+function makeGuidesToc(): Chapter[] {
+  let result: Chapter[] = []
+
+  let guidesPages: Page[] = []
+  for (let guide of guides) {
+    let pageSlug = guide.href
+    if (pageSlug.startsWith("/")) {
+      pageSlug = pageSlug.substring(1)
+    }
+    if (pageSlug.endsWith("/")) {
+      pageSlug = pageSlug.substring(0, pageSlug.length - 1)
+    }
+
+    let sections = makeSections(`${guide.id}/java`, pageSlug)
+
+    guidesPages.push({
+      type: "page",
+      title: guide.name,
+      slug: pageSlug,
+      label: guide.label,
+      edit: guide.edit,
+      examples: guide.examples,
+      includeApidocs: false,
+      sections,
+      chapter: "guides",
+    })
+  }
+  result.push({
+    type: "chapter",
+    title: "Guides",
+    slug: "guides",
+    pages: guidesPages,
+  })
+
+  return result
+}
+
+export function makeToc(isGuides: boolean, version: string): Chapter[] {
+  if (isGuides) {
+    return makeGuidesToc()
+  }
+  return makeVersionToc(version)
 }
 
 export function makeIndex(

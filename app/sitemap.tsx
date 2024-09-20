@@ -14,9 +14,10 @@ const root = `https://vertx.io${process.env.__NEXT_ROUTER_BASEPATH}`
 export default function sitemap(): MetadataRoute.Sitemap {
   let docPages: MetadataRoute.Sitemap = []
 
+  // add documentation
   let filteredVersions = filterLatestBugfixVersions(versions)
   for (let version of filteredVersions) {
-    let toc = makeToc(version)
+    let toc = makeToc(false, version)
     for (let chapter of toc) {
       let filteredPages = chapter.pages.filter(page => !isExternal(page.slug))
       for (let page of filteredPages) {
@@ -36,6 +37,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }
   }
 
+  // add guides
+  let toc = makeToc(true, latestRelease.version)
+  for (let chapter of toc) {
+    let filteredPages = chapter.pages.filter(page => !isExternal(page.slug))
+    for (let page of filteredPages) {
+      let slug = page.slug
+      docPages.push({
+        url: `${root}/docs/guides/${slug}/`,
+        lastModified: new Date(),
+      })
+    }
+  }
+
+  // add blog pages
   let blogPages: MetadataRoute.Sitemap = []
   for (let post of allPosts) {
     blogPages.push({

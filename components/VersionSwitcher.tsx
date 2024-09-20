@@ -48,6 +48,7 @@ const VersionSwitcher = ({ bg }: VersionSwitcherProps) => {
   // get current version from path - this prevents the drop down from flickering
   // (i.e. briefly showing the default version after navigation before switching
   // to the actual page version)
+  let isGuides = false
   let pathVersion: string | undefined = undefined
   let slug: string | undefined = undefined
   if (pathname.startsWith("/docs")) {
@@ -60,6 +61,7 @@ const VersionSwitcher = ({ bg }: VersionSwitcherProps) => {
     }
 
     let vfs = versionFromSlug(pn)
+    isGuides = vfs.isGuides
     pathVersion = vfs.version
     slug = vfs.slug
   }
@@ -74,7 +76,7 @@ const VersionSwitcher = ({ bg }: VersionSwitcherProps) => {
       let p: string[]
       if (slug !== undefined && pathVersion !== newVersion) {
         // navigate to another docs page if necessary
-        let toc = makeToc(newVersion)
+        let toc = makeToc(isGuides, newVersion)
         let index = makeIndex(toc)
         if (index[slug] !== undefined) {
           p = ["/docs", nv, slug]
@@ -88,7 +90,7 @@ const VersionSwitcher = ({ bg }: VersionSwitcherProps) => {
 
       router.push(p.filter(s => s !== "").join("/"))
     },
-    [pathVersion, slug, router],
+    [isGuides, pathVersion, slug, router],
   )
 
   return (

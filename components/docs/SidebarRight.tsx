@@ -35,9 +35,11 @@ const SidebarRight = ({ className, activeSection }: SidebarRightProps) => {
   const firstScroll = useRef<boolean>(true)
   const sidebarRef = useRef<HTMLDivElement>(null)
   const sectionsRef = useRef<HTMLUListElement>(null)
-  const { version, slug } = versionFromSlug(useSelectedLayoutSegment() ?? "")
+  const { isGuides, version, slug } = versionFromSlug(
+    useSelectedLayoutSegment() ?? "",
+  )
 
-  const toc = makeToc(version ?? latestRelease.version)
+  const toc = makeToc(isGuides, version ?? latestRelease.version)
   const index = makeIndex(toc)
 
   let entry = index[slug]
