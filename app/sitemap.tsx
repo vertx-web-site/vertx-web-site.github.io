@@ -17,7 +17,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   // add documentation
   let filteredVersions = filterLatestBugfixVersions(versions)
   for (let version of filteredVersions) {
-    let toc = makeToc(false, version)
+    let toc = makeToc("docs", version)
     for (let chapter of toc) {
       let filteredPages = chapter.pages.filter(page => !isExternal(page.slug))
       for (let page of filteredPages) {
@@ -37,16 +37,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }
   }
 
-  // add guides
-  let toc = makeToc(true, latestRelease.version)
-  for (let chapter of toc) {
-    let filteredPages = chapter.pages.filter(page => !isExternal(page.slug))
-    for (let page of filteredPages) {
-      let slug = page.slug
-      docPages.push({
-        url: `${root}/docs/guides/${slug}/`,
-        lastModified: new Date(),
-      })
+  // add howtos and guides
+  for (let t of ["howtos", "guides"] as const) {
+    let toc = makeToc(t, latestRelease.version)
+    for (let chapter of toc) {
+      let filteredPages = chapter.pages.filter(page => !isExternal(page.slug))
+      for (let page of filteredPages) {
+        let slug = page.slug
+        docPages.push({
+          url: `${root}/docs/${t}/${slug}/`,
+          lastModified: new Date(),
+        })
+      }
     }
   }
 

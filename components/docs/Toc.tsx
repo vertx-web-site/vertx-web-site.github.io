@@ -1,5 +1,6 @@
 import { metadata } from "@/docs/metadata/all"
 import guides from "@/docs/metadata/guides"
+import howtos from "@/docs/metadata/howtos"
 import { Doc, Docs, GuidesDocs } from "@/docs/metadata/types"
 
 export interface Chapter {
@@ -290,15 +291,26 @@ function makeVersionToc(version: string): Chapter[] {
   return result
 }
 
+function makeHowtosToc(): Chapter[] {
+  return makeChapters(howtos, false, ({ entry }) => `${entry.id}/java`)
+}
+
 function makeGuidesToc(): Chapter[] {
   return makeChapters(guides, false, ({ entry }) => `${entry.id}/java`)
 }
 
-export function makeToc(isGuides: boolean, version: string): Chapter[] {
-  if (isGuides) {
-    return makeGuidesToc()
+export function makeToc(
+  type: "docs" | "howtos" | "guides",
+  version: string,
+): Chapter[] {
+  switch (type) {
+    case "docs":
+      return makeVersionToc(version)
+    case "howtos":
+      return makeHowtosToc()
+    case "guides":
+      return makeGuidesToc()
   }
-  return makeVersionToc(version)
 }
 
 export function makeIndex(

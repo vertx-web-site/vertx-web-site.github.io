@@ -34,9 +34,9 @@ export async function generateMetadata(
     fullSlug = ""
   }
 
-  let { isGuides, version, slug } = versionFromSlug(fullSlug)
+  let { type, version, slug } = versionFromSlug(fullSlug)
 
-  let toc = makeToc(isGuides, version ?? latestRelease.version)
+  let toc = makeToc(type, version ?? latestRelease.version)
   let index = makeIndex(toc)
 
   let entry = index[slug]
@@ -82,7 +82,7 @@ export async function generateStaticParams() {
     })
 
     // add documentation
-    let toc = makeToc(false, version)
+    let toc = makeToc("docs", version)
     for (let chapter of toc) {
       for (let page of chapter.pages) {
         if (isExternal(page.slug)) {
@@ -100,12 +100,14 @@ export async function generateStaticParams() {
       }
     }
 
-    // add guides
-    let guidesToc = makeToc(true, latestRelease.version)
-    for (let chapter of guidesToc) {
-      for (let page of chapter.pages) {
-        let slug = page.slug.split("/")
-        params.push({ slug: ["guides", ...slug] })
+    // add howtos and guides
+    for (let t of ["howtos", "guides"] as const) {
+      let tt = makeToc(t, latestRelease.version)
+      for (let chapter of tt) {
+        for (let page of chapter.pages) {
+          let slug = page.slug.split("/")
+          params.push({ slug: [t, ...slug] })
+        }
       }
     }
   }
@@ -124,10 +126,10 @@ const DocsPage = async ({ params }: DocsPageProps) => {
     fullSlug = ""
   }
 
-  const { isGuides, version, slug } = versionFromSlug(fullSlug)
+  const { type, version, slug } = versionFromSlug(fullSlug)
   const activeVersion = version ?? latestRelease.version
 
-  let toc = makeToc(isGuides, activeVersion)
+  let toc = makeToc(type, activeVersion)
   let index = makeIndex(toc)
 
   let entry = index[slug]
@@ -152,7 +154,7 @@ const DocsPage = async ({ params }: DocsPageProps) => {
     Content = () => <Faq />
   } else {
     let sourcePath: string
-    if (isGuides) {
+    if (type === "howtos" || type === "guides") {
       sourcePath = `${slug}/java`
     } else if (slug === "") {
       sourcePath = activeVersion

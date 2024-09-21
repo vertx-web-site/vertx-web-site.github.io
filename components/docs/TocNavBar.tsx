@@ -12,11 +12,11 @@ interface TocNavBarProps {
 }
 
 const TocNavBar = ({ isOpen, setIsOpen }: TocNavBarProps) => {
-  const { isGuides, version, slug } = versionFromSlug(
+  const { type, version, slug } = versionFromSlug(
     useSelectedLayoutSegment() ?? "",
   )
 
-  const toc = makeToc(isGuides, version ?? latestRelease.version)
+  const toc = makeToc(type, version ?? latestRelease.version)
   const index = makeIndex(toc)
 
   return (

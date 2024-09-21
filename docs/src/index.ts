@@ -1,6 +1,7 @@
 import { latestRelease, metadata, versions } from "../metadata/all"
 import guides from "../metadata/guides"
 import { filterLatestBugfixVersions, parseVersion } from "../metadata/helpers"
+import howtos from "../metadata/howtos"
 import { Artifact } from "./artifact"
 import download from "./download"
 import extract from "./extract"
@@ -96,7 +97,7 @@ async function main() {
   } else {
     asciidoctorBarLength = metadata.length
   }
-  asciidoctorBarLength += guides.entries.length
+  asciidoctorBarLength += howtos.entries.length + guides.entries.length
   let asciidoctorBar = multibar.create(asciidoctorBarLength * 100, 0, {
     message: "Compile Asciidoc",
     asciidoc: true,
@@ -266,6 +267,10 @@ async function main() {
           latestBugfixVersion,
         ),
       )
+    }
+
+    for (let h of howtos.entries) {
+      promises.push(run(h.id, h.artifact, undefined))
     }
 
     for (let g of guides.entries) {

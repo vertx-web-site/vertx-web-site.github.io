@@ -41,14 +41,14 @@ const SelectItem = forwardRef<HTMLDivElement, SelectItemProps>(
 
 const VersionSwitcher = ({ bg }: VersionSwitcherProps) => {
   const filteredVersions = filterLatestBugfixVersions(versions)
-  const { setVersion, version } = useVersion()
+  const { version } = useVersion()
   const pathname = usePathname()
   const router = useRouter()
 
   // get current version from path - this prevents the drop down from flickering
   // (i.e. briefly showing the default version after navigation before switching
   // to the actual page version)
-  let isGuides = false
+  let type: "docs" | "howtos" | "guides" = "docs"
   let pathVersion: string | undefined = undefined
   let slug: string | undefined = undefined
   if (pathname.startsWith("/docs")) {
@@ -61,7 +61,7 @@ const VersionSwitcher = ({ bg }: VersionSwitcherProps) => {
     }
 
     let vfs = versionFromSlug(pn)
-    isGuides = vfs.isGuides
+    type = vfs.type
     pathVersion = vfs.version
     slug = vfs.slug
   }
@@ -76,7 +76,7 @@ const VersionSwitcher = ({ bg }: VersionSwitcherProps) => {
       let p: string[]
       if (slug !== undefined && pathVersion !== newVersion) {
         // navigate to another docs page if necessary
-        let toc = makeToc(isGuides, newVersion)
+        let toc = makeToc(type, newVersion)
         let index = makeIndex(toc)
         if (index[slug] !== undefined) {
           p = ["/docs", nv, slug]
@@ -90,7 +90,7 @@ const VersionSwitcher = ({ bg }: VersionSwitcherProps) => {
 
       router.push(p.filter(s => s !== "").join("/"))
     },
-    [isGuides, pathVersion, slug, router],
+    [type, pathVersion, slug, router],
   )
 
   return (

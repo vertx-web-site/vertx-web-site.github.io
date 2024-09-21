@@ -4,10 +4,12 @@ import { versionFromSlug } from "./versionFromSlug"
 import { isExternal, makeToc } from "@/components/docs/Toc"
 import { latestRelease } from "@/docs/metadata/all"
 import guides from "@/docs/metadata/guides"
+import howtos from "@/docs/metadata/howtos"
 import {
   ArrowSquareOut,
   GraduationCap,
   Notebook,
+  Signpost,
 } from "@phosphor-icons/react/dist/ssr"
 import clsx from "clsx"
 import Link from "next/link"
@@ -16,14 +18,14 @@ import React from "react"
 import { useEffect, useRef } from "react"
 
 function createToc(
-  isGuides: boolean,
+  type: "docs" | "howtos" | "guides",
   version: string | undefined,
   activeSlug: string,
   onClickLink?: () => void,
 ) {
   let actualVersion = version ?? latestRelease.version
   let result = []
-  let toc = makeToc(isGuides, actualVersion)
+  let toc = makeToc(type, actualVersion)
   for (let chapter of toc) {
     let titleSlug = chapter.slug
     result.push(
@@ -44,7 +46,7 @@ function createToc(
                   href={
                     ext
                       ? p.slug
-                      : `/docs/${isGuides ? "guides/" : ""}${version !== undefined ? `${version}/${p.slug}` : p.slug}`
+                      : `/docs/${type === "howtos" || type === "guides" ? `${type}/` : ""}${version !== undefined ? `${version}/${p.slug}` : p.slug}`
                   }
                   data-sidebar-page-slug={p.slug}
                   className="inline-flex flex-row flex-wrap items-center gap-2 hover:text-primary-hover"
@@ -86,11 +88,11 @@ interface SidebarLeftProps {
 const SidebarLeft = ({ className, sticky, onClickLink }: SidebarLeftProps) => {
   const sidebarRef = useRef<HTMLDivElement>(null)
   const sectionsRef = useRef<HTMLUListElement>(null)
-  const { isGuides, version, slug } = versionFromSlug(
+  const { type, version, slug } = versionFromSlug(
     useSelectedLayoutSegment() ?? "",
   )
 
-  let toc = createToc(isGuides, version, slug, onClickLink)
+  let toc = createToc(type, version, slug, onClickLink)
 
   useEffect(() => {
     if (sectionsRef.current === null || sidebarRef.current === null) {
@@ -116,14 +118,20 @@ const SidebarLeft = ({ className, sticky, onClickLink }: SidebarLeftProps) => {
   let books = [
     {
       title: "Documentation",
-      isGuides: false,
+      type: "docs",
       icon: <Notebook />,
       href: "/docs",
     },
     {
-      title: "Guides & How-tos",
-      isGuides: true,
+      title: "How-tos",
+      type: "howtos",
       icon: <GraduationCap />,
+      href: `/docs/howtos${howtos.entries[0].href}`,
+    },
+    {
+      title: "Guides",
+      type: "guides",
+      icon: <Signpost />,
       href: `/docs/guides${guides.entries[0].href}`,
     },
   ]
@@ -132,7 +140,7 @@ const SidebarLeft = ({ className, sticky, onClickLink }: SidebarLeftProps) => {
     <Sidebar ref={sidebarRef} className={className} sticky={sticky}>
       <ul className="mb-6 flex flex-col gap-3 border-b border-gray-200 pb-6 font-normal">
         {books.map(book => {
-          let active = book.isGuides === isGuides
+          let active = book.type === type
           return (
             <li key={book.title}>
               <Link

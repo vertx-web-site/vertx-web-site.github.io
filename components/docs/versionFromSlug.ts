@@ -1,20 +1,23 @@
 export function versionFromSlug(slug: string): {
-  isGuides: boolean
+  type: "docs" | "howtos" | "guides"
   version?: string
   slug: string
 } {
-  let isGuides = false
-  if (slug.startsWith("guides/")) {
-    isGuides = true
+  let type: "docs" | "howtos" | "guides" = "docs"
+  if (slug.startsWith("howtos/")) {
+    type = "howtos"
+    slug = slug.substring(7)
+  } else if (slug.startsWith("guides/")) {
+    type = "guides"
     slug = slug.substring(7)
   }
   let versionMatch = slug.match(/^(\d+\.\d+(\.\d+)?(-[^\/]+)?)(\/|$)/)
   if (versionMatch) {
     return {
-      isGuides,
+      type,
       version: versionMatch[1],
       slug: slug.substring(versionMatch[0].length),
     }
   }
-  return { isGuides, version: undefined, slug }
+  return { type, version: undefined, slug }
 }
