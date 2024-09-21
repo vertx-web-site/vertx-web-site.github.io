@@ -4,6 +4,8 @@ import * as Accordion from "@radix-ui/react-accordion"
 import DarkModeToggle from "./DarkModeToggle"
 import { useVersion } from "./hooks/useVersion"
 import { latestRelease } from "@/docs/metadata/all"
+import guides from "@/docs/metadata/guides"
+import howtos from "@/docs/metadata/howtos"
 import { CaretDown } from "@phosphor-icons/react/dist/ssr"
 import clsx from "clsx"
 import Link from "next/link"
@@ -86,8 +88,11 @@ const Footer = () => {
         Docs
       </Link>
     ),
-    <Link key="faq" href="/docs/faq">
-      FAQ
+    <Link key="how-tos" href={`/docs/howtos/${howtos.entries[0].id}`}>
+      How-tos
+    </Link>,
+    <Link key="guides" href={`/docs/guides/${guides.entries[0].id}`}>
+      Guides
     </Link>,
     <Link key="blog" href="/blog/">
       Blog
@@ -95,9 +100,6 @@ const Footer = () => {
     <Link key="community" href="/community/">
       Community
     </Link>,
-    <a key="github" href="https://github.com/eclipse-vertx/vert.x">
-      GitHub
-    </a>,
   ]
 
   const menu2 = [
@@ -107,8 +109,8 @@ const Footer = () => {
     <Link key="channels" href="/resources/#channels">
       Channels
     </Link>,
-    <a key="howtos" href="https://how-to.vertx.io/">
-      How-Tos
+    <a key="github" href="https://github.com/eclipse-vertx/vert.x">
+      GitHub
     </a>,
     <a key="appgenerator" href="https://start.vertx.io/">
       App Generator

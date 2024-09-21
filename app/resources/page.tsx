@@ -78,19 +78,6 @@ const Resources = () => {
         <Card
           title={
             <div className="flex flex-row items-center gap-2">
-              <Book className="mb-0.5" />
-              <div>How Tos</div>
-            </div>
-          }
-          href="https://how-to.vertx.io/"
-          className="h-full min-h-40"
-        >
-          Check out the Vert.x How-tos to get pragmatic guides for specific
-          topics.
-        </Card>
-        <Card
-          title={
-            <div className="flex flex-row items-center gap-2">
               <SlidersHorizontal className="mb-0.5" />
               <div>EventBus Bridge Clients</div>
             </div>

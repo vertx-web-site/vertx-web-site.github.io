@@ -2,6 +2,8 @@
 
 import { useVersion } from "../hooks/useVersion"
 import Card from "@/components/Card"
+import guides from "@/docs/metadata/guides"
+import howtos from "@/docs/metadata/howtos"
 
 const GoFurther = () => {
   const { version } = useVersion()
@@ -23,8 +25,19 @@ const GoFurther = () => {
         The Vert.x Core documentation teaches you how to write reactive
         applications
       </Card>
-      <Card href="https://how-to.vertx.io/" title="How-tos" className="h-full">
-        Check out the Vert.x How-tos to get pragmatic guides for specific topics
+      <Card
+        href={`/docs/howtos/${howtos.entries[0].id}/`}
+        title="How-tos"
+        className="h-full"
+      >
+        Check out the Vert.x How-tos to get pragmatic help on specific topics
+      </Card>
+      <Card
+        href={`/docs/guides/${guides.entries[0].id}/`}
+        title="Guides"
+        className="h-full"
+      >
+        Dive deep into Vert.x with our guides covering advanced topics
       </Card>
     </div>
   )
