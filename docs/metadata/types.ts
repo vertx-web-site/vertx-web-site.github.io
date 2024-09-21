@@ -27,6 +27,7 @@ export interface Docs {
   entries: Doc[]
   prerelease?: boolean
   artifactVersion?: string
+  imagesDir?: string
 }
 
 export interface GuidesDocs {

@@ -3,6 +3,8 @@ import { clone, insert, remove, removeCategory } from "./helpers"
 
 const docs = clone(oldDocs)
 
+docs.imagesDir = "java/images" // Can be anything, actually. Just used to resolve relative paths to images.
+
 insert(docs, "vertx-service-resolver", {
   id: "vertx-service-resolver",
   name: "Service Resolver",

@@ -703,6 +703,7 @@ const entries: Doc[] = [
 const docs: Docs = {
   categories,
   entries,
+  imagesDir: "images", // Can be anything, actually. Just used to resolve relative paths to images.
 }
 
 export default docs

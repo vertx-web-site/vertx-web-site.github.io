@@ -145,6 +145,11 @@ const config = {
       },
     })
 
+    config.module.rules.push({
+      test: /\.html$/i,
+      loader: "html-loader",
+    })
+
     if (dev) {
       config.plugins.push(
         new ESLintPlugin({

@@ -161,8 +161,9 @@ const DocsPage = async ({ params }: DocsPageProps) => {
     } else {
       sourcePath = `${activeVersion}/${slug}`
     }
-    let data = require(`../../../docs/compiled/${sourcePath}/index.json`)
-    let contents = data.contents
+    let contents = require(
+      `../../../docs/compiled/${sourcePath}/index.html`,
+    ).default
 
     let extendedh1 = undefined
     let match = contents.match(/<h1[^>]*>.*?<\/h1>/)

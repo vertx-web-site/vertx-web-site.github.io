@@ -106,6 +106,7 @@ async function main() {
   async function run(
     version: string,
     artifact: Artifact,
+    imagesDir: string | undefined,
     latestBugfixVersion: string | undefined,
   ) {
     let progressListener: ProgressListener & {
@@ -205,6 +206,7 @@ async function main() {
         {
           version,
           artifact,
+          imagesDir,
           isLatestBugfixVersion: true,
           progressPort: channel.port1,
         },
@@ -264,17 +266,18 @@ async function main() {
             name: "vertx-stack-docs",
             version: m.metadata.artifactVersion || m.version,
           },
+          m.metadata.imagesDir,
           latestBugfixVersion,
         ),
       )
     }
 
     for (let h of howtos.entries) {
-      promises.push(run(h.id, h.artifact, undefined))
+      promises.push(run(h.id, h.artifact, undefined, undefined))
     }
 
     for (let g of guides.entries) {
-      promises.push(run(g.id, g.artifact, undefined))
+      promises.push(run(g.id, g.artifact, undefined, undefined))
     }
 
     await Promise.all(promises)

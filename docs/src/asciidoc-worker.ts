@@ -2,6 +2,7 @@ import * as parse5 from "parse5"
 import { Artifact } from "./artifact"
 import { createHighlighter } from "./highlighter"
 import asciidoctor from "asciidoctor"
+import fsSync from "fs"
 import fs from "fs/promises"
 import path from "path"
 import { MessagePort } from "worker_threads"
@@ -102,11 +103,13 @@ function parseToc(
 async function workerMain({
   version,
   artifact,
+  imagesDir,
   isLatestBugfixVersion,
   progressPort,
 }: {
   version: string
   artifact: Artifact
+  imagesDir: string | undefined
   isLatestBugfixVersion: boolean
   progressPort: MessagePort
 }) {
@@ -128,7 +131,9 @@ async function workerMain({
       showtitle: true,
       toc: "left",
       sectanchors: true,
+      imagesdir: imagesDir,
     },
+    catalog_assets: true, // collect all images, so we can call doc.getImages()
   }
 
   let extractedPath = `extracted/${version}`
@@ -156,6 +161,7 @@ async function workerMain({
     // render page (use loadFile so `include` directives work correctly)
     let doc = adoc.loadFile(f, asciidoctorOptions)
     let title = doc.getDocumentTitle()
+    let images = doc.getImages()
     let contents = doc.convert()
 
     // parse generated HTML and extract table of contents
@@ -185,26 +191,56 @@ async function workerMain({
     let filename = f.substring(extractedPath.length + 1)
     let destFile = path.join(
       destVersionPath,
-      filename.replace(/\.adoc$/, ".json"),
+      filename.replace(/\.adoc$/, ".html"),
     )
     let destFileToc = path.join(
       destVersionPath,
       filename.replace(/\.adoc$/, ".toc.json"),
     )
     await fs.mkdir(path.dirname(destFile), { recursive: true })
-    await fs.writeFile(
-      destFile,
-      JSON.stringify({
-        title,
-        contents,
-      }),
-    )
+    await fs.writeFile(destFile, contents)
     await fs.writeFile(
       destFileToc,
       JSON.stringify({
+        title,
         toc,
       }),
     )
+
+    // copy images
+    for (let image of images) {
+      let imageTarget = image.getTarget()
+      if (imageTarget.match(/^https?:\/\//)) {
+        // external image
+        continue
+      }
+      let imageFileSrc: string
+      let imageFileDest: string
+      let imagesDirectory = image.getImagesDirectory()
+      if (imagesDirectory !== undefined) {
+        imageFileSrc = path.normalize(
+          path.join(path.dirname(f), imagesDirectory, imageTarget),
+        )
+        imageFileDest = path.normalize(
+          path.join(path.dirname(destFile), imagesDirectory, imageTarget),
+        )
+      } else {
+        imageFileSrc = path.normalize(path.join(path.dirname(f), imageTarget))
+        imageFileDest = path.normalize(
+          path.join(path.dirname(destFile), imageTarget),
+        )
+      }
+      if (!fsSync.existsSync(imageFileSrc)) {
+        throw new Error(
+          `${imagesDirectory} image '${imageTarget}' not found in '${f}'. Tried '${imageFileSrc}'.`,
+        )
+      } else {
+        if (!fsSync.existsSync(imageFileDest)) {
+          await fs.mkdir(path.dirname(imageFileDest), { recursive: true })
+          await fs.copyFile(imageFileSrc, imageFileDest)
+        }
+      }
+    }
 
     ++i
     let progress = Math.round((i * 100) / files.length)
