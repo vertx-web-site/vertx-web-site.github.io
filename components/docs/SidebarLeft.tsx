@@ -121,7 +121,7 @@ const SidebarLeft = ({ className, sticky, onClickLink }: SidebarLeftProps) => {
       href: "/docs",
     },
     {
-      title: "Guides",
+      title: "Guides & How-tos",
       isGuides: true,
       icon: <GraduationCap />,
       href: `/docs/guides${guides.entries[0].href}`,
