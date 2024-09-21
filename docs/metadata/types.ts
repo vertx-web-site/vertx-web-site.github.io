@@ -28,3 +28,8 @@ export interface Docs {
   prerelease?: boolean
   artifactVersion?: string
 }
+
+export interface GuidesDocs {
+  categories: Category[]
+  entries: GuidesDoc[]
+}

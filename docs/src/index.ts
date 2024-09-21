@@ -96,7 +96,7 @@ async function main() {
   } else {
     asciidoctorBarLength = metadata.length
   }
-  asciidoctorBarLength += guides.length
+  asciidoctorBarLength += guides.entries.length
   let asciidoctorBar = multibar.create(asciidoctorBarLength * 100, 0, {
     message: "Compile Asciidoc",
     asciidoc: true,
@@ -268,7 +268,7 @@ async function main() {
       )
     }
 
-    for (let g of guides) {
+    for (let g of guides.entries) {
       promises.push(run(g.id, g.artifact, undefined))
     }
 

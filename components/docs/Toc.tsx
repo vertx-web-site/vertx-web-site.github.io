@@ -1,5 +1,6 @@
 import { metadata } from "@/docs/metadata/all"
 import guides from "@/docs/metadata/guides"
+import { Doc, Docs, GuidesDocs } from "@/docs/metadata/types"
 
 export interface Chapter {
   readonly type: "chapter"
@@ -214,18 +215,21 @@ export function makeSections(
   return sections
 }
 
-function makeVersionToc(version: string): Chapter[] {
-  let release = metadata.find(m => m.version === version)
-  if (release === undefined) {
-    throw new Error(`Could not find metadata for version ${version}`)
-  }
+function makeChapters(
+  metadata: Docs | GuidesDocs,
+  includeApidocs: boolean,
+  makeSourcePath: ({
+    entry,
+    pageSlug,
+  }: {
+    entry: Doc
+    pageSlug: string
+  }) => string,
+): Chapter[] {
+  let result: Chapter[] = []
 
-  let result: Chapter[] = [introductionChapter]
-
-  for (let category of release.metadata.categories) {
-    let entries = release.metadata.entries.filter(
-      e => e.category === category.id,
-    )
+  for (let category of metadata.categories) {
+    let entries = metadata.entries.filter(e => e.category === category.id)
 
     let pages: Page[] = []
     for (let e of entries) {
@@ -240,7 +244,10 @@ function makeVersionToc(version: string): Chapter[] {
       let sections: Section[] | undefined = undefined
 
       if (!isExternal(pageSlug)) {
-        sections = makeSections(`${version}/${pageSlug}`, pageSlug)
+        sections = makeSections(
+          makeSourcePath({ entry: e, pageSlug }),
+          pageSlug,
+        )
       }
 
       pages.push({
@@ -252,6 +259,7 @@ function makeVersionToc(version: string): Chapter[] {
         examples: e.examples,
         sections,
         chapter: category.id,
+        includeApidocs,
       })
     }
 
@@ -266,41 +274,24 @@ function makeVersionToc(version: string): Chapter[] {
   return result
 }
 
-function makeGuidesToc(): Chapter[] {
-  let result: Chapter[] = []
-
-  let guidesPages: Page[] = []
-  for (let guide of guides) {
-    let pageSlug = guide.href
-    if (pageSlug.startsWith("/")) {
-      pageSlug = pageSlug.substring(1)
-    }
-    if (pageSlug.endsWith("/")) {
-      pageSlug = pageSlug.substring(0, pageSlug.length - 1)
-    }
-
-    let sections = makeSections(`${guide.id}/java`, pageSlug)
-
-    guidesPages.push({
-      type: "page",
-      title: guide.name,
-      slug: pageSlug,
-      label: guide.label,
-      edit: guide.edit,
-      examples: guide.examples,
-      includeApidocs: false,
-      sections,
-      chapter: "guides",
-    })
+function makeVersionToc(version: string): Chapter[] {
+  let release = metadata.find(m => m.version === version)
+  if (release === undefined) {
+    throw new Error(`Could not find metadata for version ${version}`)
   }
-  result.push({
-    type: "chapter",
-    title: "Guides",
-    slug: "guides",
-    pages: guidesPages,
-  })
+
+  let result = makeChapters(
+    release.metadata,
+    true,
+    ({ pageSlug }) => `${version}/${pageSlug}`,
+  )
+  result.unshift(introductionChapter)
 
   return result
+}
+
+function makeGuidesToc(): Chapter[] {
+  return makeChapters(guides, false, ({ entry }) => `${entry.id}/java`)
 }
 
 export function makeToc(isGuides: boolean, version: string): Chapter[] {
