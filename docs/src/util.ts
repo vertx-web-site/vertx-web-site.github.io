@@ -1,16 +1,13 @@
+import { Artifact } from "./artifact"
 import crypto from "node:crypto"
 import fs from "node:fs/promises"
 import path from "node:path"
 
 async function getSourceSha(
-  artifactName: string,
-  artifactVersion: string,
+  artifact: Artifact,
   downloadPath: string,
 ): Promise<string> {
-  let sourceShaFile = path.join(
-    downloadPath,
-    `${artifactName}-${artifactVersion}-docs.zip.sha1`,
-  )
+  let sourceShaFile = artifactToZipFile(artifact, downloadPath) + ".sha1"
   let sourceSha = await fs.readFile(sourceShaFile, "utf-8")
   return sourceSha
 }
@@ -26,17 +23,12 @@ function makeCompiledSha(
 
 export async function isCompiled(
   version: string,
-  artifactName: string,
-  artifactVersion: string,
+  artifact: Artifact,
   downloadPath: string,
   compiledPath: string,
   isLatestBugfixVersion: boolean,
 ): Promise<boolean> {
-  let sourceSha = await getSourceSha(
-    artifactName,
-    artifactVersion,
-    downloadPath,
-  )
+  let sourceSha = await getSourceSha(artifact, downloadPath)
   let compiledSha = makeCompiledSha(sourceSha, isLatestBugfixVersion)
 
   let destShaFile = path.join(compiledPath, version, `${version}.sha1`)
@@ -53,18 +45,35 @@ export async function isCompiled(
 
 export async function writeCompiledSha(
   version: string,
-  artifactName: string,
-  artifactVersion: string,
+  artifact: Artifact,
   downloadPath: string,
   compiledPath: string,
   isLatestBugfixVersion: boolean,
 ) {
-  let sourceSha = await getSourceSha(
-    artifactName,
-    artifactVersion,
-    downloadPath,
-  )
+  let sourceSha = await getSourceSha(artifact, downloadPath)
   let compiledSha = makeCompiledSha(sourceSha, isLatestBugfixVersion)
   let destShaFile = path.join(compiledPath, version, `${version}.sha1`)
   await fs.writeFile(destShaFile, compiledSha)
+}
+
+export function artifactToZipFile(
+  artifact: Artifact,
+  downloadPath: string,
+): string {
+  let zipFilePath: string
+  switch (artifact.type) {
+    case "maven":
+      zipFilePath = path.join(
+        downloadPath,
+        `${artifact.name}-${artifact.version}-docs.zip`,
+      )
+      break
+    case "github":
+      zipFilePath = path.join(
+        downloadPath,
+        `${artifact.owner}-${artifact.repo}-${artifact.ref}.zip`,
+      )
+      break
+  }
+  return zipFilePath
 }

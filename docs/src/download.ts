@@ -1,6 +1,8 @@
+import { Artifact, GitHubArtifact, MavenArtifact } from "./artifact"
+import { artifactToZipFile } from "./util"
+import crypto from "node:crypto"
 import fsSync from "node:fs"
 import fs from "node:fs/promises"
-import path from "node:path"
 import xml2js from "xml2js"
 
 const repoUrl = "https://repo1.maven.org/maven2"
@@ -9,7 +11,7 @@ const downloadPath = "download"
 async function downloadFile(
   url: string,
   dest: string,
-  version: string,
+  displayName: string,
   progressListener: ProgressListener | undefined,
 ) {
   if (fsSync.existsSync(dest)) {
@@ -24,7 +26,7 @@ async function downloadFile(
   let lastProgress = 0
   let downloaded = 0
   let length = +(res.headers.get("content-length") ?? "0")
-  progressListener?.start(length, `Download ${version}`)
+  progressListener?.start(length, `Download ${displayName}`)
 
   let partFile = dest + ".part"
   let outputFile = await fs.open(partFile, "w")
@@ -70,30 +72,60 @@ async function getSnapshotUrl(artifactName: string, version: string) {
 }
 
 async function download(
-  artifactName: string,
-  version: string,
+  artifact: Artifact,
+  progressListener: ProgressListener,
+) {
+  switch (artifact.type) {
+    case "maven":
+      await downloadMaven(artifact, progressListener)
+      break
+    case "github":
+      await downloadGitHub(artifact, progressListener)
+      break
+  }
+}
+
+async function downloadMaven(
+  artifact: MavenArtifact,
   progressListener: ProgressListener,
 ) {
   let url
-  if (version.endsWith("-SNAPSHOT")) {
-    url = await getSnapshotUrl(artifactName, version)
+  if (artifact.version.endsWith("-SNAPSHOT")) {
+    url = await getSnapshotUrl(artifact.name, artifact.version)
   } else {
-    url = `${repoUrl}/io/vertx/${artifactName}/${version}/${artifactName}-${version}-docs.zip`
+    url = `${repoUrl}/io/vertx/${artifact.name}/${artifact.version}/${artifact.name}-${artifact.version}-docs.zip`
   }
 
   await fs.mkdir(downloadPath, { recursive: true })
 
-  let shaFilePath = path.join(
-    downloadPath,
-    `${artifactName}-${version}-docs.zip.sha1`,
-  )
-  let zipFilePath = path.join(
-    downloadPath,
-    `${artifactName}-${version}-docs.zip`,
+  let zipFilePath = artifactToZipFile(artifact, downloadPath)
+  let shaFilePath = `${zipFilePath}.sha1`
+
+  await downloadFile(`${url}.sha1`, shaFilePath, artifact.version, undefined)
+  await downloadFile(url, zipFilePath, artifact.version, progressListener)
+}
+
+async function downloadGitHub(
+  artifact: GitHubArtifact,
+  progressListener: ProgressListener,
+) {
+  let url = `https://github.com/${artifact.owner}/${artifact.repo}/archive/refs/heads/${artifact.ref}.zip`
+
+  await fs.mkdir(downloadPath, { recursive: true })
+
+  let zipFilePath = artifactToZipFile(artifact, downloadPath)
+  let shaFilePath = `${zipFilePath}.sha1`
+
+  await downloadFile(
+    url,
+    zipFilePath,
+    `${artifact.owner}/${artifact.repo}`,
+    progressListener,
   )
 
-  await downloadFile(`${url}.sha1`, shaFilePath, version, undefined)
-  await downloadFile(url, zipFilePath, version, progressListener)
+  let data = await fs.readFile(zipFilePath)
+  let sha1 = crypto.createHash("sha1").update(data).digest("hex")
+  await fs.writeFile(shaFilePath, sha1)
 }
 
 export default download

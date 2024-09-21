@@ -1,3 +1,5 @@
+import { Artifact } from "./artifact"
+import { artifactToZipFile } from "./util"
 import fsSync from "fs"
 import fs from "fs/promises"
 import Seven, { SevenZipOptions } from "node-7z"
@@ -26,6 +28,7 @@ async function extractEntry(
   extractedVersionPath: string,
   publicDocsVersionPath: string,
   apidocsOnly: boolean,
+  artifact: Artifact,
   latestBugfixVersion: string | undefined,
 ) {
   if (entry.fileName.endsWith("/")) {
@@ -66,22 +69,28 @@ async function extractEntry(
     return
   }
 
+  let fileName = entry.fileName
+
+  // rename top-level directory in GitHub archives
+  if (artifact.type === "github") {
+    fileName = "java/" + fileName.substring(fileName.indexOf("/") + 1)
+  }
+
   let destPath
-  if (
-    latestBugfixVersion !== undefined ||
-    entry.fileName.startsWith("apidocs/")
-  ) {
-    destPath = path.join(publicDocsVersionPath, entry.fileName)
+  if (latestBugfixVersion !== undefined || fileName.startsWith("apidocs/")) {
+    destPath = path.join(publicDocsVersionPath, fileName)
   } else {
-    destPath = path.join(extractedVersionPath, entry.fileName)
+    destPath = path.join(extractedVersionPath, fileName)
   }
 
   // rename index.adoc to index.html
-  if (
-    latestBugfixVersion !== undefined &&
-    !entry.fileName.startsWith("apidocs/")
-  ) {
+  if (latestBugfixVersion !== undefined && !fileName.startsWith("apidocs/")) {
     destPath = destPath.replace(/\.adoc$/, ".html")
+  }
+
+  // rename README.adoc to index.adoc
+  if (artifact.type === "github" && fileName.endsWith("README.adoc")) {
+    destPath = destPath.replace(/README\.adoc$/, "index.adoc")
   }
 
   try {
@@ -135,8 +144,7 @@ async function extractEntry(
 
 async function extract(
   version: string,
-  artifactName: string,
-  artifactVersion: string,
+  artifact: Artifact,
   progressListener: ProgressListener | undefined,
   apidocsOnly: boolean,
   latestBugfixVersion: string | undefined,
@@ -160,8 +168,7 @@ async function extract(
   if (apidocsOnly && sevenExists) {
     await extract7zApidocsOnly(
       version,
-      artifactName,
-      artifactVersion,
+      artifact,
       progressListener,
       latestBugfixVersion,
       publicDocsVersionPath,
@@ -169,8 +176,7 @@ async function extract(
   } else {
     await extractInternal(
       version,
-      artifactName,
-      artifactVersion,
+      artifact,
       progressListener,
       apidocsOnly,
       latestBugfixVersion,
@@ -182,8 +188,7 @@ async function extract(
 
 async function extractInternal(
   version: string,
-  artifactName: string,
-  artifactVersion: string,
+  artifact: Artifact,
   progressListener: ProgressListener | undefined,
   apidocsOnly: boolean,
   latestBugfixVersion: string | undefined,
@@ -191,10 +196,7 @@ async function extractInternal(
   publicDocsVersionPath: string,
 ) {
   await new Promise<void>((resolve, reject) => {
-    let zipFilePath = path.join(
-      downloadPath,
-      `${artifactName}-${artifactVersion}-docs.zip`,
-    )
+    let zipFilePath = artifactToZipFile(artifact, downloadPath)
     yauzl.open(zipFilePath, { lazyEntries: true }, (err, zipfile) => {
       if (err) {
         reject(err)
@@ -214,6 +216,7 @@ async function extractInternal(
           extractedVersionPath,
           publicDocsVersionPath,
           apidocsOnly,
+          artifact,
           latestBugfixVersion,
         )
           .then(() => {
@@ -231,16 +234,12 @@ async function extractInternal(
 
 async function extract7zApidocsOnly(
   version: string,
-  artifactName: string,
-  artifactVersion: string,
+  artifact: Artifact,
   progressListener: ProgressListener | undefined,
   latestBugfixVersion: string | undefined,
   publicDocsVersionPath: string,
 ) {
-  let zipFilePath = path.join(
-    downloadPath,
-    `${artifactName}-${artifactVersion}-docs.zip`,
-  )
+  let zipFilePath = artifactToZipFile(artifact, downloadPath)
   if (latestBugfixVersion === undefined) {
     await new Promise<void>((resolve, reject) => {
       let progressStarted = false

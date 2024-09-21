@@ -1,4 +1,5 @@
 import * as parse5 from "parse5"
+import { Artifact } from "./artifact"
 import { createHighlighter } from "./highlighter"
 import asciidoctor from "asciidoctor"
 import fs from "fs/promises"
@@ -100,14 +101,12 @@ function parseToc(
 
 async function workerMain({
   version,
-  artifactName,
-  artifactVersion,
+  artifact,
   isLatestBugfixVersion,
   progressPort,
 }: {
   version: string
-  artifactName: string
-  artifactVersion: string
+  artifact: Artifact
   isLatestBugfixVersion: boolean
   progressPort: MessagePort
 }) {
@@ -139,8 +138,7 @@ async function workerMain({
   if (
     await isCompiled(
       version,
-      artifactName,
-      artifactVersion,
+      artifact,
       downloadPath,
       compiledPath,
       isLatestBugfixVersion,
@@ -220,8 +218,7 @@ async function workerMain({
   // has been completely compiled
   await writeCompiledSha(
     version,
-    artifactName,
-    artifactVersion,
+    artifact,
     downloadPath,
     compiledPath,
     isLatestBugfixVersion,

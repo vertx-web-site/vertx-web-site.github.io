@@ -1,6 +1,7 @@
 import { latestRelease, metadata, versions } from "../metadata/all"
 import guides from "../metadata/guides"
 import { filterLatestBugfixVersions, parseVersion } from "../metadata/helpers"
+import { Artifact } from "./artifact"
 import download from "./download"
 import extract from "./extract"
 import { isCompiled, writeCompiledSha } from "./util"
@@ -103,8 +104,7 @@ async function main() {
 
   async function run(
     version: string,
-    artifactName: string,
-    artifactVersion: string,
+    artifact: Artifact,
     latestBugfixVersion: string | undefined,
   ) {
     let progressListener: ProgressListener & {
@@ -134,15 +134,14 @@ async function main() {
 
     // download artifact
     await downloadLimit(() => {
-      return download(artifactName, artifactVersion, progressListener)
+      return download(artifact, progressListener)
     })
     progressListener.stop()
 
     // check if asciidoc for this version has already been compiled
     let asciidocCompiled = await isCompiled(
       version,
-      artifactName,
-      artifactVersion,
+      artifact,
       downloadPath,
       compiledPath,
       latestBugfixVersion === undefined,
@@ -160,8 +159,7 @@ async function main() {
     await extractLimit(() => {
       return extract(
         version,
-        artifactName,
-        artifactVersion,
+        artifact,
         progressListener,
         latestBugfixVersion === undefined && asciidocCompiled,
         latestBugfixVersion,
@@ -205,8 +203,7 @@ async function main() {
       let messages = await piscina.run(
         {
           version,
-          artifactName,
-          artifactVersion,
+          artifact,
           isLatestBugfixVersion: true,
           progressPort: channel.port1,
         },
@@ -229,8 +226,7 @@ async function main() {
       await fs.mkdir(path.join(compiledPath, version), { recursive: true })
       await writeCompiledSha(
         version,
-        artifactName,
-        artifactVersion,
+        artifact,
         downloadPath,
         compiledPath,
         false,
@@ -262,15 +258,18 @@ async function main() {
       promises.push(
         run(
           m.version,
-          "vertx-stack-docs",
-          m.metadata.artifactVersion || m.version,
+          {
+            type: "maven",
+            name: "vertx-stack-docs",
+            version: m.metadata.artifactVersion || m.version,
+          },
           latestBugfixVersion,
         ),
       )
     }
 
     for (let g of guides) {
-      promises.push(run(g.id, g.artifactName, g.artifactVersion, undefined))
+      promises.push(run(g.id, g.artifact, undefined))
     }
 
     await Promise.all(promises)

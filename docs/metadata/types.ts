@@ -1,3 +1,4 @@
+import { Artifact } from "../src/artifact"
 import { ReactNode } from "react"
 
 export interface Category {
@@ -18,8 +19,7 @@ export interface Doc {
 }
 
 export interface GuidesDoc extends Doc {
-  artifactName: string
-  artifactVersion: string
+  artifact: Artifact
 }
 
 export interface Docs {
