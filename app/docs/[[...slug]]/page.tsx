@@ -284,10 +284,10 @@ const DocsPage = async ({ params }: DocsPageProps) => {
           "[&_.admonitionblock_.listingblock+.paragraph]:mt-2 [&_.admonitionblock_.title]:font-medium [&_.admonitionblock_p:first-child]:mt-0 [&_.admonitionblock_p]:my-2 [&_.admonitionblock_table]:m-0 [&_.admonitionblock_table]:flex [&_.admonitionblock_tbody]:w-full [&_.admonitionblock_td]:p-0 [&_.admonitionblock_tr]:flex [&_.admonitionblock_tr]:flex-col",
 
           // listings
-          "[&_.listingblock+.listingblock]:mt-4 [&_.listingblock]:flex [&_.listingblock]:flex-col [&_.listingblock]:overflow-auto [&_.listingblock]:rounded-sm [&_.listingblock]:bg-bg-code [&_.listingblock_.content]:flex [&_.listingblock_.content]:flex-1 [&_.listingblock_.content_pre]:flex-1 [&_.listingblock_.title]:font-normal",
+          "[&_.listingblock+.listingblock]:mt-4 [&_.listingblock]:flex [&_.listingblock]:flex-col [&_.listingblock]:overflow-auto [&_.listingblock]:rounded-sm [&_.listingblock]:bg-bg-code [&_.listingblock_.content]:flex [&_.listingblock_.content]:flex-1 [&_.listingblock_.content_pre]:flex-1 [&_.listingblock_.title]:border-b [&_.listingblock_.title]:border-bg [&_.listingblock_.title]:px-4 [&_.listingblock_.title]:py-2 [&_.listingblock_.title]:text-sm [&_.listingblock_.title]:font-normal [&_.listingblock_.title]:text-bg dark:[&_.listingblock_.title]:border-b-2 dark:[&_.listingblock_.title]:text-text",
 
           // literals
-          "[&_.literalblock+.literalblock]:mt-4 [&_.literalblock]:flex [&_.literalblock]:flex-col [&_.literalblock]:overflow-auto [&_.literalblock]:rounded-sm [&_.literalblock]:bg-bg-code [&_.literalblock_.content]:flex [&_.literalblock_.content]:flex-1 [&_.literalblock_.content_pre]:flex-1 [&_.literalblock_.title]:font-normal",
+          "[&_.literalblock+.literalblock]:mt-4 [&_.literalblock]:flex [&_.literalblock]:flex-col [&_.literalblock]:overflow-auto [&_.literalblock]:rounded-sm [&_.literalblock]:bg-bg-code [&_.literalblock_.content]:flex [&_.literalblock_.content]:flex-1 [&_.literalblock_.content_pre]:flex-1 [&_.literalblock_.title]:border-b [&_.literalblock_.title]:border-bg [&_.literalblock_.title]:px-4 [&_.literalblock_.title]:py-2 [&_.literalblock_.title]:text-sm [&_.literalblock_.title]:font-normal [&_.literalblock_.title]:text-bg dark:[&_.literalblock_.title]:border-b-2 dark:[&_.literalblock_.title]:text-text",
 
           // code + pre
           "[&_code]:leading-[1.6] [&_pre:not(:has(code))]:px-3 [&_pre:not(:has(code))]:py-3 [&_pre:not(:has(code))]:text-white",
