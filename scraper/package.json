@@ -19,6 +19,6 @@
   "dependencies": {
     "cheerio": "^1.0.0-rc.12",
     "html-to-text": "^9.0.5",
-    "p-map": "^7.0.2"
+    "piscina": "^4.7.0"
   }
 }
