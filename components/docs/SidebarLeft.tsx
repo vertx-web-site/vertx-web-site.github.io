@@ -1,4 +1,5 @@
 import Label from "../Label"
+import { useVersion } from "../hooks/useVersion"
 import Sidebar from "./Sidebar"
 import { versionFromSlug } from "./versionFromSlug"
 import { isExternal, makeToc } from "@/components/docs/Toc"
@@ -91,6 +92,7 @@ const SidebarLeft = ({ className, sticky, onClickLink }: SidebarLeftProps) => {
   const { type, version, slug } = versionFromSlug(
     useSelectedLayoutSegment() ?? "",
   )
+  const { version: activeVersion } = useVersion()
 
   let toc = createToc(type, version, slug, onClickLink)
 
@@ -120,7 +122,10 @@ const SidebarLeft = ({ className, sticky, onClickLink }: SidebarLeftProps) => {
       title: "Documentation",
       type: "docs",
       icon: <Notebook />,
-      href: "/docs",
+      href:
+        activeVersion !== latestRelease.version
+          ? `/docs/${activeVersion}/`
+          : "/docs/",
     },
     {
       title: "How-tos",

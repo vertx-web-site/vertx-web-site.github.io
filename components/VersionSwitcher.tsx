@@ -74,7 +74,7 @@ const VersionSwitcher = ({ bg }: VersionSwitcherProps) => {
       }
 
       let p: string[]
-      if (slug !== undefined && pathVersion !== newVersion) {
+      if (type === "docs" && slug !== undefined && pathVersion !== newVersion) {
         // navigate to another docs page if necessary
         let toc = makeToc(type, newVersion)
         let index = makeIndex(toc)

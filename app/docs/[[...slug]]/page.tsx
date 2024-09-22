@@ -273,7 +273,7 @@ const DocsPage = async ({ params }: DocsPageProps) => {
 
   return (
     <>
-      <VersionGuard pageVersion={activeVersion} />
+      <VersionGuard type={type} pageVersion={activeVersion} />
       <main
         className={clsx(
           "prose mt-40 lg:mt-24",
