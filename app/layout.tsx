@@ -1,4 +1,5 @@
 import "./code.css"
+import "./docs.css"
 import "./main.css"
 import "./themes.css"
 import ClientTooltipProvider from "@/components/ClientTooltipProvider"

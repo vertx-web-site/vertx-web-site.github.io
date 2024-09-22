@@ -1,0 +1,80 @@
+@tailwind components;
+
+@layer components {
+  /* admonitions */
+  .docs-contents .admonitionblock.warning {
+    @apply border-alert;
+  }
+
+  .docs-contents .admonitionblock {
+    @apply my-4 border-l-8 border-primary bg-gray-100 px-4 py-3;
+  }
+
+  /* admonition content */
+  .docs-contents .admonitionblock .listingblock + .paragraph {
+    @apply mt-2;
+  }
+
+  .docs-contents .admonitionblock .title {
+    @apply font-medium;
+  }
+
+  .docs-contents .admonitionblock p:first-child {
+    @apply mt-0;
+  }
+
+  .docs-contents .admonitionblock p {
+    @apply my-2;
+  }
+
+  .docs-contents .admonitionblock table {
+    @apply m-0 flex;
+  }
+
+  .docs-contents .admonitionblock tbody {
+    @apply w-full;
+  }
+
+  .docs-contents .admonitionblock td {
+    @apply p-0;
+  }
+
+  .docs-contents .admonitionblock tr {
+    @apply flex flex-col;
+  }
+
+  /* listings + literals */
+  .docs-contents .listingblock + .listingblock,
+  .docs-contents .literalblock + .literalblock {
+    @apply mt-4;
+  }
+
+  .docs-contents .listingblock,
+  .docs-contents .literalblock {
+    @apply flex flex-col overflow-auto rounded-sm bg-bg-code;
+  }
+
+  .docs-contents .listingblock .content,
+  .docs-contents .literalblock .content {
+    @apply flex flex-1;
+  }
+
+  .docs-contents .listingblock .content pre,
+  .docs-contents .literalblock .content pre {
+    @apply flex-1;
+  }
+
+  .docs-contents .listingblock .title,
+  .docs-contents .literalblock .title {
+    @apply border-b border-bg px-4 py-2 text-sm font-normal text-bg dark:border-b-2 dark:text-text;
+  }
+
+  /* code + pre */
+  .docs-contents code {
+    @apply leading-[1.6];
+  }
+
+  .docs-contents pre:not(:has(code)) {
+    @apply px-3 py-3 text-white;
+  }
+}
