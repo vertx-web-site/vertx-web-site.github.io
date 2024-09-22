@@ -1,5 +1,7 @@
 "use client"
 
+import * as Dialog from "@radix-ui/react-dialog"
+import * as VisuallyHidden from "@radix-ui/react-visually-hidden"
 import ScrollTopWorkaround from "./ScrollTopWorkaround"
 import SimpleIcon from "./SimpleIcon"
 import { Tooltip } from "./Tooltip"
@@ -11,10 +13,10 @@ import { Slot } from "@radix-ui/react-slot"
 import clsx from "clsx"
 import { Spin as Hamburger } from "hamburger-react"
 import { throttle } from "lodash"
-import dynamic from "next/dynamic"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { useEffect, useRef, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
+import { RemoveScroll } from "react-remove-scroll"
 import {
   siAwesomelists,
   siDiscord,
@@ -23,25 +25,6 @@ import {
   siStackoverflow,
   siYoutube,
 } from "simple-icons"
-
-const DialogRoot = dynamic(
-  () => import("@radix-ui/react-dialog").then(mod => mod.Root),
-  { ssr: false },
-)
-const DialogPortal = dynamic(
-  () => import("@radix-ui/react-dialog").then(mod => mod.Portal),
-  { ssr: false },
-)
-const DialogContent = dynamic(
-  () => import("@radix-ui/react-dialog").then(mod => mod.Content),
-  { ssr: false },
-)
-const RemoveScroll = dynamic(
-  () => import("react-remove-scroll").then(mod => mod.RemoveScroll),
-  {
-    ssr: false,
-  },
-)
 
 interface ResizeObserverProps {
   onResize: () => void
@@ -376,15 +359,21 @@ const NavBar = ({ fixed = true, narrow = false }: NavBarProps) => {
           </div>
         </div>
 
-        <DialogRoot open={collapsed} onOpenChange={setCollapsed} modal={false}>
-          <DialogPortal>
+        <Dialog.Root open={collapsed} onOpenChange={setCollapsed} modal={false}>
+          <Dialog.Portal>
             <RemoveScroll as={Slot}>
-              <DialogContent
+              <Dialog.Content
                 className="fixed top-14 z-50 h-[calc(100vh-4rem)] w-screen overflow-scroll bg-gray-100 xl:hidden [&[data-state='closed']]:animate-fade-out [&[data-state='open']]:animate-fade-in"
                 onInteractOutside={e => e.preventDefault()}
                 onCloseAutoFocus={e => e.preventDefault()}
                 onPointerDownOutside={e => e.preventDefault()}
               >
+                <VisuallyHidden.Root>
+                  <Dialog.Title>Search</Dialog.Title>
+                  <Dialog.Description>
+                    Search documentation ...
+                  </Dialog.Description>
+                </VisuallyHidden.Root>
                 <div className="flex flex-col divide-y divide-gray-500 px-2">
                   {links.map(l => (
                     <Link
@@ -401,16 +390,18 @@ const NavBar = ({ fixed = true, narrow = false }: NavBarProps) => {
                   ))}
                 </div>
                 <div className="mt-8 flex items-center justify-end gap-3 px-4">
-                  {socialIcons.map(si => si.content)}
+                  {socialIcons.map(si => (
+                    <React.Fragment key={si.title}>{si.content}</React.Fragment>
+                  ))}
                 </div>
                 <div className="mt-4 flex justify-end px-4 xs:hidden">
                   <VersionSwitcher bg={!fixed && onTop ? "primary" : "gray"} />
                 </div>
                 <ResizeObserver onResize={() => setCollapsed(false)} />
-              </DialogContent>
+              </Dialog.Content>
             </RemoveScroll>
-          </DialogPortal>
-        </DialogRoot>
+          </Dialog.Portal>
+        </Dialog.Root>
       </nav>
     </>
   )
