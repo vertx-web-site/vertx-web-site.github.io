@@ -43,7 +43,7 @@ const Book = () => {
 
         nextSeq = (nextSeq + 1) % seq.length
         if (nextSeq === 0) {
-          start = time
+          start += seq[seq.length - 1][2].at * 1000
           break
         }
       }
