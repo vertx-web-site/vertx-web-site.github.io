@@ -16,7 +16,7 @@ const VersionGuard = ({ type, pageVersion }: VersionGuardProps) => {
     if (type === "docs" && pageVersion !== version) {
       setVersion(pageVersion)
     }
-  }, [pageVersion, version, setVersion])
+  }, [type, pageVersion, version, setVersion])
 
   return <></>
 }
