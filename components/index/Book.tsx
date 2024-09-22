@@ -17,24 +17,61 @@ const Book = () => {
   useEffect(() => {
     let duration = TRANSITION_DURATION
     let quotes = [quote1, quote2, quote3]
+    let start: DOMHighResTimeStamp | undefined = undefined
     let seq: any[] = []
+    let nextSeq = 0
+    let done = false
+
+    // Framer Motion's animate() with a sequence seems to have a bug: after
+    // page transition, there's still something running in the background (CPU
+    // usage is still at 5% on my machine). We run our own animation loop here
+    // so we can use the standard animate() functionality, which does not have
+    // this bug.
+
+    function doAnimate(time: DOMHighResTimeStamp) {
+      if (done) {
+        return
+      }
+
+      if (start === undefined) {
+        start = time
+      }
+      let elapsed = time - start
+
+      while (elapsed >= seq[nextSeq][2].at * 1000) {
+        animate(seq[nextSeq][0], seq[nextSeq][1], seq[nextSeq][2])
+
+        nextSeq = (nextSeq + 1) % seq.length
+        if (nextSeq === 0) {
+          start = time
+          break
+        }
+      }
+
+      if (!done) {
+        requestAnimationFrame(doAnimate)
+      }
+    }
+
+    requestAnimationFrame(doAnimate)
+
     for (let i = 0; i < quotes.length + 1; ++i) {
       if (i > 0) {
         seq.push([
           quotes[i % quotes.length].current,
           { opacity: 1 },
-          { at: DISPLAY_SECONDS * i - duration, duration },
+          { at: DISPLAY_SECONDS * i, duration },
         ])
       }
       if (i < quotes.length) {
         seq.push([
           quotes[i % quotes.length].current,
           { opacity: 0 },
-          { at: DISPLAY_SECONDS * (i + 1) - duration, duration },
+          { at: DISPLAY_SECONDS * (i + 1), duration },
         ])
       }
     }
-    animate(seq, { repeat: Infinity, delay: duration })
+
     animate(
       bar.current!!,
       { width: "100%" },
@@ -44,6 +81,10 @@ const Book = () => {
         repeat: Infinity,
       },
     )
+
+    return () => {
+      done = true
+    }
   }, [animate])
 
   return (
