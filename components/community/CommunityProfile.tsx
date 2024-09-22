@@ -75,7 +75,7 @@ const CommunityProfile = ({
       )}
       {"location" in profile && profile.location !== undefined && (
         <div className="mb-4 text-center leading-tight text-gray-600">
-          <MapPin className="mb-[2px] mr-1 inline" size="1.2em" />
+          <MapPin className="-ml-[0.2rem] mb-[2px] mr-1 inline" size="1.2em" />
           {profile.location}
         </div>
       )}
