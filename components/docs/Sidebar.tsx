@@ -1,4 +1,6 @@
 import ScrollArea from "../ScrollArea"
+import { useIsApple } from "../hooks/useIsApple"
+import { useIsMobile } from "../hooks/useIsMobile"
 import clsx from "clsx"
 import { forwardRef } from "react"
 
@@ -10,6 +12,9 @@ interface SidebarProps {
 
 const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
   ({ className, sticky = true, children }, ref) => {
+    const isApple = useIsApple()
+    const isMobile = useIsMobile()
+
     return (
       <div
         className={clsx(
@@ -21,9 +26,18 @@ const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
           className,
         )}
       >
-        <ScrollArea ref={ref} className="max-h-full w-full text-sm">
-          {children}
-        </ScrollArea>
+        {/* !!! Performance: Use native scroll area on Apple and mobile devices.
+            Radix UI's ScrollArea performs very poorly in Safari and causes
+            unwanted reflows (layout recalculations). */}
+        {isApple || isMobile ? (
+          <div className="max-h-full w-full overflow-auto text-sm">
+            {children}
+          </div>
+        ) : (
+          <ScrollArea ref={ref} className="max-h-full w-full text-sm">
+            {children}
+          </ScrollArea>
+        )}
       </div>
     )
   },
