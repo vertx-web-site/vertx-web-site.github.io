@@ -1,6 +1,7 @@
 "use client"
 
 import * as Dialog from "@radix-ui/react-dialog"
+import * as VisuallyHidden from "@radix-ui/react-visually-hidden"
 import Container from "@/components/Container"
 import Footer from "@/components/Footer"
 import NavBar from "@/components/NavBar"
@@ -39,6 +40,12 @@ const DocsLayout = ({ children }: { children: React.ReactNode }) => {
               className="flex h-full w-full bg-bg dark:bg-gray-100 [&[data-state='closed']]:animate-dialog-fade-out [&[data-state='open']]:animate-dialog-fade-in"
               onEscapeKeyDown={() => setMobileSidebarOpen(false)}
             >
+              <VisuallyHidden.Root>
+                <Dialog.DialogTitle>Documentation</Dialog.DialogTitle>
+                <Dialog.Description>
+                  Navigate the documentation
+                </Dialog.Description>
+              </VisuallyHidden.Root>
               <div className="ml-6 mr-6 mt-6 w-full">
                 <SidebarLeft
                   sticky={false}

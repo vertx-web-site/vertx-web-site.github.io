@@ -369,10 +369,8 @@ const NavBar = ({ fixed = true, narrow = false }: NavBarProps) => {
                 onPointerDownOutside={e => e.preventDefault()}
               >
                 <VisuallyHidden.Root>
-                  <Dialog.Title>Search</Dialog.Title>
-                  <Dialog.Description>
-                    Search documentation ...
-                  </Dialog.Description>
+                  <Dialog.Title>Main menu</Dialog.Title>
+                  <Dialog.Description>Navigate the website</Dialog.Description>
                 </VisuallyHidden.Root>
                 <div className="flex flex-col divide-y divide-gray-500 px-2">
                   {links.map(l => (
