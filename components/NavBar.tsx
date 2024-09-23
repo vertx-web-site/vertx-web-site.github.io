@@ -71,10 +71,9 @@ const Logo = ({ onClick }: LogoProps) => {
 
 interface NavBarProps {
   fixed?: boolean
-  narrow?: boolean
 }
 
-const NavBar = ({ fixed = true, narrow = false }: NavBarProps) => {
+const NavBar = ({ fixed = true }: NavBarProps) => {
   const lastScrollY = useRef(-1)
   const [belowThreshold, setBelowThreshold] = useState(true)
   const [needsTransition, setNeedsTransition] = useState(false)
