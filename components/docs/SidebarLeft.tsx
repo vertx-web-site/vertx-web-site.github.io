@@ -15,7 +15,7 @@ import {
 import clsx from "clsx"
 import Link from "next/link"
 import { useSelectedLayoutSegment } from "next/navigation"
-import React from "react"
+import React, { useLayoutEffect } from "react"
 import { useEffect, useRef } from "react"
 
 function createToc(
@@ -95,6 +95,12 @@ const SidebarLeft = ({ className, sticky, onClickLink }: SidebarLeftProps) => {
   const { version: activeVersion } = useVersion()
 
   let toc = createToc(type, version, slug, onClickLink)
+
+  useLayoutEffect(() => {
+    if (sidebarRef.current !== null) {
+      sidebarRef.current.scrollTop = 0
+    }
+  }, [type])
 
   useEffect(() => {
     if (sectionsRef.current === null || sidebarRef.current === null) {
