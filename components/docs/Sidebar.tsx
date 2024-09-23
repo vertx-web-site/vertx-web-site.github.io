@@ -30,7 +30,7 @@ const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
             Radix UI's ScrollArea performs very poorly in Safari and causes
             unwanted reflows (layout recalculations). */}
         {isApple || isMobile ? (
-          <div className="max-h-full w-full overflow-auto text-sm">
+          <div ref={ref} className="max-h-full w-full overflow-auto text-sm">
             {children}
           </div>
         ) : (
