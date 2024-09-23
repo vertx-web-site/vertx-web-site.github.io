@@ -8,13 +8,11 @@ import ScrollObserver from "@/components/docs/ScrollObserver"
 import SidebarLeft from "@/components/docs/SidebarLeft"
 import SidebarRight from "@/components/docs/SidebarRight"
 import TocNavBar from "@/components/docs/TocNavBar"
+import { ActiveSectionProvider } from "@/components/hooks/useActiveSection"
 import { X } from "@phosphor-icons/react/dist/ssr"
 import { useState } from "react"
 
 const DocsLayout = ({ children }: { children: React.ReactNode }) => {
-  const [activeSection, setActiveSection] = useState<string | undefined>(
-    undefined,
-  )
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState<boolean>(false)
 
   return (
@@ -26,14 +24,11 @@ const DocsLayout = ({ children }: { children: React.ReactNode }) => {
         width="2xl"
         className="mb-10 grid gap-10 [grid-template-columns:minmax(0,1fr)] lg:[grid-template-columns:16rem_minmax(0,1fr)] xl:gap-8 xl:[grid-template-columns:15rem_minmax(0,1fr)_15rem] 2xl:gap-10 2xl:[grid-template-columns:16rem_minmax(0,1fr)_16rem]"
       >
-        <SidebarLeft className="hidden pt-24 lg:flex" />
-        <ScrollObserver onChangeSlug={slug => setActiveSection(slug)}>
-          {children}
-        </ScrollObserver>
-        <SidebarRight
-          className="hidden pt-24 xl:flex"
-          activeSection={activeSection}
-        />
+        <ActiveSectionProvider>
+          <SidebarLeft className="hidden pt-24 lg:flex" />
+          <ScrollObserver>{children}</ScrollObserver>
+          <SidebarRight className="hidden pt-24 xl:flex" />
+        </ActiveSectionProvider>
       </Container>
       <Footer />
       <Dialog.Root open={mobileSidebarOpen} onOpenChange={setMobileSidebarOpen}>

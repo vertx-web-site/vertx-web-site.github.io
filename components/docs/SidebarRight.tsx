@@ -1,3 +1,4 @@
+import { useActiveSection } from "../hooks/useActiveSection"
 import Sidebar from "./Sidebar"
 import { Section, Subsection, makeIndex, makeToc } from "./Toc"
 import { versionFromSlug } from "./versionFromSlug"
@@ -7,6 +8,7 @@ import clsx from "clsx"
 import Link from "next/link"
 import { useSelectedLayoutSegment } from "next/navigation"
 import { useEffect, useLayoutEffect, useRef } from "react"
+import { useShallow } from "zustand/react/shallow"
 
 interface SidebarRightProps {
   className?: string
@@ -31,12 +33,17 @@ function sectionToLi(s: Section | Subsection, activeSection?: string) {
   )
 }
 
-const SidebarRight = ({ className, activeSection }: SidebarRightProps) => {
+const SidebarRight = ({ className }: SidebarRightProps) => {
   const firstScroll = useRef<boolean>(true)
   const sidebarRef = useRef<HTMLDivElement>(null)
   const sectionsRef = useRef<HTMLUListElement>(null)
   const { type, version, slug } = versionFromSlug(
     useSelectedLayoutSegment() ?? "",
+  )
+  const { activeSection } = useActiveSection(
+    useShallow(state => ({
+      activeSection: state.activeSection,
+    })),
   )
 
   const toc = makeToc(type, version ?? latestRelease.version)

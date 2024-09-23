@@ -1,6 +1,8 @@
+import { useActiveSection } from "../hooks/useActiveSection"
 import { throttle } from "lodash"
 import { useSelectedLayoutSegment } from "next/navigation"
 import { useEffect, useRef } from "react"
+import { useShallow } from "zustand/react/shallow"
 
 interface Top {
   slug: string
@@ -9,12 +11,16 @@ interface Top {
 
 interface ScrollObserverProps {
   children: React.ReactNode
-  onChangeSlug?: (slug: string | undefined) => void
 }
 
-const ScrollObserver = ({ children, onChangeSlug }: ScrollObserverProps) => {
+const ScrollObserver = ({ children }: ScrollObserverProps) => {
   const ref = useRef<HTMLDivElement>(null)
   const segment = useSelectedLayoutSegment()
+  const { setActiveSection } = useActiveSection(
+    useShallow(state => ({
+      setActiveSection: state.setActiveSection,
+    })),
+  )
 
   useEffect(() => {
     let sections: NodeListOf<HTMLElement> = ref.current!.querySelectorAll(
@@ -64,7 +70,7 @@ const ScrollObserver = ({ children, onChangeSlug }: ScrollObserverProps) => {
 
       if (current !== currentSlug) {
         currentSlug = current
-        onChangeSlug?.(current)
+        setActiveSection(current)
       }
     }
 
@@ -78,7 +84,7 @@ const ScrollObserver = ({ children, onChangeSlug }: ScrollObserverProps) => {
       resizeObserver.disconnect()
       window.removeEventListener("scroll", throttledOnScroll)
     }
-  }, [segment, onChangeSlug])
+  }, [segment, setActiveSection])
 
   return <div ref={ref}>{children}</div>
 }
