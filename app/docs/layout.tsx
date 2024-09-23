@@ -34,7 +34,7 @@ const DocsLayout = ({ children }: { children: React.ReactNode }) => {
       <Dialog.Root open={mobileSidebarOpen} onOpenChange={setMobileSidebarOpen}>
         <Dialog.Portal>
           <Dialog.Overlay />
-          <div className="fixed bottom-0 left-0 right-0 top-16 z-[100] flex">
+          <div className="fixed bottom-0 left-0 right-0 top-14 z-[100] flex">
             <Dialog.Content
               className="flex h-full w-full bg-bg dark:bg-gray-100 [&[data-state='closed']]:animate-dialog-fade-out [&[data-state='open']]:animate-dialog-fade-in"
               onEscapeKeyDown={() => setMobileSidebarOpen(false)}

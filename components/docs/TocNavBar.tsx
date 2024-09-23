@@ -20,7 +20,7 @@ const TocNavBar = ({ isOpen, setIsOpen }: TocNavBarProps) => {
   const index = makeIndex(toc)
 
   return (
-    <nav className="fixed left-0 right-0 top-16 z-50 flex h-16 items-center gap-2 border-b border-gray-200 bg-bg bg-opacity-80 pl-0.5 pr-2 backdrop-blur-sm sm:pl-2.5 lg:hidden">
+    <nav className="fixed left-0 right-0 top-14 z-50 flex h-16 items-center gap-2 border-b border-gray-200 bg-bg bg-opacity-80 pl-0.5 pr-2 backdrop-blur-sm sm:pl-2.5 lg:hidden">
       <div>
         <Hamburger
           label="Show table of contents"
