@@ -15,7 +15,7 @@ import {
 import clsx from "clsx"
 import Link from "next/link"
 import { useSelectedLayoutSegment } from "next/navigation"
-import React, { useLayoutEffect } from "react"
+import React, { useCallback, useLayoutEffect } from "react"
 import { useEffect, useRef } from "react"
 
 function createToc(
@@ -87,8 +87,9 @@ interface SidebarLeftProps {
 }
 
 const SidebarLeft = ({ className, sticky, onClickLink }: SidebarLeftProps) => {
-  const sidebarRef = useRef<HTMLDivElement>(null)
-  const sectionsRef = useRef<HTMLUListElement>(null)
+  const lastType = useRef<string | undefined>(undefined)
+  const sidebarRef = useRef<HTMLDivElement | null>(null)
+  const sectionsRef = useRef<HTMLDivElement>(null)
   const { type, version, slug } = versionFromSlug(
     useSelectedLayoutSegment() ?? "",
   )
@@ -97,31 +98,38 @@ const SidebarLeft = ({ className, sticky, onClickLink }: SidebarLeftProps) => {
   let toc = createToc(type, version, slug, onClickLink)
 
   useLayoutEffect(() => {
-    if (sidebarRef.current !== null) {
-      sidebarRef.current.scrollTop = 0
-    }
-  }, [type])
-
-  useEffect(() => {
-    if (sectionsRef.current === null || sidebarRef.current === null) {
+    if (sidebarRef.current === null) {
       return
     }
-    let element = sectionsRef.current.querySelector(
-      `[data-sidebar-page-slug="${slug}"]`,
-    )
-    if (element !== null) {
-      let erect = element.getBoundingClientRect()
-      let srect = sectionsRef.current.getBoundingClientRect()
-      let parent = sectionsRef.current.parentElement!.parentElement!
-      let prect = parent.getBoundingClientRect()
-
-      // center active item in view if necessary
-      if (erect.bottom > prect.bottom || erect.top < prect.top) {
-        let top = erect.top - srect.top
-        sidebarRef.current.scrollTop = top - prect.height / 2 + erect.height / 2
-      }
+    if (lastType.current !== undefined && lastType.current !== type) {
+      sidebarRef.current.scrollTop = 0
     }
-  }, [slug])
+    lastType.current = type
+  }, [type])
+
+  const handleSidebarRef = useCallback(
+    (node: HTMLDivElement | null) => {
+      if (sectionsRef.current === null || node === null) {
+        return
+      }
+      sidebarRef.current = node
+      let element = sectionsRef.current.querySelector(
+        `[data-sidebar-page-slug="${slug}"]`,
+      )
+      if (element !== null) {
+        let erect = element.getBoundingClientRect()
+        let srect = sectionsRef.current.getBoundingClientRect()
+        let prect = node.getBoundingClientRect()
+
+        // center active item in view if necessary
+        if (erect.bottom > prect.bottom || erect.top < prect.top) {
+          let top = erect.top - srect.top
+          node.scrollTop = top - prect.height / 2 + erect.height / 2
+        }
+      }
+    },
+    [slug],
+  )
 
   let books = [
     {
@@ -148,42 +156,42 @@ const SidebarLeft = ({ className, sticky, onClickLink }: SidebarLeftProps) => {
   ]
 
   return (
-    <Sidebar ref={sidebarRef} className={className} sticky={sticky}>
-      <ul className="mb-6 flex flex-col gap-3 border-b border-gray-200 pb-6 font-normal">
-        {books.map(book => {
-          let active = book.type === type
-          return (
-            <li key={book.title}>
-              <Link
-                href={book.href}
-                className={clsx("group inline-flex items-center gap-2", {
-                  "text-primary hover:text-primary-hover": active,
-                  "text-gray-700 hover:text-primary-hover dark:text-gray-600 dark:hover:text-primary-hover":
-                    !active,
-                })}
-              >
-                <div
-                  className={clsx("rounded-sm border p-[0.2rem]", {
-                    "border-primary/30 bg-primary/5 group-hover:border-primary-hover/30 dark:border-primary/70 dark:bg-primary/10 dark:group-hover:border-primary-hover/70":
-                      active,
-                    "border-gray-700/30 group-hover:border-primary-hover/30 group-hover:bg-primary/5 dark:border-gray-700/40 dark:group-hover:border-primary-hover/70":
+    <Sidebar ref={handleSidebarRef} className={className} sticky={sticky}>
+      <div ref={sectionsRef}>
+        <ul className="mb-6 flex flex-col gap-3 border-b border-gray-200 pb-6 font-normal">
+          {books.map(book => {
+            let active = book.type === type
+            return (
+              <li key={book.title}>
+                <Link
+                  href={book.href}
+                  className={clsx("group inline-flex items-center gap-2", {
+                    "text-primary hover:text-primary-hover": active,
+                    "text-gray-700 hover:text-primary-hover dark:text-gray-600 dark:hover:text-primary-hover":
                       !active,
                   })}
                 >
-                  {React.cloneElement(book.icon, {
-                    weight: active ? "fill" : "regular",
-                    size: "1.1em",
-                  })}
-                </div>
-                <div>{book.title}</div>
-              </Link>
-            </li>
-          )
-        })}
-      </ul>
-      <ul className="mb-4 flex flex-col gap-6" ref={sectionsRef}>
-        {toc}
-      </ul>
+                  <div
+                    className={clsx("rounded-sm border p-[0.2rem]", {
+                      "border-primary/30 bg-primary/5 group-hover:border-primary-hover/30 dark:border-primary/70 dark:bg-primary/10 dark:group-hover:border-primary-hover/70":
+                        active,
+                      "border-gray-700/30 group-hover:border-primary-hover/30 group-hover:bg-primary/5 dark:border-gray-700/40 dark:group-hover:border-primary-hover/70":
+                        !active,
+                    })}
+                  >
+                    {React.cloneElement(book.icon, {
+                      weight: active ? "fill" : "regular",
+                      size: "1.1em",
+                    })}
+                  </div>
+                  <div>{book.title}</div>
+                </Link>
+              </li>
+            )
+          })}
+        </ul>
+        <ul className="mb-4 flex flex-col gap-6">{toc}</ul>
+      </div>
     </Sidebar>
   )
 }

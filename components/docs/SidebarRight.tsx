@@ -7,7 +7,7 @@ import { ArrowSquareOut } from "@phosphor-icons/react/dist/ssr"
 import clsx from "clsx"
 import Link from "next/link"
 import { useSelectedLayoutSegment } from "next/navigation"
-import { useEffect, useLayoutEffect, useRef } from "react"
+import { useCallback, useEffect, useLayoutEffect, useRef } from "react"
 import { useShallow } from "zustand/react/shallow"
 
 interface SidebarRightProps {
@@ -35,7 +35,7 @@ function sectionToLi(s: Section | Subsection, activeSection?: string) {
 
 const SidebarRight = ({ className }: SidebarRightProps) => {
   const firstScroll = useRef<boolean>(true)
-  const sidebarRef = useRef<HTMLDivElement>(null)
+  const sidebarRef = useRef<HTMLDivElement | null>(null)
   const sectionsRef = useRef<HTMLUListElement>(null)
   const { type, version, slug } = versionFromSlug(
     useSelectedLayoutSegment() ?? "",
@@ -81,32 +81,39 @@ const SidebarRight = ({ className }: SidebarRightProps) => {
     }
   }, [slug])
 
-  useEffect(() => {
-    if (sectionsRef.current === null || sidebarRef.current === null) {
-      return
-    }
-    let element = sectionsRef.current.querySelector(
-      `[data-sidebar-section-slug="${activeSection}"]`,
-    )
-    if (element !== null) {
-      let erect = element.getBoundingClientRect()
-      let srect = sectionsRef.current.getBoundingClientRect()
-      let prect = sidebarRef.current.getBoundingClientRect()
-
-      if (erect.bottom > prect.bottom || erect.top < prect.top) {
-        let top = erect.top - srect.top
-        sidebarRef.current.scrollTo({
-          top,
-          behavior: firstScroll.current ? "instant" : "smooth",
-        })
+  let handleSidebarRef = useCallback(
+    (node: HTMLDivElement | null) => {
+      if (sectionsRef.current === null || node === null) {
+        return
       }
+      if (sidebarRef.current !== node) {
+        firstScroll.current = true
+      }
+      sidebarRef.current = node
+      let element = sectionsRef.current.querySelector(
+        `[data-sidebar-section-slug="${activeSection}"]`,
+      )
+      if (element !== null) {
+        let erect = element.getBoundingClientRect()
+        let srect = sectionsRef.current.getBoundingClientRect()
+        let prect = node.getBoundingClientRect()
 
-      firstScroll.current = false
-    }
-  }, [activeSection])
+        if (erect.bottom > prect.bottom || erect.top < prect.top) {
+          let top = erect.top - srect.top
+          node.scrollTo({
+            top,
+            behavior: firstScroll.current ? "instant" : "smooth",
+          })
+        }
+
+        firstScroll.current = false
+      }
+    },
+    [activeSection],
+  )
 
   return (
-    <Sidebar ref={sidebarRef} className={className}>
+    <Sidebar ref={handleSidebarRef} className={className}>
       <div className="mb-4">
         {sections !== undefined ? (
           <>
