@@ -618,7 +618,7 @@ Changes:
       "name": "[Java] Storage Type Annotation",
       "scope": "source.java storage.type.annotation",
       "settings": {
-        "foreground": "#f56566"
+        "foreground": "#d2a8e0"
       }
     },
     {
