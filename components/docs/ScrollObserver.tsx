@@ -23,9 +23,8 @@ const ScrollObserver = ({ children }: ScrollObserverProps) => {
   )
 
   useEffect(() => {
-    let sections: NodeListOf<HTMLElement> = ref.current!.querySelectorAll(
-      "div[class='sect1']>h2,div[class='sect2']>h3",
-    )
+    let sections: NodeListOf<HTMLElement> =
+      ref.current!.querySelectorAll("h2,h3")
     let tops: Top[] = []
     let currentSlug: string | undefined = undefined
 
