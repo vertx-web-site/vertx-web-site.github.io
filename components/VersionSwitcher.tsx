@@ -1,43 +1,24 @@
-import * as Select from "@radix-ui/react-select"
 import { makeIndex, makeToc } from "./docs/Toc"
 import { versionFromSlug } from "./docs/versionFromSlug"
 import { useVersion } from "./hooks/useVersion"
 import { latestRelease, versions } from "@/docs/metadata/all"
 import { filterLatestBugfixVersions } from "@/docs/metadata/helpers"
-import { CaretDown, CaretUp, Check } from "@phosphor-icons/react/dist/ssr"
+import { CaretDown, Check } from "@phosphor-icons/react/dist/ssr"
 import clsx from "clsx"
 import { usePathname, useRouter } from "next/navigation"
-import { forwardRef, useCallback } from "react"
+import { useCallback } from "react"
+import {
+  Button,
+  ListBox,
+  ListBoxItem,
+  Popover,
+  Select,
+  SelectValue,
+} from "react-aria-components"
 
 interface VersionSwitcherProps {
   bg: "primary" | "gray"
 }
-
-interface SelectItemProps {
-  className?: string
-  children: React.ReactNode
-  value: string
-}
-
-const SelectItem = forwardRef<HTMLDivElement, SelectItemProps>(
-  ({ children, className, value }, forwardedRef) => {
-    return (
-      <Select.Item
-        className={clsx(
-          "relative flex h-6 select-none items-center rounded-sm px-6 text-xs leading-none data-[highlighted]:bg-primary data-[highlighted]:text-bg data-[highlighted]:outline-none",
-          className,
-        )}
-        value={value}
-        ref={forwardedRef}
-      >
-        <Select.ItemText>{children}</Select.ItemText>
-        <Select.ItemIndicator className="absolute left-0 inline-flex w-6 items-center justify-center">
-          <Check />
-        </Select.ItemIndicator>
-      </Select.Item>
-    )
-  },
-)
 
 const VersionSwitcher = ({ bg }: VersionSwitcherProps) => {
   const filteredVersions = filterLatestBugfixVersions(versions)
@@ -94,50 +75,61 @@ const VersionSwitcher = ({ bg }: VersionSwitcherProps) => {
   )
 
   return (
-    <Select.Root value={version} onValueChange={onValueChange}>
-      <Select.Trigger
-        className={clsx(
-          "inline-flex select-none flex-row items-center gap-1 whitespace-nowrap rounded-sm px-3 py-1 text-xs text-gray-700 transition-colors",
-          {
-            "border border-gray-200 bg-gray-100": bg === "gray",
-            "border border-primary/5 bg-primary/5 dark:bg-primary/10":
-              bg === "primary",
-          },
-        )}
+    <>
+      <Select
+        selectedKey={version}
+        onSelectionChange={value => onValueChange(value as string)}
+        className="mb-[1px]"
+        aria-label="Select a version"
       >
-        <Select.Value
-          placeholder="Select a version"
-          aria-label={pathVersion ?? version}
+        <Button
+          className={clsx(
+            "inline-flex items-center gap-1 whitespace-nowrap rounded-sm px-3 py-1 text-xs text-gray-700 transition-colors focus:[outline-style:none] data-[focus-visible]:outline-2 data-[focus-visible]:[outline-style:solid]",
+            {
+              "border border-gray-200 bg-gray-100": bg === "gray",
+              "border border-primary/5 bg-primary/5 dark:bg-primary/10":
+                bg === "primary",
+            },
+          )}
         >
-          {pathVersion ?? version}
-        </Select.Value>
-        <Select.Icon>
-          <CaretDown />
-        </Select.Icon>
-      </Select.Trigger>
-      <Select.Portal>
-        <Select.Content
-          onCloseAutoFocus={e => e.preventDefault()}
-          position="popper"
-          sideOffset={5}
-          className="z-50 overflow-hidden rounded-sm bg-bg shadow dark:border dark:border-gray-200"
-        >
-          <Select.ScrollUpButton className="flex h-6 cursor-default items-center justify-center bg-bg text-sm text-text">
-            <CaretUp />
-          </Select.ScrollUpButton>
-          <Select.Viewport className="p-1">
-            {filteredVersions.map(v => (
-              <SelectItem key={v} value={v}>
-                {v}
-              </SelectItem>
-            ))}
-          </Select.Viewport>
-          <Select.ScrollDownButton className="flex h-6 cursor-default items-center justify-center bg-bg text-sm text-text">
+          <SelectValue>
+            {({ isPlaceholder }) => {
+              return isPlaceholder ? (
+                <>Select a version</>
+              ) : (
+                (pathVersion ?? version)
+              )
+            }}
+          </SelectValue>
+          <span aria-hidden="true">
             <CaretDown />
-          </Select.ScrollDownButton>
-        </Select.Content>
-      </Select.Portal>
-    </Select.Root>
+          </span>
+        </Button>
+        <Popover offset={5}>
+          <ListBox className="z-50 rounded-sm bg-bg p-1 shadow dark:border dark:border-gray-200">
+            {filteredVersions.map(v => (
+              <ListBoxItem
+                id={v}
+                key={v}
+                textValue={v}
+                className="relative flex h-6 select-none items-center rounded-sm px-6 text-xs leading-none data-[focused]:bg-primary data-[focused]:text-bg data-[focused]:outline-none"
+              >
+                {({ isSelected }) => (
+                  <>
+                    {v}
+                    {isSelected ? (
+                      <div className="absolute left-0 inline-flex w-6 items-center justify-center">
+                        <Check />
+                      </div>
+                    ) : undefined}
+                  </>
+                )}
+              </ListBoxItem>
+            ))}
+          </ListBox>
+        </Popover>
+      </Select>
+    </>
   )
 }
 
