@@ -1,9 +1,9 @@
 import Button from "../Button"
 import Container from "../Container"
+import { Envelope, EnvelopeSimple } from "@phosphor-icons/react/dist/ssr"
 import { motion } from "framer-motion"
 import { shuffle } from "lodash"
 import { useEffect, useRef, useState } from "react"
-import { Mail } from "react-feather"
 
 const LOGOS = [
   {
@@ -209,7 +209,7 @@ const Logos = () => {
       <Container className="flex flex-col items-center justify-center gap-4 md:flex-row">
         <div>Want to be listed here?</div>
         <a href="mailto:vertx-enquiries@googlegroups.com">
-          <Button primary icon={<Mail />}>
+          <Button primary icon={<EnvelopeSimple />}>
             Contact us!
           </Button>
         </a>
