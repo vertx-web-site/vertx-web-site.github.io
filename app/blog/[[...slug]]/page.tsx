@@ -181,7 +181,7 @@ const Blog = ({ params }: BlogProps) => {
               {c}
             </Link>
           ))}
-          <Link href="/feed/atom.xml">
+          <Link href="/feed/atom.xml" prefetch={false}>
             <Rss size="1.25em" />
           </Link>
         </div>
