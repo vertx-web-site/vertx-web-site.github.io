@@ -1,5 +1,7 @@
 "use client"
 
+import EscapeKeyObserver from "./EscapeKeyObserver"
+import ResizeObserver from "./ResizeObserver"
 import ScrollTopWorkaround from "./ScrollTopWorkaround"
 import SimpleIcon from "./SimpleIcon"
 import { Tooltip } from "./Tooltip"
@@ -22,20 +24,6 @@ import {
   siStackoverflow,
   siYoutube,
 } from "simple-icons"
-
-interface ResizeObserverProps {
-  onResize: () => void
-}
-
-const ResizeObserver = ({ onResize }: ResizeObserverProps) => {
-  useEffect(() => {
-    window.addEventListener("resize", onResize)
-    return () => {
-      window.removeEventListener("resize", onResize)
-    }
-  }, [onResize])
-  return <></>
-}
 
 interface LogoProps {
   onClick?: () => void
@@ -346,11 +334,11 @@ const NavBar = ({ fixed = true }: NavBarProps) => {
           </div>
         </div>
 
-        <ModalOverlay isOpen={collapsed}>
-          <Modal className="fixed top-14 z-50 h-[calc(100vh-3.5rem)] w-screen overflow-scroll bg-gray-100 data-[entering]:animate-fade-in data-[exiting]:animate-fade-out xl:hidden">
+        <ModalOverlay isOpen={collapsed} isKeyboardDismissDisabled={true}>
+          <Modal className="fixed bottom-0 left-0 right-0 top-14 z-[150] overflow-scroll bg-gray-100 data-[entering]:animate-fade-in data-[exiting]:animate-fade-out xl:hidden">
             <Dialog
               aria-label="Main menu"
-              className="flex flex-col overflow-hidden"
+              className="flex flex-col overflow-hidden outline-none"
             >
               <div className="flex flex-col divide-y divide-gray-500 px-2">
                 {links.map(l => (
@@ -375,6 +363,7 @@ const NavBar = ({ fixed = true }: NavBarProps) => {
               <div className="mt-4 flex justify-end px-4 xs:hidden">
                 <VersionSwitcher bg={!fixed && onTop ? "primary" : "gray"} />
               </div>
+              <EscapeKeyObserver onEscape={() => setCollapsed(false)} />
               <ResizeObserver onResize={() => setCollapsed(false)} />
             </Dialog>
           </Modal>
