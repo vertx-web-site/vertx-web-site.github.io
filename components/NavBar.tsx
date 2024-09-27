@@ -307,29 +307,9 @@ const NavBar = ({ fixed = true }: NavBarProps) => {
           )}
         >
           <div className="flex max-w-screen-2xl flex-1 items-center justify-between">
-            <div className="flex flex-1 items-center justify-between xl:hidden">
+            <div className="flex flex-1 items-center justify-between xl:gap-6 2xl:gap-8">
               <Logo onClick={() => setCollapsed(false)} />
-              <div className="flex items-center gap-4">
-                <div className="hidden xs:flex">
-                  <VersionSwitcher bg={!fixed && onTop ? "primary" : "gray"} />
-                </div>
-                <QuickSearch onClick={() => setCollapsed(false)} />
-                <button
-                  id="navbar-toggle-menu-button"
-                  className="inline-flex select-none items-center justify-center text-gray-800"
-                  onClick={() => setCollapsed(!collapsed)}
-                  aria-label={collapsed ? "Close menu" : "Open menu"}
-                >
-                  <Hamburger
-                    toggled={collapsed}
-                    label={collapsed ? "Close menu" : "Open menu"}
-                  />
-                </button>
-              </div>
-            </div>
-            <div className="hidden flex-1 items-center justify-between gap-6 xl:flex 2xl:gap-8">
-              <Logo onClick={() => setCollapsed(false)} />
-              <div className="flex gap-6">
+              <div className="hidden gap-6 xl:flex">
                 {links.map(l => (
                   <Link
                     key={l.label}
@@ -340,19 +320,30 @@ const NavBar = ({ fixed = true }: NavBarProps) => {
                   </Link>
                 ))}
               </div>
-              <div className="flex-1"></div>
+              <div className="hidden flex-1 xl:block"></div>
               <div className="flex items-center gap-4">
                 <VersionSwitcher bg={!fixed && onTop ? "primary" : "gray"} />
-                <div className="border-r border-gray-300 pr-4">
+                <div className="flex justify-center xl:border-r xl:border-gray-300 xl:pr-4">
                   <QuickSearch />
                 </div>
-                <div className="flex items-center gap-3">
+                <div className="hidden items-center gap-3 xl:flex">
                   {socialIcons.map(si => (
                     <Tooltip key={si.title} content={si.title}>
                       {si.content}
                     </Tooltip>
                   ))}
                 </div>
+                <button
+                  id="navbar-toggle-menu-button"
+                  className="inline-flex select-none items-center justify-center text-gray-800 xl:hidden"
+                  onClick={() => setCollapsed(!collapsed)}
+                  aria-label={collapsed ? "Close menu" : "Open menu"}
+                >
+                  <Hamburger
+                    toggled={collapsed}
+                    label={collapsed ? "Close menu" : "Open menu"}
+                  />
+                </button>
               </div>
             </div>
           </div>
