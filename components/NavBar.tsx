@@ -1,7 +1,5 @@
 "use client"
 
-import * as Dialog from "@radix-ui/react-dialog"
-import * as VisuallyHidden from "@radix-ui/react-visually-hidden"
 import ScrollTopWorkaround from "./ScrollTopWorkaround"
 import SimpleIcon from "./SimpleIcon"
 import { Tooltip } from "./Tooltip"
@@ -9,14 +7,13 @@ import VersionSwitcher from "./VersionSwitcher"
 import { useVersion } from "./hooks/useVersion"
 import QuickSearch from "./search/QuickSearch"
 import { latestRelease } from "@/docs/metadata/all"
-import { Slot } from "@radix-ui/react-slot"
 import clsx from "clsx"
 import { Spin as Hamburger } from "hamburger-react"
 import { throttle } from "lodash"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import React, { useEffect, useRef, useState } from "react"
-import { RemoveScroll } from "react-remove-scroll"
+import { Dialog, Modal, ModalOverlay } from "react-aria-components"
 import {
   siAwesomelists,
   siDiscord,
@@ -349,47 +346,39 @@ const NavBar = ({ fixed = true }: NavBarProps) => {
           </div>
         </div>
 
-        <Dialog.Root open={collapsed} onOpenChange={setCollapsed} modal={false}>
-          <Dialog.Portal>
-            <RemoveScroll as={Slot}>
-              <Dialog.Content
-                className="fixed top-14 z-50 h-[calc(100vh-4rem)] w-screen overflow-scroll bg-gray-100 xl:hidden [&[data-state='closed']]:animate-fade-out [&[data-state='open']]:animate-fade-in"
-                onInteractOutside={e => e.preventDefault()}
-                onCloseAutoFocus={e => e.preventDefault()}
-                onPointerDownOutside={e => e.preventDefault()}
-              >
-                <VisuallyHidden.Root>
-                  <Dialog.Title>Main menu</Dialog.Title>
-                  <Dialog.Description>Navigate the website</Dialog.Description>
-                </VisuallyHidden.Root>
-                <div className="flex flex-col divide-y divide-gray-500 px-2">
-                  {links.map(l => (
-                    <Link
-                      key={l.label}
-                      href={l.href}
-                      className={clsx(
-                        "text-gray-800 hover:text-gray-500",
-                        "block px-2 py-3",
-                      )}
-                      onClick={() => setCollapsed(false)}
-                    >
-                      {l.label}
-                    </Link>
-                  ))}
-                </div>
-                <div className="mt-8 flex items-center justify-end gap-3 px-4">
-                  {socialIcons.map(si => (
-                    <React.Fragment key={si.title}>{si.content}</React.Fragment>
-                  ))}
-                </div>
-                <div className="mt-4 flex justify-end px-4 xs:hidden">
-                  <VersionSwitcher bg={!fixed && onTop ? "primary" : "gray"} />
-                </div>
-                <ResizeObserver onResize={() => setCollapsed(false)} />
-              </Dialog.Content>
-            </RemoveScroll>
-          </Dialog.Portal>
-        </Dialog.Root>
+        <ModalOverlay isOpen={collapsed}>
+          <Modal className="fixed top-14 z-50 h-[calc(100vh-3.5rem)] w-screen overflow-scroll bg-gray-100 data-[entering]:animate-fade-in data-[exiting]:animate-fade-out xl:hidden">
+            <Dialog
+              aria-label="Main menu"
+              className="flex flex-col overflow-hidden"
+            >
+              <div className="flex flex-col divide-y divide-gray-500 px-2">
+                {links.map(l => (
+                  <Link
+                    key={l.label}
+                    href={l.href}
+                    className={clsx(
+                      "text-gray-800 hover:text-gray-500",
+                      "block px-2 py-3",
+                    )}
+                    onClick={() => setCollapsed(false)}
+                  >
+                    {l.label}
+                  </Link>
+                ))}
+              </div>
+              <div className="mt-8 flex items-center justify-end gap-3 px-4">
+                {socialIcons.map(si => (
+                  <React.Fragment key={si.title}>{si.content}</React.Fragment>
+                ))}
+              </div>
+              <div className="mt-4 flex justify-end px-4 xs:hidden">
+                <VersionSwitcher bg={!fixed && onTop ? "primary" : "gray"} />
+              </div>
+              <ResizeObserver onResize={() => setCollapsed(false)} />
+            </Dialog>
+          </Modal>
+        </ModalOverlay>
       </nav>
     </>
   )

@@ -74,7 +74,6 @@
     "react-dom": "^18.3.1",
     "react-hotkeys-hook": "^4.5.1",
     "react-lite-youtube-embed": "^2.4.0",
-    "react-remove-scroll": "^2.6.0",
     "react-svg-loader": "^3.0.3",
     "react-wrap-balancer": "^1.1.1",
     "rehype": "^13.0.1",
