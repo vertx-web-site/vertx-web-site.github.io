@@ -338,6 +338,9 @@ async function fetchAll(): Promise<{
     fullTimeDevelopers.sort((a, b) => b.contributions - a.contributions)
     maintainers.sort((a, b) => b.contributions - a.contributions)
     contributors.sort((a, b) => b.contributions - a.contributions)
+
+    // remove bots
+    contributors = contributors.filter(c => !c.githubId.endsWith("[bot]"))
   }
 
   return {
