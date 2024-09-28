@@ -172,9 +172,9 @@ const DocsPage = async ({ params }: DocsPageProps) => {
         contents.substring(0, match.index) +
         contents.substring(match.index + h1.length)
       extendedh1 = (
-        <div className="not-prose mb-7 flex flex-row items-start gap-3">
+        <div className="mb-7 flex flex-row items-start gap-3">
           <span
-            className="inline-flex text-[2em] leading-9 [&_h1]:font-normal"
+            className="inline-flex [&_h1]:mb-0 [&_h1]:text-[2em] [&_h1]:font-normal [&_h1]:leading-9"
             dangerouslySetInnerHTML={{
               __html: h1,
             }}
@@ -239,7 +239,7 @@ const DocsPage = async ({ params }: DocsPageProps) => {
       ) : undefined}
       <div className="mt-2" id={slug}></div>
       <Content />
-      <div className="not-prose mb-8 mt-14 flex justify-between gap-4 text-sm">
+      <div className="mb-8 mt-14 flex justify-between gap-4 text-sm">
         <div>
           {prev !== undefined ? (
             <Link

@@ -8,7 +8,7 @@
     "dev": "next",
     "build": "next build && npm run scraper",
     "lint": "next lint",
-    "postinstall": "npm run scraper:install && npm run update-docs:install",
+    "postinstall": "npm run scraper:install && npm run update-docs:install && patch-package",
     "scraper": "cd scraper && npm run run && cd ..",
     "scraper:install": "cd scraper && npm i",
     "start": "next start",
@@ -100,6 +100,7 @@
     "favicons": "^7.2.0",
     "image-size": "^1.1.1",
     "npm-check-updates": "^17.1.1",
+    "patch-package": "^8.0.0",
     "simple-functional-loader": "^1.2.1"
   }
 }

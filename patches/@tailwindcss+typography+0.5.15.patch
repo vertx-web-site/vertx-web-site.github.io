@@ -1,0 +1,25 @@
+diff --git a/node_modules/@tailwindcss/typography/src/index.js b/node_modules/@tailwindcss/typography/src/index.js
+index 04830b9..fb81603 100644
+--- a/node_modules/@tailwindcss/typography/src/index.js
++++ b/node_modules/@tailwindcss/typography/src/index.js
+@@ -10,7 +10,6 @@ const computed = {
+ }
+ 
+ function inWhere(selector, { className, modifier, prefix }) {
+-  let prefixedNot = prefix(`.not-${className}`).slice(1)
+   let selectorPrefix = selector.startsWith('>')
+     ? `${modifier === 'DEFAULT' ? `.${className}` : `.${className}-${modifier}`} `
+     : ''
+@@ -19,10 +18,10 @@ function inWhere(selector, { className, modifier, prefix }) {
+   let [trailingPseudo, rebuiltSelector] = commonTrailingPseudos(selector)
+ 
+   if (trailingPseudo) {
+-    return `:where(${selectorPrefix}${rebuiltSelector}):not(:where([class~="${prefixedNot}"],[class~="${prefixedNot}"] *))${trailingPseudo}`
++    return `:where(${selectorPrefix}${rebuiltSelector})${trailingPseudo}`
+   }
+ 
+-  return `:where(${selectorPrefix}${selector}):not(:where([class~="${prefixedNot}"],[class~="${prefixedNot}"] *))`
++  return `:where(${selectorPrefix}${selector})`
+ }
+ 
+ function isObject(value) {

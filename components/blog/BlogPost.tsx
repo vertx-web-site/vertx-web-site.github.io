@@ -93,13 +93,13 @@ const BlogPost = async ({ postId }: BlogPostProps) => {
             <Clock size="1.5em" className="-ml-[2px]" />
             <div>{post.readingTime}</div>
           </div>
-          <div className="not-prose flex flex-row gap-3">
+          <div className="flex flex-row gap-3">
             <Tooltip content="X">
               <a
                 href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(url)}&via=vertx_project`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="transition-all hover:scale-110"
+                className="text-gray-900 transition-all hover:scale-110"
               >
                 <SimpleIcon icon={siX} title="" />
               </a>
@@ -109,7 +109,7 @@ const BlogPost = async ({ postId }: BlogPostProps) => {
                 href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="transition-all hover:scale-110"
+                className="text-gray-900 transition-all hover:scale-110"
               >
                 <SimpleIcon icon={siLinkedin} title="" />
               </a>
@@ -119,7 +119,7 @@ const BlogPost = async ({ postId }: BlogPostProps) => {
                 href={`https://www.facebook.com/sharer.php?u=${encodeURIComponent(url)}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="transition-all hover:scale-110"
+                className="text-gray-900 transition-all hover:scale-110"
               >
                 <SimpleIcon icon={siFacebook} title="" />
               </a>
