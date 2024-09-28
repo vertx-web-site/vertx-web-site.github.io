@@ -4,6 +4,7 @@ RUN mkdir -p /vertx/docs & mkdir -p /vertx/scraper
 COPY package.json package-lock.json /vertx/
 COPY docs/package.json docs/package-lock.json /vertx/docs
 COPY scraper/package.json scraper/package-lock.json /vertx/scraper
+COPY patches /vertx/patches
 
 WORKDIR /vertx
 RUN npm ci
