@@ -1,4 +1,5 @@
 import { useActiveSection } from "../hooks/useActiveSection"
+import asyncBoundingClientRect from "../lib/async-bounding-client-rect"
 import Sidebar from "./Sidebar"
 import { Section, Subsection, makeIndex, makeToc } from "./Toc"
 import { versionFromSlug } from "./versionFromSlug"
@@ -7,7 +8,7 @@ import { ArrowSquareOut } from "@phosphor-icons/react/dist/ssr"
 import clsx from "clsx"
 import Link from "next/link"
 import { useSelectedLayoutSegment } from "next/navigation"
-import { useCallback, useEffect, useLayoutEffect, useRef } from "react"
+import { useCallback, useLayoutEffect, useRef } from "react"
 import { useShallow } from "zustand/react/shallow"
 
 interface SidebarRightProps {
@@ -94,18 +95,18 @@ const SidebarRight = ({ className }: SidebarRightProps) => {
         `[data-sidebar-section-slug="${activeSection}"]`,
       )
       if (element !== null) {
-        let erect = element.getBoundingClientRect()
-        let srect = sectionsRef.current.getBoundingClientRect()
-        let prect = node.getBoundingClientRect()
-
-        if (erect.bottom > prect.bottom || erect.top < prect.top) {
-          let top = erect.top - srect.top
-          node.scrollTo({
-            top,
-            behavior: firstScroll.current ? "instant" : "smooth",
-          })
-        }
-
+        // asynchronously get rects to avoid forced reflow
+        asyncBoundingClientRect([element, sectionsRef.current, node]).then(
+          ([erect, srect, prect]) => {
+            if (erect.bottom > prect.bottom || erect.top < prect.top) {
+              let top = erect.top - srect.top
+              node.scrollTo({
+                top,
+                behavior: firstScroll.current ? "instant" : "smooth",
+              })
+            }
+          },
+        )
         firstScroll.current = false
       }
     },

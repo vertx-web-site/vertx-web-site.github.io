@@ -1,5 +1,6 @@
 import Label from "../Label"
 import { useVersion } from "../hooks/useVersion"
+import asyncBoundingClientRect from "../lib/async-bounding-client-rect"
 import Sidebar from "./Sidebar"
 import { versionFromSlug } from "./versionFromSlug"
 import { isExternal, makeToc } from "@/components/docs/Toc"
@@ -16,7 +17,7 @@ import clsx from "clsx"
 import Link from "next/link"
 import { useSelectedLayoutSegment } from "next/navigation"
 import React, { useCallback, useLayoutEffect } from "react"
-import { useEffect, useRef } from "react"
+import { useRef } from "react"
 
 function createToc(
   type: "docs" | "howtos" | "guides",
@@ -117,15 +118,16 @@ const SidebarLeft = ({ className, sticky, onClickLink }: SidebarLeftProps) => {
         `[data-sidebar-page-slug="${slug}"]`,
       )
       if (element !== null) {
-        let erect = element.getBoundingClientRect()
-        let srect = sectionsRef.current.getBoundingClientRect()
-        let prect = node.getBoundingClientRect()
-
-        // center active item in view if necessary
-        if (erect.bottom > prect.bottom || erect.top < prect.top) {
-          let top = erect.top - srect.top
-          node.scrollTop = top - prect.height / 2 + erect.height / 2
-        }
+        // asynchronously get rects to avoid forced reflow
+        asyncBoundingClientRect([element, sectionsRef.current, node]).then(
+          ([erect, srect, prect]) => {
+            // center active item in view if necessary
+            if (erect.bottom > prect.bottom || erect.top < prect.top) {
+              let top = erect.top - srect.top
+              node.scrollTop = top - prect.height / 2 + erect.height / 2
+            }
+          },
+        )
       }
     },
     [slug],
