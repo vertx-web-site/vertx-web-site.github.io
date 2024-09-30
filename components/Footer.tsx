@@ -115,9 +115,9 @@ const Footer = () => {
     <a key="appgenerator" href="https://start.vertx.io/">
       App Generator
     </a>,
-    <Link key="securitytxt" href="/.well-known/security.txt" prefetch={false}>
+    <a key="securitytxt" href="/.well-known/security.txt">
       security.txt
-    </Link>,
+    </a>,
   ]
 
   const menu3 = [
