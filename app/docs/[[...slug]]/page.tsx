@@ -229,6 +229,7 @@ const DocsPage = async ({ params }: DocsPageProps) => {
                 className="flex flex-row items-center gap-1"
                 target="_blank"
                 rel="noopener noreferrer"
+                prefetch={false}
               >
                 <Book />
                 <div>API docs</div>
