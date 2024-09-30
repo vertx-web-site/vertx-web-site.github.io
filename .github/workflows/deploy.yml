@@ -3,6 +3,8 @@ name: Deploy
 on:
   push:
     branches: [master]
+  schedule:
+    - cron: "45 5 * * *"
 
 concurrency:
   group: master-deploy
