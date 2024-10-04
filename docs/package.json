@@ -10,6 +10,7 @@
   "dependencies": {
     "asciidoctor": "^3.0.4",
     "cli-progress": "^3.9.1",
+    "fast-glob": "^3.3.2",
     "fs-extra": "^10.0.0",
     "node-7z": "^3.0.0",
     "p-limit": "^4.0.0",

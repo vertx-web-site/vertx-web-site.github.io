@@ -2,6 +2,7 @@ import * as parse5 from "parse5"
 import { Artifact } from "./artifact"
 import { createHighlighter } from "./highlighter"
 import asciidoctor from "asciidoctor"
+import fg from "fast-glob"
 import fsSync from "fs"
 import fs from "fs/promises"
 import path from "path"
@@ -16,31 +17,6 @@ interface TocElement {
   id: string
   title: string
   children?: TocElement[]
-}
-
-async function readDirRecursive(
-  dir: string,
-  result: string[] = [],
-): Promise<string[]> {
-  let files = await fs.readdir(dir)
-  for (let f of files) {
-    let absolute = path.join(dir, f)
-    if ((await fs.stat(absolute)).isDirectory()) {
-      if (
-        f !== "apidocs" &&
-        f !== "jsdoc" &&
-        f !== "kdoc" &&
-        f !== "scaladocs"
-      ) {
-        await readDirRecursive(absolute, result)
-      }
-    } else {
-      if (f === "index.adoc") {
-        result.push(absolute)
-      }
-    }
-  }
-  return result
 }
 
 function parseToc(
@@ -154,10 +130,17 @@ async function workerMain({
     return []
   }
 
-  let files = await readDirRecursive(extractedPath)
+  let files = await fg(
+    ["**/index.adoc", "!**/apidocs", "!**/js", "!**/ruby", "!**/scala"],
+    {
+      cwd: extractedPath,
+    },
+  )
   let i = 0
   let lastProgress = 0
-  for (let f of files) {
+  for (let rf of files) {
+    let f = path.join(extractedPath, rf)
+
     // render page (use loadFile so `include` directives work correctly)
     let doc = adoc.loadFile(f, asciidoctorOptions)
     let title = doc.getDocumentTitle()
