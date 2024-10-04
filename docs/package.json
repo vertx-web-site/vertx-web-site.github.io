@@ -10,6 +10,7 @@
   "dependencies": {
     "asciidoctor": "^3.0.4",
     "cli-progress": "^3.9.1",
+    "entities": "^5.0.0",
     "fast-glob": "^3.3.2",
     "fs-extra": "^10.0.0",
     "node-7z": "^3.0.0",
@@ -18,6 +19,7 @@
     "pretty-ms": "^7.0.1",
     "restore-cursor": "^4.0.0",
     "shiki": "^1.14.1",
+    "string-strip-html": "^13.4.8",
     "which": "^2.0.2",
     "xml2js": "^0.6.2",
     "yargs": "^17.7.2",

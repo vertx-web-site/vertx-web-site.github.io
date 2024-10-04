@@ -1,11 +1,12 @@
-import * as parse5 from "parse5"
+import * as entities from "entities"
 import { Artifact } from "./artifact"
 import { createHighlighter } from "./highlighter"
-import asciidoctor from "asciidoctor"
+import asciidoctor, { Section } from "asciidoctor"
 import fg from "fast-glob"
 import fsSync from "fs"
 import fs from "fs/promises"
 import path from "path"
+import { stripHtml } from "string-strip-html"
 import { MessagePort } from "worker_threads"
 
 const { isCompiled, writeCompiledSha } = require("./util")
@@ -19,59 +20,17 @@ interface TocElement {
   children?: TocElement[]
 }
 
-function parseToc(
-  toc: parse5.DefaultTreeAdapterMap["element"],
-): TocElement[] | undefined {
+function parseToc2(sections: Section[], depth: number): TocElement[] {
   let result: TocElement[] = []
-
-  for (let sectionsNode of toc.childNodes) {
-    // find node containing sections
-    if (
-      sectionsNode.nodeName !== "ul" ||
-      !sectionsNode.attrs.some(
-        a => a.name === "class" && a.value.startsWith("sectlevel"),
-      )
-    ) {
-      continue
+  for (let s of sections) {
+    let t: TocElement = {
+      id: `#${s.getId()}`,
+      title: stripHtml(entities.decode(s.getTitle() ?? s.getId())).result,
     }
-
-    // iterate over all sections
-    for (let sectionElement of sectionsNode.childNodes) {
-      if (sectionElement.nodeName !== "li") {
-        continue
-      }
-
-      let id: string | undefined = undefined
-      let title: string | undefined = undefined
-      for (let c of sectionElement.childNodes) {
-        if (c.nodeName === "a") {
-          id = c.attrs.find(a => a.name === "href")?.value
-          title = c.childNodes
-            .map(t => {
-              if (t.nodeName === "#text") {
-                return (t as parse5.DefaultTreeAdapterMap["textNode"]).value
-              }
-              return ""
-            })
-            .join("")
-        }
-      }
-
-      if (id !== undefined && title !== undefined) {
-        let subtoc = parseToc(sectionElement)
-        result.push({
-          id,
-          title,
-          children: subtoc,
-        })
-      }
+    if (depth > 1 && s.getSections().length > 0) {
+      t.children = parseToc2(s.getSections(), depth - 1)
     }
-
-    break
-  }
-
-  if (result.length === 0) {
-    return undefined
+    result.push(t)
   }
   return result
 }
@@ -105,7 +64,7 @@ async function workerMain({
     attributes: {
       "source-highlighter": "shiki",
       showtitle: true,
-      toc: "left",
+      "!toc": true, // force disable table of contents
       sectanchors: true,
       imagesdir: imagesDir,
     },
@@ -147,30 +106,8 @@ async function workerMain({
     let images = doc.getImages()
     let contents = doc.convert()
 
-    // parse generated HTML and extract table of contents
-    let documentFragment = parse5.parseFragment(contents, {
-      sourceCodeLocationInfo: true,
-    })
-    let toc: TocElement[] | undefined = undefined
-    for (let child of documentFragment.childNodes) {
-      if (child.nodeName === "div") {
-        for (let attr of child.attrs) {
-          if (attr.name === "id" && attr.value === "toc") {
-            toc = parseToc(child)
+    let toc = parseToc2(doc.getSections(), 2)
 
-            // strip off toc from contents
-            contents =
-              contents.substring(0, child.sourceCodeLocation!.startOffset) +
-              contents.substring(child.sourceCodeLocation!.endOffset)
-
-            break
-          }
-        }
-      }
-      if (typeof toc !== "undefined") {
-        break
-      }
-    }
     let filename = f.substring(extractedPath.length + 1)
     let destFile = path.join(
       destVersionPath,
