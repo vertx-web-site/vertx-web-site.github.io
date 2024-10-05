@@ -6,25 +6,35 @@ import {
 import JSON5 from "json5"
 import fs from "node:fs/promises"
 import {
+  BundledLanguage,
+  BundledTheme,
+  HighlighterGeneric,
   bundledLanguages,
   createHighlighter as createShikiHighlighter,
 } from "shiki"
+
+let SHIKI: HighlighterGeneric<BundledLanguage, BundledTheme> | undefined =
+  undefined
+let THEME: string | undefined = undefined
+let LANGUAGES: Set<string> | undefined = undefined
 
 export async function createHighlighter(): Promise<SyntaxHighlighterFunctions> {
   const steepColorTheme = JSON5.parse(
     await fs.readFile("../components/lib/steep-color-theme.json", "utf8"),
   )
 
-  let shiki = await createShikiHighlighter({
-    themes: [steepColorTheme],
-    langs: Object.keys(bundledLanguages),
-  })
-  let theme = steepColorTheme.name
-  let languages = new Set(shiki.getLoadedLanguages())
-  languages.add("ansi")
-  languages.add("plain")
-  languages.add("text")
-  languages.add("txt")
+  if (SHIKI === undefined) {
+    SHIKI = await createShikiHighlighter({
+      themes: [steepColorTheme],
+      langs: Object.keys(bundledLanguages),
+    })
+    THEME = steepColorTheme.name
+    LANGUAGES = new Set(SHIKI.getLoadedLanguages())
+    LANGUAGES.add("ansi")
+    LANGUAGES.add("plain")
+    LANGUAGES.add("text")
+    LANGUAGES.add("txt")
+  }
 
   let h: SyntaxHighlighterFunctions = {
     highlight(
@@ -33,13 +43,13 @@ export async function createHighlighter(): Promise<SyntaxHighlighterFunctions> {
       lang: string | undefined,
       _opts: SyntaxHighlighterHighlightOptions,
     ): any {
-      if (lang === undefined || !languages.has(lang.toLocaleLowerCase())) {
+      if (lang === undefined || !LANGUAGES!.has(lang.toLocaleLowerCase())) {
         return source
       }
 
-      let r = shiki.codeToHtml(source, {
+      let r = SHIKI!.codeToHtml(source, {
         lang: lang.toLocaleLowerCase(),
-        theme,
+        theme: THEME!,
       })
 
       // strip off <pre> and <code> because AsciiDoctor already includes those
