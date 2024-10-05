@@ -9,14 +9,13 @@ import {
   BundledLanguage,
   BundledTheme,
   HighlighterGeneric,
-  bundledLanguages,
+  LanguageRegistration,
   createHighlighter as createShikiHighlighter,
 } from "shiki"
 
 let SHIKI: HighlighterGeneric<BundledLanguage, BundledTheme> | undefined =
   undefined
 let THEME: string | undefined = undefined
-let LANGUAGES: Set<string> | undefined = undefined
 
 export async function createHighlighter(): Promise<SyntaxHighlighterFunctions> {
   const steepColorTheme = JSON5.parse(
@@ -26,14 +25,9 @@ export async function createHighlighter(): Promise<SyntaxHighlighterFunctions> {
   if (SHIKI === undefined) {
     SHIKI = await createShikiHighlighter({
       themes: [steepColorTheme],
-      langs: Object.keys(bundledLanguages),
+      langs: ["java"],
     })
     THEME = steepColorTheme.name
-    LANGUAGES = new Set(SHIKI.getLoadedLanguages())
-    LANGUAGES.add("ansi")
-    LANGUAGES.add("plain")
-    LANGUAGES.add("text")
-    LANGUAGES.add("txt")
   }
 
   let h: SyntaxHighlighterFunctions = {
@@ -43,12 +37,26 @@ export async function createHighlighter(): Promise<SyntaxHighlighterFunctions> {
       lang: string | undefined,
       _opts: SyntaxHighlighterHighlightOptions,
     ): any {
-      if (lang === undefined || !LANGUAGES!.has(lang.toLocaleLowerCase())) {
+      if (lang === undefined) {
         return source
       }
 
-      let r = SHIKI!.codeToHtml(source, {
-        lang: lang.toLocaleLowerCase(),
+      let shiki = SHIKI!
+      let llc = lang.toLocaleLowerCase()
+      if (
+        llc !== "text" &&
+        llc !== "txt" &&
+        llc !== "plain" &&
+        !shiki.getLoadedLanguages().includes(llc)
+      ) {
+        // TODO not all aliases are handled here
+        let lr: LanguageRegistration = require(
+          `shiki/dist/langs/${llc}.mjs`,
+        ).default
+        shiki.loadLanguageSync(lr)
+      }
+      let r = shiki.codeToHtml(source, {
+        lang: llc.toLocaleLowerCase(),
         theme: THEME!,
       })
 
