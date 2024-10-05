@@ -38,7 +38,7 @@ export async function createHighlighter(): Promise<SyntaxHighlighterFunctions> {
       _opts: SyntaxHighlighterHighlightOptions,
     ): any {
       if (lang === undefined) {
-        return source
+        lang = "text"
       }
 
       let shiki = SHIKI!
