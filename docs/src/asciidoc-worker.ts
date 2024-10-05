@@ -48,6 +48,20 @@ async function workerMain({
   isLatestBugfixVersion: boolean
   progressPort: MessagePort
 }) {
+  if (
+    await isCompiled(
+      version,
+      artifact,
+      downloadPath,
+      compiledPath,
+      isLatestBugfixVersion,
+    )
+  ) {
+    // documentation has already been compiled earlier
+    progressPort.postMessage(100)
+    return []
+  }
+
   let adoc = asciidoctor()
 
   // clean up any previously registered extensions
@@ -74,20 +88,6 @@ async function workerMain({
   let extractedPath = `extracted/${version}`
   let destVersionPath = path.join(compiledPath, version)
   await fs.mkdir(destVersionPath, { recursive: true })
-
-  if (
-    await isCompiled(
-      version,
-      artifact,
-      downloadPath,
-      compiledPath,
-      isLatestBugfixVersion,
-    )
-  ) {
-    // documentation has already been compiled earlier
-    progressPort.postMessage(100)
-    return []
-  }
 
   let files = await fg(
     ["**/index.adoc", "!**/apidocs", "!**/js", "!**/ruby", "!**/scala"],
