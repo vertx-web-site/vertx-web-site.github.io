@@ -12,6 +12,7 @@ import pLimit from "p-limit"
 import path from "path"
 import Piscina from "piscina"
 import prettyMilliseconds from "pretty-ms"
+import { stderr } from "process"
 import restoreCursor from "restore-cursor"
 import { MessageChannel } from "worker_threads"
 import yargs from "yargs"
@@ -98,10 +99,18 @@ async function main() {
     asciidoctorBarLength = metadata.length
   }
   asciidoctorBarLength += howtos.entries.length + guides.entries.length
-  let asciidoctorBar = multibar.create(asciidoctorBarLength * 100, 0, {
-    message: "Compile Asciidoc",
-    asciidoc: true,
-  })
+  let asciidoctorBar: cliProgress.SingleBar | undefined = undefined
+  if (stderr.isTTY) {
+    asciidoctorBar = multibar.create(
+      asciidoctorBarLength * 100,
+      0,
+      {
+        message: "Compile Asciidoc",
+        asciidoc: true,
+      },
+      { stream: stderr },
+    )
+  }
 
   async function run(
     version: string,
@@ -116,7 +125,9 @@ async function main() {
 
       start(total: number, message: string) {
         this.stop()
-        this.bar = multibar.create(total, 0, { message })
+        if (stderr.isTTY) {
+          this.bar = multibar.create(total, 0, { message }, { stream: stderr })
+        }
         if (this.bar === undefined) {
           console.log(message)
         }
