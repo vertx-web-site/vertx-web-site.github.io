@@ -37,6 +37,10 @@ const publicDocsPath = "../public/docs"
 
 const piscina = new Piscina({
   filename: "./dist/asciidoc-worker.js",
+
+  // 4 threads seem to be a sweet spot (i.e. a trade-off between initialization
+  // costs and run time)
+  maxThreads: 4,
 })
 
 const multibar = new cliProgress.MultiBar(
