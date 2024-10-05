@@ -1,5 +1,6 @@
 import * as cheerio from "cheerio"
 import { metadata } from "../../docs/metadata/all"
+import type { Element } from "domhandler"
 import fs from "fs/promises"
 import { convert } from "html-to-text"
 
@@ -8,7 +9,7 @@ interface Entry {
   body: string
 }
 
-function nodeToString($node: cheerio.Cheerio<cheerio.Element>) {
+function nodeToString($node: cheerio.Cheerio<Element>) {
   let text = convert($node.html()!, {
     wordwrap: false,
     selectors: [
