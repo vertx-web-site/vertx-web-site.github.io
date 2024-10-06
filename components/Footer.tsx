@@ -115,7 +115,10 @@ const Footer = () => {
     <a key="appgenerator" href="https://start.vertx.io/">
       App Generator
     </a>,
-    <a key="securitytxt" href="/.well-known/security.txt">
+    <a
+      key="securitytxt"
+      href={`${process.env.__NEXT_ROUTER_BASEPATH}/.well-known/security.txt`}
+    >
       security.txt
     </a>,
   ]
