@@ -75,6 +75,10 @@
   }
 
   .docs-contents pre:not(:has(code)) {
-    @apply px-3 py-3 text-white;
+    @apply px-3 py-3 text-[0.90em] text-white;
+  }
+
+  .docs-contents .admonitionblock .listingblock {
+    @apply dark:border dark:border-gray-200;
   }
 }

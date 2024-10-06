@@ -15,7 +15,7 @@ code {
 }
 
 .prose pre code {
-  @apply text-gray-300 dark:text-gray-600;
+  @apply text-gray-100 dark:text-gray-800;
 }
 
 .prose [data-rehype-pretty-code-fragment] code,
