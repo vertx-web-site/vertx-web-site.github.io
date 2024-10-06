@@ -1,0 +1,21 @@
+{
+  "name": "Vert.x",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:1-20-bookworm",
+
+  // This is required for Apple Silicon
+  "runArgs": ["--platform=linux/amd64"],
+
+  // Install dependencies and download documentation sources
+  "postCreateCommand": "npm i && npx playwright install --with-deps chromium && npm run update-docs -- --latest-bugfix-versions-only",
+
+  // Install Visual Studio Code extensions
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "bradlc.vscode-tailwindcss", // Tailwind CSS IntelliSense
+        "esbenp.prettier-vscode", // Prettier - Code formatter
+        "unifiedjs.vscode-mdx" // MDX - Language support for MDX
+      ]
+    }
+  }
+}
