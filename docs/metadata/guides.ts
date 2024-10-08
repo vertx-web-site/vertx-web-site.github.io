@@ -2,12 +2,33 @@ import { Category, GuidesDoc, GuidesDocs } from "./types"
 
 const categories: Category[] = [
   {
+    id: "migration",
+    name: "Migration",
+  },
+  {
     id: "advanced",
-    name: "Advanced guides",
+    name: "Advanced",
   },
 ]
 
 const entries: GuidesDoc[] = [
+  // Migration guides
+  {
+    id: "vertx-4-migration-guide",
+    name: "Migrate from Vert.x 3 to 4",
+    description: "Migrate from Vert.x 3 to 4",
+    category: "migration",
+    href: "/vertx-4-migration-guide/",
+    repository: "https://github.com/vert-x3/vertx-4-migration-guide/",
+    edit: "https://github.com/vert-x3/vertx-4-migration-guide/tree/master/asciidoc",
+    artifact: {
+      type: "github",
+      owner: "vert-x3",
+      repo: "vertx-4-migration-guide",
+      ref: "master",
+    },
+  },
+
   // Advanced
   {
     id: "advanced-vertx-guide",

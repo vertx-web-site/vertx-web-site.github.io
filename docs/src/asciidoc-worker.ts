@@ -81,6 +81,11 @@ async function workerMain({
       "!toc": true, // force disable table of contents
       sectanchors: true,
       imagesdir: imagesDir,
+
+      // TODO only needed for Vert.x 4 migration guide
+      VertX: "Vert.x",
+      v3x: "3.x",
+      v4: "4",
     },
     catalog_assets: true, // collect all images, so we can call doc.getImages()
   }
