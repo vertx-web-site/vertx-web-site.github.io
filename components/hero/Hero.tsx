@@ -56,7 +56,7 @@ const Hero = ({}: HeroProps) => {
                     Get started
                   </Button>
                 </Link>
-                <Link href="/blog/from-vert-x-3-to-vert-x-4/">
+                <Link href="/docs/guides/vertx-4-migration-guide/">
                   <Button icon={<ArrowCircleUp />}>Migrate from v3</Button>
                 </Link>
               </div>
