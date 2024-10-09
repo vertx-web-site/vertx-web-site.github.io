@@ -82,10 +82,12 @@ async function workerMain({
       sectanchors: true,
       imagesdir: imagesDir,
 
-      // TODO only needed for Vert.x 4 migration guide
+      // TODO only needed for the migration guides
       VertX: "Vert.x",
       v3x: "3.x",
       v4: "4",
+      v4x: "4.x",
+      v5: "5",
     },
     catalog_assets: true, // collect all images, so we can call doc.getImages()
   }

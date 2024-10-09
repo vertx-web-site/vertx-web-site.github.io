@@ -14,6 +14,21 @@ const categories: Category[] = [
 const entries: GuidesDoc[] = [
   // Migration guides
   {
+    id: "vertx-5-migration-guide",
+    name: "Migrate from Vert.x 4 to 5",
+    description: "Migrate from Vert.x 4 to 5",
+    category: "migration",
+    href: "/vertx-5-migration-guide/",
+    repository: "https://github.com/vert-x3/vertx-5-migration-guide/",
+    edit: "https://github.com/vert-x3/vertx-5-migration-guide/tree/master/asciidoc",
+    artifact: {
+      type: "github",
+      owner: "vert-x3",
+      repo: "vertx-5-migration-guide",
+      ref: "main",
+    },
+  },
+  {
     id: "vertx-4-migration-guide",
     name: "Migrate from Vert.x 3 to 4",
     description: "Migrate from Vert.x 3 to 4",
