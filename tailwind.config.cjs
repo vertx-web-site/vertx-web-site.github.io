@@ -207,10 +207,18 @@ module.exports = {
               fontWeight: 400,
               fontSize: "1.25em",
             },
+            h5: {
+              fontWeight: 400,
+              fontSize: "1.15em",
+              marginTop: "1.5em",
+              marginBottom: "0.5em",
+              lineHeight: 1.5,
+            },
             h6: {
               fontWeight: 400,
-              marginTop: `${theme("spacing.8")}`,
-              marginBottom: `${theme("spacing.4")}`,
+              marginTop: "1.5em",
+              marginBottom: "0.5em",
+              lineHeight: 1.5,
             },
             "h1 a,h2 a,h3 a,h4 a,h5 a,h1 a:hover,h2 a:hover,h3 a:hover,h4 a:hover,h5 a:hover":
               {
