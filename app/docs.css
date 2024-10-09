@@ -81,4 +81,10 @@
   .docs-contents .admonitionblock .listingblock {
     @apply dark:border dark:border-gray-200;
   }
+
+  /* tables */
+  .docs-contents td {
+    /* break at word boundaries when necessary */
+    word-break: break-word;
+  }
 }
