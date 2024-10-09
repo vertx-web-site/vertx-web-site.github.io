@@ -20,7 +20,7 @@ const entries: GuidesDoc[] = [
     category: "migration",
     href: "/vertx-5-migration-guide/",
     repository: "https://github.com/vert-x3/vertx-5-migration-guide/",
-    edit: "https://github.com/vert-x3/vertx-5-migration-guide/tree/master/asciidoc",
+    edit: "https://github.com/vert-x3/vertx-5-migration-guide/tree/main/asciidoc",
     artifact: {
       type: "github",
       owner: "vert-x3",
