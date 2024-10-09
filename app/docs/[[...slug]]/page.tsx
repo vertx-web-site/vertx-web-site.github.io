@@ -244,7 +244,7 @@ const DocsPage = async ({ params }: DocsPageProps) => {
         <div>
           {prev !== undefined ? (
             <Link
-              href={`/docs/${prev}`}
+              href={`/docs/${type === "howtos" || type === "guides" ? `${type}/` : ""}${version !== undefined ? `${version}/${prev}` : prev}`}
               className="group flex items-center gap-1 font-normal text-gray-800 hover:text-primary"
             >
               <div className="text-gray-500 group-hover:text-primary">
@@ -257,7 +257,7 @@ const DocsPage = async ({ params }: DocsPageProps) => {
         <div>
           {next !== undefined ? (
             <Link
-              href={`/docs/${next}`}
+              href={`/docs/${type === "howtos" || type === "guides" ? `${type}/` : ""}${version !== undefined ? `${version}/${next}` : next}`}
               className="group flex items-center gap-1 text-right font-normal text-gray-800 hover:text-primary"
             >
               <div>{index[next].title}</div>
