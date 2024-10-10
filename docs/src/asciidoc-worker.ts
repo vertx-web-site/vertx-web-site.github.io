@@ -81,6 +81,7 @@ async function workerMain({
       "!toc": true, // force disable table of contents
       sectanchors: true,
       imagesdir: imagesDir,
+      icons: "font",
 
       // TODO only needed for the migration guides
       VertX: "Vert.x",

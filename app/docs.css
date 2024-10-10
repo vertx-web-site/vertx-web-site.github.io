@@ -87,4 +87,37 @@
     /* break at word boundaries when necessary */
     word-break: break-word;
   }
+
+  /* callouts */
+  .docs-contents .conum[data-value] {
+    @apply inline-block h-4 w-4 rounded-full text-center text-xs font-normal italic text-white outline outline-1 outline-white;
+  }
+
+  .docs-contents .colist .conum[data-value] {
+    @apply text-text outline-text dark:text-white dark:outline-white;
+  }
+
+  .docs-contents .conum[data-value]::after {
+    content: attr(data-value);
+  }
+
+  .docs-contents .conum[data-value] + b {
+    @apply hidden;
+  }
+
+  .docs-contents .listingblock + .colist {
+    @apply -mt-4;
+  }
+
+  .docs-contents .colist td:not([class]):first-child {
+    @apply w-6;
+  }
+
+  .docs-contents .colist td {
+    @apply py-1;
+  }
+
+  .docs-contents .colist tr {
+    @apply border-none;
+  }
 }
