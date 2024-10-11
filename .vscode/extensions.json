@@ -1,0 +1,8 @@
+{
+  "recommendations": [
+    "bradlc.vscode-tailwindcss", // Tailwind CSS IntelliSense
+    "esbenp.prettier-vscode", // Prettier - Code formatter
+    "unifiedjs.vscode-mdx" // MDX - Language support for MDX
+  ],
+  "unwantedRecommendations": []
+}
