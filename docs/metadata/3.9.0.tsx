@@ -601,7 +601,7 @@ const entries: Doc[] = [
     category: "clustering",
     href: "/vertx-hazelcast/java/",
     repository: "https://github.com/vert-x3/vertx-hazelcast",
-    edit: "https://github.com/vert-x3/vertx-hazelcast/tree/master/src/main/asciidoc",
+    edit: "https://github.com/vert-x3/vertx-hazelcast/tree/master/vertx-hazelcast/src/main/asciidoc",
   },
   {
     id: "vertx-infinispan",
