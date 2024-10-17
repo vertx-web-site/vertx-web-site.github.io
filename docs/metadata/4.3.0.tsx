@@ -8,7 +8,7 @@ remove(docs, "vertx-grpc")
 
 insert(docs, "vertx-grpc", {
   id: "vertx-grpc",
-  name: "Vert.x gRPC",
+  name: "gRPC",
   description: "Implement gRPC clients and servers with Vert.x.",
   category: "services",
   href: "/vertx-grpc/java/",
