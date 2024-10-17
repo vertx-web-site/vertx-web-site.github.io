@@ -120,4 +120,25 @@
   .docs-contents .colist tr {
     @apply border-none;
   }
+
+  /* blockquotes */
+  .docs-contents .quoteblock {
+    @apply relative block text-right;
+  }
+
+  .docs-contents .quoteblock blockquote {
+    @apply relative block text-left;
+  }
+
+  .docs-contents .quoteblock blockquote:has(+ .attribution) {
+    @apply mb-0;
+  }
+
+  .docs-contents .quoteblock .attribution {
+    @apply inline-block text-left text-sm;
+  }
+
+  .docs-contents .quoteblock .attribution cite {
+    @apply pl-[1em] text-gray-600;
+  }
 }
