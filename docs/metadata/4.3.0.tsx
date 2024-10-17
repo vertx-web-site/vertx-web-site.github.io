@@ -13,7 +13,7 @@ insert(docs, "vertx-grpc", {
   category: "services",
   href: "/vertx-grpc/java/",
   repository: "https://github.com/eclipse-vertx/vertx-grpc",
-  edit: "https://github.com/eclipse-vertx/vertx-grpc/tree/master/vertx-grpc-common/src/main/asciidoc",
+  edit: "https://github.com/eclipse-vertx/vertx-grpc/tree/main/vertx-grpc-docs/src/main/asciidoc",
   label: "Preview",
 })
 

@@ -18,7 +18,6 @@ insert(docs, "vertx-service-resolver", {
 })
 
 // remove old entries
-remove(docs, "vertx-grpc")
 remove(docs, "vertx-grpc-netty")
 remove(docs, "vertx-lang-groovy")
 remove(docs, "vertx-lang-kotlin")
