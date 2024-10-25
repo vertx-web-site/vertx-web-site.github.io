@@ -33,15 +33,16 @@ function createToc(
     result.push(
       <li key={titleSlug}>
         <div className="mb-2 font-normal text-gray-900">{chapter.title}</div>
-        <ul className="flex flex-col gap-2 border-l border-gray-200 pl-3">
+        <ul className="flex flex-col gap-2 border-l border-gray-200">
           {chapter.pages.map(p => {
             let ext = isExternal(p.slug)
             return (
               <li
                 key={p.slug}
-                className={clsx({
+                className={clsx("inline-block pl-3", {
                   "text-gray-700": p.slug !== activeSlug,
-                  "font-normal text-primary": p.slug === activeSlug,
+                  "-ml-px border-l border-primary font-normal text-primary":
+                    p.slug === activeSlug,
                 })}
               >
                 <Link

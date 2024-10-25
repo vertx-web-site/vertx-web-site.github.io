@@ -16,16 +16,23 @@ interface SidebarRightProps {
   activeSection?: string
 }
 
-function sectionToLi(s: Section | Subsection, activeSection?: string) {
+function sectionToLi(
+  s: Section | Subsection,
+  activeSection: string | undefined,
+  isSubsection: boolean,
+) {
   let hash = s.slug.substring(s.slug.indexOf("#") + 1)
   return (
     <li key={hash}>
       <Link
         href={`#${hash}`}
         data-sidebar-section-slug={hash}
-        className={clsx("hover:text-primary-hover", {
+        className={clsx("inline-block hover:text-primary-hover", {
+          "pl-3": isSubsection,
           "text-gray-700": activeSection !== hash,
           "font-normal text-primary": activeSection === hash,
+          "-ml-px border-l border-primary-area":
+            activeSection === hash && isSubsection,
         })}
       >
         {s.title}
@@ -56,15 +63,17 @@ const SidebarRight = ({ className }: SidebarRightProps) => {
   let includeBook = false
   if (entry.type === "page") {
     sections = entry.sections?.flatMap(s => {
-      let sli = sectionToLi(s, activeSection)
+      let sli = sectionToLi(s, activeSection, false)
       if (s.subsections === undefined) {
         return [sli]
       } else {
-        let sslis = s.subsections.map(ss => sectionToLi(ss, activeSection))
+        let sslis = s.subsections.map(ss =>
+          sectionToLi(ss, activeSection, true),
+        )
         let ssl = (
           <ul
             key={`${s.slug}-subsections`}
-            className="flex flex-col gap-2 border-l border-gray-200 pl-3"
+            className="flex flex-col gap-2 border-l border-gray-200"
           >
             {sslis}
           </ul>
