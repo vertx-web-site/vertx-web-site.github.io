@@ -1,15 +1,15 @@
 {/* make sure you have the same number of lines in all code examples! */}
 
 ```java
-import io.vertx.core.AbstractVerticle;
-
-public class Server extends AbstractVerticle {
-  public void start() {
-    vertx.createHttpServer().requestHandler(req -> {
-      req.response()
-        .putHeader("content-type", "text/plain")
-        .end("Hello from Vert.x!");
-    }).listen(8080);
+public class Server extends VerticleBase {
+  public Future<?> start() {
+    return vertx.createHttpServer()
+      .requestHandler(req ->
+        req.response()
+          .putHeader("content-type", "text/plain")
+          .end("Hello from Vert.x!")
+      )
+      .listen(8080);
   }
 }
 ```
