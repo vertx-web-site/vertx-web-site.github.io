@@ -6,6 +6,7 @@
   --color-primary-hover: 87 31 105;
 
   --color-alert: 223 69 69;
+  --color-warning: 255 200 80;
 
   --color-gray-100: 248 249 250;
   --color-gray-200: 233 236 239;
@@ -27,6 +28,7 @@
   --color-bg-code-highlighted: 40 54 79;
   --color-bg-code-tab-inactive: 23 16 26;
   --color-bg-code-tab-hover: 42 28 46;
+  --color-bg-warning: 255 245 225;
 
   --color-text: 40 40 35;
   --color-code: var(--color-gray-600);
