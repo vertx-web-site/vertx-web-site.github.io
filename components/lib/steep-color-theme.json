@@ -64,7 +64,7 @@ Changes:
       "name": "Constant Numeric",
       "scope": "constant.numeric",
       "settings": {
-        "foreground": "#edf2f7"
+        "foreground": "#90cdf4"
       }
     },
     {
