@@ -4,7 +4,7 @@ import Sidebar from "./Sidebar"
 import { Section, Subsection, makeIndex, makeToc } from "./Toc"
 import { versionFromSlug } from "./versionFromSlug"
 import { latestRelease } from "@/docs/metadata/all"
-import { ArrowSquareOut } from "@phosphor-icons/react/dist/ssr"
+import { ArrowSquareOut, CaretRight } from "@phosphor-icons/react/dist/ssr"
 import clsx from "clsx"
 import Link from "next/link"
 import { useSelectedLayoutSegment } from "next/navigation"
@@ -23,7 +23,7 @@ function sectionToLi(
 ) {
   let hash = s.slug.substring(s.slug.indexOf("#") + 1)
   return (
-    <li key={hash}>
+    <li key={hash} className="relative">
       <Link
         href={`#${hash}`}
         data-sidebar-section-slug={hash}
@@ -31,10 +31,15 @@ function sectionToLi(
           "pl-3": isSubsection,
           "text-gray-700": activeSection !== hash,
           "font-normal text-primary": activeSection === hash,
-          "-ml-px border-l border-primary-area":
-            activeSection === hash && isSubsection,
         })}
       >
+        {isSubsection && activeSection === hash ? (
+          <CaretRight
+            weight="fill"
+            size="1.1em"
+            className="absolute -left-[7px] h-5"
+          />
+        ) : undefined}
         {s.title}
       </Link>
     </li>

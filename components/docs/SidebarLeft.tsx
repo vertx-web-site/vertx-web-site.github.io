@@ -9,6 +9,7 @@ import guides from "@/docs/metadata/guides"
 import howtos from "@/docs/metadata/howtos"
 import {
   ArrowSquareOut,
+  CaretRight,
   GraduationCap,
   Notebook,
   Signpost,
@@ -41,8 +42,7 @@ function createToc(
                 key={p.slug}
                 className={clsx("inline-block pl-3", {
                   "text-gray-700": p.slug !== activeSlug,
-                  "-ml-px border-l border-primary font-normal text-primary":
-                    p.slug === activeSlug,
+                  "relative font-normal text-primary": p.slug === activeSlug,
                 })}
               >
                 <Link
@@ -57,17 +57,25 @@ function createToc(
                   target={ext ? "_blank" : undefined}
                   rel={ext ? "noopener noreferrer" : undefined}
                 >
-                  {ext ? (
-                    <div>
-                      {p.title}{" "}
-                      <ArrowSquareOut
-                        size="0.9em"
-                        className="mb-[3px] inline-flex"
+                  <div>
+                    {p.slug === activeSlug ? (
+                      <CaretRight
+                        weight="fill"
+                        size="1.1em"
+                        className="absolute -left-[7px] h-5"
                       />
-                    </div>
-                  ) : (
-                    p.title
-                  )}
+                    ) : undefined}
+                    {p.title}
+                    {ext ? (
+                      <>
+                        {" "}
+                        <ArrowSquareOut
+                          size="0.9em"
+                          className="mb-[3px] inline-flex"
+                        />
+                      </>
+                    ) : undefined}
+                  </div>
                   {p.label !== undefined ? (
                     <Label type="transparent">{p.label}</Label>
                   ) : undefined}
