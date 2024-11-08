@@ -18,11 +18,12 @@ insert(docs, "vertx-service-resolver", {
 })
 
 // remove old entries
-remove(docs, "vertx-io_uring-incubator")
 remove(docs, "vertx-grpc-netty")
 remove(docs, "vertx-lang-groovy")
 remove(docs, "vertx-lang-kotlin")
 remove(docs, "vertx-rx-java")
+remove(docs, "vertx-rx-java2")
+remove(docs, "vertx-rx-java3")
 remove(docs, "vertx-service-discovery")
 remove(docs, "vertx-sockjs-service-proxy")
 remove(docs, "vertx-web-api-service")
