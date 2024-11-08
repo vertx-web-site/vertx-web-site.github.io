@@ -17,6 +17,18 @@ insert(docs, "vertx-service-resolver", {
   label: "Preview",
 })
 
+// Remove preview labels
+delete find(docs, "vertx-mssql-client").label
+delete find(docs, "vertx-oracle-client").label
+delete find(docs, "vertx-uri-template").label
+delete find(docs, "vertx-opentelemetry").label
+delete find(docs, "vertx-jsonschema").label
+delete find(docs, "vertx-http-proxy").label
+delete find(docs, "vertx-web-proxy").label
+delete find(docs, "vertx-openapi").label
+delete find(docs, "vertx-web-openapi-router").label
+delete find(docs, "vertx-grpc").label
+
 // remove old entries
 remove(docs, "vertx-io_uring-incubator")
 remove(docs, "vertx-grpc-netty")
