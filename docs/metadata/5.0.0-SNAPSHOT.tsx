@@ -14,7 +14,7 @@ insert(docs, "vertx-service-resolver", {
   href: "/vertx-service-resolver/java/",
   repository: "https://github.com/eclipse-vertx/vertx-service-resolver",
   edit: "https://github.com/eclipse-vertx/vertx-service-resolver/tree/main/src/main/asciidoc",
-  examples: "https://github.com/vert-x3/vertx-examples/tree/5.x/service-resolver-examples",
+  examples: "https://github.com/vert-x3/vertx-examples/tree/5.x/service-resolver-examples"
   label: "Preview",
 })
 
