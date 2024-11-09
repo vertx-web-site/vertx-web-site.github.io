@@ -22,7 +22,7 @@ delete find(docs, "vertx-mssql-client").label
 delete find(docs, "vertx-oracle-client").label
 delete find(docs, "vertx-uri-template").label
 delete find(docs, "vertx-opentelemetry").label
-delete find(docs, "vertx-jsonschema").label
+delete find(docs, "vertx-json-schema").label
 delete find(docs, "vertx-http-proxy").label
 delete find(docs, "vertx-web-proxy").label
 delete find(docs, "vertx-openapi").label
