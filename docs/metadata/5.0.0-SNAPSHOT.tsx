@@ -1,5 +1,5 @@
 import oldDocs from "./4.4.4"
-import { clone, insert, remove, removeCategory } from "./helpers"
+import { clone, find, insert, remove, removeCategory } from "./helpers"
 
 const docs = clone(oldDocs)
 
