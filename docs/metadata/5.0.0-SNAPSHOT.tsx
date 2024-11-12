@@ -59,6 +59,7 @@ find(docs, "vertx-mssql-client").examples = "https://github.com/vert-x3/vertx-ex
 find(docs, "vertx-db2-client").examples = "https://github.com/vert-x3/vertx-examples/tree/5.x/sql-client-examples"
 find(docs, "vertx-oracle-client").examples = "https://github.com/vert-x3/vertx-examples/tree/5.x/sql-client-examples"
 find(docs, "vertx-jdbc-client").examples = "https://github.com/vert-x3/vertx-examples/tree/5.x/sql-client-examples"
+find(docs, "vertx-sql-client-templates").examples = "https://github.com/vert-x3/vertx-examples/tree/5.x/sql-client-examples#template"
 find(docs, "vertx-web").examples = "https://github.com/vert-x3/vertx-examples/tree/5.x/web-examples"
 find(docs, "vertx-web-client").examples = "https://github.com/vert-x3/vertx-examples/tree/5.x/web-client-examples"
 find(docs, "vertx-web-graphql").examples = "https://github.com/vert-x3/vertx-examples/tree/5.x/web-graphql-examples"
