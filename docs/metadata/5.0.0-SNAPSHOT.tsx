@@ -3,6 +3,9 @@ import { clone, find, insert, remove, removeCategory } from "./helpers"
 
 const docs = clone(oldDocs)
 
+// 5.0.0-SNAPSHOT is a pre-release version. Remove this once 5.0.0 is released.
+docs.prerelease = true
+
 docs.imagesDir = "java/images" // Can be anything, actually. Just used to resolve relative paths to images.
 
 insert(docs, "vertx-service-resolver", {
