@@ -56,8 +56,8 @@ const Hero = ({}: HeroProps) => {
                     Get started
                   </Button>
                 </Link>
-                <Link href="/docs/guides/vertx-5-migration-guide/">
-                  <Button icon={<ArrowCircleUp />}>Migrate from v4</Button>
+                <Link href="/docs/guides/vertx-4-migration-guide/">
+                  <Button icon={<ArrowCircleUp />}>Migrate from v3</Button>
                 </Link>
               </div>
               {/* <div className="mt-1 text-sm text-gray-700">
