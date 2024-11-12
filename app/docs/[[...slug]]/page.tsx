@@ -3,7 +3,11 @@ import Label from "@/components/Label"
 import { Chapter, isExternal, makeIndex, makeToc } from "@/components/docs/Toc"
 import VersionGuard from "@/components/docs/VersionGuard"
 import { versionFromSlug } from "@/components/docs/versionFromSlug"
-import { versions as docsVersions, latestRelease } from "@/docs/metadata/all"
+import {
+  versions as docsVersions,
+  latestRelease,
+  metadata,
+} from "@/docs/metadata/all"
 import { filterLatestBugfixVersions } from "@/docs/metadata/helpers"
 import {
   Book,
@@ -198,24 +202,51 @@ const DocsPage = async ({ params }: DocsPageProps) => {
     Content = () => (
       <>
         {activeVersion !== latestRelease.version ? (
-          <div className="bg-bg-warning border-warning mb-8 mt-5 text-pretty border-l-8 p-4 text-sm">
-            You are currently viewing the documentation for{" "}
-            <em>Vert.x {activeVersion}</em>.{" "}
-            {latestIndex?.[slug] !== undefined ? (
+          <div className="mb-8 mt-5 text-pretty border-l-8 border-warning bg-bg-warning p-4 text-sm">
+            {metadata.find(r => r.version === activeVersion)?.metadata
+              ?.prerelease ? (
               <>
-                Visit the{" "}
-                <Link className="font-normal" href={`/docs/${slug}`}>
-                  latest version of this page
-                </Link>
-                .
+                You are currently viewing the documentation for the{" "}
+                <em>unreleased</em> version <em>{activeVersion}</em> of Vert.x.{" "}
+                {latestIndex?.[slug] !== undefined ? (
+                  <>
+                    Visit the{" "}
+                    <Link className="font-normal" href={`/docs/${slug}`}>
+                      latest stable version of this page
+                    </Link>
+                    .
+                  </>
+                ) : (
+                  <>
+                    Go to the{" "}
+                    <Link className="font-normal" href="/docs">
+                      latest stable version
+                    </Link>
+                    .
+                  </>
+                )}
               </>
             ) : (
               <>
-                Go to the{" "}
-                <Link className="font-normal" href="/docs">
-                  latest version
-                </Link>
-                .
+                You are currently viewing the documentation for{" "}
+                <em>Vert.x {activeVersion}</em>.{" "}
+                {latestIndex?.[slug] !== undefined ? (
+                  <>
+                    Visit the{" "}
+                    <Link className="font-normal" href={`/docs/${slug}`}>
+                      latest version of this page
+                    </Link>
+                    .
+                  </>
+                ) : (
+                  <>
+                    Go to the{" "}
+                    <Link className="font-normal" href="/docs">
+                      latest version
+                    </Link>
+                    .
+                  </>
+                )}
               </>
             )}
           </div>
