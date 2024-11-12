@@ -102,8 +102,6 @@ jobs:
       - run: npm run build
         env:
           GITHUB_ACCESS_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
-          # TODO remove this once we go live
-          VERTX_WEBSITE_BASEPATH: /vertx-web-site.github.io
       - run: |
           du -sh *
           df -h / /mnt
