@@ -14,7 +14,8 @@ insert(docs, "vertx-service-resolver", {
   href: "/vertx-service-resolver/java/",
   repository: "https://github.com/eclipse-vertx/vertx-service-resolver",
   edit: "https://github.com/eclipse-vertx/vertx-service-resolver/tree/main/src/main/asciidoc",
-  examples: "https://github.com/vert-x3/vertx-examples/tree/5.x/service-resolver-examples",
+  examples:
+    "https://github.com/vert-x3/vertx-examples/tree/5.x/service-resolver-examples",
   label: "Preview",
 })
 
@@ -31,39 +32,72 @@ delete find(docs, "vertx-web-openapi-router").label
 delete find(docs, "vertx-grpc").label
 
 // Update examples
-find(docs, "vertx-core").examples = "https://github.com/vert-x3/vertx-examples/tree/5.x/core-examples"
-find(docs, "vertx-circuit-breaker").examples = "https://github.com/vert-x3/vertx-examples/tree/5.x/circuit-breaker-examples"
-find(docs, "vertx-cassandra-client").examples = "https://github.com/vert-x3/vertx-examples/tree/5.x/cassandra-examples"
-find(docs, "vertx-amqp-client").examples = "https://github.com/vert-x3/vertx-examples/tree/5.x/amqp-examples"
-find(docs, "vertx-camel-bridge").examples = "https://github.com/vert-x3/vertx-examples/tree/5.x/camel-bridge-examples"
-find(docs, "vertx-consul-client").examples = "https://github.com/vert-x3/vertx-examples/tree/5.x/consul-examples"
-find(docs, "vertx-grpc").examples = "https://github.com/vert-x3/vertx-examples/tree/5.x/grpc-examples"
-find(docs, "vertx-junit5").examples = "https://github.com/vert-x3/vertx-examples/tree/5.x/junit5-examples"
-find(docs, "vertx-kafka-client").examples = "https://github.com/vert-x3/vertx-examples/tree/5.x/kafka-examples"
-find(docs, "vertx-lang-kotlin").examples = "https://github.com/vert-x3/vertx-examples/tree/5.x/kotlin-examples"
-find(docs, "vertx-mail-client").examples = "https://github.com/vert-x3/vertx-examples/tree/5.x/mail-examples"
-find(docs, "vertx-dropwizard-metrics").examples = "https://github.com/vert-x3/vertx-examples/tree/5.x/metrics-examples"
-find(docs, "vertx-micrometer-metrics").examples = "https://github.com/vert-x3/vertx-examples/tree/5.x/micrometer-metrics-examples"
-find(docs, "vertx-mongo-client").examples = "https://github.com/vert-x3/vertx-examples/tree/5.x/mongo-examples"
-find(docs, "vertx-mqtt").examples = "https://github.com/vert-x3/vertx-examples/tree/5.x/mqtt-examples"
-find(docs, "vertx-openapi").examples = "https://github.com/vert-x3/vertx-examples/tree/5.x/openapi-examples"
-find(docs, "vertx-redis-client").examples = "https://github.com/vert-x3/vertx-examples/tree/5.x/redis-examples"
-find(docs, "vertx-redis-client").examples = "https://github.com/vert-x3/vertx-examples/tree/5.x/redis-examples"
-find(docs, "vertx-rx-java2").examples = "https://github.com/vert-x3/vertx-examples/tree/5.x/rxjava-2-examples"
-find(docs, "vertx-rx-java3").examples = "https://github.com/vert-x3/vertx-examples/tree/5.x/rxjava-3-examples"
-find(docs, "vertx-service-proxy").examples = "https://github.com/vert-x3/vertx-examples/tree/5.x/service-proxy-examples"
-find(docs, "vertx-shell").examples = "https://github.com/vert-x3/vertx-examples/tree/5.x/shell-examples"
-find(docs, "vertx-pg-client").examples = "https://github.com/vert-x3/vertx-examples/tree/5.x/sql-client-examples"
-find(docs, "vertx-mysql-client").examples = "https://github.com/vert-x3/vertx-examples/tree/5.x/sql-client-examples"
-find(docs, "vertx-mssql-client").examples = "https://github.com/vert-x3/vertx-examples/tree/5.x/sql-client-examples"
-find(docs, "vertx-db2-client").examples = "https://github.com/vert-x3/vertx-examples/tree/5.x/sql-client-examples"
-find(docs, "vertx-oracle-client").examples = "https://github.com/vert-x3/vertx-examples/tree/5.x/sql-client-examples"
-find(docs, "vertx-jdbc-client").examples = "https://github.com/vert-x3/vertx-examples/tree/5.x/sql-client-examples"
-find(docs, "vertx-sql-client-templates").examples = "https://github.com/vert-x3/vertx-examples/tree/5.x/sql-client-examples#template"
-find(docs, "vertx-web").examples = "https://github.com/vert-x3/vertx-examples/tree/5.x/web-examples"
-find(docs, "vertx-web-client").examples = "https://github.com/vert-x3/vertx-examples/tree/5.x/web-client-examples"
-find(docs, "vertx-web-graphql").examples = "https://github.com/vert-x3/vertx-examples/tree/5.x/web-graphql-examples"
-find(docs, "vertx-zipkin").examples = "https://github.com/vert-x3/vertx-examples/tree/5.x/zipkin-examples"
+find(docs, "vertx-core").examples =
+  "https://github.com/vert-x3/vertx-examples/tree/5.x/core-examples"
+find(docs, "vertx-circuit-breaker").examples =
+  "https://github.com/vert-x3/vertx-examples/tree/5.x/circuit-breaker-examples"
+find(docs, "vertx-cassandra-client").examples =
+  "https://github.com/vert-x3/vertx-examples/tree/5.x/cassandra-examples"
+find(docs, "vertx-amqp-client").examples =
+  "https://github.com/vert-x3/vertx-examples/tree/5.x/amqp-examples"
+find(docs, "vertx-camel-bridge").examples =
+  "https://github.com/vert-x3/vertx-examples/tree/5.x/camel-bridge-examples"
+find(docs, "vertx-consul-client").examples =
+  "https://github.com/vert-x3/vertx-examples/tree/5.x/consul-examples"
+find(docs, "vertx-grpc").examples =
+  "https://github.com/vert-x3/vertx-examples/tree/5.x/grpc-examples"
+find(docs, "vertx-junit5").examples =
+  "https://github.com/vert-x3/vertx-examples/tree/5.x/junit5-examples"
+find(docs, "vertx-kafka-client").examples =
+  "https://github.com/vert-x3/vertx-examples/tree/5.x/kafka-examples"
+find(docs, "vertx-lang-kotlin").examples =
+  "https://github.com/vert-x3/vertx-examples/tree/5.x/kotlin-examples"
+find(docs, "vertx-mail-client").examples =
+  "https://github.com/vert-x3/vertx-examples/tree/5.x/mail-examples"
+find(docs, "vertx-dropwizard-metrics").examples =
+  "https://github.com/vert-x3/vertx-examples/tree/5.x/metrics-examples"
+find(docs, "vertx-micrometer-metrics").examples =
+  "https://github.com/vert-x3/vertx-examples/tree/5.x/micrometer-metrics-examples"
+find(docs, "vertx-mongo-client").examples =
+  "https://github.com/vert-x3/vertx-examples/tree/5.x/mongo-examples"
+find(docs, "vertx-mqtt").examples =
+  "https://github.com/vert-x3/vertx-examples/tree/5.x/mqtt-examples"
+find(docs, "vertx-openapi").examples =
+  "https://github.com/vert-x3/vertx-examples/tree/5.x/openapi-examples"
+find(docs, "vertx-redis-client").examples =
+  "https://github.com/vert-x3/vertx-examples/tree/5.x/redis-examples"
+find(docs, "vertx-redis-client").examples =
+  "https://github.com/vert-x3/vertx-examples/tree/5.x/redis-examples"
+find(docs, "vertx-rx-java2").examples =
+  "https://github.com/vert-x3/vertx-examples/tree/5.x/rxjava-2-examples"
+find(docs, "vertx-rx-java3").examples =
+  "https://github.com/vert-x3/vertx-examples/tree/5.x/rxjava-3-examples"
+find(docs, "vertx-service-proxy").examples =
+  "https://github.com/vert-x3/vertx-examples/tree/5.x/service-proxy-examples"
+find(docs, "vertx-shell").examples =
+  "https://github.com/vert-x3/vertx-examples/tree/5.x/shell-examples"
+find(docs, "vertx-pg-client").examples =
+  "https://github.com/vert-x3/vertx-examples/tree/5.x/sql-client-examples"
+find(docs, "vertx-mysql-client").examples =
+  "https://github.com/vert-x3/vertx-examples/tree/5.x/sql-client-examples"
+find(docs, "vertx-mssql-client").examples =
+  "https://github.com/vert-x3/vertx-examples/tree/5.x/sql-client-examples"
+find(docs, "vertx-db2-client").examples =
+  "https://github.com/vert-x3/vertx-examples/tree/5.x/sql-client-examples"
+find(docs, "vertx-oracle-client").examples =
+  "https://github.com/vert-x3/vertx-examples/tree/5.x/sql-client-examples"
+find(docs, "vertx-jdbc-client").examples =
+  "https://github.com/vert-x3/vertx-examples/tree/5.x/sql-client-examples"
+find(docs, "vertx-sql-client-templates").examples =
+  "https://github.com/vert-x3/vertx-examples/tree/5.x/sql-client-examples#template"
+find(docs, "vertx-web").examples =
+  "https://github.com/vert-x3/vertx-examples/tree/5.x/web-examples"
+find(docs, "vertx-web-client").examples =
+  "https://github.com/vert-x3/vertx-examples/tree/5.x/web-client-examples"
+find(docs, "vertx-web-graphql").examples =
+  "https://github.com/vert-x3/vertx-examples/tree/5.x/web-graphql-examples"
+find(docs, "vertx-zipkin").examples =
+  "https://github.com/vert-x3/vertx-examples/tree/5.x/zipkin-examples"
 
 // remove old entries
 remove(docs, "vertx-io_uring-incubator")
