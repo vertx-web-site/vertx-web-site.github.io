@@ -17,16 +17,48 @@ want to try it and provide feedback.
 
 Talk about backports to 4.x
 
-## Callback removals
+## Embracing the future based model
 
-Vert.x 4 extended the 3.x callback asynchronous model to a future/callback hybrid model, to ease migration
+Vert.x 4 extended the 3.x callback asynchronous model to a future/callback hybrid model, to facilitate migration
 from Vert.x 3.
 
 Vert.x 5 only retains the future model and thus the callback model is removed.
 
-New verticle API.
+Since the good old `AbstractVerticle` class lifecycle API is not best suited for the future based model, a new
+`VerticleBase` base class is provided:
 
-Timer API.
+```java
+public class MyVerticle extends VerticleBase {
+
+  private HttpServer server;
+
+  @Override
+  public Future<?> start() {
+    server = vertx.createHttpServer().requestHandler(req ->
+      req.response()
+        .putHeader("content-type", "text/plain")
+        .end("Hello from Vert.x!"));
+
+    // Now bind the server:
+    return server.listen(8080);
+  }
+}
+```
+
+Both `VerticleBase` and `Verticle` extends a new `Deployable` interface, since that interface is functional you
+can even write a one-liner verticle:
+
+```java
+Deployable verticle = context -> vertx
+  .createHttpServer()
+  .requestHandler(req -> req.response()
+    .putHeader("content-type", "text/plain")
+    .end("Hello from Vert.x!"))
+  .listen(8080);
+```
+
+NOTE: `AbstractVerticle` is still fine and not deprecated, we simply recommend to use the base class that best works for 
+you
 
 ## Java module support
 
@@ -60,7 +92,8 @@ todo.
 - data objects
 - per socket connect options
 - micrometer 1.14.0 upgrade
-- launcher separate
+- launcher/annotations separate
+- Timer API
 
 ## Cleanup and removals
 
@@ -68,7 +101,6 @@ todo.
 - Service
 - Sync
 - Maven service factory
-
 
 ## Finally
 
