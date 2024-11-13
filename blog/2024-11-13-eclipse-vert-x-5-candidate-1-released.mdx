@@ -1,0 +1,84 @@
+---
+title: Eclipse Vert.x 5 candidate 1 released!
+category: releases
+authors:
+  - name: Julien Viet
+    github_id: vietj
+summary: >-
+  This is the first milestone of the upcoming Vert.x 5.
+---
+
+We are extremely pleased to announce the first 5.0 candidate release of Eclipse Vert.x .
+
+Vert.x 5 is the evolution of the Vert.x 4.x series that will bring key features to Vert.x.
+
+This release aims to provide candidate builds of the up-coming Vert.x 5 for people that
+want to try it and provide feedback.
+
+Talk about backports to 4.x
+
+## Callback removals
+
+Vert.x 4 extended the 3.x callback asynchronous model to a future/callback hybrid model, to ease migration
+from Vert.x 3.
+
+Vert.x 5 only retains the future model and thus the callback model is removed.
+
+New verticle API.
+
+Timer API.
+
+## Java module support
+
+todo.
+
+## gRPC improvements
+
+- gRPC Web
+- Deadline and timeouts
+- JSON wire format
+
+## OpenAPi
+
+## io_uring support
+
+todo.
+
+## Service resolver
+
+todo.
+
+## HTTP client side load balancing
+
+todo.
+
+## Other changes
+
+- unix domain sockets with JDK 16
+- resource segregation
+- TCP shutdown
+- data objects
+- per socket connect options
+- micrometer 1.14.0 upgrade
+- launcher separate
+
+## Cleanup and removals
+
+- JDBC API
+- Service
+- Sync
+- Maven service factory
+
+
+## Finally
+
+The [deprecations and breaking changes](https://github.com/vert-x3/wiki/wiki/4.0.0-Deprecations-and-breaking-changes)
+ can be found on the wiki.
+
+For this release there are no Docker images.,
+
+The release artifacts have been deployed to [Maven Central](https://search.maven.org/search?q=g:io.vertx%20AND%20v:4.0.0-milestone1) and you can get the distribution on [Maven Central](https://repo1.maven.org/maven2/io/vertx/vertx-stack-manager/4.0.0-milestone1/).
+
+Most importantly the documentation has been deployed on this preview web-site https://vertx-ci.github.io/vertx-4-preview/docs/
+
+That's it! Happy coding and see you soon on our user or dev [channels](https://vertx.io/community).
