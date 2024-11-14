@@ -62,15 +62,37 @@ Deployable verticle = context -> vertx
 NOTE: `AbstractVerticle` is still fine and not deprecated, we simply recommend to use the base class that best works for 
 you
 
-## Java module support
+## Java Modules
 
-todo.
+Vert.x 5 supports the Java Platform Module System (JPMS) with explicit modules (Vert.x 4 supports only automatic modules).
+
+Most Vert.x components support modules (a few components though due to their dependencies cannot), the Modular Vert.x guide will give more information
+about it, in the meantime you can look at out [JPMS examples](https://github.com/vert-x3/vertx-examples/tree/5.x/jpms-examples).
 
 ## gRPC improvements
 
-- [gRPC Web](https://github.com/grpc/grpc/blob/master/doc/PROTOCOL-WEB.md#protocol-differences-vs-grpc-over-http2) protocol (i.e. without an intermediate proxy)
-- Deadline and timeouts
-- JSON wire format
+Vert.x gRPC has a few great additions in this major release, propelling Vert.x gRPC as a first class choice for implementing
+gRPC services.
+
+### gRPC Web
+
+The Vert.x gRPC Server supports the [gRPC Web](https://github.com/grpc/grpc/blob/master/doc/PROTOCOL-WEB.md#protocol-differences-vs-grpc-over-http2)
+protocol by default (i.e. without an intermediate proxy).
+
+Since a full setup is quite complex, we will provide a how-to for this in the near future.
+
+### gRPC deadlines
+
+Vert.x gRPC handles timeout and deadlines in both [client](https://vertx.io/docs/5.0.0-SNAPSHOT/vertx-grpc/java/#_timeout_and_deadlines_2)
+and [server](https://vertx.io/docs/5.0.0-SNAPSHOT/vertx-grpc/java/#_timeout_and_deadlines)
+
+Here is a simple [example](https://github.com/vert-x3/vertx-examples/tree/5.x/grpc-examples#timeout-and-deadlines).
+
+### JSON wire format
+
+gRPC implicitly assumes the usage of the Protobuf wire format, the Vert.x gRPC client supports the JSON wire format as well.
+
+Here is a simple [example](https://github.com/vert-x3/vertx-examples/tree/5.x/grpc-examples#json-wire-format).
 
 ## OpenAPi
 
@@ -106,7 +128,7 @@ todo.
 - launcher/annotations separate
 - Timer API
 
-## Cleanup and removals
+## Sunsets and removals
 
 - JDBC API
 - Service
