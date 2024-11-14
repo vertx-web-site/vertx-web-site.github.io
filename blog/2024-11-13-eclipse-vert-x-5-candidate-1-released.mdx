@@ -8,7 +8,7 @@ summary: >-
   This is the first milestone of the upcoming Vert.x 5.
 ---
 
-We are extremely pleased to announce the first 5.0 candidate release of Eclipse Vert.x .
+We are extremely pleased to announce the first candidate release of Eclipse Vert.x 5.
 
 Vert.x 5 is the evolution of the Vert.x 4.x series that will bring key features to Vert.x.
 
@@ -16,6 +16,8 @@ This release aims to provide candidate builds of the up-coming Vert.x 5 for peop
 want to try it and provide feedback.
 
 Talk about backports to 4.x
+
+Here are the highlights of this release.
 
 ## Embracing the future based model
 
@@ -66,7 +68,7 @@ todo.
 
 ## gRPC improvements
 
-- gRPC Web
+- [gRPC Web](https://github.com/grpc/grpc/blob/master/doc/PROTOCOL-WEB.md#protocol-differences-vs-grpc-over-http2) protocol (i.e. without an intermediate proxy)
 - Deadline and timeouts
 - JSON wire format
 
@@ -84,14 +86,23 @@ todo.
 
 todo.
 
+## HTTP proxy
+
+- Out-of-the-box transformations
+- Interceptors support in websocket upgrades
+- Caching SPI
+- Extended support of caching specifications
+
+
 ## Other changes
 
-- unix domain sockets with JDK 16
+- Unix domain socket with JDK 16 and above (i.e. without a native transport)
 - resource segregation
 - TCP shutdown
 - data objects
 - per socket connect options
-- micrometer 1.14.0 upgrade
+- Micrometer 1.14.0 upgrade
+- Vert.x Micrometer Metrics performance improvements
 - launcher/annotations separate
 - Timer API
 
