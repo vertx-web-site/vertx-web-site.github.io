@@ -96,17 +96,31 @@ Here is a simple [example](https://github.com/vert-x3/vertx-examples/tree/5.x/gr
 
 ## OpenAPi
 
+todo.
+
 ## io_uring support
 
-todo.
+Vert. 4 has been supporting [io_uring](https://en.wikipedia.org/wiki/Io_uring) in incubation for a while with a separate jar.
+
+Netty 4.2 has promoted io_uring out of incubation, as consequence Vert.x Core supports it out of the box.:
+
+## Client side load balancing
+
+Client side load balancing for HTTP based clients, with a wide variety of policies.
+
+Here is a simple HTTP client [example](https://github.com/vert-x3/vertx-examples/blob/5.x/core-examples/README.adoc#load-balancing)
+as well as a gRPC HTTP client [example](https://github.com/vert-x3/vertx-examples/tree/5.x/grpc-examples#load-balancing).l
 
 ## Service resolver
 
-todo.
+[Vert.x Service Resolver](https://vertx.io/docs/5.0.0-SNAPSHOT/vertx-service-resolver/java/) is a new addition to
+the Vert.x stack aiming to provide dynamic address resolution for clients, it extends the vertx core client side load 
+balancing to a new set of service resolvers.
 
-## HTTP client side load balancing
+Enabled clients such as HTTP/Web/gRPC clients can use a service resolver to dynamically map a service address to a list of
+network addresses.
 
-todo.
+You can find here a few [examples](https://github.com/vert-x3/vertx-examples/tree/5.x/service-resolver-examples).
 
 ## HTTP proxy
 
