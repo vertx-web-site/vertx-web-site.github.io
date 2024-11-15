@@ -102,7 +102,7 @@ todo.
 
 Vert. 4 has been supporting [io_uring](https://en.wikipedia.org/wiki/Io_uring) in incubation for a while with a separate jar.
 
-Netty 4.2 has promoted io_uring out of incubation, as consequence Vert.x Core supports it out of the box.:
+Netty 4.2 has promoted io_uring out of incubation, as consequence Vert.x Core supports it out of the box.
 
 ## Client side load balancing
 
@@ -124,11 +124,11 @@ You can find here a few [examples](https://github.com/vert-x3/vertx-examples/tre
 
 ## HTTP proxy
 
-- Out-of-the-box transformations
-- Interceptors support in websocket upgrades
-- Caching SPI
-- Extended support of caching specifications
+The interception [side](https://vertx.io/docs/5.0.0-SNAPSHOT/vertx-http-proxy/java/#_proxy_interception) of our HTTP proxy
+has been improved with out-of-the-box transformations and interceptor in WebSocket upgrades.
 
+In addition, the caching part gets a proper caching Service Provider Interface (SPI) as well as extended support for 
+caching specifications.
 
 ## Other changes
 
@@ -144,6 +144,11 @@ You can find here a few [examples](https://github.com/vert-x3/vertx-examples/tre
 
 ## Sunsets and removals
 
+A few components are sunsetting in 5.0, that means they are still supported for the lifetime of the 5.x series,
+but we don't encourage using them anymore because we provide replacements for them.
+
+- Netty gRPC support based on grpc-java project
+
 - JDBC API
 - Service
 - Sync
@@ -151,7 +156,7 @@ You can find here a few [examples](https://github.com/vert-x3/vertx-examples/tre
 
 ## Finally
 
-The [deprecations and breaking changes](https://github.com/vert-x3/wiki/wiki/4.0.0-Deprecations-and-breaking-changes)
+The [deprecations and breaking changes](https://github.com/vert-x3/wiki/wiki/5.0.0-Deprecations-and-breaking-changes)
  can be found on the wiki.
 
 For this release there are no Docker images.,
