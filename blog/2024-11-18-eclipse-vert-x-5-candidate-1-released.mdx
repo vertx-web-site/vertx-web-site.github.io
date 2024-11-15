@@ -134,15 +134,43 @@ has been improved with out-of-the-box transformations and interceptor in WebSock
 In addition, the caching part gets a proper caching Service Provider Interface (SPI) as well as extended support for 
 caching specifications.
 
-## Other changes
+## Miscellaneous changes
 
-- Unix domain socket with JDK 16 and above (i.e. without a native transport)
-- resource segregation
+### Unix domain sockets
+
+Unix domain sockets have historically supported exclusively by native transports, they are now
+[available](https://vertx.io/docs/5.0.0-SNAPSHOT/vertx-core/java/#_listening_to_unix_domain_sockets) for JDK 16 or greater.
+
+### Connect options
+
+TCP and HTTP clients have finer grained [Connect](https://vertx.io/docs/5.0.0-SNAPSHOT/apidocs/io/vertx/core/net/ConnectOptions.html)
+capabilities, providing per connection SSL and proxy options. Previously such configuration was only possible client wide.
+
+### Un-pooled HTTP connection
+
+Default interactions with an HTTP servers involves providing a request object and let Vert.x HTTP client establish the 
+connection to the actual server and then pool it for subsequent uses.
+
+Sometimes it is desirable to manage such connections instead of reusing pooled connections, for this use case you can use now the Vert.x
+HTTP client [connect](https://vertx.io/docs/5.0.0-SNAPSHOT/apidocs/io/vertx/core/http/HttpClientAgent.html#connect(io.vertx.core.http.HttpConnectOptions))
+capabilities.
+
+### Timer API
+
+
+
+### Micrometer Metrics performance improvements
+
+Our integration of Micrometer Metrics overhead has been reduced, you can learn more about that in this blog [post](https://vertx.io/blog/micrometer-metrics-performance/).
+
+### TCP shutdown
+
+Todo : need documentation on this in vertx-core
+
 - TCP shutdown
+- resource segregation
 - data objects
-- per socket connect options
 - Micrometer 1.14.0 upgrade
-- Vert.x Micrometer Metrics performance improvements
 - launcher/annotations separate
 - Timer API
 
