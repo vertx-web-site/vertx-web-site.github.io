@@ -30,8 +30,6 @@ delete find(docs, "vertx-opentelemetry").label
 delete find(docs, "vertx-json-schema").label
 delete find(docs, "vertx-http-proxy").label
 delete find(docs, "vertx-web-proxy").label
-delete find(docs, "vertx-openapi").label
-delete find(docs, "vertx-web-openapi-router").label
 delete find(docs, "vertx-grpc").label
 
 // Update examples
@@ -47,6 +45,10 @@ find(docs, "vertx-camel-bridge").examples =
   "https://github.com/vert-x3/vertx-examples/tree/5.x/camel-bridge-examples"
 find(docs, "vertx-consul-client").examples =
   "https://github.com/vert-x3/vertx-examples/tree/5.x/consul-examples"
+find(docs, "vertx-openapi").examples =
+    "https://github.com/vert-x3/vertx-examples/tree/5.x/openapi-examples"
+find(docs, "vertx-web-openapi-router").examples =
+    "https://github.com/vert-x3/vertx-examples/tree/5.x/web-examples/src/main/java/io/vertx/example/web/openapi_router"
 find(docs, "vertx-grpc").examples =
   "https://github.com/vert-x3/vertx-examples/tree/5.x/grpc-examples"
 find(docs, "vertx-junit5").examples =
