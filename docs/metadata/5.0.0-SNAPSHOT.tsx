@@ -101,6 +101,8 @@ find(docs, "vertx-web-graphql").examples =
   "https://github.com/vert-x3/vertx-examples/tree/5.x/web-graphql-examples"
 find(docs, "vertx-zipkin").examples =
   "https://github.com/vert-x3/vertx-examples/tree/5.x/zipkin-examples"
+find(docs, "vertx-uri-template").examples =
+  "https://github.com/vert-x3/vertx-examples/tree/5.x/web-client-examples#uri-templates"
 
 // remove old entries
 remove(docs, "vertx-io_uring-incubator")
