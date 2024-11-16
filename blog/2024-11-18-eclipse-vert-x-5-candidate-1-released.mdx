@@ -134,10 +134,6 @@ has been improved with out-of-the-box transformations and interceptor in WebSock
 In addition, the caching part gets a proper caching Service Provider Interface (SPI) as well as extended support for 
 caching specifications.
 
-## Launcher
-
-todo.
-
 ## Miscellaneous changes
 
 ### Unix domain sockets
@@ -177,17 +173,10 @@ Calling `shutdown` initiates the shut-down phase whereby the server or client ar
 
 When all connections inflight requests are processed, the server or client is then closed.
 
-### Resource segregation
+## Application Launcher
 
-todo.
-
-Todo : need documentation on this in vertx-core
-
-- resource segregation
-- data objects
-- Micrometer 1.14.0 upgrade
-- launcher/annotations separate
-- Timer API
+Application [launcher](https://vertx.io/docs/5.0.0-SNAPSHOT/vertx-launcher-application/java/) is a new tool which addresses the
+concern of launching a Vert.x application packaged as a far jar. It replaces the Vert.x 4 `io.vertx.core.Launcher`.
 
 ## Sunsets and removals
 
