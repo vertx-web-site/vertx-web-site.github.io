@@ -15,9 +15,10 @@ Vert.x 5 is the evolution of the Vert.x 4.x series that will bring key features 
 This release aims to provide candidate builds of the up-coming Vert.x 5 for people that
 want to try it and provide feedback.
 
-Talk about backports to 4.x
+During the development of Vert.x 5, many features have been made available and back-ported to Vert.x 4 such as
+virtual thread support, dynamic SQL pool, on the fly SSL update, WebSocket client, various builders and much more.
 
-Here are the highlights of this release.
+Here are the highlights of this new major release.
 
 ## Embracing the future based model
 
@@ -173,7 +174,7 @@ Calling `shutdown` initiates the shut-down phase whereby the server or client ar
 
 When all connections inflight requests are processed, the server or client is then closed.
 
-## Application Launcher
+### Application Launcher
 
 Application [launcher](https://vertx.io/docs/5.0.0-SNAPSHOT/vertx-launcher-application/java/) is a new tool which addresses the
 concern of launching a Vert.x application packaged as a far jar. It replaces the Vert.x 4 `io.vertx.core.Launcher`.
