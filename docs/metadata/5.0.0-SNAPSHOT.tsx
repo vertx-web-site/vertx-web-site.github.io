@@ -22,6 +22,18 @@ insert(docs, "vertx-service-resolver", {
   label: "Preview",
 })
 
+insert(docs, "vertx-launcher-application", {
+  id: "vertx-launcher-application",
+  name: "Application Launcher",
+  description:
+    "The Vert.x application launcher is a tool which addresses such concerns, without repeating the same code in every project.",
+  category: "core",
+  href: "/vertx-launcher-applications/java/",
+  repository: "https://github.com/eclipse-vertx/vertx-launcher",
+  edit: "https://github.com/eclipse-vertx/vertx-launcher/tree/main/application/src/main/asciidoc",
+  label: "Preview",
+})
+
 // Remove preview labels
 delete find(docs, "vertx-mssql-client").label
 delete find(docs, "vertx-oracle-client").label
