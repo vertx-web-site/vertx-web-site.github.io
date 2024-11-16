@@ -134,6 +134,10 @@ has been improved with out-of-the-box transformations and interceptor in WebSock
 In addition, the caching part gets a proper caching Service Provider Interface (SPI) as well as extended support for 
 caching specifications.
 
+## Launcher
+
+todo.
+
 ## Miscellaneous changes
 
 ### Unix domain sockets
@@ -155,19 +159,30 @@ Sometimes it is desirable to manage such connections instead of reusing pooled c
 HTTP client [connect](https://vertx.io/docs/5.0.0-SNAPSHOT/apidocs/io/vertx/core/http/HttpClientAgent.html#connect(io.vertx.core.http.HttpConnectOptions))
 capabilities.
 
-### Timer API
-
-
-
 ### Micrometer Metrics performance improvements
 
 Our integration of Micrometer Metrics overhead has been reduced, you can learn more about that in this blog [post](https://vertx.io/blog/micrometer-metrics-performance/).
 
 ### TCP shutdown
 
+HTTP server and client support graceful shutdown.
+
+You can shut down a server or a client.
+
+Calling `shutdown` initiates the shut-down phase whereby the server or client are given the opportunity to perform clean-up actions.
+
+- A standalone HTTP server unbinds
+- A shared HTTP server is removed from the set of accepting servers
+- An HTTP client refuses to send any new requests
+
+When all connections inflight requests are processed, the server or client is then closed.
+
+### Resource segregation
+
+todo.
+
 Todo : need documentation on this in vertx-core
 
-- TCP shutdown
 - resource segregation
 - data objects
 - Micrometer 1.14.0 upgrade
@@ -177,14 +192,24 @@ Todo : need documentation on this in vertx-core
 ## Sunsets and removals
 
 A few components are sunsetting in 5.0, that means they are still supported for the lifetime of the 5.x series,
-but we don't encourage using them anymore because we provide replacements for them.
+but we don't encourage using them anymore since we provide replacements for them. Such components are scheduled
+to go away in the next major release (Vert.x 6).
 
-- Netty gRPC support based on grpc-java project
+Here is the list of components we sunset in 5.x
 
-- JDBC API
-- Service
-- Sync
-- Maven service factory
+| Component         | Replacement                            |
+|-------------------|----------------------------------------|
+| gRPC Netty        | Vert.x gRPC client and server          |
+| JDBC API          | SQL client API implementation for JDBC |
+| Service Discovery | Vert.x Service Resolver                |
+| RxJava 1          | Mutiny or RxJava 3                     |
+| OpenTracing       | OpenTelemetry                          |
+| Vert.x Unit       | Vert.x JUnit 5                         |
+
+Here is the list of components removed in 5.x, that were sunset in 4.x series.
+
+- Vert.x Sync, replaced by Vert.x virtual threads 
+- Service Factories / Maven Service Factory / HTTP Service Factory 
 
 ## Finally
 
@@ -193,7 +218,7 @@ The [deprecations and breaking changes](https://github.com/vert-x3/wiki/wiki/5.0
 
 For this release there are no Docker images.,
 
-The release artifacts have been deployed to [Maven Central](https://search.maven.org/search?q=g:io.vertx%20AND%20v:4.0.0-milestone1) and you can get the distribution on [Maven Central](https://repo1.maven.org/maven2/io/vertx/vertx-stack-manager/4.0.0-milestone1/).
+The release artifacts have been deployed to [Maven Central](https://search.maven.org/search?q=g:io.vertx%20AND%20v:5.0.0.CR1) and you can get the distribution on [Maven Central](https://repo1.maven.org/maven2/io/vertx/vertx-stack-manager/4.0.0-milestone1/).
 
 Most importantly the documentation has been deployed on this preview web-site https://vertx.io/docs/5.0.0-SNAPSHOT/
 
