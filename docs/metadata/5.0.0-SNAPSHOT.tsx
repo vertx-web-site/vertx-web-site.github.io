@@ -28,7 +28,7 @@ insert(docs, "vertx-launcher-application", {
   description:
     "The Vert.x application launcher is a tool which addresses such concerns, without repeating the same code in every project.",
   category: "core",
-  href: "/vertx-launcher-applications/java/",
+  href: "/vertx-launcher-application/java/",
   repository: "https://github.com/eclipse-vertx/vertx-launcher",
   edit: "https://github.com/eclipse-vertx/vertx-launcher/tree/main/application/src/main/asciidoc",
   label: "Preview",
