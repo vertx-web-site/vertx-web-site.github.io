@@ -1,0 +1,215 @@
+---
+title: Eclipse Vert.x 5 candidate 1 released!
+category: releases
+authors:
+  - name: Julien Viet
+    github_id: vietj
+summary: >-
+  This is the first milestone of the upcoming Vert.x 5.
+---
+
+We are extremely pleased to announce the first candidate release of Eclipse Vert.x 5.
+
+Vert.x 5 is the evolution of the Vert.x 4.x series that will bring key features to Vert.x.
+
+This release aims to provide candidate builds of the up-coming Vert.x 5 for people that
+want to try it and provide feedback.
+
+Here are the highlights of this new major release.
+
+## Embracing the future based model
+
+Vert.x 4 extended the 3.x callback asynchronous model to a future/callback hybrid model, to facilitate migration
+from Vert.x 3.
+
+Vert.x 5 only retains the future model and thus the callback model is removed.
+
+Since the good old `AbstractVerticle` class lifecycle API is not best suited for the future based model, a new
+`VerticleBase` base class is provided:
+
+```java
+public class MyVerticle extends VerticleBase {
+
+  private HttpServer server;
+
+  @Override
+  public Future<?> start() {
+    server = vertx.createHttpServer().requestHandler(req ->
+      req.response()
+        .putHeader("content-type", "text/plain")
+        .end("Hello from Vert.x!"));
+
+    // Now bind the server:
+    return server.listen(8080);
+  }
+}
+```
+
+Both `VerticleBase` and `Verticle` extends a new `Deployable` interface, since that interface is functional you
+can even write a one-liner verticle:
+
+```java
+Deployable verticle = context -> vertx
+  .createHttpServer()
+  .requestHandler(req -> req.response()
+    .putHeader("content-type", "text/plain")
+    .end("Hello from Vert.x!"))
+  .listen(8080);
+```
+
+NOTE: `AbstractVerticle` is still fine and not deprecated, we simply recommend to use the base class that best works for 
+you
+
+## Java Modules
+
+Vert.x 5 supports the Java Platform Module System (JPMS) with explicit modules (Vert.x 4 supports only automatic modules).
+
+Most Vert.x components support modules (a few components though due to their dependencies cannot), the upcoming Modular Vert.x guide will give more information
+about it, in the meantime you can look at out [JPMS examples](https://github.com/vert-x3/vertx-examples/tree/5.x/jpms-examples).
+
+## gRPC improvements
+
+Vert.x gRPC has a few great additions in this major release, propelling Vert.x gRPC as a first class choice for implementing
+gRPC services.
+
+### gRPC Web
+
+The Vert.x gRPC Server supports the [gRPC Web](https://github.com/grpc/grpc/blob/master/doc/PROTOCOL-WEB.md#protocol-differences-vs-grpc-over-http2)
+protocol by default (i.e. without an intermediate proxy).
+
+On the Vert.x side, enabling the gRPC Web protocol support is a mere switch in options.
+In the near feature, we will provide a [tutorial](https://how-to.vertx.io/) explaining how to generate a browser client with `protoc` and to communicate with the server.
+
+### gRPC deadlines
+
+Vert.x gRPC handles timeout and deadlines in both [client](https://vertx.io/docs/5.0.0-SNAPSHOT/vertx-grpc/java/#_timeout_and_deadlines_2)
+and [server](https://vertx.io/docs/5.0.0-SNAPSHOT/vertx-grpc/java/#_timeout_and_deadlines)
+
+Here is a simple [example](https://github.com/vert-x3/vertx-examples/tree/5.x/grpc-examples#timeout-and-deadlines).
+
+### JSON wire format
+
+gRPC implicitly assumes the usage of the Protobuf wire format, the Vert.x gRPC client supports the JSON wire format as well.
+
+Here is a simple [example](https://github.com/vert-x3/vertx-examples/tree/5.x/grpc-examples#json-wire-format).
+
+## OpenAPI & Vert.x OpenAPI Router
+
+With Vert.X 5 the OpenAPI modules now also supports binary data.
+
+Here you can find simple [examples](https://github.com/vert-x3/vertx-examples/tree/5.x/openapi-examples) for Vert.x OpenAPI.
+
+Here you can find simple [examples](https://github.com/vert-x3/vertx-examples/tree/5.x/web-examples/src/main/java/io/vertx/example/web/openapi_router) for Vert.x OpenAPI Router.
+
+## io_uring support
+
+Vert. 4 has been supporting [io_uring](https://en.wikipedia.org/wiki/Io_uring) in incubation for a while with a separate jar.
+
+Netty 4.2 has promoted io_uring out of incubation, as a consequence Vert.x Core supports it out of the box.
+
+## Client side load balancing
+
+Client side load balancing for HTTP based clients, with a wide variety of policies.
+
+Here is a simple HTTP client [example](https://github.com/vert-x3/vertx-examples/blob/5.x/core-examples/README.adoc#load-balancing)
+as well as a gRPC HTTP client [example](https://github.com/vert-x3/vertx-examples/tree/5.x/grpc-examples#load-balancing).
+
+## Service resolver
+
+[Vert.x Service Resolver](https://vertx.io/docs/5.0.0-SNAPSHOT/vertx-service-resolver/java/) is a new addition to
+the Vert.x stack aiming to provide dynamic address resolution for clients, it extends the vertx core client side load 
+balancing to a new set of service resolvers.
+
+Enabled clients such as HTTP/Web/gRPC clients can use a service resolver to dynamically map a service address to a list of
+network addresses.
+
+You can find here a few [examples](https://github.com/vert-x3/vertx-examples/tree/5.x/service-resolver-examples).
+
+## HTTP proxy
+
+The interception [side](https://vertx.io/docs/5.0.0-SNAPSHOT/vertx-http-proxy/java/#_proxy_interception) of our HTTP proxy
+has been improved with out-of-the-box transformations and interceptor in WebSocket upgrades.
+
+In addition, the caching part gets a proper caching Service Provider Interface (SPI) as well as extended support for 
+caching specifications.
+
+## Miscellaneous changes
+
+### Unix domain sockets
+
+Unix domain sockets have historically supported exclusively by native transports, they are now
+[available](https://vertx.io/docs/5.0.0-SNAPSHOT/vertx-core/java/#_listening_to_unix_domain_sockets) for JDK 16 or greater.
+
+### Connect options
+
+TCP and HTTP clients have finer grained [Connect](https://vertx.io/docs/5.0.0-SNAPSHOT/apidocs/io/vertx/core/net/ConnectOptions.html)
+capabilities, providing per connection SSL and proxy options. Previously such configuration was only possible client wide.
+
+### Un-pooled HTTP connection
+
+Default interactions with an HTTP servers involves providing a request object and let Vert.x HTTP client establish the 
+connection to the actual server and then pool it for subsequent uses.
+
+Sometimes it is desirable to manage such connections instead of reusing pooled connections, for this use case you can use now the Vert.x
+HTTP client [connect](https://vertx.io/docs/5.0.0-SNAPSHOT/apidocs/io/vertx/core/http/HttpClientAgent.html#connect(io.vertx.core.http.HttpConnectOptions))
+capabilities.
+
+### Micrometer Metrics performance improvements
+
+Our integration of Micrometer Metrics overhead has been reduced, you can learn more about that in this blog [post](https://vertx.io/blog/micrometer-metrics-performance/).
+
+### TCP shutdown
+
+HTTP server and client support graceful shutdown.
+
+You can shut down a server or a client.
+
+Calling `shutdown` initiates the shut-down phase whereby the server or client are given the opportunity to perform clean-up actions.
+
+- A standalone HTTP server unbinds
+- A shared HTTP server is removed from the set of accepting servers
+- An HTTP client refuses to send any new requests
+
+When all connections inflight requests are processed, the server or client is then closed.
+
+### Application Launcher
+
+Application [launcher](https://vertx.io/docs/5.0.0-SNAPSHOT/vertx-launcher-application/java/) is a new tool which addresses the
+concern of launching a Vert.x application packaged as a far jar. It replaces the Vert.x 4 `io.vertx.core.Launcher`.
+
+## Sunsets and removals
+
+A few components are sunsetting in 5.0, that means they are still supported for the lifetime of the 5.x series,
+but we don't encourage using them anymore since we provide replacements for them. Such components are scheduled
+to go away in the next major release (Vert.x 6).
+
+Here is the list of components we sunset in 5.x
+
+| Component         | Replacement                            |
+|-------------------|----------------------------------------|
+| gRPC Netty        | Vert.x gRPC client and server          |
+| JDBC API          | SQL client API implementation for JDBC |
+| Service Discovery | Vert.x Service Resolver                |
+| RxJava 1          | Mutiny or RxJava 3                     |
+| OpenTracing       | OpenTelemetry                          |
+| Vert.x Unit       | Vert.x JUnit 5                         |
+
+Here is the list of components removed in 5.x, that were sunset in 4.x series.
+
+- Vert.x Sync, replaced by Vert.x virtual threads 
+- Service Factories / Maven Service Factory / HTTP Service Factory 
+
+## What's next ?
+
+Vert.x 5 is scheduled for December, until the release you can expect a few candidate releases.
+
+## Finally
+
+The [deprecations and breaking changes](https://github.com/vert-x3/wiki/wiki/5.0.0-Deprecations-and-breaking-changes)
+ can be found on the wiki.
+
+The release artifacts have been deployed to [Maven Central](https://search.maven.org/search?q=g:io.vertx%20AND%20v:5.0.0.CR1) and you can get the distribution on [Maven Central](https://repo1.maven.org/maven2/io/vertx/vertx-stack-manager/4.0.0-milestone1/).
+
+Most importantly the documentation has been deployed on this preview web-site https://vertx.io/docs/5.0.0-SNAPSHOT/
+
+That's it! Happy coding and see you soon on our user or dev [channels](https://vertx.io/community).
