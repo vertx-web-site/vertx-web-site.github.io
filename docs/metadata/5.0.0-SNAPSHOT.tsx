@@ -31,6 +31,7 @@ insert(docs, "vertx-launcher-application", {
   href: "/vertx-launcher-application/java/",
   repository: "https://github.com/eclipse-vertx/vertx-launcher",
   edit: "https://github.com/eclipse-vertx/vertx-launcher/tree/main/application/src/main/asciidoc",
+  examples: "https://start.vertx.io",
   label: "Preview",
 })
 
