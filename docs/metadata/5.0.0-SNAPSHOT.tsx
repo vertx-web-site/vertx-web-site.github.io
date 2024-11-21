@@ -120,6 +120,8 @@ find(docs, "vertx-uri-template").examples =
   "https://github.com/vert-x3/vertx-examples/tree/5.x/web-client-examples#uri-templates"
 find(docs, "vertx-json-schema").examples =
   "https://github.com/vert-x3/vertx-examples/tree/5.x/json-schema-examples"
+find(docs, "vertx-config").examples =
+  "https://github.com/vert-x3/vertx-examples/tree/5.x/config-examples"
 
 // remove old entries
 remove(docs, "vertx-io_uring-incubator")
