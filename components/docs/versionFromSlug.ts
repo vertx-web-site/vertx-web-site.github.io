@@ -11,7 +11,7 @@ export function versionFromSlug(slug: string): {
     type = "guides"
     slug = slug.substring(7)
   }
-  let versionMatch = slug.match(/^(\d+\.\d+(\.\d+)?(-[^\/]+)?)(\/|$)/)
+  let versionMatch = slug.match(/^(\d+\.\d+(\.\d+)?([\.-][^\/]+)?)(\/|$)/)
   if (versionMatch) {
     return {
       type,
