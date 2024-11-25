@@ -132,6 +132,7 @@ remove(docs, "vertx-rx-java")
 remove(docs, "vertx-service-discovery")
 remove(docs, "vertx-sockjs-service-proxy")
 remove(docs, "vertx-web-api-service")
+remove(docs, "vertx-unit")
 removeCategory(docs, "groovy")
 
 export default docs
