@@ -124,6 +124,8 @@ find(docs, "vertx-config").examples =
   "https://github.com/vert-x3/vertx-examples/tree/5.x/config-examples"
 find(docs, "vertx-health-check").examples =
   "https://github.com/vert-x3/vertx-examples/tree/5.x/health-check-examples"
+find(docs, "vertx-http-proxy").examples =
+  "https://github.com/vert-x3/vertx-examples/tree/5.x/http-proxy-examples"
 
 // remove old entries
 remove(docs, "vertx-io_uring-incubator")
