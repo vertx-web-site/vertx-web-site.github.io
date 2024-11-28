@@ -179,6 +179,22 @@ const entries: GuidesDoc[] = [
     },
   },
   {
+    id: "k8s-client-side-lb-howto",
+    name: "Client side load balancing on Kubernetes",
+    description:
+      "How to perform client side load balancing on Kubernetes with a microservice",
+    category: "http-web",
+    href: "/k8s-client-side-lb-howto/",
+    repository: "https://github.com/vertx-howtos/k8s-client-side-lb-howto",
+    edit: "https://github.com/vertx-howtos/k8s-client-side-lb-howto/blob/master/README.adoc",
+    artifact: {
+      type: "github",
+      owner: "vertx-howtos",
+      repo: "k8s-client-side-lb-howto",
+      ref: "main",
+    },
+  },
+  {
     id: "metrics-prometheus-grafana-howto",
     name: "Exposing Prometheus metrics and visualizing them in Grafana",
     description: "Exposing Prometheus metrics and visualizing them in Grafana",
