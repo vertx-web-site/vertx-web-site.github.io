@@ -128,6 +128,8 @@ find(docs, "vertx-http-proxy").examples =
   "https://github.com/vert-x3/vertx-examples/tree/5.x/http-proxy-examples"
 // Micrometer Metrics example is complex and consequently moved to how-tos
 delete find(docs, "vertx-micrometer-metrics").examples
+find(docs, "vertx-opentelemetry").examples =
+  "https://github.com/vert-x3/vertx-examples/tree/5.x/opentelemetry-examples"
 
 // remove old entries
 remove(docs, "vertx-io_uring-incubator")
