@@ -130,6 +130,8 @@ find(docs, "vertx-http-proxy").examples =
 delete find(docs, "vertx-micrometer-metrics").examples
 find(docs, "vertx-opentelemetry").examples =
   "https://github.com/vert-x3/vertx-examples/tree/5.x/opentelemetry-examples"
+find(docs, "vertx-stomp").examples =
+  "https://github.com/vert-x3/vertx-examples/tree/5.x/stomp-examples"
 
 // remove old entries
 remove(docs, "vertx-io_uring-incubator")
