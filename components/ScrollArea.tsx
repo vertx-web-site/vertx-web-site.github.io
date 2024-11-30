@@ -16,7 +16,7 @@ const ScrollBar = ({ orientation, type, forceDark }: ScrollBarProps) => {
     <ScrollAreaPrimitive.Scrollbar
       orientation={orientation}
       className={clsx(
-        "flex select-none touch-none p-0.5 [transition:opacity_160ms_ease-out,width_.25s_ease-in-out,height_.25s_ease-in-out] data-[orientation=vertical]:w-[0.6rem] hover:data-[orientation=vertical]:w-[0.8rem] data-[orientation=horizontal]:flex-col data-[orientation=horizontal]:h-[0.6rem] hover:data-[orientation=horizontal]:h-[0.8rem]",
+        "flex touch-none select-none p-0.5 [transition:opacity_160ms_ease-out,width_.25s_ease-in-out,height_.25s_ease-in-out] data-[orientation=horizontal]:h-[0.6rem] data-[orientation=vertical]:w-[0.6rem] data-[orientation=horizontal]:flex-col hover:data-[orientation=horizontal]:h-[0.8rem] hover:data-[orientation=vertical]:w-[0.8rem]",
         {
           dark: forceDark,
           "opacity-0 data-[state=visible]:opacity-60": type !== "always",
@@ -26,7 +26,7 @@ const ScrollBar = ({ orientation, type, forceDark }: ScrollBarProps) => {
       forceMount={true}
       aria-hidden={true}
     >
-      <ScrollAreaPrimitive.Thumb className="flex-1 bg-gray-800 rounded-[10px] relative before:content-[''] before:absolute before:top-1/2 before:left-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:w-full before:h-full before:min-w-[44px] before:min-h-[44px]" />
+      <ScrollAreaPrimitive.Thumb className="relative flex-1 rounded-[10px] bg-gray-800 before:absolute before:left-1/2 before:top-1/2 before:h-full before:min-h-[44px] before:w-full before:min-w-[44px] before:-translate-x-1/2 before:-translate-y-1/2 before:content-['']" />
     </ScrollAreaPrimitive.Scrollbar>
   )
 }
@@ -66,7 +66,7 @@ const ScrollArea = forwardRef<HTMLDivElement, ScrollAreaProps>(
         scrollHideDelay={hideDelay}
         type={type}
       >
-        <ScrollAreaPrimitive.Viewport className="w-full h-full" ref={ref}>
+        <ScrollAreaPrimitive.Viewport className="h-full w-full" ref={ref}>
           {children}
         </ScrollAreaPrimitive.Viewport>
         {orientation !== "horizontal" ? (
