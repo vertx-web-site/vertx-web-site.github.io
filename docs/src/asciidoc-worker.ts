@@ -79,7 +79,7 @@ async function workerMain({
       "source-highlighter": "shiki",
       showtitle: true,
       "!toc": true, // force disable table of contents
-      sectanchors: true,
+      sectlinks: true,
       imagesdir: imagesDir,
       icons: "font",
 

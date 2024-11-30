@@ -9,6 +9,7 @@ import {
   metadata,
 } from "@/docs/metadata/all"
 import { filterLatestBugfixVersions } from "@/docs/metadata/helpers"
+import PhosphorLink from "@phosphor-icons/core/regular/link.svg"
 import {
   Book,
   CaretLeft,
@@ -18,6 +19,13 @@ import {
 import { Metadata, ResolvingMetadata } from "next"
 import dynamic from "next/dynamic"
 import Link from "next/link"
+
+declare module "react" {
+  // enable CSS variables in style attributes
+  interface CSSProperties {
+    [key: `--${string}`]: string | number
+  }
+}
 
 const GetStarted = dynamic(() => import("./get-started.mdx"))
 const IntroToReactive = dynamic(() => import("./intro-to-reactive.mdx"))
@@ -335,7 +343,14 @@ const DocsPage = async ({ params }: DocsPageProps) => {
   return (
     <>
       <VersionGuard type={type} pageVersion={activeVersion} />
-      <main className="docs-contents prose mt-40 lg:mt-24">{Main}</main>
+      <main
+        className="docs-contents prose mt-40 lg:mt-24"
+        style={{
+          "--docs-contents-heading-link": `url("${PhosphorLink}")`,
+        }}
+      >
+        {Main}
+      </main>
     </>
   )
 }

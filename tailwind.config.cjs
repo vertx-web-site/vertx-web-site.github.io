@@ -266,7 +266,7 @@ module.exports = {
             },
             a: {
               textDecoration: null,
-              fontWeight: 300,
+              fontWeight: "inherit",
               overflowWrap: "break-word",
             },
             "a:hover": {

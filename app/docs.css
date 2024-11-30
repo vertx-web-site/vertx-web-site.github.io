@@ -1,6 +1,30 @@
 @tailwind components;
 
 @layer components {
+  /* headings */
+  .docs-contents h1 a,
+  .docs-contents h2 a,
+  .docs-contents h3 a,
+  .docs-contents h4 a,
+  .docs-contents h5 a,
+  .docs-contents h6 a {
+    @apply no-underline;
+  }
+
+  .docs-contents h1 a::after,
+  .docs-contents h2 a::after,
+  .docs-contents h3 a::after,
+  .docs-contents h4 a::after,
+  .docs-contents h5 a::after,
+  .docs-contents h6 a::after {
+    /* The CSS variable --docs-contents-heading-link should contain an SVG
+       data URI. We combine mask-image with background-color so that we can
+       change the SVG path's fill color. */
+    content: "";
+    mask-image: var(--docs-contents-heading-link);
+    @apply -mb-0.5 ml-[0.25em] inline-block h-[0.8em] w-[0.8em] bg-gray-500 fill-primary opacity-0 transition-opacity hover:opacity-100;
+  }
+
   /* admonitions */
   .docs-contents .admonitionblock.warning {
     @apply border-alert;
