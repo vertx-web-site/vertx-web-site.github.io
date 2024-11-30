@@ -16,6 +16,7 @@ export interface Doc {
   edit: string
   examples?: string
   label?: string
+  hidden?: boolean
 }
 
 export interface GuidesDoc extends Doc {

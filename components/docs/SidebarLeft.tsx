@@ -35,8 +35,11 @@ function createToc(
       <li key={titleSlug}>
         <div className="mb-2 font-normal text-gray-900">{chapter.title}</div>
         <ul className="flex flex-col gap-2 border-l border-gray-200">
-          {chapter.pages.map(p => {
+          {chapter.pages.flatMap(p => {
             let ext = isExternal(p.slug)
+            if (p.hidden ?? false) {
+              return []
+            }
             return (
               <li
                 key={p.slug}

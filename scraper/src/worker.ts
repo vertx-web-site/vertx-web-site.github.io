@@ -59,6 +59,10 @@ async function workerMain({ version }: { version: string }) {
       // skip external pages
       continue
     }
+    if (e.hidden ?? false) {
+      // skip hidden pages
+      continue
+    }
     let slug = e.href
     if (slug.startsWith("/")) {
       slug = slug.substring(1)

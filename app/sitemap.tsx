@@ -19,7 +19,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
   for (let version of filteredVersions) {
     let toc = makeToc("docs", version)
     for (let chapter of toc) {
-      let filteredPages = chapter.pages.filter(page => !isExternal(page.slug))
+      let filteredPages = chapter.pages.filter(
+        page => !isExternal(page.slug) && page.hidden !== true,
+      )
       for (let page of filteredPages) {
         let slug = page.slug
         if (slug !== "") {

@@ -15,6 +15,7 @@ export interface Page {
   readonly title: string
   readonly slug: string
   readonly label?: string
+  readonly hidden?: boolean
   readonly edit?: string
   readonly examples?: string
   readonly includeBook?: boolean
@@ -256,6 +257,7 @@ function makeChapters(
         title: e.name,
         slug: pageSlug,
         label: e.label,
+        hidden: e.hidden,
         edit: e.edit,
         examples: e.examples,
         sections,
