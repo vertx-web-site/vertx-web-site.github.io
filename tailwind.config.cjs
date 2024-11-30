@@ -222,7 +222,7 @@ module.exports = {
               marginBottom: "0.5em",
               lineHeight: 1.5,
             },
-            "h1 a,h2 a,h3 a,h4 a,h5 a,h1 a:hover,h2 a:hover,h3 a:hover,h4 a:hover,h5 a:hover":
+            "h1 a,h2 a,h3 a,h4 a,h5 a,h6 a,h1 a:hover,h2 a:hover,h3 a:hover,h4 a:hover,h5 a:hover,h6 a:hover":
               {
                 color: `${theme("colors.gray-800")} !important`,
               },
