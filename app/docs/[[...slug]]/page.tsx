@@ -210,7 +210,7 @@ const DocsPage = async ({ params }: DocsPageProps) => {
     Content = () => (
       <>
         {activeVersion !== latestRelease.version ? (
-          <div className="mb-8 mt-5 text-pretty border-l-8 border-warning bg-bg-warning p-4 text-sm">
+          <div className="mb-8 mt-5 text-pretty border-l-8 border-warning bg-bg-warning p-4 text-sm dark:border-b dark:border-r dark:border-t dark:bg-opacity-5">
             {metadata.find(r => r.version === activeVersion)?.metadata
               ?.prerelease ? (
               <>
