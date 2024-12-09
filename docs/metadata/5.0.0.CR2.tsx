@@ -137,13 +137,13 @@ find(docs, "vertx-stomp").examples =
 find(docs, "vertx-unit").hidden = true
 find(docs, "vertx-service-discovery").hidden = true
 find(docs, "vertx-web-api-service").hidden = true
-find(docs, "vertx-sockjs-service-proxy").hidden = true
 
 // remove old entries
 remove(docs, "vertx-io_uring-incubator")
 remove(docs, "vertx-lang-groovy")
 remove(docs, "vertx-lang-kotlin")
 remove(docs, "vertx-rx-java")
+remove(docs, "vertx-sockjs-service-proxy")
 remove(docs, "vertx-grpc-netty")
 removeCategory(docs, "groovy")
 
