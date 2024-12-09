@@ -133,9 +133,11 @@ find(docs, "vertx-opentelemetry").examples =
 find(docs, "vertx-stomp").examples =
   "https://github.com/vert-x3/vertx-examples/tree/5.x/stomp-examples"
 
+// hide deprecated entries
+find(docs, "vertx-grpc-netty").hidden = true
+
 // remove old entries
 remove(docs, "vertx-io_uring-incubator")
-remove(docs, "vertx-grpc-netty")
 remove(docs, "vertx-lang-groovy")
 remove(docs, "vertx-lang-kotlin")
 remove(docs, "vertx-rx-java")
