@@ -134,7 +134,7 @@ find(docs, "vertx-stomp").examples =
   "https://github.com/vert-x3/vertx-examples/tree/5.x/stomp-examples"
 
 // hide deprecated entries
-find(docs, "vertx-grpc-netty").hidden = true
+find(docs, "vertx-unit").hidden = true
 
 // remove old entries
 remove(docs, "vertx-io_uring-incubator")
@@ -144,7 +144,7 @@ remove(docs, "vertx-rx-java")
 remove(docs, "vertx-service-discovery")
 remove(docs, "vertx-sockjs-service-proxy")
 remove(docs, "vertx-web-api-service")
-remove(docs, "vertx-unit")
+remove(docs, "vertx-grpc-netty")
 removeCategory(docs, "groovy")
 
 export default docs
