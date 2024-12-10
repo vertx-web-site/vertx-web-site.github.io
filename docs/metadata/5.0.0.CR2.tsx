@@ -134,9 +134,15 @@ find(docs, "vertx-stomp").examples =
   "https://github.com/vert-x3/vertx-examples/tree/5.x/stomp-examples"
 
 // hide deprecated entries
-find(docs, "vertx-unit").hidden = true
-find(docs, "vertx-service-discovery").hidden = true
-find(docs, "vertx-web-api-service").hidden = true
+let vertx_unit = find(docs, "vertx-unit")
+let vertx_service_discovery = find(docs, "vertx-service-discovery")
+let vertx_web_api_service = find(docs, "vertx-web-api-service")
+vertx_unit.hidden = true
+vertx_unit.label = "Deprecated"
+vertx_service_discovery.hidden = true
+vertx_service_discovery.label = "Deprecated"
+vertx_web_api_service.hidden = true
+vertx_web_api_service.label = "Deprecated"
 
 // remove old entries
 remove(docs, "vertx-io_uring-incubator")
