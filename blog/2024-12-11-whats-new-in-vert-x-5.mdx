@@ -200,3 +200,21 @@ Here is the list of components removed in 5.x, that were sunset in 4.x series.
 - Vert.x Sync, replaced by Vert.x virtual threads
 - Service Factories / Maven Service Factory / HTTP Service Factory
 - RxJava 1, replaced by [SmallRye Mutiny](https://smallrye.io/smallrye-mutiny/latest/) or [RxJava 3](https://vertx.io/docs/vertx-rx/java3/)
+
+## Tooling
+
+### Vert.x Maven Plugin
+
+The [Vert.x Maven Plugin](https://reactiverse.io/vertx-maven-plugin), a [Reactiverse](https://reactiverse.io/) project, is a plugin for Apache Maven that helps to develop and/or to package Vert.x applications.
+
+Its new major version, 2.0, supports both Vert.x 4 and Vert.x 5.
+Therefore, if you already use this Maven plugin and Vert.x 4, you can upgrade the plugin before upgrading Vert.x.
+This can make the migration process incremental.
+
+### Contextual logging
+
+[Reactiverse Contextual logging](https://reactiverse.io/reactiverse-contextual-logging/) version 2.0 supports Vert.x 5.
+
+Like the Vert.x stack, it has been updated for better integration with the Java Platform Module System (JPMS).
+
+Before upgrading from version 1, checkout the [migration guide](https://reactiverse.io/reactiverse-contextual-logging/#_migrating_from_version_1).
