@@ -1,0 +1,37 @@
+---
+title: Migrate from Vert.x 4 to Vert.x 5
+category: guides
+authors:
+  - name: Julien Viet
+    github_id: vietj
+summary: >-
+  We provide a clear and well-documented migration path from Vert.x 4.5 to Vert.x 5.
+  Existing users will feel at home with the new version.
+pinned: true
+---
+
+import Card from "@/components/Card"
+
+Vert.x 5 extends the Vert.x 4 line with a set of new features while providing the same Vert.x 4 experience: Vert.x 4
+users will feel at home with Vert.x 5.
+
+## Migration
+
+Vert.x 5 has been developed with migration from Vert.x 4 in mind.
+
+Whenever possible, Vert.x 5 APIs have been made available in Vert.x 4 with a deprecation of the API, giving
+the opportunity to improve a Vert.x 4 application with a better API while allowing the application to be ready for a Vert.x 5
+migration.
+
+<div className="grid grid-cols-1 gap-2 md:grid-cols-2">
+  <Card href="/docs/guides/vertx-5-migration-guide/" title="Read migration guide">
+    We provide a clear and documented migration path from Vert.x 4.5 to Vert.x 5.
+  </Card>
+</div>
+
+## Vert.x 4 support
+
+Vert.x 4 will continue to get bug fix releases officially until January 2026.
+
+Vert.x is an open source project of the Eclipse Foundation, granting the community the opportunity to contribute
+fixes beyond that deadline and possibly extend the support.
