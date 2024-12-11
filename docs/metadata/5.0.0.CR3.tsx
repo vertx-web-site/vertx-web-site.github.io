@@ -145,6 +145,7 @@ vertx_web_api_service.hidden = true
 vertx_web_api_service.label = "Deprecated"
 
 // remove old entries
+remove(docs, "vertx-auth-webauthn")
 remove(docs, "vertx-io_uring-incubator")
 remove(docs, "vertx-lang-groovy")
 remove(docs, "vertx-lang-kotlin")
