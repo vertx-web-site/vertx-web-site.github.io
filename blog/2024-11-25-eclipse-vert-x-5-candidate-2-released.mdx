@@ -82,8 +82,8 @@ In the near feature, we will provide a [tutorial](https://how-to.vertx.io/) expl
 
 ### gRPC deadlines
 
-Vert.x gRPC handles timeout and deadlines in both [client](https://vertx.io/docs/5.0.0-CR2/vertx-grpc/java/#_timeout_and_deadlines_2)
-and [server](https://vertx.io/docs/5.0.0-CR2/vertx-grpc/java/#_timeout_and_deadlines)
+Vert.x gRPC handles timeout and deadlines in both [client](https://vertx.io/docs/5.0.0.CR3/vertx-grpc/java/#_timeout_and_deadlines_2)
+and [server](https://vertx.io/docs/5.0.0.CR3/vertx-grpc/java/#_timeout_and_deadlines)
 
 Here is a simple [example](https://github.com/vert-x3/vertx-examples/tree/5.x/grpc-examples#timeout-and-deadlines).
 
@@ -116,7 +116,7 @@ as well as a gRPC HTTP client [example](https://github.com/vert-x3/vertx-example
 
 ## Service resolver
 
-[Vert.x Service Resolver](https://vertx.io/docs/5.0.0-CR2/vertx-service-resolver/java/) is a new addition to
+[Vert.x Service Resolver](https://vertx.io/docs/5.0.0.CR3/vertx-service-resolver/java/) is a new addition to
 the Vert.x stack aiming to provide dynamic address resolution for clients, it extends the vertx core client side load 
 balancing to a new set of service resolvers.
 
@@ -127,7 +127,7 @@ You can find here a few [examples](https://github.com/vert-x3/vertx-examples/tre
 
 ## HTTP proxy
 
-The interception [side](https://vertx.io/docs/5.0.0-CR2/vertx-http-proxy/java/#_proxy_interception) of our HTTP proxy
+The interception [side](https://vertx.io/docs/5.0.0.CR3/vertx-http-proxy/java/#_proxy_interception) of our HTTP proxy
 has been improved with out-of-the-box transformations and interceptor in WebSocket upgrades.
 
 In addition, the caching part gets a proper caching Service Provider Interface (SPI) as well as extended support for 
@@ -138,11 +138,11 @@ caching specifications.
 ### Unix domain sockets
 
 Unix domain sockets have historically supported exclusively by native transports, they are now
-[available](https://vertx.io/docs/5.0.0-CR2/vertx-core/java/#_listening_to_unix_domain_sockets) for JDK 16 or greater.
+[available](https://vertx.io/docs/5.0.0.CR3/vertx-core/java/#_listening_to_unix_domain_sockets) for JDK 16 or greater.
 
 ### Connect options
 
-TCP and HTTP clients have finer grained [Connect](https://vertx.io/docs/5.0.0-CR2/apidocs/io/vertx/core/net/ConnectOptions.html)
+TCP and HTTP clients have finer grained [Connect](https://vertx.io/docs/5.0.0.CR3/apidocs/io/vertx/core/net/ConnectOptions.html)
 capabilities, providing per connection SSL and proxy options. Previously such configuration was only possible client wide.
 
 ### Un-pooled HTTP connection
@@ -173,7 +173,7 @@ When all connections inflight requests are processed, the server or client is th
 
 ### Application Launcher
 
-Application [launcher](https://vertx.io/docs/5.0.0-CR2/vertx-launcher-application/java/) is a new tool which addresses the
+Application [launcher](https://vertx.io/docs/5.0.0.CR3/vertx-launcher-application/java/) is a new tool which addresses the
 concern of launching a Vert.x application packaged as a far jar. It replaces the Vert.x 4 `io.vertx.core.Launcher`.
 
 ## Sunsets and removals
@@ -209,6 +209,6 @@ The [deprecations and breaking changes](https://github.com/vert-x3/wiki/wiki/5.0
 
 The release artifacts have been deployed to [Maven Central](https://search.maven.org/search?q=g:io.vertx%20AND%20v:5.0.0.CR2) and you can get the distribution on [Maven Central](https://repo1.maven.org/maven2/io/vertx/vertx-stack-manager/4.0.0-milestone1/).
 
-Most importantly the documentation has been deployed on this preview web-site https://vertx.io/docs/5.0.0-CR2/
+Most importantly the documentation has been deployed on this preview web-site https://vertx.io/docs/5.0.0.CR3/
 
 That's it! Happy coding and see you soon on our user or dev [channels](https://vertx.io/community).
