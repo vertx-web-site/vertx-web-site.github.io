@@ -338,6 +338,21 @@ const entries: GuidesDoc[] = [
       ref: "master",
     },
   },
+  {
+    id: "grpc-web-howto",
+    name: "Building a gRPC Web service",
+    description: "Building a gRPC Web service",
+    category: "http-web",
+    href: "/grpc-web-howto/",
+    repository: "https://github.com/vertx-howtos/grpc-web-howto",
+    edit: "https://github.com/vertx-howtos/grpc-web-howto/blob/master/README.adoc",
+    artifact: {
+      type: "github",
+      owner: "vertx-howtos",
+      repo: "grpc-web-howto",
+      ref: "master",
+    },
+  },
 ]
 
 const docs: GuidesDocs = {
