@@ -137,12 +137,15 @@ find(docs, "vertx-stomp").examples =
 let vertx_unit = find(docs, "vertx-unit")
 let vertx_service_discovery = find(docs, "vertx-service-discovery")
 let vertx_web_api_service = find(docs, "vertx-web-api-service")
+let vertx_opentracing = find(docs, "vertx-opentracing")
 vertx_unit.hidden = true
 vertx_unit.label = "Deprecated"
 vertx_service_discovery.hidden = true
 vertx_service_discovery.label = "Deprecated"
 vertx_web_api_service.hidden = true
 vertx_web_api_service.label = "Deprecated"
+vertx_opentracing.hidden = true
+vertx_opentracing.label = "Deprecated"
 
 // remove old entries
 remove(docs, "vertx-auth-webauthn")
