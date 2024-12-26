@@ -96,7 +96,7 @@ const BlogPost = async ({ postId }: BlogPostProps) => {
             <Clock size="1.5em" className="-ml-[2px]" />
             <div>{post.readingTime}</div>
           </div>
-          <div className="flex flex-row gap-3">
+          <div className="-ml-[0.2rem] flex flex-row gap-3">
             <Tooltip content="X">
               <a
                 href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(url)}&via=vertx_project`}
