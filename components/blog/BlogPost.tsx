@@ -1,13 +1,16 @@
 import Label from "../Label"
-import SimpleIcon from "../SimpleIcon"
 import { Tooltip } from "../Tooltip"
 import PostListItem from "./PostListItem"
 import allPosts from "@/.generated/allposts.json"
-import { Clock } from "@phosphor-icons/react/dist/ssr"
+import {
+  Clock,
+  FacebookLogo,
+  LinkedinLogo,
+  XLogo,
+} from "@phosphor-icons/react/dist/ssr"
 import dayjs from "dayjs"
 import Link from "next/link"
 import fs from "node:fs/promises"
-import { siFacebook, siLinkedin, siX } from "simple-icons"
 
 interface BlogPostProps {
   postId: string
@@ -101,7 +104,7 @@ const BlogPost = async ({ postId }: BlogPostProps) => {
                 rel="noopener noreferrer"
                 className="text-gray-900 transition-all hover:scale-110"
               >
-                <SimpleIcon icon={siX} title="" />
+                <XLogo size="1.75em" />
               </a>
             </Tooltip>
             <Tooltip content="LinkedIn">
@@ -111,7 +114,7 @@ const BlogPost = async ({ postId }: BlogPostProps) => {
                 rel="noopener noreferrer"
                 className="text-gray-900 transition-all hover:scale-110"
               >
-                <SimpleIcon icon={siLinkedin} title="" />
+                <LinkedinLogo size="1.75em" />
               </a>
             </Tooltip>
             <Tooltip content="Facebook">
@@ -121,7 +124,7 @@ const BlogPost = async ({ postId }: BlogPostProps) => {
                 rel="noopener noreferrer"
                 className="text-gray-900 transition-all hover:scale-110"
               >
-                <SimpleIcon icon={siFacebook} title="" />
+                <FacebookLogo size="1.75em" />
               </a>
             </Tooltip>
           </div>
