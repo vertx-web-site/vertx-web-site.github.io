@@ -309,7 +309,7 @@ const NavBar = ({ fixed = true }: NavBarProps) => {
               <div className="flex items-center gap-4">
                 <VersionSwitcher bg={!fixed && onTop ? "primary" : "gray"} />
                 <div className="flex justify-center xl:border-r xl:border-gray-300 xl:pr-4">
-                  <QuickSearch />
+                  <QuickSearch onClick={() => setCollapsed(false)} />
                 </div>
                 <div className="hidden items-center gap-3 xl:flex">
                   {socialIcons.map(si => (
