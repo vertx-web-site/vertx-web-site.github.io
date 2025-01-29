@@ -138,6 +138,7 @@ let vertx_unit = find(docs, "vertx-unit")
 let vertx_service_discovery = find(docs, "vertx-service-discovery")
 let vertx_web_api_service = find(docs, "vertx-web-api-service")
 let vertx_opentracing = find(docs, "vertx-opentracing")
+let vertx_grpc_netty = find(docs, "vertx-grpc-netty")
 vertx_unit.hidden = true
 vertx_unit.label = "Deprecated"
 vertx_service_discovery.hidden = true
@@ -146,6 +147,8 @@ vertx_web_api_service.hidden = true
 vertx_web_api_service.label = "Deprecated"
 vertx_opentracing.hidden = true
 vertx_opentracing.label = "Deprecated"
+vertx_grpc_netty.hidden = true
+vertx_grpc_netty.label = "Deprecated"
 
 // remove old entries
 remove(docs, "vertx-auth-webauthn")
@@ -154,7 +157,6 @@ remove(docs, "vertx-lang-groovy")
 remove(docs, "vertx-lang-kotlin")
 remove(docs, "vertx-rx-java")
 remove(docs, "vertx-sockjs-service-proxy")
-remove(docs, "vertx-grpc-netty")
 removeCategory(docs, "groovy")
 
 export default docs
