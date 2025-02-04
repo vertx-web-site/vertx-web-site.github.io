@@ -353,6 +353,21 @@ const entries: GuidesDoc[] = [
       ref: "master",
     },
   },
+  {
+    id: "jlink-howto",
+    name: "Assembling a small runtime image of a modular Vert.x application with jlink",
+    description: "Assembling a small runtime image of a modular Vert.x application with jlink",
+    category: "runtime-jvm",
+    href: "/jlink-howto/",
+    repository: "https://github.com/vertx-howtos/jlink-howto",
+    edit: "https://github.com/vertx-howtos/jlink-howto/blob/master/README.adoc",
+    artifact: {
+      type: "github",
+      owner: "vertx-howtos",
+      repo: "jlink-howto",
+      ref: "master",
+    },
+  },
 ]
 
 const docs: GuidesDocs = {
