@@ -79,6 +79,13 @@ On the Vert.x side, enabling the gRPC Web protocol support is a mere switch in o
 This [How-to](https://vertx.io/docs/howtos/grpc-web-howto/) explains how to generate a browser client
 with `protoc` and to communicate with the server.
 
+### gRPC Transcoding
+
+The Vert.x gRPC Server supports the [gRPC Transcoding](https://vertx.io/docs/5.0.0.CR6/vertx-grpc/java/#_generate_transcoding_definitions)
+protocol by default (i.e. without an intermediate proxy).
+
+Here is a simple [example](https://github.com/vert-x3/vertx-examples/tree/5.x/grpc-examples#transcoding).
+
 ### gRPC deadlines
 
 Vert.x gRPC handles timeout and deadlines in both [client](https://vertx.io/docs/5.0.0.CR5/vertx-grpc/java/#_timeout_and_deadlines_2)
