@@ -99,6 +99,17 @@ gRPC implicitly assumes the usage of the Protobuf wire format, the Vert.x gRPC c
 
 Here is a simple [example](https://github.com/vert-x3/vertx-examples/tree/5.x/grpc-examples#json-wire-format).
 
+### Reflection service
+
+Support for the [gRPC reflection service](https://vertx.io/docs/5.0.0.CR7/vertx-grpc/java/#_grpc_reflection_apis) can be added to your Vert.x gRPC Server, which can be used by tools like
+[gRPCurl](https://github.com/fullstorydev/grpcurl)
+
+### Health service
+
+The gRPC Health Service implements the standard gRPC health checking protocol, which allows clients to check the health status of your services.
+
+Here is a simple [example](https://github.com/vert-x3/vertx-examples/tree/5.x/grpc-examples#health-checking).
+
 ## OpenAPI & Vert.x OpenAPI Router
 
 With Vert.X 5 the OpenAPI modules now also supports binary data.
