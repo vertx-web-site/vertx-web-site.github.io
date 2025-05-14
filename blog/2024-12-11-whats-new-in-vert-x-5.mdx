@@ -59,32 +59,39 @@ you
 
 ## Java Modules
 
-Vert.x 5 supports the Java Platform Module System (JPMS) with explicit modules (Vert.x 4 supports only automatic modules).
+Vert.x 5 supports the Java Platform Module System (JPMS) with explicit modules.
 
-Most Vert.x components support modules (a few components though due to their dependencies cannot), the upcoming Modular Vert.x guide will give more information
-about it, in the meantime you can look at out [JPMS examples](https://github.com/vert-x3/vertx-examples/tree/5.x/jpms-examples).
+Most Vert.x components support modules (a few components though due to their dependencies cannot), you can read the
+[Modular Vert.x guide](https://vertx.io/docs/guides/modular-vertx-guide/) to learn more and look at the 
+[JPMS examples](https://github.com/vert-x3/vertx-examples/tree/5.x/jpms-examples).
 
-## gRPC improvements
+## gRPC
 
-Vert.x gRPC has a few great additions in this major release, propelling Vert.x gRPC as a first class choice for implementing
-gRPC services.
+Vert.x gRPC has many great additions in this major release, propelling Vert.x gRPC as a first class choice for implementing
+gRPC services as well as interacting with them.
 
-### gRPC Web
+### gRPC protocols
 
-The Vert.x gRPC Server supports the [gRPC Web](https://github.com/grpc/grpc/blob/master/doc/PROTOCOL-WEB.md#protocol-differences-vs-grpc-over-http2)
-protocol by default (i.e. without an intermediate proxy).
+The Vert.x gRPC Server enable support out of the box support for [gRPC Web](https://vertx.io/docs/vertx-grpc/java/#_grpc_web_protocol)
+protocol and [gRPC Transcoding](https://vertx.io/docs/vertx-grpc/java/#grpc-transcoding) (i.e. without an intermediate proxy).
 
-On the Vert.x side, enabling the gRPC Web protocol support is a mere switch in options.
+This [How-to](https://vertx.io/docs/howtos/grpc-web-howto/) explains how to generate a browser client with `protoc` and to communicate with the server.
 
-This [How-to](https://vertx.io/docs/howtos/grpc-web-howto/) explains how to generate a browser client
-with `protoc` and to communicate with the server.
+Here is a simple [transcoding example](https://github.com/vert-x3/vertx-examples/tree/5.x/grpc-examples#transcoding).
 
-### gRPC Transcoding
+### JSON wire format
 
-The Vert.x gRPC Server supports the [gRPC Transcoding](https://vertx.io/docs/5.0.0.CR6/vertx-grpc/java/#_generate_transcoding_definitions)
-protocol by default (i.e. without an intermediate proxy).
+gRPC implicitly assumes the usage of the Protobuf wire format, the Vert.x gRPC client supports the JSON wire format as well.
 
-Here is a simple [example](https://github.com/vert-x3/vertx-examples/tree/5.x/grpc-examples#transcoding).
+Here is a simple [example](https://github.com/vert-x3/vertx-examples/tree/5.x/grpc-examples#json-wire-format).
+
+Out of the box, any service is Protobuf and JSON capable of.
+
+### Idiomatic code generation
+
+A new idiomatic code generator is introduced in Vert.x 5
+
+https://vertx.io/docs/vertx-grpc/java/#vertx-grpc-protoc-plugin
 
 ### gRPC deadlines
 
@@ -92,12 +99,6 @@ Vert.x gRPC handles timeout and deadlines in both [client](https://vertx.io/docs
 and [server](https://vertx.io/docs/5.0.0.5/vertx-grpc/java/#_timeout_and_deadlines)
 
 Here is a simple [example](https://github.com/vert-x3/vertx-examples/tree/5.x/grpc-examples#timeout-and-deadlines).
-
-### JSON wire format
-
-gRPC implicitly assumes the usage of the Protobuf wire format, the Vert.x gRPC client supports the JSON wire format as well.
-
-Here is a simple [example](https://github.com/vert-x3/vertx-examples/tree/5.x/grpc-examples#json-wire-format).
 
 ### Reflection service
 
