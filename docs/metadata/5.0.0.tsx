@@ -150,6 +150,10 @@ vertx_opentracing.label = "Deprecated"
 vertx_grpc_netty.hidden = true
 vertx_grpc_netty.label = "Deprecated"
 
+// For now vertx_zookeeper is taken off the docs
+let vertx_zookeeper = find(docs, "vertx-zookeeper")
+vertx_zookeeper.hidden = true
+
 // remove old entries
 remove(docs, "vertx-auth-webauthn")
 remove(docs, "vertx-io_uring-incubator")
