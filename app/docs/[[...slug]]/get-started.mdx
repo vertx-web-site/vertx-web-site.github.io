@@ -98,7 +98,7 @@ public class MainVerticle extends VerticleBase {
 <CodeExample title="Kotlin">
 ```kotlin
 class MainVerticle : VerticleBase() {
-  override Future<?> start() {
+  override Future<*> start() {
     // Create a Router
     val router = Router.router(vertx)
 
