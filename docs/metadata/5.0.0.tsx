@@ -35,6 +35,18 @@ insert(docs, "vertx-launcher-application", {
   label: "Preview",
 })
 
+insert(docs, "vertx-auth-otp", {
+  id: "vertx-auth-abac",
+  name: "ABAC Auth Provider",
+  description:
+    "Simple Attribute Based Access Control.",
+  category: "authentication-and-authorization",
+  href: "/vertx-auth-abac/java/",
+  repository:
+    "https://github.com/eclipse-vertx/vertx-auth/tree/master/vertx-auth-abac",
+  edit: "https://github.com/eclipse-vertx/vertx-auth/tree/master/vertx-auth-abac/src/main/asciidoc",
+})
+
 // Remove preview labels
 delete find(docs, "vertx-mssql-client").label
 delete find(docs, "vertx-oracle-client").label
