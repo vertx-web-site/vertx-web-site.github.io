@@ -1,6 +1,6 @@
 import Button from "../Button"
 import Container from "../Container"
-import { Envelope, EnvelopeSimple } from "@phosphor-icons/react/dist/ssr"
+import { EnvelopeSimple } from "@phosphor-icons/react/dist/ssr"
 import { motion } from "framer-motion"
 import { shuffle } from "lodash"
 import { useEffect, useRef, useState } from "react"
@@ -15,6 +15,11 @@ const LOGOS = [
     name: "EF Education First",
     src: "education-first.svg",
     url: "https://www.ef.edu/",
+  },
+  {
+    name: "Fortified ID",
+    src: "fortified_logo_green-teal.svg",
+    url: "https://www.fortifiedid.se/",
   },
   {
     name: "Fraunhofer",
