@@ -103,9 +103,6 @@ const Footer = () => {
   ]
 
   const menu2 = [
-    <Link key="download" href="/download/">
-      Download
-    </Link>,
     <Link key="channels" href="/resources/#channels">
       Channels
     </Link>,
