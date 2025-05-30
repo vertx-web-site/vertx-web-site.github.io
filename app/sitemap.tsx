@@ -73,10 +73,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(),
     },
     {
-      url: `${root}/download`,
-      lastModified: new Date(),
-    },
-    {
       url: `${root}/resources`,
       lastModified: new Date(),
     },
