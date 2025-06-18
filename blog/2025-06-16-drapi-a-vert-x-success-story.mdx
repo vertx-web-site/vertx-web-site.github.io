@@ -8,19 +8,19 @@ summary: >-
   The HCL Domino REST API (DRAPI) is powered by Eclipse Vert.x. This article describes the why and how.
 ---
 
-HCL Domino is the latest incarnation of the venerable [groupware](https://en.wikipedia.org/wiki/Collaborative_software) originally known as [Lotus Notes](https://en.wikipedia.org/wiki/HCL_Notes). It is mainly written in C/C++ for its NoSQL database and core functionality, with an Java layer for some of the server functionality. The Domino REST API (DRAPI) is written in Java using Vert.x and sits on top of the core functionality.
+HCL Domino is the latest incarnation of the venerable [groupware](https://en.wikipedia.org/wiki/Collaborative_software) originally known as [Lotus Notes](https://en.wikipedia.org/wiki/HCL_Notes). It is mainly written in C/C++ for its NoSQL database and core functionality, with a Java layer for some of the server functionality. The Domino REST API (DRAPI) is written in Java using Vert.x and sits on top of the core functionality.
 
 Capabilities provided by Vert.x helped to shape DRAPI into a flexible solution meeting diverse customers' needs and deployment scenarios.
 
 ## Contract first development
 
-Our team practises [contract-first development](https://en.wikipedia.org/wiki/Design_by_contract) and uses [OpenAPI](https://www.openapis.org/) to define the REST API. Instead of using the OpenAPI specification  to generate the server code stubs at compile time, we were looking for the ability to dynamically load specifications in an extendible way, which the [Vert.x OpenAPI Router](https://vertx.io/docs/vertx-web-openapi-router/java/) provides.
+Our team practises [contract-first development](https://en.wikipedia.org/wiki/Design_by_contract) and uses [OpenAPI](https://www.openapis.org/) to define the REST API. Instead of using the OpenAPI specification  to generate the server code stubs at compile time, we were looking for the ability to dynamically load specifications in an extensible way, which the [Vert.x OpenAPI Router](https://vertx.io/docs/vertx-web-openapi-router/java/) provides.
 
-Based on OpenAPI's `operationId`, incoming requests are send on vert.x' EventBus to be processed by the corresponding handler. We use the combination of specification name and operationId to form the EventBus address. This allowed us to separate the web facing code from the database facing code that heavily relies on [Jav Native Access (JNA)](https://github.com/java-native-access/jna). We use [the Swagger UI WebJAR](https://www.webjars.org/) to provide the UI to interact with the API.
+Based on OpenAPI's `operationId`, incoming requests are send on Vert.x EventBus to be processed by the corresponding handler. We use the combination of specification name and operationId to form the EventBus address. This allowed us to separate the web facing code from the database facing code that heavily relies on [Jav Native Access (JNA)](https://github.com/java-native-access/jna). We use [the Swagger UI WebJAR](https://www.webjars.org/) to provide the UI to interact with the API.
 
 ## Dynamic configuration
 
-On startup we scout the classpath for configuration files that then are assembled into our [Vert.x Config](https://vertx.io/docs/vertx-config/java/) object. This provides us with the ability to tailor deployments to customer needs.
+On startup, we scout the classpath for configuration files that then are assembled into our [Vert.x Config](https://vertx.io/docs/vertx-config/java/) object. This provides us with the ability to tailor deployments to customer needs.
 
 E.g. Don't need the mail API? Just remove `mailapi.jar` from your deployment's `/libs` folder. Got a spec and code for `/specialapi`? Just add your jar to the `/libs` folder and restart the app (In Domino there's the command `tell restapi reload` for that).
 
@@ -30,25 +30,25 @@ An OpenAPI specification is run through a filter, with the help of [JSON pointer
 
 Incoming request are sent to the EventBus, where they are picked up by the respective verticles. Results are returned to the Eventbus as single or multiple JSON objects, which get returned to the caller using chunked encoding if needed.
 
-The HCL Domino C-API [heavily relies](https://opensource.hcltechsw.com/domino-jnx/) on request/response on fixed threads, so we use Vert.x' `executeBlocking` to bridge the event driven and request/response paradigms. Inside the blocking code we use an `emit(json)` method to send results to the EventBus as they are retrieved from the C API. This ensures that we don't "block or cross" the "Thread wires".
+The HCL Domino C-API [heavily relies](https://opensource.hcltechsw.com/domino-jnx/) on request/response on fixed threads, so we use Vert.x `executeBlocking` to bridge the event driven and request/response paradigms. Inside the blocking code we use an `emit(json)` method to send results to the EventBus as they are retrieved from the C API. This ensures that we don't "block or cross" the "Thread wires".
 
 ![How HCL Domino REST API works](https://opensource.hcltechsw.com/Domino-rest-api/assets/images/KEEPclasses.png)
 
 ## Routing & Security
 
-DRAPI not only provides the REST API into Domino, but also can host single page applictions (SPA). To ensure their protection, we use the [CSP Handler](https://vertx.io/docs/vertx-web/java/#_csp_handler) to enforce a [Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP) on the SPAs. Not all developers follow a clear separation of HTML, CSS and JavaSript, so we allow different levels of CPS depending on each SPA. The Vert.x [Router](https://vertx.io/docs/apidocs/io/vertx/ext/web/Router.html) allows to mount individual CSP policies on each route.
+DRAPI not only provides the REST API into Domino, but also can host single page applications (SPA). To ensure their protection, we use the [CSP Handler](https://vertx.io/docs/vertx-web/java/#_csp_handler) to enforce a [Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP) on the SPAs. Not all developers follow a clear separation of HTML, CSS and JavaScript, so we allow different levels of CPS depending on each SPA. The Vert.x [Router](https://vertx.io/docs/apidocs/io/vertx/ext/web/Router.html) allows to mount individual CSP policies on each route.
 
-Most of our routes are protected using [JWT](https://jwt.io/). To accomodate our customers' deployment situations, we build our own IdP implementation on top of [Vert.x Auth](https://vertx.io/docs/vertx-auth-common/java/), as well as added support for [OIDC](https://openid.net/developers/how-connect-works/) using Vert.x' [OAuth2 auth provider](https://vertx.io/docs/vertx-auth-oauth2/java/). It has been successsfully tested with both [Keycloak](https://www.keycloak.org) and [Microsoft Entra ID](https://www.microsoft.com/en-us/security/business/identity-access/microsoft-entra-id) (formerly known as MS Azure Active Directory).
+Most of our routes are protected using [JWT](https://jwt.io/). To accommodate our customers' deployment situations, we build our own IdP implementation on top of [Vert.x Auth](https://vertx.io/docs/vertx-auth-common/java/), as well as added support for [OIDC](https://openid.net/developers/how-connect-works/) using Vert.x [OAuth2 auth provider](https://vertx.io/docs/vertx-auth-oauth2/java/). It has been successfully tested with both [Keycloak](https://www.keycloak.org) and [Microsoft Entra ID](https://www.microsoft.com/en-us/security/business/identity-access/microsoft-entra-id) (formerly known as MS Azure Active Directory).
 
 ## There's more
 
-We take advantage of Vert.x' [Micrometer](https://vertx.io/docs/vertx-micrometer-metrics/java/) integration as well as the support for [health checks](https://vertx.io/docs/vertx-health-check/java/). The micrometer statistics allow not only to monitor general API health and performance, but also provide insights into the utilization of individual Domino databases.
+We take advantage of Vert.x [Micrometer](https://vertx.io/docs/vertx-micrometer-metrics/java/) integration as well as the support for [health checks](https://vertx.io/docs/vertx-health-check/java/). The micrometer statistics allow not only to monitor general API health and performance, but also provide insights into the utilization of individual Domino databases.
 
-Our clients have very diverse ideas how to deal with TLS, termination and certificates. Vert.x' flexible [TLS support](https://vertx.io/docs/vertx-core/java/#ssl) allows us to cater to these ideas.
+Our clients have very diverse ideas how to deal with TLS, termination and certificates. Vert.x flexible [TLS support](https://vertx.io/docs/vertx-core/java/#ssl) allows us to cater to these ideas.
 
-Vert.x' router can handle HTTP methods like `PROPFIND`, `LOCK` or `UNLOCK` that are not part of the regular HTTP specification. This allowed us to build [WebDAV](https://en.wikipedia.org/wiki/WebDAV) and [WOPI](https://en.wikipedia.org/wiki/Web_Application_Open_Platform_Interface) support into DRAPI, which enables seamless Office document handling.
+Vert.x router can handle HTTP methods like `PROPFIND`, `LOCK` or `UNLOCK` that are not part of the regular HTTP specification. This allowed us to build [WebDAV](https://en.wikipedia.org/wiki/WebDAV) and [WOPI](https://en.wikipedia.org/wiki/Web_Application_Open_Platform_Interface) support into DRAPI, which enables seamless Office document handling.
 
-Last not least Vert.x' [Scheduler](https://vertx.io/docs/vertx-core/java/#_scheduled_tasks) keeps our IdP certificates updated.
+Last but not least, Vert.x [Scheduler](https://vertx.io/docs/vertx-core/java/#_scheduled_tasks) keeps our IdP certificates updated.
 
 ## In Summary
 
@@ -56,11 +56,11 @@ DRAPI was made possible by the unique Vert.x capabilities:
 
 - dynamic loading of Verticles
 - strong support for OpenAPI at runtime
-- flexible loading of configuation
+- flexible loading of configuration
 - the EventBus for communication between Verticles
 - bridging event driven and request/response paradigms
 - ability to easily schedule repetitive tasks
 - broad support for security (TLS) and authorization
-- friendly and reposive community and maintainers
+- friendly and responsive community and maintainers
 
-You can checkout the [entire documentation](https://opensource.hcltechsw.com/Domino-rest-api/).
+You can check out the [entire documentation](https://opensource.hcltechsw.com/Domino-rest-api/).
