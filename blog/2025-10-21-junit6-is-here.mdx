@@ -1,0 +1,82 @@
+---
+title: JUnit 6 is here, what does it means for Vert.x users?
+category: news
+authors:
+  - name: Thomas Segismont
+    github_id: tsegismont
+summary: >-
+  The JUnit team has officially released **JUnit 6**. This new version brings a lot of improvements. Here's a quick look at the highlights, and what they mean for Vert.x developers.
+---
+
+The JUnit team has officially released **JUnit 6**, marking a significant milestone in the evolution of one of the most widely used testing frameworks in the Java ecosystem.
+This new version brings a lot of improvements aimed at modernizing the testing experience, streamlining configuration, and enhancing extensibility.
+Here's a quick look at the highlights, and what they mean for Vert.x developers.
+
+## JUnit 6 Highlights
+
+[JUnit 6](https://docs.junit.org/6.0.0/release-notes/#release-notes-6.0.0) builds on the solid foundation of JUnit 5, introducing several key enhancements:
+
+- **Unified extension model**: A more consistent and powerful way to extend JUnit's behavior.
+- **Improved test discovery**: Faster and more flexible test discovery mechanisms.
+- **Better IDE and build tool integration**: Enhanced support for modern build tools and IDEs.
+- **Native support for Java 17+**: JUnit 6 requires Java 17 or newer, aligning with the latest LTS releases and encouraging adoption of modern Java features.
+
+## `vertx-junit5` compatibility
+
+Good news for **Vert.x 5** users: the [`vertx-junit5`](https://vertx.io/docs/vertx-junit5/java/) module is **fully compatible with JUnit 6**.
+This means you can continue writing reactive tests using `@VertxExtension`, `VertxTestContext` and other utilities without any changes to your test code.
+
+However, there are a couple of important considerations to keep in mind when upgrading.
+
+### Java 17 is now required
+
+Since JUnit 6 mandates Java 17 as the minimum supported version, your Vert.x project must be built with and run on a Java 17+ JVM.
+If you're still on Java 11 or earlier, you must stick to JUnit 5.
+
+### Maven BOM Configuration
+
+JUnit 6 introduces a new BOM (Bill of Materials) for dependency management.
+To ensure that your project uses the correct versions of JUnit 6 artifacts, and avoids falling back to JUnit 5 via transitive dependencies, you must explicitly import the JUnit BOM in your `pom.xml`:
+
+```xml
+<dependencyManagement>
+  <dependency>
+    <groupId>io.vertx</groupId>
+    <artifactId>vertx-stack-depchain</artifactId>
+    <version>5.0.4</version>
+    <type>pom</type>
+    <scope>import</scope>
+  </dependency>
+  <dependency>
+    <groupId>org.junit</groupId>
+    <artifactId>junit-bom</artifactId>
+    <version>6.0.0</version>
+    <type>pom</type>
+    <scope>import</scope>
+  </dependency>
+</dependencyManagement>
+
+<dependencies>
+  <dependency>
+    <groupId>org.junit.jupiter</groupId>
+    <artifactId>junit-jupiter</artifactId>
+    <scope>test</scope>
+  </dependency>
+  <dependency>
+    <groupId>io.vertx</groupId>
+    <artifactId>vertx-junit5</artifactId>
+    <scope>test</scope>
+  </dependency>
+</dependencies>
+```
+
+## Try it out and share your feedback
+
+The release of JUnit 6 is a welcome update for Java developers, and we're excited that `vertx-junit5` is ready to support it.
+Just remember to upgrade your JVM to Java 17 and configure your Maven project correctly to avoid dependency conflicts.
+
+We encourage you to try it out with `vertx-junit5`.
+If you run into issues, have suggestions, or just want to share your experience, we'd love to hear from you!
+Join the conversation on GitHub, or reach out on the Vert.x community channels.
+
+Happy testing!
