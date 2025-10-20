@@ -12,7 +12,7 @@ The JUnit team has officially released **JUnit 6**, marking a significant milest
 This new version brings a lot of improvements aimed at modernizing the testing experience, streamlining configuration, and enhancing extensibility.
 Here's a quick look at the highlights, and what they mean for Vert.x developers.
 
-## JUnit 6 Highlights
+## JUnit 6 highlights
 
 [JUnit 6](https://docs.junit.org/6.0.0/release-notes/#release-notes-6.0.0) builds on the solid foundation of JUnit 5, introducing several key enhancements:
 
@@ -33,7 +33,7 @@ However, there are a couple of important considerations to keep in mind when upg
 Since JUnit 6 mandates Java 17 as the minimum supported version, your Vert.x project must be built with and run on a Java 17+ JVM.
 If you're still on Java 11 or earlier, you must stick to JUnit 5.
 
-### Maven BOM Configuration
+### Maven BOM configuration
 
 JUnit 6 introduces a new BOM (Bill of Materials) for dependency management.
 To ensure that your project uses the correct versions of JUnit 6 artifacts, and avoids falling back to JUnit 5 via transitive dependencies, you must explicitly import the JUnit BOM in your `pom.xml`:
