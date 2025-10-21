@@ -8,6 +8,8 @@ summary: >-
   The JUnit team has officially released **JUnit 6**. This new version brings a lot of improvements. Here's a quick look at the highlights, and what they mean for Vert.x developers.
 ---
 
+import Alert from "@/components/Alert"
+
 The JUnit team has officially released **JUnit 6**, marking a significant milestone in the evolution of one of the most widely used testing frameworks in the Java ecosystem.
 This new version brings a lot of improvements aimed at modernizing the testing experience, streamlining configuration, and enhancing extensibility.
 Here's a quick look at the highlights, and what they mean for Vert.x developers.
@@ -24,6 +26,14 @@ Here's a quick look at the highlights, and what they mean for Vert.x developers.
 ## `vertx-junit5` compatibility
 
 Good news for **Vert.x 5** users: the [`vertx-junit5`](https://vertx.io/docs/vertx-junit5/java/) module is **fully compatible with JUnit 6**.
+
+<Alert info>
+Vert.x 5 checks compatibility starting from version 5.1 of the `vertx-junit5` module (which, at the time of writing, has yet to be released).
+
+Earlier 5.x versions may still work, but compatibility is not guaranteed.
+</Alert>
+
+
 This means you can continue writing reactive tests using `@VertxExtension`, `VertxTestContext` and other utilities without any changes to your test code.
 
 However, there are a couple of important considerations to keep in mind when upgrading.
@@ -43,7 +53,7 @@ To ensure that your project uses the correct versions of JUnit 6 artifacts, and 
   <dependency>
     <groupId>io.vertx</groupId>
     <artifactId>vertx-stack-depchain</artifactId>
-    <version>5.0.4</version>
+    <version>5.1.0</version>
     <type>pom</type>
     <scope>import</scope>
   </dependency>
