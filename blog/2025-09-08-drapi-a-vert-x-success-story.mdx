@@ -32,7 +32,7 @@ Incoming request are sent to the EventBus, where they are picked up by the respe
 
 The HCL Domino C-API [heavily relies](https://opensource.hcltechsw.com/domino-jnx/) on request/response on fixed threads, so we use Vert.x `executeBlocking` to bridge the event driven and request/response paradigms. Inside the blocking code we use an `emit(json)` method to send results to the EventBus as they are retrieved from the C API. This ensures that we don't "block or cross" the "Thread wires".
 
-![How HCL Domino REST API works](https://opensource.hcltechsw.com/Domino-rest-api/assets/images/KEEPclasses.png)
+<img src="https://opensource.hcltechsw.com/Domino-rest-api/assets/images/KEEPclasses.png" width="844" height="601" alt="How HCL Domino REST API works" />
 
 ## Routing & Security
 
