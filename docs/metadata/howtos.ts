@@ -368,6 +368,21 @@ const entries: GuidesDoc[] = [
       ref: "master",
     },
   },
+  {
+    id: "layered-container-image-with-jib-howto",
+    name: "Layered container images with Google Jib",
+    description: "This guide explains how to create a container image for a Vert.x application using Google Jib",
+    category: "runtime-jvm",
+    href: "/layered-container-image-with-jib-howto/",
+    repository: "https://github.com/vertx-howtos/layered-container-image-with-jib-howto",
+    edit: "https://github.com/vertx-howtos/layered-container-image-with-jib-howto/blob/master/README.adoc",
+    artifact: {
+      type: "github",
+      owner: "vertx-howtos",
+      repo: "layered-container-image-with-jib-howto",
+      ref: "master",
+    },
+  },
 ]
 
 const docs: GuidesDocs = {
