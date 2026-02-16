@@ -71,14 +71,11 @@ async function extractEntry(
 
   let fileName = entry.fileName
 
-  // rename top-level directory in GitHub archives
+  // remove top-level directory in GitHub archives
   if (artifact.type === "github") {
-    // TODO renames should be configurable through GuidesDoc type
     fileName = fileName.substring(fileName.indexOf("/") + 1)
     if (fileName.startsWith("asciidoc/")) {
-      fileName = fileName.replace(/^asciidoc/, "java")
-    } else {
-      fileName = "java/" + fileName
+      fileName = fileName.substring(9)
     }
   }
 

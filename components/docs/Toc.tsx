@@ -294,11 +294,11 @@ function makeVersionToc(version: string): Chapter[] {
 }
 
 function makeHowtosToc(): Chapter[] {
-  return makeChapters(howtos, false, ({ entry }) => `${entry.id}/java`)
+  return makeChapters(howtos, false, ({ entry }) => entry.id)
 }
 
 function makeGuidesToc(): Chapter[] {
-  return makeChapters(guides, false, ({ entry }) => `${entry.id}/java`)
+  return makeChapters(guides, false, ({ entry }) => entry.id)
 }
 
 export function makeToc(

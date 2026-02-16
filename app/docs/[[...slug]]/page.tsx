@@ -173,7 +173,7 @@ const DocsPage = async ({ params }: DocsPageProps) => {
   } else {
     let sourcePath: string
     if (type === "howtos" || type === "guides") {
-      sourcePath = `${slug}/java`
+      sourcePath = slug
     } else if (slug === "") {
       sourcePath = activeVersion
     } else {
