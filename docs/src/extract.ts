@@ -80,6 +80,8 @@ async function extractEntry(
     } else {
       fileName = "java/" + fileName
     }
+  } else if (artifact.type === "maven") {
+    fileName = "java/" + fileName
   }
 
   let destPath
