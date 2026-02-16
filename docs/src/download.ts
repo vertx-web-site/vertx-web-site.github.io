@@ -57,7 +57,7 @@ async function downloadFile(
 }
 
 async function getSnapshotUrl(artifactName: string, version: string) {
-  let baseUrl = `https://s01.oss.sonatype.org/content/repositories/snapshots/io/vertx/${artifactName}/${version}/`
+  let baseUrl = `https://central.sonatype.com/repository/maven-snapshots/io/vertx/${artifactName}/${version}/`
   let metadataUrl = `${baseUrl}maven-metadata.xml`
 
   let res = await fetch(metadataUrl)
