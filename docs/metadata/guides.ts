@@ -56,9 +56,10 @@ const entries: GuidesDoc[] = [
     repository: "https://github.com/vert-x3/advanced-vertx-guide",
     edit: "https://github.com/vert-x3/advanced-vertx-guide/tree/master/src/main/asciidoc",
     artifact: {
-      type: "maven",
-      name: "advanced-vertx-guide",
-      version: "1.0.0-SNAPSHOT",
+      type: "github",
+      owner: "vert-x3",
+      repo: "advanced-vertx-guide",
+      ref: "master",
     },
   },
   {
@@ -70,9 +71,10 @@ const entries: GuidesDoc[] = [
     repository: "https://github.com/vert-x3/modular-vertx-guide",
     edit: "https://github.com/vert-x3/modular-vertx-guide/tree/master/src/main/asciidoc",
     artifact: {
-      type: "maven",
-      name: "modular-vertx-guide",
-      version: "1.0.0-SNAPSHOT",
+      type: "github",
+      owner: "vert-x3",
+      repo: "modular-vertx-guide",
+      ref: "master",
     },
   },
 ]
