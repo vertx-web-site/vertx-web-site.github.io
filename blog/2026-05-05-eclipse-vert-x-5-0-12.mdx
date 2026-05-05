@@ -1,0 +1,41 @@
+---
+title: Eclipse Vert.x 5.0.12 released!
+category: releases
+authors:
+  - name: Julien Viet
+    github_id: vietj
+summary: >-
+  Eclipse Vert.x version 5.0.12 has just been released. It fixes quite a few bugs
+  that have been reported by the community as well as provides fixes for a few vulnerabilities.
+---
+
+We are extremely pleased to announce that Eclipse Vert.x version 5.0.12 has been released.
+
+Since the release of Vert.x 5.0.11, quite a few bugs have been reported. We would like to thank you all for reporting these issues.
+
+In addition, this version upgrades to [Netty 4.2.13.Final](https://netty.io/news/2026/05/04/4-2-13-Final.html) which fixes thirteen vulnerabilities:
+
+- CVE-2026-42586: not affected
+- CVE-2026-42578
+- CVE-2026-42577
+- CVE-2026-42587 (Requires brotli4j upgrade to 1.23.0)
+- CVE-2026-41417: not affected
+- CVE-2026-42581
+- CVE-2026-42580
+- CVE-2026-42585
+- CVE-2026-42579
+- CVE-2026-42582: not affected
+- CVE-2026-42583: not affected
+- CVE-2026-42584
+- CVE-2026-XXXXX (not allocated) : not affected
+
+The [5.0.12 release notes](https://github.com/vert-x3/wiki/wiki/5.0.12-Release-Notes) can be found on the wiki.
+
+You can bootstrap a Vert.x 5 project using [start.vertx.io](https://start.vertx.io).
+
+The release artifacts have been deployed to [Maven Central](https://search.maven.org/search?q=g:io.vertx%20AND%20v:5.0.12).
+
+The [Vert.x eventbus JavaScript client library](https://www.npmjs.com/package/@vertx/eventbus-bridge-client.js) is now available
+in a single location and it now usable standalone or it can easily be integrated with any frontend build tool.
+
+That's it! Happy coding and see you soon on our user or dev [channels](https://vertx.io/channels).
