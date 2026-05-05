@@ -5,7 +5,16 @@ on:
     branches: [master]
   schedule:
     - cron: "45 5 * * *"
-
+  workflow_dispatch:
+    inputs:
+      releaseVersion:
+        description: 'Vert.x release version, e.g 4.0.0'
+        required: true
+        type: string
+      snapshotVersion:
+        description: 'Vert.x snapshot version, e.g. 4.0.1-SNAPSHOT'
+        required: true
+        type: string
 concurrency:
   group: master-deploy
   cancel-in-progress: true
