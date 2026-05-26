@@ -185,12 +185,20 @@ more readable and less error-prone.
 
 ## gRPC EventBus transport
 
+## SQL client
+
+- MS SQL: support TDS-8.0
+- PostgreSQL: support for direct SSL negotiation
+- MySQL: establish secured connection if server supports it
+- Support reuse of SQL Client templates across pooled connections
+- MySQL / Pg clients: Connect to UDS without a native transport on JDK16+
+
 ## Misc
 
+- io_uring: support Unix Domain Sockets and zero-copy file transfers
+- HTTP Proxy: automatic sending of Forwarded headers, HTTP Trailers (and thus gRPC) support
 - io_uring improvements
 - Hybrid key exchange x25519mlkem768
-- WebClient SSE support
 - Redis 8 / Valkey support
-- Kafka 4.x support
 - HA Proxy Protocol TLV support
-- HTTP server query parameter configuration
+- Kotlin 2.3.0 and Coroutines 4.13.2
