@@ -271,10 +271,12 @@ NOTE: This module is in tech preview in Vert.x 5.1.
 
 ## SQL client
 
-- MS SQL: support TDS-8.0
-- PostgreSQL: support for direct SSL negotiation
-- MySQL: establish secured connection if server supports it
-- Support reuse of SQL Client templates across pooled connections
+The Vert.x SQL clients received several improvements in 5.1:
+
+- **MSSQL TDS-8.0** — the MSSQL client now supports TDS-8.0, which wraps TDS traffic in TLS from the start using ALPN, improving security over the legacy TDS handshake
+- **PostgreSQL direct SSL negotiation** — support for direct SSL negotiation, establishing SSL without the extra round-trip of the legacy SSL request message
+- **MySQL secured connections by default** — the MySQL client now defaults to `SslMode.PREFERRED`, establishing a secured connection automatically when the server supports it
+- **SQL template reuse** — `SqlTemplate` instances can now be reused across pooled connections, avoiding re-preparation overhead
 
 ## Misc
 
