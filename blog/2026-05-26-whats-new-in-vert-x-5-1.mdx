@@ -118,6 +118,69 @@ Vert.x provides all the building blocks to develop protocols on top of QUIC:
 
 ## New networking configuration layer
 
+Since Vert.x 3, networking is configured with Options classes like `HttpServerOptions` and `HttpClientOptions`.
+
+These classes inherit from `NetServerOptions` and `NetClientOptions`, which are inherently coupled to TCP.
+
+Trying to fit QUIC into the existing Options hierarchy would have required breaking changes, so instead Vert.x 5.1 introduces a
+new transport-agnostic Config layer alongside the existing Options, preserving backward compatibility:
+
+| Options (TCP only)     | Config (transport-agnostic)                    |
+|------------------------|------------------------------------------------|
+| `NetServerOptions`     | `TcpServerConfig` / `QuicServerConfig`         |
+| `NetClientOptions`     | `TcpClientConfig` / `QuicClientConfig`         |
+| `HttpServerOptions`    | `HttpServerConfig`                             |
+| `HttpClientOptions`    | `HttpClientConfig`                             |
+
+`HttpServerConfig` and `HttpClientConfig` delegate transport configuration to their TCP and QUIC config parts
+(`TcpServerConfig`/`QuicServerConfig` and `TcpClientConfig`/`QuicClientConfig`).
+
+NOTE: The existing Options classes are not deprecated — the new Config classes are an alternative that supports both TCP
+and QUIC transports. In Vert.x 6, the Config classes will most likely become the new de-facto configuration layer
+
+### SSL/TLS separation
+
+A key design change is the separation of SSL/TLS from transport configuration. Instead of mixing SSL settings into
+the options object, SSL is now provided as a separate parameter:
+
+```java
+HttpServerConfig config = new HttpServerConfig()
+  .setVersions(HttpVersion.HTTP_1_1, HttpVersion.HTTP_2);
+
+ServerSSLOptions sslOptions = new ServerSSLOptions()
+  .setKeyCertOptions(keyCertOptions);
+
+HttpServer server = vertx.createHttpServer(config, sslOptions);
+```
+
+### HTTP Version-specific configuration
+
+Over time, version-specific configuration parameters were introduced in the Options classes, making it
+harder to understand which settings apply to which protocol. The new configuration layer groups them by version
+for better visibility and coherence:
+
+| Options                                      | Config                                         |
+|----------------------------------------------|------------------------------------------------|
+| `HttpServerOptions#maxInitialLineLength`     | `Http1ServerConfig#maxInitialLineLength`        |
+| `HttpServerOptions#maxHeaderSize`            | `Http1ServerConfig#maxHeaderSize`               |
+| `HttpServerOptions#initialSettings`          | `Http2ServerConfig#initialSettings`             |
+| `HttpClientOptions#keepAliveTimeout`         | `Http1ClientConfig#keepAliveTimeout`            |
+| `HttpClientOptions#http2KeepAliveTimeout`    | `Http2ClientConfig#keepAliveTimeout`            |
+| `HttpClientOptions#pipelining`               | `Http1ClientConfig#pipelining`                  |
+| `HttpClientOptions#multiplexingLimit`        | `Http2ClientConfig#multiplexingLimit`           |
+
+### Grouped configuration aspects
+
+Beyond version-specific settings, the new layer also groups related configuration concerns into dedicated classes:
+`CompressionConfig`, `FormDecoderConfig`, `WebSocketServerConfig`, `QueryParameterDecoderConfig`, `LogConfig`
+and `ObservabilityConfig`.
+
+### Duration-based time configuration
+
+The new Config classes use `java.time.Duration` for all time-related settings, replacing the previous approach
+of using an `int` or `long` value paired with a `java.util.concurrent.TimeUnit`. This makes time configuration
+more readable and less error-prone.
+
 ## gRPC EventBus bridge
 
 ## gRPC EventBus transport
