@@ -18,6 +18,8 @@ Here is an overview of the most important features supported in Vert.x 5.1.
 Vert.x 5.1 brings native HTTP/3 support built on top of [QUIC](#quic). The existing Vert.x HTTP API works seamlessly
 with HTTP/3 — your request handlers don't need to change.
 
+You can find HTTP/3 [examples](https://github.com/vert-x3/vertx-examples/tree/5.x/core-examples#http3) in the examples repository.
+
 ### HTTP/3 server
 
 Configuring an HTTP/3 server is straightforward:
@@ -74,6 +76,8 @@ Vert.x 5.1 introduces [QUIC](https://vertx.io/docs/vertx-core/java/#quic_server)
 protocol on top of it.
 
 The implementation relies on Netty and [QUICHE](https://github.com/cloudflare/quiche).
+
+You can find QUIC [examples](https://github.com/vert-x3/vertx-examples/tree/5.x/core-examples#quic-examples) in the examples repository.
 
 ### QUIC server
 
@@ -220,7 +224,50 @@ EventBusBridgeGrpcClient bridgeClient = EventBusBridgeGrpcClient.create(client, 
 The bridge supports the usual event bus operations: **send**, **publish**, **request/reply**, **subscribe**
 and **unsubscribe**.
 
+You can find [examples](https://github.com/vert-x3/vertx-examples/tree/5.x/grpc-eventbus-bridge-examples) in the examples repository.
+
 ## gRPC EventBus transport
+
+The [gRPC EventBus transport](https://vertx.io/docs/vertx-grpc/java/#grpc-eventbus) allows generated gRPC services
+to communicate over the Vert.x event bus instead of HTTP. This is useful for intra-application communication
+where services are co-located in the same Vert.x cluster.
+
+Registering a service on the event bus:
+
+```java
+EventBusGrpcServer server = EventBusGrpcServer.server(vertx);
+
+Service service = GreeterGrpcService.of(new GreeterService() {
+  @Override
+  public Future<HelloReply> sayHello(HelloRequest request) {
+    return Future.succeededFuture(HelloReply.newBuilder()
+      .setMessage("Hello " + request.getName())
+      .build());
+  }
+});
+
+server.addService(service);
+```
+
+Invoking the service over the event bus:
+
+```java
+EventBusGrpcClient client = EventBusGrpcClient.client(vertx);
+
+GreeterClient greeter = GreeterGrpcClient.create(client);
+
+greeter.sayHello(HelloRequest.newBuilder().setName("World").build())
+  .onSuccess(reply -> System.out.println("Received: " + reply.getMessage()));
+```
+
+Both Protobuf and JSON wire formats are supported. Currently only unary (request/response) calls are available —
+streaming support may come in a future release.
+
+You can find [examples](https://github.com/vert-x3/vertx-examples/tree/5.x/grpc-examples#event-bus-transport) in the examples repository.
+
+This transport is very similar to the Vert.x Service Proxy and will most likely be the new implementation of it in the future.
+
+NOTE: This module is in tech preview in Vert.x 5.1.
 
 ## SQL client
 
