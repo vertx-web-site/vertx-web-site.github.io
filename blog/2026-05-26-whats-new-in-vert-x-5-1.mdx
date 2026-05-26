@@ -116,6 +116,13 @@ Vert.x provides all the building blocks to develop protocols on top of QUIC:
 
 ## Jackson 3
 
+Vert.x still depends on Jackson 2 (2.21.x LTS) by default. However, Vert.x 5.1 adds support for Jackson 3 (3.1.x):
+when Jackson 2 is not present on the class or module path and the Java version is 21 or greater, Vert.x
+automatically uses Jackson 3.
+
+This allows projects to adopt Jackson 3 at their own pace. Jackson 3 is targeted as the default for the next major
+version of Vert.x.
+
 ## New networking configuration layer
 
 Since Vert.x 3, networking is configured with Options classes like `HttpServerOptions` and `HttpClientOptions`.
@@ -182,6 +189,36 @@ of using an `int` or `long` value paired with a `java.util.concurrent.TimeUnit`.
 more readable and less error-prone.
 
 ## gRPC EventBus bridge
+
+The new [gRPC EventBus Bridge](https://vertx.io/docs/vertx-eventbus-bridge-grpc/java/) lets any gRPC client
+interact with the Vert.x event bus, gRPC-Web is also supported for browser-based clients.
+
+Setting up the bridge on the server side:
+
+```java
+GrpcBridgeOptions options = new GrpcBridgeOptions()
+  .addInboundPermitted(new PermittedOptions().setAddress("my.address"))
+  .addOutboundPermitted(new PermittedOptions().setAddress("my.address"));
+
+GrpcEventBusBridge bridge = GrpcEventBusBridge.create(vertx, options);
+
+GrpcServer grpcServer = GrpcServer.server(vertx);
+grpcServer.addService(bridge);
+
+vertx.createHttpServer()
+  .requestHandler(grpcServer)
+  .listen(7000);
+```
+
+On the client side, any gRPC client can connect using the `eventbus.proto` service definition. A Vert.x client
+can use the provided `EventBusBridgeGrpcClient`:
+
+```java
+EventBusBridgeGrpcClient bridgeClient = EventBusBridgeGrpcClient.create(client, socketAddress);
+```
+
+The bridge supports the usual event bus operations: **send**, **publish**, **request/reply**, **subscribe**
+and **unsubscribe**.
 
 ## gRPC EventBus transport
 
