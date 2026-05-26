@@ -13,7 +13,62 @@ Vert.x 5.1 comes with plenty of new exciting features.
 
 Here is an overview of the most important features supported in Vert.x 5.1.
 
-## QUIC and HTTP/3 support
+## HTTP/3
+
+Vert.x 5.1 brings native HTTP/3 support built on top of [QUIC](#quic). The existing Vert.x HTTP API works seamlessly
+with HTTP/3 — your request handlers don't need to change.
+
+### HTTP/3 server
+
+Configuring an HTTP/3 server is straightforward:
+
+```java
+HttpServerConfig config = new HttpServerConfig()
+  .setVersions(HttpVersion.HTTP_3);
+
+HttpServer server = vertx.createHttpServer(config, sslOptions);
+```
+
+[Http3ServerConfig](https://vertx.io/docs/vertx-core/java/#_configuring_an_http3_server) captures HTTP/3 specific
+aspects, such as initial settings.
+
+### Hybrid HTTP server
+
+A single server can handle HTTP/1.x, HTTP/2 over TCP and HTTP/3 over QUIC at the same time:
+
+```java
+HttpServerConfig config = new HttpServerConfig()
+  .setVersions(HttpVersion.HTTP_1_1, HttpVersion.HTTP_2, HttpVersion.HTTP_3);
+
+HttpServer server = vertx.createHttpServer(config, sslOptions);
+```
+
+Hybrid servers bind two ports: a TCP port for HTTP/1.x and HTTP/2, and a QUIC (UDP) port for HTTP/3.
+
+### HTTP/3 client
+
+Configuring an HTTP/3 client follows the same pattern:
+
+```java
+HttpClientConfig config = new HttpClientConfig()
+  .setVersions(HttpVersion.HTTP_3)
+  .setSsl(true);
+
+HttpClientAgent client = vertx.createHttpClient(config, sslOptions);
+```
+
+The client supports [HTTP Alternative Services](https://datatracker.ietf.org/doc/html/rfc7838) as a discovery
+mechanism: the client first connects using HTTP/1.1 or HTTP/2 over TCP, and when the server advertises HTTP/3
+via alt-svc, the client follows the advertisement and opens an HTTP/3 connection over QUIC for subsequent requests.
+
+```java
+HttpClientConfig config = new HttpClientConfig()
+  .setVersions(HttpVersion.HTTP_1_1, HttpVersion.HTTP_2, HttpVersion.HTTP_3)
+  .setSsl(true)
+  .setFollowAlternativeServices(true);
+```
+
+## QUIC
 
 ## Jackson 3
 
