@@ -1,12 +1,7 @@
-import oldDocs from "./5.0.0"
-import { clone, find, insert, remove, removeCategory } from "./helpers"
+import oldDocs from "./5.0.12"
+import { clone, insert } from "./helpers"
 
 const docs = clone(oldDocs)
-
-// Main docs
-docs.prerelease = false
-
-docs.imagesDir = "java/images" // Can be anything, actually. Just used to resolve relative paths to images.
 
 insert(docs, "vertx-eventbus-bridge-grpc", {
   id: "vertx-eventbus-bridge-grpc",
