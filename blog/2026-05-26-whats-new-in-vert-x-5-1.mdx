@@ -70,6 +70,50 @@ HttpClientConfig config = new HttpClientConfig()
 
 ## QUIC
 
+Vert.x 5.1 introduces [QUIC](https://vertx.io/docs/vertx-core/java/#quic_server) as first-class transport. QUIC is the UDP-based transport that powers HTTP/3, but it can also be used standalone to build any
+protocol on top of it.
+
+The implementation relies on Netty and [QUICHE](https://github.com/cloudflare/quiche).
+
+### QUIC server
+
+Creating a QUIC server is similar to creating a TCP server. Since QUIC mandates TLS, you provide SSL options
+with an application protocol (ALPN):
+
+```java
+QuicServer server = vertx.createQuicServer(sslOptions);
+server.connectHandler(connection -> {
+  connection.streamHandler(stream -> {
+    stream.handler(buffer -> {
+      // Handle incoming data
+    });
+  });
+});
+server.listen(4321, "localhost");
+```
+
+### QUIC client
+
+The client connects to a server, then opens streams to exchange data:
+
+```java
+QuicClient client = vertx.createQuicClient(sslOptions);
+client.connect(4321, "localhost")
+  .compose(connection -> connection.openStream())
+  .onSuccess(stream -> {
+    stream.write("hello");
+  });
+```
+
+### Building protocols on top of QUIC
+
+Vert.x provides all the building blocks to develop protocols on top of QUIC:
+
+- **Multiplexed streams** — bidirectional and unidirectional
+- **Stream lifecycle** — clean termination, reset with application-level error codes, abort
+- **Graceful shutdown** — a shutdown handler lets protocols implement their own close handshake before the transport closes
+- **QUIC Datagram Extension** — support for [RFC 9221](https://datatracker.ietf.org/doc/html/rfc9221), enabling unreliable message delivery within a QUIC connection
+
 ## Jackson 3
 
 ## New networking configuration layer
