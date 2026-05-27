@@ -285,8 +285,8 @@ Vert.x 5.1 introduces new enhancements to the `io_uring` transport:
 - Unix Domain Sockets: High-performance local inter-process communication that bypasses TCP.
 - Zero-copy file transfers: Optimized file serving that reduces CPU usage and memory consumption.
 
-We're committed to making the `io_uring` transport production-ready, which is why we've added a new CI job to run the Vert.x test suite with it.
-This rigorous testing successfully uncovered a few bugs; these issues have already been reported and fixed upstream, thanks to the Netty team.
+We're committed to making the `io_uring` transport production-ready, which is why we've added a new CI job to run the
+Vert.x test suite with it.
 
 ## HTTP Proxy
 
@@ -310,9 +310,13 @@ proxy.origin(7070, "origin");
 Additionally, `vertx-http-proxy` can now transfer HTTP response trailers from the backend server to the client.
 This allows it to seamlessly proxy gRPC traffic.
 
-## Misc
+## Hybrid key exchange support
 
-- Hybrid key exchange x25519mlkem768
-- Redis 8 / Valkey support
-- HA Proxy Protocol TLV support
+The rise of quantum computers will make key exchange protocols such as x25519 obsolete as they will be able to
+"crack" secret keys quickly. Vert.x proposes a quantum-safe key exchange protocol,
+_x25519MLKEM768_ (official recommendation of NIST) to ensure sessions over TLS are safe against quantum computers.
+
+## Misc features
+
+- [Redis 8 / Valkey support](https://vertx.io/docs/vertx-redis-client/java/#_valkey)
 - Kotlin 2.3.0 and Coroutines 4.13.2
