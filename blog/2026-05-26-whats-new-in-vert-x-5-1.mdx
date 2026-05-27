@@ -288,9 +288,30 @@ Vert.x 5.1 introduces new enhancements to the `io_uring` transport:
 We're committed to making the `io_uring` transport production-ready, which is why we've added a new CI job to run the Vert.x test suite with it.
 This rigorous testing successfully uncovered a few bugs; these issues have already been reported and fixed upstream, thanks to the Netty team.
 
+## HTTP Proxy
+
+### Automatic sending of Forwarded headers
+
+This release enhances `vertx-http-proxy` with support for generating and appending both legacy `X-Forwarded-*` and [RFC 7239](https://tools.ietf.org/html/rfc7239) `Forwarded` headers.
+
+This mechanism simplifies passing down original client request metadata (such as IP addresses, schemes, and ports) to backend origin servers.
+Users can easily opt-in and customize how these headers are managed by applying an interceptor directly to the proxy configuration.
+
+```java
+ProxyOptions options = new ProxyOptions()
+  .setForwardedHeadersOptions(new ForwardedHeadersOptions()
+  .setEnabled(true)
+  .setUseRfc7239(true));  // Use RFC 7239 Forwarded header
+
+HttpProxy proxy = HttpProxy.reverseProxy(options, proxyClient);
+proxy.origin(7070, "origin");
+```
+
+Additionally, `vertx-http-proxy` can now transfer HTTP response trailers from the backend server to the client.
+This allows it to seamlessly proxy gRPC traffic.
+
 ## Misc
 
-- HTTP Proxy: automatic sending of Forwarded headers, HTTP Trailers (and thus gRPC) support
 - Hybrid key exchange x25519mlkem768
 - Redis 8 / Valkey support
 - HA Proxy Protocol TLV support
