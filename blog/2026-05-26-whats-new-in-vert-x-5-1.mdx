@@ -1,0 +1,322 @@
+---
+title: "What's new in Vert.x 5.1"
+category: releases
+authors:
+  - name: Julien Viet
+    github_id: vietj
+summary: >-
+  See an overview of all new and exciting features in Vert.x 5.1.
+pinned: true
+---
+
+Vert.x 5.1 comes with plenty of new exciting features.
+
+Here is an overview of the most important features supported in Vert.x 5.1.
+
+## HTTP/3
+
+Vert.x 5.1 brings native HTTP/3 support built on top of [QUIC](#quic). The existing Vert.x HTTP API works seamlessly
+with HTTP/3 — your request handlers don't need to change.
+
+You can find HTTP/3 [examples](https://github.com/vert-x3/vertx-examples/tree/5.x/core-examples#http3) in the examples repository.
+
+### HTTP/3 server
+
+Configuring an HTTP/3 server is straightforward:
+
+```java
+HttpServerConfig config = new HttpServerConfig()
+  .setVersions(HttpVersion.HTTP_3);
+
+HttpServer server = vertx.createHttpServer(config, sslOptions);
+```
+
+[Http3ServerConfig](https://vertx.io/docs/vertx-core/java/#_configuring_an_http3_server) captures HTTP/3 specific
+aspects, such as initial settings.
+
+### Hybrid HTTP server
+
+A single server can handle HTTP/1.x, HTTP/2 over TCP and HTTP/3 over QUIC at the same time:
+
+```java
+HttpServerConfig config = new HttpServerConfig()
+  .setVersions(HttpVersion.HTTP_1_1, HttpVersion.HTTP_2, HttpVersion.HTTP_3);
+
+HttpServer server = vertx.createHttpServer(config, sslOptions);
+```
+
+Hybrid servers bind two ports: a TCP port for HTTP/1.x and HTTP/2, and a QUIC (UDP) port for HTTP/3.
+
+### HTTP/3 client
+
+Configuring an HTTP/3 client follows the same pattern:
+
+```java
+HttpClientConfig config = new HttpClientConfig()
+  .setVersions(HttpVersion.HTTP_3)
+  .setSsl(true);
+
+HttpClientAgent client = vertx.createHttpClient(config, sslOptions);
+```
+
+The client supports [HTTP Alternative Services](https://datatracker.ietf.org/doc/html/rfc7838) as a discovery
+mechanism: the client first connects using HTTP/1.1 or HTTP/2 over TCP, and when the server advertises HTTP/3
+via alt-svc, the client follows the advertisement and opens an HTTP/3 connection over QUIC for subsequent requests.
+
+```java
+HttpClientConfig config = new HttpClientConfig()
+  .setVersions(HttpVersion.HTTP_1_1, HttpVersion.HTTP_2, HttpVersion.HTTP_3)
+  .setSsl(true)
+  .setFollowAlternativeServices(true);
+```
+
+## QUIC
+
+Vert.x 5.1 introduces [QUIC](https://vertx.io/docs/vertx-core/java/#quic_server) as first-class transport. QUIC is the UDP-based transport that powers HTTP/3, but it can also be used standalone to build any
+protocol on top of it.
+
+The implementation relies on Netty and [QUICHE](https://github.com/cloudflare/quiche).
+
+You can find QUIC [examples](https://github.com/vert-x3/vertx-examples/tree/5.x/core-examples#quic-examples) in the examples repository.
+
+### QUIC server
+
+Creating a QUIC server is similar to creating a TCP server. Since QUIC mandates TLS, you provide SSL options
+with an application protocol (ALPN):
+
+```java
+QuicServer server = vertx.createQuicServer(sslOptions);
+server.connectHandler(connection -> {
+  connection.streamHandler(stream -> {
+    stream.handler(buffer -> {
+      // Handle incoming data
+    });
+  });
+});
+server.listen(4321, "localhost");
+```
+
+### QUIC client
+
+The client connects to a server, then opens streams to exchange data:
+
+```java
+QuicClient client = vertx.createQuicClient(sslOptions);
+client.connect(4321, "localhost")
+  .compose(connection -> connection.openStream())
+  .onSuccess(stream -> {
+    stream.write("hello");
+  });
+```
+
+### Building protocols on top of QUIC
+
+Vert.x provides all the building blocks to develop protocols on top of QUIC:
+
+- **Multiplexed streams** — bidirectional and unidirectional
+- **Stream lifecycle** — clean termination, reset with application-level error codes, abort
+- **Graceful shutdown** — a shutdown handler lets protocols implement their own close handshake before the transport closes
+- **QUIC Datagram Extension** — support for [RFC 9221](https://datatracker.ietf.org/doc/html/rfc9221), enabling unreliable message delivery within a QUIC connection
+
+## Jackson 3
+
+Vert.x still depends on Jackson 2 (2.21.x LTS) by default. However, Vert.x 5.1 adds support for Jackson 3 (3.1.x):
+when Jackson 2 is not present on the class or module path and the Java version is 21 or greater, Vert.x
+automatically uses Jackson 3.
+
+This allows projects to adopt Jackson 3 at their own pace. Jackson 3 is targeted as the default for the next major
+version of Vert.x.
+
+## New networking configuration layer
+
+Since Vert.x 3, networking is configured with Options classes like `HttpServerOptions` and `HttpClientOptions`.
+
+These classes inherit from `NetServerOptions` and `NetClientOptions`, which are inherently coupled to TCP.
+
+Trying to fit QUIC into the existing Options hierarchy would have required breaking changes, so instead Vert.x 5.1 introduces a
+new transport-agnostic Config layer alongside the existing Options, preserving backward compatibility:
+
+| Options (TCP only)     | Config (transport-agnostic)                    |
+|------------------------|------------------------------------------------|
+| `NetServerOptions`     | `TcpServerConfig` / `QuicServerConfig`         |
+| `NetClientOptions`     | `TcpClientConfig` / `QuicClientConfig`         |
+| `HttpServerOptions`    | `HttpServerConfig`                             |
+| `HttpClientOptions`    | `HttpClientConfig`                             |
+
+`HttpServerConfig` and `HttpClientConfig` delegate transport configuration to their TCP and QUIC config parts
+(`TcpServerConfig`/`QuicServerConfig` and `TcpClientConfig`/`QuicClientConfig`).
+
+NOTE: The existing Options classes are not deprecated — the new Config classes are an alternative that supports both TCP
+and QUIC transports. In Vert.x 6, the Config classes will most likely become the new de-facto configuration layer
+
+### SSL/TLS separation
+
+A key design change is the separation of SSL/TLS from transport configuration. Instead of mixing SSL settings into
+the options object, SSL is now provided as a separate parameter:
+
+```java
+HttpServerConfig config = new HttpServerConfig()
+  .setVersions(HttpVersion.HTTP_1_1, HttpVersion.HTTP_2);
+
+ServerSSLOptions sslOptions = new ServerSSLOptions()
+  .setKeyCertOptions(keyCertOptions);
+
+HttpServer server = vertx.createHttpServer(config, sslOptions);
+```
+
+### HTTP Version-specific configuration
+
+Over time, version-specific configuration parameters were introduced in the Options classes, making it
+harder to understand which settings apply to which protocol. The new configuration layer groups them by version
+for better visibility and coherence:
+
+| Options                                      | Config                                         |
+|----------------------------------------------|------------------------------------------------|
+| `HttpServerOptions#maxInitialLineLength`     | `Http1ServerConfig#maxInitialLineLength`        |
+| `HttpServerOptions#maxHeaderSize`            | `Http1ServerConfig#maxHeaderSize`               |
+| `HttpServerOptions#initialSettings`          | `Http2ServerConfig#initialSettings`             |
+| `HttpClientOptions#keepAliveTimeout`         | `Http1ClientConfig#keepAliveTimeout`            |
+| `HttpClientOptions#http2KeepAliveTimeout`    | `Http2ClientConfig#keepAliveTimeout`            |
+| `HttpClientOptions#pipelining`               | `Http1ClientConfig#pipelining`                  |
+| `HttpClientOptions#multiplexingLimit`        | `Http2ClientConfig#multiplexingLimit`           |
+
+### Grouped configuration aspects
+
+Beyond version-specific settings, the new layer also groups related configuration concerns into dedicated classes:
+`CompressionConfig`, `FormDecoderConfig`, `WebSocketServerConfig`, `QueryParameterDecoderConfig`, `LogConfig`
+and `ObservabilityConfig`.
+
+### Duration-based time configuration
+
+The new Config classes use `java.time.Duration` for all time-related settings, replacing the previous approach
+of using an `int` or `long` value paired with a `java.util.concurrent.TimeUnit`. This makes time configuration
+more readable and less error-prone.
+
+## gRPC EventBus bridge
+
+The new [gRPC EventBus Bridge](https://vertx.io/docs/vertx-eventbus-bridge-grpc/java/) lets any gRPC client
+interact with the Vert.x event bus, gRPC-Web is also supported for browser-based clients.
+
+Setting up the bridge on the server side:
+
+```java
+GrpcBridgeOptions options = new GrpcBridgeOptions()
+  .addInboundPermitted(new PermittedOptions().setAddress("my.address"))
+  .addOutboundPermitted(new PermittedOptions().setAddress("my.address"));
+
+GrpcEventBusBridge bridge = GrpcEventBusBridge.create(vertx, options);
+
+GrpcServer grpcServer = GrpcServer.server(vertx);
+grpcServer.addService(bridge);
+
+vertx.createHttpServer()
+  .requestHandler(grpcServer)
+  .listen(7000);
+```
+
+On the client side, any gRPC client can connect using the `eventbus.proto` service definition. A Vert.x client
+can use the provided `EventBusBridgeGrpcClient`:
+
+```java
+EventBusBridgeGrpcClient bridgeClient = EventBusBridgeGrpcClient.create(client, socketAddress);
+```
+
+The bridge supports the usual event bus operations: **send**, **publish**, **request/reply**, **subscribe**
+and **unsubscribe**.
+
+You can find [examples](https://github.com/vert-x3/vertx-examples/tree/5.x/grpc-eventbus-bridge-examples) in the examples repository.
+
+## gRPC EventBus transport
+
+The [gRPC EventBus transport](https://vertx.io/docs/vertx-grpc/java/#grpc-eventbus) allows generated gRPC services
+to communicate over the Vert.x event bus instead of HTTP. This is useful for intra-application communication
+where services are co-located in the same Vert.x cluster.
+
+Registering a service on the event bus:
+
+```java
+EventBusGrpcServer server = EventBusGrpcServer.server(vertx);
+
+Service service = GreeterGrpcService.of(new GreeterService() {
+  @Override
+  public Future<HelloReply> sayHello(HelloRequest request) {
+    return Future.succeededFuture(HelloReply.newBuilder()
+      .setMessage("Hello " + request.getName())
+      .build());
+  }
+});
+
+server.addService(service);
+```
+
+Invoking the service over the event bus:
+
+```java
+EventBusGrpcClient client = EventBusGrpcClient.client(vertx);
+
+GreeterClient greeter = GreeterGrpcClient.create(client);
+
+greeter.sayHello(HelloRequest.newBuilder().setName("World").build())
+  .onSuccess(reply -> System.out.println("Received: " + reply.getMessage()));
+```
+
+Both Protobuf and JSON wire formats are supported. Currently only unary (request/response) calls are available —
+streaming support may come in a future release.
+
+You can find [examples](https://github.com/vert-x3/vertx-examples/tree/5.x/grpc-examples#event-bus-transport) in the examples repository.
+
+This transport is very similar to the Vert.x Service Proxy and will most likely be the new implementation of it in the future.
+
+NOTE: This module is in tech preview in Vert.x 5.1.
+
+## SQL client
+
+The Vert.x SQL clients received several improvements in 5.1:
+
+- **MSSQL TDS-8.0** — the MSSQL client now supports TDS-8.0, which wraps TDS traffic in TLS from the start using ALPN, improving security over the legacy TDS handshake
+- **PostgreSQL direct SSL negotiation** — support for direct SSL negotiation, establishing SSL without the extra round-trip of the legacy SSL request message
+- **MySQL secured connections by default** — the MySQL client now defaults to `SslMode.PREFERRED`, establishing a secured connection automatically when the server supports it
+- **SQL template reuse** — `SqlTemplate` instances can now be reused across pooled connections, avoiding re-preparation overhead
+
+## `io_uring` transport improvements
+
+Vert.x 5.1 introduces new enhancements to the `io_uring` transport:
+
+- Unix Domain Sockets: High-performance local inter-process communication that bypasses TCP.
+- Zero-copy file transfers: Optimized file serving that reduces CPU usage and memory consumption.
+
+We're committed to making the `io_uring` transport production-ready, which is why we've added a new CI job to run the
+Vert.x test suite with it.
+
+## HTTP Proxy
+
+### Automatic sending of Forwarded headers
+
+This release enhances `vertx-http-proxy` with support for generating and appending both legacy `X-Forwarded-*` and [RFC 7239](https://tools.ietf.org/html/rfc7239) `Forwarded` headers.
+
+This mechanism simplifies passing down original client request metadata (such as IP addresses, schemes, and ports) to backend origin servers.
+Users can easily opt-in and customize how these headers are managed by applying an interceptor directly to the proxy configuration.
+
+```java
+ProxyOptions options = new ProxyOptions()
+  .setForwardedHeadersOptions(new ForwardedHeadersOptions()
+  .setEnabled(true)
+  .setUseRfc7239(true));  // Use RFC 7239 Forwarded header
+
+HttpProxy proxy = HttpProxy.reverseProxy(options, proxyClient);
+proxy.origin(7070, "origin");
+```
+
+Additionally, `vertx-http-proxy` can now transfer HTTP response trailers from the backend server to the client.
+This allows it to seamlessly proxy gRPC traffic.
+
+## Hybrid key exchange support
+
+The rise of quantum computers will make key exchange protocols such as x25519 obsolete as they will be able to
+"crack" secret keys quickly. Vert.x proposes a quantum-safe key exchange protocol,
+_x25519MLKEM768_ (official recommendation of NIST) to ensure sessions over TLS are safe against quantum computers.
+
+## Misc features
+
+- [Redis 8 / Valkey support](https://vertx.io/docs/vertx-redis-client/java/#_valkey)
+- Kotlin 2.3.0 and Coroutines 4.13.2
