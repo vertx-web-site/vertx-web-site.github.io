@@ -322,8 +322,7 @@ export function makeIndex(
 
   function add(e: Chapter | Page | Section | Subsection) {
     if (result[e.slug] !== undefined) {
-      // Tolerate duplicate for the time of 5.1.0
-      // throw new Error(`Duplicate slug: ${e.slug}`)
+      throw new Error(`Duplicate slug: ${e.slug}`)
     }
     result[e.slug] = e
   }
