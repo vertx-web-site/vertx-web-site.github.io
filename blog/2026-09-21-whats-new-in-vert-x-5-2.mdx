@@ -1,0 +1,163 @@
+---
+title: "What's new in Vert.x 5.2"
+category: releases
+authors:
+  - name: Julien Viet
+    github_id: vietj
+summary: >-
+  See an overview of all new and exciting features in Vert.x 5.2.
+pinned: true
+---
+
+Vert.x 5.2 comes with plenty of new exciting features.
+
+Here is an overview of the most important features supported in Vert.x 5.2.
+
+## gRPC streaming over event bus
+
+Vert.x 5.1 introduced the [gRPC EventBus transport](https://vertx.io/docs/vertx-grpc/java/#grpc-eventbus), enabling
+generated gRPC services to communicate over the Vert.x event bus — initially with unary (request/response) calls only.
+
+Vert.x 5.2 extends this with full streaming support: client streaming, server streaming, and bidirectional streaming
+are now available over the event bus.
+
+### Streaming server
+
+A streaming service is implemented using `ReadStream` and `WriteStream`:
+
+```java
+ConversationalServiceGrpcService service = new ConversationalServiceGrpcService() {
+  @Override
+  protected void fullDuplexCall(ReadStream<StreamingOutputCallRequest> request,
+                                WriteStream<StreamingOutputCallResponse> response) {
+    request.handler(req -> {
+      vertx.setTimer(500L, t -> {
+        response.write(StreamingOutputCallResponse.newBuilder().build());
+      });
+    });
+  }
+};
+
+Future<EventBusGrpcServer> fut = EventBusGrpcServer.server(vertx);
+fut.onSuccess(server -> {
+  server.addService(service);
+});
+```
+
+### Streaming client
+
+The client uses the streaming callback to send messages and receives responses through the returned read stream:
+
+```java
+Future<EventBusGrpcClient> fut = EventBusGrpcClient.client(vertx);
+fut.compose(client -> {
+  ConversationalServiceGrpcClient stub = ConversationalServiceGrpcClient.create(client);
+  return stub.fullDuplexCall((stream, err) -> {
+    stream.write(StreamingOutputCallRequest.newBuilder().build());
+  }).onSuccess(response -> {
+    response.handler(msg -> {
+      System.out.println("Received response");
+    });
+  });
+});
+```
+
+You can find [examples](https://github.com/vert-x3/vertx-examples/tree/5.x/grpc-examples#event-bus-transport) in the examples repository.
+
+## gRPC server streaming for HTTP transcoding
+
+[HTTP transcoding](https://vertx.io/docs/vertx-grpc/java/#_http_transcoding) maps gRPC service methods to RESTful HTTP
+endpoints, making them accessible without a gRPC client. Vert.x 5.2 extends transcoding to support server-streaming RPCs.
+
+A server-streaming method is annotated with an HTTP binding in the proto definition:
+
+```protobuf
+service ExampleService {
+  rpc ServerStreaming(Request) returns (stream Response) {
+    option (google.api.http) = {
+      get: "/v1/example/serverstreaming/{value}"
+    };
+  };
+}
+```
+
+The server implementation writes multiple responses and ends the stream:
+
+```java
+ExampleServiceGrpcService service = new ExampleServiceGrpcService() {
+  @Override
+  protected void serverStreaming(Request request, WriteStream<Response> response) {
+    for (int i = 0; i < 5; i++) {
+      response.write(Response.newBuilder().setValue(request.getValue() + " " + i).build());
+    }
+    response.end();
+  }
+};
+
+GrpcServer rpcServer = GrpcServer.server(vertx);
+rpcServer.addService(service);
+```
+
+The streaming endpoint is then accessible with a simple HTTP client:
+
+```
+> curl http://localhost:8080/v1/example/serverstreaming/Julien
+[
+{"value":"Julien 0"}
+,{"value":"Julien 1"}
+,{"value":"Julien 2"}
+,{"value":"Julien 3"}
+,{"value":"Julien 4"}
+]
+```
+
+The response format is negotiated via the `Accept` header:
+
+| Accept header           | Format     |
+|-------------------------|------------|
+| `application/json`      | JSON Array |
+| `application/x-ndjson`  | NDJSON     |
+| `text/event-stream`     | SSE        |
+
+You can find [examples](https://github.com/vert-x3/vertx-examples/tree/5.x/grpc-examples#transcoding) in the examples repository.
+
+## HTTP QUERY method
+
+Vert.x 5.2 adds support for the HTTP QUERY method defined in [RFC 10008](https://www.rfc-editor.org/rfc/rfc10008).
+QUERY works like GET but allows a request body, making it ideal for complex queries that don't fit in URL query
+parameters.
+
+Support is available across the Vert.x stack:
+
+- **vertx-core** — `HttpMethod.QUERY` is available as a first-class HTTP method for both client and server
+- **Vert.x Web** — routes can match the QUERY method, and the web client cache distinguishes QUERY and GET requests on the same path using a body fingerprint as part of the cache key
+- **Web Client** — supports sending QUERY requests with a body
+
+## SQL client
+
+The Vert.x SQL clients received JSON support improvements in 5.2:
+
+- **MSSQL JSON support** — the MSSQL client now supports JSON data types for reading and writing
+- **Oracle JSON support** — the Oracle client supports Oracle's native JSON column type, introduced in Oracle 21c, for reading and writing
+
+## Circuit breaker builder
+
+Vert.x 5.2 introduces `CircuitBreakerBuilder`, a new way to configure circuit breakers with immutable handlers.
+Handlers supplied through the builder are baked in at build time and cannot be replaced afterwards — calling the
+setter again throws an `IllegalStateException`. This removes the need for synchronization on handler fields while
+preserving full backward compatibility with the existing mutable API.
+
+```java
+CircuitBreaker breaker = CircuitBreaker.builder("my-circuit-breaker", vertx)
+  .with(new CircuitBreakerOptions().setMaxFailures(5).setTimeout(2000))
+  .openHandler(v -> {
+    System.out.println("Circuit breaker opened");
+  })
+  .closeHandler(v -> {
+    System.out.println("Circuit breaker closed");
+  })
+  .build();
+```
+
+Handlers not set through the builder remain freely settable, so existing code that uses `CircuitBreaker.create()`
+continues to work without any changes.
