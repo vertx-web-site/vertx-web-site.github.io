@@ -133,6 +133,30 @@ Support is available across the Vert.x stack:
 - **Vert.x Web** — routes can match the QUERY method, and the web client cache distinguishes QUERY and GET requests on the same path using a body fingerprint as part of the cache key
 - **Web Client** — supports sending QUERY requests with a body
 
+## HTTPS proxy support
+
+Vert.x 5.2 adds support for connecting to a forward proxy over TLS via the new `ProxyType.HTTPS`. Previously, proxy
+connections were always in plain text (`ProxyType.HTTP` or `ProxyType.SOCKS5`), leaving the first hop unencrypted. With
+`ProxyType.HTTPS`, the connection to the proxy itself is encrypted, which is important in environments where even
+the proxy hop traverses an untrusted network.
+
+```java
+HttpClientOptions options = new HttpClientOptions()
+  .setProxyOptions(new ProxyOptions()
+    .setType(ProxyType.HTTPS)
+    .setHost("proxy.example.com")
+    .setPort(443)
+    .setSslOptions(new ClientSSLOptions()
+      .setTrustAll(false)
+      .setHostnameVerificationAlgorithm("HTTPS")));
+```
+
+The proxying semantics are identical to `ProxyType.HTTP`: plain-text origins use forward mode while TLS origins use a
+`CONNECT` tunnel — the only difference is that the connection to the proxy is now encrypted. For TLS origins, this
+results in two nested TLS sessions (one to the proxy, one to the origin), with HTTP/2 negotiated via ALPN end-to-end.
+
+HTTPS proxy works with both HTTP and TCP clients.
+
 ## SQL client
 
 The Vert.x SQL clients received JSON support improvements in 5.2:
