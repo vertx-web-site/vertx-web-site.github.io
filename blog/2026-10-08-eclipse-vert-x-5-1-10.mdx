@@ -1,0 +1,49 @@
+---
+title: Eclipse Vert.x 5.1.10 released!
+category: releases
+authors:
+  - name: Julien Viet
+    github_id: vietj
+summary: >-
+  Eclipse Vert.x version 5.1.10 has just been released. It fixes quite a few bugs
+  that have been reported by the community, as well as vulnerabilities.
+---
+
+We are extremely pleased to announce that Eclipse Vert.x version 5.1.10 has been released.
+
+Since the release of Vert.x 5.1.8, quite a few bugs have been reported. We would like to thank you all for reporting these issues.
+
+The version 5.1.9 does exist but should not be used due to and error during the release process.
+
+This release fixes the following vulnerabilities in Eclipse Vert.x.
+
+- [Incomplete SSL context cache key, leading to client SSL context property mismatch](https://github.com/eclipse-vertx/vert.x/security/advisories/GHSA-2vhw-4xwj-r38v)
+- [ChainAuthHandler bypasses scope checks on pre-authenticated users](https://github.com/vert-x3/vertx-web/security/advisories/GHSA-2p39-cr56-w58j)
+- [Vert.x HTTP/1.x decoder does not correctly handle canonicalized headers leading to request smuggling](https://github.com/eclipse-vertx/vert.x/security/advisories/GHSA-ch7p-g5pm-3gqx)
+- [CRLF header injection in vertx-mail-client allows manipulation of outgoing SMTP messages](https://github.com/vert-x3/vertx-mail-client/security/advisories/GHSA-rm5c-2c7f-gc5g)
+- [Compressed WebSocket frames and messages maximum allocation is not enforced](https://github.com/eclipse-vertx/vert.x/security/advisories/GHSA-h722-h6c2-6j3c)
+- [HTTP Proxy body transformer interceptor does not correctly ensure the max buffered byte check](https://github.com/eclipse-vertx/vertx-http-proxy/security/advisories/GHSA-mjwh-5qfp-hjgc)
+- [Heap exhaustion via unbounded RESP array allocation in Vert.x Redis client](https://github.com/vert-x3/vertx-redis-client/security/advisories/GHSA-4wf9-p5hg-98w5)
+- [Denial of service via unbounded TDS message reassembly in Vert.x MSSQL client](https://github.com/eclipse-vertx/vertx-sql-client/security/advisories/GHSA-fg6c-83v6-vhq4)
+- [Unsafe Java deserialization of UDT column data in Vert.x DB2 client](https://github.com/eclipse-vertx/vertx-sql-client/security/advisories/GHSA-j4vf-w939-pgxf)
+- [Denial of service via unbounded array allocation in Vert.x PostgreSQL client](https://github.com/eclipse-vertx/vertx-sql-client/security/advisories/GHSA-xqmh-8fhj-48fp)
+- [Denial of service via uncapped column count allocation in Vert.x MySQL client](https://github.com/eclipse-vertx/vertx-sql-client/security/advisories/GHSA-9jxp-x3fr-ffqh)
+- [Denial of Service via Spoofed Message Length in Vert.x PostgreSQL Client](https://github.com/eclipse-vertx/vertx-sql-client/security/advisories/GHSA-hm2j-xp3c-jff2)
+- [Denial of Service via Unbounded Multi-Packet Reassembly in Vert.x MySQL Client](https://github.com/eclipse-vertx/vertx-sql-client/security/advisories/GHSA-75hv-9xj3-3cr8)
+- [Quadratic complexity in JSON Schema uniqueItems validation](https://github.com/eclipse-vertx/vertx-json-schema/security/advisories/GHSA-4m87-8qfr-8p8m)
+- [Eclipse Vert.x MQTT client unbounded inbound QoS 2 message retention allows broker-driven denial of service](https://github.com/vert-x3/vertx-mqtt/security/advisories/GHSA-46xj-5735-6qrp)
+- [gRPC compressed messages are only bounded by their compressed size, allowing compression bomb attacks](https://github.com/eclipse-vertx/vertx-grpc/security/advisories/GHSA-4wvq-75mw-q6cg)
+
+In addition, this release ships with Netty 4.2.19.Final that fixes a few vulnerabilities, details can be
+found in the [Netty release page](https://netty.io/news/2026/10/06/4-2-19-Final.html).
+
+The [5.1.10 release notes](https://github.com/vert-x3/wiki/wiki/5.1.10-Release-Notes) can be found on the wiki.
+
+You can bootstrap a Vert.x 5 project using [start.vertx.io](https://start.vertx.io).
+
+The release artifacts have been deployed to [Maven Central](https://search.maven.org/search?q=g:io.vertx%20AND%20v:5.1.10).
+
+The [Vert.x eventbus JavaScript client library](https://www.npmjs.com/package/@vertx/eventbus-bridge-client.js) is now available
+in a single location and it now usable standalone or it can easily be integrated with any frontend build tool.
+
+That's it! Happy coding and see you soon on our user or dev [channels](https://vertx.io/channels).
