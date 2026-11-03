@@ -65,7 +65,7 @@
     "next": "^14.2.14",
     "p-map": "^7.0.3",
     "p-retry": "^6.2.1",
-    "playwright": "^1.56.1",
+    "playwright": "^1.64.1",
     "postcss": "^8.5.6",
     "prettier-plugin-tailwindcss": "^0.6.9",
     "react": "^18.3.1",
